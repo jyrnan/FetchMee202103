@@ -8,19 +8,28 @@
 
 import SwiftUI
 import SwifteriOS
+import Combine
 
 struct ContentView: View {
     @ObservedObject var timeline = Timeline()
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(self.timeline.timeline, id: \.self) {
-                    tweetIDString in
-                    TweetRow(tweetMedia: self.timeline.tweetMedias[tweetIDString]!)
+            VStack {
+                List {
+                    ForEach(self.timeline.timeline, id: \.self) {
+                        tweetIDString in
+                        TweetRow(timeline: self.timeline, idString: tweetIDString)
+                    }
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 }
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                Button("Test", action:  {
+                    self.timeline.tweetMedias[self.timeline.timeline.last!]?.userName = "HELLO"
+                    self.timeline.timeline.removeFirst()
+                    
+                })
             }
+            
         .navigationBarTitle("Timeline")
         .navigationBarItems(trailing: Button(
             "Refesh", action: {

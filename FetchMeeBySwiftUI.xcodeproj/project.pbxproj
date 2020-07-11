@@ -17,6 +17,7 @@
 		D27DCF8624B990FE00520BE3 /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27DCF7C24B990F300520BE3 /* SwifteriOS.framework */; };
 		D27DCF8724B990FE00520BE3 /* SwifteriOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D27DCF7C24B990F300520BE3 /* SwifteriOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF8B24B9A56100520BE3 /* TweetRow.swift */; };
+		D7AC535D24B9E94300BCD71F /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AC535C24B9E94300BCD71F /* Timeline.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		D27DCF3A24B98F9900520BE3 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		D27DCF7324B990F300520BE3 /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = ../Swifter/Swifter.xcodeproj; sourceTree = "<group>"; };
 		D27DCF8B24B9A56100520BE3 /* TweetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetRow.swift; sourceTree = "<group>"; };
+		D7AC535C24B9E94300BCD71F /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				D27DCF3A24B98F9900520BE3 /* Model.swift */,
+				D7AC535C24B9E94300BCD71F /* Timeline.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7AC535D24B9E94300BCD71F /* Timeline.swift in Sources */,
 				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,
 				D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */,
 				D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */,
