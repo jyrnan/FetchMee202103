@@ -7,10 +7,26 @@
 //
 
 import SwiftUI
+import SwifteriOS
 
 struct ContentView: View {
+    @ObservedObject var timeline = Timeline()
+    
     var body: some View {
-        Text("Hello, World!")
+        NavigationView {
+            List {
+                ForEach(self.timeline.timeline, id: \.self) {
+                    tweetIDString in
+                    TweetRow(tweetMedia: self.timeline.tweetMedias[tweetIDString]!)
+                }
+                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            }
+        .navigationBarTitle("Timeline")
+        .navigationBarItems(trailing: Button(
+            "Refesh", action: {
+                self.timeline.getJSON()
+        }))
+        }
     }
 }
 

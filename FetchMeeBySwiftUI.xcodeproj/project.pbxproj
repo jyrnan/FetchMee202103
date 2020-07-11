@@ -13,7 +13,63 @@
 		D27DCEC024B96D6100520BE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEBF24B96D6100520BE3 /* Assets.xcassets */; };
 		D27DCEC324B96D6100520BE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEC224B96D6100520BE3 /* Preview Assets.xcassets */; };
 		D27DCEC624B96D6100520BE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEC424B96D6100520BE3 /* LaunchScreen.storyboard */; };
+		D27DCF3B24B98F9900520BE3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF3A24B98F9900520BE3 /* Model.swift */; };
+		D27DCF8624B990FE00520BE3 /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27DCF7C24B990F300520BE3 /* SwifteriOS.framework */; };
+		D27DCF8724B990FE00520BE3 /* SwifteriOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D27DCF7C24B990F300520BE3 /* SwifteriOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF8B24B9A56100520BE3 /* TweetRow.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D27DCF7B24B990F300520BE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D27DCF7324B990F300520BE3 /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B9F50EE1944A5AB00894629;
+			remoteInfo = SwifteriOS;
+		};
+		D27DCF7D24B990F300520BE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D27DCF7324B990F300520BE3 /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B9F51131944A61D00894629;
+			remoteInfo = SwifterMac;
+		};
+		D27DCF7F24B990F300520BE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D27DCF7324B990F300520BE3 /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B300C1F1944AA1A00993175;
+			remoteInfo = SwifterDemoiOS;
+		};
+		D27DCF8124B990F300520BE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D27DCF7324B990F300520BE3 /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8B300C471944AECB00993175;
+			remoteInfo = SwifterDemoMac;
+		};
+		D27DCF8324B990F300520BE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D27DCF7324B990F300520BE3 /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F6B4D5751C7BAC4500E06514;
+			remoteInfo = SwifterTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D27DCF8824B990FE00520BE3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D27DCF8724B990FE00520BE3 /* SwifteriOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D27DCEB624B96D5F00520BE3 /* FetchMeeBySwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FetchMeeBySwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -24,6 +80,9 @@
 		D27DCEC224B96D6100520BE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D27DCEC524B96D6100520BE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D27DCEC724B96D6100520BE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D27DCF3A24B98F9900520BE3 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		D27DCF7324B990F300520BE3 /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = ../Swifter/Swifter.xcodeproj; sourceTree = "<group>"; };
+		D27DCF8B24B9A56100520BE3 /* TweetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D27DCF8624B990FE00520BE3 /* SwifteriOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,8 +100,10 @@
 		D27DCEAD24B96D5F00520BE3 = {
 			isa = PBXGroup;
 			children = (
+				D27DCF7324B990F300520BE3 /* Swifter.xcodeproj */,
 				D27DCEB824B96D5F00520BE3 /* FetchMeeBySwiftUI */,
 				D27DCEB724B96D5F00520BE3 /* Products */,
+				D27DCF8524B990FE00520BE3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,9 +118,11 @@
 		D27DCEB824B96D5F00520BE3 /* FetchMeeBySwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				D27DCF8A24B9A54500520BE3 /* Views */,
 				D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */,
 				D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */,
 				D27DCEBD24B96D5F00520BE3 /* ContentView.swift */,
+				D27DCF3C24B98FA600520BE3 /* Model */,
 				D27DCEBF24B96D6100520BE3 /* Assets.xcassets */,
 				D27DCEC424B96D6100520BE3 /* LaunchScreen.storyboard */,
 				D27DCEC724B96D6100520BE3 /* Info.plist */,
@@ -75,6 +139,41 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		D27DCF3C24B98FA600520BE3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D27DCF3A24B98F9900520BE3 /* Model.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D27DCF7424B990F300520BE3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D27DCF7C24B990F300520BE3 /* SwifteriOS.framework */,
+				D27DCF7E24B990F300520BE3 /* SwifterMac.framework */,
+				D27DCF8024B990F300520BE3 /* SwifterDemoiOS.app */,
+				D27DCF8224B990F300520BE3 /* SwifterDemoMac.app */,
+				D27DCF8424B990F300520BE3 /* SwifterTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D27DCF8524B990FE00520BE3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D27DCF8A24B9A54500520BE3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D27DCF8B24B9A56100520BE3 /* TweetRow.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -85,6 +184,7 @@
 				D27DCEB224B96D5F00520BE3 /* Sources */,
 				D27DCEB324B96D5F00520BE3 /* Frameworks */,
 				D27DCEB424B96D5F00520BE3 /* Resources */,
+				D27DCF8824B990FE00520BE3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -121,12 +221,56 @@
 			mainGroup = D27DCEAD24B96D5F00520BE3;
 			productRefGroup = D27DCEB724B96D5F00520BE3 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D27DCF7424B990F300520BE3 /* Products */;
+					ProjectRef = D27DCF7324B990F300520BE3 /* Swifter.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D27DCEB524B96D5F00520BE3 /* FetchMeeBySwiftUI */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D27DCF7C24B990F300520BE3 /* SwifteriOS.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwifteriOS.framework;
+			remoteRef = D27DCF7B24B990F300520BE3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D27DCF7E24B990F300520BE3 /* SwifterMac.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwifterMac.framework;
+			remoteRef = D27DCF7D24B990F300520BE3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D27DCF8024B990F300520BE3 /* SwifterDemoiOS.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SwifterDemoiOS.app;
+			remoteRef = D27DCF7F24B990F300520BE3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D27DCF8224B990F300520BE3 /* SwifterDemoMac.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SwifterDemoMac.app;
+			remoteRef = D27DCF8124B990F300520BE3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D27DCF8424B990F300520BE3 /* SwifterTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SwifterTests.xctest;
+			remoteRef = D27DCF8324B990F300520BE3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D27DCEB424B96D5F00520BE3 /* Resources */ = {
@@ -148,7 +292,9 @@
 			files = (
 				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,
 				D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */,
+				D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */,
 				D27DCEBE24B96D5F00520BE3 /* ContentView.swift in Sources */,
+				D27DCF3B24B98F9900520BE3 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
