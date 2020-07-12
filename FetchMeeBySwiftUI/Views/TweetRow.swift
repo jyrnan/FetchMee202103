@@ -24,7 +24,7 @@ struct TweetRow: View {
                             
                             .clipShape(Circle())
                             .overlay(
-                                Circle().stroke(Color.gray, lineWidth: 1))
+                                Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
                             .padding(12)
                     }
                     

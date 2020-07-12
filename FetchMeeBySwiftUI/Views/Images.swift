@@ -16,9 +16,13 @@ struct Images: View {
             HStack(spacing:1) {
                 VStack(spacing:1) {
                 if self.images["0"] != nil {
-                    Image(uiImage: self.images["0"]!)
-                        .resizable()
-                    .aspectRatio(contentMode: .fill)
+                   
+                        Image(uiImage: self.images["0"]!)
+                                               .resizable()
+                                           .aspectRatio(contentMode: .fill)
+//                            .onLongPressGesture {
+//                                self.sheet(isPresented: .constant(true), content: {ImageViewer()})
+//                    }
                 }
                 
                 if self.images["2"] != nil {
