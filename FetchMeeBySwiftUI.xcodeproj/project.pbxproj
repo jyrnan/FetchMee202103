@@ -18,6 +18,8 @@
 		D27DCF8724B990FE00520BE3 /* SwifteriOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D27DCF7C24B990F300520BE3 /* SwifteriOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF8B24B9A56100520BE3 /* TweetRow.swift */; };
 		D7AC535D24B9E94300BCD71F /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AC535C24B9E94300BCD71F /* Timeline.swift */; };
+		D7AC536524BAA5A100BCD71F /* TweetsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AC536424BAA5A100BCD71F /* TweetsList.swift */; };
+		D7AC536C24BAD91A00BCD71F /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AC536B24BAD91A00BCD71F /* Images.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +87,8 @@
 		D27DCF7324B990F300520BE3 /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = ../Swifter/Swifter.xcodeproj; sourceTree = "<group>"; };
 		D27DCF8B24B9A56100520BE3 /* TweetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetRow.swift; sourceTree = "<group>"; };
 		D7AC535C24B9E94300BCD71F /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
+		D7AC536424BAA5A100BCD71F /* TweetsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetsList.swift; sourceTree = "<group>"; };
+		D7AC536B24BAD91A00BCD71F /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,7 +176,9 @@
 		D27DCF8A24B9A54500520BE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D7AC536424BAA5A100BCD71F /* TweetsList.swift */,
 				D27DCF8B24B9A56100520BE3 /* TweetRow.swift */,
+				D7AC536B24BAD91A00BCD71F /* Images.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -294,9 +300,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7AC535D24B9E94300BCD71F /* Timeline.swift in Sources */,
+				D7AC536524BAA5A100BCD71F /* TweetsList.swift in Sources */,
 				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,
 				D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */,
 				D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */,
+				D7AC536C24BAD91A00BCD71F /* Images.swift in Sources */,
 				D27DCEBE24B96D5F00520BE3 /* ContentView.swift in Sources */,
 				D27DCF3B24B98F9900520BE3 /* Model.swift in Sources */,
 			);

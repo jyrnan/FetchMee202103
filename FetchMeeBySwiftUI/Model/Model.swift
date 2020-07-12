@@ -11,7 +11,7 @@ import SwiftUI
 import SwifteriOS
 import Combine
 
-class TweetMedia: Identifiable {
+struct TweetMedia: Identifiable {
     var id: String
     
     var userName: String?
@@ -19,13 +19,13 @@ class TweetMedia: Identifiable {
     var userIDString: String?
     
     var avatarUrlString: String?
-    var avatar: UIImage?
+    var avatar: UIImage? = UIImage(systemName: "person.fill")
     
     var tweetText: String?
     var created: String?
     
     var urlStrings: [String]?
-    var images: [Image]?
+    var images: [String: UIImage] = [:]
     
     var favorited: Bool = false
     var favoriteTimes: Int?

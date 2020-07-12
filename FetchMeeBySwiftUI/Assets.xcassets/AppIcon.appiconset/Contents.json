@@ -31,11 +31,13 @@
       "size" : "40x40"
     },
     {
+      "filename" : "FetchMee_logo_circle120.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "FetchMee_logo_circle180.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"

@@ -11,30 +11,20 @@ import SwifteriOS
 import Combine
 
 struct ContentView: View {
-    @ObservedObject var timeline = Timeline()
     
     var body: some View {
-        NavigationView {
-            VStack {
-                List {
-                    ForEach(self.timeline.timeline, id: \.self) {
-                        tweetIDString in
-                        TweetRow(timeline: self.timeline, idString: tweetIDString)
-                    }
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                }
-                Button("Test", action:  {
-                    self.timeline.tweetMedias[self.timeline.timeline.last!]?.userName = "HELLO"
-                    self.timeline.timeline.removeFirst()
-                    
-                })
+        TabView {
+            TweetsList(tweetListType: .home)
+                .tabItem {
+                    Image(systemName: "house")
+                    Text("Home")
             }
             
-        .navigationBarTitle("Timeline")
-        .navigationBarItems(trailing: Button(
-            "Refesh", action: {
-                self.timeline.getJSON()
-        }))
+            TweetsList(tweetListType: .mention)
+                .tabItem {
+                    Image(systemName: "bell")
+                    Text("Mentions")
+            }
         }
     }
 }
