@@ -10,43 +10,51 @@ import SwiftUI
 
 struct Images: View {
     var images: [String: UIImage]
+    
+    @State var presentedImageViewer: Bool = false
+    
     var body: some View {
         GeometryReader {
             geometry in
-            HStack(spacing:1) {
-                VStack(spacing:1) {
-                if self.images["0"] != nil {
-                   
+            HStack(spacing:2) {
+                VStack(spacing:2) {
+                    if self.images["0"] != nil {
                         Image(uiImage: self.images["0"]!)
-                                               .resizable()
-                                           .aspectRatio(contentMode: .fill)
-//                            .onLongPressGesture {
-//                                self.sheet(isPresented: .constant(true), content: {ImageViewer()})
-//                    }
-                }
-                
-                if self.images["2"] != nil {
-                    
-                    Image(uiImage: self.images["2"]!)
-                        .resizable()
-                       .aspectRatio(contentMode: .fill)
-                }
-            }
-            
-            VStack(spacing:1) {
-                if self.images["1"] != nil {
-                    Image(uiImage: self.images["1"]!)
-                        .resizable()
-                       .aspectRatio(contentMode: .fill)
-                    
-                    
-                    if self.images["3"] != nil {
-                        Image(uiImage: self.images["3"]!)
                             .resizable()
-                        .aspectRatio(contentMode: .fill)
+                            .aspectRatio(contentMode: .fill)
+                            .onLongPressGesture(minimumDuration: 2, maximumDistance: 0,pressing: {inprocess in print(#line, "processing \(inprocess)")}, perform: {
+                                self.presentedImageViewer = true
+                            })
+                            .gesture(TapGesture())
+                            .onTapGesture {
+                                self.presentedImageViewer = true
+                            }
+                            .fullScreenCover(isPresented: self.$presentedImageViewer) {
+                                ImageViewer(image: self.images["0"]!,presentedImageViewer: $presentedImageViewer)
+                            }
+                    }
+                    if self.images["2"] != nil {
+                        
+                        Image(uiImage: self.images["2"]!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
                     }
                 }
-            }
+                
+                VStack(spacing:2) {
+                    if self.images["1"] != nil {
+                        Image(uiImage: self.images["1"]!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                        
+                        
+                        if self.images["3"] != nil {
+                            Image(uiImage: self.images["3"]!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        }
+                    }
+                }
             }
             .aspectRatio(contentMode: .fill)
             .frame(width: geometry.size.width, height: geometry.size.height)
@@ -55,7 +63,7 @@ struct Images: View {
         
         
         
-            
+        
     }
 }
 

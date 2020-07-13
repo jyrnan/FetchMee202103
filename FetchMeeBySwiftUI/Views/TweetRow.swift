@@ -11,6 +11,7 @@ import Combine
 
 struct TweetRow: View {
     var tweetMedia: TweetMedia
+    @State var presentedUserInfo: Bool = false
     
     var body: some View {
         VStack {
@@ -26,6 +27,13 @@ struct TweetRow: View {
                             .overlay(
                                 Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
                             .padding(12)
+                            
+                            .onTapGesture {
+                                self.presentedUserInfo = true
+                            }
+                            .sheet(isPresented: $presentedUserInfo) {
+                                UserInfo()
+                            }
                     }
                     
                     VStack(alignment: .leading, spacing: 0 ) {

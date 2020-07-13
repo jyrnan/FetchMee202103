@@ -20,32 +20,63 @@ struct TweetsList: View {
     @State var tweetListType: TweetListType
     @ObservedObject var timeline = Timeline()
     
+    @State var presentedModal: Bool = false //用于标志是否显示ModalView，例如Composer
+    
+    @State var isFirstRun: Bool = true //设置用于第一次运行的时候标志
+    
     var body: some View {
         NavigationView {
             VStack {
+                
                 List {
+                    HStack {
+                        Spacer()
+                        Button("Refresh Tweets...") {self.timeline.getJSON(type: self.tweetListType)}
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }
+                    
                    
                     ForEach(self.timeline.tweetIdStrings, id: \.self) {
                         
                         tweetIDString in
                         
-                        NavigationLink(destination: DetailView()) {
-                             TweetRow(tweetMedia: self.timeline.tweetMedias[tweetIDString]!)
+                       
+                            ZStack {
+                               
+                                TweetRow(tweetMedia: self.timeline.tweetMedias[tweetIDString]!)
+                                    
+                                NavigationLink(destination: DetailView()) {
+                                    EmptyView()
+                                    Spacer()
+                                }
+                             
                         }
                        
                     }
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom:0, trailing: 0))
+                    
                 }
+                .listStyle(PlainListStyle())
+//                .listRowBackground(Color.white).opacity(0)
+               
             }
             .navigationBarTitle(self.tweetListType.rawValue)
-        .navigationBarItems(trailing: Button(
-            "Refesh", action: {
-                self.timeline.getJSON(type: self.tweetListType)
-        }))
+        .navigationBarItems(trailing: Button("New", action: { self.presentedModal = true})
+                                .sheet(isPresented: $presentedModal, onDismiss: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=On Dismiss@*/{ }/*@END_MENU_TOKEN@*/) {
+                                    Composer(presentedModal: $presentedModal)
+                                }
+        )
         }
     .onAppear(perform: {
-//        self.timeline.getJSON(type: self.tweetListType)
+        if self.isFirstRun {
+            self.timeline.getJSON(type: self.tweetListType)
+            self.isFirstRun.toggle()
+        }
     })
+        
     }
 }
 
