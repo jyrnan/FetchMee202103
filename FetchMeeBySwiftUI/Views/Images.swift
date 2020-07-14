@@ -22,10 +22,6 @@ struct Images: View {
                         Image(uiImage: self.images["0"]!)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .onLongPressGesture(minimumDuration: 2, maximumDistance: 0,pressing: {inprocess in print(#line, "processing \(inprocess)")}, perform: {
-                                self.presentedImageViewer = true
-                            })
-                            .gesture(TapGesture())
                             .onTapGesture {
                                 self.presentedImageViewer = true
                             }

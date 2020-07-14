@@ -21,12 +21,13 @@ struct TweetRow: View {
                     VStack{
                         Image(uiImage: self.tweetMedia.avatar!)
                             .resizable()
-                            .frame(width: 48, height: 48)
+                            .frame(width: 36, height: 36)
                             
                             .clipShape(Circle())
                             .overlay(
                                 Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
-                            .padding(12)
+                            
+                            .padding(.init(top: 12, leading: 0, bottom: 12, trailing: 12))
                             
                             .onTapGesture {
                                 self.presentedUserInfo = true
@@ -67,8 +68,8 @@ struct TweetRow: View {
                                 .cornerRadius(16)
                                 
                         }
-                    }.padding(.trailing, 16)
-                        .padding(.bottom, 16)
+                    }.padding(.trailing, 0)
+                        .padding(.bottom, 8)
                 }
             }
         }

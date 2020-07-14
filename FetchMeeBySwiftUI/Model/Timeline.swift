@@ -15,12 +15,15 @@ final class Timeline: ObservableObject {
     @Published var tweetIdStrings: [String] = []
     @Published var tweetMedias: [String: TweetMedia] = [:]
     
-//    private let swifter = Swifter(consumerKey: "UUHBnDuEAliSe7vPTC55H12wV",
+    
+    var type: TweetListType
+    
+//    let swifter = Swifter(consumerKey: "UUHBnDuEAliSe7vPTC55H12wV",
 //                                  consumerSecret: "Rz9FeINJruwxeiOZJGzWOmdFwCQN9NuI8hmRZc1BlW0u0QLqU7",
 //                                  oauthToken: "759972733782339584-4ZACqa2TkSuLcTkwsJNcIUpPNzKv6m3",
 //                                  oauthTokenSecret: "Pu7lxRcs6dRHlr96tTgdSnU0y9IYvjMFues0QxQsNlxVz")
     
-    private let swifter = Swifter(consumerKey: "UdVHYrwJqJN6ZX7K8q7H3A",
+    let swifter = Swifter(consumerKey: "UdVHYrwJqJN6ZX7K8q7H3A",
     consumerSecret: "mmM2G8vffvWF9dXHeJvwIy63GeB3Oc7NKxK7MaHvZc",
     oauthToken: "47585796-oyxjvl2QxPDcjYd09QLihCr4fSsHSXYBjlWDM2usT",
     oauthTokenSecret: "vNQ6PlsdWFqMVK3OZn6IyoatBLCHB8DdFcHqCzK2zdD6C")
@@ -28,40 +31,72 @@ final class Timeline: ObservableObject {
     let cfh = CacheFileHandler() //设置下载文件的缓存位置
     let session = URLSession.shared
     
-    let maxCounter: Int = 100
+    let maxCounter: Int = 50
     var sinceIDString: String?
+    var maxIDString: String?
     
+    init(type: TweetListType) {
+        self.type = type
+    }
 
-    
-    func getJSON(type: TweetListType) {
+    //更新上方推文
+    func refreshFromTop(isClearRefresh: Bool = false) {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
-            self.updateTimeline(with: newTweets)
+            self.updateTimelineTop(with: newTweets, isClearRefresh: isClearRefresh)
         }
         
         let failureHandler: (Error) -> Void = { error in
             print(#line, error.localizedDescription)}
         
-        switch type {
+        switch self.type {
         case .mention:
-            self.swifter.getMentionsTimelineTweets(count: self.maxCounter,sinceID: self.sinceIDString,  success: sh, failure: failureHandler)
+            self.swifter.getMentionsTimelineTweets(count: 6,sinceID: self.sinceIDString, success: sh, failure: failureHandler)
         case .home:
             self.swifter.getHomeTimeline(count: self.maxCounter,sinceID: self.sinceIDString,  success: sh, failure: failureHandler)
         default:
             print(#line, #function)
         }
-        
-        
     }
     
-    func updateTimeline(with newTweets: [JSON]) {
+    //从推文下方开始更新
+    func refreshFromButtom() {
+        func sh(json: JSON) ->Void {
+            let newTweets = json.array ?? []
+            self.updateTimelineBottom(with: newTweets)
+        }
+        
+        let failureHandler: (Error) -> Void = { error in
+            print(#line, error.localizedDescription)}
+        
+        switch self.type {
+        case .mention:
+            self.swifter.getMentionsTimelineTweets(count: self.maxCounter, maxID: self.maxIDString, success: sh, failure: failureHandler)
+        case .home:
+            self.swifter.getHomeTimeline(count: self.maxCounter,maxID: self.maxIDString,  success: sh, failure: failureHandler)
+        default:
+            print(#line, #function)
+        }
+    }
+    
+    func updateTimelineTop(with newTweets: [JSON], isClearRefresh: Bool = false) {
         guard !newTweets.isEmpty else {return}
         let newTweetIDStrings = converJSON2TweetDatas(from: newTweets)
         self.sinceIDString = newTweetIDStrings.first //获取新推文的第一条，作为下次刷新的起始点
+        if isClearRefresh {
+            self.maxIDString = newTweetIDStrings.last //如果是全新刷新，则需要设置maxIDstring，以保证今后刷新下部推文会从当前最后一条开始。
+        }
         
         self.tweetIdStrings = newTweetIDStrings + self.tweetIdStrings
+        print(self.tweetIdStrings)
+    }
+    
+    func updateTimelineBottom(with newTweets: [JSON]) {
+        guard !newTweets.isEmpty else {return}
+        let newTweetIDStrings = converJSON2TweetDatas(from: newTweets)
+        self.maxIDString = newTweetIDStrings.last //获取新推文的最后一条，作为下次刷新的起始点
         
-        
+        self.tweetIdStrings = self.tweetIdStrings.dropLast() + newTweetIDStrings //需要丢掉原来最后一条推文，否则会重复
         print(self.tweetIdStrings)
     }
     
@@ -188,3 +223,9 @@ final class Timeline: ObservableObject {
     }
 }
 
+
+struct Timeline_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+    }
+}
