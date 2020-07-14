@@ -65,7 +65,7 @@ struct ContentView: View {
                 }
                 .onAppear {
                     if self.isFirstRun {
-                        self.clearRefreshAll()
+                        self.refreshAll()
                         isFirstRun = false
                     }
                 }
@@ -84,12 +84,7 @@ struct ContentView: View {
         self.home.refreshFromTop()
         self.mentions.refreshFromTop()
     }
-    
-    func clearRefreshAll() {
-        self.home.refreshFromTop(isClearRefresh: true)
-        self.mentions.refreshFromTop(isClearRefresh: true)
-    }
-    
+       
 }
 
 struct ContentView_Previews: PreviewProvider {

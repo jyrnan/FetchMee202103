@@ -40,10 +40,10 @@ final class Timeline: ObservableObject {
     }
 
     //更新上方推文
-    func refreshFromTop(isClearRefresh: Bool = false) {
+    func refreshFromTop() {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
-            self.updateTimelineTop(with: newTweets, isClearRefresh: isClearRefresh)
+            self.updateTimelineTop(with: newTweets)
         }
         
         let failureHandler: (Error) -> Void = { error in
@@ -79,11 +79,11 @@ final class Timeline: ObservableObject {
         }
     }
     
-    func updateTimelineTop(with newTweets: [JSON], isClearRefresh: Bool = false) {
+    func updateTimelineTop(with newTweets: [JSON]) {
         guard !newTweets.isEmpty else {return}
         let newTweetIDStrings = converJSON2TweetDatas(from: newTweets)
         self.sinceIDString = newTweetIDStrings.first //获取新推文的第一条，作为下次刷新的起始点
-        if isClearRefresh {
+        if self.tweetIdStrings.isEmpty {
             self.maxIDString = newTweetIDStrings.last //如果是全新刷新，则需要设置maxIDstring，以保证今后刷新下部推文会从当前最后一条开始。
         }
         
