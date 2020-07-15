@@ -23,7 +23,7 @@ struct ImageViewer: View {
                 }
             }
             
-            ScrollView {
+//            ScrollView {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
@@ -37,7 +37,7 @@ struct ImageViewer: View {
                     }))
                     
                     .edgesIgnoringSafeArea(.all)
-            }
+//            }
         }
     }
 }

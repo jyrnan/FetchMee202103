@@ -28,9 +28,7 @@ final class Timeline: ObservableObject {
 //    oauthToken: "47585796-oyxjvl2QxPDcjYd09QLihCr4fSsHSXYBjlWDM2usT",
 //    oauthTokenSecret: "vNQ6PlsdWFqMVK3OZn6IyoatBLCHB8DdFcHqCzK2zdD6C")
     
-    let cfh = CacheFileHandler() //设置下载文件的缓存位置
     let session = URLSession.shared
-    
     let maxCounter: Int = 50
     var sinceIDString: String?
     var maxIDString: String?
@@ -43,6 +41,7 @@ final class Timeline: ObservableObject {
     func refreshFromTop() {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
+            print(#line, "Timeline got!")
             self.updateTimelineTop(with: newTweets)
         }
         
@@ -153,7 +152,7 @@ final class Timeline: ObservableObject {
             let url = URL(string: urlString)!
             let fileName = url.lastPathComponent //获取下载文件名用于本地存储
             
-            let cachelUrl = self.cfh.getPath()
+            let cachelUrl = cfh.getPath()
             let filePath = cachelUrl.appendingPathComponent(fileName, isDirectory: false)
             
             
@@ -189,7 +188,7 @@ final class Timeline: ObservableObject {
             let url = URL(string: urlString)!
             let fileName = url.lastPathComponent //获取下载文件名用于本地存储
             
-            let cachelUrl = self.cfh.getPath()
+            let cachelUrl = cfh.getPath()
             let filePath = cachelUrl.appendingPathComponent(fileName, isDirectory: false)
             
             

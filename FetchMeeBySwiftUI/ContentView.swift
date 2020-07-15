@@ -74,14 +74,16 @@ struct ContentView: View {
                 .onAppear {
                     if self.isFirstRun {
                         self.refreshAll()
+//                        self.user.getMyInfo()
                         isFirstRun = false
                     }
                 }
                 .navigationTitle("FetchMee")
-                .navigationBarItems(trailing: Image(systemName: "person.circle.fill")
+                .navigationBarItems(trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
                                         .resizable()
                                         .frame(width: 32, height: 32, alignment: .center)
-                                        .onTapGesture {
+                                        .clipShape(Circle())
+                                        .onLongPressGesture {
                                             self.logOut()
                                         })
             } else {
@@ -91,14 +93,19 @@ struct ContentView: View {
         }
     }
     
-    func refreshAll() {
-        self.home.refreshFromTop()
-        self.mentions.refreshFromTop()
-    }
+    
        
 }
 
 extension ContentView {
+    
+    func refreshAll() {
+        self.home.refreshFromTop()
+        self.mentions.refreshFromTop()
+        self.user.getMyInfo()
+        
+    }
+    
     func logOut() {
         self.user.isLoggedIn = false
         print(#line)

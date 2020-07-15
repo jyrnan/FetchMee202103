@@ -17,8 +17,8 @@ var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
 
 
 let userDefault = UserDefaults.init()
-
-
+let cfh = CacheFileHandler() //设置下载文件的缓存位置
+let session = URLSession.shared
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
