@@ -15,23 +15,27 @@ struct AuthView: View {
     @ObservedObject var user: User
     
     var body: some View {
-        if !self.user.isLoggedIn {
-            Button(action: {self.login()}, label: {
-                HStack {
-                    Spacer()
-                    Image("Logo")
-                        .resizable()
-                        .frame(width: 48, height: 48, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    Text("Press to Login")
-                    Spacer()
-                }
-               
-            })
-        } else {
-            Text("Logged, Home loading...")
-                .fullScreenCover(isPresented: self.$user.isLoggedIn) {
-                    ContentView(user: self.user)}
+        
+        
+        VStack {
+            if self.user.isLoggedIn == false {
+                Button(action: {self.login()}, label: {
+                    HStack {
+                        Spacer()
+                        Image("Logo")
+                            .resizable()
+                            .frame(width: 48, height: 48, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        Text("Press to Login")
+                        Spacer()
+                    }
+
+                })
+            } else {
+                ContentView(user: self.user)
+            }
         }
+        
+        
     }
 }
 

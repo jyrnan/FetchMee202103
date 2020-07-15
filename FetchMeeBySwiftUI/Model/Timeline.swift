@@ -35,13 +35,19 @@ final class Timeline: ObservableObject {
     
     init(type: TweetListType) {
         self.type = type
+        self.refreshFromTop()
+        print(#line,self)
+    }
+    
+    deinit {
+        print(#line, "\(self) disappeared!")
     }
 
     //更新上方推文
     func refreshFromTop() {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
-            print(#line, "Timeline got!")
+            print(#line, "Timeline got!", self)
             self.updateTimelineTop(with: newTweets)
         }
         
@@ -115,6 +121,7 @@ final class Timeline: ObservableObject {
             tweetMedia.userIDString = newTweets[i]["user"]["id_str"].string!
             
             tweetMedia.avatarUrlString = newTweets[i]["user"]["profile_image_url_https"].string!
+            tweetMedia.avatarUrlString = tweetMedia.avatarUrlString?.replacingOccurrences(of: "_normal", with: "")
             tweetMedia.avatar = UIImage(systemName: "person.fill")
             avatarDownloader(from: tweetMedia.avatarUrlString!, setTo: IDString)()
 //

@@ -28,10 +28,10 @@ struct ContentView: View {
             if #available(iOS 14.0, *) {
                 List {
                     HStack {
-                        TextField("Tweet something", text: $tweetText)
+                        TextField("Tweet something here...", text: $tweetText)
                         Button(self.tweetText == "" ? "Refresh" : "Tweet" ) {
                             if self.tweetText != "" {
-                                swifter.postTweet(status: self.tweetText)
+                                swifter.postTweet(status: self.tweetText, success: {_ in refreshAll()})
                                 self.tweetText = ""
                             } else {
                                 self.refreshAll()
@@ -45,7 +45,7 @@ struct ContentView: View {
                                            label: {Text("Mentions").font(.headline)})){
                         if !isHiddenMention {
                             TweetsList(timeline: self.mentions, tweetListType: TweetListType.mention)
-                        }
+                        
                         HStack {
                             Spacer()
                             Button("More Tweets...") {
@@ -53,6 +53,7 @@ struct ContentView: View {
                                 .font(.caption)
                                 .foregroundColor(.gray)
                             Spacer()
+                        }
                         }
                     }
                     
@@ -71,13 +72,13 @@ struct ContentView: View {
                     }
                 }
                 .listStyle(InsetGroupedListStyle())
-                .onAppear {
-                    if self.isFirstRun {
-                        self.refreshAll()
+//                .onAppear {
+//                    if self.isFirstRun {
+//                        self.refreshAll()
 //                        self.user.getMyInfo()
-                        isFirstRun = false
-                    }
-                }
+//                        isFirstRun = false
+//                    }
+//                }
                 .navigationTitle("FetchMee")
                 .navigationBarItems(trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
                                         .resizable()
@@ -102,7 +103,7 @@ extension ContentView {
     func refreshAll() {
         self.home.refreshFromTop()
         self.mentions.refreshFromTop()
-        self.user.getMyInfo()
+        
         
     }
     
