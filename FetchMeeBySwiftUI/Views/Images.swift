@@ -42,7 +42,12 @@ struct Images: View {
                         Image(uiImage: self.images["1"]!)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                        
+                            .onTapGesture {
+                                self.presentedImageViewer = true
+                            }
+                            .fullScreenCover(isPresented: self.$presentedImageViewer) {
+                                ImageViewer(image: self.images["1"]!,presentedImageViewer: $presentedImageViewer)
+                            }
                         
                         if self.images["3"] != nil {
                             Image(uiImage: self.images["3"]!)

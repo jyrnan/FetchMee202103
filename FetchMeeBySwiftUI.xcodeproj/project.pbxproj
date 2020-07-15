@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D2224F8A24BE7C0400AE2110 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F8924BE7C0400AE2110 /* User.swift */; };
+		D2224F9124BE7FE400AE2110 /* Swifter+Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F9024BE7FE400AE2110 /* Swifter+Observable.swift */; };
+		D2224FD324BE901E00AE2110 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224FD224BE901E00AE2110 /* AuthView.swift */; };
 		D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */; };
 		D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */; };
 		D27DCEBE24B96D5F00520BE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEBD24B96D5F00520BE3 /* ContentView.swift */; };
@@ -80,6 +83,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D2224F8924BE7C0400AE2110 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		D2224F9024BE7FE400AE2110 /* Swifter+Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swifter+Observable.swift"; sourceTree = "<group>"; };
+		D2224FD224BE901E00AE2110 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		D27DCEB624B96D5F00520BE3 /* FetchMeeBySwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FetchMeeBySwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -134,10 +140,11 @@
 		D27DCEB824B96D5F00520BE3 /* FetchMeeBySwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				D27DCF8A24B9A54500520BE3 /* Views */,
 				D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */,
 				D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */,
 				D27DCEBD24B96D5F00520BE3 /* ContentView.swift */,
+				D2224FD224BE901E00AE2110 /* AuthView.swift */,
+				D27DCF8A24B9A54500520BE3 /* Views */,
 				D27DCF3C24B98FA600520BE3 /* Model */,
 				D27DCEBF24B96D6100520BE3 /* Assets.xcassets */,
 				D27DCEC424B96D6100520BE3 /* LaunchScreen.storyboard */,
@@ -160,6 +167,8 @@
 			children = (
 				D27DCF3A24B98F9900520BE3 /* Model.swift */,
 				D7AC535C24B9E94300BCD71F /* Timeline.swift */,
+				D2224F8924BE7C0400AE2110 /* User.swift */,
+				D2224F9024BE7FE400AE2110 /* Swifter+Observable.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -317,9 +326,12 @@
 				D7AC535D24B9E94300BCD71F /* Timeline.swift in Sources */,
 				D7AC536E24BB477300BCD71F /* DetailView.swift in Sources */,
 				D7AC536524BAA5A100BCD71F /* TweetsList.swift in Sources */,
+				D2224F9124BE7FE400AE2110 /* Swifter+Observable.swift in Sources */,
 				D286FFE824BD7EC3005DBC39 /* MentionRow.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,
+				D2224FD324BE901E00AE2110 /* AuthView.swift in Sources */,
 				D286FFD724BC31F0005DBC39 /* UserInfo.swift in Sources */,
+				D2224F8A24BE7C0400AE2110 /* User.swift in Sources */,
 				D7AC537024BB4AB200BCD71F /* ImageViewer.swift in Sources */,
 				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,
 				D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */,

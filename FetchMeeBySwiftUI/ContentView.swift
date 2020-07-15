@@ -15,18 +15,23 @@ struct ContentView: View {
     @ObservedObject var home = Timeline(type: TweetListType.home)
     @ObservedObject var mentions = Timeline(type: TweetListType.mention)
     
+    @ObservedObject var user: User
+    
     @State var tweetText: String = ""
     
     @State var isFirstRun: Bool = true //设置用于第一次运行刷新的时候标志
+    
+    @State var isHiddenMention: Bool = false
   
     var body: some View {
         NavigationView{
+            if #available(iOS 14.0, *) {
                 List {
                     HStack {
                         TextField("Tweet something", text: $tweetText)
                         Button(self.tweetText == "" ? "Refresh" : "Tweet" ) {
                             if self.tweetText != "" {
-                                self.home.swifter.postTweet(status: self.tweetText)
+                                swifter.postTweet(status: self.tweetText)
                                 self.tweetText = ""
                             } else {
                                 self.refreshAll()
@@ -36,33 +41,36 @@ struct ContentView: View {
                     }
                     
                     
-                    Section(header: Text("Mentions").font(.headline)){
-                        
-                        TweetsList(timeline: self.mentions, tweetListType: TweetListType.mention)
+                    Section(header: Button(action: { self.isHiddenMention.toggle() },
+                                           label: {Text("Mentions").font(.headline)})){
+                        if !isHiddenMention {
+                            TweetsList(timeline: self.mentions, tweetListType: TweetListType.mention)
+                        }
                         HStack {
-                                    Spacer()
-                            Button("Refresh Tweets...") {
+                            Spacer()
+                            Button("More Tweets...") {
                                 self.mentions.refreshFromButtom()}
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                    Spacer()
-                                }
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                            Spacer()
+                        }
                     }
-                    .listRowInsets(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
+                    
                     
                     Section(header: Text("Homeline").font(.headline)){
                         TweetsList(timeline: self.home, tweetListType: TweetListType.home)
                         HStack {
-                                    Spacer()
-                            Button("Refresh Tweets...") {
+                            Spacer()
+                            Button("More Tweets...") {
                                 
                                 self.home.refreshFromButtom()}
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                    Spacer()
-                                }
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                            Spacer()
+                        }
                     }
                 }
+                .listStyle(InsetGroupedListStyle())
                 .onAppear {
                     if self.isFirstRun {
                         self.refreshAll()
@@ -74,8 +82,11 @@ struct ContentView: View {
                                         .resizable()
                                         .frame(width: 32, height: 32, alignment: .center)
                                         .onTapGesture {
-                                            print(#line)
+                                            self.logOut()
                                         })
+            } else {
+                // Fallback on earlier versions
+            }
                 
         }
     }
@@ -87,8 +98,15 @@ struct ContentView: View {
        
 }
 
+extension ContentView {
+    func logOut() {
+        self.user.isLoggedIn = false
+        print(#line)
+    }
+}
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(user: User())
     }
 }

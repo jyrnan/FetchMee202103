@@ -10,7 +10,15 @@ import SwiftUI
 
 struct DetailView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        if #available(iOS 14.0, *) {
+            List {
+                Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+                Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            }
+            .listStyle(InsetGroupedListStyle())
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }
 

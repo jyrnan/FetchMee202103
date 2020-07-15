@@ -23,10 +23,10 @@ final class Timeline: ObservableObject {
 //                                  oauthToken: "759972733782339584-4ZACqa2TkSuLcTkwsJNcIUpPNzKv6m3",
 //                                  oauthTokenSecret: "Pu7lxRcs6dRHlr96tTgdSnU0y9IYvjMFues0QxQsNlxVz")
     
-    let swifter = Swifter(consumerKey: "UdVHYrwJqJN6ZX7K8q7H3A",
-    consumerSecret: "mmM2G8vffvWF9dXHeJvwIy63GeB3Oc7NKxK7MaHvZc",
-    oauthToken: "47585796-oyxjvl2QxPDcjYd09QLihCr4fSsHSXYBjlWDM2usT",
-    oauthTokenSecret: "vNQ6PlsdWFqMVK3OZn6IyoatBLCHB8DdFcHqCzK2zdD6C")
+//    let swifter = Swifter(consumerKey: "UdVHYrwJqJN6ZX7K8q7H3A",
+//    consumerSecret: "mmM2G8vffvWF9dXHeJvwIy63GeB3Oc7NKxK7MaHvZc",
+//    oauthToken: "47585796-oyxjvl2QxPDcjYd09QLihCr4fSsHSXYBjlWDM2usT",
+//    oauthTokenSecret: "vNQ6PlsdWFqMVK3OZn6IyoatBLCHB8DdFcHqCzK2zdD6C")
     
     let cfh = CacheFileHandler() //设置下载文件的缓存位置
     let session = URLSession.shared
@@ -51,9 +51,9 @@ final class Timeline: ObservableObject {
         
         switch self.type {
         case .mention:
-            self.swifter.getMentionsTimelineTweets(count: 6,sinceID: self.sinceIDString, success: sh, failure: failureHandler)
+            swifter.getMentionsTimelineTweets(count: 5,sinceID: self.sinceIDString, success: sh, failure: failureHandler)
         case .home:
-            self.swifter.getHomeTimeline(count: self.maxCounter,sinceID: self.sinceIDString,  success: sh, failure: failureHandler)
+            swifter.getHomeTimeline(count: self.maxCounter,sinceID: self.sinceIDString,  success: sh, failure: failureHandler)
         default:
             print(#line, #function)
         }
@@ -71,9 +71,9 @@ final class Timeline: ObservableObject {
         
         switch self.type {
         case .mention:
-            self.swifter.getMentionsTimelineTweets(count: self.maxCounter, maxID: self.maxIDString, success: sh, failure: failureHandler)
+            swifter.getMentionsTimelineTweets(count: self.maxCounter, maxID: self.maxIDString, success: sh, failure: failureHandler)
         case .home:
-            self.swifter.getHomeTimeline(count: self.maxCounter,maxID: self.maxIDString,  success: sh, failure: failureHandler)
+            swifter.getHomeTimeline(count: self.maxCounter,maxID: self.maxIDString,  success: sh, failure: failureHandler)
         default:
             print(#line, #function)
         }
@@ -88,7 +88,6 @@ final class Timeline: ObservableObject {
         }
         
         self.tweetIdStrings = newTweetIDStrings + self.tweetIdStrings
-        print(self.tweetIdStrings)
     }
     
     func updateTimelineBottom(with newTweets: [JSON]) {
@@ -97,7 +96,6 @@ final class Timeline: ObservableObject {
         self.maxIDString = newTweetIDStrings.last //获取新推文的最后一条，作为下次刷新的起始点
         
         self.tweetIdStrings = self.tweetIdStrings.dropLast() + newTweetIDStrings //需要丢掉原来最后一条推文，否则会重复
-        print(self.tweetIdStrings)
     }
     
    func  converJSON2TweetDatas(from newTweets: [JSON]) -> [String] {
@@ -201,7 +199,6 @@ final class Timeline: ObservableObject {
                 if let im = UIImage(data: d) {
                     DispatchQueue.main.async {
                         self.tweetMedias[idString]?.images[String(number)] = im
-                        print(#line, "Image got from local!")
                     }
                 }
             } else {
@@ -213,7 +210,6 @@ final class Timeline: ObservableObject {
                         try? d.write(to: filePath)
                         DispatchQueue.main.async {
                             self.tweetMedias[idString]?.images[String(number)] = im
-                            print(#line, "Image downloaded!")
                         }
                     }
                 }

@@ -8,10 +8,23 @@
 
 import UIKit
 import SwiftUI
+import SwifteriOS
+import SafariServices
+import Combine
+
+var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
+                               consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")
+
+
+let userDefault = UserDefaults.init()
+
+
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    @ObservedObject var user: User = User()
+   
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -20,12 +33,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
 
         // Create the SwiftUI view that provides the window contents.
-        let contentView = ContentView()
-
+        self.user.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
+        
+        let contentView = ContentView(user: self.user)
+        let authView = AuthView(user: self.user)
+        
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: contentView)
+            if self.user.isLoggedIn {
+                //设置登录后的Swifter
+                let tokenKey = userDefault.object(forKey: "tokenKey") as! String
+                let tokenSecret = userDefault.object(forKey: "tokenSecret") as! String
+                swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
+                                  consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
+                                  oauthToken: tokenKey,
+                                  oauthTokenSecret: tokenSecret)
+                
+                window.rootViewController = UIHostingController(rootView: authView)
+            } else {
+                window.rootViewController = UIHostingController(rootView: authView)
+            }
             self.window = window
             window.makeKeyAndVisible()
         }
@@ -62,3 +90,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+
+extension SceneDelegate {
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let context = URLContexts.first else { return }
+        let callbackUrl = URL(string: "fetchmee://")!
+        Swifter.handleOpenURL(context.url, callbackURL: callbackUrl)
+    }
+}
+
+struct SceneDelegate_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+    }
+}

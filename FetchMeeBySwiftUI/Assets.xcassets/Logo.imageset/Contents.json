@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "FetchMee_logo_circle_T-2.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "FetchMee_logo_circle_T.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "FetchMee_logo_circle_T-1.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
