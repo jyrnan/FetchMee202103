@@ -17,6 +17,7 @@ final class Timeline: ObservableObject {
     
     
     var type: TweetListType
+    var tweetIDStringOfRowToolsViewShowed: String?
     
 //    let swifter = Swifter(consumerKey: "UUHBnDuEAliSe7vPTC55H12wV",
 //                                  consumerSecret: "Rz9FeINJruwxeiOZJGzWOmdFwCQN9NuI8hmRZc1BlW0u0QLqU7",

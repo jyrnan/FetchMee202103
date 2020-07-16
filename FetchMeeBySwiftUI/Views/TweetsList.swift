@@ -29,6 +29,7 @@ struct TweetsList: View {
         
         return
             containedView()
+        
     }
     func containedView() -> AnyView {
         switch tweetListType {
@@ -36,13 +37,16 @@ struct TweetsList: View {
             return  AnyView(ForEach(self.timeline.tweetIdStrings, id: \.self) {
                     tweetIDString in
                     ZStack {
-                        TweetRow(tweetMedia: self.timeline.tweetMedias[tweetIDString]!)
-                        NavigationLink(destination: DetailView()) {
-                            EmptyView()
-                            Spacer()
-                    }
+                        TweetRow(timeline: timeline, tweetIDString: tweetIDString)
+//                        NavigationLink(destination: DetailView()) {
+//                            EmptyView()
+//                            Spacer()
+//                    }
                 }
-            })
+            }
+            .onDelete { indexSet in
+                print()}
+            )
         case .mention:
             return AnyView(ForEach(self.timeline.tweetIdStrings, id: \.self) {
                     tweetIDString in

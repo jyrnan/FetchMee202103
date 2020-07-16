@@ -14,7 +14,7 @@ struct MentionRow: View {
     @State var presentedUserInfo: Bool = false
     
     var body: some View {
-            HStack(alignment: .center, spacing: 0) {
+            HStack(alignment: .top, spacing: 0) {
                 Image(uiImage: self.tweetMedia.avatar!)
                     .resizable()
                     .frame(width: 36, height: 36)
@@ -39,6 +39,7 @@ struct MentionRow: View {
                     .padding(.bottom, 4)
                 
                 Spacer()
+                CreatedTimeView(createdTime: self.tweetMedia.created!)
             }
     }
 }

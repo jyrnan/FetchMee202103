@@ -37,6 +37,8 @@ struct TweetMedia: Identifiable {
     var in_reply_to_status_id_str: String?
     var replyText: String?
     
+    var isToolsViewShowed: Bool = false //控制是否显示row里面的ToolsView
+    
     init(id: String) {
         self.id = id
     }
