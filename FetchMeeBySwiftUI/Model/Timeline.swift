@@ -133,7 +133,7 @@ final class Timeline: ObservableObject {
                 for m in 0..<count {
                     let urlstring = newTweets[i]["extended_entities"]["media"][m]["media_url_https"].string!
                     tweetMedia.urlStrings?.append(urlstring)
-                    tweetMedia.images[String(m)] = UIImage(systemName: "person.fill") //先设置占位
+                    tweetMedia.images[String(m)] = UIImage(named: "Test") //先设置占位
                     imageDownloader(from: urlstring, setTo: IDString, at: m)()
                 }
             }

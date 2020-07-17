@@ -19,23 +19,23 @@ struct TweetRow: View {
     var body: some View {
         VStack {
             HStack(alignment: .top, spacing: 0) {
+                VStack {
+                    Image(uiImage: self.tweetMedia.avatar!)
+                        .resizable()
+                        .frame(width: 36, height: 36)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
+                        .padding(.init(top: 12, leading: 0, bottom: 12, trailing: 12))
+                        .onTapGesture {
+                            self.presentedUserInfo = true
+                        }
+                        .sheet(isPresented: $presentedUserInfo) {
+                            UserInfo()
+                        }
+                    Spacer()
+                }
                 
-                Image(uiImage: self.tweetMedia.avatar!)
-                    .resizable()
-                    .frame(width: 36, height: 36)
-                    
-                    .clipShape(Circle())
-                    .overlay(
-                        Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
-                    
-                    .padding(.init(top: 12, leading: 0, bottom: 12, trailing: 12))
-                    
-                    .onTapGesture {
-                        self.presentedUserInfo = true
-                    }
-                    .sheet(isPresented: $presentedUserInfo) {
-                        UserInfo()
-                    }
                 VStack(alignment: .leading, spacing: 0 ) {
                     HStack {
                         Text(self.tweetMedia.userName ?? "UserName")
@@ -49,16 +49,13 @@ struct TweetRow: View {
                         Spacer()
                     }
                     Text(self.tweetMedia.tweetText ?? "Some tweet text")
-                        .lineLimit(nil)
                         .font(.body)
                         .padding(.top, 8)
                         .padding(.bottom, 8)
-                    Spacer()
                     if tweetMedia.images.count != 0 {
                         Images(images: self.tweetMedia.images)
                             .aspectRatio(contentMode: .fill)
                             .frame(height: 160)
-                            .clipped()
                             .cornerRadius(16)
                     }
                 }
@@ -79,13 +76,10 @@ struct TweetRow: View {
             Spacer()
             if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
                 ToolsView(timeline: timeline, tweetIDString: tweetIDString)
-                //                        .listRowInsets(.init(top: 0, leading: -16, bottom: 0, trailing: -16))
-            } else {
-                /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
             }
+            
         }
     }
-    
 }
 
 
