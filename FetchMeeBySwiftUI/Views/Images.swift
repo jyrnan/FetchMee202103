@@ -58,7 +58,6 @@ struct imageThumb: View {
     var body: some View {
         Image(uiImage: self.uiImage)
             .resizable()
-            .aspectRatio(contentMode: .fill)
             .onTapGesture {
                 self.presentedImageViewer = true
             }
