@@ -54,9 +54,10 @@ struct TweetRow: View {
                         .padding(.bottom, 8)
                     if tweetMedia.images.count != 0 {
                         Images(images: self.tweetMedia.images)
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 160)
+//                            .aspectRatio(contentMode: .fill)
+                            .frame(height: 160, alignment: .center)
                             .cornerRadius(16)
+                            .clipped()
                     }
                 }
             }

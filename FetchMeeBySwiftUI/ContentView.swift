@@ -30,6 +30,9 @@ struct ContentView: View {
             if #available(iOS 14.0, *) {
                 List {
                     Composer(timeline: self.home, presentedModal: self.$presentedAlert)
+                        .alert(isPresented: self.$presentedAlert) {
+                            Alert(title: Text("Tweet sent!"))
+                        }
                     Section(header:
                                 HStack {
                                     Button(action: { self.isHiddenMention.toggle() },

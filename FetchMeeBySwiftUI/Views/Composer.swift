@@ -25,6 +25,7 @@ struct Composer: View {
                     
                     swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in self.timeline.refreshFromTop()
                         print(#line, self.tweetIDString as Any)
+                        self.presentedModal.toggle()
                     })
                     self.tweetText = ""
                     self.hideKeyboard()

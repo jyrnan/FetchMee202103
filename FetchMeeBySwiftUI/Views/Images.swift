@@ -106,16 +106,23 @@ struct ImageThumb: View {
     var width: CGFloat
     var height: CGFloat
     var body: some View {
-        Image(uiImage: self.uiImage)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: width, height: height)
-            .clipped()
-            .onTapGesture {
-                self.presentedImageViewer = true
-            }
-            .fullScreenCover(isPresented: self.$presentedImageViewer) {
-                ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer)
-            }
+        ZStack(alignment: .center) {
+            Image(uiImage: self.uiImage)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: width, height: height, alignment: .center)
+                .clipped()
+                
+            Text(" ")
+                .frame(width: width, height: height, alignment: .center)
+                .background(Color.white.opacity(0.01))
+                .onTapGesture {
+                    self.presentedImageViewer = true
+                }
+                .fullScreenCover(isPresented: self.$presentedImageViewer) {
+                    ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer)
+                }
+        }
+        
     }
 }
