@@ -21,7 +21,7 @@ struct Composer: View {
     
     var body: some View {
         HStack {
-            TextField("Tweet here, Press for more...", text: $tweetText)
+            TextField("Tweet something here...", text: $tweetText)
                 
             Button(self.tweetText == "" ? "Tweet" : "Tweet" ) {
                 if self.tweetText != "" {
@@ -38,8 +38,7 @@ struct Composer: View {
                 } else {
                     print(#line, "nothing")
                 }
-                
-            }
+            }.disabled(self.tweetText == "")
         }
     }
 }

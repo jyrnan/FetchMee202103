@@ -47,7 +47,7 @@ class User: ObservableObject {
         
         var avatarUrl = json["profile_image_url_https"].string
         avatarUrl = avatarUrl?.replacingOccurrences(of: "_normal", with: "")
-        print(#line, avatarUrl)
+        
         self.myInfo.avatar = UIImage(data: try! Data(contentsOf: URL(string: avatarUrl!)!))
         
     }

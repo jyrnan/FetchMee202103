@@ -102,7 +102,7 @@ extension AuthView {
                           oauthToken: tokenKey,
                           oauthTokenSecret: tokenSecret)
         
-        self.user.getMyInfo() 
+        self.user.getMyInfo() //
     }
     
     func wipeInfo() {

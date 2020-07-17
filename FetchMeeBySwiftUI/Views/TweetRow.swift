@@ -52,6 +52,7 @@ struct TweetRow: View {
                         .font(.body)
                         .padding(.top, 8)
                         .padding(.bottom, 8)
+                        .fixedSize(horizontal: false, vertical: true)
                     if tweetMedia.images.count != 0 {
                         Images(images: self.tweetMedia.images)
 //                            .aspectRatio(contentMode: .fill)
@@ -68,7 +69,6 @@ struct TweetRow: View {
                         self.timeline.tweetMedias[prev]?.isToolsViewShowed = false
                     }
                 }
-                
                 withAnimation{
                     self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle()
                 }

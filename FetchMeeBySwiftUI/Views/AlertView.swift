@@ -17,6 +17,7 @@ struct AlertView: View {
                 Spacer()
                 Text(self.alertText)
                     .foregroundColor(.white)
+                    .frame(height: 35, alignment: .center)
                     .onAppear {
                         delay(delay: 1) {
                             withAnimation{

@@ -51,9 +51,7 @@ struct ContentView: View {
                                         } else {
                                             /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
                                         }
-                                    }, footer: HStack{
-                                        Spacer()
-                                        Text("More Tweets...")})
+                                    })
                         {
                             if !isHiddenMention {
                                 TweetsList(timeline: self.mentions, tweetListType: TweetListType.mention)

@@ -52,11 +52,11 @@ struct TweetsList: View {
             return AnyView(ForEach(self.timeline.tweetIdStrings, id: \.self) {
                     tweetIDString in
                     ZStack {
-                        MentionRow(tweetMedia: self.timeline.tweetMedias[tweetIDString]!)
-                        NavigationLink(destination: DetailView()) {
-                            EmptyView()
-                            Spacer()
-                    }
+                        MentionRow(timeline: timeline, tweetIDString: tweetIDString)
+//                        NavigationLink(destination: DetailView()) {
+//                            EmptyView()
+//                            Spacer()
+//                    }
                 }
             })
         default:

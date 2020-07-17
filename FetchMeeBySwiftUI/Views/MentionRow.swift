@@ -10,11 +10,15 @@ import SwiftUI
 import Combine
 
 struct MentionRow: View {
-    var tweetMedia: TweetMedia
+    @ObservedObject var timeline: Timeline
+    var tweetIDString: String
+    var tweetMedia: TweetMedia {self.timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: "")}
+    
     @State var presentedUserInfo: Bool = false
     
     var body: some View {
-            HStack(alignment: .top, spacing: 0) {
+        VStack {
+            HStack(alignment: .center, spacing: 0) {
                 Image(uiImage: self.tweetMedia.avatar!)
                     .resizable()
                     .frame(width: 36, height: 36)
@@ -32,21 +36,48 @@ struct MentionRow: View {
                         UserInfo()
                     }
                 
-                Text(self.tweetMedia.tweetText ?? "Some tweet text Some tweet text Some tweet text Some tweet text Some tweet text Some tweet text")
+                Text(self.removeReplier(from: self.tweetMedia.tweetText) )
                     .lineLimit(2)
                     .font(.body)
-                    .padding(.top, 0)
-                    .padding(.bottom, 4)
+                    .fixedSize(horizontal: false, vertical: true)
                 
                 Spacer()
                 CreatedTimeView(createdTime: self.tweetMedia.created!)
             }
+            .onTapGesture {
+                //实现点击出现ToolsVIew快速回复
+                if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
+                    if prev != tweetIDString {
+                        self.timeline.tweetMedias[prev]?.isToolsViewShowed = false
+                    }
+                }
+                withAnimation{
+                    self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle()
+                }
+                self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+            }
+            Spacer()
+            if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
+                ToolsView(timeline: timeline, tweetIDString: tweetIDString)
+            }
+        }
+            
+    }
+}
+
+extension MentionRow {
+    func removeReplier(from tweetText: String?) -> String {
+        var result: String = ""
+        if let tweetTextSplit = tweetText?.split(separator: " ") {
+            result = String(tweetTextSplit.last! )
+        }
+        return result
     }
 }
 
 
 struct MentionRow_Previews: PreviewProvider {
     static var previews: some View {
-        MentionRow(tweetMedia: TweetMedia(id: "234343"))
+        MentionRow(timeline: Timeline(type: .home), tweetIDString: "")
     }
 }
