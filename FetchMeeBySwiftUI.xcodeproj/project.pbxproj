@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D205246C24C18AC30046F1AB /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D205246B24C18AC30046F1AB /* AlertView.swift */; };
+		D205247424C199500046F1AB /* AlertsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D205247324C199500046F1AB /* AlertsModel.swift */; };
 		D2224F8A24BE7C0400AE2110 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F8924BE7C0400AE2110 /* User.swift */; };
 		D2224F9124BE7FE400AE2110 /* Swifter+Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F9024BE7FE400AE2110 /* Swifter+Observable.swift */; };
 		D2224FD324BE901E00AE2110 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224FD224BE901E00AE2110 /* AuthView.swift */; };
@@ -85,6 +87,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D205246B24C18AC30046F1AB /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		D205247324C199500046F1AB /* AlertsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsModel.swift; sourceTree = "<group>"; };
 		D2224F8924BE7C0400AE2110 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D2224F9024BE7FE400AE2110 /* Swifter+Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swifter+Observable.swift"; sourceTree = "<group>"; };
 		D2224FD224BE901E00AE2110 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 				D7AC535C24B9E94300BCD71F /* Timeline.swift */,
 				D2224F8924BE7C0400AE2110 /* User.swift */,
 				D2224F9024BE7FE400AE2110 /* Swifter+Observable.swift */,
+				D205247324C199500046F1AB /* AlertsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -209,6 +214,7 @@
 				D286FFD624BC31F0005DBC39 /* UserInfo.swift */,
 				D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */,
 				D270E87C24C01C9100BBD3FE /* ToolsView.swift */,
+				D205246B24C18AC30046F1AB /* AlertView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -330,12 +336,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7AC535D24B9E94300BCD71F /* Timeline.swift in Sources */,
+				D205246C24C18AC30046F1AB /* AlertView.swift in Sources */,
 				D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */,
 				D7AC536E24BB477300BCD71F /* DetailView.swift in Sources */,
 				D7AC536524BAA5A100BCD71F /* TweetsList.swift in Sources */,
 				D2224F9124BE7FE400AE2110 /* Swifter+Observable.swift in Sources */,
 				D286FFE824BD7EC3005DBC39 /* MentionRow.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,
+				D205247424C199500046F1AB /* AlertsModel.swift in Sources */,
 				D2224FD324BE901E00AE2110 /* AuthView.swift in Sources */,
 				D286FFD724BC31F0005DBC39 /* UserInfo.swift in Sources */,
 				D2224F8A24BE7C0400AE2110 /* User.swift in Sources */,

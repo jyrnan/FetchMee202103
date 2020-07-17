@@ -13,8 +13,11 @@ struct Composer: View {
     @State var tweetText: String = ""
     var tweetIDString: String?
     
-    @Binding var presentedModal: Bool
+//    @Binding var isPresentedAlert: Bool
+//    @Binding var alertText: String
     @State var bigEdit: Bool = false
+    
+    @EnvironmentObject var alerts: Alerts
     
     var body: some View {
         HStack {
@@ -25,7 +28,9 @@ struct Composer: View {
                     
                     swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in self.timeline.refreshFromTop()
                         print(#line, self.tweetIDString as Any)
-                        self.presentedModal.toggle()
+                        self.alerts.stripAlert.alertText = "Tweet sent!"
+                        self.alerts.stripAlert.isPresentedAlert.toggle()
+                        
                     })
                     self.tweetText = ""
                     self.hideKeyboard()
@@ -47,6 +52,6 @@ extension Composer {
 
 struct Composer_Previews: PreviewProvider {
     static var previews: some View {
-        Composer(timeline: Timeline(type: .home), presentedModal: .constant(true))
+        Composer(timeline: Timeline(type: .home))
     }
 }

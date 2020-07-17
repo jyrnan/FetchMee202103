@@ -24,6 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     @ObservedObject var user: User = User()
+    var alerts: Alerts = Alerts()
    
 
 
@@ -49,11 +50,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                   consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
                                   oauthToken: tokenKey,
                                   oauthTokenSecret: tokenSecret)
-                
-                window.rootViewController = UIHostingController(rootView: authView)
-            } else {
-                window.rootViewController = UIHostingController(rootView: authView)
-            }
+
+                window.rootViewController = UIHostingController(rootView: authView.environmentObject(alerts))
+            } else
+            {
+                window.rootViewController = UIHostingController(rootView: authView.environmentObject(alerts))
+        }
             self.window = window
             window.makeKeyAndVisible()
         }

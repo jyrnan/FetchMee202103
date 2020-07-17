@@ -15,27 +15,42 @@ struct AuthView: View {
     @ObservedObject var user: User
     
     var body: some View {
-        
-        
-        VStack {
-            if self.user.isLoggedIn == false {
-                Button(action: {self.login()}, label: {
-                    HStack {
-                        Spacer()
-                        Image("Logo")
-                            .resizable()
-                            .frame(width: 48, height: 48, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                        Text("Press to Login")
-                        Spacer()
-                    }
+        if self.user.isLoggedIn {
+            ContentView(user: self.user)
+        } else {
+            Button(action: {self.login()}, label: {
+                HStack {
+                    Spacer()
+                    Image("Logo")
+                        .resizable()
+                        .frame(width: 48, height: 48, alignment: .center)
+                    Text("Press to Login")
+                    Spacer()
+                }
 
-                })
-            } else {
-                ContentView(user: self.user)
-            }
+            })
         }
-        
-        
+    }
+}
+extension AuthView {
+    func checkLogin() -> AnyView {
+        switch self.user.isLoggedIn {
+        case false:
+            return AnyView(Button(action: {self.login()}, label: {
+                HStack {
+                    Spacer()
+                    Image("Logo")
+                        .resizable()
+                        .frame(width: 48, height: 48, alignment: .center)
+                    Text("Press to Login")
+                    Spacer()
+                }
+
+            }))
+        case true:
+            self.readInfo()
+            return AnyView(ContentView(user: self.user))
+        }
     }
 }
 
@@ -86,12 +101,16 @@ extension AuthView {
                           consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
                           oauthToken: tokenKey,
                           oauthTokenSecret: tokenSecret)
+        
+        self.user.getMyInfo() 
     }
     
     func wipeInfo() {
         // 删掉保存的信息
         self.user.isLoggedIn = false
         userDefault.set(false, forKey: "isLoggedIn")
+        userDefault.set(nil, forKey: "userIDString")
+        userDefault.set(nil, forKey: "screenName")
     }
 }
 

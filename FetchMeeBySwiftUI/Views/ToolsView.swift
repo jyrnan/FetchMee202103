@@ -33,7 +33,7 @@ struct ToolsView: View {
                 })
             }.accentColor(.gray)
             Divider()
-            Composer(timeline: timeline, tweetIDString: tweetIDString, presentedModal: .constant(true))
+            Composer(timeline: timeline, tweetIDString: tweetIDString)
             
         }
 

@@ -23,84 +23,99 @@ struct ContentView: View {
     
     @State var isHiddenMention: Bool = false
     
-    @State var presentedAlert: Bool = false
+//    @State var isPresentedAlert: Bool = false
+//    @State var alertText: String = ""
+    
+    @EnvironmentObject var alerts: Alerts
   
     var body: some View {
         NavigationView{
-            if #available(iOS 14.0, *) {
-                List {
-                    Composer(timeline: self.home, presentedModal: self.$presentedAlert)
-                        .alert(isPresented: self.$presentedAlert) {
-                            Alert(title: Text("Tweet sent!"))
+            ZStack {
+                if #available(iOS 14.0, *) {
+                    List {
+                        Composer(timeline: self.home)
+                           
+                        Section(header:
+                                    HStack {
+                                        Button(action: { self.isHiddenMention.toggle() },
+                                                   label: {Text("Mentions").font(.headline)})
+                                        Spacer()
+                                        if !self.isHiddenMention {
+                                            Button(action: {self.mentions.refreshFromTop()}, label: {
+                                            Image(systemName: "arrow.clockwise")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 18, height: 18)
+                                                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 4)
+                                            })
+                                        } else {
+                                            /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
+                                        }
+                                    }, footer: HStack{
+                                        Spacer()
+                                        Text("More Tweets...")})
+                        {
+                            if !isHiddenMention {
+                                TweetsList(timeline: self.mentions, tweetListType: TweetListType.mention)
+                            HStack {
+                                Spacer()
+                                Button("More Tweets...") {
+                                    self.mentions.refreshFromButtom()}
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                                Spacer()
+                            }
+                            }
                         }
-                    Section(header:
-                                HStack {
-                                    Button(action: { self.isHiddenMention.toggle() },
-                                               label: {Text("Mentions").font(.headline)})
-                                    Spacer()
-                                    if !self.isHiddenMention {
-                                        Button(action: {self.mentions.refreshFromTop()}, label: {
+                        Section(header:
+                                    HStack {
+                                        Text("Homeline").font(.headline)
+                                        Spacer()
+                                        Button(action: {self.home.refreshFromTop()}, label: {
                                         Image(systemName: "arrow.clockwise")
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 18, height: 18)
                                             .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 4)
                                         })
-                                    } else {
-                                        /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
-                                    }
-                                }, footer: HStack{
-                                    Spacer()
-                                    Text("More Tweets...")})
-                    {
-                        if !isHiddenMention {
-                            TweetsList(timeline: self.mentions, tweetListType: TweetListType.mention)
-                        HStack {
-                            Spacer()
-                            Button("More Tweets...") {
-                                self.mentions.refreshFromButtom()}
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                            Spacer()
-                        }
-                        }
-                    }
-                    Section(header:
-                                HStack {
-                                    Text("Homeline").font(.headline)
-                                    Spacer()
-                                    Button(action: {self.home.refreshFromTop()}, label: {
-                                    Image(systemName: "arrow.clockwise")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 18, height: 18)
-                                        .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 4)
                                     })
-                                })
-                    {
-                        TweetsList(timeline: self.home, tweetListType: TweetListType.home)
-                        HStack {
-                            Spacer()
-                            Button("More Tweets...") {
-                                
-                                self.home.refreshFromButtom()}
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                            Spacer()
+                        {
+                            TweetsList(timeline: self.home, tweetListType: TweetListType.home)
+                            HStack {
+                                Spacer()
+                                Button("More Tweets...") {
+                                    
+                                    self.home.refreshFromButtom()}
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                                Spacer()
+                            }
                         }
                     }
+                    .listStyle(InsetGroupedListStyle())
+                    .navigationTitle("FetchMee")
+                    .navigationBarItems(trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
+                                            .resizable()
+                                            .frame(width: 32, height: 32, alignment: .center)
+                                            .clipShape(Circle())
+                                            .onLongPressGesture {
+                                                self.alerts.standAlert.isPresentedAlert.toggle()
+                                            }
+                                            .alert(isPresented: self.$alerts.standAlert.isPresentedAlert) {
+                                                Alert(title: Text("LogOut?"), message: nil, primaryButton: .default(Text("Logout"), action: {self.logOut()})
+                                                , secondaryButton: .cancel())
+                                            }
+                                            )
                 }
-                .listStyle(InsetGroupedListStyle())
-                .navigationTitle("FetchMee")
-                .navigationBarItems(trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
-                                        .resizable()
-                                        .frame(width: 32, height: 32, alignment: .center)
-                                        .clipShape(Circle())
-                                        .onLongPressGesture {
-                                            self.logOut()
-                                        })
-            } else {
+                VStack {
+                    if self.alerts.stripAlert.isPresentedAlert {
+                        AlertView(isAlertShow: self.$alerts.stripAlert.isPresentedAlert, alertText: self.alerts.stripAlert.alertText)
+                    }
+                    Spacer()
+                }
+                
             }
+            
         }
     }
 }
@@ -116,6 +131,9 @@ extension ContentView {
     
     func logOut() {
         self.user.isLoggedIn = false
+        userDefault.set(false, forKey: "isLoggedIn")
+        userDefault.set(nil, forKey: "userIDString")
+        userDefault.set(nil, forKey: "screenName")
         print(#line)
     }
 }

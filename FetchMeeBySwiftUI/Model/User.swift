@@ -32,6 +32,7 @@ class User: ObservableObject {
     }
     
     func getMyInfo() {
+        guard userDefault.object(forKey: "userIDString") != nil  else { return }
         self.myInfo.id = userDefault.object(forKey: "userIDString") as! String
         getUserInfo(for: self.myInfo.id)
     }
