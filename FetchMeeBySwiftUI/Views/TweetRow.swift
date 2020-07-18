@@ -47,6 +47,7 @@ struct TweetRow: View {
                             .lineLimit(1)
                         CreatedTimeView(createdTime: self.tweetMedia.created!)
                         Spacer()
+                       
                     }
                     Text(self.tweetMedia.tweetText ?? "Some tweet text")
                         .font(.body)

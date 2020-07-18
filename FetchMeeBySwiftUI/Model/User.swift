@@ -43,7 +43,7 @@ class User: ObservableObject {
     }
     
     func getUserBio(json: JSON) {
-        let bannerUrl = json["profile_banner_url"].string
+//        let bannerUrl = json["profile_banner_url"].string
         
         var avatarUrl = json["profile_image_url_https"].string
         avatarUrl = avatarUrl?.replacingOccurrences(of: "_normal", with: "")

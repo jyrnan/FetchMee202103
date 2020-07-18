@@ -14,6 +14,7 @@ enum TweetListType: String {
     case mention = "Mentions"
     case list
     case user
+    case session
 }
 
 struct TweetsList: View {
@@ -34,21 +35,21 @@ struct TweetsList: View {
     func containedView() -> AnyView {
         switch tweetListType {
         case .home:
-            return  AnyView(ForEach(self.timeline.tweetIdStrings, id: \.self) {
+            return  AnyView(ForEach(self.timeline.tweetIDStrings, id: \.self) {
                     tweetIDString in
                     ZStack {
                         TweetRow(timeline: timeline, tweetIDString: tweetIDString)
-//                        NavigationLink(destination: DetailView()) {
-//                            EmptyView()
-//                            Spacer()
-//                    }
+                        NavigationLink(destination: DetailView(tweetIDString: tweetIDString)) {
+                            EmptyView()
+                            Spacer()
+                    }
                 }
             }
             .onDelete { indexSet in
                 print()}
             )
         case .mention:
-            return AnyView(ForEach(self.timeline.tweetIdStrings, id: \.self) {
+            return AnyView(ForEach(self.timeline.tweetIDStrings, id: \.self) {
                     tweetIDString in
                     ZStack {
                         MentionRow(timeline: timeline, tweetIDString: tweetIDString)
