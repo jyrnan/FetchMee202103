@@ -12,41 +12,48 @@ import Combine
 
 
 struct ContentView: View {
+    @EnvironmentObject var alerts: Alerts
     @ObservedObject var home = Timeline(type: TweetListType.home)
     @ObservedObject var mentions = Timeline(type: TweetListType.mention)
     
     @ObservedObject var user: User
-    
     @State var tweetText: String = ""
     
     @State var isFirstRun: Bool = true //设置用于第一次运行刷新的时候标志
     
     @State var isHiddenMention: Bool = false
     
-//    @State var isPresentedAlert: Bool = false
-//    @State var alertText: String = ""
+    @State var refreshIsDone: Bool = false
+    //    @State var alertText: String = ""
     
-    @EnvironmentObject var alerts: Alerts
-  
+//    @ObservedObject var data = RefreshData()
+    
     var body: some View {
         NavigationView{
             ZStack {
                 if #available(iOS 14.0, *) {
                     List {
-                        Composer(timeline: self.home)
-                           
+                        PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
+                            Composer(timeline: self.home)
+                                .offset(y: 4)
+                        }
+
+                        
                         Section(header:
                                     HStack {
                                         Button(action: { self.isHiddenMention.toggle() },
-                                                   label: {Text("Mentions").font(.headline)})
+                                               label: {Text("Mentions").font(.headline)})
+                                        ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
                                         Spacer()
+                                        
                                         if !self.isHiddenMention {
+                                            
                                             Button(action: {self.mentions.refreshFromTop()}, label: {
-                                            Image(systemName: "arrow.clockwise")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 18, height: 18)
-                                                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 4)
+                                                Image(systemName: "arrow.clockwise")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 18, height: 18)
+                                                    .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 4)
                                             })
                                         } else {
                                             /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
@@ -55,26 +62,27 @@ struct ContentView: View {
                         {
                             if !isHiddenMention {
                                 TweetsList(timeline: self.mentions, tweetListType: TweetListType.mention)
-                            HStack {
-                                Spacer()
-                                Button("More Tweets...") {
-                                    self.mentions.refreshFromButtom()}
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                                Spacer()
-                            }
+                                HStack {
+                                    Spacer()
+                                    Button("More Tweets...") {
+                                        self.mentions.refreshFromButtom()}
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                    Spacer()
+                                }
                             }
                         }
                         Section(header:
                                     HStack {
-                                        Text("Homeline").font(.headline)
+                                        Text(self.home.newTweetNumber == 0 ? "Homeline" : "Homeline \(self.home.newTweetNumber)").font(.headline)
+                                        ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
                                         Spacer()
                                         Button(action: {self.home.refreshFromTop()}, label: {
-                                        Image(systemName: "arrow.clockwise")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 18, height: 18)
-                                            .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 4)
+                                            Image(systemName: "arrow.clockwise")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 18, height: 18)
+                                                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 4)
                                         })
                                     })
                         {
@@ -90,6 +98,8 @@ struct ContentView: View {
                             }
                         }
                     }
+                    
+                    
                     .listStyle(InsetGroupedListStyle())
                     .navigationTitle("FetchMee")
                     .navigationBarItems(trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
@@ -101,9 +111,9 @@ struct ContentView: View {
                                             }
                                             .alert(isPresented: self.$alerts.standAlert.isPresentedAlert) {
                                                 Alert(title: Text("LogOut?"), message: nil, primaryButton: .default(Text("Logout"), action: {self.logOut()})
-                                                , secondaryButton: .cancel())
+                                                      , secondaryButton: .cancel())
                                             }
-                                            )
+                    )
                 }
                 VStack {
                     if self.alerts.stripAlert.isPresentedAlert {
@@ -121,10 +131,9 @@ struct ContentView: View {
 extension ContentView {
     
     func refreshAll() {
+        
         self.home.refreshFromTop()
         self.mentions.refreshFromTop()
-        
-        
     }
     
     func logOut() {
@@ -147,3 +156,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView(user: User())
     }
 }
+

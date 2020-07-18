@@ -34,7 +34,6 @@ struct TweetsList: View {
     func containedView() -> AnyView {
         switch tweetListType {
         case .home:
-            print(#line)
             return  AnyView(ForEach(self.timeline.tweetIdStrings, id: \.self) {
                     tweetIDString in
                     ZStack {

@@ -20,7 +20,7 @@ struct Composer: View {
     @EnvironmentObject var alerts: Alerts
     
     var body: some View {
-        HStack {
+        HStack(alignment: .center) {
             TextField("Tweet something here...", text: $tweetText)
                 
             Button(self.tweetText == "" ? "Tweet" : "Tweet" ) {

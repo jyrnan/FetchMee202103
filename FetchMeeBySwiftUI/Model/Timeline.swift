@@ -14,7 +14,8 @@ import Combine
 final class Timeline: ObservableObject {
     @Published var tweetIdStrings: [String] = []
     @Published var tweetMedias: [String: TweetMedia] = [:]
-    
+    @Published var newTweetNumber: Int = 0
+    @Published var isDone: Bool = true
     
     var type: TweetListType
     var tweetIDStringOfRowToolsViewShowed: String?
@@ -36,8 +37,9 @@ final class Timeline: ObservableObject {
     
     init(type: TweetListType) {
         self.type = type
-        self.refreshFromTop()
-        print(#line,self)
+//        self._isDone = isDone
+//        self.refreshFromTop()
+//        print(#line,self)
     }
     
     deinit {
@@ -48,7 +50,11 @@ final class Timeline: ObservableObject {
     func refreshFromTop() {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
-            print(#line, "Timeline got!", self)
+            print(#line, "Timeline got!", self, Date())
+            if newTweets.count != 0 {
+                self.newTweetNumber = newTweets.count
+            }
+            self.isDone = true
             self.updateTimelineTop(with: newTweets)
         }
         
@@ -77,8 +83,10 @@ final class Timeline: ObservableObject {
         
         switch self.type {
         case .mention:
+            self.isDone = false
             swifter.getMentionsTimelineTweets(count: self.maxCounter, maxID: self.maxIDString, success: sh, failure: failureHandler)
         case .home:
+            self.isDone = false
             swifter.getHomeTimeline(count: self.maxCounter,maxID: self.maxIDString,  success: sh, failure: failureHandler)
         default:
             print(#line, #function)

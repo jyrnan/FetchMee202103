@@ -17,4 +17,5 @@ struct MyAlert: Identifiable {
 class Alerts: ObservableObject {
     @Published var stripAlert: MyAlert = MyAlert()
     @Published var standAlert: MyAlert = MyAlert()
+    @Published var refreshIsDone: Bool = true
 }
