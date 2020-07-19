@@ -24,7 +24,7 @@ struct TweetsList: View {
     @State var presentedModal: Bool = false //用于标志是否显示ModalView，例如Composer
     @State var isShowDetail: Bool = false
     @State var isFirstRun: Bool = true //设置用于第一次运行的时候标志
-    
+   
     var tweetListType: TweetListType 
     
     var body: some View {
@@ -39,7 +39,10 @@ struct TweetsList: View {
             return  AnyView(ForEach(self.timeline.tweetIDStrings, id: \.self) {
                 tweetIDString in
                 TweetRow(timeline: timeline, tweetIDString: tweetIDString)
-                    
+                    .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.blue.opacity(0.2) : Color.clear)
+//                if userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str {
+//                    self.isMentionedRow = true
+//                }
             }
             .onDelete { indexSet in
                 print()}

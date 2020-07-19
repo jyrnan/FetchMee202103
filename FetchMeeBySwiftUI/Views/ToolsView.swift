@@ -74,10 +74,10 @@ struct ToolsView: View {
                     
             }.foregroundColor(.gray)
             .padding(.bottom, 10)
-//                        Divider()
-//            Composer(timeline: timeline, tweetIDString: tweetIDString, someToggle: self.$someToggle)
-//                            .padding(.top, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-//                            .padding(.bottom, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                        Divider()
+            Composer(timeline: timeline, tweetIDString: tweetIDString, someToggle: self.$someToggle)
+                            .padding(.top, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                            .padding(.bottom, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
             
         }
         

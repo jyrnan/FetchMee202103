@@ -80,7 +80,9 @@ final class Timeline: ObservableObject {
     func refreshFromButtom() {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
+            self.isDone = true
             self.updateTimelineBottom(with: newTweets)
+            self.isDone = true
         }
         
         let failureHandler: (Error) -> Void = { error in
