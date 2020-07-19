@@ -19,12 +19,34 @@ struct ToolsView: View {
                     Image(systemName: "bubble.right")
                 })
                 Spacer()
-                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                    Image(systemName: "repeat")
+                Button(action: {
+                    if self.timeline.tweetMedias[tweetIDString] != nil {
+                        switch self.timeline.tweetMedias[tweetIDString]!.retweeted {
+                        case true:
+                            swifter.unretweetTweet(forID: tweetIDString)
+                            self.timeline.tweetMedias[tweetIDString]?.retweeted = false
+                        case false:
+                            swifter.retweetTweet(forID: tweetIDString)
+                            self.timeline.tweetMedias[tweetIDString]?.retweeted = true
+                        }
+                    }
+                }, label: {
+                    Image(systemName: self.timeline.tweetMedias[tweetIDString]!.retweeted == false ? "repeat" : "repeat.1")
                 })
                 Spacer()
-                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                    Image(systemName: "heart")
+                Button(action: {
+                    if self.timeline.tweetMedias[tweetIDString] != nil {
+                        switch self.timeline.tweetMedias[tweetIDString]!.favorited {
+                        case true:
+                            swifter.unfavoriteTweet(forID: tweetIDString)
+                            self.timeline.tweetMedias[tweetIDString]?.favorited = false
+                        case false:
+                            swifter.favoriteTweet(forID: tweetIDString)
+                            self.timeline.tweetMedias[tweetIDString]?.favorited = true
+                        }
+                    }
+                }, label: {
+                    Image(systemName: (self.timeline.tweetMedias[tweetIDString]!.favorited == false ? "heart" : "heart.fill"))
                 })
                 Spacer()
                 Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
