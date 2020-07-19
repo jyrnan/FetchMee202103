@@ -10,48 +10,60 @@ import SwiftUI
 
 
 struct DetailView: View {
-    @ObservedObject var sessionTimeline: Timeline = Timeline(type: .session)
+    @EnvironmentObject var alerts: Alerts
+    
+    @ObservedObject var replySession: Timeline = Timeline(type: .session)
     var tweetIDString: String
-    var firstTimeRun: Bool?
+    @State var firstTimeRun: Bool = true
+    @Binding var isShowDetail: Bool
+    
+//    init(tweetIDString: String) {
+//        //        self.replySession = replySession
+//        self.tweetIDString = tweetIDString
+//        print(#line, "DetailView created!")
+//    }
     
     var body: some View {
-        
-        if #available(iOS 14.0, *) {
-            List {
-                if !sessionTimeline.isDone {
-                    HStack {
-                        Spacer()
-                        ActivityIndicator(isAnimating: self.$sessionTimeline.isDone, style: .medium)
-                        
-                        Spacer()
-                    }
-                }
-                Button(action: {self.sessionTimeline.getReplyDetail(for: self.tweetIDString)}, label: {
-                    /*@START_MENU_TOKEN@*/Text("Button")/*@END_MENU_TOKEN@*/
-                })
-                ForEach(sessionTimeline.tweetIDStrings, id: \.self) {tweetIDString in
-                    TweetRow(timeline: sessionTimeline, tweetIDString: tweetIDString)
-                }
-                ToolsView(timeline: self.sessionTimeline, tweetIDString: self.tweetIDString)
-            }
-            .listStyle(InsetGroupedListStyle())
-        } else {
-            // Fallback on earlier versions
-        }
-//            .onAppear {
-//                if self.firstTimeRun == nil {
-//                    self.firstTimeRun = false
-//                    self.sessionTimeline.getReplyDetail(for: self.tweetIDString)
-//                    print(#line, "onAppear")
-//                    }}
-                }
+        List{
+//            if !replySession.isDone {
+//                HStack {
+//                    Spacer()
+//                    ActivityIndicator(isAnimating: self.$replySession.isDone, style: .medium)
+//
+//                    Spacer()
+//                }
+//            }
+            HStack{
                 
+                Text("Session").font(.largeTitle).bold()
+                Spacer()
+                ActivityIndicator(isAnimating: self.$replySession.isDone, style: .medium)
+            }.padding(.top, 20)
+            if self.alerts.stripAlert.isPresentedAlert {
+                AlertView(isAlertShow: self.$alerts.stripAlert.isPresentedAlert, alertText: self.alerts.stripAlert.alertText)
             }
+            Composer(timeline: replySession, tweetIDString: tweetIDString, someToggle: self.$isShowDetail )
+            ForEach(replySession.tweetIDStrings, id: \.self) {tweetIDString in
+                TweetRow(timeline: replySession, tweetIDString: tweetIDString)
+            }
+        }
+        .onAppear {
+            print(#line, "onAppear")
+            print(#line, firstTimeRun)
+            if self.firstTimeRun {
+                self.firstTimeRun = false
+                print(#line, "set firstTimeRun to \(self.firstTimeRun)")
+                self.replySession.getReplyDetail(for: self.tweetIDString)
+                print(#line, "onAppear")
+            } else {
+                print(#line, "firstTimeRun is already true")
+            }}
+    }
     
-
+}
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(tweetIDString: "")
+        DetailView(tweetIDString: "", isShowDetail: .constant(true))
     }
 }

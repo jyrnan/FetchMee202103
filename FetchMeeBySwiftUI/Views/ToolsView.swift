@@ -32,10 +32,11 @@ struct ToolsView: View {
                         
                 })
             }.accentColor(.gray)
-            Divider()
-            Composer(timeline: timeline, tweetIDString: tweetIDString)
-                .padding(.top, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-                .padding(.bottom, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+            .padding(.bottom, 10)
+//            Divider()
+//            Composer(timeline: timeline, tweetIDString: tweetIDString)
+//                .padding(.top, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+//                .padding(.bottom, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
             
         }
 

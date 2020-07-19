@@ -9,15 +9,14 @@
 import SwiftUI
 
 struct Composer: View {
+    @EnvironmentObject var alerts: Alerts
     @ObservedObject var timeline : Timeline
     @State var tweetText: String = ""
     var tweetIDString: String?
     
-//    @Binding var isPresentedAlert: Bool
-//    @Binding var alertText: String
     @State var bigEdit: Bool = false
     
-    @EnvironmentObject var alerts: Alerts
+    @Binding var someToggle: Bool
     
     var body: some View {
         HStack(alignment: .center) {
@@ -26,8 +25,10 @@ struct Composer: View {
             Button(self.tweetText == "" ? "Tweet" : "Tweet" ) {
                 if self.tweetText != "" {
                     
-                    swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in self.timeline.refreshFromTop()
+                    swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
+//                        self.timeline.refreshFromTop()
                         print(#line, self.tweetIDString as Any)
+                        self.someToggle.toggle()
                         self.alerts.stripAlert.alertText = "Tweet sent!"
                         self.alerts.stripAlert.isPresentedAlert.toggle()
                         
@@ -51,6 +52,6 @@ extension Composer {
 
 struct Composer_Previews: PreviewProvider {
     static var previews: some View {
-        Composer(timeline: Timeline(type: .home))
+        Composer(timeline: Timeline(type: .home), someToggle: .constant(true))
     }
 }

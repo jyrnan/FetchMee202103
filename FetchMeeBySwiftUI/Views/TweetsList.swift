@@ -19,9 +19,10 @@ enum TweetListType: String {
 
 struct TweetsList: View {
     @ObservedObject var timeline: Timeline
+//    @ObservedObject var replySession: Timeline = Timeline(type: .session)
     
     @State var presentedModal: Bool = false //用于标志是否显示ModalView，例如Composer
-    
+    @State var isShowDetail: Bool = false
     @State var isFirstRun: Bool = true //设置用于第一次运行的时候标志
     
     var tweetListType: TweetListType 
@@ -36,27 +37,21 @@ struct TweetsList: View {
         switch tweetListType {
         case .home:
             return  AnyView(ForEach(self.timeline.tweetIDStrings, id: \.self) {
-                    tweetIDString in
-                    ZStack {
-                        TweetRow(timeline: timeline, tweetIDString: tweetIDString)
-                        NavigationLink(destination: DetailView(tweetIDString: tweetIDString)) {
-                            EmptyView()
-                            Spacer()
-                    }
-                }
+                tweetIDString in
+                TweetRow(timeline: timeline, tweetIDString: tweetIDString)
             }
             .onDelete { indexSet in
                 print()}
+            .onMove { indecies, newOffset in
+                print()
+            }
+//            .listRowBackground(Color.blue.opacity(0.5))
             )
         case .mention:
             return AnyView(ForEach(self.timeline.tweetIDStrings, id: \.self) {
-                    tweetIDString in
-                    ZStack {
-                        MentionRow(timeline: timeline, tweetIDString: tweetIDString)
-//                        NavigationLink(destination: DetailView()) {
-//                            EmptyView()
-//                            Spacer()
-//                    }
+                tweetIDString in
+                ZStack {
+                    MentionRow(timeline: timeline, tweetIDString: tweetIDString)
                 }
             })
         default:

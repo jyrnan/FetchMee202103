@@ -21,7 +21,7 @@ struct AlertView: View {
                     .onAppear {
                         delay(delay: 1) {
                             withAnimation{
-                                self.isAlertShow.toggle()
+                                self.isAlertShow = false
                             }
                         }
                     }

@@ -10,14 +10,16 @@ import SwiftUI
 import Combine
 
 struct TweetRow: View {
+    @EnvironmentObject var alerts: Alerts
+   
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
     var tweetMedia: TweetMedia {self.timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: "")}
     
     @State var presentedUserInfo: Bool = false
-    
+    @State var isShowDetail: Bool = false
     var body: some View {
-        VStack {
+        VStack() {
             HStack(alignment: .top, spacing: 0) {
                 VStack {
                     Image(uiImage: self.tweetMedia.avatar!)
@@ -37,23 +39,41 @@ struct TweetRow: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 0 ) {
-                    HStack {
-                        Text(self.tweetMedia.userName ?? "UserName")
-                            .font(.headline)
-                            .lineLimit(1)
-                        Text("@" + (self.tweetMedia.screenName ?? "screenName"))
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .lineLimit(1)
-                        CreatedTimeView(createdTime: self.tweetMedia.created!)
-                        Spacer()
-                       
-                    }
+                    HStack(alignment: .center) {
+                            Text(self.tweetMedia.userName ?? "UserName")
+                                .font(.headline)
+                                .lineLimit(1)
+                            Text("@" + (self.tweetMedia.screenName ?? "screenName"))
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                                .lineLimit(1)
+                            CreatedTimeView(createdTime: self.tweetMedia.created!)
+                            Spacer()
+                        DetailIndicator(timeline: timeline, tweetIDString: tweetIDString)
+                            .padding(.all, 0)
+                            .onTapGesture {
+                                self.isShowDetail = true
+                            }
+                   
+                    } .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts)}
+                    
                     Text(self.tweetMedia.tweetText ?? "Some tweet text")
                         .font(.body)
                         .padding(.top, 8)
                         .padding(.bottom, 8)
                         .fixedSize(horizontal: false, vertical: true)
+                        .onTapGesture {
+                            //实现点击出现ToolsVIew快速回复
+                            if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
+                                if prev != tweetIDString {
+                                    self.timeline.tweetMedias[prev]?.isToolsViewShowed = false
+                                }
+                            }
+                            withAnimation {
+                                self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle()
+                            }
+                            self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+                        }
                     if tweetMedia.images.count != 0 {
                         Images(images: self.tweetMedia.images)
 //                            .aspectRatio(contentMode: .fill)
@@ -63,18 +83,7 @@ struct TweetRow: View {
                     }
                 }
             }
-            .onTapGesture {
-                //实现点击出现ToolsVIew快速回复
-                if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
-                    if prev != tweetIDString {
-                        self.timeline.tweetMedias[prev]?.isToolsViewShowed = false
-                    }
-                }
-                withAnimation{
-                    self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle()
-                }
-                self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
-            }
+            
             Spacer()
             if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
                 ToolsView(timeline: timeline, tweetIDString: tweetIDString)

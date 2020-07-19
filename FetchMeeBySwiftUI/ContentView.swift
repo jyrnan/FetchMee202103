@@ -13,6 +13,7 @@ import Combine
 
 struct ContentView: View {
     @EnvironmentObject var alerts: Alerts
+    
     @ObservedObject var home = Timeline(type: TweetListType.home)
     @ObservedObject var mentions = Timeline(type: TweetListType.mention)
     
@@ -24,9 +25,7 @@ struct ContentView: View {
     @State var isHiddenMention: Bool = false
     
     @State var refreshIsDone: Bool = false
-    //    @State var alertText: String = ""
-    
-//    @ObservedObject var data = RefreshData()
+
     
     var body: some View {
         NavigationView{
@@ -34,7 +33,7 @@ struct ContentView: View {
                 if #available(iOS 14.0, *) {
                     List {
                         PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
-                            Composer(timeline: self.home)
+                            Composer(timeline: self.home, someToggle: .constant(true))
                                 .offset(y: 4)
                         }
 
@@ -42,7 +41,7 @@ struct ContentView: View {
                         Section(header:
                                     HStack {
                                         Button(action: { self.isHiddenMention.toggle() },
-                                               label: {Text("Mentions").font(.headline)})
+                                               label: {Text(self.mentions.newTweetNumber == 0 ? "Mentions" : "Mentions \(self.mentions.newTweetNumber)").font(.headline)})
                                         ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
                                         Spacer()
                                         
@@ -125,6 +124,7 @@ struct ContentView: View {
             }
             
         }
+        
     }
 }
 

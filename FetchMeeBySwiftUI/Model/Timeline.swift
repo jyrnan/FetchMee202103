@@ -37,20 +37,18 @@ final class Timeline: ObservableObject {
     
     init(type: TweetListType) {
         self.type = type
-        print(#line, "timeline init", self)
-//        switch type {
-//        case .session:
-//
-//        default:
-//            self.refreshFromTop()
-//        }
-//        self._isDone = isDone
-//        self.refreshFromTop()
-//        print(#line,self)
+        print(#line, "timeline(\(self.type)) init", self)
+        switch type {
+        case .session:
+            print()
+
+        default:
+            self.refreshFromTop()
+        }
     }
     
     deinit {
-        print(#line, "\(self) disappeared!")
+        print(#line, "\(self.type) disappeared!")
     }
 
     //更新上方推文
@@ -58,9 +56,9 @@ final class Timeline: ObservableObject {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
             print(#line, "Timeline got!", self, Date())
-            if newTweets.count != 0 {
+            
                 self.newTweetNumber = newTweets.count
-            }
+            
             self.isDone = true
             self.updateTimelineTop(with: newTweets)
         }
@@ -252,6 +250,8 @@ extension Timeline {
         func finalReloadView() {
             //最后操作，可能需要
             self.isDone = true
+            
+        
             
         }
         func sh(json: JSON) -> () {

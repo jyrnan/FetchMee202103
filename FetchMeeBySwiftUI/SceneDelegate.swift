@@ -51,10 +51,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                   oauthToken: tokenKey,
                                   oauthTokenSecret: tokenSecret)
 
-                window.rootViewController = UIHostingController(rootView: authView.environmentObject(alerts))
+                window.rootViewController = UIHostingController(rootView: authView
+                                                                    .environmentObject(alerts)
+                                                                    )
             } else
             {
-                window.rootViewController = UIHostingController(rootView: authView.environmentObject(alerts))
+                window.rootViewController = UIHostingController(rootView: authView
+                                                                    .environmentObject(alerts)
+                                                                    )
         }
             self.window = window
             window.makeKeyAndVisible()

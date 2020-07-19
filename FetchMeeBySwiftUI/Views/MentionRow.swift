@@ -10,12 +10,13 @@ import SwiftUI
 import Combine
 
 struct MentionRow: View {
+    @EnvironmentObject var alerts: Alerts
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
     var tweetMedia: TweetMedia {self.timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: "")}
     
     @State var presentedUserInfo: Bool = false
-    
+    @State var isShowDetail: Bool = false
     var body: some View {
         VStack {
             HStack(alignment: .center, spacing: 0) {
@@ -45,17 +46,9 @@ struct MentionRow: View {
                 CreatedTimeView(createdTime: self.tweetMedia.created!)
             }
             .onTapGesture {
-                //实现点击出现ToolsVIew快速回复
-                if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
-                    if prev != tweetIDString {
-                        self.timeline.tweetMedias[prev]?.isToolsViewShowed = false
-                    }
-                }
-                withAnimation{
-                    self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle()
-                }
-                self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+                self.isShowDetail = true
             }
+            .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts)}
             Spacer()
             if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
                 ToolsView(timeline: timeline, tweetIDString: tweetIDString)

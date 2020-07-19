@@ -15,35 +15,6 @@ struct Images: View {
     
     var body: some View {
         return containedView()
-        
-        //        GeometryReader {
-        //            geometry in
-        //            HStack(spacing:2) {
-        //                VStack(spacing:2) {
-        //                    if self.images["0"] != nil {
-        //                        imageThumb(uiImage: self.images["0"]!)
-        //                    }
-        //                    if self.images["2"] != nil {
-        //                        imageThumb(uiImage: self.images["2"]!)
-        //                            .frame(height: geometry.size.height / 2)
-        //                    }
-        //                }
-        //                VStack(spacing:2) {
-        //                    if self.images["1"] != nil {
-        //                        imageThumb(uiImage: self.images["1"]!)
-        //                            .frame(width: geometry.size.width / 2)
-        //                    }
-        //
-        //                    if self.images["3"] != nil {
-        //                        imageThumb(uiImage: self.images["3"]!)
-        //                            .frame(height: geometry.size.height / 2)
-        //                    }
-        //                }
-        //            }
-        ////            .frame(width: geometry.size.width, height: geometry.size.height)
-        ////            .aspectRatio(contentMode: .fill)
-        //            .background(Color.black)
-        //        }
     }
     
     func containedView() -> AnyView {
@@ -112,7 +83,7 @@ struct ImageThumb: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: width, height: height, alignment: .center) //直接按照传入的大小进行图片调整。
                 .clipped()
-                
+
             Text(" ") //提供触摸的区域的实现，但是会增加运算，待优化
                 .frame(width: width, height: height, alignment: .center)
                 .background(Color.white.opacity(0.01))
