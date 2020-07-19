@@ -39,6 +39,7 @@ struct TweetsList: View {
             return  AnyView(ForEach(self.timeline.tweetIDStrings, id: \.self) {
                 tweetIDString in
                 TweetRow(timeline: timeline, tweetIDString: tweetIDString)
+                    
             }
             .onDelete { indexSet in
                 print()}

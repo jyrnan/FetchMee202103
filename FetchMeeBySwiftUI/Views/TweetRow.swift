@@ -81,12 +81,13 @@ struct TweetRow: View {
                             .cornerRadius(16)
                             .clipped()
                     }
+//                    ToolsView(timeline: timeline, tweetIDString: tweetIDString)
                 }
             }
             
             Spacer()
             if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
-                ToolsView(timeline: timeline, tweetIDString: tweetIDString)
+                ToolsView(timeline: timeline, tweetIDString: tweetIDString, someToggle: self.$isShowDetail)
             }
             
         }

@@ -51,7 +51,7 @@ struct MentionRow: View {
             .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts)}
             Spacer()
             if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
-                ToolsView(timeline: timeline, tweetIDString: tweetIDString)
+                ToolsView(timeline: timeline, tweetIDString: tweetIDString, someToggle: .constant(true))
             }
         }
             
