@@ -83,16 +83,17 @@ struct ImageThumb: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: width, height: height, alignment: .center) //直接按照传入的大小进行图片调整。
                 .clipped()
-
-            Text(" ") //提供触摸的区域的实现，但是会增加运算，待优化
-                .frame(width: width, height: height, alignment: .center)
-                .background(Color.white.opacity(0.01))
                 .onTapGesture {
                     self.presentedImageViewer = true
                 }
                 .fullScreenCover(isPresented: self.$presentedImageViewer) {
                     ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer)
                 }
+
+//            Text(" ") //提供触摸的区域的实现，但是会增加运算，待优化
+//                .frame(width: width, height: height, alignment: .center)
+//                .background(Color.white.opacity(0.01))
+                
         }
         
     }

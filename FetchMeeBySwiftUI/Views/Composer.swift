@@ -16,22 +16,27 @@ struct Composer: View {
     
     @State var bigEdit: Bool = false
     
-    @Binding var someToggle: Bool
+    @Binding var someToggle: Bool //供灵活使用的触发器值。例如在detailview里面用来传递是否关闭detailView本身的触发值
     
     var body: some View {
         HStack(alignment: .center) {
             TextField("Tweet something here...", text: $tweetText)
-                
+            Divider()
             Button(self.tweetText == "" ? "Tweet" : "Tweet" ) {
                 if self.tweetText != "" {
                     
                     swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
-//                        self.timeline.refreshFromTop()
+                        switch self.timeline.type { //如果是在detail视图则不更新timeline
+                        case .session:
+                            print()
+                        default:
+                            self.timeline.refreshFromTop()
+                        }
                         print(#line, self.tweetIDString as Any)
-                        self.someToggle.toggle()
+                        self.someToggle = false //
                         self.alerts.stripAlert.alertText = "Tweet sent!"
-                        self.alerts.stripAlert.isPresentedAlert.toggle()
-                        
+                        self.alerts.stripAlert.isPresentedAlert = true
+                           
                     })
                     self.tweetText = ""
                     self.hideKeyboard()

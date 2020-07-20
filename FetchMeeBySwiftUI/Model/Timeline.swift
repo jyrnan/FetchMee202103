@@ -15,7 +15,15 @@ final class Timeline: ObservableObject {
     @Published var tweetIDStrings: [String] = []
     @Published var tweetMedias: [String: TweetMedia] = [:]
     @Published var newTweetNumber: Int = 0
-    @Published var isDone: Bool = true
+    @Published var isDone: Bool = true { //设定在更新任务时候状态指示器是否显示，但无论任务是否结束，10秒种后状态指示器消失
+        didSet {
+            delay(delay: 10, closure: {
+                if self.isDone  == false {
+                    self.isDone = true
+                }
+            })
+        }
+    }
     
     var type: TweetListType
     var tweetIDStringOfRowToolsViewShowed: String?
@@ -274,6 +282,13 @@ extension Timeline {
             }
         }
         swifter.getTweet(for: idString, success: sh, failure: failureHandler)
+    }
+}
+
+extension Timeline {
+    func delay(delay: Double, closure: @escaping () -> ()) {
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
 }
 

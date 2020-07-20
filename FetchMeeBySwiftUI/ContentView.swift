@@ -34,7 +34,7 @@ struct ContentView: View {
                     List {
                         PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
                             Composer(timeline: self.home, someToggle: .constant(true))
-                                .offset(y: 4)
+//                                .offset(y: 4)
                         }
 
                         
@@ -114,13 +114,13 @@ struct ContentView: View {
                                             }
                     )
                 }
-                VStack {
+                VStack(spacing: 0) {
                     if self.alerts.stripAlert.isPresentedAlert {
                         AlertView(isAlertShow: self.$alerts.stripAlert.isPresentedAlert, alertText: self.alerts.stripAlert.alertText)
                     }
                     Spacer()
                 }
-                
+                .clipped()
             }
             
         }

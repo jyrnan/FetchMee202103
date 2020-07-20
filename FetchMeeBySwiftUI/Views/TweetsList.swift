@@ -40,12 +40,10 @@ struct TweetsList: View {
                 tweetIDString in
                 TweetRow(timeline: timeline, tweetIDString: tweetIDString)
                     .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.blue.opacity(0.2) : Color.clear)
-//                if userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str {
-//                    self.isMentionedRow = true
-//                }
+                    
             }
             .onDelete { indexSet in
-                print()}
+                print(#line, indexSet)}
             .onMove { indecies, newOffset in
                 print()
             }
