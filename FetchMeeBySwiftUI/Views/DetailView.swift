@@ -44,12 +44,14 @@ struct DetailView: View {
             if self.alerts.stripAlert.isPresentedAlert {
                 AlertView(isAlertShow: self.$alerts.stripAlert.isPresentedAlert, alertText: self.alerts.stripAlert.alertText)
             }
-            Composer(timeline: replySession, tweetIDString: tweetIDString, someToggle: self.$isShowDetail )
+//            Composer(timeline: replySession, tweetIDString: tweetIDString, someToggle: self.$isShowDetail )
             ForEach(replySession.tweetIDStrings, id: \.self) {tweetIDString in
                 TweetRow(timeline: replySession, tweetIDString: tweetIDString, kGuardian: self.kGuardian)
             }
         }
+        .offset( y: self.kGuardian.slide)
         .onAppear {
+            self.kGuardian.addObserver()
             print(#line, "onAppear")
             print(#line, firstTimeRun)
             if self.firstTimeRun {
@@ -60,6 +62,9 @@ struct DetailView: View {
             } else {
                 print(#line, "firstTimeRun is already true")
             }}
+        .onDisappear {
+            self.kGuardian.removeObserver()
+        }
     }
     
 }

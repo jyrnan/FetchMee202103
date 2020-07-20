@@ -86,9 +86,11 @@ func removeObserver() {
             let diff = keyboardRect.minY - tfRect.maxY
 
             if diff > 0 {
-                slide += diff
+//                slide += diff
+                slide = 0
             } else {
                 slide += min(diff, 0)
+                slide -= 80
             }
 
         }
