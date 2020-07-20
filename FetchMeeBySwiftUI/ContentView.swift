@@ -16,6 +16,7 @@ struct ContentView: View {
     
     @ObservedObject var home = Timeline(type: TweetListType.home)
     @ObservedObject var mentions = Timeline(type: TweetListType.mention)
+    @ObservedObject var kGuardian: KeyboardGuardian = KeyboardGuardian(textFieldCount: 1)
     
     @ObservedObject var user: User
     @State var tweetText: String = ""
@@ -60,7 +61,7 @@ struct ContentView: View {
                                     })
                         {
                             if !isHiddenMention {
-                                TweetsList(timeline: self.mentions, tweetListType: TweetListType.mention)
+                                TweetsList(timeline: self.mentions, kGuard: self.kGuardian, tweetListType: TweetListType.mention)
                                 HStack {
                                     Spacer()
                                     Button("More Tweets...") {
@@ -85,7 +86,7 @@ struct ContentView: View {
                                         })
                                     })
                         {
-                            TweetsList(timeline: self.home, tweetListType: TweetListType.home)
+                            TweetsList(timeline: self.home, kGuard: self.kGuardian, tweetListType: TweetListType.home)
                             HStack {
                                 Spacer()
                                 Button("More Tweets...") {
@@ -97,7 +98,9 @@ struct ContentView: View {
                             }
                         }
                     }
-                    
+                    .offset(y: self.kGuardian.slide)
+                    .onAppear{self.kGuardian.addObserver()}
+                .onDisappear { self.kGuardian.removeObserver() }
                     
                     .listStyle(InsetGroupedListStyle())
                     .navigationTitle("FetchMee")

@@ -13,6 +13,8 @@ struct DetailView: View {
     @EnvironmentObject var alerts: Alerts
     
     @ObservedObject var replySession: Timeline = Timeline(type: .session)
+    @ObservedObject var kGuardian: KeyboardGuardian = KeyboardGuardian(textFieldCount: 1)
+    
     var tweetIDString: String
     @State var firstTimeRun: Bool = true
     @Binding var isShowDetail: Bool
@@ -44,7 +46,7 @@ struct DetailView: View {
             }
             Composer(timeline: replySession, tweetIDString: tweetIDString, someToggle: self.$isShowDetail )
             ForEach(replySession.tweetIDStrings, id: \.self) {tweetIDString in
-                TweetRow(timeline: replySession, tweetIDString: tweetIDString)
+                TweetRow(timeline: replySession, tweetIDString: tweetIDString, kGuardian: self.kGuardian)
             }
         }
         .onAppear {

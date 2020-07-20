@@ -13,8 +13,10 @@ struct TweetRow: View {
     @EnvironmentObject var alerts: Alerts
    
     @ObservedObject var timeline: Timeline
+    
     var tweetIDString: String
     var tweetMedia: TweetMedia {self.timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: "")}
+    @ObservedObject var kGuardian: KeyboardGuardian
     
     @State var presentedUserInfo: Bool = false
     @State var isShowDetail: Bool = false
@@ -88,6 +90,7 @@ struct TweetRow: View {
             Spacer()
             if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
                 ToolsView(timeline: timeline, tweetIDString: tweetIDString, someToggle: self.$isShowDetail)
+                    .background(GeometryGetter(rect: self.$kGuardian.rects[0]))
             }
             
         }
@@ -99,7 +102,7 @@ struct TweetRow_Previews: PreviewProvider {
     
     static var previews: some View {
         
-        TweetRow(timeline: Timeline(type: .home), tweetIDString: "")
+        TweetRow(timeline: Timeline(type: .home), tweetIDString: "", kGuardian: KeyboardGuardian(textFieldCount: 1))
         
     }
 }
