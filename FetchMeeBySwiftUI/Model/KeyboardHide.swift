@@ -10,7 +10,11 @@ import SwiftUI
 import Combine
 
 struct GeometryGetter: View {
-    @Binding var rect: CGRect
+    @Binding var rect: CGRect {
+        didSet {
+            print(#line, self.rect)
+        }
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -33,7 +37,11 @@ final class KeyboardGuardian: ObservableObject {
     // this flag makes sure we only act once per keyboard appearance
     public var keyboardIsHidden = true
 
-    @Published var slide: CGFloat = 0
+    @Published var slide: CGFloat = 0 {
+        didSet {
+            print(#line, "slide: \(self.slide)")
+        }
+    }
 
     var showField: Int = 0 {
         didSet {

@@ -20,7 +20,7 @@ enum TweetListType: String {
 struct TweetsList: View {
     @ObservedObject var timeline: Timeline
 //    @ObservedObject var replySession: Timeline = Timeline(type: .session)
-    @ObservedObject var kGuard: KeyboardGuardian
+    @ObservedObject var kGuardian: KeyboardGuardian
     
     @State var presentedModal: Bool = false //用于标志是否显示ModalView，例如Composer
     @State var isShowDetail: Bool = false
@@ -39,7 +39,7 @@ struct TweetsList: View {
         case .home:
             return  AnyView(ForEach(self.timeline.tweetIDStrings, id: \.self) {
                 tweetIDString in
-                TweetRow(timeline: timeline, tweetIDString: tweetIDString, kGuardian: self.kGuard)
+                TweetRow(timeline: timeline, tweetIDString: tweetIDString, kGuardian: self.kGuardian)
                     .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.blue.opacity(0.2) : Color.clear)
                     
             }

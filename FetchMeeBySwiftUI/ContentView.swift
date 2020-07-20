@@ -26,7 +26,7 @@ struct ContentView: View {
     @State var isHiddenMention: Bool = false
     
     @State var refreshIsDone: Bool = false
-
+    
     
     var body: some View {
         NavigationView{
@@ -35,9 +35,9 @@ struct ContentView: View {
                     List {
                         PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
                             Composer(timeline: self.home, someToggle: .constant(true))
-//                                .offset(y: 4)
+                            //                                .offset(y: 4)
                         }
-
+                        
                         
                         Section(header:
                                     HStack {
@@ -61,7 +61,7 @@ struct ContentView: View {
                                     })
                         {
                             if !isHiddenMention {
-                                TweetsList(timeline: self.mentions, kGuard: self.kGuardian, tweetListType: TweetListType.mention)
+                                TweetsList(timeline: self.mentions, kGuardian: self.kGuardian, tweetListType: TweetListType.mention)
                                 HStack {
                                     Spacer()
                                     Button("More Tweets...") {
@@ -86,7 +86,7 @@ struct ContentView: View {
                                         })
                                     })
                         {
-                            TweetsList(timeline: self.home, kGuard: self.kGuardian, tweetListType: TweetListType.home)
+                            TweetsList(timeline: self.home, kGuardian: self.kGuardian, tweetListType: TweetListType.home)
                             HStack {
                                 Spacer()
                                 Button("More Tweets...") {
@@ -99,8 +99,10 @@ struct ContentView: View {
                         }
                     }
                     .offset(y: self.kGuardian.slide)
-                    .onAppear{self.kGuardian.addObserver()}
-                .onDisappear { self.kGuardian.removeObserver() }
+                    .onAppear{
+                        print(#line, "added observer")
+                        self.kGuardian.addObserver()}
+                    .onDisappear { self.kGuardian.removeObserver() }
                     
                     .listStyle(InsetGroupedListStyle())
                     .navigationTitle("FetchMee")

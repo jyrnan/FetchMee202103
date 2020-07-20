@@ -260,7 +260,7 @@ extension Timeline {
         func finalReloadView() {
             //最后操作，可能需要
             self.isDone = true
-            
+            self.tweetMedias[idString]?.isToolsViewShowed = true
         
             
         }
