@@ -36,7 +36,7 @@ struct DetailView: View {
                 TweetRow(timeline: replySession, tweetIDString: tweetIDString, kGuardian: self.kGuardianOfDetailView)
             }
         }
-        .offset( y: self.kGuardianOfDetailView.slide)
+        .offset( y: self.kGuardianOfDetailView.slide).animation(.easeInOut(duration: 0.2))
         .onAppear {
             self.kGuardianOfDetailView.addObserver()
             if self.firstTimeRun {

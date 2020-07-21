@@ -52,7 +52,7 @@ struct TweetsList: View {
             return AnyView(
                 ForEach(self.timeline.tweetIDStrings, id: \.self) {
                     tweetIDString in
-                    MentionRow(timeline: timeline, tweetIDString: tweetIDString)
+                    MentionRow(timeline: timeline, tweetIDString: tweetIDString, kGuardian: self.kGuardian)
                 })
         default:
             return AnyView(EmptyView())

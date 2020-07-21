@@ -14,10 +14,6 @@ struct Composer: View {
     @State var tweetText: String = ""
     var tweetIDString: String?
     
-    @State var bigEdit: Bool = false
-    
-//    @Binding var someToggle: Bool //供灵活使用的触发器值。例如在detailview里面用来传递是否关闭detailView本身的触发值
-    
     var body: some View {
         HStack(alignment: .center) {
             TextField("Tweet something here...", text: $tweetText)

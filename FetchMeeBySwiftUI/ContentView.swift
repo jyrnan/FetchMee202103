@@ -16,7 +16,7 @@ struct ContentView: View {
     
     @ObservedObject var home = Timeline(type: TweetListType.home)
     @ObservedObject var mentions = Timeline(type: TweetListType.mention)
-    @ObservedObject var kGuardian: KeyboardGuardian = KeyboardGuardian(textFieldCount: 1)
+    @ObservedObject var kGuardianOfContentView: KeyboardGuardian = KeyboardGuardian(textFieldCount: 2)
     
     @ObservedObject var user: User
     @State var tweetText: String = ""
@@ -32,6 +32,7 @@ struct ContentView: View {
                     List {
                         PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
                             Composer(timeline: self.home)
+                                .background(GeometryGetter(rect: self.$kGuardianOfContentView.rects[1]))
                         }
                         //Mentions部分章节，
                         Section(header:HStack {
@@ -52,7 +53,7 @@ struct ContentView: View {
                                     }) //两个Button组成，第一个Button能控制是否隐藏内容
                         {
                             if !isHiddenMention {
-                                TweetsList(timeline: self.mentions, kGuardian: self.kGuardian, tweetListType: TweetListType.mention)
+                                TweetsList(timeline: self.mentions, kGuardian: self.kGuardianOfContentView, tweetListType: TweetListType.mention)
                                 HStack {
                                     Spacer()
                                     Button("More Tweets...") {
@@ -77,7 +78,7 @@ struct ContentView: View {
                                         })
                                     })
                         {
-                            TweetsList(timeline: self.home, kGuardian: self.kGuardian, tweetListType: TweetListType.home)
+                            TweetsList(timeline: self.home, kGuardian: self.kGuardianOfContentView, tweetListType: TweetListType.home)
                             HStack {
                                 Spacer()
                                 Button("More Tweets...") {
@@ -88,12 +89,7 @@ struct ContentView: View {
                             } //下方载入更多按钮
                         }
                     }
-                    .offset(y: self.kGuardian.slide)
-                    .onAppear{
-                        print(#line, "added observer")
-                        self.kGuardian.addObserver()}
-                    .onDisappear { self.kGuardian.removeObserver() }
-                    
+                    .offset(y: kGuardianOfContentView.slide).animation(.easeInOut(duration: 0.2))
                     .listStyle(InsetGroupedListStyle())
                     .navigationTitle("FetchMee")
                     .navigationBarItems(trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
@@ -116,6 +112,10 @@ struct ContentView: View {
                 .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
             }
         }
+        .onAppear{
+            print(#line, "added observer")
+            self.kGuardianOfContentView.addObserver()}
+        .onDisappear { self.kGuardianOfContentView.removeObserver() }
     }
 }
 

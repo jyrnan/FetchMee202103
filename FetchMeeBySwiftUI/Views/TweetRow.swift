@@ -76,8 +76,8 @@ struct TweetRow: View {
             } //推文内容
             Spacer()
             if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
-                ToolsView(timeline: timeline, tweetIDString: tweetIDString)
-                    .background(GeometryGetter(rect: self.$kGuardian.rects[0])) //读取ToolView的rect信息
+                ToolsView(timeline: timeline, tweetIDString: tweetIDString, kGuardian: self.kGuardian)
+                    
             }
         }
     }
