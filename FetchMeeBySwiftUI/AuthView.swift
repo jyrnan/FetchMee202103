@@ -15,10 +15,7 @@ struct AuthView: View {
     @ObservedObject var user: User
     
     var body: some View {
-        if self.user.isLoggedIn {
-            ContentView(user: self.user)
-        } else {
-            Button(action: {self.login()}, label: {
+       Button(action: {self.login()}, label: {
                 HStack {
                     Spacer()
                     Image("Logo")
@@ -29,30 +26,9 @@ struct AuthView: View {
                 }
 
             })
-        }
+       
     }
 }
-//extension AuthView {
-//    func checkLogin() -> AnyView {
-//        switch self.user.isLoggedIn {
-//        case false:
-//            return AnyView(Button(action: {self.login()}, label: {
-//                HStack {
-//                    Spacer()
-//                    Image("Logo")
-//                        .resizable()
-//                        .frame(width: 48, height: 48, alignment: .center)
-//                    Text("Press to Login")
-//                    Spacer()
-//                }
-//
-//            }))
-//        case true:
-//            self.readInfo()
-//            return AnyView(ContentView(user: self.user))
-//        }
-//    }
-//}
 
 extension AuthView {
    
