@@ -36,8 +36,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create the SwiftUI view that provides the window contents.
         self.user.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
         
-//        let contentView = ContentView(user: self.user)
-        let authView = AuthView(user: self.user)
+        let contentView = ContentView(user: self.user)
+//        let authView = AuthView(user: self.user)
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
@@ -51,12 +51,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                   oauthToken: tokenKey,
                                   oauthTokenSecret: tokenSecret)
 
-                window.rootViewController = UIHostingController(rootView: authView
+                window.rootViewController = UIHostingController(rootView: contentView
                                                                     .environmentObject(alerts)
                                                                     )
             } else
             {
-                window.rootViewController = UIHostingController(rootView: authView
+                window.rootViewController = UIHostingController(rootView: contentView
                                                                     .environmentObject(alerts)
                                                                     )
         }

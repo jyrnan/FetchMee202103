@@ -17,7 +17,7 @@
 		D270E87D24C01C9100BBD3FE /* ToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87C24C01C9100BBD3FE /* ToolsView.swift */; };
 		D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */; };
 		D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */; };
-		D27DCEBE24B96D5F00520BE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEBD24B96D5F00520BE3 /* ContentView.swift */; };
+		D27DCEBE24B96D5F00520BE3 /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */; };
 		D27DCEC024B96D6100520BE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEBF24B96D6100520BE3 /* Assets.xcassets */; };
 		D27DCEC324B96D6100520BE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEC224B96D6100520BE3 /* Preview Assets.xcassets */; };
 		D27DCEC624B96D6100520BE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEC424B96D6100520BE3 /* LaunchScreen.storyboard */; };
@@ -28,6 +28,7 @@
 		D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFCF24BC29BF005DBC39 /* Composer.swift */; };
 		D286FFD724BC31F0005DBC39 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFD624BC31F0005DBC39 /* UserInfo.swift */; };
 		D286FFE824BD7EC3005DBC39 /* MentionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFE724BD7EC3005DBC39 /* MentionRow.swift */; };
+		D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C45BAB24C6D31B007D67B6 /* ContentView.swift */; };
 		D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = D707B6EC24C4040F0023F243 /* KeyboardHide.swift */; };
 		D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D707B6EE24C44CE10023F243 /* DetailIndicator.swift */; };
 		D7AC535D24B9E94300BCD71F /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AC535C24B9E94300BCD71F /* Timeline.swift */; };
@@ -98,10 +99,10 @@
 		D2224FD224BE901E00AE2110 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedTimeView.swift; sourceTree = "<group>"; };
 		D270E87C24C01C9100BBD3FE /* ToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsView.swift; sourceTree = "<group>"; };
-		D27DCEB624B96D5F00520BE3 /* FetchMeeBySwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FetchMeeBySwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D27DCEB624B96D5F00520BE3 /* FetchMee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FetchMee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D27DCEBD24B96D5F00520BE3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
 		D27DCEBF24B96D6100520BE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D27DCEC224B96D6100520BE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D27DCEC524B96D6100520BE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -112,6 +113,7 @@
 		D286FFCF24BC29BF005DBC39 /* Composer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Composer.swift; sourceTree = "<group>"; };
 		D286FFD624BC31F0005DBC39 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		D286FFE724BD7EC3005DBC39 /* MentionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionRow.swift; sourceTree = "<group>"; };
+		D2C45BAB24C6D31B007D67B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D707B6EC24C4040F0023F243 /* KeyboardHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHide.swift; sourceTree = "<group>"; };
 		D707B6EE24C44CE10023F243 /* DetailIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailIndicator.swift; sourceTree = "<group>"; };
 		D7AC535C24B9E94300BCD71F /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
@@ -146,7 +148,7 @@
 		D27DCEB724B96D5F00520BE3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D27DCEB624B96D5F00520BE3 /* FetchMeeBySwiftUI.app */,
+				D27DCEB624B96D5F00520BE3 /* FetchMee.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -156,7 +158,8 @@
 			children = (
 				D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */,
 				D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */,
-				D27DCEBD24B96D5F00520BE3 /* ContentView.swift */,
+				D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */,
+				D2C45BAB24C6D31B007D67B6 /* ContentView.swift */,
 				D2224FD224BE901E00AE2110 /* AuthView.swift */,
 				D27DCF8A24B9A54500520BE3 /* Views */,
 				D27DCF3C24B98FA600520BE3 /* Model */,
@@ -231,9 +234,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D27DCEB524B96D5F00520BE3 /* FetchMeeBySwiftUI */ = {
+		D27DCEB524B96D5F00520BE3 /* FetchMee */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D27DCECA24B96D6100520BE3 /* Build configuration list for PBXNativeTarget "FetchMeeBySwiftUI" */;
+			buildConfigurationList = D27DCECA24B96D6100520BE3 /* Build configuration list for PBXNativeTarget "FetchMee" */;
 			buildPhases = (
 				D27DCEB224B96D5F00520BE3 /* Sources */,
 				D27DCEB324B96D5F00520BE3 /* Frameworks */,
@@ -244,9 +247,9 @@
 			);
 			dependencies = (
 			);
-			name = FetchMeeBySwiftUI;
+			name = FetchMee;
 			productName = FetchMeeBySwiftUI;
-			productReference = D27DCEB624B96D5F00520BE3 /* FetchMeeBySwiftUI.app */;
+			productReference = D27DCEB624B96D5F00520BE3 /* FetchMee.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -283,7 +286,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				D27DCEB524B96D5F00520BE3 /* FetchMeeBySwiftUI */,
+				D27DCEB524B96D5F00520BE3 /* FetchMee */,
 			);
 		};
 /* End PBXProject section */
@@ -346,6 +349,7 @@
 			files = (
 				D7AC535D24B9E94300BCD71F /* Timeline.swift in Sources */,
 				D205246C24C18AC30046F1AB /* AlertView.swift in Sources */,
+				D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */,
 				D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */,
 				D7AC536E24BB477300BCD71F /* DetailView.swift in Sources */,
 				D7AC536524BAA5A100BCD71F /* TweetsList.swift in Sources */,
@@ -364,7 +368,7 @@
 				D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */,
 				D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */,
 				D7AC536C24BAD91A00BCD71F /* Images.swift in Sources */,
-				D27DCEBE24B96D5F00520BE3 /* ContentView.swift in Sources */,
+				D27DCEBE24B96D5F00520BE3 /* TimelineView.swift in Sources */,
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
 				D27DCF3B24B98F9900520BE3 /* Model.swift in Sources */,
 			);
@@ -506,6 +510,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -514,11 +519,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jyrnan.FetchMee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -528,6 +534,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -536,11 +543,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jyrnan.FetchMee;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -556,7 +564,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D27DCECA24B96D6100520BE3 /* Build configuration list for PBXNativeTarget "FetchMeeBySwiftUI" */ = {
+		D27DCECA24B96D6100520BE3 /* Build configuration list for PBXNativeTarget "FetchMee" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D27DCECB24B96D6100520BE3 /* Debug */,

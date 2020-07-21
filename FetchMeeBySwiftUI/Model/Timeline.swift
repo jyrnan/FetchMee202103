@@ -59,7 +59,7 @@ final class Timeline: ObservableObject {
             print()
 
         default:
-//            self.refreshFromTop()
+            self.refreshFromTop()
             print()
         }
     }
