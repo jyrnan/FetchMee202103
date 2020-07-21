@@ -32,27 +32,27 @@ struct AuthView: View {
         }
     }
 }
-extension AuthView {
-    func checkLogin() -> AnyView {
-        switch self.user.isLoggedIn {
-        case false:
-            return AnyView(Button(action: {self.login()}, label: {
-                HStack {
-                    Spacer()
-                    Image("Logo")
-                        .resizable()
-                        .frame(width: 48, height: 48, alignment: .center)
-                    Text("Press to Login")
-                    Spacer()
-                }
-
-            }))
-        case true:
-            self.readInfo()
-            return AnyView(ContentView(user: self.user))
-        }
-    }
-}
+//extension AuthView {
+//    func checkLogin() -> AnyView {
+//        switch self.user.isLoggedIn {
+//        case false:
+//            return AnyView(Button(action: {self.login()}, label: {
+//                HStack {
+//                    Spacer()
+//                    Image("Logo")
+//                        .resizable()
+//                        .frame(width: 48, height: 48, alignment: .center)
+//                    Text("Press to Login")
+//                    Spacer()
+//                }
+//
+//            }))
+//        case true:
+//            self.readInfo()
+//            return AnyView(ContentView(user: self.user))
+//        }
+//    }
+//}
 
 extension AuthView {
    

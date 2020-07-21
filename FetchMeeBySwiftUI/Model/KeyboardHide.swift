@@ -12,7 +12,7 @@ import Combine
 struct GeometryGetter: View {
     @Binding var rect: CGRect {
         didSet {
-            print(#line, self.rect)
+//            print(#line, self.rect)
         }
     }
     

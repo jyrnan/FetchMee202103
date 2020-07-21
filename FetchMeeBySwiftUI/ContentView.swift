@@ -25,6 +25,12 @@ struct ContentView: View {
     @State var isHiddenMention: Bool = false //用于控制Mentions Section是否隐藏内容
     @State var refreshIsDone: Bool = false
     
+    init(user: User) {
+        self.user = user
+        print(#line, "ContentView \(self)")
+    }
+    
+    
     var body: some View {
         
         NavigationView {
@@ -83,7 +89,9 @@ struct ContentView: View {
                 .offset(y: kGuardian.slide)
                 //                    .animation(.easeInOut(duration: 0.2))
                 .onAppear{print(#line, "added observer")
-                    self.kGuardian.addObserver()}
+                    self.kGuardian.addObserver()
+                    self.refreshAll()
+                }
                 .onDisappear { self.kGuardian.removeObserver() }
                 //                    .listStyle(InsetGroupedListStyle())
                 .navigationTitle("FetchMee")
@@ -110,6 +118,7 @@ struct ContentView: View {
 extension ContentView {
     
     func refreshAll() {
+        print(#line, #function)
         self.home.refreshFromTop()
         self.mentions.refreshFromTop()
     }
