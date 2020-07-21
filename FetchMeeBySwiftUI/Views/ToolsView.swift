@@ -11,7 +11,7 @@ import SwiftUI
 struct ToolsView: View {
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
-    @Binding var someToggle: Bool
+//    @Binding var someToggle: Bool
     var body: some View {
         VStack {
             HStack{
@@ -75,7 +75,7 @@ struct ToolsView: View {
             }.foregroundColor(.gray)
             .padding(.bottom, 10)
                         Divider()
-            Composer(timeline: timeline, tweetIDString: tweetIDString, someToggle: self.$someToggle)
+            Composer(timeline: timeline, tweetIDString: tweetIDString)
                             .padding(.top, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
                             .padding(.bottom, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
             
@@ -86,7 +86,7 @@ struct ToolsView: View {
 
 struct ToolsView_Previews: PreviewProvider {
     static var previews: some View {
-        ToolsView(timeline: Timeline(type: .home), tweetIDString: "", someToggle: .constant(true))
+        ToolsView(timeline: Timeline(type: .home), tweetIDString: "")
             .preferredColorScheme(.light)
     }
 }

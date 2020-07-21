@@ -17,6 +17,7 @@ struct DetailView: View {
     
     var tweetIDString: String
     @State var firstTimeRun: Bool = true
+    
     @Binding var isShowDetail: Bool
     
 //    init(tweetIDString: String) {

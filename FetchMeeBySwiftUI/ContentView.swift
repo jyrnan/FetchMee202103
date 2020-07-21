@@ -34,7 +34,7 @@ struct ContentView: View {
                 if #available(iOS 14.0, *) {
                     List {
                         PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
-                            Composer(timeline: self.home, someToggle: .constant(true))
+                            Composer(timeline: self.home)
                             //                                .offset(y: 4)
                         }
                         

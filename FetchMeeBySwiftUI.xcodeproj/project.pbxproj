@@ -214,9 +214,9 @@
 			children = (
 				D7AC536424BAA5A100BCD71F /* TweetsList.swift */,
 				D286FFE724BD7EC3005DBC39 /* MentionRow.swift */,
+				D7AC536D24BB477300BCD71F /* DetailView.swift */,
 				D27DCF8B24B9A56100520BE3 /* TweetRow.swift */,
 				D7AC536B24BAD91A00BCD71F /* Images.swift */,
-				D7AC536D24BB477300BCD71F /* DetailView.swift */,
 				D7AC536F24BB4AB200BCD71F /* ImageViewer.swift */,
 				D286FFCF24BC29BF005DBC39 /* Composer.swift */,
 				D286FFD624BC31F0005DBC39 /* UserInfo.swift */,

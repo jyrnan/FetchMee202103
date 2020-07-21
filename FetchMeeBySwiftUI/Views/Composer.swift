@@ -16,7 +16,7 @@ struct Composer: View {
     
     @State var bigEdit: Bool = false
     
-    @Binding var someToggle: Bool //供灵活使用的触发器值。例如在detailview里面用来传递是否关闭detailView本身的触发值
+//    @Binding var someToggle: Bool //供灵活使用的触发器值。例如在detailview里面用来传递是否关闭detailView本身的触发值
     
     var body: some View {
         HStack(alignment: .center) {
@@ -28,15 +28,12 @@ struct Composer: View {
                     swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
                         switch self.timeline.type { //如果是在detail视图则不更新timeline
                         case .session:
-                            print()
+                            print(#line, self.tweetIDString as Any)
                         default:
                             self.timeline.refreshFromTop()
-                        }
-                        print(#line, self.tweetIDString as Any)
-                        self.someToggle = false //
-                        self.alerts.stripAlert.alertText = "Tweet sent!"
-                        self.alerts.stripAlert.isPresentedAlert = true
-                           
+                            self.alerts.stripAlert.alertText = "Tweet sent!"
+                            self.alerts.stripAlert.isPresentedAlert = true
+                        }  
                     })
                     self.tweetText = ""
                     self.hideKeyboard()
@@ -57,6 +54,6 @@ extension Composer {
 
 struct Composer_Previews: PreviewProvider {
     static var previews: some View {
-        Composer(timeline: Timeline(type: .home), someToggle: .constant(true))
+        Composer(timeline: Timeline(type: .home))
     }
 }

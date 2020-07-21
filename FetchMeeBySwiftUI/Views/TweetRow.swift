@@ -20,6 +20,7 @@ struct TweetRow: View {
     
     @State var presentedUserInfo: Bool = false
     @State var isShowDetail: Bool = false
+    
     var body: some View {
         VStack() {
             HStack(alignment: .top, spacing: 0) {
@@ -56,8 +57,9 @@ struct TweetRow: View {
                             .onTapGesture {
                                 self.isShowDetail = true
                             }
+                            .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts)}
                    
-                    } .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts)}
+                    } 
                     
                     Text(self.tweetMedia.tweetText ?? "Some tweet text")
                         .font(.body)
@@ -89,7 +91,7 @@ struct TweetRow: View {
             
             Spacer()
             if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
-                ToolsView(timeline: timeline, tweetIDString: tweetIDString, someToggle: self.$isShowDetail)
+                ToolsView(timeline: timeline, tweetIDString: tweetIDString)
                     .background(GeometryGetter(rect: self.$kGuardian.rects[0]))
             }
             
