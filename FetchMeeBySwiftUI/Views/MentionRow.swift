@@ -48,7 +48,7 @@ struct MentionRow: View {
             .onTapGesture {
                 self.isShowDetail = true
             }
-//            .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString ).environmentObject(self.alerts)}
+            .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts)}
             Spacer()
             if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
                 ToolsView(timeline: timeline, tweetIDString: tweetIDString)
