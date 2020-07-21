@@ -16,7 +16,7 @@ struct ContentView: View {
     
     @ObservedObject var home = Timeline(type: TweetListType.home)
     @ObservedObject var mentions = Timeline(type: TweetListType.mention)
-    @ObservedObject var kGuardianOfContentView: KeyboardGuardian = KeyboardGuardian(textFieldCount: 2)
+    @ObservedObject var kGuardian: KeyboardGuardian = KeyboardGuardian(textFieldCount: 2)
     
     @ObservedObject var user: User
     @State var tweetText: String = ""
@@ -26,13 +26,14 @@ struct ContentView: View {
     @State var refreshIsDone: Bool = false
     
     var body: some View {
-        NavigationView{
+        
+        NavigationView {
             ZStack {
-                if #available(iOS 14.0, *) {
+               
                     List {
                         PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
                             Composer(timeline: self.home)
-                                .background(GeometryGetter(rect: self.$kGuardianOfContentView.rects[1]))
+                                .background(GeometryGetter(rect: self.$kGuardian.rects[1]))
                         }
                         //Mentions部分章节，
                         Section(header:HStack {
@@ -47,13 +48,15 @@ struct ContentView: View {
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fit)
                                                     .frame(width: 18, height: 18)
-                                                    .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 4)
+                                                    .padding(.all, 4)
                                             })
                                         }
                                     }) //两个Button组成，第一个Button能控制是否隐藏内容
                         {
                             if !isHiddenMention {
-                                TweetsList(timeline: self.mentions, kGuardian: self.kGuardianOfContentView, tweetListType: TweetListType.mention)
+                                ForEach(self.mentions.tweetIDStrings, id: \.self) {
+                                    tweetIDString in
+                                    MentionRow(timeline: mentions, tweetIDString: tweetIDString, kGuardian: self.kGuardian)}
                                 HStack {
                                     Spacer()
                                     Button("More Tweets...") {
@@ -74,11 +77,17 @@ struct ContentView: View {
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                                 .frame(width: 18, height: 18)
-                                                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 4)
+                                                .padding(.all, 4)
                                         })
                                     })
                         {
-                            TweetsList(timeline: self.home, kGuardian: self.kGuardianOfContentView, tweetListType: TweetListType.home)
+                            ForEach(self.home.tweetIDStrings, id: \.self) {
+                                tweetIDString in
+                                TweetRow(timeline: home, tweetIDString: tweetIDString, kGuardian: self.kGuardian)
+                                    .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.blue.opacity(0.2) : Color.clear) //标注被提及的推文listRowBackground
+                            }
+                            .onDelete { indexSet in print(#line, indexSet)}
+                            .onMove { indecies, newOffset in print()  }
                             HStack {
                                 Spacer()
                                 Button("More Tweets...") {
@@ -89,8 +98,12 @@ struct ContentView: View {
                             } //下方载入更多按钮
                         }
                     }
-                    .offset(y: kGuardianOfContentView.slide).animation(.easeInOut(duration: 0.2))
-                    .listStyle(InsetGroupedListStyle())
+                    .offset(y: kGuardian.slide)
+                    .animation(.easeInOut(duration: 0.2))
+                    .onAppear{print(#line, "added observer")
+                        self.kGuardian.addObserver()}
+                    .onDisappear { self.kGuardian.removeObserver() }
+//                    .listStyle(InsetGroupedListStyle())
                     .navigationTitle("FetchMee")
                     .navigationBarItems(trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
                                             .resizable()
@@ -99,10 +112,7 @@ struct ContentView: View {
                                             .onLongPressGesture {self.alerts.standAlert.isPresentedAlert.toggle() }
                                             .alert(isPresented: self.$alerts.standAlert.isPresentedAlert) {
                                                 Alert(title: Text("LogOut?"), message: nil, primaryButton: .default(Text("Logout"), action: {self.logOut()}), secondaryButton: .cancel())})
-                } else {
-                    // Fallback on earlier versions
-                }
-                
+            
                 VStack(spacing: 0) {
                     if self.alerts.stripAlert.isPresentedAlert {
                         AlertView(isAlertShow: self.$alerts.stripAlert.isPresentedAlert, alertText: self.alerts.stripAlert.alertText)
@@ -112,10 +122,6 @@ struct ContentView: View {
                 .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
             }
         }
-        .onAppear{
-            print(#line, "added observer")
-            self.kGuardianOfContentView.addObserver()}
-        .onDisappear { self.kGuardianOfContentView.removeObserver() }
     }
 }
 

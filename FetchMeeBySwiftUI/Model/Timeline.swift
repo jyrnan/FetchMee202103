@@ -11,6 +11,14 @@ import SwiftUI
 import SwifteriOS
 import Combine
 
+enum TweetListType: String {
+    case home = "Home"
+    case mention = "Mentions"
+    case list
+    case user
+    case session
+}
+
 final class Timeline: ObservableObject {
     @Published var tweetIDStrings: [String] = []
     @Published var tweetMedias: [String: TweetMedia] = [:]
