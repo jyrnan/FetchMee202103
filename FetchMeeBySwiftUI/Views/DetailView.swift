@@ -13,59 +13,37 @@ struct DetailView: View {
     @EnvironmentObject var alerts: Alerts
     
     @ObservedObject var replySession: Timeline = Timeline(type: .session)
-    @ObservedObject var kGuardian: KeyboardGuardian = KeyboardGuardian(textFieldCount: 1)
+    @ObservedObject var kGuardianOfDetailView: KeyboardGuardian = KeyboardGuardian(textFieldCount: 1)
+     var tweetIDString: String //传入DetailView的初始推文
     
-    var tweetIDString: String
     @State var firstTimeRun: Bool = true
-    
-    @Binding var isShowDetail: Bool
-    
-//    init(tweetIDString: String) {
-//        //        self.replySession = replySession
-//        self.tweetIDString = tweetIDString
-//        print(#line, "DetailView created!")
-//    }
-    
+    @Binding var isShowDetail: Bool  //用于绑定页面是否显示的开关，但是目前没有使用
+
     var body: some View {
         List{
-//            if !replySession.isDone {
-//                HStack {
-//                    Spacer()
-//                    ActivityIndicator(isAnimating: self.$replySession.isDone, style: .medium)
-//
-//                    Spacer()
-//                }
-//            }
             HStack{
-                
                 Text("Session").font(.largeTitle).bold()
                 Spacer()
                 ActivityIndicator(isAnimating: self.$replySession.isDone, style: .medium)
-            }.padding(.top, 20)
+            }
+            .padding(.top, 20)
+            
             if self.alerts.stripAlert.isPresentedAlert {
                 AlertView(isAlertShow: self.$alerts.stripAlert.isPresentedAlert, alertText: self.alerts.stripAlert.alertText)
-            }
-//            Composer(timeline: replySession, tweetIDString: tweetIDString, someToggle: self.$isShowDetail )
+            } //Alert视图，待定
+            
             ForEach(replySession.tweetIDStrings, id: \.self) {tweetIDString in
-                TweetRow(timeline: replySession, tweetIDString: tweetIDString, kGuardian: self.kGuardian)
+                TweetRow(timeline: replySession, tweetIDString: tweetIDString, kGuardian: self.kGuardianOfDetailView)
             }
         }
-        .offset( y: self.kGuardian.slide)
+        .offset( y: self.kGuardianOfDetailView.slide)
         .onAppear {
-            self.kGuardian.addObserver()
-            print(#line, "onAppear")
-            print(#line, firstTimeRun)
+            self.kGuardianOfDetailView.addObserver()
             if self.firstTimeRun {
                 self.firstTimeRun = false
-                print(#line, "set firstTimeRun to \(self.firstTimeRun)")
                 self.replySession.getReplyDetail(for: self.tweetIDString)
-                print(#line, "onAppear")
-            } else {
-                print(#line, "firstTimeRun is already true")
-            }}
-        .onDisappear {
-            self.kGuardian.removeObserver()
-        }
+            } else {print(#line, "firstTimeRun is already true")}} //页面出现时执行一次刷新
+        .onDisappear {self.kGuardianOfDetailView.removeObserver()}
     }
     
 }

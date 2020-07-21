@@ -22,7 +22,9 @@ struct Composer: View {
         HStack(alignment: .center) {
             TextField("Tweet something here...", text: $tweetText)
             Divider()
-            Button(self.tweetText == "" ? "Tweet" : "Tweet" ) {
+            Text(self.tweetText == "" ? "Tweet" : "Tweet" )
+                .foregroundColor(self.tweetText == "" ? .gray : .blue )
+                .onTapGesture {
                 if self.tweetText != "" {
                     
                     swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
@@ -41,7 +43,7 @@ struct Composer: View {
                 } else {
                     print(#line, "nothing")
                 }
-            }.disabled(self.tweetText == "")
+            }
         }
     }
 }

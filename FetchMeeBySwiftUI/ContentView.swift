@@ -22,11 +22,8 @@ struct ContentView: View {
     @State var tweetText: String = ""
     
     @State var isFirstRun: Bool = true //设置用于第一次运行刷新的时候标志
-    
-    @State var isHiddenMention: Bool = false
-    
+    @State var isHiddenMention: Bool = false //用于控制Mentions Section是否隐藏内容
     @State var refreshIsDone: Bool = false
-    
     
     var body: some View {
         NavigationView{
@@ -35,19 +32,15 @@ struct ContentView: View {
                     List {
                         PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
                             Composer(timeline: self.home)
-                            //                                .offset(y: 4)
                         }
-                        
-                        
-                        Section(header:
-                                    HStack {
+                        //Mentions部分章节，
+                        Section(header:HStack {
                                         Button(action: { self.isHiddenMention.toggle() },
                                                label: {Text(self.mentions.newTweetNumber == 0 ? "Mentions" : "Mentions \(self.mentions.newTweetNumber)").font(.headline)})
                                         ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
                                         Spacer()
                                         
                                         if !self.isHiddenMention {
-                                            
                                             Button(action: {self.mentions.refreshFromTop()}, label: {
                                                 Image(systemName: "arrow.clockwise")
                                                     .resizable()
@@ -55,10 +48,8 @@ struct ContentView: View {
                                                     .frame(width: 18, height: 18)
                                                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 4)
                                             })
-                                        } else {
-                                            /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
                                         }
-                                    })
+                                    }) //两个Button组成，第一个Button能控制是否隐藏内容
                         {
                             if !isHiddenMention {
                                 TweetsList(timeline: self.mentions, kGuardian: self.kGuardian, tweetListType: TweetListType.mention)
@@ -69,11 +60,11 @@ struct ContentView: View {
                                         .font(.caption)
                                         .foregroundColor(.gray)
                                     Spacer()
-                                }
+                                } //下方载入更多按钮
                             }
                         }
-                        Section(header:
-                                    HStack {
+                        //Homeline部分章节
+                        Section(header:HStack {
                                         Text(self.home.newTweetNumber == 0 ? "Homeline" : "Homeline \(self.home.newTweetNumber)").font(.headline)
                                         ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
                                         Spacer()
@@ -90,12 +81,11 @@ struct ContentView: View {
                             HStack {
                                 Spacer()
                                 Button("More Tweets...") {
-                                    
                                     self.home.refreshFromButtom()}
                                     .font(.caption)
                                     .foregroundColor(.gray)
                                 Spacer()
-                            }
+                            } //下方载入更多按钮
                         }
                     }
                     .offset(y: self.kGuardian.slide)
@@ -110,33 +100,28 @@ struct ContentView: View {
                                             .resizable()
                                             .frame(width: 32, height: 32, alignment: .center)
                                             .clipShape(Circle())
-                                            .onLongPressGesture {
-                                                self.alerts.standAlert.isPresentedAlert.toggle()
-                                            }
+                                            .onLongPressGesture {self.alerts.standAlert.isPresentedAlert.toggle() }
                                             .alert(isPresented: self.$alerts.standAlert.isPresentedAlert) {
-                                                Alert(title: Text("LogOut?"), message: nil, primaryButton: .default(Text("Logout"), action: {self.logOut()})
-                                                      , secondaryButton: .cancel())
-                                            }
-                    )
+                                                Alert(title: Text("LogOut?"), message: nil, primaryButton: .default(Text("Logout"), action: {self.logOut()}), secondaryButton: .cancel())})
+                } else {
+                    // Fallback on earlier versions
                 }
+                
                 VStack(spacing: 0) {
                     if self.alerts.stripAlert.isPresentedAlert {
                         AlertView(isAlertShow: self.$alerts.stripAlert.isPresentedAlert, alertText: self.alerts.stripAlert.alertText)
                     }
                     Spacer()
-                }
-                .clipped()
+                } //通知视图
+                .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
             }
-            
         }
-        
     }
 }
 
 extension ContentView {
     
     func refreshAll() {
-        
         self.home.refreshFromTop()
         self.mentions.refreshFromTop()
     }
@@ -149,12 +134,6 @@ extension ContentView {
         print(#line)
     }
 }
-
-//extension View {
-//    func hideKeyboard() {
-//        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-//    }
-//}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
