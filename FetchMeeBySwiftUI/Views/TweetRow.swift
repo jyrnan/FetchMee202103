@@ -71,16 +71,16 @@ struct TweetRow: View {
                             .cornerRadius(16)
                             .clipped()
                     } //推文图片显示区域
-                    Spacer()
-                    if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
-                        ToolsView(timeline: timeline, tweetIDString: tweetIDString)
-                    }
+//                    Spacer()
+//                    if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
+//                        ToolsView(timeline: timeline, tweetIDString: tweetIDString)
+//                    }
                 }
             } //推文内容
-//            Spacer()
-//            if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
-//                ToolsView(timeline: timeline, tweetIDString: tweetIDString, kGuardian: self.kGuardian)
-//            }
+            Spacer()
+            if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
+                ToolsView(timeline: timeline, tweetIDString: tweetIDString)
+            }
         }
     }
 }

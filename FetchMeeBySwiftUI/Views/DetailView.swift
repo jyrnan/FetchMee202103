@@ -13,7 +13,6 @@ struct DetailView: View {
     @EnvironmentObject var alerts: Alerts
     
     @ObservedObject var replySession: Timeline = Timeline(type: .session)
-    @ObservedObject var kGuardianOfDetailView: KeyboardGuardian = KeyboardGuardian(textFieldCount: 1)
      var tweetIDString: String //传入DetailView的初始推文
     
     @State var firstTimeRun: Bool = true
@@ -27,6 +26,7 @@ struct DetailView: View {
                 ActivityIndicator(isAnimating: self.$replySession.isDone, style: .medium)
             }
             .padding(.top, 20)
+            Composer(timeline: self.replySession, tweetIDString: self.tweetIDString)
             
             if self.alerts.stripAlert.isPresentedAlert {
                 AlertView(isAlertShow: self.$alerts.stripAlert.isPresentedAlert, alertText: self.alerts.stripAlert.alertText)
@@ -35,18 +35,13 @@ struct DetailView: View {
             ForEach(replySession.tweetIDStrings, id: \.self) {tweetIDString in
                 TweetRow(timeline: replySession, tweetIDString: tweetIDString)
             }
-            Composer(timeline: self.replySession, tweetIDString: self.tweetIDString)
-                .background(GeometryGetter(rect: self.$kGuardianOfDetailView.rects[0]))
+            
         }
-        .offset( y: self.kGuardianOfDetailView.slide)
-        .animation(.easeInOut(duration: 0.2))
         .onAppear {
-            self.kGuardianOfDetailView.addObserver()
             if self.firstTimeRun {
                 self.firstTimeRun = false
                 self.replySession.getReplyDetail(for: self.tweetIDString)
             } else {print(#line, "firstTimeRun is already true")}} //页面出现时执行一次刷新
-        .onDisappear {self.kGuardianOfDetailView.removeObserver()}
     }
     
 }

@@ -73,9 +73,13 @@ struct ToolsView: View {
                     }
                 
             }.foregroundColor(.gray)
-            .padding(.bottom, 10)  
+            
+            Divider()
+            Composer(timeline: self.timeline, tweetIDString: self.tweetIDString)
+                .padding(.top, 10)
+                .padding(.bottom, 10)
         }
-        
+        .font(.body)
     }
 }
 
