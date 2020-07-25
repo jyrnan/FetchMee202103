@@ -16,7 +16,6 @@ struct TweetRow: View {
     var tweetIDString: String
     var tweetMedia: TweetMedia {self.timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: "")} //生成一个计算属性用来简化
     
-    @ObservedObject var kGuardian: KeyboardGuardian
     
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
     @State var isShowDetail: Bool = false //控制显示推文详情页面
@@ -72,13 +71,16 @@ struct TweetRow: View {
                             .cornerRadius(16)
                             .clipped()
                     } //推文图片显示区域
+                    Spacer()
+                    if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
+                        ToolsView(timeline: timeline, tweetIDString: tweetIDString)
+                    }
                 }
             } //推文内容
-            Spacer()
-            if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
-                ToolsView(timeline: timeline, tweetIDString: tweetIDString, kGuardian: self.kGuardian)
-                    
-            }
+//            Spacer()
+//            if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
+//                ToolsView(timeline: timeline, tweetIDString: tweetIDString, kGuardian: self.kGuardian)
+//            }
         }
     }
 }
@@ -86,6 +88,6 @@ struct TweetRow: View {
 
 struct TweetRow_Previews: PreviewProvider {
     static var previews: some View {
-        TweetRow(timeline: Timeline(type: .home), tweetIDString: "", kGuardian: KeyboardGuardian(textFieldCount: 1))
+        TweetRow(timeline: Timeline(type: .home), tweetIDString: "")
     }
 }

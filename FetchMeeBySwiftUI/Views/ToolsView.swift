@@ -12,8 +12,6 @@ struct ToolsView: View {
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
     
-    @ObservedObject var kGuardian: KeyboardGuardian
-    
     var body: some View {
         VStack {
             HStack{
@@ -75,13 +73,7 @@ struct ToolsView: View {
                     }
                 
             }.foregroundColor(.gray)
-            .padding(.bottom, 10)
-            Divider()
-            Composer(timeline: timeline, tweetIDString: tweetIDString)
-                .padding(.top, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-                .padding(.bottom, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-                .background(GeometryGetter(rect: self.$kGuardian.rects[0])) //读取ToolView里面的ComposerView的rect信息
-            
+            .padding(.bottom, 10)  
         }
         
     }
@@ -89,7 +81,7 @@ struct ToolsView: View {
 
 struct ToolsView_Previews: PreviewProvider {
     static var previews: some View {
-        ToolsView(timeline: Timeline(type: .home), tweetIDString: "", kGuardian: KeyboardGuardian(textFieldCount: 1))
+        ToolsView(timeline: Timeline(type: .home), tweetIDString: "")
             .preferredColorScheme(.light)
     }
 }

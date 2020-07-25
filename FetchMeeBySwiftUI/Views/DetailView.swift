@@ -33,10 +33,13 @@ struct DetailView: View {
             } //Alert视图，待定
             
             ForEach(replySession.tweetIDStrings, id: \.self) {tweetIDString in
-                TweetRow(timeline: replySession, tweetIDString: tweetIDString, kGuardian: self.kGuardianOfDetailView)
+                TweetRow(timeline: replySession, tweetIDString: tweetIDString)
             }
+            Composer(timeline: self.replySession, tweetIDString: self.tweetIDString)
+                .background(GeometryGetter(rect: self.$kGuardianOfDetailView.rects[0]))
         }
-        .offset( y: self.kGuardianOfDetailView.slide).animation(.easeInOut(duration: 0.2))
+        .offset( y: self.kGuardianOfDetailView.slide)
+        .animation(.easeInOut(duration: 0.2))
         .onAppear {
             self.kGuardianOfDetailView.addObserver()
             if self.firstTimeRun {
