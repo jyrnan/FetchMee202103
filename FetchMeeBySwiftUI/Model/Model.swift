@@ -21,7 +21,8 @@ struct TweetMedia: Identifiable {
     var avatarUrlString: String?
     var avatar: UIImage? = UIImage(systemName: "person.fill")
     
-    var tweetText: String?
+    var replyUsers: [String] = []
+    var tweetText: [String] = []
     var created: String?
     
     var urlStrings: [String]?

@@ -16,7 +16,7 @@ struct Composer: View {
     
     var body: some View {
         HStack(alignment: .center) {
-            TextField("Tweet something here...", text: $tweetText)
+            TextField("Tweet something here...", text: $tweetText).font(.body)
             Divider()
             Text(self.tweetText == "" ? "Tweet" : "Tweet" )
                 .foregroundColor(self.tweetText == "" ? .gray : .blue )

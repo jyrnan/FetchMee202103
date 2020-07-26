@@ -148,10 +148,12 @@ final class Timeline: ObservableObject {
             //生产对应推文的媒体数据字典，根据推文IDString进行索引
             var tweetMedia = TweetMedia(id: newTweets[i]["id_str"].string!)
             
+            tweetMedia.userIDString = newTweets[i]["user"]["id_str"].string!
             tweetMedia.userName = newTweets[i]["user"]["name"].string!
             tweetMedia.screenName = newTweets[i]["user"]["screen_name"].string!
-            tweetMedia.tweetText = newTweets[i]["text"].string!
-            tweetMedia.userIDString = newTweets[i]["user"]["id_str"].string!
+            
+            tweetMedia.replyUsers = self.convertTweetText(from: newTweets[i]["text"].string!).0
+            tweetMedia.tweetText = self.convertTweetText(from: newTweets[i]["text"].string!).1
             
             tweetMedia.avatarUrlString = newTweets[i]["user"]["profile_image_url_https"].string!
             tweetMedia.avatarUrlString = tweetMedia.avatarUrlString?.replacingOccurrences(of: "_normal", with: "")
@@ -184,6 +186,24 @@ final class Timeline: ObservableObject {
         }
         
         return newTweetIDStrings
+    }
+    
+    func convertTweetText(from originalTweetText: String) -> ([String], [String]) {
+        var replyUsers: [String] = []
+        var tweetText: [String] = []
+        
+        tweetText = originalTweetText.split(separator: " ").map{String($0)}
+        
+        for string in tweetText {
+            if string.first != "@" {
+                break
+            }
+            replyUsers.append(string)
+        }
+        if !replyUsers.isEmpty {
+            tweetText.removeFirst(replyUsers.count)
+        }
+        return (replyUsers, tweetText)
     }
     
     func avatarDownloader(from urlString: String, setTo idString: String) -> () -> () {

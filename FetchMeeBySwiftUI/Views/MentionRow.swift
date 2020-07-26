@@ -37,7 +37,7 @@ struct MentionRow: View {
                         UserInfo()
                     }
                 
-                Text(self.removeReplier(from: self.tweetMedia.tweetText) )
+                TweetTextView(tweetText: tweetMedia.tweetText )
                     .lineLimit(2)
                     .font(.body)
                     .fixedSize(horizontal: false, vertical: true)
