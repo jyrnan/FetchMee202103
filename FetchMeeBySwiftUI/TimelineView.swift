@@ -22,9 +22,12 @@ struct TimelineView: View {
 
     @State var refreshIsDone: Bool = false
     
+    @State var keyboardHeight: CGFloat = 0
+    
     init(user: User) {
         self.user = user
         print(#line, "ContentView \(self)")
+        
     }
     
     
@@ -78,7 +81,13 @@ struct TimelineView: View {
                                 Spacer()
                             } //下方载入更多按钮
                         }
+                        
                     }
+                    .onReceive(Publishers.keyboardHeight) {
+                        self.keyboardHeight = $0
+                        print(#line, self.keyboardHeight)
+                    }
+                    .offset(y: self.keyboardHeight != 0 ? -1 : 0)
                     .navigationBarTitle("FetchMee")
                     .navigationBarItems(trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
                                             .resizable()

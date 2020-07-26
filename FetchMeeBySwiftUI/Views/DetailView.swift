@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 
 struct DetailView: View {
@@ -17,7 +18,7 @@ struct DetailView: View {
     
     @State var firstTimeRun: Bool = true
     @Binding var isShowDetail: Bool  //用于绑定页面是否显示的开关，但是目前没有使用
-
+    @State var keyboardHeight: CGFloat = 0
     var body: some View {
         List{
             HStack{
@@ -26,7 +27,6 @@ struct DetailView: View {
                 ActivityIndicator(isAnimating: self.$replySession.isDone, style: .medium)
             }
             .padding(.top, 20)
-            Composer(timeline: self.replySession, tweetIDString: self.tweetIDString)
             
             if self.alerts.stripAlert.isPresentedAlert {
                 AlertView(isAlertShow: self.$alerts.stripAlert.isPresentedAlert, alertText: self.alerts.stripAlert.alertText)
@@ -35,8 +35,13 @@ struct DetailView: View {
             ForEach(replySession.tweetIDStrings, id: \.self) {tweetIDString in
                 TweetRow(timeline: replySession, tweetIDString: tweetIDString)
             }
-            
+            Composer(timeline: self.replySession, tweetIDString: self.tweetIDString)
         }
+        .onReceive(Publishers.keyboardHeight) {
+            self.keyboardHeight = $0
+            print(#line, self.keyboardHeight)
+        }
+        .offset(y: self.keyboardHeight != 0 ? -1 : 0)
         .onAppear {
             if self.firstTimeRun {
                 self.firstTimeRun = false

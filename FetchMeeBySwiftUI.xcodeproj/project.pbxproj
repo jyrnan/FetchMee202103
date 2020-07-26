@@ -28,6 +28,7 @@
 		D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFCF24BC29BF005DBC39 /* Composer.swift */; };
 		D286FFD724BC31F0005DBC39 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFD624BC31F0005DBC39 /* UserInfo.swift */; };
 		D286FFE824BD7EC3005DBC39 /* MentionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFE724BD7EC3005DBC39 /* MentionRow.swift */; };
+		D290E6E624CD1ED100662FAF /* KeyBoard Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D290E6E524CD1ED100662FAF /* KeyBoard Notification.swift */; };
 		D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C45BAB24C6D31B007D67B6 /* ContentView.swift */; };
 		D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = D707B6EC24C4040F0023F243 /* KeyboardHide.swift */; };
 		D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D707B6EE24C44CE10023F243 /* DetailIndicator.swift */; };
@@ -113,6 +114,7 @@
 		D286FFCF24BC29BF005DBC39 /* Composer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Composer.swift; sourceTree = "<group>"; };
 		D286FFD624BC31F0005DBC39 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		D286FFE724BD7EC3005DBC39 /* MentionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionRow.swift; sourceTree = "<group>"; };
+		D290E6E524CD1ED100662FAF /* KeyBoard Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyBoard Notification.swift"; sourceTree = "<group>"; };
 		D2C45BAB24C6D31B007D67B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D707B6EC24C4040F0023F243 /* KeyboardHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHide.swift; sourceTree = "<group>"; };
 		D707B6EE24C44CE10023F243 /* DetailIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailIndicator.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				D205247324C199500046F1AB /* AlertsModel.swift */,
 				D205247524C290F10046F1AB /* PullRefresh.swift */,
 				D707B6EC24C4040F0023F243 /* KeyboardHide.swift */,
+				D290E6E524CD1ED100662FAF /* KeyBoard Notification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D290E6E624CD1ED100662FAF /* KeyBoard Notification.swift in Sources */,
 				D7AC535D24B9E94300BCD71F /* Timeline.swift in Sources */,
 				D205246C24C18AC30046F1AB /* AlertView.swift in Sources */,
 				D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */,
