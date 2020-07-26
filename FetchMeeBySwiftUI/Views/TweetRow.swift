@@ -55,7 +55,7 @@ struct TweetRow: View {
                     Text(self.tweetMedia.tweetText ?? "Some tweet text")
                         .font(.body)
                         .padding(.top, 8)
-                        .padding(.bottom, 8)
+                        .padding(.bottom, 16)
                         .fixedSize(horizontal: false, vertical: true)
                         .onTapGesture {
                             if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
@@ -64,12 +64,14 @@ struct TweetRow: View {
                             withAnimation {self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle() }
                             self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
                         } //实现点击出现ToolsVIew快速回复
-                    
+
                     if tweetMedia.images.count != 0 {
                         Images(images: self.tweetMedia.images)
                             .frame(height: 160, alignment: .center)
                             .cornerRadius(16)
                             .clipped()
+                            .padding(.top, 16)
+                            .padding(.bottom, 16)
                     } //推文图片显示区域
 //                    Spacer()
 //                    if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
@@ -85,6 +87,9 @@ struct TweetRow: View {
     }
 }
 
+extension TweetRow {
+    
+}
 
 struct TweetRow_Previews: PreviewProvider {
     static var previews: some View {
