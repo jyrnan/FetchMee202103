@@ -15,12 +15,20 @@ struct TweetTextView: View {
     var body: some View {
         Group {
             () -> AnyView in
-            var textView = Text("").foregroundColor(.primary)
+            guard self.tweetText.count > 1 else {
+                return AnyView(Text(self.tweetText.first ?? "")
+                                .foregroundColor(self.tweetText.first?.first == "#" ? .blue : .primary))
+            }
+            //手动把字符串组第一个设置成初始View，然后开始循环添加后续的字串，可以避免多添加一个空格
+            var textView = Text(self.tweetText.first!)
+                .foregroundColor(self.tweetText.first?.first == "#" ? .blue : .primary)
+            self.tweetText.dropFirst()
             for string in self.tweetText {
                 textView = textView
-                    + Text(" ")
+                + Text(" ")
                 + Text(string)
                     .foregroundColor(string.first == "#" ? .blue : .primary)
+                
             }
             
            return AnyView(textView)

@@ -52,9 +52,7 @@ struct TweetRow: View {
                             .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts)}
                         } //用户名和创建时间以及详情页面点点点等信息
                     if tweetMedia.replyUsers.count != 0 {
-                        Text("Replying to ").foregroundColor(.gray).font(.body)
-                            + Text(tweetMedia.replyUsers.joined(separator: " "))
-                            .foregroundColor(.blue).font(.body)
+                        ReplyUsersView(replyUsers: tweetMedia.replyUsers)
                     }
                     TweetTextView(tweetText: tweetMedia.tweetText)
                         .font(.body)
