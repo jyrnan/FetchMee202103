@@ -13,6 +13,7 @@ import PhotosUI
 
 //封装的数据格式，返回两个值
 struct ImageData {
+    var id = UUID()
     var image: UIImage?
     var data: Data?
 }
