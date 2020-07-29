@@ -13,70 +13,67 @@ struct ComposerMoreView: View {
     @Binding var isShowCMV: Bool
     
     @State var tweetText: String = "Please input something here..."
-    @State var medias: [ImageData] = [ImageData()] {
+    @State var medias: [ImageData] = [] {
         didSet {
             
         }
     }
     
     @State var isShowPhotoPicker: Bool = false
+    @State var isShowAddPic: Bool = true
     var body: some View {
         NavigationView {
-            HStack(alignment: .top) {
-                Image(systemName: "person.circle.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 42, height: 42, alignment: .center).padding(.leading, 18).padding(.top, 10)
-                VStack {
-                    if #available(iOS 14.0, *) {
-                        TextEditor(text: self.$tweetText).frame(minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxHeight: 200, alignment: .center).padding(.top, 10)
-                    } else {
-                        // Fallback on earlier versions
-                    }
-                    Divider()
-                    HStack {
-                        ForEach(self.medias, id: \.id) {
-                            imageData in
-                            //                            if imageData.image != nil {
-                            //                            PhotoPickerIconView(imageData: self.$medias[(self.medias.firstIndex {imageData.id == $0.id} ?? 0)])
-                            //                            }
-                            Image(uiImage: (imageData.image ?? UIImage(systemName: "photo"))!)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 64, height: 64, alignment: .center).cornerRadius(8)
-                                .onTapGesture {
-                                    if imageData.image == nil {
-                                        self.isShowPhotoPicker = true
-                                    } else {
-                                        self.medias.remove(at: self.medias.firstIndex {imageData.id == $0.id} ?? 0)
-//                                        if self.medias.count == 3 {
-//                                            self.medias.append(ImageData())
-//                                        }
-                                    }
-                                }
-                                
-                                
-                                .sheet(isPresented: self.$isShowPhotoPicker,onDismiss: {
-                                    if self.medias.count < 4 { self.medias.append(ImageData())}
-                                }){PhotoPicker(imageData: self.$medias[self.medias.count - 1], isShowPhotoPicker: self.$isShowPhotoPicker)}
-                        }
-                        //                        if self.medias.count <= 4 {
-                        //                            Text("+ Picture").onTapGesture {
-                        //                                self.medias.append(ImageData())
-                        //                                self.isShowPhotoPicker = true
-                        //                            }
-                        //                            .sheet(isPresented: self.$isShowPhotoPicker) {
-                        //                                PhotoPicker(imageData: self.$medias[self.medias.count - 1], isShowPhotoPicker: self.$isShowPhotoPicker)
-                        //                            }
-                        //                        }
+            if #available(iOS 14.0, *) {
+                HStack(alignment: .top) {
+                    Image(systemName: "person.circle.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 42, height: 42, alignment: .center).padding(.leading, 18).padding(.top, 10)
+                    VStack {
                         
+                        TextEditor(text: self.$tweetText).frame(minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxHeight: 200, alignment: .center).padding(.top, 10)
+                        
+                        Divider()
+                        HStack {
+                            ForEach(self.medias, id: \.id) {
+                                imageData in
+                                Image(uiImage: (imageData.image ?? UIImage(systemName: "photo"))!)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 64, height: 64, alignment: .center).cornerRadius(8)
+                                    .onTapGesture {
+                                        //点击图片则删除该图片数据
+                                            self.medias.remove(at: self.medias.firstIndex {imageData.id == $0.id} ?? 0)
+                                        //删除图片后将增加图片的按钮显示出来
+                                            self.isShowAddPic = true
+                                        
+                                    }
+                            }
+                            if self.isShowAddPic {
+                                Text("+ Picture").onTapGesture {
+                                    self.medias.append(ImageData())
+                                    self.isShowPhotoPicker = true
+                                }
+                                .sheet(isPresented: self.$isShowPhotoPicker, onDismiss: {
+                                    if self.medias.count == 4 { //选择图片视图消失后检查是否已经有四张选择，如果是则设置增加图片按钮不显示
+                                        self.isShowAddPic = false
+                                    }
+                                    if self.medias.last?.image == nil {
+                                        self.medias.removeLast() //如果选择图片的时候选择了取消，也就是最后一个图片数据依然是nil，则移除该数据
+                                    }
+                                }) {
+                                    PhotoPicker(imageData: self.$medias[self.medias.count - 1], isShowPhotoPicker: self.$isShowPhotoPicker)
+                                }
+                            }
+                            
+                            Spacer()
+                        }
                         Spacer()
                     }
-                    Spacer()
                 }
-                
+                .navigationTitle("Tweet")
+            } else {
+                // Fallback on earlier versions
             }
-            .navigationTitle("Tweet")
         }
-        
-        
+          
     }
 }
 
