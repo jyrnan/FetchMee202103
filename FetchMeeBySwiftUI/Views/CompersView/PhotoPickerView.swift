@@ -57,14 +57,13 @@ struct PhotoPicker: UIViewControllerRepresentable {
         }
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            var imageData = ImageData()
             
             let _ = info[.phAsset] as? PHAsset
             let _ = info[.imageURL] as? URL
             let im = info[.originalImage] as? UIImage
             if let imurl = info[.imageURL] as? URL {
                 if let data = try? Data(contentsOf: imurl) {
-                    imageData.data = data
+                    self.imageData.data.wrappedValue = data
                 }
             }
             self.imageData.image.wrappedValue = im

@@ -13,7 +13,7 @@ struct Composer: View {
     @ObservedObject var timeline : Timeline
     @State var tweetText: String = ""
     
-    @State var isShowCMV: Bool = false
+    @State var isShowCMV: Bool = false  //是否显示详细新推文视图
         
     var tweetIDString: String?
     
