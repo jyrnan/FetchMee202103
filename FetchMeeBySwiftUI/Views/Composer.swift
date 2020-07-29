@@ -12,11 +12,23 @@ struct Composer: View {
     @EnvironmentObject var alerts: Alerts
     @ObservedObject var timeline : Timeline
     @State var tweetText: String = ""
+    
+    @State var isShowCMV: Bool = false
+        
     var tweetIDString: String?
+    
     
     var body: some View {
         HStack(alignment: .center) {
             TextField("Tweet something here...", text: $tweetText).font(.body)
+            Spacer()
+//            Text("More").font(.body).foregroundColor(.gray)
+            Image(systemName: "photo").resizable().aspectRatio(contentMode: .fit).frame(width: 16, height: 16, alignment: .center).foregroundColor(.gray)
+                .onTapGesture {self.isShowCMV = true }
+                .sheet(isPresented: self.$isShowCMV) {
+                    ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.tweetText)
+                }
+            
             Divider()
             Text(self.tweetText == "" ? "Tweet" : "Tweet" )
                 .foregroundColor(self.tweetText == "" ? .gray : .blue )

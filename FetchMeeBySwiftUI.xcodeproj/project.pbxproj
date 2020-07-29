@@ -32,6 +32,7 @@
 		D2946F2724CD6C8100F8A7C6 /* TweetTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2946F2624CD6C8100F8A7C6 /* TweetTextView.swift */; };
 		D2946F2E24CD802C00F8A7C6 /* ReplyUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2946F2D24CD802C00F8A7C6 /* ReplyUsersView.swift */; };
 		D297390024D1182600917A97 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29738FF24D1182600917A97 /* PhotoPickerView.swift */; };
+		D297390224D11A0800917A97 /* ComposerMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D297390124D11A0800917A97 /* ComposerMoreView.swift */; };
 		D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C45BAB24C6D31B007D67B6 /* ContentView.swift */; };
 		D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = D707B6EC24C4040F0023F243 /* KeyboardHide.swift */; };
 		D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D707B6EE24C44CE10023F243 /* DetailIndicator.swift */; };
@@ -121,6 +122,7 @@
 		D2946F2624CD6C8100F8A7C6 /* TweetTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTextView.swift; sourceTree = "<group>"; };
 		D2946F2D24CD802C00F8A7C6 /* ReplyUsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyUsersView.swift; sourceTree = "<group>"; };
 		D29738FF24D1182600917A97 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
+		D297390124D11A0800917A97 /* ComposerMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerMoreView.swift; sourceTree = "<group>"; };
 		D2C45BAB24C6D31B007D67B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D707B6EC24C4040F0023F243 /* KeyboardHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHide.swift; sourceTree = "<group>"; };
 		D707B6EE24C44CE10023F243 /* DetailIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailIndicator.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				D7AC536B24BAD91A00BCD71F /* Images.swift */,
 				D7AC536F24BB4AB200BCD71F /* ImageViewer.swift */,
 				D286FFCF24BC29BF005DBC39 /* Composer.swift */,
+				D297390124D11A0800917A97 /* ComposerMoreView.swift */,
 				D286FFD624BC31F0005DBC39 /* UserInfo.swift */,
 				D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */,
 				D270E87C24C01C9100BBD3FE /* ToolsView.swift */,
@@ -361,6 +364,7 @@
 			files = (
 				D290E6E624CD1ED100662FAF /* KeyBoard Notification.swift in Sources */,
 				D7AC535D24B9E94300BCD71F /* Timeline.swift in Sources */,
+				D297390224D11A0800917A97 /* ComposerMoreView.swift in Sources */,
 				D205246C24C18AC30046F1AB /* AlertView.swift in Sources */,
 				D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */,
 				D2946F2E24CD802C00F8A7C6 /* ReplyUsersView.swift in Sources */,
