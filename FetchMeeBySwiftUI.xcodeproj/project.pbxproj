@@ -15,6 +15,7 @@
 		D2224FD324BE901E00AE2110 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224FD224BE901E00AE2110 /* AuthView.swift */; };
 		D241A73C24D25FEF003FC884 /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D241A73324D25F5C003FC884 /* SwifteriOS.framework */; };
 		D241A73D24D25FEF003FC884 /* SwifteriOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D241A73324D25F5C003FC884 /* SwifteriOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDD924D2CEED00682B99 /* SafariView.swift */; };
 		D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */; };
 		D270E87D24C01C9100BBD3FE /* ToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87C24C01C9100BBD3FE /* ToolsView.swift */; };
 		D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */; };
@@ -104,6 +105,7 @@
 		D2224F9024BE7FE400AE2110 /* Swifter+Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swifter+Observable.swift"; sourceTree = "<group>"; };
 		D2224FD224BE901E00AE2110 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		D241A72A24D25F5C003FC884 /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = ../Swifter/Swifter.xcodeproj; sourceTree = "<group>"; };
+		D262FDD924D2CEED00682B99 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedTimeView.swift; sourceTree = "<group>"; };
 		D270E87C24C01C9100BBD3FE /* ToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsView.swift; sourceTree = "<group>"; };
 		D27DCEB624B96D5F00520BE3 /* FetchMee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FetchMee.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -242,6 +244,7 @@
 				D707B6EE24C44CE10023F243 /* DetailIndicator.swift */,
 				D2946F2624CD6C8100F8A7C6 /* TweetTextView.swift */,
 				D2946F2D24CD802C00F8A7C6 /* ReplyUsersView.swift */,
+				D262FDD924D2CEED00682B99 /* SafariView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				D2224F8A24BE7C0400AE2110 /* User.swift in Sources */,
 				D7AC537024BB4AB200BCD71F /* ImageViewer.swift in Sources */,
 				D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */,
+				D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */,
 				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,
 				D297390024D1182600917A97 /* PhotoPickerView.swift in Sources */,
 				D270E87D24C01C9100BBD3FE /* ToolsView.swift in Sources */,

@@ -27,7 +27,7 @@ struct TweetTextView: View {
                 textView = textView
                 + Text(" ")
                 + Text(string)
-                    .foregroundColor(string.first == "#" ? .blue : .primary)
+                    .foregroundColor(string.first == "#" || string.starts(with: "https") ? .blue : .primary)
             }
 //            var textView = Text("")
 //            for string in self.tweetText {

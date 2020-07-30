@@ -101,7 +101,7 @@ struct ComposerMoreView: View {
                 }
                 .listStyle(InsetGroupedListStyle())
                 .onAppear() {
-                    UITextView.appearance().backgroundColor = .clear
+                    UITextView.appearance().backgroundColor = .clear // 让TextEditor的背景是透明色
                 }
                
             } else {

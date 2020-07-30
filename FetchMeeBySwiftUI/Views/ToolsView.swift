@@ -12,6 +12,8 @@ struct ToolsView: View {
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
     
+    @State var isShowSafari: Bool = false
+    @State var url: URL = URL(string: "https://www.twitter.com")!
     var body: some View {
         VStack {
             HStack{
@@ -69,8 +71,15 @@ struct ToolsView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 18, height: 18, alignment: .center)
                     .onTapGesture {
-                        print()
+                        if let screenName = self.timeline.tweetMedias[tweetIDString]?.screenName {
+                            self.url = URL(string: "https://twitter.com/\(screenName)/status/\(tweetIDString)")!
+                        }
+                        print(#line, self.url)
+                        self.isShowSafari = true
                     }
+                    .sheet(isPresented: self.$isShowSafari, content: {
+                        SafariView(url: self.$url)
+                    })
                 
             }.foregroundColor(.gray)
             
