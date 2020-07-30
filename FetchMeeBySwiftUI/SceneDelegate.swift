@@ -23,7 +23,7 @@ let session = URLSession.shared
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    @ObservedObject var user: User = User()
+    var user: User = User()
     var alerts: Alerts = Alerts()
    
 
@@ -36,7 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create the SwiftUI view that provides the window contents.
         self.user.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
         
-        let contentView = ContentView(user: self.user)
+        let contentView = ContentView()
 //        let authView = AuthView(user: self.user)
         
         // Use a UIHostingController as window root view controller.
@@ -52,12 +52,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                   oauthTokenSecret: tokenSecret)
 
                 window.rootViewController = UIHostingController(rootView: contentView
-                                                                    .environmentObject(alerts)
+                                                                    .environmentObject(alerts).environmentObject(user)
                                                                     )
             } else
             {
                 window.rootViewController = UIHostingController(rootView: contentView
-                                                                    .environmentObject(alerts)
+                                                                    .environmentObject(alerts).environmentObject(user)
                                                                     )
         }
             self.window = window

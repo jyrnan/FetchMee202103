@@ -13,10 +13,10 @@ import Combine
 
 struct TimelineView: View {
     @EnvironmentObject var alerts: Alerts
+    @EnvironmentObject var user: User
     
     @ObservedObject var home = Timeline(type: TweetListType.home)
     @ObservedObject var mentions = Timeline(type: TweetListType.mention)
-    @ObservedObject var user: User
     
     @State var tweetText: String = ""
 
@@ -24,8 +24,8 @@ struct TimelineView: View {
     
     @State var keyboardHeight: CGFloat = 0
     
-    init(user: User) {
-        self.user = user
+    init() {
+//        self.user = user
         print(#line, "ContentView \(self)")
         
     }
@@ -129,7 +129,7 @@ extension TimelineView {
 
 struct TimelineView_Previews: PreviewProvider {
     static var previews: some View {
-        TimelineView(user: User())
+        TimelineView()
     }
 }
 

@@ -9,19 +9,19 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var user: User
+    @EnvironmentObject var user: User
     
     var body: some View {
         if self.user.isLoggedIn {
-            TimelineView(user: self.user)
+            TimelineView()
         } else {
-            AuthView(user: self.user)
+            AuthView()
         }
 }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(user: User())
+        ContentView()
     }
 }

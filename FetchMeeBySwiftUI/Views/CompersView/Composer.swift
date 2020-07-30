@@ -10,6 +10,8 @@ import SwiftUI
 
 struct Composer: View {
     @EnvironmentObject var alerts: Alerts
+    @EnvironmentObject var user: User
+    
     @ObservedObject var timeline : Timeline
     @State var tweetText: String = ""
     
@@ -26,7 +28,7 @@ struct Composer: View {
             Image(systemName: "photo").resizable().aspectRatio(contentMode: .fit).frame(width: 16, height: 16, alignment: .center).foregroundColor(.gray)
                 .onTapGesture {self.isShowCMV = true }
                 .sheet(isPresented: self.$isShowCMV) {
-                    ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.tweetText)
+                    ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.tweetText, replyIDString: self.tweetIDString).environmentObject(user)
                 }
             
             Divider()

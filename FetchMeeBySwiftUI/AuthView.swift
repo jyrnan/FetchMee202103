@@ -12,7 +12,7 @@ import UIKit
 import SafariServices
 
 struct AuthView: View {
-    @ObservedObject var user: User
+    @EnvironmentObject var user: User
     
     var body: some View {
        Button(action: {self.login()}, label: {
@@ -92,6 +92,6 @@ extension AuthView {
 
 struct AuthView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthView(user: User())
+        AuthView()
     }
 }
