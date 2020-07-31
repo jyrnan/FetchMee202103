@@ -42,21 +42,33 @@ struct TimelineView: View {
                         //Mentions部分章节，
                         Section(header:HStack {
                             Text(self.mentions.newTweetNumber == 0 ? "Mentions" : "Mentions \(self.mentions.newTweetNumber)").font(.headline)
-                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
                             Spacer()
+                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
+                            Button("More Mention...") {
+                                self.mentions.refreshFromButtom()}
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                            
                         })
                         {
-                            ForEach(self.mentions.tweetIDStrings, id: \.self) {
-                                tweetIDString in
-                                MentionRow(timeline: self.mentions, tweetIDString: tweetIDString)}
-                            HStack {
-                                Spacer()
-                                Button("More Tweets...") {
-                                    self.mentions.refreshFromButtom()}
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                                Spacer()
-                            } //下方载入更多按钮
+                            if !self.mentions.mentionUserIDStringsSorted.isEmpty {
+                                MentionUserSortedView(mentions: self.mentions)}
+                            if !self.mentions.tweetIDStrings.isEmpty {
+                            ScrollView{
+                                ForEach(self.mentions.tweetIDStrings, id: \.self) {
+                                    tweetIDString in
+                                    MentionRow(timeline: self.mentions, tweetIDString: tweetIDString)
+                                        .padding(0)
+                                }
+                            }.frame(maxHeight: 200).listStyle(GroupedListStyle()).padding(0)}
+//                            HStack {
+//                                Spacer()
+//                                Button("More Tweets...") {
+//                                    self.mentions.refreshFromButtom()}
+//                                    .font(.caption)
+//                                    .foregroundColor(.gray)
+//                                Spacer()
+//                            } //下方载入更多按钮
                         }
                         //Homeline部分章节
                         Section(header:HStack {
@@ -123,6 +135,7 @@ extension TimelineView {
         userDefault.set(false, forKey: "isLoggedIn")
         userDefault.set(nil, forKey: "userIDString")
         userDefault.set(nil, forKey: "screenName")
+        userDefault.set(nil, forKey: "mentionUserInfo")
         print(#line)
     }
 }

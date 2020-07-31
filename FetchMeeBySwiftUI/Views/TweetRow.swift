@@ -25,14 +25,11 @@ struct TweetRow: View {
         VStack() {
             HStack(alignment: .top, spacing: 0) {
                 VStack {
-                    Image(uiImage: self.tweetMedia.avatar!)
-                        .resizable()
+                    AvatarView(avatar: self.tweetMedia.avatar!, userIDString: self.tweetMedia.userIDString)
                         .frame(width: 36, height: 36)
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
                         .padding(.init(top: 12, leading: 0, bottom: 12, trailing: 12))
-                        .onTapGesture {self.presentedUserInfo = true}
-                        .sheet(isPresented: $presentedUserInfo) {UserInfo()}
+//                        .onTapGesture {self.presentedUserInfo = true}
+//                        .sheet(isPresented: $presentedUserInfo) {UserInfo()}
                     Spacer()
                 } //Avatar
                 

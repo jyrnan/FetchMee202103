@@ -33,18 +33,22 @@ final class Timeline: ObservableObject {
             })
         }
     }
+//    @Published var mentionUserSortedList: [UserInfomation] = []
+    
+    @Published var mentionUserIDStringsSorted: [String] = [] //存储根据MentiUserinfo情况排序的UserIDString
+    @Published var userInfos: [String : UserInfomation] = [:] //存储UserInfo供调用
     
     var type: TweetListType
     var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
-    var userMentionInfo: [String:[String]] = [:] {
+    var mentionUserInfo: [String:[String]] = [:] {
         didSet {
-            print(#line, self.userMentionInfo.count)
+//            print(#line, self.mentionUserInfo.count)
             
-            userDefault.set(self.userMentionInfo, forKey: "userMentionInfo")
-            print(#line, "\(self.type) userMentionInfo saved!")
+            userDefault.set(self.mentionUserInfo, forKey: "mentionUserInfo")
+//            print(#line, "\(self.type) mentionUserInfo saved!")
         }
-    } //记录用户互动mention推文信息（推文ID）数量
-    var mentionUserSort: [String] = []
+    } //记录用户互动mention推文信息（推文ID）数量,纪录顺序[userName, screenName, avatarUrlString, tweetID...tweetID]
+    
     
 //    let swifter = Swifter(consumerKey: "UUHBnDuEAliSe7vPTC55H12wV",
 //                                  consumerSecret: "Rz9FeINJruwxeiOZJGzWOmdFwCQN9NuI8hmRZc1BlW0u0QLqU7",
@@ -68,8 +72,10 @@ final class Timeline: ObservableObject {
         case .session:
             print()
         case .mention:
-            self.userMentionInfo = userDefault.object(forKey: "userMentionInfo") as? [String:[String]] ?? [:] //读取数据
-            print(#line, self.userMentionInfo)
+            self.mentionUserInfo = userDefault.object(forKey: "mentionUserInfo") as? [String:[String]] ?? [:] //读取数据
+//            print(#line, self.mentionUserInfo)
+            self.makeMentionUserSortedList()//初始化更新MentionUser排序
+            self.refreshFromTop()
 
         default:
             self.refreshFromTop()
@@ -83,9 +89,9 @@ final class Timeline: ObservableObject {
         
         switch type {
         case .mention:
-            print(#line, self.userMentionInfo.count)
-            userDefault.set(self.userMentionInfo, forKey: "userMentionInfo") //存储
-            print(#line, "\(self.type) userMentionInfo saved!")
+            print(#line, self.mentionUserInfo.count)
+//            userDefault.set(self.mentionUserInfo, forKey: "mentionUserInfo") //存储
+//            print(#line, "\(self.type) mentionUserInfo saved!")
         default:
             print(#line, "\(self.type) disappeared!")
         }
@@ -100,6 +106,7 @@ final class Timeline: ObservableObject {
                 self.newTweetNumber = newTweets.count
             
             self.isDone = true
+            self.makeMentionUserSortedList() //存储MentionUserInfo并更新MentionUser的排序
             self.updateTimelineTop(with: newTweets)
         }
         
@@ -123,6 +130,7 @@ final class Timeline: ObservableObject {
             self.isDone = true
             self.updateTimelineBottom(with: newTweets)
             self.isDone = true
+            self.makeMentionUserSortedList() //存储MentionUserInfo并更新MentionUser的排序
         }
         
         let failureHandler: (Error) -> Void = { error in
@@ -203,22 +211,32 @@ final class Timeline: ObservableObject {
             tweetMedia.in_reply_to_status_id_str = newTweets[i]["in_reply_to_status_id_str"].string
             
             if self.type == .mention {
-                let userID = newTweets[i]["user"]["id_str"].string!
+                let userIDString = newTweets[i]["user"]["id_str"].string!
                 let userName = newTweets[i]["user"]["name"].string!
                 let screenName = newTweets[i]["user"]["screen_name"].string!
                 let avatarUrlString = newTweets[i]["user"]["profile_image_url_https"].string!.replacingOccurrences(of: "_normal", with: "")
                 let tweetID = newTweets[i]["in_reply_to_status_id_str"].string!
                 
-                if self.userMentionInfo[userID] == nil {
-                    self.userMentionInfo[userID] = [userName, screenName, avatarUrlString, tweetID]
+                if self.mentionUserInfo[userIDString] == nil {
+                    self.mentionUserInfo[userIDString] = [userName, screenName, avatarUrlString, tweetID]
                 } else {
-                    if self.userMentionInfo[userID]?.contains(tweetID) == false {
-                        self.userMentionInfo[userID]?.append(tweetID)
-                        
+                    if self.mentionUserInfo[userIDString]?.contains(tweetID) == false {
+                        self.mentionUserInfo[userIDString]?.append(tweetID)
                     }
                 }
+                //
+                if self.userInfos[userIDString] == nil {
+                    var userInfo = UserInfomation(id: userIDString)
+                    userInfo.name = userName
+                    userInfo.screenName = screenName
+                    userInfo.avatarUrlString = avatarUrlString
+                    userInfo.avatar = UIImage(systemName: "person.fill")
+                    avatarForUserDownloader(from: userInfo.avatarUrlString!, setTo: userIDString)()
+                    self.userInfos[userIDString] = userInfo
+                }
                 
-//                print(#line,self.userMentionInfo)
+                
+//                print(#line,self.mentionUserInfo)
             }
             
             self.tweetMedias[newTweets[i]["id_str"].string!] = tweetMedia
@@ -274,6 +292,42 @@ final class Timeline: ObservableObject {
                         try? d.write(to: filePath)
                         DispatchQueue.main.async {
                             self.tweetMedias[idString]?.avatar = im
+                        }
+                    }
+                }
+                task.resume()
+            }
+        }
+    }
+    
+    func avatarForUserDownloader(from urlString: String, setTo idString: String) -> () -> () {
+        return{
+            
+            let url = URL(string: urlString)!
+            let fileName = url.lastPathComponent //获取下载文件名用于本地存储
+            
+            let cachelUrl = cfh.getPath()
+            let filePath = cachelUrl.appendingPathComponent(fileName, isDirectory: false)
+            
+            
+            
+            //先尝试获取本地缓存文件
+            if let d = try? Data(contentsOf: filePath) {
+                if let im = UIImage(data: d) {
+                    DispatchQueue.main.async {
+                        self.userInfos[idString]?.avatar = im
+//                        print(#line, "从本地获取")
+                    }
+                }
+            } else {
+//
+                let task = self.session.downloadTask(with: url) {
+                    fileURL, resp, err in
+                    if let url = fileURL, let d = try? Data(contentsOf: url) {
+                        let im = UIImage(data: d)
+                        try? d.write(to: filePath)
+                        DispatchQueue.main.async {
+                            self.userInfos[idString]?.avatar = im
                         }
                     }
                 }
@@ -352,6 +406,43 @@ extension Timeline {
         }
         swifter.getTweet(for: idString, success: sh, failure: failureHandler)
     }
+}
+
+extension Timeline {
+    func makeMentionUserSortedList() {
+        
+        guard self.type == .mention else {return}
+        print(#line, "MakementionUserSotedList")
+        userDefault.set(self.mentionUserInfo, forKey: "mentionUserInfo")
+        
+        let mentionUserInfoSorted = self.mentionUserInfo.sorted{$0.value.count > $1.value.count} //按Mention数量照降序排序
+        
+        self.mentionUserIDStringsSorted = []
+        
+        for user in mentionUserInfoSorted {
+            let userIDString = user.key
+            let userName = user.value[0] //第一个值是Name,下面类推
+            let screenName = user.value[1]
+            let avatarUrlString = user.value[2]
+            
+            self.mentionUserIDStringsSorted.append(userIDString)
+            
+            if self.userInfos[userIDString] == nil {
+                var userInfo = UserInfomation(id: userIDString)
+                    userInfo.name = userName
+                    userInfo.screenName = screenName
+                    userInfo.avatarUrlString = avatarUrlString
+                    userInfo.avatar = UIImage(systemName: "person.fill")
+                self.avatarForUserDownloader(from: userInfo.avatarUrlString!, setTo: userIDString)()
+                    self.userInfos[userIDString] = userInfo
+            }
+            
+        }
+        for user in self.mentionUserIDStringsSorted {
+//            print(#line, user, self.userInfos[user]?.name)
+        }
+    }
+    
 }
 
 extension Timeline {

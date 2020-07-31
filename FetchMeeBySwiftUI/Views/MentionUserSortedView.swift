@@ -7,15 +7,27 @@
 //
 
 import SwiftUI
+import Combine
 
 struct MentionUserSortedView: View {
+    @ObservedObject var mentions: Timeline
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView(.horizontal) {
+            HStack {
+                ForEach(mentions.mentionUserIDStringsSorted, id: \.self) {userIDString in
+                    AvatarView(avatar: (mentions.userInfos[userIDString]?.avatar)!, userIDString: userIDString)
+                        .frame(width: 24, height: 24)
+                }
+            }
+          
+        }
+       
     }
 }
 
 struct MentionUserSortedView_Previews: PreviewProvider {
     static var previews: some View {
-        MentionUserSortedView()
+        MentionUserSortedView(mentions: Timeline(type: .mention))
     }
 }

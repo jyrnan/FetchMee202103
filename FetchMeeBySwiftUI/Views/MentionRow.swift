@@ -22,35 +22,22 @@ struct MentionRow: View {
     var body: some View {
         VStack {
             HStack(alignment: .center, spacing: 0) {
-                Image(uiImage: self.tweetMedia.avatar!)
-                    .resizable()
+                AvatarView(avatar: self.tweetMedia.avatar!, userIDString: self.tweetMedia.userIDString)
                     .frame(width: 36, height: 36)
-                    
-                    .clipShape(Circle())
-                    .overlay(
-                        Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
-                    
                     .padding(.init(top: 4, leading: 0, bottom: 4, trailing: 12))
                     
-                    .onTapGesture {
-                        self.presentedUserInfo = true
-                    }
-                    .sheet(isPresented: $presentedUserInfo) {
-                        UserInfo()
-                    }
-                
                 TweetTextView(tweetText: tweetMedia.tweetText )
                     .lineLimit(2)
                     .font(.body)
                     .fixedSize(horizontal: false, vertical: true)
-                
+                    .onTapGesture {
+                        self.isShowDetail = true
+                    }
+                    .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user)}
                 Spacer()
                 CreatedTimeView(createdTime: self.tweetMedia.created!)
             }
-            .onTapGesture {
-                self.isShowDetail = true
-            }
-            .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user)}
+            
 //            Spacer()
 //            if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
 //                ToolsView(timeline: timeline, tweetIDString: tweetIDString)

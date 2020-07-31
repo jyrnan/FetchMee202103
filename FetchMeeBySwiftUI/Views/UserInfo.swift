@@ -9,8 +9,9 @@
 import SwiftUI
 
 struct UserInfo: View {
+    var userIDString: String?
     var body: some View {
-        Text("")
+        Text(self.userIDString ?? "userIDString")
     }
 }
 

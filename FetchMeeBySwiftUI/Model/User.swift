@@ -12,6 +12,8 @@ import Combine
 
 struct UserInfomation: Identifiable {
     var id: String = "0000"
+    var name:String?
+    var screenName: String?
     var avatarUrlString: String?
     var avatar: UIImage?
     var bannerUrlString: String?

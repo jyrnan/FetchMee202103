@@ -55,9 +55,9 @@ extension AuthView {
         }, failure: failureHandler)
     }
     
-    func logOut() {
-        wipeInfo()
-    }
+//    func logOut() {
+//        wipeInfo()
+//    }
     
     func setForLogin() {
         //设置未登录时候的界面状态
@@ -81,13 +81,15 @@ extension AuthView {
         self.user.getMyInfo() //
     }
     
-    func wipeInfo() {
-        // 删掉保存的信息
-        self.user.isLoggedIn = false
-        userDefault.set(false, forKey: "isLoggedIn")
-        userDefault.set(nil, forKey: "userIDString")
-        userDefault.set(nil, forKey: "screenName")
-    }
+//    func wipeInfo() {
+//        // 删掉保存的信息
+//        self.user.isLoggedIn = false
+//        userDefault.set(false, forKey: "isLoggedIn")
+//        userDefault.set(nil, forKey: "userIDString")
+//        userDefault.set(nil, forKey: "screenName")
+//        userDefault.set(nil, forKey: "mentionUserInfo")
+//        print(#line, #function)
+//    }
 }
 
 struct AuthView_Previews: PreviewProvider {
