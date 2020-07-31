@@ -13,9 +13,9 @@ struct MentionUserSortedView: View {
     @ObservedObject var mentions: Timeline
     
     var body: some View {
-        ScrollView(.horizontal) {
+        ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(mentions.mentionUserIDStringsSorted, id: \.self) {userIDString in
+                ForEach(mentions.mentionUserIDStringsSorted[0...11], id: \.self) {userIDString in
                     AvatarView(avatar: (mentions.userInfos[userIDString]?.avatar)!, userIDString: userIDString)
                         .frame(width: 24, height: 24)
                 }

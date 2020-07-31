@@ -82,7 +82,13 @@ struct TimelineView: View {
                                 TweetRow(timeline: home, tweetIDString: tweetIDString)
                                     .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.blue.opacity(0.2) : Color.clear) //标注被提及的推文listRowBackground
                             }
-                            .onDelete { indexSet in print(#line, indexSet)}
+                            .onDelete { indexSet in
+//                                print(#line, indexSet.first)
+//                                print(#line, self.home.tweetIDStrings[indexSet.first!])
+                                let index: Int = indexSet.first!
+                                let tweetIDString = self.home.tweetIDStrings[indexSet.first!]
+                                swifter.destroyTweet(forID: tweetIDString, success: { _ in self.home.tweetIDStrings.remove(at: index)})
+                            }
                             .onMove { indecies, newOffset in print()  }
                             HStack {
                                 Spacer()
