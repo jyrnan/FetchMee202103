@@ -24,6 +24,7 @@ final class Timeline: ObservableObject {
     @Published var tweetMedias: [String: TweetMedia] = [:]
     @Published var newTweetNumber: Int = 0
     @Published var isDone: Bool = true { //设定在更新任务时候状态指示器是否显示，但无论任务是否结束，10秒种后状态指示器消失
+        
         didSet {
             delay(delay: 10, closure: {
                 if self.isDone  == false {
@@ -34,7 +35,16 @@ final class Timeline: ObservableObject {
     }
     
     var type: TweetListType
-    var tweetIDStringOfRowToolsViewShowed: String?
+    var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
+    var userMentionInfo: [String:[String]] = [:] {
+        didSet {
+            print(#line, self.userMentionInfo.count)
+            
+            userDefault.set(self.userMentionInfo, forKey: "userMentionInfo")
+            print(#line, "\(self.type) userMentionInfo saved!")
+        }
+    } //记录用户互动mention推文信息（推文ID）数量
+    var mentionUserSort: [String] = []
     
 //    let swifter = Swifter(consumerKey: "UUHBnDuEAliSe7vPTC55H12wV",
 //                                  consumerSecret: "Rz9FeINJruwxeiOZJGzWOmdFwCQN9NuI8hmRZc1BlW0u0QLqU7",
@@ -57,15 +67,28 @@ final class Timeline: ObservableObject {
         switch type {
         case .session:
             print()
+        case .mention:
+            self.userMentionInfo = userDefault.object(forKey: "userMentionInfo") as? [String:[String]] ?? [:] //读取数据
+            print(#line, self.userMentionInfo)
 
         default:
             self.refreshFromTop()
             print()
         }
+        
+        
     }
     
     deinit {
-        print(#line, "\(self.type) disappeared!")
+        
+        switch type {
+        case .mention:
+            print(#line, self.userMentionInfo.count)
+            userDefault.set(self.userMentionInfo, forKey: "userMentionInfo") //存储
+            print(#line, "\(self.type) userMentionInfo saved!")
+        default:
+            print(#line, "\(self.type) disappeared!")
+        }
     }
 
     //更新上方推文
@@ -179,7 +202,24 @@ final class Timeline: ObservableObject {
             tweetMedia.in_reply_to_user_id_str = newTweets[i]["in_reply_to_user_id_str"].string
             tweetMedia.in_reply_to_status_id_str = newTweets[i]["in_reply_to_status_id_str"].string
             
-            
+            if self.type == .mention {
+                let userID = newTweets[i]["user"]["id_str"].string!
+                let userName = newTweets[i]["user"]["name"].string!
+                let screenName = newTweets[i]["user"]["screen_name"].string!
+                let avatarUrlString = newTweets[i]["user"]["profile_image_url_https"].string!.replacingOccurrences(of: "_normal", with: "")
+                let tweetID = newTweets[i]["in_reply_to_status_id_str"].string!
+                
+                if self.userMentionInfo[userID] == nil {
+                    self.userMentionInfo[userID] = [userName, screenName, avatarUrlString, tweetID]
+                } else {
+                    if self.userMentionInfo[userID]?.contains(tweetID) == false {
+                        self.userMentionInfo[userID]?.append(tweetID)
+                        
+                    }
+                }
+                
+//                print(#line,self.userMentionInfo)
+            }
             
             self.tweetMedias[newTweets[i]["id_str"].string!] = tweetMedia
             

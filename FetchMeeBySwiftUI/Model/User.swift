@@ -24,7 +24,8 @@ struct UserInfomation: Identifiable {
 class User: ObservableObject {
     @Published var isLoggedIn: Bool = false
     @Published var myInfo: UserInfomation = UserInfomation()
-    
+    @Published var userStore: [String: UserInfomation] = [:]
+    @Published var userStringMark: [String: Int] = [:] // 用户互动数量纪录
     let session = URLSession.shared
     
     init() {

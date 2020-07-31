@@ -16,6 +16,7 @@
 		D241A73C24D25FEF003FC884 /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D241A73324D25F5C003FC884 /* SwifteriOS.framework */; };
 		D241A73D24D25FEF003FC884 /* SwifteriOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D241A73324D25F5C003FC884 /* SwifteriOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDD924D2CEED00682B99 /* SafariView.swift */; };
+		D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */; };
 		D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */; };
 		D270E87D24C01C9100BBD3FE /* ToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87C24C01C9100BBD3FE /* ToolsView.swift */; };
 		D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */; };
@@ -106,6 +107,7 @@
 		D2224FD224BE901E00AE2110 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		D241A72A24D25F5C003FC884 /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = ../Swifter/Swifter.xcodeproj; sourceTree = "<group>"; };
 		D262FDD924D2CEED00682B99 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
+		D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionUserSortedView.swift; sourceTree = "<group>"; };
 		D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedTimeView.swift; sourceTree = "<group>"; };
 		D270E87C24C01C9100BBD3FE /* ToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsView.swift; sourceTree = "<group>"; };
 		D27DCEB624B96D5F00520BE3 /* FetchMee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FetchMee.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -245,6 +247,7 @@
 				D2946F2624CD6C8100F8A7C6 /* TweetTextView.swift */,
 				D2946F2D24CD802C00F8A7C6 /* ReplyUsersView.swift */,
 				D262FDD924D2CEED00682B99 /* SafariView.swift */,
+				D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 				D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */,
 				D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */,
 				D7AC536C24BAD91A00BCD71F /* Images.swift in Sources */,
+				D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */,
 				D27DCEBE24B96D5F00520BE3 /* TimelineView.swift in Sources */,
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
 				D297390524D150ED00917A97 /* PhotoPickerIconView.swift in Sources */,

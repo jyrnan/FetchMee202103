@@ -26,7 +26,7 @@ struct TimelineView: View {
     
     init() {
 //        self.user = user
-        print(#line, "ContentView \(self)")
+//        print(#line, "ContentView \(self)")
         
     }
     
