@@ -61,12 +61,39 @@ class User: ObservableObject {
     
     //获取用户信息
     func getUserBio(json: JSON) {
-//        let bannerUrl = json["profile_banner_url"].string
+        self.myInfo.name = json["name"].string!
+        self.myInfo.screenName = "@" + json["screen_name"].string!
+        self.myInfo.description = json["description"].string!
+        
+        let ct = json["created_at"].string!.split(separator: " ")
+        self.myInfo.createdAt = " Joined " + String(ct[1]) + " " + String(ct[2]) + " " + String(ct[5]) //加入日期
         
         var avatarUrl = json["profile_image_url_https"].string
         avatarUrl = avatarUrl?.replacingOccurrences(of: "_normal", with: "")
+//        self.myInfo.avatar = UIImage(data: (try? Data(contentsOf: URL(string: avatarUrl!)!)) ?? UIImage(systemName: "person.fill.circle")!.pngData()!)
+        self.avatarDownloader(from: avatarUrl!)()
         
-        self.myInfo.avatar = UIImage(data: try! Data(contentsOf: URL(string: avatarUrl!)!))
+        self.myInfo.bannerUrlString = json["profile_banner_url"].string
+        if self.myInfo.bannerUrlString != nil {
+        self.myInfo.banner = UIImage(data: (try? Data(contentsOf: URL(string: self.myInfo.bannerUrlString!)!)) ?? UIImage(named: "bg")!.pngData()!)
+        }
+        
+        var loc = json["location"].string ?? ""
+        if loc != "" {
+            loc = " " + loc
+        }
+        self.myInfo.loc = loc
+        
+        var url = json["url"].string ?? ""
+        if url != "" {
+            url = " " + url + "\n"
+        }
+        self.myInfo.url = url
+        
+        self.myInfo.following = json["friends_count"].integer!
+        self.myInfo.followed = json["followers_count"].integer!
+        
+        self.myInfo.tweetsCount = json["statuses_count"].integer!
         
     }
     
@@ -78,9 +105,7 @@ class User: ObservableObject {
             
             let cachelUrl = cfh.getPath()
             let filePath = cachelUrl.appendingPathComponent(fileName, isDirectory: false)
-            
-            
-            
+             
             //先尝试获取本地缓存文件
             if let d = try? Data(contentsOf: filePath) {
                 if let im = UIImage(data: d) {
@@ -90,7 +115,6 @@ class User: ObservableObject {
                     }
                 }
             } else {
-//
                 let task = self.session.downloadTask(with: url) {
                     fileURL, resp, err in
                     if let url = fileURL, let d = try? Data(contentsOf: url) {
