@@ -10,6 +10,8 @@ import SwiftUI
 
 struct UserInfo: View {
     var userIDString: String?
+    @ObservedObject var user: User = User()
+    
     var body: some View {
         Text(self.userIDString ?? "userIDString")
     }

@@ -50,7 +50,7 @@ struct DetailView: View {
                     self.firstTimeRun = false
                     self.replySession.getReplyDetail(for: self.tweetIDString)
                 } else {print(#line, "firstTimeRun is already true")}} //页面出现时执行一次刷新
-            .navigationBarTitle("Detail")
+            .navigationBarTitle("Detail", displayMode: .inline)
             .navigationBarItems(trailing: ActivityIndicator(isAnimating: self.$replySession.isDone, style: .medium))
         }
         

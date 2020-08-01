@@ -84,7 +84,7 @@ struct ComposerMoreView: View {
                             Spacer()
                         }
                     }
-                    .navigationTitle("Tweet")
+                    .navigationBarTitle("Tweet")
                     .navigationBarItems(trailing:
                                             HStack{
                                                 ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium)

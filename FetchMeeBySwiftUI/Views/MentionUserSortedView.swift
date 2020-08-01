@@ -15,7 +15,7 @@ struct MentionUserSortedView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(mentions.mentionUserIDStringsSorted[0...11], id: \.self) {userIDString in
+                ForEach(mentions.mentionUserIDStringsSorted, id: \.self) {userIDString in
                     AvatarView(avatar: (mentions.userInfos[userIDString]?.avatar)!, userIDString: userIDString)
                         .frame(width: 24, height: 24)
                 }

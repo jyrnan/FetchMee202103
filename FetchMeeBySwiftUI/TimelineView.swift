@@ -44,10 +44,10 @@ struct TimelineView: View {
                             Text(self.mentions.newTweetNumber == 0 ? "Mentions" : "Mentions \(self.mentions.newTweetNumber)").font(.headline)
                             Spacer()
                             ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
-                            Button("More Mention...") {
-                                self.mentions.refreshFromButtom()}
-                                .font(.caption)
-                                .foregroundColor(.gray)
+//                            Button("More...") {
+//                                self.mentions.refreshFromButtom()}
+//                                .font(.caption)
+//                                .foregroundColor(.gray)
                             
                         })
                         {
@@ -60,6 +60,15 @@ struct TimelineView: View {
                                     MentionRow(timeline: self.mentions, tweetIDString: tweetIDString)
                                         .padding(0)
                                 }
+                                HStack {
+                                    Spacer()
+                                    Button("More Tweets...") {
+                                        self.mentions.refreshFromButtom()}
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                        .padding()
+                                    Spacer()
+                                } //下方载入更多按钮
                             }.frame(maxHeight: 200).listStyle(GroupedListStyle()).padding(0)}
 //                            HStack {
 //                                Spacer()
@@ -85,9 +94,8 @@ struct TimelineView: View {
                             .onDelete { indexSet in
 //                                print(#line, indexSet.first)
 //                                print(#line, self.home.tweetIDStrings[indexSet.first!])
-                                let index: Int = indexSet.first!
                                 let tweetIDString = self.home.tweetIDStrings[indexSet.first!]
-                                swifter.destroyTweet(forID: tweetIDString, success: { _ in self.home.tweetIDStrings.remove(at: index)})
+                                swifter.destroyTweet(forID: tweetIDString, success: { _ in self.home.tweetIDStrings.remove(atOffsets: indexSet)})
                             }
                             .onMove { indecies, newOffset in print()  }
                             HStack {
@@ -105,7 +113,7 @@ struct TimelineView: View {
                         self.keyboardHeight = $0
                         print(#line, self.keyboardHeight)
                     }
-                    .offset(y: self.keyboardHeight != 0 ? -1 : 0)
+                    .offset(y: self.keyboardHeight != 0 ? -1 : 0) 
                     .navigationBarTitle("FetchMee")
                     .navigationBarItems(trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
                                             .resizable()

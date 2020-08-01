@@ -11,32 +11,46 @@ import SwifteriOS
 import Combine
 
 struct UserInfomation: Identifiable {
-    var id: String = "0000"
+    var id: String = "0000" //设置成默认ID是“0000”，所以在进行用户信息更新之前需要设置该ID的值
     var name:String?
     var screenName: String?
+    var description: String?
+    var createdAt: String?
+    
     var avatarUrlString: String?
     var avatar: UIImage?
+    
     var bannerUrlString: String?
     var banner: UIImage?
+    
     var bioText: String?
-    var following: Bool?
+    var loc: String?
+    var url: String?
+    
+    var isFollowing: Bool?
+    var following: Int?
+    var followed: Int?
+    
+    var tweetsCount: Int?
     var list: [String]?
         }
 
 class User: ObservableObject {
     @Published var isLoggedIn: Bool = false
-    @Published var myInfo: UserInfomation = UserInfomation()
-    @Published var userStore: [String: UserInfomation] = [:]
+    @Published var myInfo: UserInfomation = UserInfomation() //当前用户的信息
+    @Published var userStore: [String: UserInfomation] = [:] //存储多个用户的信息
     @Published var userStringMark: [String: Int] = [:] // 用户互动数量纪录
     let session = URLSession.shared
     
-    init() {
-        self.getMyInfo()
-    }
+//    init() {
+//        if self.isLoggedIn {
+//            self.getMyInfo() }
+//    }
     
     func getMyInfo() {
-        guard userDefault.object(forKey: "userIDString") != nil  else { return }
-        self.myInfo.id = userDefault.object(forKey: "userIDString") as! String
+        if self.myInfo.id == "0000" && userDefault.object(forKey: "userIDString") != nil { //如果没有设置用户ID，且可以读取userDefualt里的IDString（说明已经logined），则设置loginUser的userIDString为登陆用户的userIDString
+            self.myInfo.id = userDefault.object(forKey: "userIDString") as! String
+        }
         getUserInfo(for: self.myInfo.id)
     }
     
@@ -45,6 +59,7 @@ class User: ObservableObject {
         swifter.showUser(userTag, includeEntities: nil, success: getUserBio(json:), failure: nil)
     }
     
+    //获取用户信息
     func getUserBio(json: JSON) {
 //        let bannerUrl = json["profile_banner_url"].string
         
