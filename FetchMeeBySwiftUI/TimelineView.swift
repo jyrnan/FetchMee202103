@@ -15,8 +15,8 @@ struct TimelineView: View {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
     
-    @ObservedObject var home = Timeline(type: TweetListType.home)
-    @ObservedObject var mentions = Timeline(type: TweetListType.mention)
+    @StateObject var home = Timeline(type: TweetListType.home)
+    @StateObject var mentions = Timeline(type: TweetListType.mention)
     
     @State var tweetText: String = ""
 
@@ -132,7 +132,7 @@ struct TimelineView: View {
                 } //通知视图
                 .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
             }
-        }
+        }.onAppear { self.refreshAll()}
     }
 }
 
@@ -151,6 +151,11 @@ extension TimelineView {
         userDefault.set(nil, forKey: "screenName")
         userDefault.set(nil, forKey: "mentionUserInfo")
         print(#line)
+    }
+    
+    func delay(delay: Double, closure: @escaping () -> ()) {
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
 }
 

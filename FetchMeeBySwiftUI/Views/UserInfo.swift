@@ -102,11 +102,7 @@ struct UserInfo: View {
                 }.padding(.top, 0)
                 
                 Text(self.checkingUser.myInfo.description ?? "userBio")
-                    .onAppear(){
-                        self.checkingUser.myInfo.id = self.userIDString ?? "0000"
-                        self.checkingUser.getMyInfo()
-                        self.userTimeline.refreshFromTop(for: userIDString)
-                    }.multilineTextAlignment(.leading)
+                    .multilineTextAlignment(.leading)
                     .padding([.top], 16)
                 HStack() {
                     Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
@@ -128,6 +124,11 @@ struct UserInfo: View {
                     TweetRow(timeline: self.userTimeline, tweetIDString: tweetIDString)
                 }
             }
+        }
+        .onAppear(){
+            self.checkingUser.myInfo.id = self.userIDString ?? "0000"
+            self.checkingUser.getMyInfo()
+            self.userTimeline.refreshFromTop(for: userIDString)
         }
         
     }

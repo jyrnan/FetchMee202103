@@ -28,8 +28,6 @@ struct TweetRow: View {
                     AvatarView(avatar: self.tweetMedia.avatar!, userIDString: self.tweetMedia.userIDString)
                         .frame(width: 36, height: 36)
                         .padding(.init(top: 12, leading: 0, bottom: 12, trailing: 12))
-//                        .onTapGesture {self.presentedUserInfo = true}
-//                        .sheet(isPresented: $presentedUserInfo) {UserInfo()}
                     Spacer()
                 } //Avatar
                 
@@ -73,10 +71,7 @@ struct TweetRow: View {
                             .padding(.top, 16)
                             .padding(.bottom, 16)
                     } //推文图片显示区域
-//                    Spacer()
-//                    if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
-//                        ToolsView(timeline: timeline, tweetIDString: tweetIDString)
-//                    }
+//                   
                 }
             } //推文内容
             Spacer()

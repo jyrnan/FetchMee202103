@@ -75,10 +75,10 @@ final class Timeline: ObservableObject {
             self.mentionUserInfo = userDefault.object(forKey: "mentionUserInfo") as? [String:[String]] ?? [:] //读取数据
 //            print(#line, self.mentionUserInfo)
             self.makeMentionUserSortedList()//初始化更新MentionUser排序
-            self.refreshFromTop()
+//            self.refreshFromTop()
 
         default:
-            self.refreshFromTop()
+//            self.refreshFromTop()
             print()
         }
         

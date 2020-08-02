@@ -16,7 +16,7 @@ struct Composer: View {
     @State var tweetText: String = ""
     
     @State var isShowCMV: Bool = false  //是否显示详细新推文视图
-        
+    
     var tweetIDString: String?
     
     
@@ -36,11 +36,12 @@ struct Composer: View {
                 .foregroundColor(self.tweetText == "" ? .gray : .blue )
                 .onTapGesture {
                 if self.tweetText != "" {
-                    
+                    self.timeline.isDone = false
                     swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
                         switch self.timeline.type { //如果是在detail视图则不更新timeline
                         case .session:
                             print(#line, self.tweetIDString as Any)
+                            self.timeline.isDone = true
                         default:
                             self.timeline.refreshFromTop()
                             self.alerts.stripAlert.alertText = "Tweet sent!"

@@ -14,7 +14,7 @@ struct DetailView: View {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
     
-    @ObservedObject var replySession: Timeline = Timeline(type: .session)
+    @StateObject var replySession: Timeline = Timeline(type: .session)
      var tweetIDString: String //传入DetailView的初始推文
     
     @State var firstTimeRun: Bool = true
@@ -24,12 +24,6 @@ struct DetailView: View {
     var body: some View {
         NavigationView {
             List{
-//                HStack{
-//                    Text("Session").font(.largeTitle).bold()
-//                    Spacer()
-//                    ActivityIndicator(isAnimating: self.$replySession.isDone, style: .medium)
-//                }
-//                .padding(.top, 20)
                 
                 if self.alerts.stripAlert.isPresentedAlert {
                     AlertView(isAlertShow: self.$alerts.stripAlert.isPresentedAlert, alertText: self.alerts.stripAlert.alertText)
@@ -38,7 +32,7 @@ struct DetailView: View {
                 ForEach(replySession.tweetIDStrings, id: \.self) {tweetIDString in
                     TweetRow(timeline: replySession, tweetIDString: tweetIDString)
                 }
-                Composer(timeline: self.replySession, tweetIDString: self.tweetIDString)
+                Composer(timeline: self.replySession ,tweetIDString: self.tweetIDString)
             }
             .onReceive(Publishers.keyboardHeight) {
                 self.keyboardHeight = $0
