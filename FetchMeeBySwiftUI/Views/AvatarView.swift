@@ -9,6 +9,9 @@
 import SwiftUI
 
 struct AvatarView: View {
+    @EnvironmentObject var alerts: Alerts
+    @EnvironmentObject var user: User
+    
     var avatar: UIImage? = UIImage(systemName: "person.circle.fill")
     var userIDString: String?
     
@@ -22,7 +25,9 @@ struct AvatarView: View {
             .clipShape(Circle())
             .overlay(Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
             .onTapGesture {self.presentedUserInfo = true}
-            .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.userIDString)}
+            .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.userIDString).environmentObject(self.alerts)
+                .environmentObject(self.user)
+            }
     }
 }
 

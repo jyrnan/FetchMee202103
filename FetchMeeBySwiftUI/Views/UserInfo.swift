@@ -9,56 +9,125 @@
 import SwiftUI
 
 struct UserInfo: View {
+    @EnvironmentObject var alerts: Alerts
+    @EnvironmentObject var user: User
+    
     var userIDString: String?
     @ObservedObject var checkingUser: User = User()
+    @ObservedObject var userTimeline: Timeline = Timeline(type: .user)
     
     var body: some View {
-        VStack {
-            Image(uiImage: self.checkingUser.myInfo.banner ?? UIImage(named: "bg")!)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(height: 150)
-            HStack {
-                Image(uiImage: self.checkingUser.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 72, height: 72)
-                    .background(Color.white)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                    .offset(y: -36)
-                Spacer()
-                Image(systemName: "folder")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(4)
-                    .frame(width: 24, height: 24, alignment: .center)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
-                Image(systemName: "folder")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .padding(4)
-                    .frame(width: 24, height: 24, alignment: .center)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
-                Text("Following")
-                    .font(.caption).bold()
-                    .frame(width: 72, height: 24, alignment: .center)
-                    .background(Color.accentColor)
-                    .foregroundColor(.white)
-                    .cornerRadius(12)
-                
-            }.padding([.leading, .trailing], 10)
-            
-            
-            Text(self.checkingUser.myInfo.description ?? "userIDString")
-                .onAppear(){
-                    self.checkingUser.myInfo.id = self.userIDString ?? "0000"
-                    self.checkingUser.getMyInfo()
+        VStack(alignment: .leading) {
+            ZStack {
+                    GeometryReader {
+                    geometry in
+                    Image(uiImage: self.checkingUser.myInfo.banner ?? UIImage(named: "bg")!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: geometry.size.width ,height: geometry.size.height - 55)
+                        .clipped()
+                        .padding(0)
                 }
-            Spacer()
+                
+                VStack {
+                    Spacer()
+                    HStack(alignment: .bottom) {
+                        Image(uiImage: self.checkingUser.myInfo.avatar ?? UIImage(systemName: "person.circle")!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 80, height: 80)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.white.opacity(0.6), lineWidth: 3))
+                            .padding(.leading, 16)
+                        
+                        
+                        Spacer()
+                        Image(systemName: "envelope")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.accentColor)
+                            .padding(6)
+                            .frame(width: 32, height: 32, alignment: .center)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
+                        Image(systemName: (self.checkingUser.myInfo.notifications == true ? "bell.fill" : "bell"))
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(self.checkingUser.myInfo.notifications == true ? .white : .accentColor)
+                            .padding(6)
+                            .frame(width: 32, height: 32, alignment: .center)
+                            .background(self.checkingUser.myInfo.notifications == true ? Color.accentColor : Color.clear)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
+                        if self.checkingUser.myInfo.isFollowing == true {
+                            Text("Following")
+                                .font(.body).bold()
+                                .frame(width: 84, height: 32, alignment: .center)
+                                .background(Color.accentColor)
+                                .foregroundColor(.white)
+                                .cornerRadius(16)
+                                .padding(.trailing, 16)
+                                .onTapGesture(count: 1, perform: {
+                                    self.checkingUser.unfollow()
+                                })
+                        } else {
+                            Text("Follow")
+                                .font(.body).bold()
+                                .frame(width: 84, height: 32, alignment: .center)
+                                .background(Color.primary.opacity(0.1))
+                                .foregroundColor(.accentColor)
+                                .cornerRadius(16)
+                                .padding(.trailing, 16)
+                                .onTapGesture(count: 1, perform: {
+                                    self.checkingUser.follow()
+                                })
+                        }
+                        
+                        
+                    }
+                }.padding(0)
+            }.frame(height:180)
             
+            List {
+                VStack(alignment: .leading){
+                HStack{
+                    VStack(alignment: .leading) {
+                        Text(self.checkingUser.myInfo.name ?? "Name")
+                            .font(.title)
+                        Text(self.checkingUser.myInfo.screenName ?? "ScreenName")
+                            .font(.body).foregroundColor(.gray)
+                    }
+                    Spacer()
+                }.padding(.top, 0)
+                
+                Text(self.checkingUser.myInfo.description ?? "userBio")
+                    .onAppear(){
+                        self.checkingUser.myInfo.id = self.userIDString ?? "0000"
+                        self.checkingUser.getMyInfo()
+                        self.userTimeline.refreshFromTop(for: userIDString)
+                    }.multilineTextAlignment(.leading)
+                    .padding([.top], 16)
+                HStack() {
+                    Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
+                    Text(self.checkingUser.myInfo.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
+                    Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
+                    Text(self.checkingUser.myInfo.createdAt ?? "Unknow").font(.caption).foregroundColor(.gray)
+                }.padding(0)
+                
+                HStack {
+                    Text(String(self.checkingUser.myInfo.following ?? 0)).font(.body)
+                    Text("Following").font(.body).foregroundColor(.gray)
+                    Text(String(self.checkingUser.myInfo.followed ?? 0)).font(.body).padding(.leading, 16)
+                    Text("Followers").font(.body).foregroundColor(.gray)
+                }.padding(.bottom, 16)
+                    
+                }
+                ForEach(self.userTimeline.tweetIDStrings, id: \.self) {
+                    tweetIDString in
+                    TweetRow(timeline: self.userTimeline, tweetIDString: tweetIDString)
+                }
+            }
         }
         
     }

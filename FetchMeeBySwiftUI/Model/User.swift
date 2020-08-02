@@ -28,8 +28,11 @@ struct UserInfomation: Identifiable {
     var url: String?
     
     var isFollowing: Bool?
+    var isFollowed: Bool?
     var following: Int?
     var followed: Int?
+    
+    var notifications: Bool?
     
     var tweetsCount: Int?
     var list: [String]?
@@ -70,7 +73,6 @@ class User: ObservableObject {
         
         var avatarUrl = json["profile_image_url_https"].string
         avatarUrl = avatarUrl?.replacingOccurrences(of: "_normal", with: "")
-//        self.myInfo.avatar = UIImage(data: (try? Data(contentsOf: URL(string: avatarUrl!)!)) ?? UIImage(systemName: "person.fill.circle")!.pngData()!)
         self.avatarDownloader(from: avatarUrl!)()
         
         self.myInfo.bannerUrlString = json["profile_banner_url"].string
@@ -78,7 +80,7 @@ class User: ObservableObject {
         self.myInfo.banner = UIImage(data: (try? Data(contentsOf: URL(string: self.myInfo.bannerUrlString!)!)) ?? UIImage(named: "bg")!.pngData()!)
         }
         
-        var loc = json["location"].string ?? ""
+        var loc = json["location"].string ?? "Unknow"
         if loc != "" {
             loc = " " + loc
         }
@@ -92,9 +94,25 @@ class User: ObservableObject {
         
         self.myInfo.following = json["friends_count"].integer!
         self.myInfo.followed = json["followers_count"].integer!
+        self.myInfo.isFollowing = json["following"].bool
+        
+        self.myInfo.notifications = json["notifications"].bool
         
         self.myInfo.tweetsCount = json["statuses_count"].integer!
         
+    }
+    
+    func follow() {
+        print(#line, #function)
+        let userTag = UserTag.id(self.myInfo.id)
+        swifter.followUser(userTag)
+        self.myInfo.isFollowing = true
+    }
+    
+    func unfollow() {
+        let userTag = UserTag.id(self.myInfo.id)
+        swifter.unfollowUser(userTag)
+        self.myInfo.isFollowing = false
     }
     
     func avatarDownloader(from urlString: String) -> () -> () {

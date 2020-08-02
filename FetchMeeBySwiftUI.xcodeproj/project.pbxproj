@@ -27,6 +27,7 @@
 		D27DCEC624B96D6100520BE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEC424B96D6100520BE3 /* LaunchScreen.storyboard */; };
 		D27DCF3B24B98F9900520BE3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF3A24B98F9900520BE3 /* Model.swift */; };
 		D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF8B24B9A56100520BE3 /* TweetRow.swift */; };
+		D281C83A24D5B00B005AF063 /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D241A73324D25F5C003FC884 /* SwifteriOS.framework */; };
 		D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFCF24BC29BF005DBC39 /* Composer.swift */; };
 		D286FFD724BC31F0005DBC39 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFD624BC31F0005DBC39 /* UserInfo.swift */; };
 		D286FFE824BD7EC3005DBC39 /* MentionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFE724BD7EC3005DBC39 /* MentionRow.swift */; };
@@ -82,6 +83,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = F6B4D5751C7BAC4500E06514;
 			remoteInfo = SwifterTests;
+		};
+		D2D0F7C924D63EE8003C42FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D241A72A24D25F5C003FC884 /* Swifter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B9F50ED1944A5AB00894629;
+			remoteInfo = SwifteriOS;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -147,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D241A73C24D25FEF003FC884 /* SwifteriOS.framework in Frameworks */,
+				D281C83A24D5B00B005AF063 /* SwifteriOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +290,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D2D0F7CA24D63EE8003C42FE /* PBXTargetDependency */,
 			);
 			name = FetchMee;
 			productName = FetchMeeBySwiftUI;
@@ -420,6 +430,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D2D0F7CA24D63EE8003C42FE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwifteriOS;
+			targetProxy = D2D0F7C924D63EE8003C42FE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		D27DCEC424B96D6100520BE3 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -554,7 +572,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -578,7 +596,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;

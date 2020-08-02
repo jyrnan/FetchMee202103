@@ -98,7 +98,7 @@ final class Timeline: ObservableObject {
     }
 
     //更新上方推文
-    func refreshFromTop() {
+    func refreshFromTop(for userIDString: String? = nil) {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
             print(#line, "Timeline got!", self, Date())
@@ -118,6 +118,8 @@ final class Timeline: ObservableObject {
             swifter.getMentionsTimelineTweets(count: 5,sinceID: self.sinceIDString, success: sh, failure: failureHandler)
         case .home:
             swifter.getHomeTimeline(count: self.maxCounter,sinceID: self.sinceIDString,  success: sh, failure: failureHandler)
+        case .user:
+            swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), success: sh, failure: failureHandler)
         default:
             print(#line, #function)
         }
@@ -143,6 +145,7 @@ final class Timeline: ObservableObject {
         case .home:
             self.isDone = false
             swifter.getHomeTimeline(count: self.maxCounter,maxID: self.maxIDString,  success: sh, failure: failureHandler)
+       
         default:
             print(#line, #function)
         }
@@ -215,7 +218,7 @@ final class Timeline: ObservableObject {
                 let userName = newTweets[i]["user"]["name"].string!
                 let screenName = newTweets[i]["user"]["screen_name"].string!
                 let avatarUrlString = newTweets[i]["user"]["profile_image_url_https"].string!.replacingOccurrences(of: "_normal", with: "")
-                let tweetID = newTweets[i]["in_reply_to_status_id_str"].string!
+                let tweetID = newTweets[i]["in_reply_to_status_id_str"].string ?? "0000"
                 
                 if self.mentionUserInfo[userIDString] == nil {
                     self.mentionUserInfo[userIDString] = [userName, screenName, avatarUrlString, tweetID]

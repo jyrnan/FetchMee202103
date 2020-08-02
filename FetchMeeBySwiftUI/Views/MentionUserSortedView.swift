@@ -10,6 +10,7 @@ import SwiftUI
 import Combine
 
 struct MentionUserSortedView: View {
+    
     @ObservedObject var mentions: Timeline
     
     var body: some View {
