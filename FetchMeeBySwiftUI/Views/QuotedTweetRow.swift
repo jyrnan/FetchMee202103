@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-struct TweetRow: View {
+struct QuotedTweetRow: View {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
    
@@ -26,34 +26,34 @@ struct TweetRow: View {
             HStack(alignment: .top, spacing: 0) {
                 VStack {
                     AvatarView(avatar: self.tweetMedia.avatar!, userIDString: self.tweetMedia.userIDString)
-                        .frame(width: 36, height: 36)
-                        .padding(.init(top: 12, leading: 0, bottom: 12, trailing: 12))
+                        .frame(width: 32, height: 32)
+                        .padding(.init(top: 12, leading: 4, bottom: 12, trailing: 12))
                     Spacer()
                 } //Avatar
                 
                 VStack(alignment: .leading, spacing: 0 ) {
                     HStack(alignment: .center) {
-                        Text(self.tweetMedia.userName ?? "UserName")
+                        Text(self.tweetMedia.userName ?? "UnKnowName")
                             .font(.headline)
                             .lineLimit(1)
-                        Text("@" + (self.tweetMedia.screenName ?? "screenName"))
+                        Text("@" + (self.tweetMedia.screenName ?? "UnkownName"))
                             .font(.subheadline)
                             .foregroundColor(.gray)
                             .lineLimit(1)
-                        CreatedTimeView(createdTime: self.tweetMedia.created!)
+                        CreatedTimeView(createdTime: self.tweetMedia.created)
                         Spacer()
-                        DetailIndicator(timeline: timeline, tweetIDString: tweetIDString)
-                            .padding(.all, 0)
-                            .onTapGesture {self.isShowDetail = true}
-                            .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user)}
+//                        DetailIndicator(timeline: timeline, tweetIDString: tweetIDString)
+//                            .padding(.all, 0)
+//                            .onTapGesture {self.isShowDetail = true}
+//                            .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user)}
                         } //用户名和创建时间以及详情页面点点点等信息
                     if tweetMedia.replyUsers.count != 0 {
                         ReplyUsersView(replyUsers: tweetMedia.replyUsers)
                     }
-                    TweetTextView(tweetText: tweetMedia.tweetText)
+                    TweetTextView(tweetText: (tweetMedia.tweetText == []) ? ["You are not allowed to view this tweet."] : tweetMedia.tweetText)
                         .font(.body)
                         .padding(.top, 8)
-                        .padding(.bottom, 16)
+                        .padding(.bottom, 4)
                         .fixedSize(horizontal: false, vertical: true)
                         .onTapGesture {
                             if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
@@ -61,38 +61,25 @@ struct TweetRow: View {
                             }
                             withAnimation {self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle() }
                             self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
-                        } //实现点击出现ToolsVIew快速回复
-
-                    if tweetMedia.images.count != 0 {
-                        Images(images: self.tweetMedia.images)
-                            .frame(height: 160, alignment: .center)
-                            .cornerRadius(16)
-                            .clipped()
-                            .padding(.top, 16)
-                            .padding(.bottom, 16)
-                    } //推文图片显示区域
-                    
-                    if tweetMedia.quoted_status_id_str != nil {
-                        QuotedTweetRow(timeline: self.timeline, tweetIDString: tweetMedia.quoted_status_id_str!).mask(RoundedRectangle(cornerRadius: 16, style: .continuous)).overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                                                      .stroke(Color.gray
-                                                                                .opacity(0.2), lineWidth: 1))
-                    }
-//                   
+                        }
                 }
-            } //推文内容
-            Spacer()
-            if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
-                ToolsView(timeline: timeline, tweetIDString: tweetIDString)
+            }.scaleEffect(0.9) //推文内容
+            if tweetMedia.images.count != 0 {
+                Images(images: self.tweetMedia.images)
+                    .frame(height: 160, alignment: .center)
+//                    .cornerRadius(16)
+                    .clipped()
+//                    .padding(.top, 16)
+//                    .padding(.bottom, 16)
+            } //推文图片显示区域
             }
         }
     }
-}
 
-extension TweetRow {
-    
-}
 
-struct TweetRow_Previews: PreviewProvider {
+
+
+struct QuotedTweetRow_Previews: PreviewProvider {
     static var previews: some View {
         TweetRow(timeline: Timeline(type: .home), tweetIDString: "")
     }

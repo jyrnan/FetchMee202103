@@ -141,7 +141,7 @@ extension TimelineView {
     func refreshAll() {
         print(#line, #function)
         self.home.refreshFromTop()
-//        self.mentions.refreshFromTop()
+        self.mentions.refreshFromTop()
     }
     
     func logOut() {

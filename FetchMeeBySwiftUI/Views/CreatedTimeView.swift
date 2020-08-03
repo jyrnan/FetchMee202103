@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CreatedTimeView: View {
-    var createdTime: String
+    var createdTime: String?
     @State var updatedTime: String = ""
     var body: some View {
         Text(updatedTime)
@@ -22,9 +22,12 @@ struct CreatedTimeView: View {
 }
 
 extension CreatedTimeView {
-    func updateTime(createdTime: String) -> String {
+    func updateTime(createdTime: String?) -> String {
+        guard createdTime != nil else {
+            return "N/A"
+        }
         var result : String?
-        let timeString = createdTime
+        let timeString = createdTime!
         let timeFormat = DateFormatter()
         timeFormat.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
         if let date = timeFormat.date(from: timeString) {

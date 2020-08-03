@@ -40,7 +40,7 @@ final class Timeline: ObservableObject {
     
     var type: TweetListType
     var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
-    var mentionUserInfo: [String:[String]] = [:] {
+    var mentionUserInfo: [String:[String?]] = [:] {
         didSet {
 //            print(#line, self.mentionUserInfo.count)
             
@@ -61,7 +61,7 @@ final class Timeline: ObservableObject {
 //    oauthTokenSecret: "vNQ6PlsdWFqMVK3OZn6IyoatBLCHB8DdFcHqCzK2zdD6C")
     
     let session = URLSession.shared
-    let maxCounter: Int = 2
+    let maxCounter: Int = 100
     var sinceIDString: String?
     var maxIDString: String?
     
@@ -180,19 +180,19 @@ final class Timeline: ObservableObject {
         
         
         //生产对应推文的媒体数据字典，根据推文IDString进行索引
-        var tweetMedia = TweetMedia(id: newTweet["id_str"].string!)
+        var tweetMedia = TweetMedia(id: newTweet["id_str"].string ?? "0000")
         
-        tweetMedia.userIDString = newTweet["user"]["id_str"].string!
-        tweetMedia.userName = newTweet["user"]["name"].string!
-        tweetMedia.screenName = newTweet["user"]["screen_name"].string!
+        tweetMedia.userIDString = newTweet["user"]["id_str"].string
+        tweetMedia.userName = newTweet["user"]["name"].string
+        tweetMedia.screenName = newTweet["user"]["screen_name"].string
         
-        tweetMedia.replyUsers = self.convertTweetText(from: newTweet["text"].string!).0
-        tweetMedia.tweetText = self.convertTweetText(from: newTweet["text"].string!).1
+        tweetMedia.replyUsers = self.convertTweetText(from: newTweet["text"].string).0
+        tweetMedia.tweetText = self.convertTweetText(from: newTweet["text"].string).1
         
-        tweetMedia.avatarUrlString = newTweet["user"]["profile_image_url_https"].string!
+        tweetMedia.avatarUrlString = newTweet["user"]["profile_image_url_https"].string
         tweetMedia.avatarUrlString = tweetMedia.avatarUrlString?.replacingOccurrences(of: "_normal", with: "")
         tweetMedia.avatar = UIImage(systemName: "person.fill")
-        avatarDownloader(from: tweetMedia.avatarUrlString!, setTo: IDString)()
+        avatarDownloader(from: tweetMedia.avatarUrlString, setTo: IDString)()
 //
         if newTweet["extended_entities"]["media"].array?.count != nil {
             let count: Int = newTweet["extended_entities"]["media"].array!.count
@@ -205,10 +205,10 @@ final class Timeline: ObservableObject {
                 imageDownloader(from: urlstring, setTo: IDString, at: m)()
             }
         }
-        tweetMedia.retweeted = newTweet["retweeted"].bool!
-        tweetMedia.favorited = newTweet["favorited"].bool!
+        tweetMedia.retweeted = newTweet["retweeted"].bool ?? false
+        tweetMedia.favorited = newTweet["favorited"].bool ?? false
         
-        tweetMedia.created = newTweet["created_at"].string!
+        tweetMedia.created = newTweet["created_at"].string
         
         tweetMedia.in_reply_to_user_id_str = newTweet["in_reply_to_user_id_str"].string
         tweetMedia.in_reply_to_status_id_str = newTweet["in_reply_to_status_id_str"].string
@@ -218,11 +218,12 @@ final class Timeline: ObservableObject {
         
         //添加回复用户信息
         if self.type == .mention {
-            let userIDString = newTweet["user"]["id_str"].string!
-            let userName = newTweet["user"]["name"].string!
-            let screenName = newTweet["user"]["screen_name"].string!
-            let avatarUrlString = newTweet["user"]["profile_image_url_https"].string!.replacingOccurrences(of: "_normal", with: "")
-            let tweetID = newTweet["in_reply_to_status_id_str"].string ?? "0000"
+            guard let userIDString = newTweet["user"]["id_str"].string else {return}
+            let userName = newTweet["user"]["name"].string
+            let screenName = newTweet["user"]["screen_name"].string
+            let avatarUrlString = newTweet["user"]["profile_image_url_https"].string?
+                .replacingOccurrences(of: "_normal", with: "")
+            let tweetID = newTweet["in_reply_to_status_id_str"].string
             
             if self.mentionUserInfo[userIDString] == nil {
                 self.mentionUserInfo[userIDString] = [userName, screenName, avatarUrlString, tweetID]
@@ -274,12 +275,14 @@ final class Timeline: ObservableObject {
     }
     
     
-    
-    func convertTweetText(from originalTweetText: String) -> ([String], [String]) {
+    /*
+     把回复用户名从推文中分离出来
+     */
+    func convertTweetText(from originalTweetText: String?) -> ([String], [String]) {
         var replyUsers: [String] = []
         var tweetText: [String] = []
-        
-        tweetText = originalTweetText.split(separator: " ").map{String($0)}
+        guard originalTweetText != nil else{return (replyUsers, tweetText)}
+        tweetText = originalTweetText!.split(separator: " ").map{String($0)}
         
         for string in tweetText {
             if string.first != "@" {
@@ -293,10 +296,10 @@ final class Timeline: ObservableObject {
         return (replyUsers, tweetText)
     }
     
-    func avatarDownloader(from urlString: String, setTo idString: String) -> () -> () {
+    func avatarDownloader(from urlString: String?, setTo idString: String) -> () -> () {
         return{
-            
-            let url = URL(string: urlString)!
+            guard urlString != nil else {return}
+            let url = URL(string: urlString!)!
             let fileName = url.lastPathComponent //获取下载文件名用于本地存储
             
             let cachelUrl = cfh.getPath()
