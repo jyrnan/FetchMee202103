@@ -15,6 +15,9 @@
 		D2224FD324BE901E00AE2110 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224FD224BE901E00AE2110 /* AuthView.swift */; };
 		D241A73C24D25FEF003FC884 /* SwifteriOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D241A73324D25F5C003FC884 /* SwifteriOS.framework */; };
 		D241A73D24D25FEF003FC884 /* SwifteriOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D241A73324D25F5C003FC884 /* SwifteriOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
+		D252548024D804AB00D8B508 /* WebLinkJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkJson.txt */; };
+		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
 		D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDD924D2CEED00682B99 /* SafariView.swift */; };
 		D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */; };
 		D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */; };
@@ -115,6 +118,9 @@
 		D2224F9024BE7FE400AE2110 /* Swifter+Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swifter+Observable.swift"; sourceTree = "<group>"; };
 		D2224FD224BE901E00AE2110 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		D241A72A24D25F5C003FC884 /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = ../Swifter/Swifter.xcodeproj; sourceTree = "<group>"; };
+		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
+		D252547F24D804AB00D8B508 /* WebLinkJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkJson.txt; sourceTree = "<group>"; };
+		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
 		D262FDD924D2CEED00682B99 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionUserSortedView.swift; sourceTree = "<group>"; };
 		D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedTimeView.swift; sourceTree = "<group>"; };
@@ -174,6 +180,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D252547824D8000700D8B508 /* reference */ = {
+			isa = PBXGroup;
+			children = (
+				D252547D24D8003B00D8B508 /* RetweetJson.txt */,
+				D252547F24D804AB00D8B508 /* WebLinkJson.txt */,
+				D252548124D807F500D8B508 /* QuoteTweetJson.txt */,
+			);
+			path = reference;
+			sourceTree = "<group>";
+		};
 		D27DCEAD24B96D5F00520BE3 = {
 			isa = PBXGroup;
 			children = (
@@ -195,6 +211,7 @@
 		D27DCEB824B96D5F00520BE3 /* FetchMeeBySwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				D252547824D8000700D8B508 /* reference */,
 				D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */,
 				D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */,
 				D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */,
@@ -382,6 +399,9 @@
 				D27DCEC624B96D6100520BE3 /* LaunchScreen.storyboard in Resources */,
 				D27DCEC324B96D6100520BE3 /* Preview Assets.xcassets in Resources */,
 				D27DCEC024B96D6100520BE3 /* Assets.xcassets in Resources */,
+				D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */,
+				D252548024D804AB00D8B508 /* WebLinkJson.txt in Resources */,
+				D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

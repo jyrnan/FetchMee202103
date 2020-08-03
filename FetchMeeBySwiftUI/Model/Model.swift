@@ -40,6 +40,8 @@ struct TweetMedia: Identifiable {
     
     var isToolsViewShowed: Bool = false //控制是否显示row里面的ToolsView
     
+    var quoted_status_id_str: String? //引用推文的ID
+    
     init(id: String) {
         self.id = id
     }
