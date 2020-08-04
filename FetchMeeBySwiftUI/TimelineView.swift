@@ -95,8 +95,9 @@ struct TimelineView: View {
 //                                print(#line, indexSet.first)
 //                                print(#line, self.home.tweetIDStrings[indexSet.first!])
                                 let tweetIDString = self.home.tweetIDStrings[indexSet.first!]
-                                swifter.destroyTweet(forID: tweetIDString, success: { _ in self.home.tweetIDStrings.remove(atOffsets: indexSet)})
+                                swifter.destroyTweet(forID: tweetIDString, success: { _ in self.home.tweetIDStrings.remove(atOffsets: indexSet)}, failure: {_ in })
                             }
+                            
                             .onMove { indecies, newOffset in print()  }
                             HStack {
                                 Spacer()

@@ -42,6 +42,8 @@ struct Composer: View {
                         case .session:
                             print(#line, self.tweetIDString as Any)
                             self.timeline.isDone = true
+                            self.alerts.stripAlertOfDetailView.alertText = "Reply sent!"
+                            self.alerts.stripAlertOfDetailView.isPresentedAlert = true
                         default:
                             self.timeline.refreshFromTop()
                             self.alerts.stripAlert.alertText = "Tweet sent!"
