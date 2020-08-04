@@ -33,6 +33,10 @@ struct TweetMedia: Identifiable {
     
     var retweeted: Bool = false
     var retweetedTimes: Int?
+    
+    var retweeted_by_IDString: String?  //存储retweet本推文的推文ID
+    var retweeted_by_UserIDString: String? //存储retweet本推文的用户ID
+    var retweeted_by_UserName: String? //存储retweet本推文的用户名
 
     var in_reply_to_user_id_str : String?
     var in_reply_to_status_id_str: String?

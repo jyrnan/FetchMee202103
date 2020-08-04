@@ -32,6 +32,24 @@ struct TweetRow: View {
                 } //Avatar
                 
                 VStack(alignment: .leading, spacing: 0 ) {
+                    if self.tweetMedia.retweeted_by_UserName != nil {
+                        HStack {
+                            Image(systemName:"repeat")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 12, height: 12, alignment: .center)
+                                .foregroundColor(.gray)
+                            Text(self.tweetMedia.retweeted_by_UserName! + "  retweeted")
+                            .font(.caption2)
+                            .foregroundColor(.gray)
+                                .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                                    self.presentedUserInfo = true
+                                })
+                                .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
+                                    .environmentObject(self.user)}
+                            Spacer()
+                        }.offset(x: -20)
+                    }
                     HStack(alignment: .center) {
                         Text(self.tweetMedia.userName ?? "UserName")
                             .font(.headline)
@@ -88,9 +106,7 @@ struct TweetRow: View {
     }
 }
 
-extension TweetRow {
-    
-}
+
 
 struct TweetRow_Previews: PreviewProvider {
     static var previews: some View {
