@@ -10,13 +10,14 @@ import SwiftUI
 
 struct DetailIndicator: View {
     @ObservedObject var timeline: Timeline
-    var tweetIDString: String
+     var tweetIDString: String
+    
 //    var retweetColor: Color = { self.timeline[tweetIDString].retweeted? Color(.red) : Color(.gray) }
     var body: some View {
         HStack(spacing: 0){
             Spacer()
             Circle()
-                .fill(self.timeline.tweetMedias[tweetIDString]?.retweeted == true ? Color.blue : Color.gray)
+                .fill(self.timeline.tweetMedias[tweetIDString]?.retweeted == true ? Color.green : Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
             Circle()
@@ -24,13 +25,23 @@ struct DetailIndicator: View {
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
             Circle()
-                .fill(Color.gray)
+                .fill(self.timeline.tweetMedias[tweetIDString]?.rowIsViewed == true ? Color.gray : Color.accentColor)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
+                .onAppear{
+                    self.delay(delay: 3, closure: {
+                        self.timeline.tweetMedias[tweetIDString]?.rowIsViewed = true
+                    })
+                }
             Spacer()
         }
         .frame(width: 27, height: 11, alignment: .center)
         .opacity(0.7)
+    }
+    
+    func delay(delay: Double, closure: @escaping () -> ()) {
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
 }
 

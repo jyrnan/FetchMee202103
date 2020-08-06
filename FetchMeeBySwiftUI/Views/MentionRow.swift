@@ -19,6 +19,7 @@ struct MentionRow: View {
     
     @State var presentedUserInfo: Bool = false
     @State var isShowDetail: Bool = false
+    
     var body: some View {
         VStack {
             HStack(alignment: .center, spacing: 0) {
@@ -37,11 +38,6 @@ struct MentionRow: View {
                 Spacer()
                 CreatedTimeView(createdTime: self.tweetMedia.created!)
             }
-            
-//            Spacer()
-//            if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
-//                ToolsView(timeline: timeline, tweetIDString: tweetIDString)
-//            }
         }
             
     }

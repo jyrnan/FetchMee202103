@@ -94,7 +94,7 @@ struct UserInfo: View {
                 HStack{
                     VStack(alignment: .leading) {
                         Text(self.checkingUser.myInfo.name ?? "Name")
-                            .font(.title)
+                            .font(.title2).bold()
                         Text(self.checkingUser.myInfo.screenName ?? "ScreenName")
                             .font(.body).foregroundColor(.gray)
                     }
@@ -123,7 +123,15 @@ struct UserInfo: View {
                     tweetIDString in
                     TweetRow(timeline: self.userTimeline, tweetIDString: tweetIDString)
                 }
-            }
+                HStack {
+                    Spacer()
+                    Button("More Tweets...") {
+                        self.userTimeline.refreshFromButtom(for: userIDString)}
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    Spacer()
+                } //下方载入更多按钮
+            }.listStyle(DefaultListStyle())
         }
         .onAppear(){
             self.checkingUser.myInfo.id = self.userIDString ?? "0000"

@@ -29,10 +29,10 @@ struct TweetMedia: Identifiable {
     var images: [String: UIImage] = [:]
     
     var favorited: Bool = false
-    var favoriteTimes: Int?
+    var favorite_count: Int?
     
     var retweeted: Bool = false
-    var retweetedTimes: Int?
+    var retweet_count: Int?
     
     var retweeted_by_IDString: String?  //存储retweet本推文的推文ID
     var retweeted_by_UserIDString: String? //存储retweet本推文的用户ID
@@ -45,6 +45,8 @@ struct TweetMedia: Identifiable {
     var isToolsViewShowed: Bool = false //控制是否显示row里面的ToolsView
     
     var quoted_status_id_str: String? //引用推文的ID
+    
+    var rowIsViewed: Bool = false //用来标记推文是否被展现
     
     init(id: String) {
         self.id = id

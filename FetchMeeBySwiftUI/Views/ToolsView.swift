@@ -32,6 +32,7 @@ struct ToolsView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 18, height: 18, alignment: .center)
+                    .foregroundColor(self.timeline.tweetMedias[tweetIDString]?.retweeted == true ? Color.green : Color.gray)
                     .onTapGesture {
                         if self.timeline.tweetMedias[tweetIDString] != nil {
                             switch self.timeline.tweetMedias[tweetIDString]!.retweeted {
@@ -44,13 +45,15 @@ struct ToolsView: View {
                             }
                         }
                     }
-                
+                if self.timeline.tweetMedias[tweetIDString]?.retweet_count != 0 {
+                    Text(String(self.timeline.tweetMedias[tweetIDString]?.retweet_count ?? 0)).font(.subheadline) }
                 Spacer()
                 
                 Image(systemName: (self.timeline.tweetMedias[tweetIDString]!.favorited == false ? "heart" : "heart.fill"))
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 18, height: 18, alignment: .center)
+                    .foregroundColor(self.timeline.tweetMedias[tweetIDString]?.favorited == true ? Color.red : Color.gray)
                     .onTapGesture {
                         if self.timeline.tweetMedias[tweetIDString] != nil {
                             switch self.timeline.tweetMedias[tweetIDString]!.favorited {
@@ -63,7 +66,8 @@ struct ToolsView: View {
                             }
                         }
                     }
-                
+                if self.timeline.tweetMedias[tweetIDString]?.favorite_count != 0 {
+                    Text(String(self.timeline.tweetMedias[tweetIDString]?.favorite_count ?? 0)).font(.subheadline) }
                 Spacer()
                 
                 Image(systemName: "square.and.arrow.up")

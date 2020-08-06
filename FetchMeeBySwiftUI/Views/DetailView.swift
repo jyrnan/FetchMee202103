@@ -30,6 +30,7 @@ struct DetailView: View {
                     }
                     Composer(timeline: self.replySession ,tweetIDString: self.tweetIDString)
                 }
+                .listStyle(DefaultListStyle())
                 .onReceive(Publishers.keyboardHeight) {
                     self.keyboardHeight = $0
                     print(#line, self.keyboardHeight)

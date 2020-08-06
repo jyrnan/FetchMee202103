@@ -21,6 +21,8 @@ struct TweetRow: View {
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     
+  
+    
     var body: some View {
         VStack() {
             HStack(alignment: .top, spacing: 0) {
@@ -40,7 +42,7 @@ struct TweetRow: View {
                                 .frame(width: 12, height: 12, alignment: .center)
                                 .foregroundColor(.gray)
                             Text(self.tweetMedia.retweeted_by_UserName! + "  retweeted")
-                            .font(.caption2)
+                                .font(.subheadline).lineLimit(1)
                             .foregroundColor(.gray)
                                 .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
                                     self.presentedUserInfo = true
@@ -97,7 +99,7 @@ struct TweetRow: View {
                     }
 //                   
                 }
-            } //推文内容
+            }//推文内容
             Spacer()
             if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
                 ToolsView(timeline: timeline, tweetIDString: tweetIDString)

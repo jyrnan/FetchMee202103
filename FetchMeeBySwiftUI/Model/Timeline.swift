@@ -112,7 +112,7 @@ final class Timeline: ObservableObject {
         
         switch self.type {
         case .mention:
-            swifter.getMentionsTimelineTweets(count: 5,sinceID: self.sinceIDString, success: sh, failure: failureHandler)
+            swifter.getMentionsTimelineTweets(count: self.maxCounter,sinceID: self.sinceIDString, success: sh, failure: failureHandler)
         case .home:
             swifter.getHomeTimeline(count: self.maxCounter,sinceID: self.sinceIDString,  success: sh, failure: failureHandler)
         case .user:
@@ -123,7 +123,7 @@ final class Timeline: ObservableObject {
     }
     
     ///从推文下方开始更新
-    func refreshFromButtom() {
+    func refreshFromButtom(for userIDString: String? = nil) {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
             
@@ -143,7 +143,8 @@ final class Timeline: ObservableObject {
         case .home:
             self.isDone = false
             swifter.getHomeTimeline(count: self.maxCounter,maxID: self.maxIDString,  success: sh, failure: failureHandler)
-            
+        case .user:
+            swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), maxID: self.maxIDString, success: sh, failure: failureHandler)
         default:
             print(#line, #function)
         }
@@ -213,7 +214,9 @@ final class Timeline: ObservableObject {
             }
             
             tweetMedia.retweeted = newTweet["retweeted"].bool ?? false
+            tweetMedia.retweet_count = newTweet["retweet_count"].integer ?? 0
             tweetMedia.favorited = newTweet["favorited"].bool ?? false
+            tweetMedia.favorite_count = newTweet["favorite_count"].integer ?? 0
             
             tweetMedia.created = newTweet["created_at"].string
             
@@ -327,10 +330,12 @@ final class Timeline: ObservableObject {
             let task = self.session.downloadTask(with: url) {
                 fileURL, resp, err in
                 if let url = fileURL, let d = try? Data(contentsOf: url) {
-                    let im = UIImage(data: d)!
+                    if let im = UIImage(data: d) {
                     try? d.write(to: filePath)
                     DispatchQueue.main.async {
                         sh(im)
+                    }
+                        
                     }
                 }
             }

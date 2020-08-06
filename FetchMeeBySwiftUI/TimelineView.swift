@@ -41,25 +41,23 @@ struct TimelineView: View {
                         }
                         //Mentions部分章节，
                         Section(header:HStack {
-                            Text(self.mentions.newTweetNumber == 0 ? "Mentions" : "Mentions \(self.mentions.newTweetNumber)").font(.headline)
+                            Text("Mentions").font(.headline)
+                            if self.mentions.newTweetNumber != 0 {
+                                Text(String(self.mentions.newTweetNumber)).font(.headline).foregroundColor(.accentColor)
+                            }
                             Spacer()
-                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
-//                            Button("More...") {
-//                                self.mentions.refreshFromButtom()}
-//                                .font(.caption)
-//                                .foregroundColor(.gray)
-                            
+                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)  
                         })
                         {
                             if !self.mentions.mentionUserIDStringsSorted.isEmpty {
                                 MentionUserSortedView(mentions: self.mentions)}
                             if !self.mentions.tweetIDStrings.isEmpty {
-                            ScrollView{
+                            ScrollView {
                                 ForEach(self.mentions.tweetIDStrings, id: \.self) {
                                     tweetIDString in
                                     MentionRow(timeline: self.mentions, tweetIDString: tweetIDString)
-                                        .padding(0)
-                                }
+                                        .padding(.bottom, 4)
+                                }.listRowInsets(.init(top: 14, leading: 0, bottom: 14, trailing: 0))
                                 HStack {
                                     Spacer()
                                     Button("More Tweets...") {
@@ -69,27 +67,22 @@ struct TimelineView: View {
                                         .padding()
                                     Spacer()
                                 } //下方载入更多按钮
-                            }.frame(maxHeight: 200).listStyle(GroupedListStyle()).padding(0)}
-//                            HStack {
-//                                Spacer()
-//                                Button("More Tweets...") {
-//                                    self.mentions.refreshFromButtom()}
-//                                    .font(.caption)
-//                                    .foregroundColor(.gray)
-//                                Spacer()
-//                            } //下方载入更多按钮
+                            }.padding(0).frame(maxHeight: 200)}
                         }
                         //Homeline部分章节
                         Section(header:HStack {
-                            Text(self.home.newTweetNumber == 0 ? "Homeline" : "Homeline \(self.home.newTweetNumber)").font(.headline)
-                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
+                            Text("Home").font(.headline)
+                            if self.home.newTweetNumber != 0 {
+                                Text(String(self.home.newTweetNumber)).font(.headline).foregroundColor(.accentColor)
+                            }
                             Spacer()
+                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
                         })
                         {
                             ForEach(self.home.tweetIDStrings, id: \.self) {
                                 tweetIDString in
                                 TweetRow(timeline: home, tweetIDString: tweetIDString)
-                                    .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.blue.opacity(0.2) : Color.clear) //标注被提及的推文listRowBackground
+                                    .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.accentColor.opacity(0.2) : Color.clear) //标注被提及的推文listRowBackground
                             }
                             .onDelete { indexSet in
 //                                print(#line, indexSet.first)
