@@ -29,7 +29,7 @@ struct DetailIndicator: View {
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
                 .onAppear{
-                    self.delay(delay: 3, closure: {
+                    self.delay(delay: 4, closure: {
                         self.timeline.tweetMedias[tweetIDString]?.rowIsViewed = true
                     })
                 }

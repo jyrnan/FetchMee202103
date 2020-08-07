@@ -24,10 +24,12 @@ struct TimelineView: View {
     
     @State var keyboardHeight: CGFloat = 0
     
+    @State var isMentionsShowed: Bool = true
+    
     init() {
 //        self.user = user
 //        print(#line, "ContentView \(self)")
-        
+//   let tableView = UITableView(frame: .zero, style: .insetGrouped)
     }
     
     
@@ -37,11 +39,14 @@ struct TimelineView: View {
             ZStack {
                     List {
                         PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
-                            Composer(timeline: self.home)
+                            Composer(timeline: self.home).cornerRadius(16)
                         }
                         //Mentions部分章节，
                         Section(header:HStack {
                             Text("Mentions").font(.headline)
+                                .onTapGesture {
+                                    self.isMentionsShowed.toggle()
+                                }
                             if self.mentions.newTweetNumber != 0 {
                                 Text(String(self.mentions.newTweetNumber)).font(.headline).foregroundColor(.accentColor)
                             }
@@ -49,9 +54,9 @@ struct TimelineView: View {
                             ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)  
                         })
                         {
-                            if !self.mentions.mentionUserIDStringsSorted.isEmpty {
+                            if !self.mentions.mentionUserIDStringsSorted.isEmpty && self.isMentionsShowed {
                                 MentionUserSortedView(mentions: self.mentions)}
-                            if !self.mentions.tweetIDStrings.isEmpty {
+                            if !self.mentions.tweetIDStrings.isEmpty && self.isMentionsShowed {
                             ScrollView {
                                 ForEach(self.mentions.tweetIDStrings, id: \.self) {
                                     tweetIDString in
@@ -82,16 +87,16 @@ struct TimelineView: View {
                             ForEach(self.home.tweetIDStrings, id: \.self) {
                                 tweetIDString in
                                 TweetRow(timeline: home, tweetIDString: tweetIDString)
-                                    .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.accentColor.opacity(0.2) : Color.clear) //标注被提及的推文listRowBackground
+//                                    .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.accentColor.opacity(0.2) : Color.clear) //标注被提及的推文listRowBackground
+                                    .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str || self.home.tweetMedias[tweetIDString]?.isToolsViewShowed == true ? Color.accentColor.opacity(0.1) : Color.clear) //标注被提及的或者是被选中的推文listRowBackground
                             }
                             .onDelete { indexSet in
-//                                print(#line, indexSet.first)
-//                                print(#line, self.home.tweetIDStrings[indexSet.first!])
+//                                
                                 let tweetIDString = self.home.tweetIDStrings[indexSet.first!]
                                 swifter.destroyTweet(forID: tweetIDString, success: { _ in self.home.tweetIDStrings.remove(atOffsets: indexSet)}, failure: {_ in })
                             }
+//                            .listRowInsets(EdgeInsets(top: 4, leading:8, bottom: 4, trailing: 8))
                             
-                            .onMove { indecies, newOffset in print()  }
                             HStack {
                                 Spacer()
                                 Button("More Tweets...") {
@@ -102,7 +107,9 @@ struct TimelineView: View {
                             } //下方载入更多按钮
                         }
                         
+                        
                     }
+                    .listStyle(InsetGroupedListStyle())
                     .onReceive(Publishers.keyboardHeight) {
                         self.keyboardHeight = $0
                         print(#line, self.keyboardHeight)

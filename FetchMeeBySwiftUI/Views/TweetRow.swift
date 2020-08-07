@@ -88,8 +88,8 @@ struct TweetRow: View {
                             .frame(height: 160, alignment: .center)
                             .cornerRadius(16)
                             .clipped()
-                            .padding(.top, 16)
-                            .padding(.bottom, 16)
+                            .padding(.top, 8)
+                            .padding(.bottom, 8)
                     } //推文图片显示区域
                     
                     if tweetMedia.quoted_status_id_str != nil {
