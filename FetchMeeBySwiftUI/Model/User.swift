@@ -36,7 +36,45 @@ struct UserInfomation: Identifiable {
     
     var tweetsCount: Int?
     var list: [String]?
+    
+    var setting: UserSetting = UserSetting()
         }
+
+enum ThemeColor: Int {
+    case gray = 0
+    case green = 1
+    
+    var color : Color {
+        switch self {
+        case .gray:     return Color.gray
+        case .green:    return Color.green
+        }
+    }
+    
+}
+
+struct UserSetting {
+    
+    var themeColorValue: Int = 0 {
+        didSet {
+            print(#line, self.themeColorValue)
+            self.themeColor = ThemeColor(rawValue: self.themeColorValue)?.color ?? Color.blue
+        }
+    }
+    var themeColor: Color = Color.blue
+    var isIronFansShowed: Bool = true
+    
+    func save() {
+        userDefault.setValue(self.themeColorValue, forKey: "themeColor")
+        userDefault.setValue(self.isIronFansShowed, forKey: "isIronFansShowed")
+    }
+    
+    mutating func load() {
+        self.themeColorValue = (userDefault.object(forKey: "themeColor") as? Int) ?? 0
+        self.isIronFansShowed = (userDefault.object(forKey: "isIronFansShowed") as? Bool) ?? true
+        
+    }
+}
 
 class User: ObservableObject {
     @Published var isLoggedIn: Bool = false
@@ -148,5 +186,16 @@ class User: ObservableObject {
         }
     }
 
+}
+
+extension User {
+    /**
+     将UserSetting转换成字典文件进行存储
+     */
+    func saveSetting(setting: UserSetting) -> [String: Int] {
+        var settingDic = [String: Int]()
+        settingDic["isIronFansShowed"] = setting.isIronFansShowed ? 0 : 1
+        return settingDic
+    }
 }
 

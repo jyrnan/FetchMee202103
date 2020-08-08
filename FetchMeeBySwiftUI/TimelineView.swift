@@ -25,7 +25,7 @@ struct TimelineView: View {
     @State var keyboardHeight: CGFloat = 0
     
     @State var isMentionsShowed: Bool = true
-    
+    @State var isSettingShowed: Bool = false
     init() {
 //        self.user = user
 //        print(#line, "ContentView \(self)")
@@ -56,7 +56,7 @@ struct TimelineView: View {
                             ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)  
                         })
                         {
-                            if !self.mentions.mentionUserIDStringsSorted.isEmpty && self.isMentionsShowed {
+                            if !self.mentions.mentionUserIDStringsSorted.isEmpty && self.isMentionsShowed && self.user.myInfo.setting.isIronFansShowed {
                                 MentionUserSortedView(mentions: self.mentions)}
                             if !self.mentions.tweetIDStrings.isEmpty && self.isMentionsShowed {
                             ScrollView {
@@ -125,9 +125,21 @@ struct TimelineView: View {
                                             .resizable()
                                             .frame(width: 32, height: 32, alignment: .center)
                                             .clipShape(Circle())
-                                            .onLongPressGesture {self.alerts.standAlert.isPresentedAlert.toggle() }
+//                                            .onLongPressGesture {self.alerts.standAlert.isPresentedAlert.toggle() }
                                             .alert(isPresented: self.$alerts.standAlert.isPresentedAlert) {
-                                                Alert(title: Text("LogOut?"), message: nil, primaryButton: .default(Text("Logout"), action: {self.logOut()}), secondaryButton: .cancel())})
+                                                Alert(title: Text("LogOut?"), message: nil, primaryButton: .default(Text("Logout"), action: {self.logOut()}), secondaryButton: .cancel())}
+                                            .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                                                self.isSettingShowed = true
+                                            })
+                                            .sheet(isPresented: self.$isSettingShowed,
+                                                   onDismiss: {
+                                                    self.user.myInfo.setting.save()
+                                            },
+                                                   content: {
+                                                UserInfo(userIDString: self.user.myInfo.id, isSettingViewIncluded: true).environmentObject(self.alerts)
+                                                    .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor)
+                                            }))
+                    
                
                 
                 VStack(spacing: 0) {

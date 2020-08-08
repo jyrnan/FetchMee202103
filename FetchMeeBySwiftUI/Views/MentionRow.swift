@@ -34,7 +34,7 @@ struct MentionRow: View {
                     .onTapGesture {
                         self.isShowDetail = true
                     }
-                    .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user)}
+                    .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor)}
                 Spacer()
                 CreatedTimeView(createdTime: self.tweetMedia.created!)
             }

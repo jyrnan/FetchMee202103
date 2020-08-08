@@ -19,6 +19,7 @@ var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
 let userDefault = UserDefaults.init()
 let cfh = CacheFileHandler() //设置下载文件的缓存位置
 let session = URLSession.shared
+//var themeColor: Color = Color.pink
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -35,8 +36,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Create the SwiftUI view that provides the window contents.
         self.loginUser.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
-        
-        let contentView = ContentView()
+        self.loginUser.myInfo.setting.load() //读取存储多设置
+        let contentView = ContentView().accentColor(self.loginUser.myInfo.setting.themeColor)
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

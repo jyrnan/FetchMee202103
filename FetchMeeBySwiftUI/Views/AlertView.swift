@@ -32,7 +32,7 @@ struct AlertView: View {
                     }
                     
                 Spacer()
-            }.background(Color(UIColor.systemBlue).opacity(0.8))
+        }.background(Color.accentColor .opacity(0.8))
         .offset(y: self.offsetValue)
         
            

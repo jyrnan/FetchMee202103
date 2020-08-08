@@ -67,7 +67,7 @@ struct TweetRow: View {
                         DetailIndicator(timeline: timeline, tweetIDString: tweetIDString)
                             .padding(.all, 0)
                             .onTapGesture {self.isShowDetail = true}
-                            .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user)}
+                            .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor)}
                         } //用户名和创建时间以及详情页面点点点等信息
                     if tweetMedia.replyUsers.count != 0 {
                         ReplyUsersView(replyUsers: tweetMedia.replyUsers)

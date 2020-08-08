@@ -13,9 +13,11 @@ struct UserInfo: View {
     @EnvironmentObject var user: User
     
     var userIDString: String?
-    @ObservedObject var checkingUser: User = User()
-    @ObservedObject var userTimeline: Timeline = Timeline(type: .user)
+    @StateObject var checkingUser: User = User()
+    @StateObject var userTimeline: Timeline = Timeline(type: .user)
     
+    @State var isSettingViewShowed: Bool = false
+    @State var isSettingViewIncluded: Bool = false  //是否在userInfo包含Setting页面
     var body: some View {
         VStack(alignment: .leading) {
             ZStack {
@@ -40,8 +42,6 @@ struct UserInfo: View {
                             .clipShape(Circle())
                             .overlay(Circle().stroke(Color.white.opacity(0.6), lineWidth: 3))
                             .padding(.leading, 16)
-                        
-                        
                         Spacer()
                         Image(systemName: "envelope")
                             .resizable()
@@ -60,6 +60,18 @@ struct UserInfo: View {
                             .background(self.checkingUser.myInfo.notifications == true ? Color.accentColor : Color.clear)
                             .clipShape(Circle())
                             .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
+                        if self.isSettingViewIncluded {
+                            Text(self.isSettingViewShowed ? "BioInfo" : "Setting")
+                                .font(.body).bold()
+                                .frame(width: 84, height: 32, alignment: .center)
+                                .background(Color.accentColor)
+                                .foregroundColor(.white)
+                                .cornerRadius(16)
+                                .padding(.trailing, 16)
+                                .onTapGesture(count: 1, perform: {
+                                    withAnimation{self.isSettingViewShowed.toggle()}
+                                })
+                        } else {
                         if self.checkingUser.myInfo.isFollowing == true {
                             Text("Following")
                                 .font(.body).bold()
@@ -83,55 +95,59 @@ struct UserInfo: View {
                                     self.checkingUser.follow()
                                 })
                         }
-                        
+                        }
                         
                     }
                 }.padding(0)
             }.frame(height:180)
-            
-            List {
-                VStack(alignment: .leading){
-                HStack{
-                    VStack(alignment: .leading) {
-                        Text(self.checkingUser.myInfo.name ?? "Name")
-                            .font(.title2).bold()
-                        Text(self.checkingUser.myInfo.screenName ?? "ScreenName")
-                            .font(.body).foregroundColor(.gray)
-                    }
-                    Spacer()
-                }.padding(.top, 0)
-                
-                Text(self.checkingUser.myInfo.description ?? "userBio")
-                    .multilineTextAlignment(.leading)
-                    .padding([.top], 16)
-                HStack() {
-                    Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
-                    Text(self.checkingUser.myInfo.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
-                    Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
-                    Text(self.checkingUser.myInfo.createdAt ?? "Unknow").font(.caption).foregroundColor(.gray)
-                }.padding(0)
-                
-                HStack {
-                    Text(String(self.checkingUser.myInfo.following ?? 0)).font(.body)
-                    Text("Following").font(.body).foregroundColor(.gray)
-                    Text(String(self.checkingUser.myInfo.followed ?? 0)).font(.body).padding(.leading, 16)
-                    Text("Followers").font(.body).foregroundColor(.gray)
-                }.padding(.bottom, 16)
+            if self.isSettingViewShowed {
+                SettingView()
+            } else {
+                List {
+                    VStack(alignment: .leading){
+                    HStack{
+                        VStack(alignment: .leading) {
+                            Text(self.checkingUser.myInfo.name ?? "Name")
+                                .font(.title2).bold()
+                            Text(self.checkingUser.myInfo.screenName ?? "ScreenName")
+                                .font(.body).foregroundColor(.gray)
+                        }
+                        Spacer()
+                    }.padding(.top, 0)
                     
-                }
-                ForEach(self.userTimeline.tweetIDStrings, id: \.self) {
-                    tweetIDString in
-                    TweetRow(timeline: self.userTimeline, tweetIDString: tweetIDString)
-                }
-                HStack {
-                    Spacer()
-                    Button("More Tweets...") {
-                        self.userTimeline.refreshFromButtom(for: userIDString)}
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                    Spacer()
-                } //下方载入更多按钮
-            }.listStyle(DefaultListStyle())
+                        Text(self.checkingUser.myInfo.description ?? "userBio").font(.body)
+                        .multilineTextAlignment(.leading)
+                        .padding([.top], 16)
+                    HStack() {
+                        Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
+                        Text(self.checkingUser.myInfo.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
+                        Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
+                        Text(self.checkingUser.myInfo.createdAt ?? "Unknow").font(.caption).foregroundColor(.gray)
+                    }.padding(0)
+                    
+                    HStack {
+                        Text(String(self.checkingUser.myInfo.following ?? 0)).font(.body)
+                        Text("Following").font(.body).foregroundColor(.gray)
+                        Text(String(self.checkingUser.myInfo.followed ?? 0)).font(.body).padding(.leading, 16)
+                        Text("Followers").font(.body).foregroundColor(.gray)
+                    }.padding(.bottom, 16)
+                        
+                    }
+                    ForEach(self.userTimeline.tweetIDStrings, id: \.self) {
+                        tweetIDString in
+                        TweetRow(timeline: self.userTimeline, tweetIDString: tweetIDString)
+                    }
+                    HStack {
+                        Spacer()
+                        Button("More Tweets...") {
+                            self.userTimeline.refreshFromButtom(for: userIDString)}
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                        Spacer()
+                    } //下方载入更多按钮
+                }.listStyle(DefaultListStyle())
+            }
+            
         }
         .onAppear(){
             self.checkingUser.myInfo.id = self.userIDString ?? "0000"

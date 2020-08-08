@@ -28,12 +28,12 @@ struct Composer: View {
             Image(systemName: "photo").resizable().aspectRatio(contentMode: .fit).frame(width: 16, height: 16, alignment: .center).foregroundColor(.gray)
                 .onTapGesture {self.isShowCMV = true }
                 .sheet(isPresented: self.$isShowCMV) {
-                    ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.tweetText, replyIDString: self.tweetIDString).environmentObject(user)
+                    ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.tweetText, replyIDString: self.tweetIDString).environmentObject(user).accentColor(self.user.myInfo.setting.themeColor)
                 }
             
             Divider()
             Text(self.tweetText == "" ? "Tweet" : "Tweet" )
-                .foregroundColor(self.tweetText == "" ? .gray : .blue )
+                .foregroundColor(self.tweetText == "" ? .gray : .accentColor )
                 .onTapGesture {
                 if self.tweetText != "" {
                     self.timeline.isDone = false

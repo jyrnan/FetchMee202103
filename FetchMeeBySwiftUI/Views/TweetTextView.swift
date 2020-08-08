@@ -17,23 +17,23 @@ struct TweetTextView: View {
             () -> AnyView in
             guard self.tweetText.count > 1 else {
                 return AnyView(Text(self.tweetText.first ?? "")
-                                .foregroundColor(self.tweetText.first?.first == "#" ? .blue : .primary))
+                                .foregroundColor(self.tweetText.first?.first == "#" ? .accentColor : .primary))
             }
             //手动把字符串组第一个设置成初始View，然后开始循环添加后续的字串，可以避免多添加一个空格
             var textView = Text(self.tweetText.first!)
-                .foregroundColor(self.tweetText.first?.first == "#" ? .blue : .primary)
+                .foregroundColor(self.tweetText.first?.first == "#" ? .accentColor : .primary)
             
             for string in self.tweetText.dropFirst() {
                 textView = textView
                 + Text(" ")
                 + Text(string)
-                    .foregroundColor(string.first == "#" || string.starts(with: "https") ? .blue : .primary)
+                    .foregroundColor(string.first == "#" || string.starts(with: "https") ? .accentColor : .primary)
             }
 //            var textView = Text("")
 //            for string in self.tweetText {
 //                textView = textView
 //                + Text(string)
-//                    .foregroundColor(string.first == "#" ? .blue : .primary)
+//                    .foregroundColor(string.first == "#" ? .accentColor : .primary)
 //                + Text(" ")
 //            }
            return AnyView(textView)
