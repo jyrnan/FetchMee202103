@@ -42,11 +42,13 @@ struct TimelineView: View {
                             Composer(timeline: self.home).cornerRadius(16)
                         }
                         //Mentions部分章节，
-                        Section(header:HStack {
+                        Section(header:HStack{
+                            
                             Text("Mentions").font(.headline)
                                 .onTapGesture {
                                     self.isMentionsShowed.toggle()
                                 }
+                            Image(systemName: "at.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .bottom)
                             if self.mentions.newTweetNumber != 0 {
                                 Text(String(self.mentions.newTweetNumber)).font(.headline).foregroundColor(.accentColor)
                             }
@@ -76,10 +78,13 @@ struct TimelineView: View {
                         }
                         //Homeline部分章节
                         Section(header:HStack {
+                            
                             Text("Home").font(.headline)
+                            Image(systemName: "house").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .bottom)
                             if self.home.newTweetNumber != 0 {
                                 Text(String(self.home.newTweetNumber)).font(.headline).foregroundColor(.accentColor)
                             }
+                            
                             Spacer()
                             ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
                         })

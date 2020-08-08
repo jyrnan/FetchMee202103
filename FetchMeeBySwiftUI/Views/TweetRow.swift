@@ -25,33 +25,35 @@ struct TweetRow: View {
     
     var body: some View {
         VStack() {
+            if self.tweetMedia.retweeted_by_UserName != nil {
+            HStack {
+                Image(systemName:"repeat")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 12, height: 12, alignment: .center)
+                    .foregroundColor(.gray)
+                Text(self.tweetMedia.retweeted_by_UserName! + "  retweeted")
+                    .font(.subheadline).lineLimit(2)
+                .foregroundColor(.gray)
+                    .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                        self.presentedUserInfo = true
+                    })
+                    .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
+                        .environmentObject(self.user)}
+                Spacer()
+            }.offset(x: 28)
+        }
             HStack(alignment: .top, spacing: 0) {
+                
                 VStack {
                     AvatarView(avatar: self.tweetMedia.avatar!, userIDString: self.tweetMedia.userIDString)
                         .frame(width: 36, height: 36)
-                        .padding(.init(top: 12, leading: 0, bottom: 12, trailing: 12))
+                        .padding(.init(top: 8, leading: 0, bottom: 12, trailing: 12))
                     Spacer()
                 } //Avatar
                 
                 VStack(alignment: .leading, spacing: 0 ) {
-                    if self.tweetMedia.retweeted_by_UserName != nil {
-                        HStack {
-                            Image(systemName:"repeat")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 12, height: 12, alignment: .center)
-                                .foregroundColor(.gray)
-                            Text(self.tweetMedia.retweeted_by_UserName! + "  retweeted")
-                                .font(.subheadline).lineLimit(1)
-                            .foregroundColor(.gray)
-                                .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                                    self.presentedUserInfo = true
-                                })
-                                .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
-                                    .environmentObject(self.user)}
-                            Spacer()
-                        }.offset(x: -20)
-                    }
+                    
                     HStack(alignment: .center) {
                         Text(self.tweetMedia.userName ?? "UserName")
                             .font(.headline)
