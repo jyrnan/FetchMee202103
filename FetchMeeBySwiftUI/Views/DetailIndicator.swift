@@ -29,8 +29,13 @@ struct DetailIndicator: View {
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
                 .onAppear{
-                    self.delay(delay: 4, closure: {
+                    ///该视图出现则减少新推文数量1，并设置成已经阅读变量标志，避免重复
+                    if !self.timeline.tweetMedias[tweetIDString]!.rowIsViewed && (self.timeline.newTweetNumber > 0) {
+                        self.timeline.newTweetNumber -= 1
+                    }
+                    self.delay(delay: 3, closure: {
                         self.timeline.tweetMedias[tweetIDString]?.rowIsViewed = true
+                        
                     })
                 }
             Spacer()

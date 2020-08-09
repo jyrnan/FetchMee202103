@@ -26,6 +26,12 @@ struct TimelineView: View {
     
     @State var isMentionsShowed: Bool = true
     @State var isSettingShowed: Bool = false
+    @State var isNewTweetCountViewShowed: Bool = false
+    @State var canOnAppearRun: Bool = true {
+        didSet {
+            delay(delay: 1, closure: {self.canOnAppearRun = true})
+        }
+    }
     init() {
 //        self.user = user
 //        print(#line, "ContentView \(self)")
@@ -49,9 +55,12 @@ struct TimelineView: View {
                                     withAnimation {
                                         self.isMentionsShowed.toggle() }
                                 }
-                            Image(systemName: "at.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .bottom)
+                            
                             if self.mentions.newTweetNumber != 0 {
-                                Text(String(self.mentions.newTweetNumber)).font(.headline).foregroundColor(.accentColor)
+                                Image(systemName: "bell.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .bottom).foregroundColor(.accentColor)
+                                Text(String(self.mentions.newTweetNumber))
+                                    .font(.caption)
+                                    .foregroundColor(.accentColor)
                             }
                             Spacer()
                             ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)  
@@ -89,9 +98,26 @@ struct TimelineView: View {
                         Section(header:HStack {
                             
                             Text("Home").font(.headline)
-                            Image(systemName: "house").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .bottom)
+                                
+                            
                             if self.home.newTweetNumber != 0 {
-                                Text(String(self.home.newTweetNumber)).font(.headline).foregroundColor(.accentColor)
+                                HStack {
+                                    Image(systemName: "house.fill")
+                                        .resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .bottom).foregroundColor(.accentColor)
+//                                        .onAppear{
+//                                            if self.canOnAppearRun {
+//                                            print(#line, "appear")
+//                                                self.isNewTweetCountViewShowed = false}
+//                                        }
+//                                        .onDisappear{
+//                                            print(#line, "disappear")
+//                                            self.canOnAppearRun = false //需要在运行onDisppear暂时禁止onAppear运行，否则会直接运行onAPpear，原因未知
+//                                            self.isNewTweetCountViewShowed = true
+//                                        }
+                                    Text(String(self.home.newTweetNumber))
+                                        .font(.caption)
+                                        .foregroundColor(.accentColor)
+                                }
                             }
                             
                             Spacer()
@@ -130,7 +156,11 @@ struct TimelineView: View {
                     }
                     .offset(y: self.keyboardHeight != 0 ? -1 : 0) 
                     .navigationBarTitle("FetchMee")
-                    .navigationBarItems(trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
+                    .navigationBarItems(
+//                        leading: HStack {
+//                        if self.home.newTweetNumber != 0 && self.isNewTweetCountViewShowed {
+//                            Text(String(self.home.newTweetNumber))}},
+                                        trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
                                             .resizable()
                                             .frame(width: 32, height: 32, alignment: .center)
                                             .clipShape(Circle())
@@ -158,6 +188,18 @@ struct TimelineView: View {
                     Spacer()
                 } //通知视图
                 .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
+//                VStack {
+//
+//                    HStack{
+//                        if self.isNewTweetCountViewShowed {
+//                            Text(String(self.home.newTweetNumber))
+//                                .font(.body)
+//                                .foregroundColor(.accentColor)
+////                                .offset(x: -150, y: -32)
+//                        }
+//                    }
+//                    Spacer()
+//                } //新推文计数器视图
             }
         }.onAppear { self.refreshAll()}
     }
