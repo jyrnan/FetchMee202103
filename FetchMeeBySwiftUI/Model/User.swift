@@ -41,13 +41,23 @@ struct UserInfomation: Identifiable {
         }
 
 enum ThemeColor: Int {
-    case gray = 0
+    case blue = 0
     case green = 1
+    case purple = 2
+    case pink = 3
+    case orange = 4
+    case yellow = 5
+    case gray = 6
     
     var color : Color {
         switch self {
-        case .gray:     return Color.gray
+        case .blue:     return Color.blue
         case .green:    return Color.green
+        case .purple:   return Color.purple
+        case .pink:   return Color.pink
+        case .orange:   return Color.orange
+        case .yellow:   return Color.yellow
+        case .gray:   return Color.gray
         }
     }
     

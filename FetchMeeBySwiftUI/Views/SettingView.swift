@@ -18,29 +18,56 @@ struct SettingView: View {
             Section(header: Text("Visual")) {
                 
                 Picker(selection: self.$user.myInfo.setting.themeColorValue, label: Text("Theme Color"), content: {
-                    Text("0").tag(0)
-                    Text("1").tag(1)
+                        Text("Blue").tag(0)
+                        Text("Green").tag(1)
+                        Text("Purple").tag(2)
+                        Text("Pink").tag(3)
+                        Text("Orange").tag(4)
+                        Text("Yellow").tag(5)
+                        Text("Gray").tag(6)
                 }).pickerStyle(SegmentedPickerStyle())
                 HStack {
                     
                     Spacer()
                     Toggle("Iron Fans Rate:", isOn: self.$user.myInfo.setting.isIronFansShowed)
                 }
-                Spacer()
+                
+                
+                
+            }
+            Section(header:Text("Other")){
+                Text("Place Holder")
+                Text("Place Holder")
+                Text("Place Holder")
+                Text("Place Holder")
+            }
+            Section(header:Text("")){
                 HStack {
                     Spacer()
-                    Button("Login out"){
-                            self.isPresentedAlert = true
-                        }
-//                    .foregroundColor(.primary)
-                    .listRowBackground(Color.accentColor)
-                        .alert(isPresented: self.$isPresentedAlert) {
-                            Alert(title: Text("Login Out?"), message: nil, primaryButton: .default(Text("Logout"), action: {self.logOut()}), secondaryButton: .cancel())}
+                    Text("Clean Cache")
                     Spacer()
                 }
                 
+                HStack {
+                    Spacer()
+                    Button("Login out"){
+                        self.isPresentedAlert = true
+                    }
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .alert(isPresented: self.$isPresentedAlert) {
+                        Alert(title: Text("Login Out?"), message: nil, primaryButton: .default(Text("Logout"), action: {self.logOut()}), secondaryButton: .cancel())}
+                    Spacer()
+                }.listRowBackground(Color.accentColor)
+                HStack {
+                    Spacer()
+                    Text("FetchMee Developed by @jyrnan").font(.caption).foregroundColor(.gray)
+                    Spacer()
+                }
             }
-        }
+        }.listStyle(GroupedListStyle())
+        .padding(.top, 36)
+        .font(.body)
     }
     func logOut() {
         self.user.isLoggedIn = false
@@ -53,6 +80,8 @@ struct SettingView: View {
 }
 
 struct SettingView_Previews: PreviewProvider {
+    var user: User = User()
+    
     static var previews: some View {
         SettingView()
     }

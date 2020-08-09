@@ -7,15 +7,16 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ContentView: View {
     @EnvironmentObject var user: User
     
     var body: some View {
         if self.user.isLoggedIn {
-            TimelineView()
+            TimelineView().accentColor(self.user.myInfo.setting.themeColor)
         } else {
-            AuthView()
+            AuthView().accentColor(self.user.myInfo.setting.themeColor)
         }
 }
 }

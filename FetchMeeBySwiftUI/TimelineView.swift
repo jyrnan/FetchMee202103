@@ -20,9 +20,9 @@ struct TimelineView: View {
     
     @State var tweetText: String = ""
 
-    @State var refreshIsDone: Bool = false
+//    @State var refreshIsDone: Bool = false
     
-    @State var keyboardHeight: CGFloat = 0
+    @State var keyboardHeight: CGFloat = 0 //用来观察键盘是否弹出，如果键盘弹出，会赋值给这个键盘，也就是不会为0
     
     @State var isMentionsShowed: Bool = true
     @State var isSettingShowed: Bool = false
@@ -46,7 +46,8 @@ struct TimelineView: View {
                             
                             Text("Mentions").font(.headline)
                                 .onTapGesture {
-                                    self.isMentionsShowed.toggle()
+                                    withAnimation {
+                                        self.isMentionsShowed.toggle() }
                                 }
                             Image(systemName: "at.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .bottom)
                             if self.mentions.newTweetNumber != 0 {
@@ -57,7 +58,15 @@ struct TimelineView: View {
                         })
                         {
                             if !self.mentions.mentionUserIDStringsSorted.isEmpty && self.isMentionsShowed && self.user.myInfo.setting.isIronFansShowed {
-                                MentionUserSortedView(mentions: self.mentions)}
+                                HStack(alignment: .center) {
+                                    MentionUserSortedView(mentions: self.mentions)
+                                    Image(systemName: "xmark.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 18, height: 18, alignment: .center)
+                                        .foregroundColor(.gray)
+                                        .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                                            withAnimation{
+                                                self.user.myInfo.setting.isIronFansShowed = false}
+                                        })
+                                }}
                             if !self.mentions.tweetIDStrings.isEmpty && self.isMentionsShowed {
                             ScrollView {
                                 ForEach(self.mentions.tweetIDStrings, id: \.self) {

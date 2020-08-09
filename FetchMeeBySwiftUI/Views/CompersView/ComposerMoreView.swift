@@ -63,7 +63,13 @@ struct ComposerMoreView: View {
                                         }
                                 }
                                 if self.isShowAddPic {
-                                    Text("+ Picture").foregroundColor(.accentColor).onTapGesture {
+//                                    Text("+ Picture")
+                                        Image(systemName: "plus.rectangle.fill.on.rectangle.fill")
+                                            .resizable().aspectRatio(contentMode: .fill)
+                                            .frame(width: 18, height: 18, alignment: .center)
+                                        .foregroundColor(.accentColor)
+                                            .padding()
+                                            .onTapGesture {
                                         self.imageDatas.append(ImageData())
                                         self.isShowPhotoPicker = true
                                     }

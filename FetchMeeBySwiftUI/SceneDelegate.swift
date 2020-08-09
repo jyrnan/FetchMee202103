@@ -37,7 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create the SwiftUI view that provides the window contents.
         self.loginUser.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
         self.loginUser.myInfo.setting.load() //读取存储多设置
-        let contentView = ContentView().accentColor(self.loginUser.myInfo.setting.themeColor)
+        let contentView = ContentView()
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
@@ -56,6 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                 window.rootViewController = UIHostingController(rootView: contentView
                                                                     .environmentObject(alerts).environmentObject(loginUser)
+                                                                    .accentColor(self.loginUser.myInfo.setting.themeColor)
                                                                     )
             
             self.window = window
