@@ -63,7 +63,7 @@ struct TimelineView: View {
                                     .foregroundColor(.accentColor)
                             }
                             Spacer()
-                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)  
+//                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
                         })
                         {
                             if !self.mentions.mentionUserIDStringsSorted.isEmpty && self.isMentionsShowed && self.user.myInfo.setting.isIronFansShowed {
@@ -121,7 +121,7 @@ struct TimelineView: View {
                             }
                             
                             Spacer()
-                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
+//                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
                         })
                         {
                             ForEach(self.home.tweetIDStrings, id: \.self) {

@@ -36,14 +36,22 @@ struct ComposerMoreView: View {
         NavigationView {
             if #available(iOS 14.0, *) {
                 List{
+                    
                     HStack(alignment: .top) {
                         Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
                                                 .resizable()
                                                 .frame(width: 32, height: 32, alignment: .center)
-                                                .clipShape(Circle()).padding(.top, 10)
-                        VStack {
-                            
-                            TextEditor(text: self.$tweetText).frame(minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: 150, maxHeight: 200, alignment: .center).padding(.top, 10)
+                                                .clipShape(Circle()).padding(.top, 20)
+                        VStack(alignment: .leading) {
+                            if self.tweetText == "" {
+                                Text("Tweet something below...").font(.body).foregroundColor(.gray)} else {
+                                    HStack {
+                                        Spacer()
+                                        Text(String(self.tweetText.count)).font(.body).foregroundColor(.accentColor)
+                                    }
+                                }
+                            Divider()
+                            TextEditor(text: self.$tweetText).frame(minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: 150, maxHeight: 200, alignment: .center)
                                 
                             
                             Divider()
@@ -95,12 +103,13 @@ struct ComposerMoreView: View {
                                             HStack{
                                                 ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium)
                                                 Spacer()
+                                                if self.isTweetSentDone {
                                                 Text("Send")
                                                     .foregroundColor(self.tweetText != "" || !self.imageDatas.isEmpty ? Color.accentColor : Color.gray)
                                                     .onTapGesture {
                                                         self.isTweetSentDone = false
                                                         self.postMedia()
-                                                        
+                                                    }
                                                     }
                                             }
                     )

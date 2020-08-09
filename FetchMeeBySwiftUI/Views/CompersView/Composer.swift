@@ -24,15 +24,19 @@ struct Composer: View {
         HStack(alignment: .center) {
             TextField("Tweet something here...", text: $tweetText).font(.body)
             Spacer()
-//            Text("More").font(.body).foregroundColor(.gray)
-            Image(systemName: "photo").resizable().aspectRatio(contentMode: .fit).frame(width: 16, height: 16, alignment: .center).foregroundColor(.gray)
+            if self.timeline.isDone {
+            Text("more").font(.body).foregroundColor(.gray)
+//            Image(systemName: "photo").resizable().aspectRatio(contentMode: .fit).frame(width: 16, height: 16, alignment: .center).foregroundColor(.gray)
                 .onTapGesture {self.isShowCMV = true }
                 .sheet(isPresented: self.$isShowCMV) {
                     ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.tweetText, replyIDString: self.tweetIDString).environmentObject(user).accentColor(self.user.myInfo.setting.themeColor)
+                } } else {
+                    ActivityIndicator(isAnimating: self.$timeline.isDone, style: .medium)
                 }
             
             Divider()
-            Text(self.tweetText == "" ? "Tweet" : "Tweet" )
+//            Text(self.tweetText == "" ? "Tweet" : "Tweet" )
+            Image(systemName: "plus.message.fill")
                 .foregroundColor(self.tweetText == "" ? .gray : .accentColor )
                 .onTapGesture {
                 if self.tweetText != "" {

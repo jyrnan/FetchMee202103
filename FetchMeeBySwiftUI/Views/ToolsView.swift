@@ -89,8 +89,9 @@ struct ToolsView: View {
             
             Divider()
             Composer(timeline: self.timeline, tweetIDString: self.tweetIDString)
-                .padding(.top, 10)
-                .padding(.bottom, 10)
+                .padding(.top, 4)
+                .padding(.bottom, 4)
+                
         }
         .font(.body)
     }

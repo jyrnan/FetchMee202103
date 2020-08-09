@@ -42,7 +42,7 @@ struct DetailView: View {
                         self.replySession.getReplyDetail(for: self.tweetIDString)
                     } else {print(#line, "firstTimeRun is already true")}} //页面出现时执行一次刷新
                 .navigationBarTitle("Detail", displayMode: .inline)
-                .navigationBarItems(trailing: ActivityIndicator(isAnimating: self.$replySession.isDone, style: .medium))
+//                .navigationBarItems(trailing: ActivityIndicator(isAnimating: self.$replySession.isDone, style: .medium))
                 VStack(spacing: 0) {
                     if self.alerts.stripAlertOfDetailView.isPresentedAlert {
                         AlertView(isAlertShow: self.$alerts.stripAlertOfDetailView.isPresentedAlert, alertText: self.alerts.stripAlertOfDetailView.alertText)
