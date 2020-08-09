@@ -168,9 +168,9 @@ struct TimelineView: View {
                                             .alert(isPresented: self.$alerts.standAlert.isPresentedAlert) {
                                                 Alert(title: Text("LogOut?"), message: nil, primaryButton: .default(Text("Logout"), action: {self.logOut()}), secondaryButton: .cancel())}
                                             .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                                                self.isSettingShowed = true
+                                                self.user.isShowUserInfo = true
                                             })
-                                            .sheet(isPresented: self.$isSettingShowed,
+                                            .sheet(isPresented: self.$user.isShowUserInfo,
                                                    onDismiss: {
                                                     self.user.myInfo.setting.save()
                                             },

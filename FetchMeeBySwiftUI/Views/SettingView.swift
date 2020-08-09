@@ -70,12 +70,22 @@ struct SettingView: View {
         .font(.body)
     }
     func logOut() {
-        self.user.isLoggedIn = false
-        userDefault.set(false, forKey: "isLoggedIn")
-        userDefault.set(nil, forKey: "userIDString")
-        userDefault.set(nil, forKey: "screenName")
-        userDefault.set(nil, forKey: "mentionUserInfo")
-        print(#line)
+        self.user.isShowUserInfo = false
+        print(#line, self.user.isShowUserInfo)
+        delay(delay: 1, closure: {
+            withAnimation {self.user.isLoggedIn = false
+            userDefault.set(false, forKey: "isLoggedIn")
+            userDefault.set(nil, forKey: "userIDString")
+            userDefault.set(nil, forKey: "screenName")
+                userDefault.set(nil, forKey: "mentionUserInfo")}
+        })
+        
+        
+    }
+    
+    func delay(delay: Double, closure: @escaping () -> ()) {
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
 }
 

@@ -91,6 +91,9 @@ class User: ObservableObject {
     @Published var myInfo: UserInfomation = UserInfomation() //当前用户的信息
     @Published var userStore: [String: UserInfomation] = [:] //存储多个用户的信息
     @Published var userStringMark: [String: Int] = [:] // 用户互动数量纪录
+    
+    @Published var isShowUserInfo: Bool = false
+    
     let session = URLSession.shared
     
 //    init() {
