@@ -47,7 +47,7 @@ enum ThemeColor: String, CaseIterable, Identifiable {
     case pink
     case orange
     case gray
-    case random
+    case auto
     
     var id: String {self.rawValue}
     var color : Color {
@@ -58,7 +58,7 @@ enum ThemeColor: String, CaseIterable, Identifiable {
         case .pink:   return Color.pink
         case .orange:   return Color.orange
         case .gray:   return Color.gray
-        case .random: return randomColor()
+        case .auto: return withAnimation {randomColor()}
         }
     }
     

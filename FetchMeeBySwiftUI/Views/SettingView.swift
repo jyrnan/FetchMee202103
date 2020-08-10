@@ -15,7 +15,7 @@ struct SettingView: View {
     
     var body: some View {
         List {
-            Section(header: Text("Visual")) {
+            Section(header: Text("Visual"), footer: Text("You can swith this function off to get a simper UI and better performance")) {
                 VStack {
                     HStack{
                     Text("Choose your favorist theme color").font(.caption).foregroundColor(.gray)
