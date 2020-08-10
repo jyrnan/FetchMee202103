@@ -63,27 +63,17 @@ struct UserInfo: View {
                             .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
                         }
                         if self.isSettingViewIncluded {
-//                            Text(self.isSettingViewShowed ? "BioInfo" : "Setting")
-//                                .font(.body).bold()
-//                                .frame(width: 84, height: 32, alignment: .center)
-//                                .background(Color.accentColor)
-//                                .foregroundColor(.white)
-//                                .cornerRadius(16)
-//                                .padding(.trailing, 16)
-//                                .onTapGesture(count: 1, perform: {
-//                                    withAnimation{self.isSettingViewShowed.toggle()}
-//                                })
-                            Image(systemName: self.isSettingViewShowed ? "arrow.uturn.backward" : "gearshape")
+                            Image(systemName: self.isSettingViewShowed ? "arrow.uturn.backward.circle" : "gearshape")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .foregroundColor(self.checkingUser.myInfo.notifications == true ? .white : .accentColor)
-                                .padding(6)
+                                .foregroundColor(.accentColor)
+//                                .padding(6)
                                 .frame(width: 32, height: 32, alignment: .center)
-                                .clipShape(Circle())
-                                .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
+//                                .clipShape(Circle())
+//                                .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
                                 .onTapGesture(count: 1, perform: {withAnimation{self.isSettingViewShowed.toggle()}
                                 })
-                                .padding()
+//                                .padding()
                         } else {
                         if self.checkingUser.myInfo.isFollowing == true {
                             Text("Following")
@@ -109,7 +99,6 @@ struct UserInfo: View {
                                 })
                         }
                         }
-                        
                     }
                 }.padding(0)
             }.frame(height:180)

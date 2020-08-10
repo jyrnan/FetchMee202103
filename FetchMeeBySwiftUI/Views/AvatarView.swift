@@ -26,7 +26,7 @@ struct AvatarView: View {
             .overlay(Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
             .onTapGesture {self.presentedUserInfo = true}
             .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.userIDString).environmentObject(self.alerts)
-                .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor)
+                .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
             }
     }
 }

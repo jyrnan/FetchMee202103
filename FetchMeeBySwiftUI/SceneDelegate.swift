@@ -56,7 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                 window.rootViewController = UIHostingController(rootView: contentView
                                                                     .environmentObject(alerts).environmentObject(loginUser)
-                                                                    .accentColor(self.loginUser.myInfo.setting.themeColor)
+                                                                    .accentColor(self.loginUser.myInfo.setting.themeColor.color)
                                                                     )
             
             self.window = window

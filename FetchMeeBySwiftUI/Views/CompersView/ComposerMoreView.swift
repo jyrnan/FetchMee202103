@@ -101,8 +101,8 @@ struct ComposerMoreView: View {
                     .navigationBarTitle("Tweet")
                     .navigationBarItems(trailing:
                                             HStack{
-                                                ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium)
                                                 Spacer()
+                                               
                                                 if self.isTweetSentDone {
                                                 Text("Send")
                                                     .foregroundColor(self.tweetText != "" || !self.imageDatas.isEmpty ? Color.accentColor : Color.gray)
@@ -110,7 +110,9 @@ struct ComposerMoreView: View {
                                                         self.isTweetSentDone = false
                                                         self.postMedia()
                                                     }
-                                                    }
+                                                } else {
+                                                    ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium)
+                                                }
                                             }
                     )
                 }

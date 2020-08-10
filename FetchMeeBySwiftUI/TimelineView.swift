@@ -176,7 +176,7 @@ struct TimelineView: View {
                                             },
                                                    content: {
                                                 UserInfo(userIDString: self.user.myInfo.id, isSettingViewIncluded: true).environmentObject(self.alerts)
-                                                    .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor)
+                                                    .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
                                             }))
                     
                

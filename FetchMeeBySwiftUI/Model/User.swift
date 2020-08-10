@@ -40,15 +40,16 @@ struct UserInfomation: Identifiable {
     var setting: UserSetting = UserSetting()
         }
 
-enum ThemeColor: Int {
-    case blue = 0
-    case green = 1
-    case purple = 2
-    case pink = 3
-    case orange = 4
-    case yellow = 5
-    case gray = 6
+enum ThemeColor: String, CaseIterable, Identifiable {
+    case blue
+    case green
+    case purple
+    case pink
+    case orange
+    case gray
+    case random
     
+    var id: String {self.rawValue}
     var color : Color {
         switch self {
         case .blue:     return Color.blue
@@ -56,31 +57,33 @@ enum ThemeColor: Int {
         case .purple:   return Color.purple
         case .pink:   return Color.pink
         case .orange:   return Color.orange
-        case .yellow:   return Color.yellow
         case .gray:   return Color.gray
+        case .random: return randomColor()
         }
     }
     
+    func randomColor() -> Color {
+        let random = Int(arc4random_uniform(6))
+        return ThemeColor.allCases[random].color
+    }
 }
 
 struct UserSetting {
     
-    var themeColorValue: Int = 0 {
-        didSet {
-            print(#line, self.themeColorValue)
-            self.themeColor = ThemeColor(rawValue: self.themeColorValue)?.color ?? Color.blue
-        }
-    }
-    var themeColor: Color = Color.blue
+    var themeColor: ThemeColor = ThemeColor.blue //缺省值是蓝色
     var isIronFansShowed: Bool = true
-    
+    /**
+     存储用户的设置信息
+     */
     func save() {
-        userDefault.setValue(self.themeColorValue, forKey: "themeColor")
+        userDefault.setValue(self.themeColor.rawValue, forKey: "themeColor")
         userDefault.setValue(self.isIronFansShowed, forKey: "isIronFansShowed")
     }
-    
+    /**
+     读取用户存储的设置信息
+     */
     mutating func load() {
-        self.themeColorValue = (userDefault.object(forKey: "themeColor") as? Int) ?? 0
+        self.themeColor = ThemeColor(rawValue: (userDefault.object(forKey: "themeColor") as? String) ?? "blue")!
         self.isIronFansShowed = (userDefault.object(forKey: "isIronFansShowed") as? Bool) ?? true
         
     }

@@ -29,7 +29,7 @@ struct Composer: View {
 //            Image(systemName: "photo").resizable().aspectRatio(contentMode: .fit).frame(width: 16, height: 16, alignment: .center).foregroundColor(.gray)
                 .onTapGesture {self.isShowCMV = true }
                 .sheet(isPresented: self.$isShowCMV) {
-                    ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.tweetText, replyIDString: self.tweetIDString).environmentObject(user).accentColor(self.user.myInfo.setting.themeColor)
+                    ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.tweetText, replyIDString: self.tweetIDString).environmentObject(user).accentColor(self.user.myInfo.setting.themeColor.color)
                 } } else {
                     ActivityIndicator(isAnimating: self.$timeline.isDone, style: .medium)
                 }
