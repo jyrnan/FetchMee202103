@@ -9,19 +9,21 @@
 import SwiftUI
 
 struct ReplyUsersView: View {
+    @EnvironmentObject var alerts: Alerts
+    @EnvironmentObject var user: User
     var replyUsers: [String] = ["jyrnan", "FetchMee"]
-    @State var isShowUser: Bool = false
+    @State var presentedUserInfo: Bool = false
     var body: some View {
         Group {
             () -> AnyView in
             guard !self.replyUsers.isEmpty else {return AnyView(EmptyView())}
             var replyUsersView = Text("Replying to ").foregroundColor(.gray)
-            for user in self.replyUsers {
+            for replyUser in self.replyUsers {
                 replyUsersView = replyUsersView
                 + Text(" ")
-                    + Text(user)
+                    + Text(replyUser)
                     .foregroundColor(.accentColor)
-            }
+                    }
             return AnyView(replyUsersView.font(.body))
         }
         

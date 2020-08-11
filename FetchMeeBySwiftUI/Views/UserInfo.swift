@@ -13,6 +13,8 @@ struct UserInfo: View {
     @EnvironmentObject var user: User
     
     var userIDString: String?
+    var userScreenName: String?
+    
     @StateObject var checkingUser: User = User()
     @StateObject var userTimeline: Timeline = Timeline(type: .user)
     
@@ -156,6 +158,8 @@ struct UserInfo: View {
         }
         .onAppear(){
             self.checkingUser.myInfo.id = self.userIDString ?? "0000"
+            self.checkingUser.myInfo.screenName = self.userScreenName
+            
             self.checkingUser.getMyInfo()
             self.userTimeline.refreshFromTop(for: userIDString)
         }
