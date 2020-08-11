@@ -57,14 +57,30 @@ enum ThemeColor: String, CaseIterable, Identifiable {
         case .purple:   return Color.purple
         case .pink:   return Color.pink
         case .orange:   return Color.orange
-        case .gray:   return Color.gray
-        case .auto: return withAnimation {randomColor()}
+        case .gray:   return Color.secondary
+        case .auto: return withAnimation {colorByDate()}
         }
     }
     
     func randomColor() -> Color {
         let random = Int(arc4random_uniform(6))
         return ThemeColor.allCases[random].color
+    }
+    
+    func colorByDate() -> Color {
+        let date = Date()
+        let dateFomatter = DateFormatter()
+        dateFomatter.dateFormat = "EEEE" //设置格式成获取星期几
+        let weekDay = dateFomatter.string(from: date)
+        switch weekDay {
+        case "Monday": return ThemeColor.blue.color
+        case "Tuesday": return ThemeColor.green.color
+        case "Wednes": return ThemeColor.purple.color
+        case "Thursday": return ThemeColor.pink.color
+        case "Friday": return ThemeColor.orange.color
+            
+        default: return ThemeColor.gray.color
+        }
     }
 }
 

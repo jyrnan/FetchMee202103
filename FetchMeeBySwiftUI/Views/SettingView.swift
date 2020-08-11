@@ -18,7 +18,7 @@ struct SettingView: View {
             Section(header: Text("Visual"), footer: Text("You can swith this function off to get a simper UI and better performance")) {
                 VStack {
                     HStack{
-                    Text("Choose your favorist theme color").font(.caption).foregroundColor(.gray)
+                    Text("Choose your favorist theme color, ").font(.caption).foregroundColor(.gray)
                         Spacer() }
                
                 Picker("Color", selection: self.$user.myInfo.setting.themeColor, content: {
