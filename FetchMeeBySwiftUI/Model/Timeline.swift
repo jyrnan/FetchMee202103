@@ -213,6 +213,14 @@ final class Timeline: ObservableObject {
                 }
             }
             
+            //视频数据处理
+            if newTweet["extended_entities"]["media"].array?.count != nil &&
+                newTweet["extended_entities"]["media"].array?.first?["type"] == "video" {
+                tweetMedia.mediaType = "video"
+                tweetMedia .mediaUrlString = newTweet["extended_entities"]["media"].array?.first?["video_info"]["variants"].array?.first?["url"].string
+                print(#line, tweetMedia.mediaUrlString as Any)
+            }
+            
             tweetMedia.retweeted = newTweet["retweeted"].bool ?? false
             tweetMedia.retweet_count = newTweet["retweet_count"].integer ?? 0
             tweetMedia.favorited = newTweet["favorited"].bool ?? false

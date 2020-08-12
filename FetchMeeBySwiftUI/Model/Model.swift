@@ -25,8 +25,11 @@ struct TweetMedia: Identifiable {
     var tweetText: [String] = []
     var created: String?
     
-    var urlStrings: [String]?
-    var images: [String: UIImage] = [:]
+    var urlStrings: [String]? //图片的url
+    var images: [String: UIImage] = [:] //下载的UIImage
+    
+    var mediaType: String?
+    var mediaUrlString: String? //视频网址
     
     var favorited: Bool = false
     var favorite_count: Int?

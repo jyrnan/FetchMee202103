@@ -24,7 +24,7 @@ struct TimelineView: View {
     
     @State var keyboardHeight: CGFloat = 0 //用来观察键盘是否弹出，如果键盘弹出，会赋值给这个键盘，也就是不会为0
     
-    @State var isMentionsShowed: Bool = true
+    @State var isMentionsShowed: Bool = false
     @State var isSettingShowed: Bool = false
     @State var isNewTweetCountViewShowed: Bool = false
     @State var canOnAppearRun: Bool = true {

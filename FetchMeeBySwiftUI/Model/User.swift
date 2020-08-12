@@ -75,7 +75,7 @@ enum ThemeColor: String, CaseIterable, Identifiable {
         switch weekDay {
         case "Monday": return ThemeColor.blue.color
         case "Tuesday": return ThemeColor.green.color
-        case "Wednes": return ThemeColor.purple.color
+        case "Wednesday": return ThemeColor.purple.color
         case "Thursday": return ThemeColor.pink.color
         case "Friday": return ThemeColor.orange.color
             
