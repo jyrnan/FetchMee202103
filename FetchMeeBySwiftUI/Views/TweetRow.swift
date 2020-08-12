@@ -104,7 +104,7 @@ struct TweetRow: View {
                                 .padding(.bottom, 8)
                                 
 //                            }
-                            if tweetMedia.mediaType == "video" {
+                            if (tweetMedia.mediaType == "video" || tweetMedia.mediaType == "animated_gif") {
                                 Image(systemName: "play.circle.fill")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
@@ -120,8 +120,9 @@ struct TweetRow: View {
                                         self.playVideo = true
                                         }
                                     })
-                                    .sheet(isPresented: self.$playVideo, onDismiss: {self.player = AVPlayer()}, content: {
-                                        VideoPlayView(player: self.player)
+                                    .fullScreenCover(isPresented: self.$playVideo, onDismiss: {self.player = AVPlayer()}, content: {
+//                                        VideoPlayView(player: self.player)
+                                        PlayerContainerView(player: self.player)
                                     })
 
                             }

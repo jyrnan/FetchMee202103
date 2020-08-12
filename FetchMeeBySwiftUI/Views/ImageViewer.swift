@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ImageViewer: View {
+    @Environment(\.presentationMode) var presentationMode
     var image: UIImage
     @Binding var presentedImageViewer: Bool
     
@@ -37,9 +38,9 @@ struct ImageViewer: View {
                         .gesture(TapGesture(count: 2)
                                     .onEnded{
                                         if self.currentScale == 3 {
-                                            self.currentScale = 1
+                                            withAnimation{self.currentScale = 1}
                                         } else {
-                                            self.currentScale = 3
+                                            withAnimation{self.currentScale = 3}
                                         }
                                     })
                         
@@ -73,10 +74,18 @@ struct ImageViewer: View {
             VStack {
 
                 Spacer()
+                Text("Close")
+                    .padding(4)
+                    .foregroundColor(.white)
+                    .background(Color.accentColor)
+                    .clipShape(Capsule())
+                .onTapGesture {
+                    presentationMode.wrappedValue.dismiss()
+                }
 
-                Button(action: {self.presentedImageViewer.toggle()}, label: {
-                    Text("Close")
-                })
+//                Button(action: {self.presentedImageViewer.toggle()}, label: {
+//                    Text("Close")
+//                })
             }
         }
     }

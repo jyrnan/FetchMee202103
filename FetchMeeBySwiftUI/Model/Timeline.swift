@@ -218,7 +218,15 @@ final class Timeline: ObservableObject {
                 newTweet["extended_entities"]["media"].array?.first?["type"] == "video" {
                 tweetMedia.mediaType = "video"
                 tweetMedia .mediaUrlString = newTweet["extended_entities"]["media"].array?.first?["video_info"]["variants"].array?.first?["url"].string
-                print(#line, tweetMedia.mediaUrlString as Any)
+                print(#line, tweetMedia.mediaUrlString)
+            }
+            
+            //GIF数据处理
+            if newTweet["extended_entities"]["media"].array?.count != nil &&
+                newTweet["extended_entities"]["media"].array?.first?["type"] == "animated_gif" {
+                tweetMedia.mediaType = "animated_gif"
+                tweetMedia .mediaUrlString = newTweet["extended_entities"]["media"].array?.first?["video_info"]["variants"].array?.first?["url"].string
+                print(#line, newTweet.string)
             }
             
             tweetMedia.retweeted = newTweet["retweeted"].bool ?? false
