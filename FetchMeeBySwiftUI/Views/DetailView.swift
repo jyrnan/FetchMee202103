@@ -28,6 +28,7 @@ struct DetailView: View {
                     ForEach(replySession.tweetIDStrings, id: \.self) {tweetIDString in
                         TweetRow(timeline: replySession, tweetIDString: tweetIDString)
                     }
+                    .listRowInsets(EdgeInsets(top: 8, leading:0, bottom: 0, trailing: 0))
                     Composer(timeline: self.replySession ,tweetIDString: self.tweetIDString)
                 }
                 .listStyle(DefaultListStyle())

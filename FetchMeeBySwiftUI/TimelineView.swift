@@ -45,7 +45,7 @@ struct TimelineView: View {
             ZStack {
                     List {
                         PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
-                            Composer(timeline: self.home).cornerRadius(16)
+                            Composer(timeline: self.home)
                         }
                         //Mentions部分章节，
                         Section(header:HStack{
@@ -128,14 +128,16 @@ struct TimelineView: View {
                                 tweetIDString in
                                 TweetRow(timeline: home, tweetIDString: tweetIDString)
 //                                    .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.accentColor.opacity(0.2) : Color.clear) //标注被提及的推文listRowBackground
-                                    .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str || self.home.tweetMedias[tweetIDString]?.isToolsViewShowed == true ? Color.accentColor.opacity(0.1) : Color.clear) //标注被提及的或者是被选中的推文listRowBackground
+                                    .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str
+//                                                        || self.home.tweetMedias[tweetIDString]?.isToolsViewShowed == true
+                                                        ? Color.accentColor.opacity(0.1) : Color.clear) //标注被提及的或者是被选中的推文listRowBackground
                             }
                             .onDelete { indexSet in
 //                                
                                 let tweetIDString = self.home.tweetIDStrings[indexSet.first!]
                                 swifter.destroyTweet(forID: tweetIDString, success: { _ in self.home.tweetIDStrings.remove(atOffsets: indexSet)}, failure: {_ in })
                             }
-//                            .listRowInsets(EdgeInsets(top: 4, leading:8, bottom: 4, trailing: 8))
+                            .listRowInsets(EdgeInsets(top: 8, leading:0, bottom: 0, trailing: 0))
                             
                             HStack {
                                 Spacer()

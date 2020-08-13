@@ -85,15 +85,22 @@ struct ToolsView: View {
                         SafariView(url: self.$url)
                     })
                 
-            }.foregroundColor(.gray)
+            }.foregroundColor(.gray).padding([.leading, .trailing], 16)
             
-            Divider()
+//            Divider()
             Composer(timeline: self.timeline, tweetIDString: self.tweetIDString)
                 .padding(.top, 4)
                 .padding(.bottom, 4)
-                
+                .frame(height: 24)
+                .padding(8)
+                .background(Color.accentColor.opacity(0.8))
+                .overlay(TopShadow(), alignment: .top)
+                .overlay(BottomShadow(), alignment: .bottom)
+//            content: Gradient(colors: [.black, .clear])
         }
+//        .padding(16)
         .font(.body)
+        
     }
 }
 
@@ -101,5 +108,19 @@ struct ToolsView_Previews: PreviewProvider {
     static var previews: some View {
         ToolsView(timeline: Timeline(type: .home), tweetIDString: "")
             .preferredColorScheme(.light)
+    }
+}
+
+struct TopShadow: View {
+    var body: some View {
+        Rectangle().fill(LinearGradient(gradient: Gradient(colors: [Color.black, Color.clear]), startPoint: .top, endPoint: .bottom))
+            .frame(height: 5).opacity(0.4)
+    }
+}
+
+struct BottomShadow: View {
+    var body: some View {
+        Rectangle().fill(LinearGradient(gradient: Gradient(colors: [Color.black, Color.clear]), startPoint:.bottom , endPoint: .top))
+            .frame(height: 3).opacity(0.4)
     }
 }

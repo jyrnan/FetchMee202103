@@ -43,14 +43,14 @@ struct TweetRow: View {
                         .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
                             .environmentObject(self.user)}
                     Spacer()
-                }.offset(x: 28)
+                }.offset(x: 44)
             }
             HStack(alignment: .top, spacing: 0) {
                 
                 VStack {
                     AvatarView(avatar: self.tweetMedia.avatar!, userIDString: self.tweetMedia.userIDString)
                         .frame(width: 36, height: 36)
-                        .padding(.init(top: 8, leading: 0, bottom: 12, trailing: 12))
+                        .padding(.init(top: 8, leading: 16, bottom: 12, trailing: 12))
                     Spacer()
                 } //Avatar
                 
@@ -135,7 +135,7 @@ struct TweetRow: View {
                                                                                                                                                                                                     .opacity(0.2), lineWidth: 1))
                     }
                     //
-                }
+                }.padding(.trailing, 16)
             }//推文内容
             Spacer()
             if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {

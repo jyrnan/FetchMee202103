@@ -25,7 +25,7 @@ struct MentionRow: View {
             HStack(alignment: .center, spacing: 0) {
                 AvatarView(avatar: self.tweetMedia.avatar!, userIDString: self.tweetMedia.userIDString)
                     .frame(width: 36, height: 36)
-                    .padding(.init(top: 4, leading: 0, bottom: 4, trailing: 12))
+                    .padding(.init(top: 0, leading: 0, bottom: 0, trailing: 12))
                     
                 TweetTextView(tweetText: tweetMedia.tweetText )
                     .lineLimit(2)
@@ -37,7 +37,8 @@ struct MentionRow: View {
                     .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)}
                 Spacer()
                 CreatedTimeView(createdTime: self.tweetMedia.created!)
-            }
+            }.padding(0)
+            Divider().padding(0)
         }
             
     }
