@@ -46,7 +46,7 @@ struct TimelineView: View {
                 ScrollView(.vertical) {
                         PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
                             Composer(timeline: self.home)
-                        }.frame(height: 36).background(Color.init("BackGround")).cornerRadius(18)
+                        }.frame(height: 36).background(Color.init("BackGround")).cornerRadius(18).padding([.leading, .trailing], 16)
                         //Mentions部分章节，
                         Section(header:HStack{
                             
@@ -75,7 +75,7 @@ struct TimelineView: View {
                                         })
                                 }}
 
-                        }.padding(.top, 16))
+                        }.padding(.top, 16).padding([.leading, .trailing], 16))
                         {
                             
                             if !self.mentions.tweetIDStrings.isEmpty && self.isMentionsShowed {
@@ -102,7 +102,7 @@ struct TimelineView: View {
                                 
                                 
                                 
-                            }.padding(0).frame(maxHeight: 200).cornerRadius(16)
+                            }.padding(0).frame(maxHeight: 200).cornerRadius(16).padding([.leading, .trailing], 16)
                                 
                             }
                         }
@@ -134,7 +134,7 @@ struct TimelineView: View {
                             
                             Spacer()
 //                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
-                        }.padding(.top, 16))
+                        }.padding(.top, 16).padding([.leading, .trailing], 16))
                         {
                             ZStack {
                                 Color.init("BackGround").cornerRadius(16)
@@ -165,17 +165,17 @@ struct TimelineView: View {
                                      Spacer()
                                  } //下方载入更多按钮
                              }
-                            }
+                            }.padding([.leading, .trailing], 16)
                            
                         }
                         
-                }.padding([.leading, .trailing], 16)
-                    .listStyle(InsetGroupedListStyle())
-                    .onReceive(Publishers.keyboardHeight) {
-                        self.keyboardHeight = $0
-                        print(#line, self.keyboardHeight)
-                    }
-                    .offset(y: self.keyboardHeight != 0 ? -1 : 0) 
+                }
+//                    .listStyle(InsetGroupedListStyle())
+//                    .onReceive(Publishers.keyboardHeight) {
+//                        self.keyboardHeight = $0
+//                        print(#line, self.keyboardHeight)
+//                    }
+//                    .offset(y: self.keyboardHeight != 0 ? -1 : 0)
                     .navigationBarTitle("FetchMee")
                     .navigationBarItems(
 //                        leading: HStack {
