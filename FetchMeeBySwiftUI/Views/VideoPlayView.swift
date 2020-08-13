@@ -108,6 +108,13 @@ struct PlayerContainerView : View {
     @Environment(\.presentationMode) var presentationMode
     
     @State var seekPos = 0.0
+    @State var showController: Bool = false {
+        didSet {
+            delay(delay: 4, closure: {
+                if self.showController == true {
+                    withAnimation {self.showController = false}}})
+        }
+    }
     
     private let player: AVPlayer
     init(player: AVPlayer) {
@@ -118,11 +125,18 @@ struct PlayerContainerView : View {
             PlayerView(player: player)
             VStack {
                 Spacer()
+                if self.showController {
                 PlayerControlsView(player: player)
-                
+                }
             }
             
-        }
+        }.onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+            self.showController = true
+        })
+    }
+    func delay(delay: Double, closure: @escaping () -> ()) {
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
     }
 }
 
