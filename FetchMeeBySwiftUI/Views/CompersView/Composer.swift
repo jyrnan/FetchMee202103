@@ -22,7 +22,7 @@ struct Composer: View {
     
     var body: some View {
         HStack(alignment: .center) {
-            TextField("Tweet something here...", text: $tweetText).font(.body)
+            TextField("Tweet something here...", text: $tweetText).font(.body).padding(.leading, 16)
             Spacer()
             if self.timeline.isDone {
                 Text("more").font(.body).foregroundColor(.white).opacity(0.7)
@@ -36,8 +36,8 @@ struct Composer: View {
             
             Divider()
 //            Text(self.tweetText == "" ? "Tweet" : "Tweet" )
-            Image(systemName: "plus.message.fill")
-                .foregroundColor(self.tweetText == "" ? Color.white.opacity(0.3) : .white )
+            Image(systemName: "message.circle.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 24, height: 24, alignment: .center).padding(.trailing, 4)
+                .foregroundColor(self.tweetText == "" ? Color.gray.opacity(0.3) : .gray )
                 .onTapGesture {
                 if self.tweetText != "" {
                     self.timeline.isDone = false
