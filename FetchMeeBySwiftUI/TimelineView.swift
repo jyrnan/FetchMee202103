@@ -43,7 +43,7 @@ struct TimelineView: View {
         
         NavigationView {
             ZStack {
-                    List {
+                ScrollView(.vertical, showsIndicators: false) {
                         PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
                             Composer(timeline: self.home)
                         }
@@ -124,6 +124,8 @@ struct TimelineView: View {
 //                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
                         })
                         {
+                            VStack(spacing: 0) {
+                                Rectangle().frame(height: 24).foregroundColor(Color.init(red: 0.1, green: 0.1, blue: 0.1))
                             ForEach(self.home.tweetIDStrings, id: \.self) {
                                 tweetIDString in
                                 TweetRow(timeline: home, tweetIDString: tweetIDString)
@@ -148,9 +150,9 @@ struct TimelineView: View {
                                 Spacer()
                             } //下方载入更多按钮
                         }
+                        }
                         
-                        
-                    }
+                }.padding([.leading, .trailing], 16)
                     .listStyle(InsetGroupedListStyle())
                     .onReceive(Publishers.keyboardHeight) {
                         self.keyboardHeight = $0

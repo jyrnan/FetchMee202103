@@ -26,7 +26,10 @@ struct TweetRow: View {
     @State var player: AVPlayer = AVPlayer()
     
     var body: some View {
+        ZStack {
+            Color.init(red: 0.1, green: 0.1, blue: 0.1).padding(0)
         VStack() {
+            
             if self.tweetMedia.retweeted_by_UserName != nil {
                 HStack {
                     Image(systemName:"repeat")
@@ -43,7 +46,7 @@ struct TweetRow: View {
                         .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
                             .environmentObject(self.user)}
                     Spacer()
-                }.offset(x: 44)
+                }.offset(x: 44).padding(.top, 8)
             }
             HStack(alignment: .top, spacing: 0) {
                 
@@ -140,7 +143,10 @@ struct TweetRow: View {
             Spacer()
             if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
                 ToolsView(timeline: timeline, tweetIDString: tweetIDString)
-            }
+            } else {
+            
+                Divider().padding(0)}
+        }
         }
     }
 }
