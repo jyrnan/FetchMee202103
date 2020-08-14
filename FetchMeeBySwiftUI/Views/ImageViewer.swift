@@ -74,11 +74,11 @@ struct ImageViewer: View {
             VStack {
 
                 Spacer()
-                Text("Close")
-                    .padding(4)
-                    .foregroundColor(.white)
-                    .background(Color.accentColor)
-                    .clipShape(Capsule())
+                Image(systemName: "xmark.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width:24, height: 24)
+                    .foregroundColor(Color.white.opacity(0.7))
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
                 }

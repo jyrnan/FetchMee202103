@@ -25,94 +25,117 @@ struct ComposerMoreView: View {
     
     @State var replyIDString : String?
     @State var mediaIDs: [String] = [] //存储上传媒体/图片返回的ID号
-   
+    
     var body: some View {
         NavigationView {
-            if #available(iOS 14.0, *) {
-                List{
-                    
+            
+            ScrollView {
+                VStack(spacing: 0) {
                     HStack(alignment: .top) {
                         Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
                             .resizable().frame(width: 32, height: 32, alignment: .center)
-                            .clipShape(Circle()).padding(.top, 20)
+                            .clipShape(Circle()).padding(.top, 20).padding(.leading, 16)
                         
                         VStack(alignment: .leading) {
-                            Spacer()
-                                HStack {
-                                    Text("Tweet something below...").font(.body)
-                                        .foregroundColor(self.tweetText == "" ? .gray : .clear)
-                                Spacer()
-                                    Text(String(self.tweetText.count)).font(.body)
-                                        .foregroundColor(self.tweetText == "" ? .clear : .accentColor)
-                                }.padding(0)
-
-                            Divider()
-                            TextEditor(text: self.$tweetText).frame(height: 150)
-                            Divider()
+                            
                             HStack {
-                                ForEach(self.imageDatas, id: \.id) {
-                                    imageData in
-                                    Image(uiImage: (imageData.image ?? UIImage(systemName: "photo")!.alpha(0.2))) //用了对UIImage进行extention的代码
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 64, height: 64, alignment: .center).cornerRadius(16)
-                                        .onTapGesture {
-                                            //点击图片则删除该图片数据
-                                            self.imageDatas.remove(at: self.imageDatas.firstIndex {imageData.id == $0.id} ?? 0)
-                                            //删除图片后将增加图片的按钮显示出来
-                                            self.isShowAddPic = true
-                                        }
-                                }
-                                if self.isShowAddPic {
-                                    Image(systemName: "plus.rectangle.fill.on.rectangle.fill")
-                                        .resizable().aspectRatio(contentMode: .fill)
-                                        .padding(20)
-                                        .frame(width: 48, height: 64, alignment: .center)
-                                        .foregroundColor(.accentColor)
-                                        .onTapGesture {
-                                            self.isShowPhotoPicker = true
-                                            self.imageDatas.append(ImageData())
-                                            
-                                        }
-                                        .sheet(isPresented: self.$isShowPhotoPicker, onDismiss: {
-                                            if self.imageDatas.count == 4 { //选择图片视图消失后检查是否已经有四张选择，如果是则设置增加图片按钮不显示
-                                                self.isShowAddPic = false
-                                            }
-                                            if self.imageDatas.last?.image == nil {
-                                                self.imageDatas.removeLast() //如果选择图片的时候选择了取消，也就是最后一个图片数据依然是nil，则移除该数据
-                                            }
-                                        }) {
-                                            PhotoPicker(imageData: self.$imageDatas[self.imageDatas.count - 1], isShowPhotoPicker: self.$isShowPhotoPicker)
-                                        }
-                                }
+                                Text("Tweet below...").font(.body)
+                                    .foregroundColor(self.tweetText == "" ? .gray : .clear)
                                 Spacer()
-                            }.fixedSize(horizontal: false, vertical: true)
+                                Text(String(self.tweetText.count)).font(.callout)
+                                    .padding(2)
+                                    .frame(width: 24, height: 24, alignment: .center)
+                                    .foregroundColor(self.tweetText == "" ? .clear : Color.init("BackGroundLight"))
+                                    .background(Circle().fill(self.tweetText == "" ? .clear : Color.primary.opacity(0.4)))
+                                
+                            }.padding(.trailing, 8).padding(.top, 8)
+                            Divider()
+                            TextEditor(text: self.$tweetText).frame(minHeight: 100, maxHeight: 150)
+                                .padding([.bottom], 16)
+                            
+                            
                         }
                     }
-                    .navigationBarTitle("Tweet")
-                    .navigationBarItems(trailing:
-                                            HStack{
-                                                Spacer()
-                                                
-                                                if self.isTweetSentDone {
-                                                    Text("Send")
-                                                        .foregroundColor(self.tweetText != "" || !self.imageDatas.isEmpty ? Color.accentColor : Color.gray)
-                                                        .onTapGesture {
-                                                            self.isTweetSentDone = false
-                                                            self.postMedia()
-                                                        }
-                                                } else {
-                                                    ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium)
-                                                }
-                                            })
+                    Divider()
+                    if !self.imageDatas.isEmpty {
+                        VStack {
+                            GeometryReader {
+                                geoReader in
+                                HStack {
+                                    ForEach(self.imageDatas, id: \.id) {
+                                        imageData in
+                                        Image(uiImage: (imageData.image ?? UIImage(systemName: "photo")!.alpha(0.2))) //用了对UIImage进行extention的代码
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 48, height: 48, alignment: .center).cornerRadius(24)
+                                            .shadow(radius: 4)
+                                            .onTapGesture {
+                                                //点击图片则删除该图片数据
+                                                self.imageDatas.remove(at: self.imageDatas.firstIndex {imageData.id == $0.id} ?? 0)
+                                                //删除图片后将增加图片的按钮显示出来
+                                                self.isShowAddPic = true
+                                            }
+                                    }.padding(8)
+                                    Spacer()
+                                }.padding(.leading, 64)
+                            }
+                            
+                        }
+                        .frame(height: 64)
+                        .background(Color.accentColor.opacity(0.7))
+                        .overlay(TopShadow(), alignment: .top)
+                        .overlay(BottomShadow(), alignment: .bottom)
+                    }
+                    HStack{
+                        Spacer()
+                        if self.isShowAddPic {
+                            Image(systemName: "plus.rectangle.fill.on.rectangle.fill")
+                                .resizable().aspectRatio(contentMode: .fill)
+                                .frame(width: 18, height: 18, alignment: .center)
+                                .padding()
+                                .foregroundColor(.accentColor)
+                                
+                                .contentShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                                .onTapGesture {
+                                    withAnimation{
+                                        self.isShowPhotoPicker = true
+                                        self.imageDatas.append(ImageData())
+                                    }
+                                }
+                                .sheet(isPresented: self.$isShowPhotoPicker, onDismiss: {
+                                    if self.imageDatas.count == 4 { //选择图片视图消失后检查是否已经有四张选择，如果是则设置增加图片按钮不显示
+                                        self.isShowAddPic = false
+                                    }
+                                    if self.imageDatas.last?.image == nil {
+                                        self.imageDatas.removeLast() //如果选择图片的时候选择了取消，也就是最后一个图片数据依然是nil，则移除该数据
+                                    }
+                                }) {
+                                    PhotoPicker(imageData: self.$imageDatas[self.imageDatas.count - 1], isShowPhotoPicker: self.$isShowPhotoPicker)
+                                }
+                        }
+                    } //增加图片按钮
                 }
-                .listStyle(InsetGroupedListStyle())
-                .onAppear() {
-                    UITextView.appearance().backgroundColor = .clear // 让TextEditor的背景是透明色
-                }
-                
-            } else {
-                // Fallback on earlier versions
+                .background(Color.init("BackGroundLight")).cornerRadius(16).padding([.leading, .trailing], 16)
+                .navigationBarTitle("Tweet")
+                .navigationBarItems(trailing:
+                                        HStack{
+                                            Spacer()
+                                            
+                                            if self.isTweetSentDone {
+                                                Text("Send")
+                                                    .foregroundColor(self.tweetText != "" || !self.imageDatas.isEmpty ? Color.accentColor : Color.gray)
+                                                    .onTapGesture {
+                                                        self.isTweetSentDone = false
+                                                        self.postMedia()
+                                                    }
+                                            } else {
+                                                ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium)
+                                            }
+                                        })
+            }
+            //                .listStyle(InsetGroupedListStyle())
+            .onAppear() {
+                UITextView.appearance().backgroundColor = .clear // 让TextEditor的背景是透明色
             }
         }
         

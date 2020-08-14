@@ -30,6 +30,7 @@ struct SettingView: View {
                 HStack {
                     Toggle("Iron Fans Rate:", isOn: self.$user.myInfo.setting.isIronFansShowed)
                 }
+                Toggle("Show picture", isOn: self.$user.myInfo.setting.isMediaShowed)
             }
             
             Section(header:Text("Other")){

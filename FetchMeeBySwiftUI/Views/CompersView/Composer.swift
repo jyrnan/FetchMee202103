@@ -26,7 +26,6 @@ struct Composer: View {
             Spacer()
             if self.timeline.isDone {
                 Text("more").font(.body).foregroundColor(.primary).opacity(0.7)
-//            Image(systemName: "photo").resizable().aspectRatio(contentMode: .fit).frame(width: 16, height: 16, alignment: .center).foregroundColor(.gray)
                 .onTapGesture {self.isShowCMV = true }
                 .sheet(isPresented: self.$isShowCMV) {
                     ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.tweetText, replyIDString: self.tweetIDString).environmentObject(user).accentColor(self.user.myInfo.setting.themeColor.color)
@@ -35,7 +34,6 @@ struct Composer: View {
                 }
             
             Divider()
-//            Text(self.tweetText == "" ? "Tweet" : "Tweet" )
             Image(systemName: "message.circle.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 24, height: 24, alignment: .center).padding(.trailing, 6)
                 .foregroundColor(self.tweetText == "" ? Color.primary.opacity(0.3) : Color.primary.opacity(0.8) )
                 .onTapGesture {

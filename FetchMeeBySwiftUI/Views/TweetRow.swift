@@ -71,12 +71,11 @@ struct TweetRow: View {
                         Spacer()
                         DetailIndicator(timeline: timeline, tweetIDString: tweetIDString)
                             .padding(.all, 0)
+                            .contentShape(Rectangle())
                             .onTapGesture {self.isShowDetail = true}
                             .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)}
                     }.padding(.top, 8) //用户名和创建时间以及详情页面点点点等信息
-                    if tweetMedia.replyUsers.count != 0 {
-                        ReplyUsersView(replyUsers: tweetMedia.replyUsers)
-                    }
+                    if tweetMedia.replyUsers.count != 0 {ReplyUsersView(replyUsers: tweetMedia.replyUsers)}
                     TweetTextView(tweetText: tweetMedia.tweetText)
                         .font(.body)
                         .padding(.top, 8)
@@ -90,23 +89,16 @@ struct TweetRow: View {
                             self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
                         } //实现点击出现ToolsVIew快速回复
                     
-                    if tweetMedia.images.count != 0 {
+                    if tweetMedia.images.count != 0 && self.user.myInfo.setting.isMediaShowed {
                         ZStack {
-//                            if tweetMedia.mediaType == "video" {
-//                                VideoPlayView(player: AVPlayer(url: URL(string: tweetMedia.mediaUrlString!)!)).aspectRatio(contentMode: .fill)
-//                                    .frame(height: 160, alignment: .center).cornerRadius(16)
-//                                    .clipped()
-//                                    .padding(.top, 8)
-//                                    .padding(.bottom, 8)
-//                            } else {
+                            
                             Images(images: self.tweetMedia.images)
                                 .frame(height: 160, alignment: .center)
                                 .cornerRadius(16)
                                 .clipped()
                                 .padding(.top, 8)
                                 .padding(.bottom, 8)
-                                
-//                            }
+
                             if (tweetMedia.mediaType == "video" || tweetMedia.mediaType == "animated_gif") {
                                 Image(systemName: "play.circle.fill")
                                     .resizable()

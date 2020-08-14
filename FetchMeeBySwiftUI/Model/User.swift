@@ -87,13 +87,15 @@ enum ThemeColor: String, CaseIterable, Identifiable {
 struct UserSetting {
     
     var themeColor: ThemeColor = ThemeColor.blue //缺省值是蓝色
-    var isIronFansShowed: Bool = true
+    var isIronFansShowed: Bool = false
+    var isMediaShowed: Bool = true //控制是否显示图片、视频
     /**
      存储用户的设置信息
      */
     func save() {
         userDefault.setValue(self.themeColor.rawValue, forKey: "themeColor")
         userDefault.setValue(self.isIronFansShowed, forKey: "isIronFansShowed")
+        userDefault.setValue(self.isMediaShowed, forKey: "isMediaShowed")
     }
     /**
      读取用户存储的设置信息
@@ -101,7 +103,7 @@ struct UserSetting {
     mutating func load() {
         self.themeColor = ThemeColor(rawValue: (userDefault.object(forKey: "themeColor") as? String) ?? "blue")!
         self.isIronFansShowed = (userDefault.object(forKey: "isIronFansShowed") as? Bool) ?? true
-        
+        self.isMediaShowed = (userDefault.object(forKey: "isMediaShowed") as? Bool) ?? true
     }
 }
 
