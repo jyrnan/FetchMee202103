@@ -68,13 +68,17 @@ struct SettingView: View {
     }
     func logOut() {
         self.user.isShowUserInfo = false
+        self.user.myInfo = UserInfomation() //  设置成一个空的userInfo
         print(#line, self.user.isShowUserInfo)
         delay(delay: 1, closure: {
-            withAnimation {self.user.isLoggedIn = false
+            withAnimation {
+                
             userDefault.set(false, forKey: "isLoggedIn")
             userDefault.set(nil, forKey: "userIDString")
             userDefault.set(nil, forKey: "screenName")
-                userDefault.set(nil, forKey: "mentionUserInfo")}
+            userDefault.set(nil, forKey: "mentionUserInfo")
+                self.user.isLoggedIn = false
+            }
         })
         
         

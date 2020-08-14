@@ -65,7 +65,7 @@ struct QuotedTweetRow: View {
                 }
             }.scaleEffect(0.9) //推文内容
             if tweetMedia.images.count != 0 && self.user.myInfo.setting.isMediaShowed {
-                Images(images: self.tweetMedia.images)
+                Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
                     .frame(height: 160, alignment: .center)
 //                    .cornerRadius(16)
                     .clipped()

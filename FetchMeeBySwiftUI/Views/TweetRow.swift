@@ -92,7 +92,7 @@ struct TweetRow: View {
                     if tweetMedia.images.count != 0 && self.user.myInfo.setting.isMediaShowed {
                         ZStack {
                             
-                            Images(images: self.tweetMedia.images)
+                            Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
                                 .frame(height: 160, alignment: .center)
                                 .cornerRadius(16)
                                 .clipped()

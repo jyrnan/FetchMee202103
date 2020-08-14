@@ -207,7 +207,7 @@ final class Timeline: ObservableObject {
                     tweetMedia.urlStrings?.append(urlstring)
                     tweetMedia.images[String(m)] = UIImage(named: "defaultImage") //先设置占位
 //                    imageDownloader(from: urlstring, setTo: IDString, at: m)()
-                    self.imageDownloaderWithClosure(from: urlstring, sh: { im in
+                    self.imageDownloaderWithClosure(from: urlstring + ":small", sh: { im in
                         self.tweetMedias[IDString]?.images[String(m)] = im
                     })
                 }

@@ -73,7 +73,7 @@ struct TimelineView: View {
                                     })
                             }}
                         
-                    }.padding(.top, 16).padding([.leading, .trailing], 16)
+                    }.padding(.top, 8).padding([.leading, .trailing], 16)
                     
                     if !self.mentions.tweetIDStrings.isEmpty && self.isMentionsShowed {
                         ScrollView {
@@ -114,7 +114,7 @@ struct TimelineView: View {
                             }
                         }
                         Spacer()
-                    }.padding(.top, 16).padding([.leading, .trailing], 16)
+                    }.padding(.top, 8).padding([.leading, .trailing], 16)
                    
                         LazyVStack(spacing: 0) {
                             RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
