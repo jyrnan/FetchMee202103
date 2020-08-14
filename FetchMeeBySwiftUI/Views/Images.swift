@@ -86,14 +86,15 @@ struct ImageThumb: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: width, height: height, alignment: .center) //直接按照传入的大小进行图片调整。
-                    
+                    .clipped()
+                    .contentShape(Rectangle()) //可以定义触控的内容区域，并在此基础上进行触控，也就是触控的区域。完美解决bug
                     .onTapGesture {
                         self.presentedImageViewer = true
                     }
                     .fullScreenCover(isPresented: self.$presentedImageViewer) {
                         ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer)
                     }
-                    .clipped()
+                    
             } else {
                 // Fallback on earlier versions
             }
