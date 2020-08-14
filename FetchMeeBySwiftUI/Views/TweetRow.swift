@@ -26,8 +26,8 @@ struct TweetRow: View {
     @State var player: AVPlayer = AVPlayer()
     
     var body: some View {
-        ZStack {
-           Color.init("BackGround")
+//        ZStack {
+//           Color.init("BackGround")
         VStack() {
             
             if self.tweetMedia.retweeted_by_UserName != nil {
@@ -46,7 +46,7 @@ struct TweetRow: View {
                         .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
                             .environmentObject(self.user)}
                     Spacer()
-                }.offset(x: 44).padding(.top, 8)
+                }.offset(x: 44).padding(.top, 8).padding(.bottom, 0)
             }
             HStack(alignment: .top, spacing: 0) {
                 
@@ -147,7 +147,7 @@ struct TweetRow: View {
             
                 Divider().padding(0)}
         }
-        }
+//        }
     }
 }
 

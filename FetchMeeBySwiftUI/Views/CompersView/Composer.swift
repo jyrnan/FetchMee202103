@@ -25,7 +25,7 @@ struct Composer: View {
             TextField("Tweet something here...", text: $tweetText).font(.body).padding(.leading, 16)
             Spacer()
             if self.timeline.isDone {
-                Text("more").font(.body).foregroundColor(.white).opacity(0.7)
+                Text("more").font(.body).foregroundColor(.primary).opacity(0.7)
 //            Image(systemName: "photo").resizable().aspectRatio(contentMode: .fit).frame(width: 16, height: 16, alignment: .center).foregroundColor(.gray)
                 .onTapGesture {self.isShowCMV = true }
                 .sheet(isPresented: self.$isShowCMV) {
@@ -36,8 +36,8 @@ struct Composer: View {
             
             Divider()
 //            Text(self.tweetText == "" ? "Tweet" : "Tweet" )
-            Image(systemName: "message.circle.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 24, height: 24, alignment: .center).padding(.trailing, 4)
-                .foregroundColor(self.tweetText == "" ? Color.gray.opacity(0.3) : .gray )
+            Image(systemName: "message.circle.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 24, height: 24, alignment: .center).padding(.trailing, 6)
+                .foregroundColor(self.tweetText == "" ? Color.primary.opacity(0.3) : Color.primary.opacity(0.8) )
                 .onTapGesture {
                 if self.tweetText != "" {
                     self.timeline.isDone = false

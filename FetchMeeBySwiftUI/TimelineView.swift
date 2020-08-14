@@ -102,7 +102,7 @@ struct TimelineView: View {
                                 
                                 
                                 
-                            }.padding(0).frame(maxHeight: 200).cornerRadius(16).padding([.leading, .trailing], 16)
+                            }.padding(0).frame(maxHeight: 220).cornerRadius(16).padding([.leading, .trailing], 16)
                                 
                             }
                         }
@@ -136,13 +136,12 @@ struct TimelineView: View {
 //                            ActivityIndicator(isAnimating: self.$home.isDone, style: .medium)
                         }.padding(.top, 16).padding([.leading, .trailing], 16))
                         {
-                            ZStack {
-                                Color.init("BackGround").cornerRadius(16)
+
                                 LazyVStack(spacing: 0) {
-                                 Rectangle().frame(height: 16).foregroundColor(Color.clear)
+                                    RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
                                  ForEach(self.home.tweetIDStrings, id: \.self) {
                                      tweetIDString in
-                                     TweetRow(timeline: home, tweetIDString: tweetIDString)
+                                     TweetRow(timeline: home, tweetIDString: tweetIDString).background(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.accentColor.opacity(0.2) : Color.init("BackGround"))
      //                                    .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.accentColor.opacity(0.2) : Color.clear) //标注被提及的推文listRowBackground
                                          .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str
      //                                                        || self.home.tweetMedias[tweetIDString]?.isToolsViewShowed == true
@@ -164,9 +163,8 @@ struct TimelineView: View {
                                         .frame(height: 16)
                                      Spacer()
                                  } //下方载入更多按钮
-                             }
-                            }.padding([.leading, .trailing], 16)
-                           
+                             }.padding([.leading, .trailing], 16)
+
                         }
                         
                 }
@@ -175,7 +173,7 @@ struct TimelineView: View {
 //                        self.keyboardHeight = $0
 //                        print(#line, self.keyboardHeight)
 //                    }
-//                    .offset(y: self.keyboardHeight != 0 ? -1 : 0)
+//                    .offset(y: self.keyboardHeight != 0 ? -4 : 0)
                     .navigationBarTitle("FetchMee")
                     .navigationBarItems(
 //                        leading: HStack {
