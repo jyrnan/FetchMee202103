@@ -139,9 +139,7 @@ struct TimelineView: View {
                 }
                 .navigationBarTitle("FetchMee")
                 .navigationBarItems(
-                    //                        leading: HStack {
-                    //                        if self.home.newTweetNumber != 0 && self.isNewTweetCountViewShowed {
-                    //                            Text(String(self.home.newTweetNumber))}},
+               
                     trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
                         .resizable()
                         .frame(width: 32, height: 32, alignment: .center)

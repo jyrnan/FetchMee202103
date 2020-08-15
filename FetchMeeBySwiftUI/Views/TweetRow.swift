@@ -74,7 +74,7 @@ struct TweetRow: View {
                             .contentShape(Rectangle())
                             .onTapGesture {self.isShowDetail = true}
                             .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)}
-                    }.padding(.top, 8) //用户名和创建时间以及详情页面点点点等信息
+                    }.padding(.top, (self.tweetMedia.retweeted_by_UserName != nil ? 0 : 8)) //用户名和创建时间以及详情页面点点点等信息
                     if tweetMedia.replyUsers.count != 0 {ReplyUsersView(replyUsers: tweetMedia.replyUsers)}
                     TweetTextView(tweetText: tweetMedia.tweetText)
                         .font(.body)

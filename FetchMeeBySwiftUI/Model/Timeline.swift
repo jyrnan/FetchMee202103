@@ -24,7 +24,6 @@ final class Timeline: ObservableObject {
     @Published var tweetMedias: [String: TweetMedia] = [:]
     @Published var newTweetNumber: Int = 0
     @Published var isDone: Bool = true { //设定在更新任务时候状态指示器是否显示，但无论任务是否结束，10秒种后状态指示器消失
-        
         didSet {
             delay(delay: 10, closure: {
                 if self.isDone  == false {
@@ -58,8 +57,12 @@ final class Timeline: ObservableObject {
     //    oauthTokenSecret: "vNQ6PlsdWFqMVK3OZn6IyoatBLCHB8DdFcHqCzK2zdD6C")
     
     let session = URLSession.shared
-    let maxCounter: Int = 100
-    var sinceIDString: String?
+    let maxCounter: Int = 50
+    var sinceIDString: String? {
+        didSet {
+            print(#line, self.tweetMedias[self.sinceIDString ?? "0000"]?.screenName)
+        }
+    }
     var maxIDString: String?
     
     init(type: TweetListType) {
@@ -112,9 +115,9 @@ final class Timeline: ObservableObject {
         
         switch self.type {
         case .mention:
-            swifter.getMentionsTimelineTweets(count: self.maxCounter,sinceID: self.sinceIDString, success: sh, failure: failureHandler)
+            swifter.getMentionsTimelineTweets(count: self.maxCounter, sinceID: self.sinceIDString, success: sh, failure: failureHandler)
         case .home:
-            swifter.getHomeTimeline(count: self.maxCounter,sinceID: self.sinceIDString,  success: sh, failure: failureHandler)
+            swifter.getHomeTimeline(count: self.maxCounter, sinceID: self.sinceIDString,  success: sh, failure: failureHandler)
         case .user:
             swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), success: sh, failure: failureHandler)
         default:
@@ -176,11 +179,11 @@ final class Timeline: ObservableObject {
      */
     func  converJSON2TweetDatas(from newTweets: [JSON]) -> [String] {
         /**
-         //转换单个推文JSON数据成TweetData，内置函数
+         //转换单个推文JSON数据成TweetData，内置函数，传入的IDString用来生成并索引推文数据，有可能是原推文ID，但是也有可能是转推推文的ID
          */
         func converJson2TweetData(from newTweet: JSON, at IDString: String) {
             
-            //生产对应推文的媒体数据字典，根据推文IDString进行索引
+            //生产对应推文的媒体数据字典，根据推文IDString或者转推推文IDString进行索引
             var tweetMedia = TweetMedia(id: newTweet["id_str"].string ?? "0000")
             
             tweetMedia.userIDString = newTweet["user"]["id_str"].string
@@ -269,18 +272,19 @@ final class Timeline: ObservableObject {
             let newTweet = newTweets[i]
             
             guard let IDString = newTweet["id_str"].string else {return newTweetIDStrings}
-            guard !self.tweetIDStrings.contains(IDString) else {continue}//判断是否重复刷新了推文
+//            guard !self.tweetIDStrings.contains(IDString) else {continue}//判断是否重复刷新了推文
             if newTweet["retweeted_status"].description != "<INVALID JSON>" { //这个判断也是醉了。没找到好的方法，判断retweeted_status是否有实际内容。如果不是"<INVALID JSON>"，则表示是正确的Retweet推文内容，执行下面的操作生成retweeted_status的数据，否则是正常的推文，跳转到下面继续执行。
                 let retweeted_by_UserIDString = newTweet["user"]["id_str"].string
                 let retweeted_by_UserName = newTweet["user"]["name"].string
-                let retweeted_status = newTweet["retweeted_status"]
-                if let newIDString = retweeted_status["id_str"].string {
-                    newTweetIDStrings.append(newIDString)
-                    converJson2TweetData(from: retweeted_status, at: newIDString)
-                    self.tweetMedias[newIDString]?.retweeted_by_IDString = IDString
-                    self.tweetMedias[newIDString]?.retweeted_by_UserIDString = retweeted_by_UserIDString
-                        self.tweetMedias[newIDString]?.retweeted_by_UserName = retweeted_by_UserName
-                }
+                let retweeted_status = newTweet["retweeted_status"] //把原推文里面的被转推推文内容提取出来
+//                if let newIDString = retweeted_status["id_str"].string {
+                    newTweetIDStrings.append(IDString) //还是应该插入原转推推文的ID作为索引
+                    converJson2TweetData(from: retweeted_status, at: IDString) //传入的是原转推推文的ID，用来生成对应的推文数据文件。但内容其实是被转推推文的内容。
+                    ///下面是转换被转推推文内容成推文数据文件的基础上再补充原转推推文的部分信息，用于显示
+                    self.tweetMedias[IDString]?.retweeted_by_IDString = IDString
+                    self.tweetMedias[IDString]?.retweeted_by_UserIDString = retweeted_by_UserIDString
+                        self.tweetMedias[IDString]?.retweeted_by_UserName = retweeted_by_UserName
+//                }
             } else {
             
             newTweetIDStrings.append(IDString)
