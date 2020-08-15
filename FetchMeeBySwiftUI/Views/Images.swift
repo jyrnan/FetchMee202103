@@ -11,8 +11,7 @@ import SwiftUI
 struct Images: View {
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
-//    @State var images: [String: UIImage]
-    
+
     @State var presentedImageViewer: Bool = false
     
     var body: some View {
@@ -67,23 +66,13 @@ struct Images: View {
     }
 }
 
-//struct Images_Previews: PreviewProvider {
-//    var timeline = Timeline(type: .home)
-//    var tweetIDString = "0000"
-//    static var previews: some View {
-//        Images(timeline: timeline, tweetIDString: tweetIDString, images: ["0": UIImage(named: "Test")!,
-//                        "1": UIImage(named: "defaultImage")!,
-//                        "2": UIImage(named: "Test")!,
-//                        "3": UIImage(named: "Test")!]).frame(height: 160)
-//    }
-//}
-
 struct ImageThumb: View {
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
-    var number: Int
+    var number: Int //在tweetMedia中images的第几个
     
     @State var presentedImageViewer: Bool = false
+    @State var isImageDownloaded: Bool = true //标记大图是否下载完成
 //    var uiImage: UIImage
     var width: CGFloat
     var height: CGFloat
@@ -98,25 +87,20 @@ struct ImageThumb: View {
                     .contentShape(Rectangle()) //可以定义触控的内容区域，并在此基础上进行触控，也就是触控的区域。完美解决bug
                     .onTapGesture {
                         if let urlString = self.timeline.tweetMedias[self.tweetIDString]?.urlStrings![number] {
+                            self.isImageDownloaded = false
                         self.timeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
                             self.timeline.tweetMedias[self.tweetIDString]?.images[String(number)] = im
+                            self.isImageDownloaded = true
                             self.presentedImageViewer = true
                         } )}
-                        
                     }
                     .fullScreenCover(isPresented: self.$presentedImageViewer) {
                         ImageViewer(image: (self.timeline.tweetMedias[tweetIDString]?.images[String(number)]!)!,presentedImageViewer: $presentedImageViewer)
                     }
-                    
             } else {
                 // Fallback on earlier versions
             }
-            
-            //            Text(" ") //提供触摸的区域的实现，但是会增加运算，待优化
-            //                .frame(width: width, height: height, alignment: .center)
-            //                .background(Color.white.opacity(0.01))
-            
+            ActivityIndicator(isAnimating: self.$isImageDownloaded, style: .medium)
         }
-        
     }
 }

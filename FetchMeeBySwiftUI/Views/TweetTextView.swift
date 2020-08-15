@@ -29,13 +29,7 @@ struct TweetTextView: View {
                 + Text(string)
                     .foregroundColor(string.first == "#" || string.starts(with: "https") ? .accentColor : .primary)
             }
-//            var textView = Text("")
-//            for string in self.tweetText {
-//                textView = textView
-//                + Text(string)
-//                    .foregroundColor(string.first == "#" ? .accentColor : .primary)
-//                + Text(" ")
-//            }
+
            return AnyView(textView)
         }
         

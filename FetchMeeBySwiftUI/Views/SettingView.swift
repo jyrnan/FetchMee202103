@@ -36,7 +36,6 @@ struct SettingView: View {
             Section(header:Text("Other")){
                 Text("Place Holder")
                 Text("Place Holder")
-                Text("Place Holder")
             }
             Section(header:Text("")){
                 HStack {

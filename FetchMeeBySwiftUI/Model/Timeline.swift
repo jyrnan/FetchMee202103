@@ -60,7 +60,7 @@ final class Timeline: ObservableObject {
     let maxCounter: Int = 50
     var sinceIDString: String? {
         didSet {
-            print(#line, self.tweetMedias[self.sinceIDString ?? "0000"]?.screenName)
+            print(#line, self.tweetMedias[self.sinceIDString ?? "0000"]?.screenName ?? "Nothing")
         }
     }
     var maxIDString: String?

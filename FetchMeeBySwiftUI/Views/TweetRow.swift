@@ -22,6 +22,7 @@ struct TweetRow: View {
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     @State var playVideo: Bool = false
+    @State var isShowAction: Bool = false //控制显示推文相关操作
     
     @State var player: AVPlayer = AVPlayer()
     
@@ -75,19 +76,32 @@ struct TweetRow: View {
                             .onTapGesture {self.isShowDetail = true}
                             .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)}
                     }.padding(.top, (self.tweetMedia.retweeted_by_UserName != nil ? 0 : 8)) //用户名和创建时间以及详情页面点点点等信息
+                    
                     if tweetMedia.replyUsers.count != 0 {ReplyUsersView(replyUsers: tweetMedia.replyUsers)}
-                    TweetTextView(tweetText: tweetMedia.tweetText)
+                    
+                    TweetTextView(tweetText: tweetMedia.tweetText) //推文正文
                         .font(.body)
                         .padding(.top, 8)
                         .padding(.bottom, 16)
                         .fixedSize(horizontal: false, vertical: true)
-                        .onTapGesture {
+                        .onTapGesture {//通过点击推文正文来实现
                             if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
-                                if prev != tweetIDString {self.timeline.tweetMedias[prev]?.isToolsViewShowed = false}
+                                if prev != tweetIDString {self.timeline.tweetMedias[prev]?.isToolsViewShowed = false} //判断如果先前选定显示ToolsView的tweetID不是自己，则将原激活ToolSView的推文取消激活
                             }
                             withAnimation {self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle() }
                             self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
                         } //实现点击出现ToolsVIew快速回复
+                        .onLongPressGesture {
+                            self.isShowAction = true
+                        }
+                        
+                        .actionSheet(isPresented: self.$isShowAction, content: {
+                            ActionSheet(title: Text("Tweet"), message: Text("What do you wanna to do with this tweet"), buttons: [
+                                            .destructive(Text("Delete"), action: {}),
+                                            .default(Text("Retweet"), action: {}),
+                                            .default(Text("Delete"), action: {}),
+                                            .cancel()])
+                        })
                     
                     if tweetMedia.images.count != 0 && self.user.myInfo.setting.isMediaShowed {
                         ZStack {
