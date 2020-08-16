@@ -16,12 +16,12 @@ struct TweetRow: View {
     
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
-    var tweetMedia: TweetMedia {self.timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: "")} //生成一个计算属性用来简化
+    var tweetMedia: TweetMedia {self.timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: "0000")} //生成一个计算属性用来简化，如果没有相应TweetMedia则生成一个缺省的
     
     
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
     @State var isShowDetail: Bool = false //控制显示推文详情页面
-    @State var playVideo: Bool = false
+    @State var playVideo: Bool = false //控制是否显示视频播放页面
     @State var isShowAction: Bool = false //控制显示推文相关操作
     
     @State var player: AVPlayer = AVPlayer()
@@ -60,6 +60,7 @@ struct TweetRow: View {
                 
                 VStack(alignment: .leading, spacing: 0 ) {
                     
+                    //用户名和创建时间以及详情页面点点点等信息
                     HStack(alignment: .center) {
                         Text(self.tweetMedia.userName ?? "UserName")
                             .font(.headline)
@@ -75,11 +76,14 @@ struct TweetRow: View {
                             .contentShape(Rectangle())
                             .onTapGesture {self.isShowDetail = true}
                             .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)}
-                    }.padding(.top, (self.tweetMedia.retweeted_by_UserName != nil ? 0 : 8)) //用户名和创建时间以及详情页面点点点等信息
+                    }
+                    .padding(.top, (self.tweetMedia.retweeted_by_UserName != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
                     
+                    //如果有回复用户列表不为空，则显示回复用户
                     if tweetMedia.replyUsers.count != 0 {ReplyUsersView(replyUsers: tweetMedia.replyUsers)}
                     
-                    TweetTextView(tweetText: tweetMedia.tweetText) //推文正文
+                    //推文正文
+                    TweetTextView(tweetText: tweetMedia.tweetText)
                         .font(.body)
                         .padding(.top, 8)
                         .padding(.bottom, 16)
@@ -103,64 +107,67 @@ struct TweetRow: View {
                                             .cancel()])
                         })
                     
-                    if tweetMedia.images.count != 0 && self.user.myInfo.setting.isMediaShowed {
+                    
+                    if tweetMedia.images.count != 0 && self.user.myInfo.setting.isMediaShowed {//如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
                         ZStack {
-                            
                             Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
                                 .frame(height: 160, alignment: .center)
                                 .cornerRadius(16)
                                 .clipped()
                                 .padding(.top, 8)
                                 .padding(.bottom, 8)
-
+                            
+                            //媒体视图上叠加一个播放按钮
                             if (tweetMedia.mediaType == "video" || tweetMedia.mediaType == "animated_gif") {
                                 Image(systemName: "play.circle.fill")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 64, height: 64, alignment: .center)
                                     .foregroundColor(.white).opacity(0.7)
-                                    .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                                    .onTapGesture(count: 1, perform: {
                                         if self.playVideo {
                                             self.player = AVPlayer()
                                             self.playVideo = false
-
                                         } else {
-                                        self.player = AVPlayer(url: URL(string: tweetMedia.mediaUrlString!)!)
-                                        self.playVideo = true
+                                            if let url = self.tweetMedia.mediaUrlString {
+                                        self.player = AVPlayer(url: URL(string: url)!)
+                                                self.playVideo = true }
                                         }
                                     })
                                     .fullScreenCover(isPresented: self.$playVideo, onDismiss: {self.player = AVPlayer()}, content: {
-//                                        VideoPlayView(player: self.player)
                                         PlayerContainerView(player: self.player)
                                     })
-
                             }
                         }
-                    } //推文图片显示区域
+                    } //推文图片或视频显示区域
                     
-                    if tweetMedia.quoted_status_id_str != nil {
-                        QuotedTweetRow(timeline: self.timeline, tweetIDString: tweetMedia.quoted_status_id_str!).mask(RoundedRectangle(cornerRadius: 16, style: .continuous)).overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                                                                                                                                                                        .stroke(Color.gray
-                                                                                                                                                                                                    .opacity(0.2), lineWidth: 1))
+                    if let quoted_status_id_str = tweetMedia.quoted_status_id_str {
+                        QuotedTweetRow(timeline: self.timeline, tweetIDString: quoted_status_id_str)
+                            .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1))
                     }
                     //
                 }.padding(.trailing, 16)
             }//推文内容
             Spacer()
-            if self.timeline.tweetMedias[tweetIDString]!.isToolsViewShowed {
+            //根据isToolsViewShowed确定是否显示ToolsView
+            if self.tweetMedia.isToolsViewShowed {
                 ToolsView(timeline: timeline, tweetIDString: tweetIDString)
             } else {
-            
                 Divider().padding(0)}
         }
-//        }
     }
 }
 
 
 
 struct TweetRow_Previews: PreviewProvider {
+    static let alerts = Alerts()
+    static let user = User()
+    static var timeline = Timeline(type: .home)
+    static var tweetIDString = "0000"
     static var previews: some View {
-        TweetRow(timeline: Timeline(type: .home), tweetIDString: "")
+        TweetRow(timeline: self.timeline, tweetIDString: self.tweetIDString).environmentObject(self.alerts).environmentObject(self.user)
     }
 }

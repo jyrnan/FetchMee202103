@@ -49,7 +49,7 @@ struct TweetMedia: Identifiable {
     
     var quoted_status_id_str: String? //引用推文的ID
     
-    var rowIsViewed: Bool = false //用来标记推文是否被展现
+    var rowIsViewed: Bool = false //用来标记推文是否出现在屏幕上被展现?
     
     init(id: String) {
         self.id = id

@@ -79,7 +79,7 @@ struct ImageThumb: View {
     var body: some View {
         ZStack(alignment: .center) {
             if #available(iOS 14.0, *) {
-                Image(uiImage: (self.timeline.tweetMedias[tweetIDString]?.images[String(number)]!)!)
+                Image(uiImage: self.timeline.tweetMedias[tweetIDString]?.images[String(number)] ?? UIImage(named: "defaultImage")!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: width, height: height, alignment: .center) //直接按照传入的大小进行图片调整。
@@ -102,5 +102,13 @@ struct ImageThumb: View {
             }
             ActivityIndicator(isAnimating: self.$isImageDownloaded, style: .medium)
         }
+    }
+}
+
+struct Images_Previews: PreviewProvider {
+    static var timeline = Timeline(type: .home)
+    static var tweetIDString = "0000"
+    static var previews: some View {
+        Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
     }
 }

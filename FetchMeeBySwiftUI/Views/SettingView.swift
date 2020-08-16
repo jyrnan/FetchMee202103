@@ -90,9 +90,9 @@ struct SettingView: View {
 }
 
 struct SettingView_Previews: PreviewProvider {
-    var user: User = User()
+    static var user: User = User()
     
     static var previews: some View {
-        SettingView()
+        SettingView().environmentObject(user)
     }
 }
