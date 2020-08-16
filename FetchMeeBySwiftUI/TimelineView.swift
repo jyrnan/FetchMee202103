@@ -45,7 +45,7 @@ struct TimelineView: View {
             ZStack {
                 ScrollView(.vertical) {
                     PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
-                        Composer(timeline: self.home)                        }.frame(height: 36).background(Color.init("BackGround")).cornerRadius(18).padding([.leading, .trailing], 16)
+                        Composer(timeline: self.home)}.frame(height: 36).background(Color.init("BackGround")).cornerRadius(18).padding([.leading, .trailing], 16)
                     
                     //Mentions部分章节，
                     HStack{
@@ -121,9 +121,7 @@ struct TimelineView: View {
                             ForEach(self.home.tweetIDStrings, id: \.self) {
                                 tweetIDString in
                                 TweetRow(timeline: home, tweetIDString: tweetIDString).background(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //标注被提及的推文listRowBackground
-                                    .listRowBackground(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str
-                                                        //                                                        || self.home.tweetMedias[tweetIDString]?.isToolsViewShowed == true
-                                                        ? Color.accentColor.opacity(0.1) : Color.clear) //标注被提及的或者是被选中的推文listRowBackground
+                                Divider()
                             }
                            HStack {
                                 Spacer()

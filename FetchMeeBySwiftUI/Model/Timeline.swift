@@ -57,7 +57,7 @@ final class Timeline: ObservableObject {
     //    oauthTokenSecret: "vNQ6PlsdWFqMVK3OZn6IyoatBLCHB8DdFcHqCzK2zdD6C")
     
     let session = URLSession.shared
-    let maxCounter: Int = 50
+    let maxCounter: Int = 100
     var sinceIDString: String? {
         didSet {
             print(#line, self.tweetMedias[self.sinceIDString ?? "0000"]?.screenName ?? "Nothing")

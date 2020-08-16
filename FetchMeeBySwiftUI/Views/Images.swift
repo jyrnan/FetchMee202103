@@ -73,13 +73,19 @@ struct ImageThumb: View {
     
     @State var presentedImageViewer: Bool = false
     @State var isImageDownloaded: Bool = true //标记大图是否下载完成
-//    var uiImage: UIImage
+    var uiImage: UIImage {self.timeline.tweetMedias[tweetIDString]?.images[String(number)] ?? UIImage(named: "defaultImage")!} //定义一个计算属性方便后续引用
     var width: CGFloat
     var height: CGFloat
     var body: some View {
         ZStack(alignment: .center) {
             if #available(iOS 14.0, *) {
-                Image(uiImage: self.timeline.tweetMedias[tweetIDString]?.images[String(number)] ?? UIImage(named: "defaultImage")!)
+                NavigationLink(
+                    destination: ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer),
+                    isActive: self.$presentedImageViewer,
+                    label: {
+                        EmptyView()
+                    })
+                Image(uiImage: self.uiImage)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: width, height: height, alignment: .center) //直接按照传入的大小进行图片调整。
@@ -94,9 +100,9 @@ struct ImageThumb: View {
                             self.presentedImageViewer = true
                         } )}
                     }
-                    .fullScreenCover(isPresented: self.$presentedImageViewer) {
-                        ImageViewer(image: (self.timeline.tweetMedias[tweetIDString]?.images[String(number)]!)!,presentedImageViewer: $presentedImageViewer)
-                    }
+//                    .fullScreenCover(isPresented: self.$presentedImageViewer) {
+//                        ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer)
+//                    }
             } else {
                 // Fallback on earlier versions
             }

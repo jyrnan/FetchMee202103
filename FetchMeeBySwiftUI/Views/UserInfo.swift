@@ -20,6 +20,8 @@ struct UserInfo: View {
     
     @State var isSettingViewShowed: Bool = false
     @State var isSettingViewIncluded: Bool = false  //是否在userInfo包含Setting页面
+    
+    @State var firstTimeRun: Bool = true //检测用于运行一次
     var body: some View {
         VStack(alignment: .leading) {
             ZStack {
@@ -145,6 +147,8 @@ struct UserInfo: View {
                         tweetIDString in
                         TweetRow(timeline: self.userTimeline, tweetIDString: tweetIDString)
                     }
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    
                     HStack {
                         Spacer()
                         Button("More Tweets...") {
@@ -153,15 +157,18 @@ struct UserInfo: View {
                             .foregroundColor(.gray)
                         Spacer()
                     } //下方载入更多按钮
-                }.listStyle(DefaultListStyle())
+                }
             }
-        }
+        }.ignoresSafeArea()
         .onAppear(){
+            if self.firstTimeRun {
+                self.firstTimeRun = false
             self.checkingUser.myInfo.id = self.userIDString ?? "0000"
             self.checkingUser.myInfo.screenName = self.userScreenName
             
             self.checkingUser.getMyInfo()
             self.userTimeline.refreshFromTop(for: userIDString)
+            }
         }
         
     }

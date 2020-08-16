@@ -155,7 +155,8 @@ struct TweetRow: View {
             if self.tweetMedia.isToolsViewShowed {
                 ToolsView(timeline: timeline, tweetIDString: tweetIDString)
             } else {
-                Divider().padding(0)}
+                EmptyView()}
+//                Divider().padding(0)}
         }
     }
 }

@@ -18,6 +18,13 @@ struct AvatarView: View {
     @State var presentedUserInfo: Bool = false
     
     var body: some View {
+        ZStack{
+        NavigationLink(
+            destination: UserInfo(userIDString: self.userIDString),
+            isActive: $presentedUserInfo,
+            label: {
+                EmptyView()
+            })
         Image(uiImage: self.avatar!)
             .resizable()
             .aspectRatio(contentMode: .fill)
@@ -26,9 +33,10 @@ struct AvatarView: View {
             .overlay(Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
             .contentShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
             .onTapGesture {self.presentedUserInfo = true}
-            .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.userIDString).environmentObject(self.alerts)
-                .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
-            }
+//            .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.userIDString).environmentObject(self.alerts)
+//                .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
+//            }
+    }
     }
 }
 

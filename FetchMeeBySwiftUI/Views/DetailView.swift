@@ -17,7 +17,7 @@ struct DetailView: View {
     @StateObject var replySession: Timeline = Timeline(type: .session)
     var tweetIDString: String //传入DetailView的初始推文
     
-    @State var firstTimeRun: Bool = true
+    @State var firstTimeRun: Bool = true //检测用于运行一次
     @Binding var isShowDetail: Bool  //用于绑定页面是否显示的开关，但是目前没有使用
     @State var keyboardHeight: CGFloat = 0
     
@@ -31,7 +31,7 @@ struct DetailView: View {
                     .listRowInsets(EdgeInsets(top: 8, leading:0, bottom: 0, trailing: 0))
                     Composer(timeline: self.replySession ,tweetIDString: self.tweetIDString)
                 }
-                .listStyle(DefaultListStyle())
+//                .listStyle(DefaultListStyle())
                 .onReceive(Publishers.keyboardHeight) {
                     self.keyboardHeight = $0
                     print(#line, self.keyboardHeight)
