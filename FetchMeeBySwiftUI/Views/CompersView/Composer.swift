@@ -34,7 +34,7 @@ struct Composer: View {
                 }
             
             Divider()
-            Image(systemName: "message.circle.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 24, height: 24, alignment: .center).padding(.trailing, 6)
+            Image(systemName: "plus.message.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 20, height: 20, alignment: .center).padding(.trailing, 8)
                 .foregroundColor(self.tweetText == "" ? Color.primary.opacity(0.3) : Color.primary.opacity(0.8) )
                 .onTapGesture {
                 if self.tweetText != "" {

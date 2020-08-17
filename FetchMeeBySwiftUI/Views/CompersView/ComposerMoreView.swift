@@ -39,14 +39,19 @@ struct ComposerMoreView: View {
                         VStack(alignment: .leading) {
                             
                             HStack {
-                                Text("Tweet below...").font(.body)
+                                Text("Tweet something below...").font(.body)
                                     .foregroundColor(self.tweetText == "" ? .gray : .clear)
                                 Spacer()
-                                Text(String(self.tweetText.count)).font(.callout)
-                                    .padding(2)
-                                    .frame(width: 24, height: 24, alignment: .center)
-                                    .foregroundColor(self.tweetText == "" ? .clear : Color.init("BackGroundLight"))
-                                    .background(Circle().fill(self.tweetText == "" ? .clear : Color.primary.opacity(0.4)))
+                                if self.isTweetSentDone {
+                                    Image(systemName: "plus.message.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 20, height: 20, alignment: .center).padding(.trailing, 8)
+                                        .foregroundColor(self.tweetText != "" || !self.imageDatas.isEmpty ? Color.accentColor : Color.clear)
+                                        .onTapGesture {
+                                            self.isTweetSentDone = false
+                                            self.postMedia()
+                                        }.disabled(self.tweetText == "")
+                                } else {
+                                    ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium)
+                                }
                                 
                             }.padding(.trailing, 8).padding(.top, 8)
                             Divider()
@@ -56,7 +61,7 @@ struct ComposerMoreView: View {
                             
                         }
                     }
-                    Divider()
+                    ProgressView(value: Double(self.tweetText.count) / 140.0)
                     if !self.imageDatas.isEmpty {
                         VStack {
                             GeometryReader {
@@ -121,16 +126,7 @@ struct ComposerMoreView: View {
                                         HStack{
                                             Spacer()
                                             
-                                            if self.isTweetSentDone {
-                                                Text("Send")
-                                                    .foregroundColor(self.tweetText != "" || !self.imageDatas.isEmpty ? Color.accentColor : Color.gray)
-                                                    .onTapGesture {
-                                                        self.isTweetSentDone = false
-                                                        self.postMedia()
-                                                    }
-                                            } else {
-                                                ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium)
-                                            }
+                                            
                                         })
             }
             //                .listStyle(InsetGroupedListStyle())

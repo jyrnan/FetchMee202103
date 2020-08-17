@@ -9,6 +9,7 @@
 import SwiftUI
 import SwifteriOS
 import Combine
+import UIKit
 
 
 struct TimelineView: View {
@@ -174,6 +175,7 @@ struct TimelineView: View {
 extension TimelineView {
     
     func refreshAll() {
+        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
         print(#line, #function)
         self.home.refreshFromTop()
         self.mentions.refreshFromTop()
