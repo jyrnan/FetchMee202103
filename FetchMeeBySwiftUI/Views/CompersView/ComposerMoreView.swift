@@ -16,7 +16,7 @@ struct ComposerMoreView: View {
     
     @Binding var isShowCMV: Bool 
     
-    @State var tweetText: String = ""
+    @Binding var tweetText: String
     @State var imageDatas: [ImageData] = []
     
     @State var isShowPhotoPicker: Bool = false
@@ -145,7 +145,7 @@ struct ComposerMoreView: View {
 
 struct ComposerMoreView_Previews: PreviewProvider {
     static var previews: some View {
-        ComposerMoreView(isShowCMV: .constant(true), tweetText: "Text", replyIDString: nil)
+        ComposerMoreView(isShowCMV: .constant(true), tweetText: .constant("Text"), replyIDString: nil)
     }
 }
 
@@ -192,6 +192,7 @@ extension ComposerMoreView {
             self.replyIDString = json["id_str"].string //获取前一条发送成功推文的ID作为回复的对象
             
             guard count < tweetTexts.count else {
+                self.tweetText = "" //发送成功后把推文文字重新设置成空的
                 self.isTweetSentDone = true
                 self.isShowCMV = false
                 return}

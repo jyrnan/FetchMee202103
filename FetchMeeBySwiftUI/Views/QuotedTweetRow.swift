@@ -50,7 +50,7 @@ struct QuotedTweetRow: View {
                     if tweetMedia.replyUsers.count != 0 {
                         ReplyUsersView(replyUsers: tweetMedia.replyUsers)
                     }
-                    TweetTextView(tweetText: (tweetMedia.tweetText == []) ? ["You are not allowed to view this tweet."] : tweetMedia.tweetText)
+                    TweetTextView(tweetText: (tweetMedia.tweetText == []) ? ["This tweet is unavaliable now."] : tweetMedia.tweetText)
                         .font(.body)
                         .padding(.top, 8)
                         .padding(.bottom, 4)

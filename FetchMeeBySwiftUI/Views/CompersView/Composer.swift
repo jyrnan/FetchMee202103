@@ -28,7 +28,7 @@ struct Composer: View {
                 Text("more").font(.body).foregroundColor(.primary).opacity(0.7)
                 .onTapGesture {self.isShowCMV = true }
                 .sheet(isPresented: self.$isShowCMV) {
-                    ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.tweetText, replyIDString: self.tweetIDString).environmentObject(user).accentColor(self.user.myInfo.setting.themeColor.color)
+                    ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.$tweetText, replyIDString: self.tweetIDString).environmentObject(user).accentColor(self.user.myInfo.setting.themeColor.color)
                 } } else {
                     ActivityIndicator(isAnimating: self.$timeline.isDone, style: .medium)
                 }
