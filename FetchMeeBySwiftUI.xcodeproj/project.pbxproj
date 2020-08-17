@@ -17,6 +17,7 @@
 		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
 		D252548024D804AB00D8B508 /* WebLinkJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkJson.txt */; };
 		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
+		D257C0E624EA8A5600ECAAC2 /* DeleteTweetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D257C0E524EA8A5600ECAAC2 /* DeleteTweetsView.swift */; };
 		D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDD924D2CEED00682B99 /* SafariView.swift */; };
 		D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */; };
 		D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */; };
@@ -117,6 +118,7 @@
 		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
 		D252547F24D804AB00D8B508 /* WebLinkJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkJson.txt; sourceTree = "<group>"; };
 		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
+		D257C0E524EA8A5600ECAAC2 /* DeleteTweetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteTweetsView.swift; sourceTree = "<group>"; };
 		D262FDD924D2CEED00682B99 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionUserSortedView.swift; sourceTree = "<group>"; };
 		D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedTimeView.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				D7AC536F24BB4AB200BCD71F /* ImageViewer.swift */,
 				D297390324D150B300917A97 /* CompersView */,
 				D286FFD624BC31F0005DBC39 /* UserInfo.swift */,
+				D257C0E524EA8A5600ECAAC2 /* DeleteTweetsView.swift */,
 				D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */,
 				D270E87C24C01C9100BBD3FE /* ToolsView.swift */,
 				D205246B24C18AC30046F1AB /* AlertView.swift */,
@@ -450,6 +453,7 @@
 				D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */,
 				D27DCEBE24B96D5F00520BE3 /* TimelineView.swift in Sources */,
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
+				D257C0E624EA8A5600ECAAC2 /* DeleteTweetsView.swift in Sources */,
 				D27DCF3B24B98F9900520BE3 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

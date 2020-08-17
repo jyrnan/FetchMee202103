@@ -116,49 +116,48 @@ struct TimelineView: View {
                         }
                         Spacer()
                     }.padding(.top, 8).padding([.leading, .trailing], 16)
-                   
-                        LazyVStack(spacing: 0) {
-                            RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
-                            ForEach(self.home.tweetIDStrings, id: \.self) {
-                                tweetIDString in
-                                TweetRow(timeline: home, tweetIDString: tweetIDString).background(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //标注被提及的推文listRowBackground
-                                Divider()
-                            }
-                           HStack {
-                                Spacer()
-                                Button("More Tweets...") {self.home.refreshFromButtom()}
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                                    .frame(height: 24)
-                                Spacer()
-                           }.background(Color.init("BackGround")) //下方载入更多按钮
-                            RoundedCorners(color: Color.init("BackGround"), bl: 18, br: 18 ).frame(height: 18)
-                        }.padding([.leading, .trailing], 16)
+                    
+                    LazyVStack(spacing: 0) {
+                        RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
+                        ForEach(self.home.tweetIDStrings, id: \.self) {
+                            tweetIDString in
+                            TweetRow(timeline: home, tweetIDString: tweetIDString).background(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //标注被提及的推文listRowBackground
+                            Divider()
+                        }
+                        HStack {
+                            Spacer()
+                            Button("More Tweets...") {self.home.refreshFromButtom()}
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                                .frame(height: 24)
+                            Spacer()
+                        }.background(Color.init("BackGround")) //下方载入更多按钮
+                        RoundedCorners(color: Color.init("BackGround"), bl: 18, br: 18 ).frame(height: 18)
+                    }.padding([.leading, .trailing], 16)
                     
                 }
                 .navigationBarTitle("FetchMee")
-                .navigationBarItems(
-               
-                    trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
-                        .resizable()
-                        .frame(width: 32, height: 32, alignment: .center)
-                        .clipShape(Circle())
-                        //                                            .onLongPressGesture {self.alerts.standAlert.isPresentedAlert.toggle() }
-                        .alert(isPresented: self.$alerts.standAlert.isPresentedAlert) {
-                            Alert(title: Text("LogOut?"), message: nil, primaryButton: .default(Text("Logout"), action: {self.logOut()}), secondaryButton: .cancel())}
-                        .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                            self.user.isShowUserInfo = true
-                        })
-                        .sheet(isPresented: self.$user.isShowUserInfo,
-                               onDismiss: {
-                                self.user.myInfo.setting.save()
-                               },
-                               content: {
-                                UserInfo(userIDString: self.user.myInfo.id, isSettingViewIncluded: true).environmentObject(self.alerts)
-                                    .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
-                               }))
-                
-                
+                .navigationBarItems(trailing:
+                                        ZStack{
+                                            NavigationLink(destination: UserInfo(userIDString: self.user.myInfo.id, isSettingViewIncluded: true)) {
+                                                Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
+                                                    .resizable()
+                                                    .frame(width: 32, height: 32, alignment: .center)
+                                                    .clipShape(Circle())
+                                                //                            .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                                                //                            self.user.isShowUserInfo = true
+                                                //                        })
+                                                //                        .sheet(isPresented: self.$user.isShowUserInfo,
+                                                //                               onDismiss: {
+                                                //                                self.user.myInfo.setting.save()
+                                                //                               },
+                                                //                               content: {
+                                                //                                UserInfo(userIDString: self.user.myInfo.id, isSettingViewIncluded: true).environmentObject(self.alerts)
+                                                //                                    .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
+                                                //                               })
+                                            }
+                                        }
+                )
                 
                 VStack(spacing: 0) {
                     if self.alerts.stripAlert.isPresentedAlert {

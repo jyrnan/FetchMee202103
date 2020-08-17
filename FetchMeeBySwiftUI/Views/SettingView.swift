@@ -11,7 +11,10 @@ import Combine
 
 struct SettingView: View {
     @EnvironmentObject var user: User
+    @ObservedObject var timeline: Timeline
+    
     @State var isPresentedAlert: Bool = false
+    
     
     var body: some View {
         List {
@@ -34,7 +37,8 @@ struct SettingView: View {
             }
             
             Section(header:Text("Other")){
-                Text("Place Holder")
+                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
+                
                 Text("Place Holder")
             }
             Section(header:Text("")){
@@ -91,8 +95,8 @@ struct SettingView: View {
 
 struct SettingView_Previews: PreviewProvider {
     static var user: User = User()
-    
+    static var timeline = Timeline(type: .user)
     static var previews: some View {
-        SettingView().environmentObject(user)
+        SettingView(timeline: timeline).environmentObject(user)
     }
 }

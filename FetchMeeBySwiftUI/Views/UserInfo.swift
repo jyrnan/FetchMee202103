@@ -10,10 +10,10 @@ import SwiftUI
 
 struct UserInfo: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User
+    @EnvironmentObject var user: User //始终是登录用户的信息
     
-    var userIDString: String?
-    var userScreenName: String?
+    var userIDString: String? //传入需查看的用户信息的ID
+    var userScreenName: String? //传入需查看的用户信息的Name
     
     @StateObject var checkingUser: User = User()
     @StateObject var userTimeline: Timeline = Timeline(type: .user)
@@ -105,7 +105,7 @@ struct UserInfo: View {
                 }.padding(0)
             }.frame(height:180)
             if self.isSettingViewShowed {
-                SettingView()
+                SettingView(timeline: self.userTimeline)
             } else {
                 ///用户信息View
                 List {
@@ -146,9 +146,9 @@ struct UserInfo: View {
                     ForEach(self.userTimeline.tweetIDStrings, id: \.self) {
                         tweetIDString in
                         TweetRow(timeline: self.userTimeline, tweetIDString: tweetIDString)
-                    }
+                    }.onDelete(perform: { _ in print(#line, "delete")})
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    
+                
                     HStack {
                         Spacer()
                         Button("More Tweets...") {
