@@ -23,7 +23,7 @@ struct MentionRow: View {
     var body: some View {
         VStack {
             HStack(alignment: .center, spacing: 0) {
-                AvatarView(avatar: self.tweetMedia.avatar!, userIDString: self.tweetMedia.userIDString)
+                AvatarView(avatar: self.tweetMedia.avatar!, userIDString: self.tweetMedia.userIDString, userName: self.tweetMedia.userName, screenName: self.tweetMedia.screenName, tweetIDString: self.tweetIDString)
                     .frame(width: 36, height: 36)
                     .padding(.init(top: 0, leading: 16, bottom: 0, trailing: 12))
                     

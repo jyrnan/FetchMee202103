@@ -14,6 +14,11 @@ struct AvatarView: View {
     
     var avatar: UIImage? = UIImage(systemName: "person.circle.fill")
     var userIDString: String?
+    var userName: String? //传入用户的名字
+    var screenName: String? //传入用户的名字
+    var tweetIDString: String? //传入该头像所在的推文ID
+    
+    @State var isShowAlert: Bool = false //是否显示警告
     
     @State var presentedUserInfo: Bool = false
     
@@ -25,10 +30,35 @@ struct AvatarView: View {
             .clipShape(Circle())
             .overlay(Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
             .contentShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-            .onTapGesture {self.presentedUserInfo = true}
+        .onTapGesture(count: 2, perform: {
+            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                print(#line, "pai yi pai")
+            self.pat()
+            })
+        .onTapGesture(count: 1) {self.presentedUserInfo = true}
             .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.userIDString).environmentObject(self.alerts)
                 .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
+                
             }
+        .onTapGesture(count: 2, perform: {
+                print(#line, "pai yi pai")
+            })
+        .alert(isPresented: self.$isShowAlert, content: {
+            Alert(title: Text("没拍到"), message: Text("可能\(self.userName ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
+        })
+        
+    }
+    
+    func pat() {
+        guard let userName = self.userName else { return}
+        guard let screenName = self.screenName else { return}
+        let tweetText = "\(self.user.myInfo.name ?? "楼主")拍了拍\"\(userName)\" \n@\(screenName)"
+        swifter.postTweet(status: tweetText, inReplyToStatusID: self.tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
+            self.alerts.stripAlert.alertText = "Patting sent!"
+                self.alerts.stripAlert.isPresentedAlert = true
+        }, failure: {error in
+            self.isShowAlert = true
+        }     )
     }
 }
 

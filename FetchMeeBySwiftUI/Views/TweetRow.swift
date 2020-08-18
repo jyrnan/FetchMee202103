@@ -49,7 +49,7 @@ struct TweetRow: View {
             HStack(alignment: .top, spacing: 0) {
                 
                 VStack {
-                    AvatarView(avatar: self.tweetMedia.avatar!, userIDString: self.tweetMedia.userIDString)
+                    AvatarView(avatar: self.tweetMedia.avatar!, userIDString: self.tweetMedia.userIDString, userName: self.tweetMedia.userName, screenName: self.tweetMedia.screenName, tweetIDString: self.tweetIDString)
                         .frame(width: 36, height: 36)
                         .padding(.init(top: 8, leading: 16, bottom: 12, trailing: 12))
                     Spacer()
