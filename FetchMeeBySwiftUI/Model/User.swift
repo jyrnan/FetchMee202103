@@ -96,6 +96,7 @@ struct UserSetting {
         userDefault.setValue(self.themeColor.rawValue, forKey: "themeColor")
         userDefault.setValue(self.isIronFansShowed, forKey: "isIronFansShowed")
         userDefault.setValue(self.isMediaShowed, forKey: "isMediaShowed")
+        print(#line, "Settings saved!")
     }
     /**
      读取用户存储的设置信息

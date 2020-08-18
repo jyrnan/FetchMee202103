@@ -11,36 +11,51 @@ import Combine
 
 struct SettingView: View {
     @EnvironmentObject var user: User
-    @ObservedObject var timeline: Timeline
+    @StateObject var timeline: Timeline = Timeline(type: .user)
     
-    @State var isPresentedAlert: Bool = false
-    
+    @State var isPresentedAlert: Bool = false //显示确认退出alertView
+    var checkingUser: User {self.user}
     
     var body: some View {
         List {
+            
+            ZStack {
+                Image(uiImage: self.checkingUser.myInfo.banner ?? UIImage(named: "bg")!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 100)
+                    .clipped()
+                    .padding(0)
+                HStack {
+                    Spacer()
+                Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
+                .resizable()
+                .frame(width: 64, height: 64, alignment: .center)
+                    .overlay(Circle().stroke(Color.gray.opacity(0.7), lineWidth: 2))
+                .clipShape(Circle())
+                    .offset(y: -50)
+                    .padding(.trailing, 32)
+                    .shadow(radius: 6)
+                }.onDisappear{print(#line, "Avatar disappear")}
+            }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+            
             Section(header: Text("Visual"), footer: Text("You can swith this function off to get a simper UI and better performance")) {
-                VStack {
-                    HStack{
-                    Text("Choose your favorist theme color, ").font(.caption).foregroundColor(.gray)
-                        Spacer() }
-               
-                Picker("Color", selection: self.$user.myInfo.setting.themeColor, content: {
-                    ForEach(ThemeColor.allCases) {color in
+                Picker("Favorit Theme Color", selection: self.$user.myInfo.setting.themeColor, content: {
+                    ForEach(ThemeColor.allCases){color in
                         Text(color.rawValue.capitalized).tag(color)
                     }
-                }).pickerStyle(SegmentedPickerStyle())
-                }
-                HStack {
-                    Toggle("Iron Fans Rate:", isOn: self.$user.myInfo.setting.isIronFansShowed)
-                }
+                })
+                Toggle("Iron Fans Rate", isOn: self.$user.myInfo.setting.isIronFansShowed)
                 Toggle("Show picture", isOn: self.$user.myInfo.setting.isMediaShowed)
             }
             
             Section(header:Text("Other")){
+                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Bunk Delete Tweets")})
                 NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
-                
-                Text("Place Holder")
+                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
+                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
             }
+            
             Section(header:Text("")){
                 HStack {
                     Spacer()
@@ -65,9 +80,15 @@ struct SettingView: View {
                     Spacer()
                 }
             }
-        }.listStyle(GroupedListStyle())
-        .padding(.top, 16)
-        .font(.body)
+        }
+        .onDisappear{self.user.myInfo.setting.save()}
+        .listStyle(GroupedListStyle())
+        .navigationTitle("Setting")
+//        .navigationBarItems(trailing:
+//                                Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
+//                                .resizable()
+//                                .frame(width: 32, height: 32, alignment: .center)
+//                                .clipShape(Circle()))
     }
     func logOut() {
         self.user.isShowUserInfo = false
@@ -76,10 +97,10 @@ struct SettingView: View {
         delay(delay: 1, closure: {
             withAnimation {
                 
-            userDefault.set(false, forKey: "isLoggedIn")
-            userDefault.set(nil, forKey: "userIDString")
-            userDefault.set(nil, forKey: "screenName")
-            userDefault.set(nil, forKey: "mentionUserInfo")
+                userDefault.set(false, forKey: "isLoggedIn")
+                userDefault.set(nil, forKey: "userIDString")
+                userDefault.set(nil, forKey: "screenName")
+                userDefault.set(nil, forKey: "mentionUserInfo")
                 self.user.isLoggedIn = false
             }
         })
@@ -97,6 +118,8 @@ struct SettingView_Previews: PreviewProvider {
     static var user: User = User()
     static var timeline = Timeline(type: .user)
     static var previews: some View {
-        SettingView(timeline: timeline).environmentObject(user)
+        NavigationView {
+            SettingView(timeline: timeline).environmentObject(user)
+        }
     }
 }

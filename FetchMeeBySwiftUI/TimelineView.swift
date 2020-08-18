@@ -138,26 +138,12 @@ struct TimelineView: View {
                 }
                 .navigationBarTitle("FetchMee")
                 .navigationBarItems(trailing:
-                                        ZStack{
-                                            NavigationLink(destination: UserInfo(userIDString: self.user.myInfo.id, isSettingViewIncluded: true)) {
+                                        NavigationLink(destination: SettingView()) {
                                                 Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
                                                     .resizable()
                                                     .frame(width: 32, height: 32, alignment: .center)
                                                     .clipShape(Circle())
-                                                //                            .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                                                //                            self.user.isShowUserInfo = true
-                                                //                        })
-                                                //                        .sheet(isPresented: self.$user.isShowUserInfo,
-                                                //                               onDismiss: {
-                                                //                                self.user.myInfo.setting.save()
-                                                //                               },
-                                                //                               content: {
-                                                //                                UserInfo(userIDString: self.user.myInfo.id, isSettingViewIncluded: true).environmentObject(self.alerts)
-                                                //                                    .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
-                                                //                               })
-                                            }
-                                        }
-                )
+                                            })
                 
                 VStack(spacing: 0) {
                     if self.alerts.stripAlert.isPresentedAlert {

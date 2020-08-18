@@ -17,11 +17,8 @@ struct UserInfo: View {
     
     @StateObject var checkingUser: User = User()
     @StateObject var userTimeline: Timeline = Timeline(type: .user)
-    
-    @State var isSettingViewShowed: Bool = false
-    @State var isSettingViewIncluded: Bool = false  //是否在userInfo包含Setting页面
-    
     @State var firstTimeRun: Bool = true //检测用于运行一次
+    
     var body: some View {
         VStack(alignment: .leading) {
             ZStack {
@@ -34,7 +31,6 @@ struct UserInfo: View {
                         .clipped()
                         .padding(0)
                 }
-                
                 VStack {
                     Spacer()
                     HStack(alignment: .bottom) {
@@ -49,17 +45,7 @@ struct UserInfo: View {
                             .padding(.leading, 16)
                         Spacer()
                         //
-                        if self.isSettingViewIncluded {
-                            Image(systemName: self.isSettingViewShowed ? "arrow.uturn.backward.circle" : "gearshape")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.gray)
-                                .font(.body)
-                                .frame(width: 32, height: 32, alignment: .center)
-                                .onTapGesture(count: 1, perform: {withAnimation{self.isSettingViewShowed.toggle()}
-                                })
-                                .padding(.trailing, 36)
-                        } else {
+                        
                             Image(systemName: "envelope")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -100,13 +86,11 @@ struct UserInfo: View {
                                         self.checkingUser.follow()
                                     })
                             }
-                        }
+                      
                     }
                 }.padding(0)
             }.frame(height:180)
-            if self.isSettingViewShowed {
-                SettingView(timeline: self.userTimeline)
-            } else {
+
                 ///用户信息View
                 List {
                     VStack(alignment: .leading){
@@ -158,7 +142,7 @@ struct UserInfo: View {
                         Spacer()
                     } //下方载入更多按钮
                 }
-            }
+
         }.ignoresSafeArea()
         .onAppear(){
             if self.firstTimeRun {

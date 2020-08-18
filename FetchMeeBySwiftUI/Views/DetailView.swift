@@ -24,26 +24,28 @@ struct DetailView: View {
     var body: some View {
         NavigationView {
             ZStack{
-                List{
+                ScrollView {
+                    
                     ForEach(replySession.tweetIDStrings, id: \.self) {tweetIDString in
+                        
                         TweetRow(timeline: replySession, tweetIDString: tweetIDString)
+                        Divider()
                     }
                     .listRowInsets(EdgeInsets(top: 8, leading:0, bottom: 0, trailing: 0))
-                    Composer(timeline: self.replySession ,tweetIDString: self.tweetIDString)
+                    Composer(timeline: self.replySession ,tweetIDString: self.tweetIDString).frame(height: 24)
                 }
-//                .listStyle(DefaultListStyle())
-                .onReceive(Publishers.keyboardHeight) {
-                    self.keyboardHeight = $0
-                    print(#line, self.keyboardHeight)
-                }
-                .offset(y: self.keyboardHeight != 0 ? -1 : 0)
+
+//                .onReceive(Publishers.keyboardHeight) {
+//                    self.keyboardHeight = $0
+//                    print(#line, self.keyboardHeight)
+//                }
+//                .offset(y: self.keyboardHeight != 0 ? -1 : 0)
                 .onAppear {
                     if self.firstTimeRun {
                         self.firstTimeRun = false
                         self.replySession.getReplyDetail(for: self.tweetIDString)
                     } else {print(#line, "firstTimeRun is already true")}} //页面出现时执行一次刷新
                 .navigationBarTitle("Detail", displayMode: .inline)
-//                .navigationBarItems(trailing: ActivityIndicator(isAnimating: self.$replySession.isDone, style: .medium))
                 VStack(spacing: 0) {
                     if self.alerts.stripAlertOfDetailView.isPresentedAlert {
                         AlertView(isAlertShow: self.$alerts.stripAlertOfDetailView.isPresentedAlert, alertText: self.alerts.stripAlertOfDetailView.alertText)

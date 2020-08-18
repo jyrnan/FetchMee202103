@@ -27,10 +27,7 @@ struct TweetRow: View {
     @State var player: AVPlayer = AVPlayer()
     
     var body: some View {
-//        ZStack {
-//           Color.init("BackGround")
         VStack() {
-            
             if self.tweetMedia.retweeted_by_UserName != nil {
                 HStack {
                     Image(systemName:"repeat")

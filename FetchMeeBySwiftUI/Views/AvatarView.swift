@@ -18,7 +18,6 @@ struct AvatarView: View {
     @State var presentedUserInfo: Bool = false
     
     var body: some View {
-        ZStack{
        Image(uiImage: self.avatar!)
             .resizable()
             .aspectRatio(contentMode: .fill)
@@ -30,7 +29,6 @@ struct AvatarView: View {
             .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.userIDString).environmentObject(self.alerts)
                 .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
             }
-    }
     }
 }
 

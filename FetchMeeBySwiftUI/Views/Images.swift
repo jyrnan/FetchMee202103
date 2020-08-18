@@ -79,12 +79,10 @@ struct ImageThumb: View {
     var body: some View {
         ZStack(alignment: .center) {
             if #available(iOS 14.0, *) {
-                NavigationLink(
-                    destination: ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer),
-                    isActive: self.$presentedImageViewer,
-                    label: {
-                        EmptyView()
-                    })
+//                NavigationLink(
+//                    destination: ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer),
+//                    isActive: self.$presentedImageViewer){
+                   
                 Image(uiImage: self.uiImage)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -100,9 +98,9 @@ struct ImageThumb: View {
                             self.presentedImageViewer = true
                         } )}
                     }
-//                    .fullScreenCover(isPresented: self.$presentedImageViewer) {
-//                        ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer)
-//                    }
+                    .fullScreenCover(isPresented: self.$presentedImageViewer) {
+                        ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer)
+                    }
             } else {
                 // Fallback on earlier versions
             }
