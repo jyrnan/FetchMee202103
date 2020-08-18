@@ -18,6 +18,16 @@ struct UserInfo: View {
     @StateObject var checkingUser: User = User()
     @StateObject var userTimeline: Timeline = Timeline(type: .user)
     @State var firstTimeRun: Bool = true //检测用于运行一次
+    @State var isShowAvatarDetail :Bool = false //显示头像大图
+    
+//    init(userIDString: String?) {
+//        self.userIDString = userIDString
+//        self.checkingUser.myInfo.id = self.userIDString ?? "0000"
+//        self.checkingUser.myInfo.screenName = self.userScreenName
+//
+//        self.checkingUser.getMyInfo()
+//        self.userTimeline.refreshFromTop(for: userIDString)
+//    }
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -43,6 +53,12 @@ struct UserInfo: View {
                             .clipShape(Circle())
                             .overlay(Circle().stroke(Color.white.opacity(0.6), lineWidth: 3))
                             .padding(.leading, 16)
+                            .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                                self.isShowAvatarDetail = true
+                            })
+                            .fullScreenCover(isPresented: self.$isShowAvatarDetail){
+                                ImageViewer(image: self.checkingUser.myInfo.avatar ?? UIImage(systemName: "person.circle")!,presentedImageViewer: $isShowAvatarDetail)
+                            }
                         Spacer()
                         //
                         
@@ -160,7 +176,7 @@ struct UserInfo: View {
 
 struct UserInfo_Previews: PreviewProvider {
     static var previews: some View {
-        UserInfo()
+        UserInfo(userIDString: "0000")
     }
 }
 

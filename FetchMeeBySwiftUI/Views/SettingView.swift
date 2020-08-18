@@ -16,6 +16,12 @@ struct SettingView: View {
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
     var checkingUser: User {self.user}
     
+    init() {
+//        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 20)!]
+//        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 20)!]
+//        UINavigationBar.appearance().backgroundColor = .red
+    }
+    
     var body: some View {
         List {
             
@@ -36,7 +42,7 @@ struct SettingView: View {
                     .offset(y: -50)
                     .padding(.trailing, 32)
                     .shadow(radius: 6)
-                }.onDisappear{print(#line, "Avatar disappear")}
+                }
             }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
             
             Section(header: Text("Visual"), footer: Text("You can swith this function off to get a simper UI and better performance")) {
@@ -84,11 +90,6 @@ struct SettingView: View {
         .onDisappear{self.user.myInfo.setting.save()}
         .listStyle(GroupedListStyle())
         .navigationTitle("Setting")
-//        .navigationBarItems(trailing:
-//                                Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
-//                                .resizable()
-//                                .frame(width: 32, height: 32, alignment: .center)
-//                                .clipShape(Circle()))
     }
     func logOut() {
         self.user.isShowUserInfo = false
@@ -119,7 +120,7 @@ struct SettingView_Previews: PreviewProvider {
     static var timeline = Timeline(type: .user)
     static var previews: some View {
         NavigationView {
-            SettingView(timeline: timeline).environmentObject(user)
+            SettingView().environmentObject(user)
         }
     }
 }
