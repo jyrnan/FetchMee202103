@@ -12,6 +12,7 @@ import SwifteriOS
 import UIKit
 
 struct ComposerMoreView: View {
+    
     @EnvironmentObject var user: User
     
     @Binding var isShowCMV: Bool 
@@ -25,6 +26,9 @@ struct ComposerMoreView: View {
     
     @State var replyIDString : String?
     @State var mediaIDs: [String] = [] //存储上传媒体/图片返回的ID号
+    
+    @State var drafts: [[String]] = []
+    @State var index: Int? //
     
     var body: some View {
         NavigationView {
@@ -61,7 +65,7 @@ struct ComposerMoreView: View {
                             
                         }
                     }
-                    ProgressView(value: Double(self.tweetText.count) / 140.0)
+//                    ProgressView(value: Double(self.tweetText.count) / 140.0)
                     if !self.imageDatas.isEmpty {
                         VStack {
                             GeometryReader {
@@ -122,16 +126,28 @@ struct ComposerMoreView: View {
                 }
                 .background(Color.init("BackGroundLight")).cornerRadius(16).padding([.leading, .trailing], 16)
                 .navigationBarTitle("Tweet")
-                .navigationBarItems(trailing:
-                                        HStack{
-                                            Spacer()
-                                            
-                                            
-                                        })
+                .navigationBarItems(leading: Button(action: {
+                    if let index = self.index {
+                        self.drafts[index] = [self.tweetText, self.replyIDString ?? "0000"]
+                    } else {
+                        self.drafts.append([self.tweetText, self.replyIDString ?? "0000"])
+                    }
+                    self.isShowCMV = false
+                }, label: {Text("Save")}),
+                    trailing:
+                                        NavigationLink(
+                                            destination: DraftsView(drafts: self.$drafts, tweetText: self.$tweetText, replyIDString: self.$replyIDString, index: self.$index),
+                                            label: {
+                                                Text("Drafts")
+                                            }))
             }
             //                .listStyle(InsetGroupedListStyle())
             .onAppear() {
                 UITextView.appearance().backgroundColor = .clear // 让TextEditor的背景是透明色
+                readDraftsFromFile()
+            }
+            .onDisappear {
+                writeDraftsToFile()
             }
         }
         
@@ -188,6 +204,12 @@ extension ComposerMoreView {
             self.replyIDString = json["id_str"].string //获取前一条发送成功推文的ID作为回复的对象
             
             guard count < tweetTexts.count else {
+                if let index = self.index {
+                    self.drafts.remove(at: index)
+                } else {
+                    print(#line ,"sent OK")
+                }
+                
                 self.tweetText = "" //发送成功后把推文文字重新设置成空的
                 self.isTweetSentDone = true
                 self.isShowCMV = false
@@ -209,7 +231,14 @@ extension ComposerMoreView {
             autoPopulateReplyMetadata: true,
             mediaIDs: self.mediaIDs,
             attachmentURL: nil,
-            success: sh)
+            success: sh,
+            failure: {_ in
+                if let index = self.index {
+                    self.drafts[index] = [self.tweetText, self.replyIDString ?? "0000"]
+                } else {
+                    self.drafts.append([self.tweetText, self.replyIDString ?? "0000"])
+                }
+            })
         
     }
     
@@ -254,6 +283,14 @@ extension ComposerMoreView {
             result[i] = "\(i + 1)/\(result.count) " + result[i]
         }
         return result
+    }
+    
+    func readDraftsFromFile() {
+        self.drafts = userDefault.array(forKey: "Drafts") as? [[String]] ?? []
+    }
+    
+    func writeDraftsToFile() {
+        userDefault.setValue(self.drafts, forKey: "Drafts")
     }
 }
 
