@@ -66,7 +66,7 @@ struct TweetRow: View {
                             .font(.subheadline)
                             .foregroundColor(.gray)
                             .lineLimit(1)
-                        CreatedTimeView(createdTime: self.tweetMedia.created!)
+                        CreatedTimeView(createdTime: self.tweetMedia.created)
                         Spacer()
                         DetailIndicator(timeline: timeline, tweetIDString: tweetIDString)
                             .padding(.all, 0)

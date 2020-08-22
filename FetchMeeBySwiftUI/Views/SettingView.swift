@@ -23,7 +23,7 @@ struct SettingView: View {
     }
     
     var body: some View {
-        List {
+        Form {
             
             ZStack {
                 Image(uiImage: self.checkingUser.myInfo.banner ?? UIImage(named: "bg")!)
@@ -117,7 +117,7 @@ struct SettingView: View {
 
 struct SettingView_Previews: PreviewProvider {
     static var user: User = User()
-    static var timeline = Timeline(type: .user)
+//    static var timeline = Timeline(type: .user)
     static var previews: some View {
         NavigationView {
             SettingView().environmentObject(user)

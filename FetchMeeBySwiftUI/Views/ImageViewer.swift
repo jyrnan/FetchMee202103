@@ -78,7 +78,7 @@ struct ImageViewer: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width:24, height: 24)
-                    .foregroundColor(Color.white.opacity(0.7))
+                    .foregroundColor(Color.gray.opacity(0.7))
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
                 }

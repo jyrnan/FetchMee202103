@@ -101,8 +101,8 @@ final class Timeline: ObservableObject {
     func refreshFromTop(for userIDString: String? = nil) {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
-            //            print(#line, "Timeline got!", self, Date())
-            //            print(#line, newTweets)
+                        print(#line, "Timeline got!", self, Date())
+                        print(#line, newTweets)
             self.newTweetNumber = newTweets.count
             
             self.isDone = true
@@ -273,7 +273,7 @@ final class Timeline: ObservableObject {
             
             guard let IDString = newTweet["id_str"].string else {return newTweetIDStrings}
 //            guard !self.tweetIDStrings.contains(IDString) else {continue}//判断是否重复刷新了推文
-            if newTweet["retweeted_status"].description != "<INVALID JSON>" { //这个判断也是醉了。没找到好的方法，判断retweeted_status是否有实际内容。如果不是"<INVALID JSON>"，则表示是正确的Retweet推文内容，执行下面的操作生成retweeted_status的数据，否则是正常的推文，跳转到下面继续执行。
+            if newTweet["retweeted_status"]["id_str"].string != nil { //这个判断也是醉了。没找到好的方法，判断retweeted_status是否有实际内容。如果不是"<INVALID JSON>"，则表示是正确的Retweet推文内容，执行下面的操作生成retweeted_status的数据，否则是正常的推文，跳转到下面继续执行。
                 let retweeted_by_UserIDString = newTweet["user"]["id_str"].string
                 let retweeted_by_UserName = newTweet["user"]["name"].string
                 let retweeted_status = newTweet["retweeted_status"] //把原推文里面的被转推推文内容提取出来

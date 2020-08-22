@@ -36,7 +36,7 @@ struct MentionRow: View {
                     }
                     .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)}
                 Spacer()
-                CreatedTimeView(createdTime: self.tweetMedia.created!).padding(.trailing, 16)
+                CreatedTimeView(createdTime: self.tweetMedia.created).padding(.trailing, 16)
             }.padding(.top, 8)
             Divider().padding(0)
         }

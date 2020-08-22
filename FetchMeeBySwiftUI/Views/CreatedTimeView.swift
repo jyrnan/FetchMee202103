@@ -26,7 +26,7 @@ extension CreatedTimeView {
         guard createdTime != nil else {
             return "N/A"
         }
-        var result : String?
+        var result : String = "N/A"
         let timeString = createdTime!
         let timeFormat = DateFormatter()
         timeFormat.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
@@ -45,7 +45,7 @@ extension CreatedTimeView {
             default: result = "· " + df.string(from: date)
             }
     }
-        return result!
+        return result
 }
 }
 
