@@ -250,7 +250,7 @@ extension ComposerMoreView {
         func splitStingToSubstrings(string: String) -> [Substring] {
             //按照主要标点符号的位置分开
             let strings: [String] = string.map{
-                if "，。！：；？……".contains($0) {//定义主要标点符号
+                if "，。！：；？……\n".contains($0) {//定义主要标点符号
                     return String($0) + "/" //在主要标点符号位置后面增加分割符
                 } else {
                     return String($0)
