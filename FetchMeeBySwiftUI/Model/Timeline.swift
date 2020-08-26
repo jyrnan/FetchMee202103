@@ -58,11 +58,7 @@ final class Timeline: ObservableObject {
     
     let session = URLSession.shared
     let maxCounter: Int = 100
-    var sinceIDString: String? {
-        didSet {
-            print(#line, self.tweetMedias[self.sinceIDString ?? "0000"]?.screenName ?? "Nothing")
-        }
-    }
+    var sinceIDString: String?
     var maxIDString: String?
     
     init(type: TweetListType) {
@@ -73,16 +69,10 @@ final class Timeline: ObservableObject {
             print()
         case .mention:
             self.mentionUserInfo = userDefault.object(forKey: "mentionUserInfo") as? [String:[String]] ?? [:] //读取数据
-            //            print(#line, self.mentionUserInfo)
             self.makeMentionUserSortedList()//初始化更新MentionUser排序
-        //            self.refreshFromTop()
-        
         default:
-            //            self.refreshFromTop()
             print()
         }
-        
-        
     }
     
     deinit {
@@ -90,19 +80,15 @@ final class Timeline: ObservableObject {
         switch type {
         case .mention:
             print(#line, self.mentionUserInfo.count)
-        //            userDefault.set(self.mentionUserInfo, forKey: "mentionUserInfo") //存储
-        //            print(#line, "\(self.type) mentionUserInfo saved!")
         default:
             print(#line, "\(self.type) disappeared!")
         }
     }
     
     ///更新上方推文
-    func refreshFromTop(for userIDString: String? = nil) {
+    func refreshFromTop(for userIDString: String? = nil, fh: ((Error) -> Void)? = nil) {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
-                        print(#line, "Timeline got!", self, Date())
-                        print(#line, newTweets)
             self.newTweetNumber = newTweets.count
             
             self.isDone = true
@@ -110,8 +96,7 @@ final class Timeline: ObservableObject {
             self.updateTimelineTop(with: newTweets)
         }
         
-        let failureHandler: (Error) -> Void = { error in
-            print(#line, error.localizedDescription)}
+        let failureHandler: ((Error) -> Void)? = fh
         
         switch self.type {
         case .mention:
@@ -375,9 +360,7 @@ extension Timeline {
         func finalReloadView() {
             //最后操作，可能需要
             self.isDone = true
-            //            self.tweetMedias[idString]?.isToolsViewShowed = true
-            
-            
+          
         }
         func sh(json: JSON) -> () {
             let newTweets = [json]

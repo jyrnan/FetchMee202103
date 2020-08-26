@@ -21,8 +21,6 @@ struct TimelineView: View {
     
     @State var tweetText: String = ""
     
-    //    @State var refreshIsDone: Bool = false
-    
     @State var keyboardHeight: CGFloat = 0 //用来观察键盘是否弹出，如果键盘弹出，会赋值给这个键盘，也就是不会为0
     
     @State var isMentionsShowed: Bool = false
@@ -34,9 +32,6 @@ struct TimelineView: View {
         }
     }
     init() {
-        //        self.user = user
-        //        print(#line, "ContentView \(self)")
-        //   let tableView = UITableView(frame: .zero, style: .insetGrouped)
     }
     
     
@@ -84,7 +79,7 @@ struct TimelineView: View {
                                     ForEach(self.mentions.tweetIDStrings, id: \.self) {
                                         tweetIDString in
                                         MentionRow(timeline: self.mentions, tweetIDString: tweetIDString)
-                                        //                                            .padding(.bottom, 4)
+                                        
                                     }
                                     HStack {
                                         Spacer()
@@ -153,16 +148,20 @@ struct TimelineView: View {
                 } //通知视图
                 .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
             }
-        }.onAppear { self.refreshAll()}
+        }.onAppear { self.refreshAll()} //进入界面刷新一次
     }
 }
 
 extension TimelineView {
+    func failureHandler(error: Error) -> Void {
+        print(#line, error.localizedDescription)
+        self.alerts.stripAlert.alertText = "Sorry! Network error!"
+        self.alerts.stripAlert.isPresentedAlert = true
+    }
     
     func refreshAll() {
-        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-        print(#line, #function)
-        self.home.refreshFromTop()
+        UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
+        self.home.refreshFromTop(fh: failureHandler(error:))
         self.mentions.refreshFromTop()
     }
     

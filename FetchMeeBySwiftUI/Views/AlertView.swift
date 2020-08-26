@@ -32,11 +32,9 @@ struct AlertView: View {
                     }
                     
                 Spacer()
-        }.background(Color.accentColor .opacity(0.8))
+        }.background(self.alertText == "Sorry! Network error!" ? Color.red : Color.accentColor .opacity(0.8))
         .offset(y: self.offsetValue)
-        
-           
-            Spacer()
+        Spacer()
         
     }
     
