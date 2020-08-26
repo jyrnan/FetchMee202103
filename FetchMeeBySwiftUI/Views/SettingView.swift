@@ -14,7 +14,7 @@ struct SettingView: View {
     @StateObject var timeline: Timeline = Timeline(type: .user)
     
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
-    var checkingUser: User {self.user}
+    var checkingUser: User {self.user} //使用用户和chckingUser是同一个
     
     init() {
 //        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 20)!]
@@ -25,13 +25,16 @@ struct SettingView: View {
     var body: some View {
         Form {
             
-            ZStack {
+            ZStack {VStack {
+                Spacer()
                 Image(uiImage: self.checkingUser.myInfo.banner ?? UIImage(named: "bg")!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 100)
                     .clipped()
                     .padding(0)
+            }
+                
                 HStack {
                     Spacer()
                 Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
@@ -39,11 +42,13 @@ struct SettingView: View {
                 .frame(width: 64, height: 64, alignment: .center)
                     .overlay(Circle().stroke(Color.gray.opacity(0.7), lineWidth: 2))
                 .clipShape(Circle())
-                    .offset(y: -50)
+                    .offset(y: -25)
                     .padding(.trailing, 32)
                     .shadow(radius: 6)
                 }
-            }.listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+            }
+            .frame(height: 150)
+            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
             
             Section(header: Text("Visual"), footer: Text("You can swith this function off to get a simper UI and better performance")) {
                 Picker("Favorit Theme Color", selection: self.$user.myInfo.setting.themeColor, content: {

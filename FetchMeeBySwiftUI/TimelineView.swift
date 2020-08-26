@@ -138,6 +138,7 @@ struct TimelineView: View {
                                                     .resizable()
                                                     .frame(width: 32, height: 32, alignment: .center)
                                                     .clipShape(Circle())
+                                                
                                             })
                 
                 VStack(spacing: 0) {
@@ -153,6 +154,9 @@ struct TimelineView: View {
 }
 
 extension TimelineView {
+    /**
+     处理出错的handler，可以传入到timeline里面执行。
+     */
     func failureHandler(error: Error) -> Void {
         print(#line, error.localizedDescription)
         self.alerts.stripAlert.alertText = "Sorry! Network error!"
