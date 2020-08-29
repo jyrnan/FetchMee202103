@@ -22,11 +22,11 @@ struct AlertView: View {
                     .frame(height: 25, alignment: .center)
                     .onAppear {
                         withAnimation{self.offsetValue = 0}
-                        delay(delay: 1) {
+                        delay(delay: 2) {
                             withAnimation{self.offsetValue = -25
                             }
                         }
-                        delay(delay: 2) {
+                        delay(delay: 3) {
                             self.isAlertShow = false
                         }
                     }

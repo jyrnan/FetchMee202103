@@ -21,6 +21,7 @@ enum TweetListType: String {
 
 final class Timeline: ObservableObject {
     @Published var tweetIDStrings: [String] = []
+    @Published var imageTweetStrings: [String] = []
     @Published var tweetMedias: [String: TweetMedia] = [:]
     @Published var newTweetNumber: Int = 0
     @Published var isDone: Bool = true { //设定在更新任务时候状态指示器是否显示，但无论任务是否结束，10秒种后状态指示器消失
@@ -84,7 +85,7 @@ final class Timeline: ObservableObject {
             print(#line, "\(self.type) disappeared!")
         }
     }
-    
+    //MARK: - 更新推文函数
     ///更新上方推文
     func refreshFromTop(for userIDString: String? = nil, fh: ((Error) -> Void)? = nil) {
         func sh(json: JSON) ->Void {
@@ -199,6 +200,7 @@ final class Timeline: ObservableObject {
                         self.tweetMedias[IDString]?.images[String(m)] = im
                     })
                 }
+                self.imageTweetStrings.append(IDString) //把含有图片的推文ID提取出来
             }
             
             //视频数据处理
