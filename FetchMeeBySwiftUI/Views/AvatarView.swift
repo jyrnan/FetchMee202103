@@ -21,32 +21,42 @@ struct AvatarView: View {
     @State var isShowAlert: Bool = false //是否显示警告
     
     @State var presentedUserInfo: Bool = false
-    
+    @State var presentedUserImageGrabber: Bool = false
     var body: some View {
-       Image(uiImage: self.avatar!)
+        ZStack {
+            EmptyView()
+                .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString).environmentObject(self.alerts)
+                    .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
+                }
+        Image(uiImage: self.avatar!)
             .resizable()
             .aspectRatio(contentMode: .fill)
-//            .frame(width: 36, height: 36)
+            //            .frame(width: 36, height: 36)
             .clipShape(Circle())
             .overlay(Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
             .contentShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-        .onTapGesture(count: 2, perform: {
-            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+            
+            .onTapGesture(count: 2, perform: {
+                UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 print(#line, "pai yi pai")
-            self.pat()
+                self.pat()
             })
-        .onTapGesture(count: 1) {self.presentedUserInfo = true}
+            
+            .onTapGesture(count: 1) {self.presentedUserInfo = true}
             .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.userIDString).environmentObject(self.alerts)
                 .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
-                
             }
-        .onTapGesture(count: 2, perform: {
-                print(#line, "pai yi pai")
+            .simultaneousGesture(LongPressGesture()
+                                    .onEnded{_ in
+                                        print(#line, "long press")
+                                        self.presentedUserImageGrabber = true
+                                    })
+            
+            .alert(isPresented: self.$isShowAlert, content: {
+                Alert(title: Text("没拍到"), message: Text("可能\(self.userName ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
             })
-        .alert(isPresented: self.$isShowAlert, content: {
-            Alert(title: Text("没拍到"), message: Text("可能\(self.userName ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
-        })
-        
+            
+        }
     }
     
     func pat() {
@@ -55,7 +65,7 @@ struct AvatarView: View {
         let tweetText = "\(self.user.myInfo.name ?? "楼主")拍了拍\"\(userName)\" \n@\(screenName)"
         swifter.postTweet(status: tweetText, inReplyToStatusID: self.tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
             self.alerts.stripAlert.alertText = "Patting sent!"
-                self.alerts.stripAlert.isPresentedAlert = true
+            self.alerts.stripAlert.isPresentedAlert = true
         }, failure: {error in
             self.isShowAlert = true
         }     )

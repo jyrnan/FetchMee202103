@@ -73,7 +73,7 @@ struct ImageThumb: View {
     
     @State var presentedImageViewer: Bool = false
     @State var isImageDownloaded: Bool = true //标记大图是否下载完成
-    var uiImage: UIImage {self.timeline.tweetMedias[tweetIDString]?.images[String(number)] ?? UIImage(named: "defaultImage")!} //定义一个计算属性方便后续引用
+    var uiImage: UIImage {self.timeline.tweetMedias[tweetIDString]?.images[number] ?? UIImage(named: "defaultImage")!} //定义一个计算属性方便后续引用
     var width: CGFloat
     var height: CGFloat
     var body: some View {
@@ -93,7 +93,7 @@ struct ImageThumb: View {
                         if let urlString = self.timeline.tweetMedias[self.tweetIDString]?.urlStrings![number] {
                             self.isImageDownloaded = false
                         self.timeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
-                            self.timeline.tweetMedias[self.tweetIDString]?.images[String(number)] = im
+                            self.timeline.tweetMedias[self.tweetIDString]?.images[number] = im
                             self.isImageDownloaded = true
                             self.presentedImageViewer = true
                         } )}

@@ -30,7 +30,7 @@ struct TweetMedia: Identifiable {
     var created: String?
     
     var urlStrings: [String]? //图片的url
-    var images: [String: UIImage] = [:] //下载的UIImage
+    var images: [UIImage] = [] //下载的UIImage
     
     var mediaType: String?
     var mediaUrlString: String? //视频网址

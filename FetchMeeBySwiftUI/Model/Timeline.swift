@@ -194,10 +194,10 @@ final class Timeline: ObservableObject {
                 for m in 0..<count {
                     let urlstring = newTweet["extended_entities"]["media"][m]["media_url_https"].string!
                     tweetMedia.urlStrings?.append(urlstring)
-                    tweetMedia.images[String(m)] = UIImage(named: "defaultImage") //先设置占位
+                    tweetMedia.images.append(UIImage(named: "defaultImage")!) //先设置占位
 //                    imageDownloader(from: urlstring, setTo: IDString, at: m)()
                     self.imageDownloaderWithClosure(from: urlstring + ":small", sh: { im in
-                        self.tweetMedias[IDString]?.images[String(m)] = im
+                        self.tweetMedias[IDString]?.images[m] = im
                     })
                 }
                 self.imageTweetStrings.append(IDString) //把含有图片的推文ID提取出来
