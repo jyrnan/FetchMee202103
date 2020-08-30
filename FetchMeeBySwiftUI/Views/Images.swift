@@ -11,7 +11,7 @@ import SwiftUI
 struct Images: View {
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
-
+    
     @State var presentedImageViewer: Bool = false
     
     var body: some View {
@@ -73,16 +73,14 @@ struct ImageThumb: View {
     
     @State var presentedImageViewer: Bool = false
     @State var isImageDownloaded: Bool = true //标记大图是否下载完成
+    var isSelectMode: Bool = false //控制单击是否作为选择
+    
     var uiImage: UIImage {self.timeline.tweetMedias[tweetIDString]?.images[number] ?? UIImage(named: "defaultImage")!} //定义一个计算属性方便后续引用
     var width: CGFloat
     var height: CGFloat
     var body: some View {
         ZStack(alignment: .center) {
             if #available(iOS 14.0, *) {
-//                NavigationLink(
-//                    destination: ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer),
-//                    isActive: self.$presentedImageViewer){
-                   
                 Image(uiImage: self.uiImage)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -90,17 +88,28 @@ struct ImageThumb: View {
                     .clipped()
                     .contentShape(Rectangle()) //可以定义触控的内容区域，并在此基础上进行触控，也就是触控的区域。完美解决bug
                     .onTapGesture {
+                        if !self.isSelectMode {
                         if let urlString = self.timeline.tweetMedias[self.tweetIDString]?.urlStrings![number] {
                             self.isImageDownloaded = false
-                        self.timeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
-                            self.timeline.tweetMedias[self.tweetIDString]?.images[number] = im
-                            self.isImageDownloaded = true
-                            self.presentedImageViewer = true
-                        } )}
+                            self.timeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
+                                                                        self.timeline.tweetMedias[self.tweetIDString]?.images[number] = im
+                                                                        self.isImageDownloaded = true
+                                                                        self.presentedImageViewer = true
+                                                                        }
+                            )}} else {
+                                if self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[number] == false {
+                                    self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[number].toggle()
+                                    self.timeline.selectedImageCount += 1
+                                } else {
+                                    self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[number].toggle()
+                                    self.timeline.selectedImageCount -= 1
+                                }
+                            }
                     }
                     .fullScreenCover(isPresented: self.$presentedImageViewer) {
                         ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer)
                     }
+                
             } else {
                 // Fallback on earlier versions
             }

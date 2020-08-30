@@ -20,6 +20,7 @@ struct ImageViewer: View {
     @State var previousOffset = CGSize.zero
     
     @State var pointTapped: CGPoint = CGPoint.zero
+    @State var isShowSharesheet : Bool = false
 
     var body: some View {
 
@@ -43,7 +44,10 @@ struct ImageViewer: View {
                                             withAnimation{self.currentScale = 3}
                                         }
                                     })
-                        
+                        .gesture(LongPressGesture().onEnded{_ in
+                            print(#line, "longPress")
+                            self.isShowSharesheet = true
+                        })
                         .gesture(DragGesture()
                             .onChanged { value in
 //                                self.pointTapped = value.startLocation
@@ -65,6 +69,9 @@ struct ImageViewer: View {
                                 self.currentScale = self.currentScale * delta
                         }
                         .onEnded { value in self.previousScale = 1.0 })
+                        .sheet(isPresented: self.$isShowSharesheet, content: {
+                            ShareSheet(activityItems: [self.image])
+                        })
                 }
                 Spacer()
             }
@@ -88,6 +95,31 @@ struct ImageViewer: View {
 //                })
             }
         }
+    }
+}
+
+/**
+ 分享弹出视图
+ */
+struct ShareSheet: UIViewControllerRepresentable {
+    typealias Callback = (_ activityType: UIActivity.ActivityType?, _ completed: Bool, _ returnedItems: [Any]?, _ error: Error?) -> Void
+    
+    let activityItems: [Any]
+    let applicationActivities: [UIActivity]? = nil
+    let excludedActivityTypes: [UIActivity.ActivityType]? = nil
+    let callback: Callback? = nil
+    
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(
+            activityItems: activityItems,
+            applicationActivities: applicationActivities)
+        controller.excludedActivityTypes = excludedActivityTypes
+        controller.completionWithItemsHandler = callback
+        return controller
+    }
+    
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
+        // nothing to do here
     }
 }
 

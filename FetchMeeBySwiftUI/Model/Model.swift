@@ -31,6 +31,7 @@ struct TweetMedia: Identifiable {
     
     var urlStrings: [String]? //图片的url
     var images: [UIImage] = [] //下载的UIImage
+    var imagesSelected: [Bool] = [] //标记图片是否被选择
     
     var mediaType: String?
     var mediaUrlString: String? //视频网址

@@ -25,7 +25,7 @@ struct AvatarView: View {
     var body: some View {
         ZStack {
             EmptyView()
-                .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString).environmentObject(self.alerts)
+                .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName).environmentObject(self.alerts)
                     .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
                 }
         Image(uiImage: self.avatar!)

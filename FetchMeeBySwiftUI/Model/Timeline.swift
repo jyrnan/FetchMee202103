@@ -21,7 +21,7 @@ enum TweetListType: String {
 
 final class Timeline: ObservableObject {
     @Published var tweetIDStrings: [String] = []
-    @Published var imageTweetStrings: [String] = []
+    @Published var imageURLStrings: [String: Bool] = [:] //标记被选择的图片ID???
     @Published var tweetMedias: [String: TweetMedia] = [:]
     @Published var newTweetNumber: Int = 0
     @Published var isDone: Bool = true { //设定在更新任务时候状态指示器是否显示，但无论任务是否结束，10秒种后状态指示器消失
@@ -36,6 +36,7 @@ final class Timeline: ObservableObject {
     
     @Published var mentionUserIDStringsSorted: [String] = [] //存储根据MentiUserinfo情况排序的UserIDString
     @Published var userInfos: [String : UserInfomation] = [:] //存储UserInfo供调用
+    @Published var selectedImageCount: Int = 0
     
     var type: TweetListType
     var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
@@ -133,7 +134,7 @@ final class Timeline: ObservableObject {
             self.isDone = false
             swifter.getHomeTimeline(count: self.maxCounter,maxID: self.maxIDString,  success: sh, failure: failureHandler)
         case .user:
-            swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), maxID: self.maxIDString, success: sh, failure: failureHandler)
+            swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), count: self.maxCounter, maxID: self.maxIDString, success: sh, failure: failureHandler)
         default:
             print(#line, #function)
         }
@@ -193,14 +194,15 @@ final class Timeline: ObservableObject {
                 tweetMedia.urlStrings = [String]()
                 for m in 0..<count {
                     let urlstring = newTweet["extended_entities"]["media"][m]["media_url_https"].string!
+            
                     tweetMedia.urlStrings?.append(urlstring)
                     tweetMedia.images.append(UIImage(named: "defaultImage")!) //先设置占位
-//                    imageDownloader(from: urlstring, setTo: IDString, at: m)()
+                    tweetMedia.imagesSelected.append(false) //增加一个选择标记
                     self.imageDownloaderWithClosure(from: urlstring + ":small", sh: { im in
                         self.tweetMedias[IDString]?.images[m] = im
                     })
                 }
-                self.imageTweetStrings.append(IDString) //把含有图片的推文ID提取出来
+                
             }
             
             //视频数据处理
