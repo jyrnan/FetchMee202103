@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 import SwifteriOS
 import Combine
+import Photos
 
 enum TweetListType: String {
     case home = "Home"
@@ -350,6 +351,35 @@ final class Timeline: ObservableObject {
             }
             task.resume()
         }
+    }
+    /**
+     视频下载函数
+     */
+    func videoDownloader(from urlString: String?, sh:@escaping ()->Void, fh:@escaping ()->Void ) -> Void {
+        if let urlString = urlString {
+
+        DispatchQueue.global(qos: .background).async {
+            if let url = URL(string: urlString),
+                let urlData = NSData(contentsOf: url) {
+                let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
+                let filePath="\(documentsPath)/tempFile.mp4"
+                DispatchQueue.main.async {
+                    urlData.write(toFile: filePath, atomically: true)
+                    PHPhotoLibrary.shared().performChanges({
+                        PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: URL(fileURLWithPath: filePath))
+                    }){ completed, error in
+                        if completed {
+                           
+                            DispatchQueue.main.async{sh()}
+                        }
+                        if let error = error {
+                            fh()
+                        }
+                    }
+                }
+            }
+        }
+    }
     }
 }
 

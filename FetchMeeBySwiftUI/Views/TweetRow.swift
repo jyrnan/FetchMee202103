@@ -121,6 +121,22 @@ struct TweetRow: View {
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 64, height: 64, alignment: .center)
                                     .foregroundColor(.white).opacity(0.7)
+                                    .contextMenu(menuItems: /*@START_MENU_TOKEN@*/{
+                                        
+                                        Button(action: {self.timeline.videoDownloader(from: self.tweetMedia.mediaUrlString,
+                                                                                      sh: {self.alerts.stripAlert.alertText = "Vedio saved!"
+                                                                                        self.alerts.stripAlert.isPresentedAlert = true
+                                                                                        print("Video is saved!")
+                                                                                      },
+                                                                                      fh: {self.alerts.stripAlert.alertText = "Vedio Not Saved!"
+                                                                                        self.alerts.stripAlert.isPresentedAlert = true
+                                                                                        print("Video is unSaved!")
+                                                                                      })}, label: {
+                                                Text("Save Video")
+                                            Image(systemName: "folder")
+                                        })
+                                       
+                                    }/*@END_MENU_TOKEN@*/)
                                     .onTapGesture(count: 1, perform: {
                                         if self.playVideo {
                                             self.player = AVPlayer()

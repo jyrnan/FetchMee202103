@@ -67,7 +67,7 @@ struct ImageGrabView: View {
             }
             VStack {
                 HStack{
-                    Text("\(self.userScreenName ?? "UserName")").foregroundColor(.white).font(.title2).bold().padding().shadow(radius: 3)
+                    Text("@\(self.userScreenName ?? "UserName")").foregroundColor(.white).font(.title2).bold().padding().shadow(radius: 3)
                     
                     Spacer()
                     Button(action: {self.selectAll()}, label: {
