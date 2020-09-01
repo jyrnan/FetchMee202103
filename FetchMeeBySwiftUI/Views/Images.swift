@@ -24,7 +24,7 @@ struct Images: View {
             return AnyView(GeometryReader {
                 geometry in
                 HStack {
-                    ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, number: 0, width: geometry.size.width, height: geometry.size.height)
+                    ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 0, width: geometry.size.width, height: geometry.size.height)
                 }
             })
             
@@ -32,8 +32,8 @@ struct Images: View {
             return AnyView(GeometryReader {
                 geometry in
                 HStack(spacing:2) {
-                    ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, number: 0, width: geometry.size.width / 2, height: geometry.size.height)
-                    ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, number: 1, width: geometry.size.width / 2, height: geometry.size.height)
+                    ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 0, width: geometry.size.width / 2, height: geometry.size.height)
+                    ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 1, width: geometry.size.width / 2, height: geometry.size.height)
                 }
             })
         case 3:
@@ -41,10 +41,10 @@ struct Images: View {
                 geometry in
                 HStack(spacing:2) {
                     VStack(spacing:2) {
-                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, number: 0, width: geometry.size.width / 2, height: geometry.size.height / 2)
-                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, number: 2, width: geometry.size.width / 2, height: geometry.size.height / 2)
+                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 0, width: geometry.size.width / 2, height: geometry.size.height / 2)
+                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 2, width: geometry.size.width / 2, height: geometry.size.height / 2)
                     }
-                    ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, number: 1, width: geometry.size.width / 2, height: geometry.size.height)
+                    ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 1, width: geometry.size.width / 2, height: geometry.size.height)
                 }
             })
         default:
@@ -53,12 +53,12 @@ struct Images: View {
                 HStack(spacing:2) {
                     
                     VStack(spacing:2) {
-                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, number: 0, width: geometry.size.width / 2, height: geometry.size.height / 2)
-                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, number: 2, width: geometry.size.width / 2, height: geometry.size.height / 2)
+                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 0, width: geometry.size.width / 2, height: geometry.size.height / 2)
+                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 2, width: geometry.size.width / 2, height: geometry.size.height / 2)
                     }
                     VStack(spacing:2) {
-                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, number: 1, width: geometry.size.width / 2, height: geometry.size.height / 2)
-                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, number: 3, width: geometry.size.width / 2, height: geometry.size.height / 2)
+                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 1, width: geometry.size.width / 2, height: geometry.size.height / 2)
+                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 3, width: geometry.size.width / 2, height: geometry.size.height / 2)
                     }
                 }
             })
@@ -69,13 +69,13 @@ struct Images: View {
 struct ImageThumb: View {
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
-    var number: Int //在tweetMedia中images的第几个
+    var index: Int //在tweetMedia中images的第几个
     
     @State var presentedImageViewer: Bool = false
     @State var isImageDownloaded: Bool = true //标记大图是否下载完成
     var isSelectMode: Bool = false //控制单击是否作为选择
     
-    var uiImage: UIImage {self.timeline.tweetMedias[tweetIDString]?.images[number] ?? UIImage(named: "defaultImage")!} //定义一个计算属性方便后续引用
+    var uiImage: UIImage {self.timeline.tweetMedias[tweetIDString]?.images[index] ?? UIImage(named: "defaultImage")!} //定义一个计算属性方便后续引用
     var width: CGFloat
     var height: CGFloat
     var body: some View {
@@ -88,20 +88,20 @@ struct ImageThumb: View {
                     .clipped()
                     .contentShape(Rectangle()) //可以定义触控的内容区域，并在此基础上进行触控，也就是触控的区域。完美解决bug
                     .onTapGesture {
-                        if !self.isSelectMode {
-                        if let urlString = self.timeline.tweetMedias[self.tweetIDString]?.urlStrings![number] {
+                        if !self.isSelectMode {//不是选择模式则调用大图预览
+                        if let urlString = self.timeline.tweetMedias[self.tweetIDString]?.urlStrings![index] {
                             self.isImageDownloaded = false
                             self.timeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
-                                                                        self.timeline.tweetMedias[self.tweetIDString]?.images[number] = im
+                                                                        self.timeline.tweetMedias[self.tweetIDString]?.images[index] = im
                                                                         self.isImageDownloaded = true
                                                                         self.presentedImageViewer = true
                                                                         }
                             )}} else {
-                                if self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[number] == false {
-                                    self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[number].toggle()
+                                if self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[index] == false {
+                                    self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[index].toggle()
                                     self.timeline.selectedImageCount += 1
                                 } else {
-                                    self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[number].toggle()
+                                    self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[index].toggle()
                                     self.timeline.selectedImageCount -= 1
                                 }
                             }
