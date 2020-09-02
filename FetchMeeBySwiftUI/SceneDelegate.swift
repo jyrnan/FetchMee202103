@@ -20,13 +20,13 @@ let userDefault = UserDefaults.init()
 let cfh = CacheFileHandler() //设置下载文件的缓存位置
 let session = URLSession.shared
 //var themeColor: Color = Color.pink
-let downloader = Downloader(configuation: URLSessionConfiguration.default)
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var loginUser: User = User() //App登录使用的用户
     var alerts: Alerts = Alerts()
-   
+    var downloader = Downloader(configuation: URLSessionConfiguration.default)
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -56,7 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                 window.rootViewController = UIHostingController(rootView: contentView
                                                                     .environmentObject(alerts).environmentObject(loginUser)
-                                                                    .accentColor(self.loginUser.myInfo.setting.themeColor.color)
+                                                                    .accentColor(self.loginUser.myInfo.setting.themeColor.color).environmentObject(downloader)
                                                                     )
             
             self.window = window

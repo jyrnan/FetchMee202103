@@ -11,6 +11,7 @@ import SwiftUI
 struct ImageGrabView: View {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User //始终是登录用户的信息
+    @EnvironmentObject var downloader: Downloader
     
     var userIDString: String? //传入需查看的用户信息的ID
     var userScreenName: String? //传入需查看的用户信息的Name
@@ -187,10 +188,12 @@ extension ImageGrabView {
 //                self.saveToPhoto(image: im)
 //                self.unSelectImage(tweetIDString: tweetIDString, index: index)
 //            })
+            downloader.taskCount += 1 //下载任务数量加1
             downloader.download(url: URL(string: urlString + ":large")!, completionHandler: {
                 URL in
                 if let data = try? Data(contentsOf: URL), let image = UIImage(data: data) {
                     self.saveToPhoto(image: image)
+                    downloader.taskCount -= 1
                 }
             })
         }

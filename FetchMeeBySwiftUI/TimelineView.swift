@@ -15,6 +15,7 @@ import UIKit
 struct TimelineView: View {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
+    @EnvironmentObject var downloader: Downloader
     
     @StateObject var home = Timeline(type: TweetListType.home)
     @StateObject var mentions = Timeline(type: TweetListType.mention)
@@ -132,7 +133,14 @@ struct TimelineView: View {
                     
                 }
                 .navigationBarTitle("FetchMee")
-                .navigationBarItems(trailing:
+                .navigationBarItems(leading:
+                                        HStack{
+                                            if downloader.taskCount != 0 {
+                                            Text("\(downloader.taskCount) pictures downloading...")
+                                                .font(.caption).foregroundColor(.gray)
+                                            }
+                                        },
+                    trailing:
                                         NavigationLink(destination: SettingView()) {
                                                 Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
                                                     .resizable()

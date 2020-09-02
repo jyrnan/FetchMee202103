@@ -12,7 +12,9 @@ import SwiftUI
 
 typealias DownloaderCH = (URL) -> Void
 
-class Downloader : NSObject {
+class Downloader : NSObject, ObservableObject {
+    @Published var taskCount: Int = 0
+    
     let config : URLSessionConfiguration
     lazy var session : URLSession = {
         return URLSession(configuration: config, delegate: DownloderDelegate(), delegateQueue: .main )

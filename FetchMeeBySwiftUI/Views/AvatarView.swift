@@ -11,6 +11,7 @@ import SwiftUI
 struct AvatarView: View {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
+    @EnvironmentObject var downloader: Downloader
     
     var avatar: UIImage? = UIImage(systemName: "person.circle.fill")
     var userIDString: String?
@@ -26,7 +27,7 @@ struct AvatarView: View {
         ZStack {
             EmptyView()
                 .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName).environmentObject(self.alerts)
-                    .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
+                    .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color).environmentObject(downloader)
                 }
         Image(uiImage: self.avatar!)
             .resizable()
