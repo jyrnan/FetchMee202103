@@ -25,7 +25,7 @@ struct ImageGrabView: View {
     @State var willSavedImageCount: Int = 0
     @State var imageScale: CGFloat = 1 //图片放大倍数
     @State var presentedImageViewer: Bool = false
-    @State var imageToBeView: UIImage = UIImage(systemName: "photo")!
+    @State var imageToBeView: UIImage = UIImage(systemName: "photo")! //用来传递图片到ImageViewer
     
     let columns = [GridItem(.adaptive(minimum: 100, maximum: 140),spacing: 2)]
     
@@ -39,7 +39,7 @@ struct ImageGrabView: View {
         ZStack{
             ScrollView {
                 LazyVGrid(columns: columns,spacing: 2) {
-                    
+                   
                     ForEach(tweetWithImageIDStrings, id: \.self) {tweetIDString in
                         ForEach(0..<(timeline.tweetMedias[tweetIDString]?.images.count ?? 0) ) {index in
                             ImageRectGrid(timeline: timeline, tweetIDString: tweetIDString, index: index)
@@ -52,7 +52,6 @@ struct ImageGrabView: View {
                                         Text("Show Detail")
                                         Image(systemName: "folder")})
                                 }/*@END_MENU_TOKEN@*/)
-                                
                                 .id(UUID())
                         }
                     }
@@ -69,7 +68,7 @@ struct ImageGrabView: View {
                         } //下方载入更多按钮
                         )
                         .clipped()
-                    
+                
                 }
             }
             .fullScreenCover(isPresented: self.$presentedImageViewer) {
@@ -184,9 +183,15 @@ extension ImageGrabView {
     func downloadAndSaveToPhoto(tweetIDString: String, index: Int) -> Void {
         if let urlString = self.timeline.tweetMedias[tweetIDString]?.urlStrings![index] {
             //            self.isImageDownloaded = false
-            self.timeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
-                self.saveToPhoto(image: im)
-                self.unSelectImage(tweetIDString: tweetIDString, index: index)
+//            self.timeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
+//                self.saveToPhoto(image: im)
+//                self.unSelectImage(tweetIDString: tweetIDString, index: index)
+//            })
+            downloader.download(url: URL(string: urlString + ":large")!, completionHandler: {
+                URL in
+                if let data = try? Data(contentsOf: URL), let image = UIImage(data: data) {
+                    self.saveToPhoto(image: image)
+                }
             })
         }
     }
@@ -215,7 +220,7 @@ struct ImageRectGrid: View {
     @ObservedObject var timeline: Timeline
     var tweetIDString: String = "0000"
     var index: Int = 0
-    
+  
     var uiImage: UIImage {self.timeline.tweetMedias[tweetIDString]?.images[index] ?? UIImage(named: "defaultImage")!}
     
     var body: some View {
@@ -238,7 +243,7 @@ struct ImageRectGrid: View {
                             .offset(x: 50, y: 50)
                             .foregroundColor((timeline.tweetMedias[tweetIDString]?.imagesSelected[index]) ?? false ? Color.accentColor : Color.clear)
                 )
-                
+//
                 .onTapGesture{
                     if self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[index] == false {
                         self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[index].toggle()
@@ -249,7 +254,6 @@ struct ImageRectGrid: View {
                     }
                 }
                 .clipped()
-                
         }
     }
 }

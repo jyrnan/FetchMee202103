@@ -20,7 +20,7 @@ let userDefault = UserDefaults.init()
 let cfh = CacheFileHandler() //设置下载文件的缓存位置
 let session = URLSession.shared
 //var themeColor: Color = Color.pink
-
+let downloader = Downloader(configuation: URLSessionConfiguration.default)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
