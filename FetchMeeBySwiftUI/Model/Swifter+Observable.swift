@@ -7,7 +7,7 @@
 //
 
 import Swift
-import SwifteriOS
+import Swifter
 import Combine
 
 extension Swifter: ObservableObject {

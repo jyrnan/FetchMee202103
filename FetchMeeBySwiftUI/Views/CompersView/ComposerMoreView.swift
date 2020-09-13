@@ -8,7 +8,7 @@
 
 import SwiftUI
 import Combine
-import SwifteriOS
+import Swifter
 import UIKit
 
 struct ComposerMoreView: View {

@@ -8,7 +8,7 @@
 
 import UIKit
 import SwiftUI
-import SwifteriOS
+import Swifter
 import SafariServices
 import Combine
 

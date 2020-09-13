@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import SwifteriOS
+import Swifter
 import Combine
 
 struct UserInfomation: Identifiable {
