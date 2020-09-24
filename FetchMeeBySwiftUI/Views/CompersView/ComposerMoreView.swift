@@ -144,7 +144,11 @@ struct ComposerMoreView: View {
             //                .listStyle(InsetGroupedListStyle())
             .onAppear() {
                 UITextView.appearance().backgroundColor = .clear // 让TextEditor的背景是透明色
-                readDraftsFromFile()
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
+                    readDraftsFromFile()
+                })
+                //延迟执行读取drafts动作0.5秒，从保证Drafts返回时候会先执行DfrafsView里的writeDraftsToFile()
+                //为什么当前View的.onAppear会比DrafsView的onDisappear先执行的原因不明确
             }
             .onDisappear {
                 writeDraftsToFile()
@@ -286,10 +290,15 @@ extension ComposerMoreView {
     }
     
     func readDraftsFromFile() {
+        print(#line, "read drafts")
+        print(#line, drafts)
         self.drafts = userDefault.array(forKey: "Drafts") as? [[String]] ?? []
+        print(#line, drafts)
     }
     
     func writeDraftsToFile() {
+        print(#line, "save drafts")
+        print(#line, drafts)
         userDefault.setValue(self.drafts, forKey: "Drafts")
     }
 }

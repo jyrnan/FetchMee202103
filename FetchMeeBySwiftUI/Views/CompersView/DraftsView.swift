@@ -28,13 +28,24 @@ struct DraftsView: View {
                                 self.presentationMode.wrappedValue.dismiss()
                             })
                     }.onDelete(perform: { indexSet in
-                        self.drafts.remove(atOffsets: indexSet)
+                        drafts.remove(atOffsets: indexSet)
+                        print(drafts)
                     })
                
         }.navigationBarTitle("Drafts")
+        .onDisappear {
+            writeDraftsToFile()
+        }
     }
 }
 
+extension DraftsView {
+    func writeDraftsToFile() {
+        print(#line, "save drafts")
+        print(#line, drafts)
+        userDefault.setValue(self.drafts, forKey: "Drafts")
+    }
+}
 //struct DraftsView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        DraftsView()

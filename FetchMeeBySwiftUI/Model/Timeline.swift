@@ -44,7 +44,6 @@ final class Timeline: ObservableObject {
     
     var mentionUserInfo: [String:[String]] = [:] {
         didSet {
-//            userDefault.set(self.mentionUserInfo, forKey: "mentionUserInfo")
         }
     } //记录用户互动mention推文信息（推文ID）数量,纪录顺序[userName, screenName, avatarUrlString, tweetID...tweetID]
     
@@ -140,7 +139,10 @@ final class Timeline: ObservableObject {
             print(#line, #function)
         }
     }
-    
+    /**
+     
+     -parameter newTweets: 接受一个来自
+     */
     func updateTimelineTop(with newTweets: [JSON]) {
         guard !newTweets.isEmpty else {return}
         let newTweetIDStrings = converJSON2TweetDatas(from: newTweets)
@@ -159,15 +161,19 @@ final class Timeline: ObservableObject {
         
         self.tweetIDStrings = self.tweetIDStrings.dropLast() + newTweetIDStrings //需要丢掉原来最后一条推文，否则会重复
     }
-    /** 转换JSON格式推文数据成本地数据模型
-     
-     转换JSON格式推文数据成本地数据模型，生成相应推文的Media数据结构
+    
+    /**
+     转换JSON格式推文数据成本地数据模型转换JSON格式推文数据成本地数据模型，生成相应推文的Media数据结构
      并返回对应推文数据库的推文IDString列表
      
+     - Parameter newTweets: 输入一个包含各个推文内容的JSON的数列，是通过Swifter实例的方法从服务器获得
+    
+     - returns: 返回一个有推文ID字符串组成的数列
      */
     func  converJSON2TweetDatas(from newTweets: [JSON]) -> [String] {
+        
         /**
-         //转换单个推文JSON数据成TweetData，内置函数，传入的IDString用来生成并索引推文数据，有可能是原推文ID，但是也有可能是转推推文的ID
+         转换单个推文JSON数据成TweetData，内置函数，传入的IDString用来生成并索引推文数据，有可能是原推文ID，但是也有可能是转推推文的ID
          */
         func converJson2TweetData(from newTweet: JSON, at IDString: String) {
             
@@ -262,19 +268,17 @@ final class Timeline: ObservableObject {
             let newTweet = newTweets[i]
             
             guard let IDString = newTweet["id_str"].string else {return newTweetIDStrings}
-//            guard !self.tweetIDStrings.contains(IDString) else {continue}//判断是否重复刷新了推文
+
             if newTweet["retweeted_status"]["id_str"].string != nil { //这个判断也是醉了。没找到好的方法，判断retweeted_status是否有实际内容。如果不是"<INVALID JSON>"，则表示是正确的Retweet推文内容，执行下面的操作生成retweeted_status的数据，否则是正常的推文，跳转到下面继续执行。
                 let retweeted_by_UserIDString = newTweet["user"]["id_str"].string
                 let retweeted_by_UserName = newTweet["user"]["name"].string
                 let retweeted_status = newTweet["retweeted_status"] //把原推文里面的被转推推文内容提取出来
-//                if let newIDString = retweeted_status["id_str"].string {
                     newTweetIDStrings.append(IDString) //还是应该插入原转推推文的ID作为索引
                     converJson2TweetData(from: retweeted_status, at: IDString) //传入的是原转推推文的ID，用来生成对应的推文数据文件。但内容其实是被转推推文的内容。
                     ///下面是转换被转推推文内容成推文数据文件的基础上再补充原转推推文的部分信息，用于显示
                     self.tweetMedias[IDString]?.retweeted_by_IDString = IDString
                     self.tweetMedias[IDString]?.retweeted_by_UserIDString = retweeted_by_UserIDString
                         self.tweetMedias[IDString]?.retweeted_by_UserName = retweeted_by_UserName
-//                }
             } else {
             
             newTweetIDStrings.append(IDString)
@@ -315,7 +319,7 @@ final class Timeline: ObservableObject {
 
     /**通用的image下载程序
      - Parameter urlString: 传入的下载地址
-     - Parameter sh: 传入的闭包用来执行操作
+     - Parameter sh: 传入的闭包用来执行操作，往往用来赋值给数据
      
      */
     func imageDownloaderWithClosure(from urlString: String?, sh: @escaping (UIImage) -> Void ){
@@ -352,9 +356,13 @@ final class Timeline: ObservableObject {
             task.resume()
         }
     }
-    /**
-     视频下载函数
-     */
+    
+    /// 一个用来下载视频的代码，下载后会把视频文件保存的手机的相册，期间会在app的暂存位置保存，名字为timpFile.mp4
+    /// - Parameters:
+    ///   - urlString: 视频的url地址
+    ///   - sh: 视频存储成功后执行的闭包
+    ///   - fh: 视频存储失败时执行的闭包
+    /// - Returns: 没有返回值。其结果的处理应该在sh或者fh里面实现
     func videoDownloader(from urlString: String?, sh:@escaping ()->Void, fh:@escaping ()->Void ) -> Void {
         if let urlString = urlString {
 
