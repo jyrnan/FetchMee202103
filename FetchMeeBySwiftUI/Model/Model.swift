@@ -32,6 +32,7 @@ struct TweetMedia: Identifiable {
     var urlStrings: [String]? //图片的url
     var images: [UIImage] = [] //下载的UIImage
     var imagesSelected: [Bool] = [] //标记图片是否被选择
+    var isPortraitImage: Bool = false //标记推文是否含有人物图像
     
     var mediaType: String?
     var mediaUrlString: String? //视频网址
@@ -51,7 +52,7 @@ struct TweetMedia: Identifiable {
     var quoted_status_id_str: String? //引用推文的ID
     
     var rowIsViewed: Bool = false //用来标记推文是否出现在屏幕上被展现?
-    
+
     init(id: String) {
         self.id = id
     }

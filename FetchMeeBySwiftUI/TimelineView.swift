@@ -117,7 +117,9 @@ struct TimelineView: View {
                         RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
                         ForEach(self.home.tweetIDStrings, id: \.self) {
                             tweetIDString in
-                            TweetRow(timeline: home, tweetIDString: tweetIDString).background(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //标注被提及的推文listRowBackground
+                            TweetRow(timeline: home, tweetIDString: tweetIDString)
+                                .background(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str || self.home.tweetMedias[tweetIDString]?.isPortraitImage == true ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //标注被提及的推文或者人脸识别的推文listRowBackground
+//                                .background(self.home.tweetMedias[tweetIDString]?.isPortraitImage == true ? Color.accentColor.opacity(0.2) : Color.init("BackGround"))
                             Divider()
                         }
                         HStack {

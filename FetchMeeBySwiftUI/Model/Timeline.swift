@@ -191,7 +191,10 @@ final class Timeline: ObservableObject {
             tweetMedia.avatarUrlString = tweetMedia.avatarUrlString?.replacingOccurrences(of: "_normal", with: "")
             tweetMedia.avatar = UIImage(systemName: "person.fill")
             self.imageDownloaderWithClosure(from: tweetMedia.avatarUrlString, sh: { im in
-                self.tweetMedias[IDString]?.avatar = im
+                DispatchQueue.main.async {
+                    self.tweetMedias[IDString]?.avatar = im
+                }
+
             })
             
             //图片数据处理
@@ -206,7 +209,17 @@ final class Timeline: ObservableObject {
                     tweetMedia.images.append(UIImage(named: "defaultImage")!) //先设置占位
                     tweetMedia.imagesSelected.append(false) //增加一个选择标记
                     self.imageDownloaderWithClosure(from: urlstring + ":small", sh: { im in
-                        self.tweetMedias[IDString]?.images[m] = im
+                        //图片识别处理
+                        im.detectFaces {result in
+                                DispatchQueue.main.async {
+                                    self.tweetMedias[IDString]?.images[m] = im
+                                    if result?.count == 1 {
+                                    print(#line," Detected face!")
+//                                    self.tweetMedias[IDString]?.images[m] = result?.drawnOn(im) ?? UIImage(named: "defaultImage")!
+                                    self.tweetMedias[IDString]?.isPortraitImage = true
+                                }
+                                }
+                        }
                     })
                 }
                 
@@ -324,6 +337,7 @@ final class Timeline: ObservableObject {
      */
     func imageDownloaderWithClosure(from urlString: String?, sh: @escaping (UIImage) -> Void ){
         ///利用这个闭包传入需要的操作，例如赋值
+        ///为了通用，取消了传入闭包在主线程运行的设置，所以需要在各自闭包里面自行设置UI相关命令在主线程执行
         let sh: (UIImage) -> Void = sh
         
         guard urlString != nil else {return}
@@ -336,9 +350,9 @@ final class Timeline: ObservableObject {
         ///先尝试获取本地缓存文件
         if let d = try? Data(contentsOf: filePath) {
             if let im = UIImage(data: d) {
-                DispatchQueue.main.async {
+//                DispatchQueue.main.async {
                     sh(im)
-                }
+                
             }
         } else { //
             let task = self.session.downloadTask(with: url) {
@@ -346,9 +360,9 @@ final class Timeline: ObservableObject {
                 if let url = fileURL, let d = try? Data(contentsOf: url) {
                     if let im = UIImage(data: d) {
                     try? d.write(to: filePath)
-                    DispatchQueue.main.async {
+//                    DispatchQueue.main.async {
                         sh(im)
-                    }
+//                    }
                         
                     }
                 }
