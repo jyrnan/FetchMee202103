@@ -211,8 +211,10 @@ final class Timeline: ObservableObject {
                     self.imageDownloaderWithClosure(from: urlstring + ":small", sh: { im in
                         //图片识别处理
                         im.detectFaces {result in
+                            let croppedImage = result?.cropByFace(im)
+                            let drawOnImage = result?.drawnOn(im)
                                 DispatchQueue.main.async {
-                                    self.tweetMedias[IDString]?.images[m] = im
+                                    self.tweetMedias[IDString]?.images[m] = croppedImage ?? UIImage(named: "defaultImage")!
                                     if result?.count == 1 {
                                     print(#line," Detected face!")
 //                                    self.tweetMedias[IDString]?.images[m] = result?.drawnOn(im) ?? UIImage(named: "defaultImage")!

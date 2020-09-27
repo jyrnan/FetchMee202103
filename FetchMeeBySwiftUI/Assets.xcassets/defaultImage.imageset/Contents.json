@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Logo备份@3x-2.png",
+      "filename" : "DefaultImage.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Logo备份@3x.png",
+      "filename" : "DefaultImage-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Logo备份@3x-1.png",
+      "filename" : "DefaultImage-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

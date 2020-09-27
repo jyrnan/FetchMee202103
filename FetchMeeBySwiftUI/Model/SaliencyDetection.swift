@@ -19,6 +19,13 @@ public extension CGSize {
 }
 
 public extension CGRect {
+    var center: CGPoint {
+        get {
+            return CGPoint(x: self.origin.x + self.width / 2.0, y: self.origin.y + self.height / 2.0)
+        }
+    }
+    
+    
     func scaled(by scaleFactor: CGFloat) -> CGRect {
         let horizontalInsets = (self.width - (self.width * scaleFactor)) / 2.0
         let verticalInsets = (self.height - (self.height * scaleFactor)) / 2.0
