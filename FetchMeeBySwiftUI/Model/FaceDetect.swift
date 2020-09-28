@@ -103,7 +103,7 @@ extension Collection where Element == VNFaceObservation{
         let newImageRect = CGRect(origin: CGPoint(x: faceRect.center.x - newImageRectWidth / 2.0, y: faceRect.center.y - newImageRectHeight / 2.0),
                                   size: newImageRectSize)
         
-        //如果人像范围太小，则不裁剪图片
+        //设定判断如果人像范围太小，则不裁剪图片
         guard newImageRectWidth / image.size.width > 0.3 || newImageRectHeight / image.size.height > 0.5 else {
             return image
         }

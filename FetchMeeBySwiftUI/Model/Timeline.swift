@@ -464,7 +464,9 @@ extension Timeline {
                 userInfo.avatar = UIImage(systemName: "person.fill")
 //                self.avatarForUserDownloader(from: userInfo.avatarUrlString!, setTo: userIDString)()
                 self.imageDownloaderWithClosure(from: userInfo.avatarUrlString, sh: { im in
-                    self.userInfos[userIDString]?.avatar = im
+                    DispatchQueue.main.async {
+                        self.userInfos[userIDString]?.avatar = im
+                    }
                 })
                 self.userInfos[userIDString] = userInfo
             }
