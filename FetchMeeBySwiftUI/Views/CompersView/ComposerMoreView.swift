@@ -10,12 +10,18 @@ import SwiftUI
 import Combine
 import Swifter
 import UIKit
+import CoreData
 
 struct ComposerMoreView: View {
     
     @EnvironmentObject var user: User
     
-    @Binding var isShowCMV: Bool 
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(sortDescriptors: []) var draftsByCoreData: FetchedResults<TweetDraft>
+    
+    @State var currentTweetDraft: TweetDraft? //用来接受从draft视图传递过来需要编辑的draft
+    
+    @Binding var isShowCMV: Bool //CMV: ComposerMoreView
     
     @Binding var tweetText: String
     @State var imageDatas: [ImageData] = []
@@ -27,8 +33,8 @@ struct ComposerMoreView: View {
     @State var replyIDString : String?
     @State var mediaIDs: [String] = [] //存储上传媒体/图片返回的ID号
     
-    @State var drafts: [[String]] = []
-    @State var index: Int? //
+//    @State var drafts: [[String]] = []
+//    @State var index: Int? //
     
     var body: some View {
         NavigationView {
@@ -59,13 +65,14 @@ struct ComposerMoreView: View {
                                 
                             }.padding(.trailing, 8).padding(.top, 8)
                             Divider()
-                            TextEditor(text: self.$tweetText).frame(minHeight: 100, maxHeight: 150)
+                            TextEditor(text: self.$tweetText)
+                                .frame(minHeight: 100, maxHeight: 150)
                                 .padding([.bottom], 16)
                             
                             
                         }
                     }
-//                    ProgressView(value: Double(self.tweetText.count) / 140.0)
+                    //                    ProgressView(value: Double(self.tweetText.count) / 140.0)
                     if !self.imageDatas.isEmpty {
                         VStack {
                             GeometryReader {
@@ -127,32 +134,25 @@ struct ComposerMoreView: View {
                 .background(Color.init("BackGroundLight")).cornerRadius(16).padding([.leading, .trailing], 16)
                 .navigationBarTitle("Tweet")
                 .navigationBarItems(leading: Button(action: {
-                    if let index = self.index {
-                        self.drafts[index] = [self.tweetText, self.replyIDString ?? "0000"]
-                    } else {
-                        self.drafts.append([self.tweetText, self.replyIDString ?? "0000"])
-                    }
+                    saveOrUpdateDraft(draft: currentTweetDraft)
                     self.isShowCMV = false
                 }, label: {Text("Save")}),
-                    trailing:
-                                        NavigationLink(
-                                            destination: DraftsView(drafts: self.$drafts, tweetText: self.$tweetText, replyIDString: self.$replyIDString, index: self.$index),
-                                            label: {
-                                                Text("Drafts")
-                                            }))
+                trailing:NavigationLink(
+                    destination: DraftsViewCoreData(currentTweetDraft: self.$currentTweetDraft, tweetText: self.$tweetText, replyIDString: self.$replyIDString),label: {
+                        Text("Drafts")
+                    }))
             }
-            //                .listStyle(InsetGroupedListStyle())
             .onAppear() {
                 UITextView.appearance().backgroundColor = .clear // 让TextEditor的背景是透明色
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
-                    readDraftsFromFile()
-                })
+                //                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
+                //                    readDraftsFromFile()
+                //                })
                 //延迟执行读取drafts动作0.5秒，从保证Drafts返回时候会先执行DfrafsView里的writeDraftsToFile()
                 //为什么当前View的.onAppear会比DrafsView的onDisappear先执行的原因不明确
             }
-            .onDisappear {
-                writeDraftsToFile()
-            }
+            //            .onDisappear {
+            //                writeDraftsToFile()
+            //            }
         }
         
     }
@@ -208,14 +208,18 @@ extension ComposerMoreView {
             self.replyIDString = json["id_str"].string //获取前一条发送成功推文的ID作为回复的对象
             
             guard count < tweetTexts.count else {
-                if let index = self.index {
-                    self.drafts.remove(at: index)
-                } else {
-                    print(#line ,"sent OK")
-                }
+                //                if let index = self.index {
+                ////                    self.drafts.remove(at: index)
+                //
+                //                } else {
+                //                    print(#line ,"sent OK")
+                //                }
                 
                 self.tweetText = "" //发送成功后把推文文字重新设置成空的
                 self.isTweetSentDone = true
+                
+                deleteDraft(draft: currentTweetDraft)
+                
                 self.isShowCMV = false
                 return}
             swifter.postTweet(
@@ -237,11 +241,12 @@ extension ComposerMoreView {
             attachmentURL: nil,
             success: sh,
             failure: {_ in
-                if let index = self.index {
-                    self.drafts[index] = [self.tweetText, self.replyIDString ?? "0000"]
-                } else {
-                    self.drafts.append([self.tweetText, self.replyIDString ?? "0000"])
-                }
+                //                if let index = self.index {
+                //                    self.drafts[index] = [self.tweetText, self.replyIDString ?? "0000"]
+                //                } else {
+                //                    self.drafts.append([self.tweetText, self.replyIDString ?? "0000"])
+                //                }
+                saveOrUpdateDraft(draft: currentTweetDraft)
             })
         
     }
@@ -289,18 +294,52 @@ extension ComposerMoreView {
         return result
     }
     
-    func readDraftsFromFile() {
-        print(#line, "read drafts")
-        print(#line, drafts)
-        self.drafts = userDefault.array(forKey: "Drafts") as? [[String]] ?? []
-        print(#line, drafts)
+//    func readDraftsFromFile() {
+//        print(#line, "read drafts")
+//        print(#line, drafts)
+//        self.drafts = userDefault.array(forKey: "Drafts") as? [[String]] ?? []
+//        print(#line, drafts)
+//    }
+//    
+//    func writeDraftsToFile() {
+//        print(#line, "save drafts")
+//        print(#line, drafts)
+//        userDefault.setValue(self.drafts, forKey: "Drafts")
+//    }
+}
+
+//MARK: -CoreData操作模块
+extension ComposerMoreView {
+    
+    private func saveOrUpdateDraft(draft: TweetDraft? = nil){
+        withAnimation {
+            let draft = draft ?? TweetDraft(context: viewContext) //如果没有当前编辑的draft则新生成一个空的draft
+            draft.createdAt = Date()
+            draft.text = tweetText
+            draft.id = currentTweetDraft?.id ?? UUID()
+            draft.replyIDString = replyIDString
+            
+            do {
+                try viewContext.save()
+            } catch {
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")}
+        }
     }
     
-    func writeDraftsToFile() {
-        print(#line, "save drafts")
-        print(#line, drafts)
-        userDefault.setValue(self.drafts, forKey: "Drafts")
+    private func deleteDraft(draft: TweetDraft?) {
+        guard draft != nil else {return}
+        
+        viewContext.delete(draft!)
+        
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
     }
+    
 }
 
 extension UIImage {

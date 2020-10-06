@@ -8,9 +8,13 @@
 
 import SwiftUI
 import Combine
+import CoreData
 
 struct ContentView: View {
     @EnvironmentObject var user: User
+    @Environment(\.managedObjectContext) private var viewContext
+   
+    
     
     var body: some View {
         if self.user.isLoggedIn {

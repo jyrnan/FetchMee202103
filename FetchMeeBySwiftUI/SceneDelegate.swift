@@ -11,6 +11,7 @@ import SwiftUI
 import Swifter
 import SafariServices
 import Combine
+import CoreData
 
 var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
                                consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")
@@ -27,6 +28,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var loginUser: User = User() //App登录使用的用户
     var alerts: Alerts = Alerts()
     var downloader = Downloader(configuation: URLSessionConfiguration.default)
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -37,7 +40,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create the SwiftUI view that provides the window contents.
         self.loginUser.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
         self.loginUser.myInfo.setting.load() //读取存储多设置
-        let contentView = ContentView()
+        let contentView = ContentView().environment(\.managedObjectContext, context)
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
@@ -57,7 +60,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 window.rootViewController = UIHostingController(rootView: contentView
                                                                     .environmentObject(alerts).environmentObject(loginUser)
                                                                     .accentColor(self.loginUser.myInfo.setting.themeColor.color).environmentObject(downloader)
+                                                                    
                                                                     )
+                
             
             self.window = window
             window.makeKeyAndVisible()

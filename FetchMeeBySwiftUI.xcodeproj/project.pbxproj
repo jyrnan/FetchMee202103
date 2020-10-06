@@ -37,6 +37,9 @@
 		D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFCF24BC29BF005DBC39 /* Composer.swift */; };
 		D286FFD724BC31F0005DBC39 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFD624BC31F0005DBC39 /* UserInfo.swift */; };
 		D286FFE824BD7EC3005DBC39 /* MentionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFE724BD7EC3005DBC39 /* MentionRow.swift */; };
+		D2905076252C07360065EA83 /* Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2905075252C07360065EA83 /* Persistance.swift */; };
+		D2905079252C09360065EA83 /* FetchMee.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2905077252C09360065EA83 /* FetchMee.xcdatamodeld */; };
+		D290507C252C0C170065EA83 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D290507B252C0C170065EA83 /* CloudKit.framework */; };
 		D290E6E624CD1ED100662FAF /* KeyBoard Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D290E6E524CD1ED100662FAF /* KeyBoard Notification.swift */; };
 		D2946F2724CD6C8100F8A7C6 /* TweetTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2946F2624CD6C8100F8A7C6 /* TweetTextView.swift */; };
 		D2946F2E24CD802C00F8A7C6 /* ReplyUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2946F2D24CD802C00F8A7C6 /* ReplyUsersView.swift */; };
@@ -105,6 +108,10 @@
 		D286FFCF24BC29BF005DBC39 /* Composer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Composer.swift; sourceTree = "<group>"; };
 		D286FFD624BC31F0005DBC39 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		D286FFE724BD7EC3005DBC39 /* MentionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionRow.swift; sourceTree = "<group>"; };
+		D2905075252C07360065EA83 /* Persistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistance.swift; sourceTree = "<group>"; };
+		D2905078252C09360065EA83 /* FetchMee.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FetchMee.xcdatamodel; sourceTree = "<group>"; };
+		D290507A252C0C110065EA83 /* FetchMee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FetchMee.entitlements; sourceTree = "<group>"; };
+		D290507B252C0C170065EA83 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		D290E6E524CD1ED100662FAF /* KeyBoard Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyBoard Notification.swift"; sourceTree = "<group>"; };
 		D2946F2624CD6C8100F8A7C6 /* TweetTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTextView.swift; sourceTree = "<group>"; };
 		D2946F2D24CD802C00F8A7C6 /* ReplyUsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyUsersView.swift; sourceTree = "<group>"; };
@@ -132,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2FE6E15250DE11400314966 /* Swifter in Frameworks */,
+				D290507C252C0C170065EA83 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,6 +160,7 @@
 		D27DCEAD24B96D5F00520BE3 = {
 			isa = PBXGroup;
 			children = (
+				D290507A252C0C110065EA83 /* FetchMee.entitlements */,
 				D27DCEB824B96D5F00520BE3 /* FetchMeeBySwiftUI */,
 				D27DCEB724B96D5F00520BE3 /* Products */,
 				D27DCF8524B990FE00520BE3 /* Frameworks */,
@@ -207,6 +216,8 @@
 				4B2C746424FA05310052F356 /* DownLoader.swift */,
 				D2632D64251EEFF50023C417 /* FaceDetect.swift */,
 				D2794F32251F1DE200824E6D /* SaliencyDetection.swift */,
+				D2905075252C07360065EA83 /* Persistance.swift */,
+				D2905077252C09360065EA83 /* FetchMee.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -214,6 +225,7 @@
 		D27DCF8524B990FE00520BE3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D290507B252C0C170065EA83 /* CloudKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -347,6 +359,7 @@
 				D205246C24C18AC30046F1AB /* AlertView.swift in Sources */,
 				D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */,
 				D2C4D40324D3D11100395660 /* AvatarView.swift in Sources */,
+				D2905079252C09360065EA83 /* FetchMee.xcdatamodeld in Sources */,
 				D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */,
 				D2946F2E24CD802C00F8A7C6 /* ReplyUsersView.swift in Sources */,
 				4B2C746D24FA2B410052F356 /* ImageGrabView.swift in Sources */,
@@ -369,6 +382,7 @@
 				D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */,
 				D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */,
 				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,
+				D2905076252C07360065EA83 /* Persistance.swift in Sources */,
 				D297390024D1182600917A97 /* PhotoPickerView.swift in Sources */,
 				D270E87D24C01C9100BBD3FE /* ToolsView.swift in Sources */,
 				D2E4D75324D851EA00D68A09 /* QuotedTweetRow.swift in Sources */,
@@ -520,9 +534,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -536,7 +551,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -544,9 +559,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -560,7 +576,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -605,6 +621,19 @@
 			productName = Swifter;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		D2905077252C09360065EA83 /* FetchMee.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D2905078252C09360065EA83 /* FetchMee.xcdatamodel */,
+			);
+			currentVersion = D2905078252C09360065EA83 /* FetchMee.xcdatamodel */;
+			path = FetchMee.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D27DCEAE24B96D5F00520BE3 /* Project object */;
 }

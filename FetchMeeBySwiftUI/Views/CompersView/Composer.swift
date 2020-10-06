@@ -7,10 +7,14 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct Composer: View {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
+    
+    @Environment(\.managedObjectContext) var viewContext
+   
     
     @ObservedObject var timeline : Timeline
     @State var tweetText: String = ""
@@ -28,7 +32,7 @@ struct Composer: View {
                 Text("more").font(.body).foregroundColor(.primary).opacity(0.7)
                 .onTapGesture {self.isShowCMV = true }
                 .sheet(isPresented: self.$isShowCMV) {
-                    ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.$tweetText, replyIDString: self.tweetIDString).environmentObject(user).accentColor(self.user.myInfo.setting.themeColor.color)
+                    ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.$tweetText, replyIDString: self.tweetIDString).environmentObject(user).accentColor(self.user.myInfo.setting.themeColor.color).environment(\.managedObjectContext, viewContext)
                 } } else {
                     ActivityIndicator(isAnimating: self.$timeline.isDone, style: .medium)
                 }
@@ -40,6 +44,7 @@ struct Composer: View {
                 if self.tweetText != "" {
                     self.timeline.isDone = false
                     swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
+                        self.tweetText = ""
                         switch self.timeline.type { //如果是在detail视图则不更新timeline
                         case .session:
                             print(#line, self.tweetIDString as Any)
@@ -52,7 +57,7 @@ struct Composer: View {
                             self.alerts.stripAlert.isPresentedAlert = true
                         }  
                     })
-                    self.tweetText = ""
+                    
                     self.hideKeyboard()
                     
                 } else {
