@@ -26,8 +26,19 @@ struct TweetRow: View {
     
     @State var player: AVPlayer = AVPlayer()
     
+    fileprivate func showToolsView() {
+        //                                self.isShowDetail = true
+        if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
+            if prev != tweetIDString {self.timeline.tweetMedias[prev]?.isToolsViewShowed = false} //判断如果先前选定显示ToolsView的tweetID不是自己，则将原激活ToolSView的推文取消激活
+        }
+        withAnimation {self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle() }
+        self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+    }
+    
     var body: some View {
+        
         VStack() {
+            //如果是retweet推文，则显示retweet用户信息
             if self.tweetMedia.retweeted_by_UserName != nil {
                 HStack {
                     Image(systemName:"repeat")
@@ -46,14 +57,17 @@ struct TweetRow: View {
                     Spacer()
                 }.offset(x: 44).padding(.top, 8).padding(.bottom, 0)
             }
+            
+            
             HStack(alignment: .top, spacing: 0) {
                 
+                //Avatar显示
                 VStack {
                     AvatarView(avatar: self.tweetMedia.avatar!, userIDString: self.tweetMedia.userIDString, userName: self.tweetMedia.userName, screenName: self.tweetMedia.screenName, tweetIDString: self.tweetIDString)
                         .frame(width: 36, height: 36)
                         .padding(.init(top: 8, leading: 16, bottom: 12, trailing: 12))
                     Spacer()
-                } //Avatar
+                }
                 
                 VStack(alignment: .leading, spacing: 0 ) {
                     
@@ -68,11 +82,14 @@ struct TweetRow: View {
                             .lineLimit(1)
                         CreatedTimeView(createdTime: self.tweetMedia.created)
                         Spacer()
+                        NavigationLink(destination: DetailView(tweetIDString: tweetIDString)){
                         DetailIndicator(timeline: timeline, tweetIDString: tweetIDString)
                             .padding(.all, 0)
                             .contentShape(Rectangle())
-                            .onTapGesture {self.isShowDetail = true}
-                            .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)}
+//                            .onTapGesture {
+//                                showToolsView()
+//                            }
+                        }
                     }
                     .padding(.top, (self.tweetMedia.retweeted_by_UserName != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
                     
@@ -85,34 +102,20 @@ struct TweetRow: View {
                         .padding(.top, 8)
                         .padding(.bottom, 16)
                         .fixedSize(horizontal: false, vertical: true)
-                        .onTapGesture {//通过点击推文正文来实现
-                            if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
-                                if prev != tweetIDString {self.timeline.tweetMedias[prev]?.isToolsViewShowed = false} //判断如果先前选定显示ToolsView的tweetID不是自己，则将原激活ToolSView的推文取消激活
-                            }
-                            withAnimation {self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle() }
-                            self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
-                        } //实现点击出现ToolsVIew快速回复
-                        .onLongPressGesture {
-                            self.isShowAction = true
-                        }
-                        
-                        .actionSheet(isPresented: self.$isShowAction, content: {
-                            ActionSheet(title: Text("Tweet"), message: Text("What do you wanna to do with this tweet"), buttons: [
-                                            .destructive(Text("Delete"), action: {}),
-                                            .default(Text("Retweet"), action: {}),
-                                            .default(Text("Delete"), action: {}),
-                                            .cancel()])
-                        })
                     
-                    
-                    if tweetMedia.images.count != 0 && self.user.myInfo.setting.isMediaShowed {//如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
+                    //如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
+                    if tweetMedia.images.count != 0 && self.user.myInfo.setting.isMediaShowed {
                         ZStack {
-                            Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
-                                .frame(height: 160, alignment: .center)
-                                .cornerRadius(16)
-                                .clipped()
-                                .padding(.top, 8)
-                                .padding(.bottom, 8)
+                            
+                                Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
+                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0,  maxHeight:.infinity , alignment: .topLeading)
+                                    .aspectRatio(16 / 9.0, contentMode: .fill)
+//                                    .frame(height: 160, alignment: .center)
+                                    .cornerRadius(16)
+                                    .clipped()
+                                    .padding(.top, 8)
+                                    .padding(.bottom, 8)
+                                
                             
                             //媒体视图上叠加一个播放按钮
                             if (tweetMedia.mediaType == "video" || tweetMedia.mediaType == "animated_gif") {
@@ -154,24 +157,29 @@ struct TweetRow: View {
                         }
                     } //推文图片或视频显示区域
                     
+                    //如果包含引用推文，则显示引用推文内容
                     if let quoted_status_id_str = tweetMedia.quoted_status_id_str {
                         QuotedTweetRow(timeline: self.timeline, tweetIDString: quoted_status_id_str)
                             .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
                             .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
                                         .stroke(Color.gray.opacity(0.2), lineWidth: 1))
                     }
-                    //
-                }.padding(.trailing, 16)
-            }//推文内容
+                    
+                }
+                .padding(.trailing, 16)
+                .onTapGesture {
+                    showToolsView()
+                }
+            }
             Spacer()
             //根据isToolsViewShowed确定是否显示ToolsView
             if self.tweetMedia.isToolsViewShowed {
                 ToolsView(timeline: timeline, tweetIDString: tweetIDString)
             } else {
                 EmptyView()}
-//                Divider().padding(0)}
         }
     }
+    
 }
 
 

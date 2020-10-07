@@ -79,8 +79,9 @@ struct TimelineView: View {
                                 LazyVStack(spacing: 0) {
                                     ForEach(self.mentions.tweetIDStrings, id: \.self) {
                                         tweetIDString in
+                                        NavigationLink(destination: DetailView(tweetIDString: tweetIDString)){
                                         MentionRow(timeline: self.mentions, tweetIDString: tweetIDString)
-                                        
+                                        }
                                     }
                                     HStack {
                                         Spacer()
@@ -115,13 +116,22 @@ struct TimelineView: View {
                     
                     LazyVStack(spacing: 0) {
                         RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
+                        
                         ForEach(self.home.tweetIDStrings, id: \.self) {
                             tweetIDString in
-                            TweetRow(timeline: home, tweetIDString: tweetIDString)
-                                .background(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str || self.home.tweetMedias[tweetIDString]?.isPortraitImage == true ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //标注被提及的推文或者人脸识别的推文listRowBackground
-//                                .background(self.home.tweetMedias[tweetIDString]?.isPortraitImage == true ? Color.accentColor.opacity(0.2) : Color.init("BackGround"))
+//                            NavigationLink(destination: DetailView(tweetIDString: tweetIDString)) {
+                                TweetRow(timeline: home, tweetIDString: tweetIDString)
+                                    .onTapGesture {
+                                        self.home.tweetMedias[tweetIDString]?.isToolsViewShowed = true
+                                    }
+                                    .background(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str
+//                                                    || self.home.tweetMedias[tweetIDString]?.isPortraitImage == true
+                                                    ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //标注被提及的推文或者人脸识别的推文listRowBackground
+                                    
+//                            }
                             Divider()
                         }
+                        
                         HStack {
                             Spacer()
                             Button("More Tweets...") {self.home.refreshFromButtom()}
@@ -160,6 +170,7 @@ struct TimelineView: View {
                 .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
             }
         }.onAppear { self.refreshAll()} //进入界面刷新一次
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

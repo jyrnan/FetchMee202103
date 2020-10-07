@@ -41,12 +41,8 @@ struct QuotedTweetRow: View {
                             .foregroundColor(.gray)
                             .lineLimit(1)
                         CreatedTimeView(createdTime: self.tweetMedia.created)
-                        Spacer()
-//                        DetailIndicator(timeline: timeline, tweetIDString: tweetIDString)
-//                            .padding(.all, 0)
-//                            .onTapGesture {self.isShowDetail = true}
-//                            .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user)}
-                        } //用户名和创建时间以及详情页面点点点等信息
+                        Spacer()}
+
                     if tweetMedia.replyUsers.count != 0 {
                         ReplyUsersView(replyUsers: tweetMedia.replyUsers)
                     }
@@ -66,11 +62,9 @@ struct QuotedTweetRow: View {
             }.scaleEffect(0.9) //推文内容
             if tweetMedia.images.count != 0 && self.user.myInfo.setting.isMediaShowed {
                 Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
-                    .frame(height: 160, alignment: .center)
-//                    .cornerRadius(16)
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0,  maxHeight:.infinity , alignment: .topLeading)
+                    .aspectRatio(16 / 9.0, contentMode: .fill)
                     .clipped()
-//                    .padding(.top, 16)
-//                    .padding(.bottom, 16)
             } //推文图片显示区域
             }
         }

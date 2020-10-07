@@ -31,10 +31,10 @@ struct MentionRow: View {
                     .lineLimit(2)
                     .font(.body)
                     .fixedSize(horizontal: false, vertical: true)
-                    .onTapGesture {
-                        self.isShowDetail = true
-                    }
-                    .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString, isShowDetail: self.$isShowDetail).environmentObject(self.alerts).environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)}
+//                    .onTapGesture {
+//                        self.isShowDetail = true
+//                    }
+//                    .sheet(isPresented: self.$isShowDetail) {DetailView(tweetIDString: self.tweetIDString).environmentObject(self.alerts).environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)}
                 Spacer()
                 CreatedTimeView(createdTime: self.tweetMedia.created).padding(.trailing, 16)
             }.padding(.top, 8)
