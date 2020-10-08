@@ -12,6 +12,7 @@ import Swifter
 import SafariServices
 import Combine
 import CoreData
+import BackgroundTasks
 
 var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
                                consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")
@@ -67,6 +68,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
+        // MARK: Registering Launch Handlers for Tasks
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.jyrnan.FetchMee.post", using: nil) { task in
+            //后台发推操作
+            self.handlePostNow(task: task as! BGAppRefreshTask)
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -95,6 +101,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+        //加入定时程序
+        scheduledPost()
     }
 
 
@@ -112,5 +120,55 @@ extension SceneDelegate {
 struct SceneDelegate_Previews: PreviewProvider {
     static var previews: some View {
         /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+    }
+}
+
+extension SceneDelegate {
+    // MARK: - Scheduling Tasks
+   
+    func scheduledPost() {
+        let request = BGAppRefreshTaskRequest(identifier: "com.jyrnan.FetchMee.post")
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 15)
+//        request.requiresNetworkConnectivity = true
+        
+        do {
+            try BGTaskScheduler.shared.submit(request)
+            print(#line, "设置预定任务成功！")
+        } catch {
+            print("Could not schedule app refresh: \(error)")
+        }
+    }
+    
+    // MARK: - Handling Launch for Tasks
+    func handlePostNow(task: BGAppRefreshTask) {
+        scheduledPost()
+        print(#line, "准备执行发推")
+        
+        task.expirationHandler = {
+            let text = "异常退出： \(Date()) @FetchMee"
+            swifter.postTweet(status: text)
+            print(#line, "异常退出")
+        }
+        
+        //成功处理回调通知
+        let successHandler: (JSON) -> Void = {json in
+            task.setTaskCompleted(success: true)
+            print(#line, "success")
+        }
+        
+        //发推操作
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .medium
+        formatter.timeZone = .current
+
+        let timeNow = formatter.string(from: now)
+        let text = "小机器人出来冒个泡：  @FetchMee \n \(timeNow)"
+        
+        swifter.postTweet(status: text, success: successHandler )
+        print(#line, text)
+        
+        
     }
 }
