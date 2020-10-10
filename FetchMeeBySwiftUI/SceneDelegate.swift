@@ -68,11 +68,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
+        
         // MARK: Registering Launch Handlers for Tasks
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.jyrnan.FetchMee.post", using: nil) { task in
             //后台发推操作
             self.handlePostNow(task: task as! BGAppRefreshTask)
         }
+        
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.jyrnan.FetchMee.process", using: nil) {task in
+            //Process后台发推操作
+            self.handleProcess(task: task as! BGProcessingTask)
+        }
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -103,6 +110,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
         //加入定时程序
         scheduledPost()
+        scheduledProcess()
     }
 
 
@@ -124,6 +132,7 @@ struct SceneDelegate_Previews: PreviewProvider {
 }
 
 extension SceneDelegate {
+    
     // MARK: - Scheduling Tasks
    
     func scheduledPost() {
@@ -139,13 +148,33 @@ extension SceneDelegate {
         }
     }
     
+    func scheduledProcess() {
+        let request = BGProcessingTaskRequest(identifier: "com.jyrnan.FetchMee.process")
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 60)
+//        request.requiresNetworkConnectivity = true
+        
+        do {
+            try BGTaskScheduler.shared.submit(request)
+            print(#line, "Process设置预定任务成功！")
+        } catch {
+            print("Could not schedule database cleaning: \(error)")
+        }
+    }
+    
     // MARK: - Handling Launch for Tasks
     func handlePostNow(task: BGAppRefreshTask) {
         scheduledPost()
         print(#line, "准备执行发推")
         
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .medium
+        formatter.timeZone = .current
+        let timeNow = formatter.string(from: now)
+        
         task.expirationHandler = {
-            let text = "异常退出： \(Date()) @FetchMee"
+            let text = "异常退出：@FetchMee \n \(timeNow)"
             swifter.postTweet(status: text)
             print(#line, "异常退出")
         }
@@ -157,18 +186,37 @@ extension SceneDelegate {
         }
         
         //发推操作
+        let text = "小机器人出来冒个泡：  @FetchMee \n \(timeNow)"
+        swifter.postTweet(status: text, success: successHandler )
+        print(#line, text)
+    }
+    
+    func handleProcess(task: BGProcessingTask) {
+        scheduledProcess()
+        print(#line, "Process准备执行发推")
+        
         let now = Date()
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .medium
         formatter.timeZone = .current
-
         let timeNow = formatter.string(from: now)
-        let text = "小机器人出来冒个泡：  @FetchMee \n \(timeNow)"
         
+        task.expirationHandler = {
+            let text = "Process异常退出：@FetchMee \n \(timeNow)"
+            swifter.postTweet(status: text)
+            print(#line, "Process异常退出")
+        }
+        
+        //成功处理回调通知
+        let successHandler: (JSON) -> Void = {json in
+            task.setTaskCompleted(success: true)
+            print(#line, "Process success")
+        }
+        
+        //发推操作
+        let text = "Process小机器人出来冒个泡：  @FetchMee \n \(timeNow)"
         swifter.postTweet(status: text, success: successHandler )
         print(#line, text)
-        
-        
     }
 }

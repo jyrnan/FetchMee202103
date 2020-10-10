@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4B2C746524FA05310052F356 /* DownLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2C746424FA05310052F356 /* DownLoader.swift */; };
 		4B2C746D24FA2B410052F356 /* ImageGrabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2C746C24FA2B410052F356 /* ImageGrabView.swift */; };
+		4BDB05D72531613B00CF71A1 /* HubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDB05D62531613B00CF71A1 /* HubView.swift */; };
 		D205246C24C18AC30046F1AB /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D205246B24C18AC30046F1AB /* AlertView.swift */; };
 		D205247424C199500046F1AB /* AlertsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D205247324C199500046F1AB /* AlertsModel.swift */; };
 		D205247624C290F10046F1AB /* PullRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = D205247524C290F10046F1AB /* PullRefresh.swift */; };
@@ -78,6 +79,7 @@
 /* Begin PBXFileReference section */
 		4B2C746424FA05310052F356 /* DownLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownLoader.swift; sourceTree = "<group>"; };
 		4B2C746C24FA2B410052F356 /* ImageGrabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGrabView.swift; sourceTree = "<group>"; };
+		4BDB05D62531613B00CF71A1 /* HubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubView.swift; sourceTree = "<group>"; };
 		D205246B24C18AC30046F1AB /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		D205247324C199500046F1AB /* AlertsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsModel.swift; sourceTree = "<group>"; };
 		D205247524C290F10046F1AB /* PullRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRefresh.swift; sourceTree = "<group>"; };
@@ -146,6 +148,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4BDB05D5253160A000CF71A1 /* HubViews */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = HubViews;
+			sourceTree = "<group>";
+		};
 		D252547824D8000700D8B508 /* reference */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,6 +191,7 @@
 				D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */,
 				D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */,
 				D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */,
+				4BDB05D62531613B00CF71A1 /* HubView.swift */,
 				D2C45BAB24C6D31B007D67B6 /* ContentView.swift */,
 				D2224FD224BE901E00AE2110 /* AuthView.swift */,
 				D27DCF8A24B9A54500520BE3 /* Views */,
@@ -233,6 +243,7 @@
 		D27DCF8A24B9A54500520BE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4BDB05D5253160A000CF71A1 /* HubViews */,
 				D7AC536424BAA5A100BCD71F /* TweetsList.swift */,
 				D286FFE724BD7EC3005DBC39 /* MentionRow.swift */,
 				D7AC536D24BB477300BCD71F /* DetailView.swift */,
@@ -376,6 +387,7 @@
 				4B2C746524FA05310052F356 /* DownLoader.swift in Sources */,
 				D730997F24ED6A5F00B57837 /* DraftsView.swift in Sources */,
 				D2224FD324BE901E00AE2110 /* AuthView.swift in Sources */,
+				4BDB05D72531613B00CF71A1 /* HubView.swift in Sources */,
 				D286FFD724BC31F0005DBC39 /* UserInfo.swift in Sources */,
 				D2224F8A24BE7C0400AE2110 /* User.swift in Sources */,
 				D7AC537024BB4AB200BCD71F /* ImageViewer.swift in Sources */,
