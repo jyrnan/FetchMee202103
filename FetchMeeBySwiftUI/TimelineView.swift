@@ -35,68 +35,67 @@ struct TimelineView: View {
     init() {
     }
     
-    
     var body: some View {
         
-        NavigationView {
+       
             ZStack {
                 ScrollView(.vertical) {
                     PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
                         Composer(timeline: self.home)}.frame(height: 36).background(Color.init("BackGround")).cornerRadius(18).padding([.leading, .trailing], 16)
                     
                     //Mentions部分章节，
-                    HStack{
-                        Text("MENTIONS").font(.headline).foregroundColor(Color.gray)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                withAnimation {
-                                    self.isMentionsShowed.toggle() }
-                            }
-                        if self.mentions.newTweetNumber != 0 {
-                            Image(systemName: "bell.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .bottom).foregroundColor(.accentColor)
-                            Text(String(self.mentions.newTweetNumber))
-                                .font(.caption)
-                                .foregroundColor(.accentColor)
-                        }
-                        Spacer()
-                        if !self.mentions.mentionUserIDStringsSorted.isEmpty && self.isMentionsShowed && self.user.myInfo.setting.isIronFansShowed {
-                            HStack(alignment: .center) {
-                                MentionUserSortedView(mentions: self.mentions)
-                                Image(systemName: "xmark.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 18, height: 18, alignment: .center)
-                                    .foregroundColor(.gray)
-                                    .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                                        withAnimation{
-                                            self.user.myInfo.setting.isIronFansShowed = false}
-                                    })
-                            }}
-                        
-                    }.padding(.top, 8).padding([.leading, .trailing], 16)
+//                    HStack{
+//                        Text("MENTIONS").font(.headline).foregroundColor(Color.gray)
+//                            .contentShape(Rectangle())
+//                            .onTapGesture {
+//                                withAnimation {
+//                                    self.isMentionsShowed.toggle() }
+//                            }
+//                        if self.mentions.newTweetNumber != 0 {
+//                            Image(systemName: "bell.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .bottom).foregroundColor(.accentColor)
+//                            Text(String(self.mentions.newTweetNumber))
+//                                .font(.caption)
+//                                .foregroundColor(.accentColor)
+//                        }
+//                        Spacer()
+//                        if !self.mentions.mentionUserIDStringsSorted.isEmpty && self.isMentionsShowed && self.user.myInfo.setting.isIronFansShowed {
+//                            HStack(alignment: .center) {
+//                                MentionUserSortedView(mentions: self.mentions)
+//                                Image(systemName: "xmark.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 18, height: 18, alignment: .center)
+//                                    .foregroundColor(.gray)
+//                                    .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+//                                        withAnimation{
+//                                            self.user.myInfo.setting.isIronFansShowed = false}
+//                                    })
+//                            }}
+//
+//                    }.padding(.top, 8).padding([.leading, .trailing], 16)
                     
-                    if !self.mentions.tweetIDStrings.isEmpty && self.isMentionsShowed {
-                        ScrollView {
-                            ZStack {
-                                Color.init("BackGround")
-                                LazyVStack(spacing: 0) {
-                                    ForEach(self.mentions.tweetIDStrings, id: \.self) {
-                                        tweetIDString in
-                                        NavigationLink(destination: DetailView(tweetIDString: tweetIDString)){
-                                        MentionRow(timeline: self.mentions, tweetIDString: tweetIDString)
-                                        }
-                                    }
-                                    HStack {
-                                        Spacer()
-                                        Button("More Tweets...") {
-                                            self.mentions.refreshFromButtom()}
-                                            .font(.caption)
-                                            .foregroundColor(.gray)
-                                            .padding()
-                                        Spacer()
-                                    } //下方载入更多按钮
-                                }
-                            }
-                        }.padding(0).frame(maxHeight: 220).cornerRadius(16).padding([.leading, .trailing], 16)
-                        
-                    }
+//                    if !self.mentions.tweetIDStrings.isEmpty && self.isMentionsShowed {
+//                        ScrollView {
+//                            ZStack {
+//                                Color.init("BackGround")
+//                                LazyVStack(spacing: 0) {
+//                                    ForEach(self.mentions.tweetIDStrings, id: \.self) {
+//                                        tweetIDString in
+//                                        NavigationLink(destination: DetailView(tweetIDString: tweetIDString)){
+//                                        MentionRow(timeline: self.mentions, tweetIDString: tweetIDString)
+//                                        }
+//                                    }
+//                                    HStack {
+//                                        Spacer()
+//                                        Button("More Tweets...") {
+//                                            self.mentions.refreshFromButtom()}
+//                                            .font(.caption)
+//                                            .foregroundColor(.gray)
+//                                            .padding()
+//                                        Spacer()
+//                                    } //下方载入更多按钮
+//                                }
+//                            }
+//                        }.padding(0).frame(maxHeight: 220).cornerRadius(16).padding([.leading, .trailing], 16)
+//                        
+//                    }
                     
                     //Homeline部分章节
                     HStack {
@@ -169,7 +168,7 @@ struct TimelineView: View {
                 } //通知视图
                 .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
             }
-        }.onAppear { self.refreshAll()} //进入界面刷新一次
+        .onAppear { self.refreshAll()} //进入界面刷新一次
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }

@@ -18,7 +18,8 @@ struct ContentView: View {
     
     var body: some View {
         if self.user.isLoggedIn {
-            TimelineView().accentColor(self.user.myInfo.setting.themeColor.color)
+//        TimelineView().accentColor(self.user.myInfo.setting.themeColor.color)
+            HubView().accentColor(self.user.myInfo.setting.themeColor.color)
         } else {
             AuthView().accentColor(self.user.myInfo.setting.themeColor.color)
         }
