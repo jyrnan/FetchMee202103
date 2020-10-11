@@ -17,14 +17,12 @@ struct TimelineView: View {
     @EnvironmentObject var user: User
     @EnvironmentObject var downloader: Downloader
     
-    @StateObject var home = Timeline(type: TweetListType.home)
-    @StateObject var mentions = Timeline(type: TweetListType.mention)
+    @ObservedObject var timeline: Timeline
     
     @State var tweetText: String = ""
     
     @State var keyboardHeight: CGFloat = 0 //用来观察键盘是否弹出，如果键盘弹出，会赋值给这个键盘，也就是不会为0
     
-    @State var isMentionsShowed: Bool = false
     @State var isSettingShowed: Bool = false
     @State var isNewTweetCountViewShowed: Bool = false
     @State var canOnAppearRun: Bool = true {
@@ -32,80 +30,27 @@ struct TimelineView: View {
             delay(delay: 1, closure: {self.canOnAppearRun = true})
         }
     }
-    init() {
-    }
+    
     
     var body: some View {
         
        
             ZStack {
                 ScrollView(.vertical) {
-                    PullToRefreshView(action: self.refreshAll, isDone: self.$home.isDone) {
-                        Composer(timeline: self.home)}.frame(height: 36).background(Color.init("BackGround")).cornerRadius(18).padding([.leading, .trailing], 16)
+                    PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
+                        Composer(timeline: self.timeline)}.frame(height: 36).background(Color.init("BackGround")).cornerRadius(18).padding([.leading, .trailing], 16)
                     
-                    //Mentions部分章节，
-//                    HStack{
-//                        Text("MENTIONS").font(.headline).foregroundColor(Color.gray)
-//                            .contentShape(Rectangle())
-//                            .onTapGesture {
-//                                withAnimation {
-//                                    self.isMentionsShowed.toggle() }
-//                            }
-//                        if self.mentions.newTweetNumber != 0 {
-//                            Image(systemName: "bell.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .bottom).foregroundColor(.accentColor)
-//                            Text(String(self.mentions.newTweetNumber))
-//                                .font(.caption)
-//                                .foregroundColor(.accentColor)
-//                        }
-//                        Spacer()
-//                        if !self.mentions.mentionUserIDStringsSorted.isEmpty && self.isMentionsShowed && self.user.myInfo.setting.isIronFansShowed {
-//                            HStack(alignment: .center) {
-//                                MentionUserSortedView(mentions: self.mentions)
-//                                Image(systemName: "xmark.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 18, height: 18, alignment: .center)
-//                                    .foregroundColor(.gray)
-//                                    .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-//                                        withAnimation{
-//                                            self.user.myInfo.setting.isIronFansShowed = false}
-//                                    })
-//                            }}
-//
-//                    }.padding(.top, 8).padding([.leading, .trailing], 16)
                     
-//                    if !self.mentions.tweetIDStrings.isEmpty && self.isMentionsShowed {
-//                        ScrollView {
-//                            ZStack {
-//                                Color.init("BackGround")
-//                                LazyVStack(spacing: 0) {
-//                                    ForEach(self.mentions.tweetIDStrings, id: \.self) {
-//                                        tweetIDString in
-//                                        NavigationLink(destination: DetailView(tweetIDString: tweetIDString)){
-//                                        MentionRow(timeline: self.mentions, tweetIDString: tweetIDString)
-//                                        }
-//                                    }
-//                                    HStack {
-//                                        Spacer()
-//                                        Button("More Tweets...") {
-//                                            self.mentions.refreshFromButtom()}
-//                                            .font(.caption)
-//                                            .foregroundColor(.gray)
-//                                            .padding()
-//                                        Spacer()
-//                                    } //下方载入更多按钮
-//                                }
-//                            }
-//                        }.padding(0).frame(maxHeight: 220).cornerRadius(16).padding([.leading, .trailing], 16)
-//                        
-//                    }
                     
                     //Homeline部分章节
                     HStack {
                         Text("HOME").font(.headline).foregroundColor(Color.gray)
                         
-                        if self.home.newTweetNumber != 0 {
+                        if self.timeline.newTweetNumber != 0 {
                             HStack {
                                 Image(systemName: "house.fill")
                                     .resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .bottom).foregroundColor(.accentColor)
-                                Text(String(self.home.newTweetNumber))
+                                Text(String(self.timeline.newTweetNumber))
                                     .font(.caption)
                                     .foregroundColor(.accentColor)
                             }
@@ -116,24 +61,22 @@ struct TimelineView: View {
                     LazyVStack(spacing: 0) {
                         RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
                         
-                        ForEach(self.home.tweetIDStrings, id: \.self) {
+                        ForEach(self.timeline.tweetIDStrings, id: \.self) {
                             tweetIDString in
-//                            NavigationLink(destination: DetailView(tweetIDString: tweetIDString)) {
-                                TweetRow(timeline: home, tweetIDString: tweetIDString)
+//
+                                TweetRow(timeline: timeline, tweetIDString: tweetIDString)
                                     .onTapGesture {
-                                        self.home.tweetMedias[tweetIDString]?.isToolsViewShowed = true
+                                        self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed = true
                                     }
-                                    .background(userDefault.object(forKey: "userIDString") as? String == self.home.tweetMedias[tweetIDString]?.in_reply_to_user_id_str
-//                                                    || self.home.tweetMedias[tweetIDString]?.isPortraitImage == true
-                                                    ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //标注被提及的推文或者人脸识别的推文listRowBackground
+                                    .background(userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str && timeline.type == .home ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //标注被提及的推文或者人脸识别的推文listRowBackground
                                     
-//                            }
+
                             Divider()
                         }
                         
                         HStack {
                             Spacer()
-                            Button("More Tweets...") {self.home.refreshFromButtom()}
+                            Button("More Tweets...") {self.timeline.refreshFromButtom()}
                                 .font(.caption)
                                 .foregroundColor(.gray)
                                 .frame(height: 24)
@@ -143,7 +86,7 @@ struct TimelineView: View {
                     }.padding([.leading, .trailing], 16)
                     
                 }
-                .navigationBarTitle("FetchMee")
+                .navigationBarTitle(timeline.type.rawValue, displayMode: .automatic)
                 .navigationBarItems(leading:
                                         HStack{
                                             if downloader.taskCount != 0 {
@@ -168,7 +111,7 @@ struct TimelineView: View {
                 } //通知视图
                 .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
             }
-        .onAppear { self.refreshAll()} //进入界面刷新一次
+//        .onAppear { self.refreshAll()} //进入界面刷新一次
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }
@@ -185,8 +128,16 @@ extension TimelineView {
     
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
-        self.home.refreshFromTop(fh: failureHandler(error:))
-        self.mentions.refreshFromTop()
+        switch timeline.type {
+        case .home:
+            self.timeline.refreshFromTop(fh: failureHandler(error:))
+        case .mention:
+            self.timeline.refreshFromTop()
+        default:
+            print()
+        }
+        
+        
     }
     
     func logOut() {
@@ -206,7 +157,7 @@ extension TimelineView {
 
 struct TimelineView_Previews: PreviewProvider {
     static var previews: some View {
-        TimelineView()
+        TimelineView(timeline: Timeline(type: .home))
     }
 }
 

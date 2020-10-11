@@ -22,6 +22,7 @@ let userDefault = UserDefaults.init()
 let cfh = CacheFileHandler() //设置下载文件的缓存位置
 let session = URLSession.shared
 //var themeColor: Color = Color.pink
+var backgroudnFetch: ((BGAppRefreshTask) -> Void)?
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -109,8 +110,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
         //加入定时程序
-//        scheduledPost()
-//        scheduledProcess()
+        scheduledPost()
+        scheduledProcess()
     }
 
 
@@ -138,7 +139,6 @@ extension SceneDelegate {
     func scheduledPost() {
         let request = BGAppRefreshTaskRequest(identifier: "com.jyrnan.FetchMee.post")
         request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 15)
-//        request.requiresNetworkConnectivity = true
         
         do {
             try BGTaskScheduler.shared.submit(request)
@@ -187,7 +187,14 @@ extension SceneDelegate {
         
         //发推操作
         let text = "小机器人出来冒个泡：  @FetchMee \n \(timeNow)"
-        swifter.postTweet(status: text, success: successHandler )
+        swifter.postTweet(status: text)
+        
+        guard backgroudnFetch != nil else {
+            successHandler(JSON.init(""))
+            return
+        }
+        backgroudnFetch!(task)
+//        successHandler(JSON.init(""))
         print(#line, text)
     }
     
@@ -216,7 +223,8 @@ extension SceneDelegate {
         
         //发推操作
         let text = "Process小机器人出来冒个泡：  @FetchMee \n \(timeNow)"
-        swifter.postTweet(status: text, success: successHandler )
+//        swifter.postTweet(status: text, success: successHandler )
+        successHandler(JSON.init(""))
         print(#line, text)
     }
 }

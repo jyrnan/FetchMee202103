@@ -14,10 +14,31 @@ import Photos
 
 enum TweetListType: String {
     case home = "Home"
-    case mention = "Mentions"
+    case mention = "Mention"
     case list
     case user
     case session
+    case message = "Message"
+    
+    struct UIData {
+        let iconImageName : String
+        let themeColor: Color
+    }
+    
+    var uiData: UIData {
+        switch self {
+        case .home:
+            return UIData(iconImageName: "house.circle", themeColor: .blue)
+        case .mention:
+            return UIData(iconImageName: "at.circle", themeColor: .red)
+        case .message:
+            return UIData(iconImageName: "envelope.circle", themeColor: .orange)
+        case .list:
+            return UIData(iconImageName: "list.bullet", themeColor: .orange)
+        default:
+            return UIData(iconImageName: "list.bullet", themeColor: .blue)
+        }
+    }
 }
 
 final class Timeline: ObservableObject {
@@ -88,7 +109,7 @@ final class Timeline: ObservableObject {
     }
     //MARK: - 更新推文函数
     ///更新上方推文
-    func refreshFromTop(for userIDString: String? = nil, fh: ((Error) -> Void)? = nil) {
+    func refreshFromTop(for userIDString: String? = nil, completeHandeler:(() -> Void)? = nil ,fh: ((Error) -> Void)? = nil) {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
             self.newTweetNumber = newTweets.count
@@ -96,6 +117,12 @@ final class Timeline: ObservableObject {
             self.isDone = true
             self.makeMentionUserSortedList() //存储MentionUserInfo并更新MentionUser的排序
             self.updateTimelineTop(with: newTweets)
+            
+            //用于设置后台刷新完成时调用setTaskCompleted(success: true)
+            guard completeHandeler != nil else {
+                return
+            }
+            completeHandeler!()
         }
         
         let failureHandler: ((Error) -> Void)? = fh

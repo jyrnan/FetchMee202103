@@ -108,6 +108,9 @@ struct UserSetting {
     }
 }
 
+//ToolsBarView的信息
+
+
 class User: ObservableObject {
     @Published var isLoggedIn: Bool = false
     @Published var myInfo: UserInfomation = UserInfomation() //当前用户的信息
@@ -117,11 +120,6 @@ class User: ObservableObject {
     @Published var isShowUserInfo: Bool = false
     
     let session = URLSession.shared
-    
-//    init() {
-//        if self.isLoggedIn {
-//            self.getMyInfo() }
-//    }
     
     func getMyInfo() {
         var userTag: UserTag?

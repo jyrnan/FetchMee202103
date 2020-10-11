@@ -52,6 +52,8 @@
 		D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C45BAB24C6D31B007D67B6 /* ContentView.swift */; };
 		D2C4D40324D3D11100395660 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C4D40224D3D11100395660 /* AvatarView.swift */; };
 		D2C7248824E613A500804F18 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C7248724E613A400804F18 /* RoundedCorners.swift */; };
+		D2DDFCBF2532D65100AE7E39 /* ToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */; };
+		D2DDFCC12532DE3300AE7E39 /* TimelineIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */; };
 		D2E4D75324D851EA00D68A09 /* QuotedTweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */; };
 		D2FE6E15250DE11400314966 /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = D2FE6E14250DE11400314966 /* Swifter */; };
 		D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = D707B6EC24C4040F0023F243 /* KeyboardHide.swift */; };
@@ -126,6 +128,8 @@
 		D2C45BAB24C6D31B007D67B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D2C4D40224D3D11100395660 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		D2C7248724E613A400804F18 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
+		D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarView.swift; sourceTree = "<group>"; };
+		D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineIconView.swift; sourceTree = "<group>"; };
 		D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotedTweetRow.swift; sourceTree = "<group>"; };
 		D707B6EC24C4040F0023F243 /* KeyboardHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHide.swift; sourceTree = "<group>"; };
 		D707B6EE24C44CE10023F243 /* DetailIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailIndicator.swift; sourceTree = "<group>"; };
@@ -154,6 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				4BDB05D825316D5C00CF71A1 /* ComposerOfHubView.swift */,
+				D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */,
+				D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */,
 			);
 			path = HubViews;
 			sourceTree = "<group>";
@@ -385,6 +391,7 @@
 				D2224F9124BE7FE400AE2110 /* Swifter+Observable.swift in Sources */,
 				D286FFE824BD7EC3005DBC39 /* MentionRow.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,
+				D2DDFCBF2532D65100AE7E39 /* ToolBarView.swift in Sources */,
 				D2C7248824E613A500804F18 /* RoundedCorners.swift in Sources */,
 				D205247424C199500046F1AB /* AlertsModel.swift in Sources */,
 				4B2C746524FA05310052F356 /* DownLoader.swift in Sources */,
@@ -410,6 +417,7 @@
 				D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */,
 				D27DCEBE24B96D5F00520BE3 /* TimelineView.swift in Sources */,
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
+				D2DDFCC12532DE3300AE7E39 /* TimelineIconView.swift in Sources */,
 				D257C0E624EA8A5600ECAAC2 /* DeleteTweetsView.swift in Sources */,
 				D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */,
 				D27DCF3B24B98F9900520BE3 /* Model.swift in Sources */,

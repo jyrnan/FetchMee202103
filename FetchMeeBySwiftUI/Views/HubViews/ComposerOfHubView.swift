@@ -21,7 +21,7 @@ import UIKit
 import CoreData
 
 struct ComposerOfHubView: View {
-    
+    @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -29,7 +29,7 @@ struct ComposerOfHubView: View {
     
     @State var currentTweetDraft: TweetDraft? //用来接受从draft视图传递过来需要编辑的draft
     
-    @Binding var isShowCMV: Bool //CMV: ComposerMoreView
+//    @Binding var isShowCMV: Bool //CMV: ComposerMoreView
     
     @Binding var tweetText: String
     @State var imageDatas: [ImageData] = []
@@ -40,9 +40,6 @@ struct ComposerOfHubView: View {
     
     @State var replyIDString : String?
     @State var mediaIDs: [String] = [] //存储上传媒体/图片返回的ID号
-    
-    //    @State var drafts: [[String]] = []
-    //    @State var index: Int? //
     
     var body: some View {
         VStack{
@@ -58,7 +55,7 @@ struct ComposerOfHubView: View {
                         Text("0/140").font(.caption).foregroundColor(.gray).padding(.trailing, 16)
                             
                     } else {
-                        ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium)
+                        ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium).padding(.trailing)
                     }
                 }.padding(.top, 8)
                 
@@ -66,8 +63,8 @@ struct ComposerOfHubView: View {
                     .padding([.leading, .trailing, .bottom])
             }.frame(height: 122)
             
-            .background(Color.init(UIColor.systemBackground)).cornerRadius(18)
-            .shadow(color: Color.black.opacity(0.4), radius: 3, x: 0, y: 3)
+            .background(Color.init("BackGroundLight")).cornerRadius(18)
+            .shadow(color: Color.black.opacity(0.2), radius: 3, x: 0, y: 3)
             .onAppear() {
                 UITextView.appearance().backgroundColor = .clear }
             // 让TextEditor的背景是透明色
@@ -144,7 +141,7 @@ struct ComposerOfHubView: View {
                         .background(Capsule().foregroundColor(.accentColor))
                 })
                 .disabled(self.tweetText == "") 
-            }
+            }.padding(.top, 8)
             
         }
         
@@ -201,19 +198,14 @@ extension ComposerOfHubView {
             self.replyIDString = json["id_str"].string //获取前一条发送成功推文的ID作为回复的对象
             
             guard count < tweetTexts.count else {
-                //                if let index = self.index {
-                ////                    self.drafts.remove(at: index)
-                //
-                //                } else {
-                //                    print(#line ,"sent OK")
-                //                }
-                
+               
                 self.tweetText = "" //发送成功后把推文文字重新设置成空的
                 self.isTweetSentDone = true
                 
                 deleteDraft(draft: currentTweetDraft)
                 
-                self.isShowCMV = false
+                self.alerts.stripAlert.alertText = "Tweet sent!"
+                self.alerts.stripAlert.isPresentedAlert = true
                 return}
             swifter.postTweet(
                 status: tweetTexts[count],

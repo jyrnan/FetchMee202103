@@ -7,78 +7,107 @@
 //
 
 import SwiftUI
+import Combine
+import BackgroundTasks
 
 struct HubView: View {
     
-    //    @EnvironmentObject var alerts: Alerts
+    @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
-    //    @EnvironmentObject var downloader: Downloader
-    //
-    //    @StateObject var home = Timeline(type: TweetListType.home)
-    //    @StateObject var mentions = Timeline(type: TweetListType.mention)
+    @EnvironmentObject var downloader: Downloader
+    
+    @StateObject var home = Timeline(type: TweetListType.home)
+    @StateObject var mention = Timeline(type: TweetListType.mention)
+    @StateObject var message = Timeline(type: .message)
+    @StateObject var list = Timeline(type: .list)
+    
+    @State var toolsBarViews: [ToolBarView] = []
     
     @State var tweetText: String = ""
     
     var body: some View {
         NavigationView {
-            ScrollView{
-            ZStack{
-                RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
-                    .padding(.top, 0)
-                    .padding(.bottom, -164)
-                    .shadow(radius: 3 )
+            ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false){
+                ZStack{
+                    RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
+                        .padding(.top, 0)
+                        .padding(.bottom, -164)
+                        .shadow(radius: 3 )
                     
-                
-                
-               VStack {
-                    ComposerOfHubView(isShowCMV: .constant(false), tweetText: $tweetText)
-                        .padding(.top, 16)
-                        .padding([.leading, .trailing], 18)
                     
-                    //Timeline
+                    
                     VStack {
-                        HStack {
-                            Text("Timeline").font(.caption).bold().foregroundColor(Color.gray)
-                            Spacer()
-                        }.padding(.leading,16)
+                        PullToRefreshView(action: {self.refreshAll()}, isDone: self.$home.isDone) {
+                            ComposerOfHubView(tweetText: $tweetText)
+                                .padding(.top, 16)
+                                .padding([.leading, .trailing], 18)
+                        }.frame(height: 180)
                         
-                        ScrollView(.horizontal, showsIndicators: false) {
+                        
+                        //Timeline
+                        VStack {
                             HStack {
-                                ForEach(0..<5) { index in
-                                    NavigationLink(
-                                        destination: TimelineView()){
-                                    RoundedRectangle(cornerRadius: 18)
-                                        .frame(width: 92, height: 92, alignment: .center)
-                                        .foregroundColor(Color.init(UIColor.systemBackground))
-                                        .shadow(color: Color.black.opacity(0.4), radius: 3, x: 0, y: 3)
+                                Text("Timeline").font(.caption).bold().foregroundColor(Color.gray)
+                                Spacer()
+                            }.padding(.leading,16)
+                            
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack {
+                                    TimelineIconView(timeline: home)
+                                    TimelineIconView(timeline: mention)
+                                    TimelineIconView(timeline: message)
+                                    TimelineIconView(timeline: list)
+                                    ForEach(0..<5) { index in
+                                        TimelineIconView(timeline: list)
                                     }
-                                }
-                                .padding(.leading, 16).padding(.top, 4).padding(.bottom, 8)
+                                    
+                                }.padding(.top, 8).padding(.bottom, 8).padding(.leading, 16)
+                            }.padding(0)
+                        }
+                        
+                        
+                        //Tools
+                        VStack( spacing: 16) {
+                            HStack {
+                                Text("Tools").font(.caption).bold().foregroundColor(Color.gray)
+                                Spacer()
                             }
-                        }.padding(0)
+                 
+                            ForEach(toolsBarViews) {
+                                view in
+                                view
+                            }.onDelete(perform: { indexSet in
+                                toolsBarViews.remove(atOffsets: indexSet)
+                            })
+                            
+                        }.padding([.leading, .trailing, .bottom], 16)
+                        
+                        
                     }
                     
-                    //Tools
-                    VStack(spacing: 16) {
-                        HStack {
-                            Text("Tools").font(.caption).bold().foregroundColor(Color.gray)
-                            Spacer()
+                    //通知视图
+                    VStack(spacing: 0) {
+                        if self.alerts.stripAlert.isPresentedAlert {
+                            AlertView(isAlertShow: self.$alerts.stripAlert.isPresentedAlert, alertText: self.alerts.stripAlert.alertText)
                         }
-                        ForEach(0..<3){index in
-                            RoundedRectangle(cornerRadius: 18)
-                                .frame(width: 334, height: 76, alignment: .center).foregroundColor(Color.init(UIColor.systemBackground)).shadow(color: Color.black.opacity(0.4),radius: 3, x: 0, y: 3)
-                        }
-                    }.padding([.leading, .trailing], 16)
+                        Spacer()
+                    }
+                    .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
                 }
-            }
-            .navigationTitle("FetchMee")
-            .navigationBarItems(trailing:NavigationLink(destination: SettingView()) {
-                Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
-                    .resizable()
-                    .frame(width: 32, height: 32, alignment: .center)
-                    .clipShape(Circle())
-                
-            })
+                .onAppear{
+                    self.setBackgroundFetch()
+                    self.addToolBarView(type: .tweets)
+                    self.addToolBarView(type: .friends)
+                    self.addToolBarView(type: .friends)
+                }
+                .navigationTitle("FetchMee")
+                .navigationBarItems(trailing:NavigationLink(destination: SettingView()) {
+                    Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
+                        .resizable()
+                        .frame(width: 32, height: 32, alignment: .center)
+                        .clipShape(Circle())
+                    
+                })
             }
         }
         .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
@@ -99,7 +128,55 @@ struct HubView_Previews: PreviewProvider {
 
 
 extension HubView {
+    
+    func setBackgroundFetch() {
+        backgroudnFetch = self.backgroundFetch
+        
+    }
+    
+    func backgroundFetch(task: BGAppRefreshTask) -> Void {
+        let completeHandler = {task.setTaskCompleted(success: true)}
+//        self.mention.refreshFromTop()
+        self.home.refreshFromTop(completeHandeler: completeHandler)
+    }
+    
+    
+    func refreshAll() {
+        UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
+        self.home.refreshFromTop()
+        self.mention.refreshFromTop()
+    }
+    
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
+    
+    func addToolBarView(type: ToolBarViewType) {
+        switch type {
+        case .friends:
+            let toolBarView = ToolBarView(type: type,
+                                          label1Value: $user.myInfo.followed,
+                                          label2Value: $user.myInfo.following,
+                                          label3Value: .constant(88))
+            self.toolsBarViews.append(toolBarView)
+        case .tweets:
+            let toolBarView = ToolBarView(type: type,
+                                          label1Value: $user.myInfo.tweetsCount,
+                                          label2Value: $user.myInfo.tweetsCount,
+                                          label3Value: .constant(88))
+            self.toolsBarViews.append(toolBarView)
+        }
+//        switch type {
+//        case .friends:
+//            let toolBarView = ToolBarView(barName: "Friends", iconName: "person.2.circle.fill", label1Text: "Followed", label2Text: "Following", label3Text: "more friends added", label1Value: $user.myInfo.followed, label2Value: $user.myInfo.following, label3Value: .constant(88), themeColor: .blue)
+//            self.toolsBarViews.append(toolBarView)
+//
+//        case .tweets:
+//            let toolBarView = ToolBarView(barName: "Tweets", iconName: "message.circle.fill", label1Text: "Tweets", label2Text: "LastWeek", label3Text: "more messages tweeted", label1Value: $user.myInfo.tweetsCount, label2Value: $user.myInfo.tweetsCount, label3Value: .constant(88), themeColor: .orange)
+//            self.toolsBarViews.append(toolBarView)
+//
+//
+//        }
+    }
 }
+
