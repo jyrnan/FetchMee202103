@@ -95,19 +95,11 @@ struct ToolBarView: View, Identifiable {
                 }
             }
             .frame(height: 76)
-            
-
-            
-            
-            
+            .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                print(#line, user.myInfo.tweetsCount)
+            })
         }
         
     }
 }
 
-//struct ToolBarView_Previews: PreviewProvider {
-//
-//    static var previews: some View {
-////        ToolBarView(type: .tweets ,label1Value: .constant(3), label2Value: .constant(5), label3Value: .constant(5)).environmentObject(User())
-//    }
-//}

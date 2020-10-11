@@ -96,9 +96,11 @@ struct HubView: View {
                 }
                 .onAppear{
                     self.setBackgroundFetch()
-                    self.addToolBarView(type: .tweets)
-                    self.addToolBarView(type: .friends)
-                    self.addToolBarView(type: .friends)
+                    if toolsBarViews.isEmpty {
+                        addToolBarView(type: .friends)
+                        addToolBarView(type: .tweets)
+                        addToolBarView(type: .friends)
+                    }
                 }
                 .navigationTitle("FetchMee")
                 .navigationBarItems(trailing:NavigationLink(destination: SettingView()) {
@@ -145,6 +147,7 @@ extension HubView {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
         self.home.refreshFromTop()
         self.mention.refreshFromTop()
+        self.user.getMyInfo()
     }
     
     func hideKeyboard() {
@@ -166,17 +169,6 @@ extension HubView {
                                           label3Value: .constant(88))
             self.toolsBarViews.append(toolBarView)
         }
-//        switch type {
-//        case .friends:
-//            let toolBarView = ToolBarView(barName: "Friends", iconName: "person.2.circle.fill", label1Text: "Followed", label2Text: "Following", label3Text: "more friends added", label1Value: $user.myInfo.followed, label2Value: $user.myInfo.following, label3Value: .constant(88), themeColor: .blue)
-//            self.toolsBarViews.append(toolBarView)
-//
-//        case .tweets:
-//            let toolBarView = ToolBarView(barName: "Tweets", iconName: "message.circle.fill", label1Text: "Tweets", label2Text: "LastWeek", label3Text: "more messages tweeted", label1Value: $user.myInfo.tweetsCount, label2Value: $user.myInfo.tweetsCount, label3Value: .constant(88), themeColor: .orange)
-//            self.toolsBarViews.append(toolBarView)
-//
-//
-//        }
     }
 }
 

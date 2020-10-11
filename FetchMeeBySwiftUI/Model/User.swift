@@ -122,26 +122,32 @@ class User: ObservableObject {
     let session = URLSession.shared
     
     func getMyInfo() {
+        print(#line, #function)
         var userTag: UserTag?
         if var screenName = self.myInfo.screenName {
-            userTag = UserTag.screenName(String(screenName.removeFirst())) //去掉前面的@符号
+            userTag = UserTag.screenName(String(screenName.dropFirst())) //去掉前面的@符号
         } else {
             if self.myInfo.id == "0000" && userDefault.object(forKey: "userIDString") != nil { //如果没有设置用户ID，且可以读取userDefualt里的IDString（说明已经logined），则设置loginUser的userIDString为登陆用户的userIDString
             self.myInfo.id = userDefault.object(forKey: "userIDString") as! String
         }
             userTag = UserTag.id(self.myInfo.id)
         }
+        
         guard userTag != nil else {return}
         getUserInfo(for: userTag!)
     }
     
     func getUserInfo(for userTag: UserTag) {
+        print(#line, #function)
+        print(userTag)
 //        let userTag = UserTag.id(userID)
         swifter.showUser(userTag, includeEntities: nil, success: getUserBio(json:), failure: nil)
+        swifter.getSubscribedLists(for: userTag, success: {JSON in print(#line, JSON)}, failure: nil)
     }
     
     //获取用户信息
     func getUserBio(json: JSON) {
+        print(#line, #function)
         self.myInfo.id = json["id_str"].string!
         self.myInfo.name = json["name"].string!
         self.myInfo.screenName = "@" + json["screen_name"].string!

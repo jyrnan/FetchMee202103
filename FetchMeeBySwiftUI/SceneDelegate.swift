@@ -111,7 +111,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
         //加入定时程序
         scheduledPost()
-        scheduledProcess()
+//        scheduledProcess()
     }
 
 
@@ -138,7 +138,7 @@ extension SceneDelegate {
    
     func scheduledPost() {
         let request = BGAppRefreshTaskRequest(identifier: "com.jyrnan.FetchMee.post")
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 15)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 5)
         
         do {
             try BGTaskScheduler.shared.submit(request)
@@ -187,7 +187,7 @@ extension SceneDelegate {
         
         //发推操作
         let text = "小机器人出来冒个泡：  @FetchMee \n \(timeNow)"
-        swifter.postTweet(status: text)
+//        swifter.postTweet(status: text)
         
         guard backgroudnFetch != nil else {
             successHandler(JSON.init(""))

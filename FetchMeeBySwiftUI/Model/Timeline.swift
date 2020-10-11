@@ -15,7 +15,7 @@ import Photos
 enum TweetListType: String {
     case home = "Home"
     case mention = "Mention"
-    case list
+    case list = "List"
     case user
     case session
     case message = "Message"

@@ -40,24 +40,7 @@ struct TimelineView: View {
                     PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
                         Composer(timeline: self.timeline)}.frame(height: 36).background(Color.init("BackGround")).cornerRadius(18).padding([.leading, .trailing], 16)
                     
-                    
-                    
                     //Homeline部分章节
-                    HStack {
-                        Text("HOME").font(.headline).foregroundColor(Color.gray)
-                        
-                        if self.timeline.newTweetNumber != 0 {
-                            HStack {
-                                Image(systemName: "house.fill")
-                                    .resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .bottom).foregroundColor(.accentColor)
-                                Text(String(self.timeline.newTweetNumber))
-                                    .font(.caption)
-                                    .foregroundColor(.accentColor)
-                            }
-                        }
-                        Spacer()
-                    }.padding(.top, 8).padding([.leading, .trailing], 16)
-                    
                     LazyVStack(spacing: 0) {
                         RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
                         
@@ -70,7 +53,6 @@ struct TimelineView: View {
                                     }
                                     .background(userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str && timeline.type == .home ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //标注被提及的推文或者人脸识别的推文listRowBackground
                                     
-
                             Divider()
                         }
                         
