@@ -376,8 +376,8 @@ final class Timeline: ObservableObject {
         ///为了通用，取消了传入闭包在主线程运行的设置，所以需要在各自闭包里面自行设置UI相关命令在主线程执行
         let sh: (UIImage) -> Void = sh
         
-        guard urlString != nil else {return}
-        let url = URL(string: urlString!)!
+        guard urlString != nil  else {return}
+        guard let url = URL(string: urlString!) else { return}
         let fileName = url.lastPathComponent ///获取下载文件名用于本地存储
         
         let cachelUrl = cfh.getPath()

@@ -56,7 +56,7 @@ struct HubView: View {
                             }.padding(.leading,16).padding(.top, 16)
                             
                             ScrollView(.horizontal, showsIndicators: false) {
-                                HStack {
+                                LazyHStack {
                                     TimelineIconView(timeline: home)
                                     TimelineIconView(timeline: mention)
                                     TimelineIconView(timeline: message)

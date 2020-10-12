@@ -78,7 +78,6 @@ struct TimelineView: View {
                 } //通知视图
                 .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
             }
-//        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
@@ -94,29 +93,9 @@ extension TimelineView {
     
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
-//        switch timeline.type {
-//        case .home:
-//            self.timeline.refreshFromTop(fh: failureHandler(error:))
-//        case .mention:
-//            self.timeline.refreshFromTop()
-//        case .list:
-//            self.timeline.refreshFromTop(fh: failureHandler(error:))
-//        default:
-//            print()
-//        }
         self.timeline.refreshFromTop(fh: failureHandler(error:))
-        
     }
-    
-//    func logOut() {
-//        self.user.isLoggedIn = false
-//        userDefault.set(false, forKey: "isLoggedIn")
-//        userDefault.set(nil, forKey: "userIDString")
-//        userDefault.set(nil, forKey: "screenName")
-//        userDefault.set(nil, forKey: "mentionUserInfo")
-//        print(#line)
-//    }
-    
+
     func delay(delay: Double, closure: @escaping () -> ()) {
         let when = DispatchTime.now() + delay
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)

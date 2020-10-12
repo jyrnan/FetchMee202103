@@ -159,6 +159,7 @@
 		4BDB05D5253160A000CF71A1 /* HubViews */ = {
 			isa = PBXGroup;
 			children = (
+				D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */,
 				4BDB05D825316D5C00CF71A1 /* ComposerOfHubView.swift */,
 				D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */,
 				D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */,
@@ -202,7 +203,6 @@
 				D252547824D8000700D8B508 /* reference */,
 				D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */,
 				D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */,
-				D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */,
 				4BDB05D62531613B00CF71A1 /* HubView.swift */,
 				D2C45BAB24C6D31B007D67B6 /* ContentView.swift */,
 				D2224FD224BE901E00AE2110 /* AuthView.swift */,
