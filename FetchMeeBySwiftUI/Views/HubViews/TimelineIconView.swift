@@ -10,6 +10,7 @@ import SwiftUI
 
 struct TimelineIconView: View {
     @ObservedObject var timeline: Timeline
+    @State var listName: String = ""
     
     var body: some View {
         NavigationLink(
@@ -32,9 +33,19 @@ struct TimelineIconView: View {
                         Text(timeline.newTweetNumber > 99 ? "99" : "\(timeline.newTweetNumber)").fixedSize()
                             .font(.title)
                             .foregroundColor(timeline.newTweetNumber != 0 ? Color.init("BackGroundLight") : timeline.type.uiData.themeColor)
-                    }.padding(8).padding(.trailing, 8)
+                    }.padding(6).padding(.trailing, 8)
                     
                     Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        Text(listName)
+                            .font(.caption2)
+                            .bold()
+                            .foregroundColor(Color.init(.darkGray))
+                            .padding([.leading, .trailing], 8)
+                            .padding(.bottom, 0)
+                    }
                     
                     HStack {
                         Spacer()

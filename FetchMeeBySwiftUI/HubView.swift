@@ -61,8 +61,8 @@ struct HubView: View {
                                     TimelineIconView(timeline: mention)
                                     TimelineIconView(timeline: message)
                                     TimelineIconView(timeline: list)
-                                    ForEach(0..<5) { index in
-                                        TimelineIconView(timeline: list)
+                                    ForEach<[ToolBarView], <#ID: Hashable#>, ToolBarView>(user.myInfo.lists, id: self.key) { index in
+                                        TimelineIconView(timeline: list, listName: user.myInfo.lists)
                                     }
                                     
                                 }.padding(.top, 8).padding(.bottom, 8).padding(.leading, 16)

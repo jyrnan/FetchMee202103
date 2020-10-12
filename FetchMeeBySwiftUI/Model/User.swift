@@ -35,7 +35,7 @@ struct UserInfomation: Identifiable {
     var notifications: Bool?
     
     var tweetsCount: Int?
-    var list: [String]?
+    var lists: [String : ListTag] = [:]
     
     var setting: UserSetting = UserSetting()
         }
@@ -143,6 +143,22 @@ class User: ObservableObject {
 //        let userTag = UserTag.id(userID)
         swifter.showUser(userTag, includeEntities: nil, success: getUserBio(json:), failure: nil)
         swifter.getSubscribedLists(for: userTag, success: {JSON in print(#line, JSON)}, failure: nil)
+    }
+    
+    
+    /// 获取用户List信息
+    /// - Parameter json: 返回的包含list信息的结果
+    func getList(json: JSON) {
+        
+        let lists: [JSON] = json.array!
+        for list in lists {
+            let name: String = list["name"].string!
+            let idString: String = list["id_str"].string!
+            let listTag = ListTag.id(idString)
+            myInfo.lists[name] = listTag
+        }
+
+
     }
     
     //获取用户信息
