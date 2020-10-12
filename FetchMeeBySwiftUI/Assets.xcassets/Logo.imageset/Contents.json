@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "FetchMee_logo_circle_T-2.png",
+      "filename" : "LogoOnly.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "FetchMee_logo_circle_T.png",
+      "filename" : "LogoOnly-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "FetchMee_logo_circle_T-1.png",
+      "filename" : "LogoOnly-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -21,7 +21,7 @@ struct ToolsView: View {
         VStack {
             HStack{
                 
-                Image(systemName: "xmark.circle")
+                Image(systemName: "trash")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 18, height: 18, alignment: .center)

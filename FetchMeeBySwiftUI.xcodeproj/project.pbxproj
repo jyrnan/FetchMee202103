@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4B2C746524FA05310052F356 /* DownLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2C746424FA05310052F356 /* DownLoader.swift */; };
 		4B2C746D24FA2B410052F356 /* ImageGrabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2C746C24FA2B410052F356 /* ImageGrabView.swift */; };
+		4B5E607025340F1700E7A5F1 /* LogoBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5E606F25340F1700E7A5F1 /* LogoBackground.swift */; };
 		4BDB05D72531613B00CF71A1 /* HubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDB05D62531613B00CF71A1 /* HubView.swift */; };
 		4BDB05D925316D5C00CF71A1 /* ComposerOfHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDB05D825316D5C00CF71A1 /* ComposerOfHubView.swift */; };
 		D205246C24C18AC30046F1AB /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D205246B24C18AC30046F1AB /* AlertView.swift */; };
@@ -82,6 +83,7 @@
 /* Begin PBXFileReference section */
 		4B2C746424FA05310052F356 /* DownLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownLoader.swift; sourceTree = "<group>"; };
 		4B2C746C24FA2B410052F356 /* ImageGrabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGrabView.swift; sourceTree = "<group>"; };
+		4B5E606F25340F1700E7A5F1 /* LogoBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoBackground.swift; sourceTree = "<group>"; };
 		4BDB05D62531613B00CF71A1 /* HubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubView.swift; sourceTree = "<group>"; };
 		4BDB05D825316D5C00CF71A1 /* ComposerOfHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerOfHubView.swift; sourceTree = "<group>"; };
 		D205246B24C18AC30046F1AB /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				4BDB05D825316D5C00CF71A1 /* ComposerOfHubView.swift */,
 				D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */,
 				D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */,
+				4B5E606F25340F1700E7A5F1 /* LogoBackground.swift */,
 			);
 			path = HubViews;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				D7AC535D24B9E94300BCD71F /* Timeline.swift in Sources */,
 				D297390224D11A0800917A97 /* ComposerMoreView.swift in Sources */,
 				D205246C24C18AC30046F1AB /* AlertView.swift in Sources */,
+				4B5E607025340F1700E7A5F1 /* LogoBackground.swift in Sources */,
 				D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */,
 				D2C4D40324D3D11100395660 /* AvatarView.swift in Sources */,
 				D2905079252C09360065EA83 /* FetchMee.xcdatamodeld in Sources */,
@@ -561,7 +565,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -586,7 +590,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;

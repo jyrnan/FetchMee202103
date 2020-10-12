@@ -29,8 +29,6 @@ struct ComposerOfHubView: View {
     
     @State var currentTweetDraft: TweetDraft? //用来接受从draft视图传递过来需要编辑的draft
     
-//    @Binding var isShowCMV: Bool //CMV: ComposerMoreView
-    
     @Binding var tweetText: String
     @State var imageDatas: [ImageData] = []
     
@@ -52,7 +50,7 @@ struct ComposerOfHubView: View {
                         .padding(.leading)
                     Spacer()
                     if self.isTweetSentDone {
-                        Text("0/140").font(.caption).foregroundColor(.gray).padding(.trailing, 16)
+                        Text("\(tweetText.count)/140").font(.caption).foregroundColor(.gray).padding(.trailing, 16)
                             
                     } else {
                         ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium).padding(.trailing)
@@ -93,17 +91,29 @@ struct ComposerOfHubView: View {
                 Spacer()
                 //增加图片按钮
                 if self.isShowAddPic {
-                    Image(systemName: "plus.rectangle.fill.on.rectangle.fill")
-                        .resizable().aspectRatio(contentMode: .fill)
-                        .frame(width: 18, height: 18, alignment: .center)
-                        .foregroundColor(.accentColor)
-                        .contentShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                        .onTapGesture {
-                            withAnimation{
-                                self.isShowPhotoPicker = true
-                                self.imageDatas.append(ImageData())
-                            }
+//                    Image(systemName: "rectangle.and.paperclip")
+//                        .resizable().aspectRatio(contentMode: .fill)
+//                        .frame(width: 18, height: 18, alignment: .center)
+//                        .foregroundColor(.accentColor)
+//                        .contentShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+//                        .onTapGesture {
+//                            withAnimation{
+//                                self.isShowPhotoPicker = true
+//                                self.imageDatas.append(ImageData())
+//                            }
+//                        }
+                    Button(action: {
+                        withAnimation{
+                            self.isShowPhotoPicker = true
+                            self.imageDatas.append(ImageData())
                         }
+                    }, label: {
+                        Image(systemName: "rectangle.and.paperclip")
+                            .font(.body)
+                            .foregroundColor(.accentColor)
+                            .padding(4)
+                            .padding([.leading, .trailing], 8)
+                            })
                         .sheet(isPresented: self.$isShowPhotoPicker, onDismiss: {
                             if self.imageDatas.count == 4 { //选择图片视图消失后检查是否已经有四张选择，如果是则设置增加图片按钮不显示
                                 self.isShowAddPic = false
@@ -115,20 +125,26 @@ struct ComposerOfHubView: View {
                             PhotoPicker(imageData: self.$imageDatas[self.imageDatas.count - 1], isShowPhotoPicker: self.$isShowPhotoPicker)
                         }
                 }
-//                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-//                    Text("Send")
-//                        .font(.caption).bold()
-//                        .foregroundColor(.white)
-//                        .padding(4)
-//                        .padding([.leading, .trailing], 8)
-//                        .background(Capsule().foregroundColor(.accentColor))})
-//                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-//                    Text("Send")
-//                        .font(.caption).bold()
-//                        .foregroundColor(.white)
-//                        .padding(4)
-//                        .padding([.leading, .trailing], 8)
-//                        .background(Capsule().foregroundColor(.accentColor))})
+                
+                //存储草稿
+                Button(action: {
+                    saveOrUpdateDraft(draft: currentTweetDraft)
+                }, label: {
+                    Image(systemName: "tray.and.arrow.down")
+                        .font(.body)
+                        .foregroundColor(.accentColor)
+                        .padding(4)
+                        .padding([.leading, .trailing], 8)
+                        })
+                
+                NavigationLink(
+                    destination: DraftsViewCoreData(currentTweetDraft: self.$currentTweetDraft, tweetText: self.$tweetText, replyIDString: self.$replyIDString),label: {
+                    Image(systemName: "tray.and.arrow.up")
+                        .font(.body)
+                        .foregroundColor(.accentColor)
+                        .padding(4)
+                        .padding([.leading, .trailing], 8)
+                        })
                 Button(action: {
                     self.isTweetSentDone = false
                     self.postMedia()
@@ -140,7 +156,7 @@ struct ComposerOfHubView: View {
                         .padding([.leading, .trailing], 8)
                         .background(Capsule().foregroundColor(.accentColor))
                 })
-                .disabled(self.tweetText == "") 
+                .disabled(self.tweetText == "" && imageDatas.isEmpty) 
             }.padding(.top, 8)
             
         }
@@ -151,7 +167,7 @@ struct ComposerOfHubView: View {
 
 struct ComposerOfHubView_Previews: PreviewProvider {
     static var previews: some View {
-        ComposerMoreView(isShowCMV: .constant(true), tweetText: .constant("Text"), replyIDString: nil)
+        ComposerOfHubView(tweetText: .constant(""), replyIDString: nil)
     }
 }
 
@@ -178,8 +194,11 @@ extension ComposerOfHubView {
                     sentCount += 1 //每上传一张图片则计数器加1
                     self.mediaIDs.append(mediaIDString)
                     
+                    self.imageDatas[i].image = UIImage(systemName: "checkmark.circle.fill")?.alpha(0.5)
+                    
                     if sentCount == self.imageDatas.count {//计数器达到图片数目，则调用推文发送函数
                         self.postTweet()
+                        self.imageDatas.removeAll()
                     }
                 })
             }

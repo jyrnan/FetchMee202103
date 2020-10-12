@@ -39,10 +39,10 @@ struct TimelineIconView: View {
                     HStack {
                         Spacer()
                         Text(timeline.type.rawValue)
-                            .font(.caption)
+                            .font(.callout)
                             .bold()
                             .foregroundColor(Color.init(.darkGray))
-                            .padding(.trailing)
+                            .padding(.trailing, 8)
                             .padding(.bottom, 8)
                     }
                 }

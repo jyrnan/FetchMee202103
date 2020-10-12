@@ -13,6 +13,7 @@ import Combine
 enum ToolBarViewType: String {
     case tweets = "Tweets"
     case friends = "Friends"
+    case tools = "Tools"
     
     struct UIData {
         var label1Text: String
@@ -36,6 +37,12 @@ enum ToolBarViewType: String {
                           label3Text: "more followers added",
                           iconImageName: "person.2.circle.fill",
                           themeColor: .orange)
+        case .tools:
+            return UIData(label1Text: "Followered:",
+                          label2Text: "Following:",
+                          label3Text: "more followers added",
+                          iconImageName: "paperclip.circle.fill",
+                          themeColor: Color("darkGreen"))
         }
     }
 }

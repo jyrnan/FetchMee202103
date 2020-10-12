@@ -26,9 +26,13 @@ struct HubView: View {
     @State var tweetText: String = ""
     
     var body: some View {
+        
         NavigationView {
+            ZStack{
+                LogoBackground()
             ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false){
                 ZStack{
+                   
                     RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
                         .padding(.top, 0)
                         .padding(.bottom, -164)
@@ -49,7 +53,7 @@ struct HubView: View {
                             HStack {
                                 Text("Timeline").font(.caption).bold().foregroundColor(Color.gray)
                                 Spacer()
-                            }.padding(.leading,16)
+                            }.padding(.leading,16).padding(.top, 16)
                             
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack {
@@ -99,7 +103,7 @@ struct HubView: View {
                     if toolsBarViews.isEmpty {
                         addToolBarView(type: .friends)
                         addToolBarView(type: .tweets)
-                        addToolBarView(type: .friends)
+                        addToolBarView(type: .tools)
                     }
                 }
                 .navigationTitle("FetchMee")
@@ -111,11 +115,13 @@ struct HubView: View {
                     
                 })
             }
+            }
         }
         .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
             self.hideKeyboard()
         })
     }
+   
 }
 
 struct HubView_Previews: PreviewProvider {
@@ -168,7 +174,16 @@ extension HubView {
                                           label2Value: $user.myInfo.tweetsCount,
                                           label3Value: .constant(88))
             self.toolsBarViews.append(toolBarView)
+        case .tools:
+            let toolBarView = ToolBarView(type: type,
+                                          label1Value: $user.myInfo.tweetsCount,
+                                          label2Value: $user.myInfo.tweetsCount,
+                                          label3Value: .constant(88))
+            
+            self.toolsBarViews.append(toolBarView)
         }
     }
 }
+
+
 
