@@ -10,11 +10,11 @@ import SwiftUI
 
 struct TimelineIconView: View {
     @ObservedObject var timeline: Timeline
-    @State var listName: String = ""
+    @State var listName: String?
     
     var body: some View {
         NavigationLink(
-            destination: TimelineView(timeline: timeline)){
+            destination: TimelineView(timeline: timeline, listName: listName)){
             ZStack{
                 RoundedRectangle(cornerRadius: 18)
                     .frame(width: 92, height: 92, alignment: .center)
@@ -39,10 +39,10 @@ struct TimelineIconView: View {
                     
                     HStack {
                         Spacer()
-                        Text(listName)
+                        Text(listName ?? "")
                             .font(.caption2)
                             .bold()
-                            .foregroundColor(Color.init(.darkGray))
+                            .foregroundColor(Color.gray)
                             .padding([.leading, .trailing], 8)
                             .padding(.bottom, 0)
                     }

@@ -34,7 +34,7 @@ enum TweetListType: String {
         case .message:
             return UIData(iconImageName: "envelope.circle", themeColor: .orange)
         case .list:
-            return UIData(iconImageName: "list.bullet", themeColor: .orange)
+            return UIData(iconImageName: "list.bullet", themeColor: Color.init("darkGreen"))
         default:
             return UIData(iconImageName: "list.bullet", themeColor: .blue)
         }
@@ -61,6 +61,7 @@ final class Timeline: ObservableObject {
     @Published var selectedImageCount: Int = 0
     
     var type: TweetListType
+    var listTag: ListTag? // 如果是list类型，则会传入listTag
     var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
     
     var mentionUserInfo: [String:[String]] = [:] {
@@ -84,8 +85,9 @@ final class Timeline: ObservableObject {
     var sinceIDString: String?
     var maxIDString: String?
     
-    init(type: TweetListType) {
+    init(type: TweetListType, listTag: ListTag? = nil) {
         self.type = type
+        self.listTag = listTag
         print(#line, "timeline(\(self.type)) init", self)
         switch type {
         case .session:
@@ -134,6 +136,11 @@ final class Timeline: ObservableObject {
             swifter.getHomeTimeline(count: self.maxCounter, sinceID: self.sinceIDString,  success: sh, failure: failureHandler)
         case .user:
             swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), success: sh, failure: failureHandler)
+        case .list:
+            if let listTag = listTag {
+                swifter.listTweets(for: listTag, sinceID: self.sinceIDString, maxID: self.maxIDString, count: self.maxCounter, includeEntities: nil, includeRTs: nil, tweetMode: .default, success: sh, failure: failureHandler)
+            }
+            
         default:
             print(#line, #function)
         }

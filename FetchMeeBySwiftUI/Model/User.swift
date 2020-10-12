@@ -142,7 +142,7 @@ class User: ObservableObject {
         print(userTag)
 //        let userTag = UserTag.id(userID)
         swifter.showUser(userTag, includeEntities: nil, success: getUserBio(json:), failure: nil)
-        swifter.getSubscribedLists(for: userTag, success: {JSON in print(#line, JSON)}, failure: nil)
+        swifter.getSubscribedLists(for: userTag, success: getList, failure: nil)
     }
     
     
@@ -151,12 +151,16 @@ class User: ObservableObject {
     func getList(json: JSON) {
         
         let lists: [JSON] = json.array!
+        
+        var newLists: [String : ListTag] = [:]
         for list in lists {
             let name: String = list["name"].string!
             let idString: String = list["id_str"].string!
             let listTag = ListTag.id(idString)
-            myInfo.lists[name] = listTag
+            newLists[name] = listTag
         }
+        
+        self.myInfo.lists = newLists
 
 
     }
@@ -261,4 +265,5 @@ extension User {
         return settingDic
     }
 }
+
 

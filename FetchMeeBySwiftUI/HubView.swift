@@ -19,7 +19,7 @@ struct HubView: View {
     @StateObject var home = Timeline(type: TweetListType.home)
     @StateObject var mention = Timeline(type: TweetListType.mention)
     @StateObject var message = Timeline(type: .message)
-    @StateObject var list = Timeline(type: .list)
+    
     
     @State var toolsBarViews: [ToolBarView] = []
     
@@ -60,9 +60,8 @@ struct HubView: View {
                                     TimelineIconView(timeline: home)
                                     TimelineIconView(timeline: mention)
                                     TimelineIconView(timeline: message)
-                                    TimelineIconView(timeline: list)
-                                    ForEach<[ToolBarView], <#ID: Hashable#>, ToolBarView>(user.myInfo.lists, id: self.key) { index in
-                                        TimelineIconView(timeline: list, listName: user.myInfo.lists)
+                                    ForEach(user.myInfo.lists.keys.sorted(), id: \.self) { listName in
+                                        TimelineIconView(timeline: Timeline(type: .list, listTag: user.myInfo.lists[listName]), listName: listName)
                                     }
                                     
                                 }.padding(.top, 8).padding(.bottom, 8).padding(.leading, 16)
@@ -138,11 +137,17 @@ struct HubView_Previews: PreviewProvider {
 
 extension HubView {
     
+    
+    /// 设置后台刷新的内容
     func setBackgroundFetch() {
         backgroudnFetch = self.backgroundFetch
         
     }
     
+    
+    /// 后台刷新的具体操作内容
+    /// - Parameter task: 传入的task
+    /// - Returns: Void
     func backgroundFetch(task: BGAppRefreshTask) -> Void {
         let completeHandler = {task.setTaskCompleted(success: true)}
         self.mention.refreshFromTop()

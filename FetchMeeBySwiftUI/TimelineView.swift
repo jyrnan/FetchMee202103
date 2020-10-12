@@ -20,21 +20,10 @@ struct TimelineView: View {
     @ObservedObject var timeline: Timeline
     
     @State var tweetText: String = ""
-    
-//    @State var keyboardHeight: CGFloat = 0 //用来观察键盘是否弹出，如果键盘弹出，会赋值给这个键盘，也就是不会为0
-    
-//    @State var isSettingShowed: Bool = false
-//    @State var isNewTweetCountViewShowed: Bool = false
-//    @State var canOnAppearRun: Bool = true {
-//        didSet {
-//            delay(delay: 1, closure: {self.canOnAppearRun = true})
-//        }
-//    }
-    
-    
+    @State var listName: String?
+  
     var body: some View {
         
-       
             ZStack {
                 ScrollView(.vertical) {
                     PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
@@ -68,14 +57,18 @@ struct TimelineView: View {
                     }.padding([.leading, .trailing], 16)
                     
                 }
-                .navigationBarTitle(timeline.type.rawValue, displayMode: .automatic)
+                .navigationBarTitle(listName ?? timeline.type.rawValue, displayMode: .automatic)
                 .navigationBarItems(leading:
                                         HStack{
                                             if downloader.taskCount != 0 {
                                             Text("\(downloader.taskCount) pictures downloading...")
                                                 .font(.caption).foregroundColor(.gray)
                                             }
-                                        })
+                                        },
+                                    trailing: Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
+                                        .resizable()
+                                        .frame(width: 32, height: 32, alignment: .center)
+                                        .clipShape(Circle()))
                 
                 VStack(spacing: 0) {
                     if self.alerts.stripAlert.isPresentedAlert {
@@ -85,7 +78,7 @@ struct TimelineView: View {
                 } //通知视图
                 .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
             }
-        .navigationViewStyle(StackNavigationViewStyle())
+//        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
@@ -101,15 +94,17 @@ extension TimelineView {
     
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
-        switch timeline.type {
-        case .home:
-            self.timeline.refreshFromTop(fh: failureHandler(error:))
-        case .mention:
-            self.timeline.refreshFromTop()
-        default:
-            print()
-        }
-        
+//        switch timeline.type {
+//        case .home:
+//            self.timeline.refreshFromTop(fh: failureHandler(error:))
+//        case .mention:
+//            self.timeline.refreshFromTop()
+//        case .list:
+//            self.timeline.refreshFromTop(fh: failureHandler(error:))
+//        default:
+//            print()
+//        }
+        self.timeline.refreshFromTop(fh: failureHandler(error:))
         
     }
     
