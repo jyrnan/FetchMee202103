@@ -16,12 +16,6 @@ struct SettingView: View {
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
     var checkingUser: User {self.user} //使用用户和chckingUser是同一个
     
-    init() {
-//        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 20)!]
-//        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Georgia-Bold", size: 20)!]
-//        UINavigationBar.appearance().backgroundColor = .red
-    }
-    
     var body: some View {
         Form {
             
@@ -51,6 +45,7 @@ struct SettingView: View {
             .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
             
             Section(header: Text("Visual"), footer: Text("You can swith this function off to get a simper UI and better performance")) {
+                
                 Picker("Favorit Theme Color", selection: self.$user.myInfo.setting.themeColor, content: {
                     ForEach(ThemeColor.allCases){color in
                         Text(color.rawValue.capitalized).tag(color)
@@ -93,9 +88,13 @@ struct SettingView: View {
             }
         }
         .onDisappear{self.user.myInfo.setting.save()}
-        .listStyle(GroupedListStyle())
+//        .listStyle(GroupedListStyle())
         .navigationTitle("Setting")
     }
+}
+
+extension SettingView {
+    
     func logOut() {
         self.user.isShowUserInfo = false
         self.user.myInfo = UserInfomation() //  设置成一个空的userInfo

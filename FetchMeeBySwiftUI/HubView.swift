@@ -106,16 +106,17 @@ struct HubView: View {
                         addToolBarView(type: .tools)
                     }
                 }
-                .navigationTitle("FetchMee")
-                .navigationBarItems(trailing:NavigationLink(destination: SettingView()) {
-                    Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
-                        .resizable()
-                        .frame(width: 32, height: 32, alignment: .center)
-                        .clipShape(Circle())
-                    
-                })
+                
             }
             }
+            .navigationTitle("FetchMee")
+            .navigationBarItems(trailing:NavigationLink(destination: SettingView()) {
+                Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
+                    .resizable()
+                    .frame(width: 32, height: 32, alignment: .center)
+                    .clipShape(Circle())
+                
+            })
         }
         .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
             self.hideKeyboard()
@@ -144,7 +145,7 @@ extension HubView {
     
     func backgroundFetch(task: BGAppRefreshTask) -> Void {
         let completeHandler = {task.setTaskCompleted(success: true)}
-//        self.mention.refreshFromTop()
+        self.mention.refreshFromTop()
         self.home.refreshFromTop(completeHandeler: completeHandler)
     }
     

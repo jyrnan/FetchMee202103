@@ -112,7 +112,7 @@ final class Timeline: ObservableObject {
     func refreshFromTop(for userIDString: String? = nil, completeHandeler:(() -> Void)? = nil ,fh: ((Error) -> Void)? = nil) {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
-            self.newTweetNumber = newTweets.count
+            self.newTweetNumber += newTweets.count
             
             self.isDone = true
             self.makeMentionUserSortedList() //存储MentionUserInfo并更新MentionUser的排序

@@ -102,9 +102,9 @@ struct ToolBarView: View, Identifiable {
                 }
             }
             .frame(height: 76)
-            .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                print(#line, user.myInfo.tweetsCount)
-            })
+//            .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+//                print(#line, user.myInfo.tweetsCount)
+//            })
         }
         
     }

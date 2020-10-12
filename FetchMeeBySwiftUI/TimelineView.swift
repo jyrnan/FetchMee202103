@@ -21,15 +21,15 @@ struct TimelineView: View {
     
     @State var tweetText: String = ""
     
-    @State var keyboardHeight: CGFloat = 0 //用来观察键盘是否弹出，如果键盘弹出，会赋值给这个键盘，也就是不会为0
+//    @State var keyboardHeight: CGFloat = 0 //用来观察键盘是否弹出，如果键盘弹出，会赋值给这个键盘，也就是不会为0
     
-    @State var isSettingShowed: Bool = false
-    @State var isNewTweetCountViewShowed: Bool = false
-    @State var canOnAppearRun: Bool = true {
-        didSet {
-            delay(delay: 1, closure: {self.canOnAppearRun = true})
-        }
-    }
+//    @State var isSettingShowed: Bool = false
+//    @State var isNewTweetCountViewShowed: Bool = false
+//    @State var canOnAppearRun: Bool = true {
+//        didSet {
+//            delay(delay: 1, closure: {self.canOnAppearRun = true})
+//        }
+//    }
     
     
     var body: some View {
@@ -51,7 +51,7 @@ struct TimelineView: View {
                                     .onTapGesture {
                                         self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed = true
                                     }
-                                    .background(userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str && timeline.type == .home ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //标注被提及的推文或者人脸识别的推文listRowBackground
+                                    .background(userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str && timeline.type == .home ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //在HomeTimeline标注被提及的推文
                                     
                             Divider()
                         }
@@ -75,15 +75,7 @@ struct TimelineView: View {
                                             Text("\(downloader.taskCount) pictures downloading...")
                                                 .font(.caption).foregroundColor(.gray)
                                             }
-                                        },
-                    trailing:
-                                        NavigationLink(destination: SettingView()) {
-                                                Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
-                                                    .resizable()
-                                                    .frame(width: 32, height: 32, alignment: .center)
-                                                    .clipShape(Circle())
-                                                
-                                            })
+                                        })
                 
                 VStack(spacing: 0) {
                     if self.alerts.stripAlert.isPresentedAlert {
@@ -93,7 +85,6 @@ struct TimelineView: View {
                 } //通知视图
                 .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
             }
-//        .onAppear { self.refreshAll()} //进入界面刷新一次
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }
@@ -122,14 +113,14 @@ extension TimelineView {
         
     }
     
-    func logOut() {
-        self.user.isLoggedIn = false
-        userDefault.set(false, forKey: "isLoggedIn")
-        userDefault.set(nil, forKey: "userIDString")
-        userDefault.set(nil, forKey: "screenName")
-        userDefault.set(nil, forKey: "mentionUserInfo")
-        print(#line)
-    }
+//    func logOut() {
+//        self.user.isLoggedIn = false
+//        userDefault.set(false, forKey: "isLoggedIn")
+//        userDefault.set(nil, forKey: "userIDString")
+//        userDefault.set(nil, forKey: "screenName")
+//        userDefault.set(nil, forKey: "mentionUserInfo")
+//        print(#line)
+//    }
     
     func delay(delay: Double, closure: @escaping () -> ()) {
         let when = DispatchTime.now() + delay
