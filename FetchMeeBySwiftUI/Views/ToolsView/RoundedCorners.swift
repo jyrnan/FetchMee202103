@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct RoundedCorners: View {
-    var color: Color = .blue
+    var color: Color = Color.init("TwitterBlue")
     var tl: CGFloat = 0.0
     var tr: CGFloat = 0.0
     var bl: CGFloat = 0.0

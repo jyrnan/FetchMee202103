@@ -16,13 +16,6 @@ struct HubView: View {
     @EnvironmentObject var user: User
     @EnvironmentObject var downloader: Downloader
     
-    @StateObject var home = Timeline(type: TweetListType.home)
-    @StateObject var mention = Timeline(type: TweetListType.mention)
-    @StateObject var message = Timeline(type: .message)
-    
-    
-    @State var toolsBarViews: [ToolBarView] = []
-    
     @State var tweetText: String = ""
     
     var body: some View {
@@ -41,12 +34,11 @@ struct HubView: View {
                     
                     
                     VStack {
-                        PullToRefreshView(action: {self.refreshAll()}, isDone: self.$home.isDone) {
+                        PullToRefreshView(action: {self.refreshAll()}, isDone: $user.home.isDone) {
                             ComposerOfHubView(tweetText: $tweetText)
                                 .padding(.top, 16)
                                 .padding([.leading, .trailing], 18)
                         }.frame(height: 180)
-                        
                         
                         //Timeline
                         VStack {
@@ -57,9 +49,9 @@ struct HubView: View {
                             
                             ScrollView(.horizontal, showsIndicators: false) {
                                 LazyHStack {
-                                    TimelineIconView(timeline: home)
-                                    TimelineIconView(timeline: mention)
-                                    TimelineIconView(timeline: message)
+                                    TimelineIconView(timeline: user.home)
+                                    TimelineIconView(timeline: user.mention)
+//                                    TimelineIconView(timeline: message)
                                     ForEach(user.myInfo.lists.keys.sorted(), id: \.self) { listName in
                                         TimelineIconView(timeline: Timeline(type: .list, listTag: user.myInfo.lists[listName]), listName: listName)
                                     }
@@ -68,24 +60,9 @@ struct HubView: View {
                             }.padding(0)
                         }
                         
-                        
-                        //Tools
-                        VStack( spacing: 16) {
-                            HStack {
-                                Text("Tools").font(.caption).bold().foregroundColor(Color.gray)
-                                Spacer()
-                            }
-                 
-                            ForEach(toolsBarViews) {
-                                view in
-                                view
-                            }.onDelete(perform: { indexSet in
-                                toolsBarViews.remove(atOffsets: indexSet)
-                            })
-                            
-                        }.padding([.leading, .trailing, .bottom], 16)
-                        
-                        
+                        //ToolBars
+                        ToolBarsView()
+                            .padding([.leading, .trailing, .bottom], 16)
                     }
                     
                     //通知视图
@@ -93,11 +70,6 @@ struct HubView: View {
                 }
                 .onAppear{
                     self.setBackgroundFetch()
-                    if toolsBarViews.isEmpty {
-                        addToolBarView(type: .friends)
-                        addToolBarView(type: .tweets)
-                        addToolBarView(type: .tools)
-                    }
                 }
                 
             }
@@ -141,44 +113,20 @@ extension HubView {
     /// - Returns: Void
     func backgroundFetch(task: BGAppRefreshTask) -> Void {
         let completeHandler = {task.setTaskCompleted(success: true)}
-        self.mention.refreshFromTop()
-        self.home.refreshFromTop(completeHandeler: completeHandler)
+        user.mention.refreshFromTop()
+        user.home.refreshFromTop(completeHandeler: completeHandler)
     }
     
     
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
-        self.home.refreshFromTop()
-        self.mention.refreshFromTop()
-        self.user.getMyInfo()
+        user.home.refreshFromTop()
+        user.mention.refreshFromTop()
+        user.getMyInfo()
     }
     
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-    
-    func addToolBarView(type: ToolBarViewType) {
-        switch type {
-        case .friends:
-            let toolBarView = ToolBarView(type: type,
-                                          label1Value: $user.myInfo.followed,
-                                          label2Value: $user.myInfo.following,
-                                          label3Value: .constant(88))
-            self.toolsBarViews.append(toolBarView)
-        case .tweets:
-            let toolBarView = ToolBarView(type: type,
-                                          label1Value: $user.myInfo.tweetsCount,
-                                          label2Value: $user.myInfo.tweetsCount,
-                                          label3Value: .constant(88))
-            self.toolsBarViews.append(toolBarView)
-        case .tools:
-            let toolBarView = ToolBarView(type: type,
-                                          label1Value: $user.myInfo.tweetsCount,
-                                          label2Value: $user.myInfo.tweetsCount,
-                                          label3Value: .constant(88))
-            
-            self.toolsBarViews.append(toolBarView)
-        }
     }
 }
 

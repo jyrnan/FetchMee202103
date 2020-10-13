@@ -13,8 +13,7 @@ struct TimelineIconView: View {
     @State var listName: String?
     
     var body: some View {
-        NavigationLink(
-            destination: TimelineView(timeline: timeline, listName: listName)){
+        NavigationLink(destination:TimelineView(timeline: timeline, listName: listName)){
             ZStack{
                 RoundedRectangle(cornerRadius: 18)
                     .frame(width: 92, height: 92, alignment: .center)
@@ -27,7 +26,7 @@ struct TimelineIconView: View {
                         Image(systemName: timeline.type.uiData.iconImageName)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 32, height: 32, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .frame(width: 32, height: 32, alignment: .center)
                             .foregroundColor(timeline.newTweetNumber != 0 ? Color.init("BackGroundLight") : timeline.type.uiData.themeColor)
                         Spacer()
                         Text(timeline.newTweetNumber > 99 ? "99" : "\(timeline.newTweetNumber)").fixedSize()
@@ -58,7 +57,7 @@ struct TimelineIconView: View {
                     }
                 }
             }
-            .frame(width: 92, height: 92, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            .frame(width: 92, height: 92, alignment: .center)
         }
     }
 }

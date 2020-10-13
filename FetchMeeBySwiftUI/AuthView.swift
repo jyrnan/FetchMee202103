@@ -21,7 +21,7 @@ struct AuthView: View {
                     Image("Logo")
                         .resizable()
                         .frame(width: 48, height: 48, alignment: .center)
-                    Text("Press to Login").foregroundColor(.blue)
+                    Text("Press to Login").foregroundColor(Color.init("TwitterBlue"))
                     Spacer()
                 }
 

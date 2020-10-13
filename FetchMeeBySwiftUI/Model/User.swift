@@ -52,7 +52,7 @@ enum ThemeColor: String, CaseIterable, Identifiable {
     var id: String {self.rawValue}
     var color : Color {
         switch self {
-        case .blue:     return Color.blue
+        case .blue:     return Color.init("TwitterBlue")
         case .green:    return Color.green
         case .purple:   return Color.purple
         case .pink:   return Color.pink
@@ -108,16 +108,15 @@ struct UserSetting {
     }
 }
 
-//ToolsBarView的信息
-
-
 class User: ObservableObject {
     @Published var isLoggedIn: Bool = false
     @Published var myInfo: UserInfomation = UserInfomation() //当前用户的信息
     @Published var userStore: [String: UserInfomation] = [:] //存储多个用户的信息
     @Published var userStringMark: [String: Int] = [:] // 用户互动数量纪录
-    
     @Published var isShowUserInfo: Bool = false
+    
+    @Published var home: Timeline = Timeline(type: .home)
+    @Published var mention: Timeline = Timeline(type: .mention)
     
     let session = URLSession.shared
     
@@ -234,7 +233,7 @@ class User: ObservableObject {
                 if let im = UIImage(data: d) {
                     DispatchQueue.main.async {
                         self.myInfo.avatar = im
-//                        print(#line, "从本地获取")
+
                     }
                 }
             } else {

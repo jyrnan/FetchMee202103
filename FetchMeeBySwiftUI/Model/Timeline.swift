@@ -28,15 +28,15 @@ enum TweetListType: String {
     var uiData: UIData {
         switch self {
         case .home:
-            return UIData(iconImageName: "house.circle", themeColor: .blue)
+            return UIData(iconImageName: "house.circle", themeColor: Color.init("TwitterBlue"))
         case .mention:
-            return UIData(iconImageName: "at.circle", themeColor: .red)
+            return UIData(iconImageName: "at.circle", themeColor: Color.init("DarkOrange"))
         case .message:
             return UIData(iconImageName: "envelope.circle", themeColor: .orange)
         case .list:
-            return UIData(iconImageName: "list.bullet", themeColor: Color.init("darkGreen"))
+            return UIData(iconImageName: "list.bullet", themeColor: Color.init("DarkGreen"))
         default:
-            return UIData(iconImageName: "list.bullet", themeColor: .blue)
+            return UIData(iconImageName: "list.bullet", themeColor: Color.init("TwitterBlue"))
         }
     }
 }

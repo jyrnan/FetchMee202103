@@ -30,7 +30,7 @@ enum ToolBarViewType: String {
                           label2Text: "Tweets:",
                           label3Text: "tweets posted last 24H",
                           iconImageName: "message.circle.fill",
-                          themeColor: .blue)
+                          themeColor: Color.init("TwitterBlue"))
         case .friends:
             return UIData(label1Text: "Followered:",
                           label2Text: "Following:",
@@ -42,7 +42,7 @@ enum ToolBarViewType: String {
                           label2Text: "Following:",
                           label3Text: "more followers added",
                           iconImageName: "paperclip.circle.fill",
-                          themeColor: Color("darkGreen"))
+                          themeColor: Color("DarkGreen"))
         }
     }
 }
@@ -50,14 +50,17 @@ enum ToolBarViewType: String {
 
 
 struct ToolBarView: View, Identifiable {
+   
+    @EnvironmentObject var user: User
+    
     var id = UUID()
     let type: ToolBarViewType
-    @EnvironmentObject var user: User
-    @Binding var label1Value: Int?
-    @Binding var label2Value: Int?
-    @Binding var label3Value: Int?
     
-    @State var themeColor: Color = .blue
+    var label1Value: Int?
+    var label2Value: Int?
+    var label3Value: Int?
+    
+    @State var themeColor: Color = Color.init("TwitterBlue")
     
     
     var body: some View {
