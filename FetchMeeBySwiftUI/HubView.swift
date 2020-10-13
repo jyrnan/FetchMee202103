@@ -23,68 +23,49 @@ struct HubView: View {
         NavigationView {
             ZStack{
                 LogoBackground()
-            ScrollView(.vertical, showsIndicators: false){
-                ZStack{
-                   
-                    RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
-                        .padding(.top, 0)
-                        .padding(.bottom, -164)
-                        .shadow(radius: 3 )
-                    
-                    
-                    
-                    VStack {
-                        PullToRefreshView(action: {self.refreshAll()}, isDone: $user.home.isDone) {
-                            ComposerOfHubView(tweetText: $tweetText)
-                                .padding(.top, 16)
-                                .padding([.leading, .trailing], 18)
-                        }.frame(height: 180)
+                ScrollView(.vertical, showsIndicators: false){
+                    ZStack{
                         
-                        //Timeline
+                        RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
+                            .padding(.top, 0)
+                            .padding(.bottom, 0)
+                            .shadow(radius: 3 )
+                        
+                        
                         VStack {
-                            HStack {
-                                Text("Timeline").font(.caption).bold().foregroundColor(Color.gray)
-                                Spacer()
-                            }.padding(.leading,16).padding(.top, 16)
+                            PullToRefreshView(action: {self.refreshAll()}, isDone: $user.home.isDone) {
+                                ComposerOfHubView(tweetText: $tweetText)
+                                    .padding(.top, 16)
+                                    .padding([.leading, .trailing], 18)
+                            }.frame(height: 180)
                             
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                LazyHStack {
-                                    TimelineIconView(timeline: user.home)
-                                    TimelineIconView(timeline: user.mention)
-//                                    TimelineIconView(timeline: message)
-                                    ForEach(user.myInfo.lists.keys.sorted(), id: \.self) { listName in
-                                        TimelineIconView(timeline: Timeline(type: .list, listTag: user.myInfo.lists[listName]), listName: listName)
-                                    }
-                                    
-                                }.padding(.top, 8).padding(.bottom, 8).padding(.leading, 16)
-                            }.padding(0)
+                            TimelinesView()
+                            
+                            ToolBarsView()
+                                .padding([.leading, .trailing, .bottom], 16)
+                            
+                            Spacer()
+                            
+                            HStack {
+                                Spacer()
+                                Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)
+                                Spacer()
+                            }.padding(.top, 20).padding()
+                            
                         }
                         
-                        //ToolBars
-                        ToolBarsView()
-                            .padding([.leading, .trailing, .bottom], 16)
+                        AlertView()
                     }
-                    
-                    //通知视图
-                    AlertView()
                 }
-                .onAppear{
-                    self.setBackgroundFetch()
-                }
-                
-            }
             }
             .navigationTitle("FetchMee")
-            .navigationBarItems(trailing:NavigationLink(destination: SettingView()) {
+            .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
                 AvatarImageView(image: user.myInfo.avatar)
-                
             })
         }
-        .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-            self.hideKeyboard()
-        })
+        .onAppear{self.setBackgroundFetch()}
+        .onTapGesture(count: 1, perform: {self.hideKeyboard()})
     }
-   
 }
 
 struct HubView_Previews: PreviewProvider {
@@ -99,14 +80,10 @@ struct HubView_Previews: PreviewProvider {
 
 
 extension HubView {
-    
-    
     /// 设置后台刷新的内容
     func setBackgroundFetch() {
         backgroudnFetch = self.backgroundFetch
-        
     }
-    
     
     /// 后台刷新的具体操作内容
     /// - Parameter task: 传入的task

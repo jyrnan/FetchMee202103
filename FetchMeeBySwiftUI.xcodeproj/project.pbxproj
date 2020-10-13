@@ -12,6 +12,7 @@
 		4B5E607025340F1700E7A5F1 /* LogoBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5E606F25340F1700E7A5F1 /* LogoBackground.swift */; };
 		4B5E607625353A7200E7A5F1 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5E607525353A7200E7A5F1 /* AvatarImageView.swift */; };
 		4BA662742535923300DE8697 /* ToolBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA662732535923300DE8697 /* ToolBarsView.swift */; };
+		4BA6627625359FEC00DE8697 /* TimelinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA6627525359FEC00DE8697 /* TimelinesView.swift */; };
 		4BDB05D72531613B00CF71A1 /* HubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDB05D62531613B00CF71A1 /* HubView.swift */; };
 		4BDB05D925316D5C00CF71A1 /* ComposerOfHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDB05D825316D5C00CF71A1 /* ComposerOfHubView.swift */; };
 		D205246C24C18AC30046F1AB /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D205246B24C18AC30046F1AB /* AlertView.swift */; };
@@ -86,6 +87,7 @@
 		4B5E606F25340F1700E7A5F1 /* LogoBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoBackground.swift; sourceTree = "<group>"; };
 		4B5E607525353A7200E7A5F1 /* AvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImageView.swift; sourceTree = "<group>"; };
 		4BA662732535923300DE8697 /* ToolBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarsView.swift; sourceTree = "<group>"; };
+		4BA6627525359FEC00DE8697 /* TimelinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelinesView.swift; sourceTree = "<group>"; };
 		4BDB05D62531613B00CF71A1 /* HubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubView.swift; sourceTree = "<group>"; };
 		4BDB05D825316D5C00CF71A1 /* ComposerOfHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerOfHubView.swift; sourceTree = "<group>"; };
 		D205246B24C18AC30046F1AB /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */,
+				4BA6627525359FEC00DE8697 /* TimelinesView.swift */,
 				4B5E606F25340F1700E7A5F1 /* LogoBackground.swift */,
 				4BA662732535923300DE8697 /* ToolBarsView.swift */,
 				D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */,
@@ -421,6 +424,7 @@
 				D2224F8A24BE7C0400AE2110 /* User.swift in Sources */,
 				4BA662742535923300DE8697 /* ToolBarsView.swift in Sources */,
 				D7AC537024BB4AB200BCD71F /* ImageViewer.swift in Sources */,
+				4BA6627625359FEC00DE8697 /* TimelinesView.swift in Sources */,
 				D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */,
 				D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */,
 				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,
