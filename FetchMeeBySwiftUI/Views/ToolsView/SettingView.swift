@@ -109,8 +109,6 @@ extension SettingView {
                 self.user.isLoggedIn = false
             }
         })
-        
-        
     }
     
     func delay(delay: Double, closure: @escaping () -> ()) {

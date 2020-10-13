@@ -118,6 +118,7 @@ class User: ObservableObject {
     @Published var home: Timeline = Timeline(type: .home)
     @Published var mention: Timeline = Timeline(type: .mention)
     @Published var message: Timeline = Timeline(type: .message)
+    @Published var lists: [String : Timeline] = [:]
     
     let session = URLSession.shared
     

@@ -1,8 +1,8 @@
 //
-//  ContentView.swift
-//  FetchMeeBySwiftUI
+//  TimelineSimpleView.swift
+//  FetchMee
 //
-//  Created by jyrnan on 2020/7/11.
+//  Created by jyrnan on 2020/10/13.
 //  Copyright © 2020 jyrnan. All rights reserved.
 //
 
@@ -12,7 +12,7 @@ import Combine
 import UIKit
 
 
-struct TimelineView: View {
+struct TimelineSimpleView: View {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
     @EnvironmentObject var downloader: Downloader
@@ -25,13 +25,12 @@ struct TimelineView: View {
     var body: some View {
         
         ZStack {
-            ScrollView(.vertical) {
+            List {
                 PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
-                    Composer(timeline: self.timeline)}.frame(height: 36).background(Color.init("BackGround")).cornerRadius(18).padding([.leading, .trailing], 16)
+                    Composer(timeline: self.timeline)}
                 
                 //Homeline部分章节
                 LazyVStack(spacing: 0) {
-                    RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
                     
                     ForEach(self.timeline.tweetIDStrings, id: \.self) {
                         tweetIDString in
@@ -52,9 +51,9 @@ struct TimelineView: View {
                             .foregroundColor(.gray)
                             .frame(height: 24)
                         Spacer()
-                    }.background(Color.init("BackGround")) //下方载入更多按钮
-                    RoundedCorners(color: Color.init("BackGround"), bl: 18, br: 18 ).frame(height: 18)
-                }.padding([.leading, .trailing], 16)
+                    }
+                    
+                }
                 
             }
             .navigationBarTitle(listName ?? timeline.type.rawValue, displayMode: .automatic)
@@ -73,7 +72,7 @@ struct TimelineView: View {
     }
 }
 
-extension TimelineView {
+extension TimelineSimpleView {
     /**
      处理出错的handler，可以传入到timeline里面执行。
      */
@@ -94,7 +93,7 @@ extension TimelineView {
     }
 }
 
-struct TimelineView_Previews: PreviewProvider {
+struct TimelineSimpleView_Previews: PreviewProvider {
     static var previews: some View {
         TimelineView(timeline: Timeline(type: .home))
     }

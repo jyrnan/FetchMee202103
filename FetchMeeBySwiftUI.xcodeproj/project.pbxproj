@@ -57,6 +57,7 @@
 		D2C7248824E613A500804F18 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C7248724E613A400804F18 /* RoundedCorners.swift */; };
 		D2DDFCBF2532D65100AE7E39 /* ToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */; };
 		D2DDFCC12532DE3300AE7E39 /* TimelineIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */; };
+		D2DDFCC32535DF7E00AE7E39 /* TimelineSimpleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDFCC22535DF7E00AE7E39 /* TimelineSimpleView.swift */; };
 		D2E4D75324D851EA00D68A09 /* QuotedTweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */; };
 		D2FE6E15250DE11400314966 /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = D2FE6E14250DE11400314966 /* Swifter */; };
 		D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = D707B6EC24C4040F0023F243 /* KeyboardHide.swift */; };
@@ -135,6 +136,7 @@
 		D2C7248724E613A400804F18 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarView.swift; sourceTree = "<group>"; };
 		D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineIconView.swift; sourceTree = "<group>"; };
+		D2DDFCC22535DF7E00AE7E39 /* TimelineSimpleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineSimpleView.swift; sourceTree = "<group>"; };
 		D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotedTweetRow.swift; sourceTree = "<group>"; };
 		D707B6EC24C4040F0023F243 /* KeyboardHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHide.swift; sourceTree = "<group>"; };
 		D707B6EE24C44CE10023F243 /* DetailIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailIndicator.swift; sourceTree = "<group>"; };
@@ -178,7 +180,6 @@
 		4B7130AE2535750D00CE0082 /* ToolsView */ = {
 			isa = PBXGroup;
 			children = (
-				D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */,
 				D7AC536D24BB477300BCD71F /* DetailView.swift */,
 				D7AC536F24BB4AB200BCD71F /* ImageViewer.swift */,
 				4B2C746C24FA2B410052F356 /* ImageGrabView.swift */,
@@ -199,6 +200,8 @@
 			children = (
 				D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */,
 				4BA6627525359FEC00DE8697 /* TimelinesView.swift */,
+				D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */,
+				D2DDFCC22535DF7E00AE7E39 /* TimelineSimpleView.swift */,
 				4B5E606F25340F1700E7A5F1 /* LogoBackground.swift */,
 				4BA662732535923300DE8697 /* ToolBarsView.swift */,
 				D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */,
@@ -401,6 +404,7 @@
 				D205246C24C18AC30046F1AB /* AlertView.swift in Sources */,
 				4B5E607025340F1700E7A5F1 /* LogoBackground.swift in Sources */,
 				D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */,
+				D2DDFCC32535DF7E00AE7E39 /* TimelineSimpleView.swift in Sources */,
 				D2C4D40324D3D11100395660 /* AvatarView.swift in Sources */,
 				D2905079252C09360065EA83 /* FetchMee.xcdatamodeld in Sources */,
 				D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */,
@@ -585,7 +589,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -610,7 +614,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;

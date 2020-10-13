@@ -27,7 +27,7 @@ struct TimelinesView: View {
                         TimelineIconView(timeline: Timeline(type: .list, listTag: user.myInfo.lists[listName]), listName: listName)
                     }
                     
-                }.padding(.top, 8).padding(.bottom, 8).padding(.leading, 16)
+                }.padding(.bottom, 8).padding(.leading, 16)
             }.padding(0)
         }
     }

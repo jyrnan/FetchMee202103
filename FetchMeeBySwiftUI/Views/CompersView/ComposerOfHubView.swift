@@ -68,8 +68,7 @@ struct ComposerOfHubView: View {
             // 让TextEditor的背景是透明色
             
             //  按钮栏
-            HStack(alignment: .center, spacing: /*@START_MENU_TOKEN@*/nil/*@END_MENU_TOKEN@*/
-            ){
+            HStack(alignment: .center){
                 if !self.imageDatas.isEmpty {
                     HStack {
                         ForEach(self.imageDatas, id: \.id) {
@@ -91,17 +90,7 @@ struct ComposerOfHubView: View {
                 Spacer()
                 //增加图片按钮
                 if self.isShowAddPic {
-//                    Image(systemName: "rectangle.and.paperclip")
-//                        .resizable().aspectRatio(contentMode: .fill)
-//                        .frame(width: 18, height: 18, alignment: .center)
-//                        .foregroundColor(.accentColor)
-//                        .contentShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-//                        .onTapGesture {
-//                            withAnimation{
-//                                self.isShowPhotoPicker = true
-//                                self.imageDatas.append(ImageData())
-//                            }
-//                        }
+//
                     Button(action: {
                         withAnimation{
                             self.isShowPhotoPicker = true
@@ -111,8 +100,8 @@ struct ComposerOfHubView: View {
                         Image(systemName: "rectangle.and.paperclip")
                             .font(.body)
                             .foregroundColor(.accentColor)
-                            .padding(4)
-                            .padding([.leading, .trailing], 8)
+                            .padding(8)
+//                            .padding([.leading, .trailing], 8)
                             })
                         .sheet(isPresented: self.$isShowPhotoPicker, onDismiss: {
                             if self.imageDatas.count == 4 { //选择图片视图消失后检查是否已经有四张选择，如果是则设置增加图片按钮不显示
@@ -133,8 +122,8 @@ struct ComposerOfHubView: View {
                     Image(systemName: "tray.and.arrow.down")
                         .font(.body)
                         .foregroundColor(.accentColor)
-                        .padding(4)
-                        .padding([.leading, .trailing], 8)
+                        .padding(8)
+//                        .padding([.leading, .trailing], 8)
                         })
                 
                 NavigationLink(
@@ -142,22 +131,23 @@ struct ComposerOfHubView: View {
                     Image(systemName: "tray.and.arrow.up")
                         .font(.body)
                         .foregroundColor(.accentColor)
-                        .padding(4)
-                        .padding([.leading, .trailing], 8)
+                        .padding(8)
+//                        .padding([.leading, .trailing], 8)
                         })
                 Button(action: {
                     self.isTweetSentDone = false
                     self.postMedia()
                 }, label: {
                     Text("Send")
-                        .font(.caption).bold()
+                        .font(.body).bold()
                         .foregroundColor(.white)
-                        .padding(6)
+                        .padding(4)
                         .padding([.leading, .trailing], 8)
                         .background(Capsule().foregroundColor(.accentColor))
                 })
                 .disabled(self.tweetText == "" && imageDatas.isEmpty) 
-            }.padding(.top, 8)
+            }
+            
             
         }
         

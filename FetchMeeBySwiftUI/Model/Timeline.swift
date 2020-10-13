@@ -64,10 +64,7 @@ final class Timeline: ObservableObject {
     var listTag: ListTag? // 如果是list类型，则会传入listTag
     var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
     
-    var mentionUserInfo: [String:[String]] = [:] {
-        didSet {
-        }
-    } //记录用户互动mention推文信息（推文ID）数量,纪录顺序[userName, screenName, avatarUrlString, tweetID...tweetID]
+    var mentionUserInfo: [String:[String]] = [:] //记录用户互动mention推文信息（推文ID）数量,纪录顺序[userName, screenName, avatarUrlString, tweetID...tweetID]
     
     
     //    let swifter = Swifter(consumerKey: "UUHBnDuEAliSe7vPTC55H12wV",

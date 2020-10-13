@@ -58,6 +58,7 @@ struct TimelineIconView: View {
                 }
             }
             .frame(width: 92, height: 92, alignment: .center)
+            
         }
     }
 }

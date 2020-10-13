@@ -39,6 +39,7 @@ struct HubView: View {
                                     .padding([.leading, .trailing], 18)
                             }.frame(height: 180)
                             
+                            Divider()
                             TimelinesView()
                             
                             ToolBarsView()
