@@ -21,7 +21,6 @@ var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
 let userDefault = UserDefaults.init()
 let cfh = CacheFileHandler() //设置下载文件的缓存位置
 let session = URLSession.shared
-//var themeColor: Color = Color.pink
 var backgroudnFetch: ((BGAppRefreshTask) -> Void)?
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -61,9 +60,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                 window.rootViewController = UIHostingController(rootView: contentView
                                                                     .environmentObject(alerts).environmentObject(loginUser)
-                                                                    .accentColor(self.loginUser.myInfo.setting.themeColor.color).environmentObject(downloader)
-                                                                    
-                                                                    )
+                                                                    .accentColor(self.loginUser.myInfo.setting.themeColor.color).environmentObject(downloader))
                 
             
             self.window = window

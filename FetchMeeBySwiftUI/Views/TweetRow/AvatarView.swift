@@ -13,7 +13,8 @@ struct AvatarView: View {
     @EnvironmentObject var user: User
     @EnvironmentObject var downloader: Downloader
     
-    var avatar: UIImage? = UIImage(systemName: "person.circle.fill")
+    var avatar: UIImage?
+    
     var userIDString: String?
     var userName: String? //传入用户的名字
     var screenName: String? //传入用户的名字
@@ -29,14 +30,7 @@ struct AvatarView: View {
                 .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName).environmentObject(self.alerts)
                     .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color).environmentObject(downloader)
                 }
-        Image(uiImage: self.avatar!)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            //            .frame(width: 36, height: 36)
-            .clipShape(Circle())
-            .overlay(Circle().stroke(Color.gray.opacity(0.3), lineWidth: 1))
-            .contentShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-            
+            AvatarImageView(image: avatar)
             .onTapGesture(count: 2, perform: {
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 print(#line, "pai yi pai")
@@ -75,6 +69,6 @@ struct AvatarView: View {
 
 struct AvatarView_Previews: PreviewProvider {
     static var previews: some View {
-        AvatarView()
+        AvatarView(avatar: UIImage(systemName: "person.circle.fill"))
     }
 }

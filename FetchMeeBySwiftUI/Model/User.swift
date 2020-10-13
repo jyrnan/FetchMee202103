@@ -124,10 +124,11 @@ class User: ObservableObject {
     func getMyInfo() {
         print(#line, #function)
         var userTag: UserTag?
-        if var screenName = self.myInfo.screenName {
+        if let screenName = self.myInfo.screenName {
             userTag = UserTag.screenName(String(screenName.dropFirst())) //去掉前面的@符号
         } else {
-            if self.myInfo.id == "0000" && userDefault.object(forKey: "userIDString") != nil { //如果没有设置用户ID，且可以读取userDefualt里的IDString（说明已经logined），则设置loginUser的userIDString为登陆用户的userIDString
+            //如果没有设置用户ID，且可以读取userDefualt里的IDString（说明已经logined），则设置loginUser的userIDString为登陆用户的userIDString
+            if self.myInfo.id == "0000" && userDefault.object(forKey: "userIDString") != nil {
             self.myInfo.id = userDefault.object(forKey: "userIDString") as! String
         }
             userTag = UserTag.id(self.myInfo.id)
@@ -140,15 +141,14 @@ class User: ObservableObject {
     func getUserInfo(for userTag: UserTag) {
         print(#line, #function)
         print(userTag)
-//        let userTag = UserTag.id(userID)
         swifter.showUser(userTag, includeEntities: nil, success: getUserBio(json:), failure: nil)
-        swifter.getSubscribedLists(for: userTag, success: getList, failure: nil)
+        swifter.getSubscribedLists(for: userTag, success: updateList, failure: nil)
     }
     
     
-    /// 获取用户List信息
+    /// 获取用户List信息并更新
     /// - Parameter json: 返回的包含list信息的结果
-    func getList(json: JSON) {
+    func updateList(json: JSON) {
         
         let lists: [JSON] = json.array!
         
@@ -252,7 +252,6 @@ class User: ObservableObject {
             }
         }
     }
-
 }
 
 extension User {

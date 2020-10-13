@@ -38,32 +38,29 @@ struct Composer: View {
                 }
             
             Divider()
-            Image(systemName: "plus.message.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 20, height: 20, alignment: .center).padding(.trailing, 8)
-                .foregroundColor(self.tweetText == "" ? Color.primary.opacity(0.3) : Color.primary.opacity(0.8) )
-                .onTapGesture {
-                if self.tweetText != "" {
-                    self.timeline.isDone = false
-                    swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
-                        self.tweetText = ""
-                        switch self.timeline.type { //如果是在detail视图则不更新timeline
-                        case .session:
-                            print(#line, self.tweetIDString as Any)
-                            self.timeline.isDone = true
-                            self.alerts.stripAlertOfDetailView.alertText = "Reply sent!"
-                            self.alerts.stripAlertOfDetailView.isPresentedAlert = true
-                        default:
-                            self.timeline.refreshFromTop()
-                            self.alerts.stripAlert.alertText = "Tweet sent!"
-                            self.alerts.stripAlert.isPresentedAlert = true
-                        }  
-                    })
-                    
-                    self.hideKeyboard()
-                    
-                } else {
-                    print(#line, "nothing")
-                }
-            }
+            
+            Button(action: {
+                self.timeline.isDone = false
+                swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
+                    self.tweetText = ""
+                    switch self.timeline.type { //如果是在detail视图则不更新timeline
+                    case .session:
+                        self.timeline.isDone = true
+                        self.alerts.stripAlert.alertText = "Reply sent!"
+                        self.alerts.stripAlert.isPresentedAlert = true
+                    default:
+                        self.timeline.refreshFromTop()
+                        self.alerts.stripAlert.alertText = "Tweet sent!"
+                        self.alerts.stripAlert.isPresentedAlert = true
+                    }
+                })
+                self.hideKeyboard()
+            },
+            label: {
+                Image(systemName: "plus.message.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 20, height: 20, alignment: .center).padding(.trailing, 8)
+                    .foregroundColor(self.tweetText == "" ? Color.primary.opacity(0.3) : Color.primary.opacity(0.8) )
+            }).disabled(tweetText == "")
+            
         }
     }
 }

@@ -16,7 +16,7 @@ struct MyAlert: Identifiable {
 
 class Alerts: ObservableObject {
     @Published var stripAlert: MyAlert = MyAlert() //TimelineView的条形通知
-    @Published var stripAlertOfDetailView: MyAlert = MyAlert() //DetailView的条形通知
+//    @Published var stripAlertOfDetailView: MyAlert = MyAlert() //DetailView的条形通知
     @Published var standAlert: MyAlert = MyAlert()
     @Published var refreshIsDone: Bool = true
 }

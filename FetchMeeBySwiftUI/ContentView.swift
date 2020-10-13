@@ -13,17 +13,14 @@ import CoreData
 struct ContentView: View {
     @EnvironmentObject var user: User
     @Environment(\.managedObjectContext) private var viewContext
-   
-    
     
     var body: some View {
         if self.user.isLoggedIn {
-//        TimelineView().accentColor(self.user.myInfo.setting.themeColor.color)
             HubView().accentColor(self.user.myInfo.setting.themeColor.color)
         } else {
             AuthView().accentColor(self.user.myInfo.setting.themeColor.color)
         }
-}
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {

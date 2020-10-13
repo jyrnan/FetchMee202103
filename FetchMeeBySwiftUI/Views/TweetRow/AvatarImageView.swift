@@ -1,0 +1,33 @@
+//
+//  AvatarImageView.swift
+//  FetchMee
+//
+//  Created by yoeking on 2020/10/13.
+//  Copyright © 2020 jyrnan. All rights reserved.
+//
+
+import SwiftUI
+
+
+
+struct AvatarImageView: View {
+    
+    var image: UIImage?
+    
+    var body: some View {
+        Image(uiImage: image ?? UIImage(systemName: "person.circle.fill")!)
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: 36, height: 36)
+            .clipShape(Circle())
+            .overlay(Circle()
+             .stroke(Color.gray.opacity(0.3), lineWidth: 1))
+            .contentShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+    }
+}
+
+struct AvataImageView_Previews: PreviewProvider {
+    static var previews: some View {
+        AvatarImageView(image: UIImage(systemName: "person.circle.fill"))
+    }
+}

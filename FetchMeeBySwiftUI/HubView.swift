@@ -30,7 +30,7 @@ struct HubView: View {
         NavigationView {
             ZStack{
                 LogoBackground()
-            ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false){
+            ScrollView(.vertical, showsIndicators: false){
                 ZStack{
                    
                     RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
@@ -89,13 +89,7 @@ struct HubView: View {
                     }
                     
                     //通知视图
-                    VStack(spacing: 0) {
-                        if self.alerts.stripAlert.isPresentedAlert {
-                            AlertView(isAlertShow: self.$alerts.stripAlert.isPresentedAlert, alertText: self.alerts.stripAlert.alertText)
-                        }
-                        Spacer()
-                    }
-                    .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
+                    AlertView()
                 }
                 .onAppear{
                     self.setBackgroundFetch()
@@ -110,10 +104,7 @@ struct HubView: View {
             }
             .navigationTitle("FetchMee")
             .navigationBarItems(trailing:NavigationLink(destination: SettingView()) {
-                Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
-                    .resizable()
-                    .frame(width: 32, height: 32, alignment: .center)
-                    .clipShape(Circle())
+                AvatarImageView(image: user.myInfo.avatar)
                 
             })
         }

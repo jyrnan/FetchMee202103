@@ -18,10 +18,8 @@ struct DetailView: View {
     var tweetIDString: String //传入DetailView的初始推文
     
     @State var firstTimeRun: Bool = true //检测用于运行一次
-    @State var keyboardHeight: CGFloat = 0
     
     var body: some View {
-//        NavigationView {
             ZStack{
                 ScrollView {
                     
@@ -41,19 +39,10 @@ struct DetailView: View {
                         self.replySession.getReplyDetail(for: self.tweetIDString)
                     } else {print(#line, "firstTimeRun is already true")}} //页面出现时执行一次刷新
                 .navigationBarTitle("Detail", displayMode: .automatic)
-                VStack(spacing: 0) {
-                    if self.alerts.stripAlertOfDetailView.isPresentedAlert {
-                        AlertView(isAlertShow: self.$alerts.stripAlertOfDetailView.isPresentedAlert, alertText: self.alerts.stripAlertOfDetailView.alertText)
-                    } //Alert视图，待定
-                    Spacer()
-                } //通知视图
-                .clipped() //通知条超出范围部分被裁减，产生形状缩减的效果
                 
-//            }
+                AlertView()
         }
-        
     }
-    
 }
 
 struct DetailView_Previews: PreviewProvider {

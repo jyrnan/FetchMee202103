@@ -251,7 +251,6 @@ final class Timeline: ObservableObject {
                                     self.tweetMedias[IDString]?.images[m] = croppedImage ?? UIImage(named: "defaultImage")!
                                     if result?.count == 1 {
                                     print(#line," Detected face!")
-//                                    self.tweetMedias[IDString]?.images[m] = result?.drawnOn(im) ?? UIImage(named: "defaultImage")!
                                     self.tweetMedias[IDString]?.isPortraitImage = true
                                 }
                                 }
@@ -496,7 +495,6 @@ extension Timeline {
                 userInfo.screenName = screenName
                 userInfo.avatarUrlString = avatarUrlString
                 userInfo.avatar = UIImage(systemName: "person.fill")
-//                self.avatarForUserDownloader(from: userInfo.avatarUrlString!, setTo: userIDString)()
                 self.imageDownloaderWithClosure(from: userInfo.avatarUrlString, sh: { im in
                     DispatchQueue.main.async {
                         self.userInfos[userIDString]?.avatar = im
