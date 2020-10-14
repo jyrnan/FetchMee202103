@@ -18,7 +18,7 @@ struct AvatarImageView: View {
         Image(uiImage: image ?? UIImage(systemName: "person.circle.fill")!)
             .resizable()
             .aspectRatio(contentMode: .fill)
-            .frame(width: 36, height: 36)
+//            .frame(width: 18, height: 18)
             .clipShape(Circle())
             .overlay(Circle()
              .stroke(Color.gray.opacity(0.3), lineWidth: 1))

@@ -53,6 +53,7 @@ struct ToolBarView: View, Identifiable {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
     
+    @State var isFaceUp: Bool = true
     
     var id = UUID()
     let type: ToolBarViewType
@@ -65,7 +66,8 @@ struct ToolBarView: View, Identifiable {
     
     
     var body: some View {
-        ZStack {
+        HStack{
+       if isFaceUp {
             ZStack{
              RoundedRectangle(cornerRadius: 16)
                 .foregroundColor(Color.init("BackGroundLight")).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
@@ -107,11 +109,26 @@ struct ToolBarView: View, Identifiable {
                 }
             }
             .frame(height: 76)
-//            .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-//                print(#line, user.myInfo.tweetsCount)
-//            })
+
+       } else {
+        ZStack{
+         RoundedRectangle(cornerRadius: 16)
+            .foregroundColor(type.uiData.themeColor).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
+            
+            HStack {
+                
+                MentionUserSortedView(mentions: user.mention).padding()
+
+            }
         }
-        
+        .frame(height: 76)
+       }
+        }
+        .onTapGesture {
+            withAnimation{
+            isFaceUp.toggle()
+            }
+        }
     }
 }
 

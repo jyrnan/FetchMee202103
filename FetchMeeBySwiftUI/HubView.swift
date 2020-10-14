@@ -78,7 +78,7 @@ struct HubView: View {
             }
             .navigationTitle("FetchMee")
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
-                AvatarImageView(image: user.myInfo.avatar)
+                AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center)
             })
         }
         .onAppear{self.setBackgroundFetch()}
@@ -179,7 +179,7 @@ extension HubView {
                 
                 //传递文字并保存到Draft的CoreData数据中
                 self.alerts.logInfo.alertText = "\(timeNow) \(deletedTweetCount) tweets deleted."
-                saveOrUpdateDraft()
+                saveOrUpdateDraft(text: self.alerts.logInfo.alertText)
                 completeHandler()
                 return
             }
@@ -192,25 +192,25 @@ extension HubView {
         let now = Date()
         let formatter = DateFormatter()
         formatter.dateStyle = .short
-        formatter.timeStyle = .short
+        formatter.timeStyle = .long
         formatter.timeZone = .current
         let timeNow = formatter.string(from: now)
         
         var tweetsTobeDel: [String] = []
         var deletedTweetCount: Int = 0
         let userIDString = self.user.myInfo.id
-        swifter.getTimeline(for: UserTag.id(userIDString ), count: 3,success: getSH, failure: fh)
+        swifter.getTimeline(for: UserTag.id(userIDString ), count: 2,success: getSH, failure: fh)
     }
 }
 
 //MARK:-CoreData操作模块
 extension HubView {
-    private func saveOrUpdateDraft(draft: TweetDraft? = nil){
+    private func saveOrUpdateDraft(text: String?){
         withAnimation {
-            let draft = draft ?? TweetDraft(context: viewContext) //如果没有当前编辑的draft则新生成一个空的draft
+            let draft = TweetDraft(context: viewContext) //如果没有当前编辑的draft则新生成一个空的draft
             draft.createdAt = Date()
-            draft.text = alerts.logInfo.alertText //先用这个代替
-            
+            draft.text = text
+            draft.id = UUID()
             
             do {
                 try viewContext.save()

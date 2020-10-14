@@ -115,25 +115,28 @@ struct ComposerOfHubView: View {
                         }
                 }
                 
-                //存储草稿
-                Button(action: {
-                    saveOrUpdateDraft(draft: currentTweetDraft)
-                }, label: {
-                    Image(systemName: "tray.and.arrow.down")
-                        .font(.body)
-                        .foregroundColor(.accentColor)
-                        .padding(8)
-//                        .padding([.leading, .trailing], 8)
-                        })
-                
+                //载入草稿
                 NavigationLink(
                     destination: DraftsViewCoreData(currentTweetDraft: self.$currentTweetDraft, tweetText: self.$tweetText, replyIDString: self.$replyIDString),label: {
                     Image(systemName: "tray.and.arrow.up")
                         .font(.body)
                         .foregroundColor(.accentColor)
                         .padding(8)
-//                        .padding([.leading, .trailing], 8)
                         })
+                
+                //存储草稿按钮
+                Button(action: {
+                    saveOrUpdateDraft(draft: currentTweetDraft)
+                    tweetText = ""
+                    currentTweetDraft = nil
+                }, label: {
+                    Image(systemName: "tray.and.arrow.down")
+                        .font(.body)
+                        .foregroundColor(.accentColor)
+                        .padding(8)
+                }).disabled(tweetText == "")
+                
+                //发送按钮
                 Button(action: {
                     self.isTweetSentDone = false
                     self.postMedia()
@@ -220,6 +223,7 @@ extension ComposerOfHubView {
                 self.isTweetSentDone = true
                 
                 deleteDraft(draft: currentTweetDraft)
+                currentTweetDraft = nil
                 
                 self.alerts.stripAlert.alertText = "Tweet sent!"
                 self.alerts.stripAlert.isPresentedAlert = true

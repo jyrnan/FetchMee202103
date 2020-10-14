@@ -18,7 +18,7 @@ struct MentionUserSortedView: View {
             HStack {
                 ///选取最多10个用户显示
                 ForEach(mentions.mentionUserIDStringsSorted[0..<min(10, self.mentions.mentionUserIDStringsSorted.count)], id: \.self) {userIDString in
-                    AvatarView(avatar: UIImage(systemName: "person.circle.fill"), userIDString: userIDString)
+                    AvatarView(avatar: mentions.userInfos[userIDString]?.avatar, userIDString: userIDString)
                         .frame(width: 24, height: 24)
                 }
             }
