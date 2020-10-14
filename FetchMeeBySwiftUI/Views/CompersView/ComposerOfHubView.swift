@@ -184,6 +184,7 @@ extension ComposerOfHubView {
                     sentCount += 1 //每上传一张图片则计数器加1
                     self.mediaIDs.append(mediaIDString)
                     
+                    //图片如果发送成功则显示成checkmark
                     self.imageDatas[i].image = UIImage(systemName: "checkmark.circle.fill")?.alpha(0.5)
                     
                     if sentCount == self.imageDatas.count {//计数器达到图片数目，则调用推文发送函数
@@ -201,13 +202,20 @@ extension ComposerOfHubView {
      */
     func multiPost(tweetTexts: [String]) {
         var count: Int = 1 //设置发送条数计数器
+        
+        
+        /// 定义successHandler，如果前一条发送成功，则在前一条基础上回复推文
         func sh(json: JSON) -> (){
-            //定义successHandler，如果前一条发送成功，则在前一条基础上回复推文
             
-            self.replyIDString = json["id_str"].string //获取前一条发送成功推文的ID作为回复的对象
+            //获取前一条发送成功推文的ID作为回复的对象
+            self.replyIDString = json["id_str"].string
+            
+            //如果推文附有媒体文件，则在推文发送成功处理闭包里检测并清空。
+            if !self.mediaIDs.isEmpty {self.mediaIDs.removeAll()}
             
             guard count < tweetTexts.count else {
                
+                //如果是最后一条推文，则执行如下操作
                 self.tweetText = "" //发送成功后把推文文字重新设置成空的
                 self.isTweetSentDone = true
                 
@@ -216,6 +224,8 @@ extension ComposerOfHubView {
                 self.alerts.stripAlert.alertText = "Tweet sent!"
                 self.alerts.stripAlert.isPresentedAlert = true
                 return}
+            
+            //如果推文分割后不是发送完最后一条，则继续发送。
             swifter.postTweet(
                 status: tweetTexts[count],
                 inReplyToStatusID: self.replyIDString,
@@ -235,11 +245,6 @@ extension ComposerOfHubView {
             attachmentURL: nil,
             success: sh,
             failure: {_ in
-                //                if let index = self.index {
-                //                    self.drafts[index] = [self.tweetText, self.replyIDString ?? "0000"]
-                //                } else {
-                //                    self.drafts.append([self.tweetText, self.replyIDString ?? "0000"])
-                //                }
                 saveOrUpdateDraft(draft: currentTweetDraft)
             })
         
