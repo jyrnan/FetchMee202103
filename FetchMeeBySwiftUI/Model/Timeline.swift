@@ -503,6 +503,17 @@ extension Timeline {
     }
 }
 
+//MARK:- 增加删推功能
+extension Timeline {
+    func deleteAllTweets(userID: String) {
+        guard self.type == .user else {return}
+        self.refreshFromTop()
+        guard self.tweetIDStrings.isEmpty else {return}
+        
+    }
+}
+
+
 extension Timeline {
     func delay(delay: Double, closure: @escaping () -> ()) {
         let when = DispatchTime.now() + delay

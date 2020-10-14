@@ -52,7 +52,8 @@ struct SettingView: View {
                     }
                 })
                 Toggle("Iron Fans Rate", isOn: self.$user.myInfo.setting.isIronFansShowed)
-                Toggle("Show picture", isOn: self.$user.myInfo.setting.isMediaShowed)
+                Toggle("Show Pictures", isOn: self.$user.myInfo.setting.isMediaShowed)
+                Toggle("Delete All Tweets", isOn: self.$user.myInfo.setting.isDeleteTweets)
             }
             
             Section(header:Text("Other")){
@@ -88,7 +89,6 @@ struct SettingView: View {
             }
         }
         .onDisappear{self.user.myInfo.setting.save()}
-//        .listStyle(GroupedListStyle())
         .navigationTitle("Setting")
     }
 }

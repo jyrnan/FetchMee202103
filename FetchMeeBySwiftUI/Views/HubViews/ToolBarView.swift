@@ -40,7 +40,7 @@ enum ToolBarViewType: String {
         case .tools:
             return UIData(label1Text: "Followered:",
                           label2Text: "Following:",
-                          label3Text: "more followers added",
+                          label3Text: "new message.",
                           iconImageName: "paperclip.circle.fill",
                           themeColor: Color("DarkGreen"))
         }
@@ -50,8 +50,9 @@ enum ToolBarViewType: String {
 
 
 struct ToolBarView: View, Identifiable {
-   
+    @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
+    
     
     var id = UUID()
     let type: ToolBarViewType
@@ -89,7 +90,8 @@ struct ToolBarView: View, Identifiable {
                         Spacer()
                         HStack {
                             Text("\(label3Value ?? 0)")
-                            Text(type.uiData.label3Text).bold()
+                            //提示信息
+                            Text(alerts.logInfo.alertText != "" ? alerts.logInfo.alertText : type.uiData.label3Text).bold()
                         }.padding(.bottom, 16).font(.caption).foregroundColor(.gray)
                     }.font(.caption2)
                    

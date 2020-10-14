@@ -89,6 +89,7 @@ struct UserSetting {
     var themeColor: ThemeColor = ThemeColor.blue //缺省值是蓝色
     var isIronFansShowed: Bool = false
     var isMediaShowed: Bool = true //控制是否显示图片、视频
+    var isDeleteTweets: Bool = false //控制是否删推
     /**
      存储用户的设置信息
      */
@@ -96,6 +97,7 @@ struct UserSetting {
         userDefault.setValue(self.themeColor.rawValue, forKey: "themeColor")
         userDefault.setValue(self.isIronFansShowed, forKey: "isIronFansShowed")
         userDefault.setValue(self.isMediaShowed, forKey: "isMediaShowed")
+        userDefault.setValue(self.isDeleteTweets, forKey: "isDeleteTweets")
         print(#line, "Settings saved!")
     }
     /**
@@ -105,6 +107,7 @@ struct UserSetting {
         self.themeColor = ThemeColor(rawValue: (userDefault.object(forKey: "themeColor") as? String) ?? "blue")!
         self.isIronFansShowed = (userDefault.object(forKey: "isIronFansShowed") as? Bool) ?? true
         self.isMediaShowed = (userDefault.object(forKey: "isMediaShowed") as? Bool) ?? true
+        self.isDeleteTweets = (userDefault.object(forKey: "isDeleteTweets") as? Bool) ?? false
     }
 }
 
@@ -118,12 +121,13 @@ class User: ObservableObject {
     @Published var home: Timeline = Timeline(type: .home)
     @Published var mention: Timeline = Timeline(type: .mention)
     @Published var message: Timeline = Timeline(type: .message)
-    @Published var lists: [String : Timeline] = [:]
+//    @Published var lists: [String : Timeline] = [:]
+    var myUserline: Timeline = Timeline(type: .user) //创建一个自己推文的timeline
     
     let session = URLSession.shared
     
     func getMyInfo() {
-        print(#line, #function)
+        
         var userTag: UserTag?
         if let screenName = self.myInfo.screenName {
             userTag = UserTag.screenName(String(screenName.dropFirst())) //去掉前面的@符号
@@ -134,6 +138,9 @@ class User: ObservableObject {
         }
             userTag = UserTag.id(self.myInfo.id)
         }
+        
+        //读取用户设置信息
+        myInfo.setting.load()
         
         guard userTag != nil else {return}
         getUserInfo(for: userTag!)

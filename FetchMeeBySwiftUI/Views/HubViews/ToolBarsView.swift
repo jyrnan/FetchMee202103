@@ -10,8 +10,13 @@ import SwiftUI
 
 struct ToolBarsView: View {
     @EnvironmentObject var user: User
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
+    
     @State var toolBars: [ToolBarView] = []
     
+        
     var body: some View {
         VStack {
             HStack {
@@ -32,7 +37,7 @@ struct ToolBarsView: View {
             ToolBarView(type: .tools,
                         label1Value: user.myInfo.tweetsCount,
                         label2Value: user.myInfo.tweetsCount,
-                        label3Value: 88)
+                        label3Value: drafts.count)
             
         }
     }

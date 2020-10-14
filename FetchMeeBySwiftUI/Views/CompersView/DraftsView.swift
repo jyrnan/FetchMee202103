@@ -15,6 +15,7 @@ struct DraftsViewCoreData: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
     
+    
     @Binding var currentTweetDraft: TweetDraft?
     @Binding var tweetText: String
     @Binding var replyIDString: String?
