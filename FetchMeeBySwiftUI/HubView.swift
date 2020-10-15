@@ -155,7 +155,7 @@ extension HubView {
             }
             //如果要删除的推文数量为零，则直接退出并输出信息
             guard !tweetsForDeletion.isEmpty else {
-                self.alerts.logInfo.alertText = "\(timeNow) No tweets deleted."
+                self.alerts.logInfo.alertText = "<\(timeNow)> No tweets deleted."
                 saveOrUpdateDraft(text: self.alerts.logInfo.alertText)
                 return
             }
@@ -172,7 +172,7 @@ extension HubView {
         }
         
         func fh(error: Error) -> Void {
-            self.alerts.logInfo.alertText = "\(timeNow) Deleting tweets failed."
+            self.alerts.logInfo.alertText = "<\(timeNow)> Deleting task failed."
             saveOrUpdateDraft(text: self.alerts.logInfo.alertText)
         }
         
@@ -196,7 +196,7 @@ extension HubView {
             guard !tweetsTobeDel.isEmpty else {
                 
                 //传递文字并保存到Draft的CoreData数据中
-                self.alerts.logInfo.alertText = "\(timeNow): About \(deletedTweetCount) tweets deleted."
+                self.alerts.logInfo.alertText = "<\(timeNow)> About \(deletedTweetCount) tweets deleted."
                 saveOrUpdateDraft(text: self.alerts.logInfo.alertText)
                 completeHandler()
                 return

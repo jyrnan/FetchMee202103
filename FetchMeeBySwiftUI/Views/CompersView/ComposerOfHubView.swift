@@ -51,9 +51,8 @@ struct ComposerOfHubView: View {
                     Spacer()
                     if self.isTweetSentDone {
                         Text("\(tweetText.count)/140").font(.caption).foregroundColor(.gray).padding(.trailing, 16)
-                            
                     } else {
-                        ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium).padding(.trailing)
+                        ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium).padding(.trailing).frame(width: 12, height: 12, alignment: .center)
                     }
                 }.padding(.top, 8)
                 

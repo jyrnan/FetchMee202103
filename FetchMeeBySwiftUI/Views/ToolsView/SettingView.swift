@@ -53,15 +53,15 @@ struct SettingView: View {
                 })
                 Toggle("Iron Fans Rate", isOn: self.$user.myInfo.setting.isIronFansShowed)
                 Toggle("Show Pictures", isOn: self.$user.myInfo.setting.isMediaShowed)
-                Toggle("Delete All Tweets", isOn: self.$user.myInfo.setting.isDeleteTweets)
+//                Toggle("Delete All Tweets", isOn: self.$user.myInfo.setting.isDeleteTweets)
             }
             
-            Section(header:Text("Other")){
-                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Bunk Delete Tweets")})
-                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
-                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
-                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
-            }
+//            Section(header:Text("Other")){
+//                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Bunk Delete Tweets")})
+//                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
+//                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
+//                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
+//            }
             
             Section(header:Text("")){
                 HStack {

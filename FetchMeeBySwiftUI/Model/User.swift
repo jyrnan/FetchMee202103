@@ -90,7 +90,7 @@ struct UserSetting {
     var isIronFansShowed: Bool = false
     var isMediaShowed: Bool = true //控制是否显示图片、视频
     var isDeleteTweets: Bool = false //控制是否删推
-    var isKeepRecentTweets: Bool = false //控制是否保留最近推文
+    var isKeepRecentTweets: Bool = true //控制是否保留最近推文
     /**
      存储用户的设置信息
      */

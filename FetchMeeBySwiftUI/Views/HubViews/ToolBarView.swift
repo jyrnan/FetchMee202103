@@ -101,7 +101,7 @@ struct ToolBarView: View, Identifiable {
                         }.font(.caption2)
                         
                         Spacer()
-                        VStack {
+                        VStack(alignment: .trailing) {
                             Text("\(label3Value ?? 0)").font(.title2).foregroundColor(type.uiData.themeColor)
                             Text(type.rawValue).font(.body).bold()
                                 .foregroundColor(Color.init(UIColor.darkGray))
@@ -148,6 +148,7 @@ struct ToolBarView: View, Identifiable {
         }
         .rotation3DEffect(!self.isFaceUp ? Angle(degrees: 180): Angle(degrees: 0), axis: (x: CGFloat(10), y: CGFloat(0), z: CGFloat(0)))
         .animation(.default) // implicitly applying animation
+        
     }
 }
 
@@ -170,6 +171,7 @@ struct ToolBarView_Previews: PreviewProvider {
 
 struct BackOfTweetsToolBar: View {
     @EnvironmentObject var user: User
+    
     var body: some View {
         VStack {
             HStack{
@@ -178,6 +180,9 @@ struct BackOfTweetsToolBar: View {
                         .font(.caption).bold()
                         .foregroundColor(.white)
                 }
+                .alert(isPresented: $user.myInfo.setting.isDeleteTweets, content: {
+                                            Alert(title: Text("Delete Tweets?"), message: Text("Delete ALL choosed, it will delete your tweets in background, are you sure?"), primaryButton: .destructive(Text("Sure"), action: {user.myInfo.setting.isDeleteTweets = true}), secondaryButton: .cancel())})
+                
                 Divider()
                 Toggle(isOn: $user.myInfo.setting.isKeepRecentTweets) {
                     Text("Keep\nRecent").font(.caption).bold()
@@ -187,7 +192,7 @@ struct BackOfTweetsToolBar: View {
             }
             HStack {
                 Spacer()
-                Text("switch on \"Keep Recent\" to keep recent tweets ")
+                Text("switch on \"Keep Recent\" to keep recent 80 tweets ")
                     .foregroundColor(.white).font(.caption2)
             }
         }.padding([.leading, .trailing]).fixedSize()

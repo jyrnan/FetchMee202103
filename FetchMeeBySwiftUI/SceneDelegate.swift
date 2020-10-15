@@ -179,7 +179,6 @@ extension SceneDelegate {
         task.expirationHandler = {
             let text = "异常退出：@FetchMee \n \(timeNow)"
             swifter.postTweet(status: text)
-            print(#line, "异常退出")
         }
         
         //成功处理回调通知
@@ -197,7 +196,6 @@ extension SceneDelegate {
             return
         }
         backgroudnFetch!(task)
-//        successHandler(JSON.init(""))
         print(#line, text)
     }
     
