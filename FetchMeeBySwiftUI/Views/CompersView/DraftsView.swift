@@ -22,8 +22,7 @@ struct DraftsViewCoreData: View {
     
     var body: some View {
         List {
-            
-                    ForEach(drafts) { draft in
+            ForEach(drafts) { draft in
                         Text(draft.text ?? "pay")
                             .onTapGesture(count: 1, perform: {
                                 currentTweetDraft = draft as TweetDraft

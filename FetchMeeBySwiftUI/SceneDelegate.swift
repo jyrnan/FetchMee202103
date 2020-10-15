@@ -106,9 +106,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+        
+        //保存用户设置
+        loginUser.myInfo.setting.save()
+        
         //加入定时程序
         scheduledPost()
 //        scheduledProcess()
+        
+        
     }
 
 
@@ -135,7 +141,7 @@ extension SceneDelegate {
    
     func scheduledPost() {
         let request = BGAppRefreshTaskRequest(identifier: "com.jyrnan.FetchMee.post")
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 5)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 15)
         
         do {
             try BGTaskScheduler.shared.submit(request)

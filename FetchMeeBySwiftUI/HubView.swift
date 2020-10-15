@@ -136,23 +136,36 @@ extension HubView {
 //MARK:-扩充后台删除推文方法
 extension HubView {
     
-    
-    /// 用于后台删除推文的方法
+    /// 用于后台删除推文的方法。结合每次执行时间是15分钟，所以每次删除20条推文比较合适
     /// - Parameter completeHandler: 传入作为所有任务全部完成后的成功回调，主动通知系统后台任务可以结束
     func deleteTweets(completeHandler: @escaping ()->()) {
         
-        ///获取待删除的推文的方法
-        func getTweets(json: JSON) {
-            let newTweets = json.array ?? []
-            guard !newTweets.isEmpty else {
+        //3 准备好待删除的推文的方法
+        func prepareTweetsForDeletion(json: JSON) {
+            var tweetsForDeletion = json.array ?? []
+            
+            if user.myInfo.setting.isKeepRecentTweets {
+            //如果超过80个，则去除前80个以不被删除
+            if tweetsForDeletion.count >= 80 {
+                tweetsForDeletion.removeFirst(80)}
+            else {
+                tweetsForDeletion.removeAll()
+            }
+            
+            }
+            //如果要删除的推文数量为零，则直接退出并输出信息
+            guard !tweetsForDeletion.isEmpty else {
                 self.alerts.logInfo.alertText = "\(timeNow) No tweets deleted."
+                saveOrUpdateDraft(text: self.alerts.logInfo.alertText)
                 return
             }
             
-            deletedTweetCount = newTweets.count
+            //记录将要删除的推文数量
+            deletedTweetCount = tweetsForDeletion.count
             
-            for newTweet in newTweets {
-                if let idString = newTweet["id_str"].string {
+            //把需要删除的推文id提取出来添加到删除队列tweetsTobeDel
+            for tweet in tweetsForDeletion {
+                if let idString = tweet["id_str"].string {
                     tweetsTobeDel.append(idString)
                 }
             }
@@ -160,15 +173,20 @@ extension HubView {
         
         func fh(error: Error) -> Void {
             self.alerts.logInfo.alertText = "\(timeNow) Deleting tweets failed."
+            saveOrUpdateDraft(text: self.alerts.logInfo.alertText)
         }
         
-        //获取推文成功处理闭包，成功后会调用删除推文方法
+        //2 获取推文成功处理闭包，成功后会调用删除推文方法
         func getSH(json: JSON) -> Void {
-           getTweets(json: json)
+           prepareTweetsForDeletion(json: json)
             
-            //开始删除推文
-            guard !tweetsTobeDel.isEmpty else {return}
-            //
+            //4开始删除推文。
+            //下面的判断必须要。因为tweetsTobeDel有可能为空，不会执行删推方法，
+            //所以需要调用completeHandler，并返回结束
+            guard !tweetsTobeDel.isEmpty else {
+                completeHandler()
+                return}
+            
             let tweetWillDel = tweetsTobeDel.removeLast()
             swifter.destroyTweet(forID: tweetWillDel, success: delSH(json:), failure: fh)
         }
@@ -178,7 +196,7 @@ extension HubView {
             guard !tweetsTobeDel.isEmpty else {
                 
                 //传递文字并保存到Draft的CoreData数据中
-                self.alerts.logInfo.alertText = "\(timeNow) \(deletedTweetCount) tweets deleted."
+                self.alerts.logInfo.alertText = "\(timeNow): About \(deletedTweetCount) tweets deleted."
                 saveOrUpdateDraft(text: self.alerts.logInfo.alertText)
                 completeHandler()
                 return
@@ -188,18 +206,40 @@ extension HubView {
             swifter.destroyTweet(forID: tweetWillDel, success: delSH(json:))
         }
         
-        //这里是方法的真正入口
-        let now = Date()
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .long
-        formatter.timeZone = .current
-        let timeNow = formatter.string(from: now)
         
-        var tweetsTobeDel: [String] = []
-        var deletedTweetCount: Int = 0
+        /// 获取当前的时间
+        /// - Returns: 当前时间的字串
+        func getTimeNow() -> String {
+            let now = Date()
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            formatter.timeStyle = .long
+            formatter.timeZone = .current
+            let timeNow = formatter.string(from: now)
+            return timeNow
+        }
+        
+        //1 这里是方法的真正入口
+        let timeNow = getTimeNow()
+        
+        var tweetsTobeDel: [String] = [] //将要删除的推文的id序列
+        var deletedTweetCount: Int = 0 //将要删除的推文数量
         let userIDString = self.user.myInfo.id
-        swifter.getTimeline(for: UserTag.id(userIDString ), count: 2,success: getSH, failure: fh)
+        
+        //一次读取推文数量，该值决定了保留最新推文的数量，保留推文数量设置默认为80条，所以最多读取100条
+        let maxCount: Int = {
+            switch user.myInfo.setting.isKeepRecentTweets {
+            case true:
+                return 100
+            case false:
+                return 20
+            }
+        }()
+        
+        swifter.getTimeline(for: UserTag.id(userIDString ),
+                            count: maxCount,
+                            success: getSH,
+                            failure: fh)
     }
 }
 

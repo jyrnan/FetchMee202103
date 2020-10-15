@@ -16,6 +16,7 @@ struct ToolBarsView: View {
     
     @State var toolBars: [ToolBarView] = []
     
+    //控制三个toolBar正面朝向
     @State var toolBarIsFaceUp1: Bool = true
     @State var toolBarIsFaceUp2: Bool = true
     @State var toolBarIsFaceUp3: Bool = true
@@ -24,16 +25,16 @@ struct ToolBarsView: View {
         VStack {
             HStack {
                 Text("Tools").font(.caption).bold().foregroundColor(Color.gray)
-                    .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                        addToolBarView(type: .tweets)
-                    })
+//                    .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+//                        addToolBarView(type: .tweets)
+//                    })
                 Spacer()
             }
             ToolBarView(isFaceUp: toolBarIsFaceUp1,
                 type: .friends,
                         label1Value: user.myInfo.followed,
                         label2Value: user.myInfo.following,
-                        label3Value: 88)
+                        label3Value: Int(arc4random_uniform(100)))
                 .onTapGesture {
                     if !toolBarIsFaceUp1 {
                         toolBarIsFaceUp1.toggle()
@@ -47,7 +48,7 @@ struct ToolBarsView: View {
             ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
                         label1Value: user.myInfo.tweetsCount,
                         label2Value: user.myInfo.tweetsCount,
-                        label3Value: 88)
+                        label3Value: Int(arc4random_uniform(100)))
                 .onTapGesture {
                     if !toolBarIsFaceUp2 {
                         toolBarIsFaceUp2.toggle()
@@ -82,31 +83,31 @@ struct ToolBarsView_Previews: PreviewProvider {
     }
 }
 
-extension ToolBarsView {
-    func addToolBarView(type: ToolBarViewType) {
-        switch type {
-        case .friends:
-            let toolBarView = ToolBarView(type: type,
-                                          label1Value: user.myInfo.followed,
-                                          label2Value: user.myInfo.following,
-                                          label3Value: 88)
-            self.toolBars.append(toolBarView)
-            
-        case .tweets:
-            let toolBarView = ToolBarView(type: type,
-                                          label1Value: user.myInfo.tweetsCount,
-                                          label2Value: user.myInfo.tweetsCount,
-                                          label3Value: 88)
-            self.toolBars.append(toolBarView)
-            
-        case .tools:
-            let toolBarView = ToolBarView(type: type,
-                                          label1Value: user.myInfo.tweetsCount,
-                                          label2Value: user.myInfo.tweetsCount,
-                                          label3Value: 88)
-            
-            self.toolBars.append(toolBarView)
-            
-        }
-    }
-}
+//extension ToolBarsView {
+//    func addToolBarView(type: ToolBarViewType) {
+//        switch type {
+//        case .friends:
+//            let toolBarView = ToolBarView(type: type,
+//                                          label1Value: user.myInfo.followed,
+//                                          label2Value: user.myInfo.following,
+//                                          label3Value: 88)
+//            self.toolBars.append(toolBarView)
+//            
+//        case .tweets:
+//            let toolBarView = ToolBarView(type: type,
+//                                          label1Value: user.myInfo.tweetsCount,
+//                                          label2Value: user.myInfo.tweetsCount,
+//                                          label3Value: 88)
+//            self.toolBars.append(toolBarView)
+//            
+//        case .tools:
+//            let toolBarView = ToolBarView(type: type,
+//                                          label1Value: user.myInfo.tweetsCount,
+//                                          label2Value: user.myInfo.tweetsCount,
+//                                          label3Value: 88)
+//            
+//            self.toolBars.append(toolBarView)
+//            
+//        }
+//    }
+//}

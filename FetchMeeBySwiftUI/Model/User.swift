@@ -90,6 +90,7 @@ struct UserSetting {
     var isIronFansShowed: Bool = false
     var isMediaShowed: Bool = true //控制是否显示图片、视频
     var isDeleteTweets: Bool = false //控制是否删推
+    var isKeepRecentTweets: Bool = false //控制是否保留最近推文
     /**
      存储用户的设置信息
      */
@@ -98,6 +99,7 @@ struct UserSetting {
         userDefault.setValue(self.isIronFansShowed, forKey: "isIronFansShowed")
         userDefault.setValue(self.isMediaShowed, forKey: "isMediaShowed")
         userDefault.setValue(self.isDeleteTweets, forKey: "isDeleteTweets")
+        userDefault.setValue(self.isKeepRecentTweets, forKey: "isKeepRecentTweets")
         print(#line, "Settings saved!")
     }
     /**
@@ -108,6 +110,7 @@ struct UserSetting {
         self.isIronFansShowed = (userDefault.object(forKey: "isIronFansShowed") as? Bool) ?? true
         self.isMediaShowed = (userDefault.object(forKey: "isMediaShowed") as? Bool) ?? true
         self.isDeleteTweets = (userDefault.object(forKey: "isDeleteTweets") as? Bool) ?? false
+        self.isKeepRecentTweets = (userDefault.object(forKey: "isKeepRecentTweets") as? Bool) ?? false
     }
 }
 
@@ -164,6 +167,13 @@ class User: ObservableObject {
         for list in lists {
             let name: String = list["name"].string!
             let idString: String = list["id_str"].string!
+            let listTag = ListTag.id(idString)
+            newLists[name] = listTag
+        }
+        
+        if newLists.isEmpty {
+            let name: String = "No List"
+            let idString: String = "0000"
             let listTag = ListTag.id(idString)
             newLists[name] = listTag
         }

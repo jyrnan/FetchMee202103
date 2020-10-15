@@ -19,6 +19,6 @@ class Alerts: ObservableObject {
     @Published var standAlert: MyAlert = MyAlert()
     @Published var refreshIsDone: Bool = true
     
-    //可以在hubView的toolbar里面显示一行信息
+    //可以在hubView的toolbar里面显示一行信息，并作为log输出信息
     @Published var logInfo: MyAlert = MyAlert()
 }

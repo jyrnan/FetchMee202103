@@ -53,6 +53,9 @@ struct ToolBarView: View, Identifiable {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
     
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
+    
     var isFaceUp: Bool = true //是否正面朝上
     
     var id = UUID()
@@ -67,73 +70,140 @@ struct ToolBarView: View, Identifiable {
     
     var body: some View {
         HStack{
-       if isFaceUp {
-            ZStack{
-             RoundedRectangle(cornerRadius: 16)
-                .foregroundColor(Color.init("BackGroundLight")).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
-                
-                HStack {
-                    Image(systemName: type.uiData.iconImageName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .foregroundColor(type.uiData.themeColor)
-                        .frame(width: 40, height: 40, alignment: .center)
-                        .padding(16)
+            if isFaceUp {
+                ZStack{
+                    RoundedRectangle(cornerRadius: 16)
+                        .foregroundColor(Color.init("BackGroundLight")).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
                     
-                    VStack(alignment: .leading, spacing: 0) {
-                        HStack{
-                            Text(type.uiData.label1Text)
-                            Text("\(label1Value ?? 0)")
-                        }.padding(.top, 8).foregroundColor(type.uiData.themeColor)
-                        HStack {
-                            Text(type.uiData.label2Text)
-                            Text("\(label2Value ?? 0)")
-                        }.foregroundColor(.gray)
+                    HStack {
+                        Image(systemName: type.uiData.iconImageName)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .foregroundColor(type.uiData.themeColor)
+                            .frame(width: 40, height: 40, alignment: .center)
+                            .padding(16)
+                        
+                        VStack(alignment: .leading, spacing: 0) {
+                            HStack{
+                                Text(type.uiData.label1Text)
+                                Text("\(label1Value ?? 0)")
+                            }.padding(.top, 8).foregroundColor(type.uiData.themeColor)
+                            HStack {
+                                Text(type.uiData.label2Text)
+                                Text("\(label2Value ?? 0)")
+                            }.foregroundColor(.gray)
+                            Spacer()
+                            HStack {
+                                Text("\(label3Value ?? 0)")
+                                //提示信息
+                                Text(type.uiData.label3Text).bold()
+                            }.padding(.bottom, 16).font(.caption).foregroundColor(.gray)
+                        }.font(.caption2)
+                        
                         Spacer()
-                        HStack {
-                            Text("\(label3Value ?? 0)")
-                            //提示信息
-                            Text(alerts.logInfo.alertText != "" ? alerts.logInfo.alertText : type.uiData.label3Text).bold()
-                        }.padding(.bottom, 16).font(.caption).foregroundColor(.gray)
-                    }.font(.caption2)
-                   
-                    Spacer()
-                    VStack {
-                        Text("\(label3Value ?? 0)").font(.title2).foregroundColor(type.uiData.themeColor)
-                        Text(type.rawValue).font(.body).bold()
-                            .foregroundColor(Color.init(UIColor.darkGray))
-                    }.padding()
-                    .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                        print(#line)
-                    })
+                        VStack {
+                            Text("\(label3Value ?? 0)").font(.title2).foregroundColor(type.uiData.themeColor)
+                            Text(type.rawValue).font(.body).bold()
+                                .foregroundColor(Color.init(UIColor.darkGray))
+                        }.padding()
+                        .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                            print(#line)
+                        })
+                    }
                 }
-            }
-            .frame(height: 76)
-
-       } else {
-        ZStack{
-         RoundedRectangle(cornerRadius: 16)
-            .foregroundColor(type.uiData.themeColor).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
-            
-            HStack {
+                .frame(height: 76)
                 
-                MentionUserSortedView(mentions: user.mention).padding()
-
+            } else {
+                ZStack{
+                    RoundedRectangle(cornerRadius: 16)
+                        .foregroundColor(type.uiData.themeColor).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
+                    
+                    HStack { () -> AnyView in
+                        
+                        switch type {
+                        case .friends:
+                            return AnyView(BackOfFriendToolBar())
+                                
+                        case .tweets:
+                            return AnyView( BackOfTweetsToolBar())
+                        
+                        case .tools:
+                            return AnyView(
+                                ScrollView {
+                                    ForEach(drafts) { draft in
+                                        HStack{
+                                            Text(draft.text ?? "pay")
+                                                .foregroundColor(.white).font(.caption2).multilineTextAlignment(.leading)
+                                            Spacer()
+                                            }
+                                    }
+                                }.padding([.leading, .trailing])
+                            )
+                        }
+                    }
+                }
+                .frame(height: 76)
+                .scaleEffect(x: 1, y: -1, anchor: UnitPoint(x: 0.5, y: 0.5))
             }
-        }
-        .frame(height: 76)
-        .scaleEffect(x: 1, y: -1, anchor: UnitPoint(x: 0.5, y: 0.5))
-       }
         }
         .rotation3DEffect(!self.isFaceUp ? Angle(degrees: 180): Angle(degrees: 0), axis: (x: CGFloat(10), y: CGFloat(0), z: CGFloat(0)))
         .animation(.default) // implicitly applying animation
-//        .onTapGesture {
-//            // explicitly apply animation on toggle (choose either or)
-//            //withAnimation {
-//                self.isFaceUp.toggle()
-//            //}
-//    
-//        }
     }
 }
 
+
+struct ToolBarView_Previews: PreviewProvider {
+    static var previews: some View {
+        ZStack{
+        RoundedRectangle(cornerRadius: 16)
+            .foregroundColor(Color.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
+        BackOfFriendToolBar().environmentObject(User())
+        }.frame(height: 76).padding([.leading, .trailing], 16)
+        
+        ZStack{
+        RoundedRectangle(cornerRadius: 16)
+            .foregroundColor(Color.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
+        BackOfTweetsToolBar().environmentObject(User())
+        }.frame(height: 76).padding([.leading, .trailing], 16)
+    }
+}
+
+struct BackOfTweetsToolBar: View {
+    @EnvironmentObject var user: User
+    var body: some View {
+        VStack {
+            HStack{
+                Toggle(isOn: $user.myInfo.setting.isDeleteTweets) {
+                    Text("Delete\nAll")
+                        .font(.caption).bold()
+                        .foregroundColor(.white)
+                }
+                Divider()
+                Toggle(isOn: $user.myInfo.setting.isKeepRecentTweets) {
+                    Text("Keep\nRecent").font(.caption).bold()
+                        .foregroundColor(.white)
+                        
+                }
+            }
+            HStack {
+                Spacer()
+                Text("switch on \"Keep Recent\" to keep recent tweets ")
+                    .foregroundColor(.white).font(.caption2)
+            }
+        }.padding([.leading, .trailing]).fixedSize()
+    }
+}
+
+struct BackOfFriendToolBar: View {
+@EnvironmentObject var user: User
+    var body: some View {
+        VStack{
+            HStack {MentionUserSortedView(mentions: user.mention)}
+            HStack {
+                Spacer()
+                Text("Those who mentioned you mostly")
+                    .foregroundColor(.white).font(.caption2)
+            }
+        }.padding([.leading, .trailing])
+    }
+}
