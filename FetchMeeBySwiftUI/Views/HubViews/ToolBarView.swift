@@ -53,7 +53,7 @@ struct ToolBarView: View, Identifiable {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
     
-    @State var isFaceUp: Bool = true
+    var isFaceUp: Bool = true //是否正面朝上
     
     var id = UUID()
     let type: ToolBarViewType
@@ -122,13 +122,18 @@ struct ToolBarView: View, Identifiable {
             }
         }
         .frame(height: 76)
+        .scaleEffect(x: 1, y: -1, anchor: UnitPoint(x: 0.5, y: 0.5))
        }
         }
-        .onTapGesture {
-            withAnimation{
-            isFaceUp.toggle()
-            }
-        }
+        .rotation3DEffect(!self.isFaceUp ? Angle(degrees: 180): Angle(degrees: 0), axis: (x: CGFloat(10), y: CGFloat(0), z: CGFloat(0)))
+        .animation(.default) // implicitly applying animation
+//        .onTapGesture {
+//            // explicitly apply animation on toggle (choose either or)
+//            //withAnimation {
+//                self.isFaceUp.toggle()
+//            //}
+//    
+//        }
     }
 }
 
