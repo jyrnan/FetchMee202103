@@ -124,7 +124,8 @@ class User: ObservableObject {
     @Published var home: Timeline = Timeline(type: .home)
     @Published var mention: Timeline = Timeline(type: .mention)
     @Published var message: Timeline = Timeline(type: .message)
-//    @Published var lists: [String : Timeline] = [:]
+
+    @Published var nickName: [String: String] = [:]
     var myUserline: Timeline = Timeline(type: .user) //创建一个自己推文的timeline
     
     let session = URLSession.shared

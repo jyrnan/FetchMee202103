@@ -20,14 +20,8 @@ struct UserInfo: View {
     @State var firstTimeRun: Bool = true //检测用于运行一次
     @State var isShowAvatarDetail :Bool = false //显示头像大图
     
-//    init(userIDString: String?) {
-//        self.userIDString = userIDString
-//        self.checkingUser.myInfo.id = self.userIDString ?? "0000"
-//        self.checkingUser.myInfo.screenName = self.userScreenName
-//
-//        self.checkingUser.getMyInfo()
-//        self.userTimeline.refreshFromTop(for: userIDString)
-//    }
+    @State var nickName: String = ""
+    @State var isNickNameInputShow: Bool = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -112,8 +106,30 @@ struct UserInfo: View {
                     VStack(alignment: .leading){
                         HStack{
                             VStack(alignment: .leading) {
-                                Text(self.checkingUser.myInfo.name ?? "Name")
-                                    .font(.title2).bold()
+                                HStack {
+                                Text(self.checkingUser.myInfo.name ?? "Name").font(.title2).bold()
+                                    + Text(user.nickName[checkingUser.myInfo.id] ?? " ")
+                                    if isNickNameInputShow {
+                                        HStack{
+                                            TextField("nick name", text: $nickName).frame(width: 100)
+                                            Button(action: {
+                                                
+                                                addNickName()
+                                                withAnimation{isNickNameInputShow = false}
+                                                nickName = ""
+                                            }){
+                                                Text("Save").foregroundColor(.accentColor).font(.body)
+                                            }.disabled(nickName == "")
+                                            Spacer()
+                                        }
+                                    } else {
+                                    Button(action: {
+                                        withAnimation{isNickNameInputShow = true}
+                                    }){
+                                        Image(systemName: "highlighter").foregroundColor(.gray).font(.title2)
+                                    }
+                                    }
+                                }
                                 Text(self.checkingUser.myInfo.screenName ?? "ScreenName")
                                     .font(.body).foregroundColor(.gray)
                             }
@@ -180,3 +196,9 @@ struct UserInfo_Previews: PreviewProvider {
     }
 }
 
+extension UserInfo {
+    func addNickName() {
+        //添加Nickname
+        user.nickName[checkingUser.myInfo.id] = nickName
+    }
+}

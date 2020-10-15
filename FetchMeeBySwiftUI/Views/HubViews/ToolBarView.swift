@@ -186,13 +186,12 @@ struct BackOfTweetsToolBar: View {
                 Divider()
                 Toggle(isOn: $user.myInfo.setting.isKeepRecentTweets) {
                     Text("Keep\nRecent").font(.caption).bold()
-                        .foregroundColor(.white)
-                        
+                        .foregroundColor(.white)      
                 }
             }
             HStack {
                 Spacer()
-                Text("switch on \"Keep Recent\" to keep recent 80 tweets ")
+                Text("\"Keep Recent\" on to reserve last 80 tweets ")
                     .foregroundColor(.white).font(.caption2)
             }
         }.padding([.leading, .trailing]).fixedSize()
