@@ -34,6 +34,7 @@
 		D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2632D64251EEFF50023C417 /* FaceDetect.swift */; };
 		D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */; };
 		D270E87D24C01C9100BBD3FE /* ToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87C24C01C9100BBD3FE /* ToolsView.swift */; };
+		D27744DD253A55470062B25C /* TestNavi.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27744DC253A55470062B25C /* TestNavi.swift */; };
 		D2794F33251F1DE200824E6D /* SaliencyDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2794F32251F1DE200824E6D /* SaliencyDetection.swift */; };
 		D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */; };
 		D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */; };
@@ -113,6 +114,7 @@
 		D2632D64251EEFF50023C417 /* FaceDetect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetect.swift; sourceTree = "<group>"; };
 		D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedTimeView.swift; sourceTree = "<group>"; };
 		D270E87C24C01C9100BBD3FE /* ToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsView.swift; sourceTree = "<group>"; };
+		D27744DC253A55470062B25C /* TestNavi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNavi.swift; sourceTree = "<group>"; };
 		D2794F32251F1DE200824E6D /* SaliencyDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaliencyDetection.swift; sourceTree = "<group>"; };
 		D27DCEB624B96D5F00520BE3 /* FetchMee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FetchMee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */,
 				4BDB05D62531613B00CF71A1 /* HubView.swift */,
 				D2C45BAB24C6D31B007D67B6 /* ContentView.swift */,
+				D27744DC253A55470062B25C /* TestNavi.swift */,
 				D2224FD224BE901E00AE2110 /* AuthView.swift */,
 				D27DCF8A24B9A54500520BE3 /* Views */,
 				D27DCF3C24B98FA600520BE3 /* Model */,
@@ -458,6 +461,7 @@
 				D2E4D75324D851EA00D68A09 /* QuotedTweetRow.swift in Sources */,
 				D2794F33251F1DE200824E6D /* SaliencyDetection.swift in Sources */,
 				4BDB05D925316D5C00CF71A1 /* ComposerOfHubView.swift in Sources */,
+				D27744DD253A55470062B25C /* TestNavi.swift in Sources */,
 				D2946F2724CD6C8100F8A7C6 /* TweetTextView.swift in Sources */,
 				D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */,
 				D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */,
@@ -609,7 +613,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -634,7 +638,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;

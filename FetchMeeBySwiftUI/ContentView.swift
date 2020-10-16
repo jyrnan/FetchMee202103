@@ -17,6 +17,7 @@ struct ContentView: View {
     var body: some View {
         if self.user.isLoggedIn {
             HubView().accentColor(self.user.myInfo.setting.themeColor.color)
+//            TestNavi()
         } else {
             AuthView().accentColor(self.user.myInfo.setting.themeColor.color)
         }

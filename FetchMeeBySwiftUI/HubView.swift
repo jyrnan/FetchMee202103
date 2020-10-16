@@ -52,7 +52,6 @@ struct HubView: View {
                             
                             HStack {
                                 NavigationLink(destination: LogMessageView()){
-//                                    NavigationLink(destination: UserMarkManageView()){
                                     Text(alerts.logInfo.alertText == "" ? "No new log message" : alerts.logInfo.alertText)
                                     .font(.caption2).foregroundColor(.gray).opacity(0.5)
                             }
@@ -84,14 +83,14 @@ struct HubView: View {
                         AlertView()
                     }
                 }
-            }
+            }.onTapGesture(count: 1, perform: {self.hideKeyboard()})
             .navigationTitle("FetchMee")
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
                 AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center)
             })
         }
         .onAppear{self.setBackgroundFetch()}
-        .onTapGesture(count: 1, perform: {self.hideKeyboard()})
+//        .onTapGesture(count: 1, perform: {self.hideKeyboard()})
     }
 }
 

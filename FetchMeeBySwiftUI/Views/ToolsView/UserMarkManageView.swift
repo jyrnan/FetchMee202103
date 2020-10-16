@@ -27,7 +27,7 @@ struct UserMarkManageView: View {
                 HStack {
                     Text(nickName.nickName ?? "NickName").frame(width: 100, alignment: .leading)
                     Text(nickName.name ?? "Name").bold().frame(width: 120, alignment: .leading)
-                    Text(nickName.id ?? "0123456789").lineLimit(1).frame(alignment: .leading)
+                    Text(nickName.id ?? "0123456789").lineLimit(1).frame(alignment: .leading).foregroundColor(.gray)
                 }
                 }
             }
