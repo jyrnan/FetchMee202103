@@ -13,8 +13,9 @@ struct ToolBarsView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var logs: FetchedResults<Log>
     
-    @State var toolBars: [ToolBarView] = []
+//    @State var toolBars: [ToolBarView] = []
     
     //控制三个toolBar正面朝向
     @State var toolBarIsFaceUp1: Bool = true
@@ -25,13 +26,10 @@ struct ToolBarsView: View {
         VStack {
             HStack {
                 Text("Tools").font(.caption).bold().foregroundColor(Color.gray)
-//                    .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-//                        addToolBarView(type: .tweets)
-//                    })
                 Spacer()
             }
             ToolBarView(isFaceUp: toolBarIsFaceUp1,
-                type: .friends,
+                        type: .friends,
                         label1Value: user.myInfo.followed,
                         label2Value: user.myInfo.following,
                         label3Value: Int(arc4random_uniform(100)))
@@ -60,9 +58,9 @@ struct ToolBarsView: View {
                 }
             
             ToolBarView(isFaceUp: toolBarIsFaceUp3, type: .tools,
-                        label1Value: user.myInfo.tweetsCount,
-                        label2Value: user.myInfo.tweetsCount,
-                        label3Value: drafts.count)
+                        label1Value: drafts.count,
+                        label2Value: logs.count,
+                        label3Value: logs.count)
                 .onTapGesture {
                     if !toolBarIsFaceUp3 {
                         toolBarIsFaceUp3.toggle()
@@ -72,7 +70,6 @@ struct ToolBarsView: View {
                         toolBarIsFaceUp2 = true
                     }
                 }
-            
         }
     }
 }
@@ -82,32 +79,3 @@ struct ToolBarsView_Previews: PreviewProvider {
         ToolBarsView().environmentObject(User())
     }
 }
-
-//extension ToolBarsView {
-//    func addToolBarView(type: ToolBarViewType) {
-//        switch type {
-//        case .friends:
-//            let toolBarView = ToolBarView(type: type,
-//                                          label1Value: user.myInfo.followed,
-//                                          label2Value: user.myInfo.following,
-//                                          label3Value: 88)
-//            self.toolBars.append(toolBarView)
-//            
-//        case .tweets:
-//            let toolBarView = ToolBarView(type: type,
-//                                          label1Value: user.myInfo.tweetsCount,
-//                                          label2Value: user.myInfo.tweetsCount,
-//                                          label3Value: 88)
-//            self.toolBars.append(toolBarView)
-//            
-//        case .tools:
-//            let toolBarView = ToolBarView(type: type,
-//                                          label1Value: user.myInfo.tweetsCount,
-//                                          label2Value: user.myInfo.tweetsCount,
-//                                          label3Value: 88)
-//            
-//            self.toolBars.append(toolBarView)
-//            
-//        }
-//    }
-//}

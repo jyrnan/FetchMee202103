@@ -9,8 +9,11 @@
 /* Begin PBXBuildFile section */
 		4B2C746524FA05310052F356 /* DownLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2C746424FA05310052F356 /* DownLoader.swift */; };
 		4B2C746D24FA2B410052F356 /* ImageGrabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2C746C24FA2B410052F356 /* ImageGrabView.swift */; };
+		4B3AD79F253965DB00194B2C /* UserMarkManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3AD79E253965DB00194B2C /* UserMarkManageView.swift */; };
 		4B5E607025340F1700E7A5F1 /* LogoBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5E606F25340F1700E7A5F1 /* LogoBackground.swift */; };
 		4B5E607625353A7200E7A5F1 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5E607525353A7200E7A5F1 /* AvatarImageView.swift */; };
+		4B68D5A62539131800A17AED /* LogMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B68D5A52539131800A17AED /* LogMessageView.swift */; };
+		4B68D5A8253940FC00A17AED /* BackOfToolsToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B68D5A7253940FC00A17AED /* BackOfToolsToolBar.swift */; };
 		4BA662742535923300DE8697 /* ToolBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA662732535923300DE8697 /* ToolBarsView.swift */; };
 		4BA6627625359FEC00DE8697 /* TimelinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA6627525359FEC00DE8697 /* TimelinesView.swift */; };
 		4BDB05D72531613B00CF71A1 /* HubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDB05D62531613B00CF71A1 /* HubView.swift */; };
@@ -85,8 +88,11 @@
 /* Begin PBXFileReference section */
 		4B2C746424FA05310052F356 /* DownLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownLoader.swift; sourceTree = "<group>"; };
 		4B2C746C24FA2B410052F356 /* ImageGrabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGrabView.swift; sourceTree = "<group>"; };
+		4B3AD79E253965DB00194B2C /* UserMarkManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMarkManageView.swift; sourceTree = "<group>"; };
 		4B5E606F25340F1700E7A5F1 /* LogoBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoBackground.swift; sourceTree = "<group>"; };
 		4B5E607525353A7200E7A5F1 /* AvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImageView.swift; sourceTree = "<group>"; };
+		4B68D5A52539131800A17AED /* LogMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogMessageView.swift; sourceTree = "<group>"; };
+		4B68D5A7253940FC00A17AED /* BackOfToolsToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackOfToolsToolBar.swift; sourceTree = "<group>"; };
 		4BA662732535923300DE8697 /* ToolBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarsView.swift; sourceTree = "<group>"; };
 		4BA6627525359FEC00DE8697 /* TimelinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelinesView.swift; sourceTree = "<group>"; };
 		4BDB05D62531613B00CF71A1 /* HubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubView.swift; sourceTree = "<group>"; };
@@ -160,6 +166,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B68D5A92539410800A17AED /* ToolBars */ = {
+			isa = PBXGroup;
+			children = (
+				4BA662732535923300DE8697 /* ToolBarsView.swift */,
+				D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */,
+				4B68D5A7253940FC00A17AED /* BackOfToolsToolBar.swift */,
+			);
+			path = ToolBars;
+			sourceTree = "<group>";
+		};
 		4B7130AD253574A500CE0082 /* TweetRow */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,6 +207,7 @@
 				D21F4C4E24DE73C6004B2C20 /* SettingView.swift */,
 				D2B2560F24E39020009F982E /* VideoPlayView.swift */,
 				D2C7248724E613A400804F18 /* RoundedCorners.swift */,
+				4B3AD79E253965DB00194B2C /* UserMarkManageView.swift */,
 			);
 			path = ToolsView;
 			sourceTree = "<group>";
@@ -203,8 +220,8 @@
 				D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */,
 				D2DDFCC22535DF7E00AE7E39 /* TimelineSimpleView.swift */,
 				4B5E606F25340F1700E7A5F1 /* LogoBackground.swift */,
-				4BA662732535923300DE8697 /* ToolBarsView.swift */,
-				D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */,
+				4B68D5A92539410800A17AED /* ToolBars */,
+				4B68D5A52539131800A17AED /* LogMessageView.swift */,
 			);
 			path = HubViews;
 			sourceTree = "<group>";
@@ -429,12 +446,15 @@
 				4BA662742535923300DE8697 /* ToolBarsView.swift in Sources */,
 				D7AC537024BB4AB200BCD71F /* ImageViewer.swift in Sources */,
 				4BA6627625359FEC00DE8697 /* TimelinesView.swift in Sources */,
+				4B3AD79F253965DB00194B2C /* UserMarkManageView.swift in Sources */,
 				D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */,
 				D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */,
 				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,
 				D2905076252C07360065EA83 /* Persistance.swift in Sources */,
 				D297390024D1182600917A97 /* PhotoPickerView.swift in Sources */,
+				4B68D5A8253940FC00A17AED /* BackOfToolsToolBar.swift in Sources */,
 				D270E87D24C01C9100BBD3FE /* ToolsView.swift in Sources */,
+				4B68D5A62539131800A17AED /* LogMessageView.swift in Sources */,
 				D2E4D75324D851EA00D68A09 /* QuotedTweetRow.swift in Sources */,
 				D2794F33251F1DE200824E6D /* SaliencyDetection.swift in Sources */,
 				4BDB05D925316D5C00CF71A1 /* ComposerOfHubView.swift in Sources */,

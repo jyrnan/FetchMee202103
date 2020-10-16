@@ -29,11 +29,14 @@ struct Composer: View {
             TextField("Tweet something here...", text: $tweetText).font(.body).padding(.leading, 16)
             Spacer()
             if self.timeline.isDone {
-                Text("more").font(.body).foregroundColor(.primary).opacity(0.7)
+                NavigationLink(
+                    destination: ComposerOfHubView(tweetText: self.$tweetText, replyIDString: self.tweetIDString, isUsedAlone: true ).environmentObject(user).accentColor(self.user.myInfo.setting.themeColor.color).environment(\.managedObjectContext, viewContext),
+                    isActive: $isShowCMV
+                ){
+                    Text("more").font(.body).foregroundColor(.primary).opacity(0.7)}
                 .onTapGesture {self.isShowCMV = true }
-                .sheet(isPresented: self.$isShowCMV) {
-                    ComposerMoreView(isShowCMV: self.$isShowCMV, tweetText: self.$tweetText, replyIDString: self.tweetIDString).environmentObject(user).accentColor(self.user.myInfo.setting.themeColor.color).environment(\.managedObjectContext, viewContext)
-                } } else {
+            
+        } else {
                     ActivityIndicator(isAnimating: self.$timeline.isDone, style: .medium)
                 }
             

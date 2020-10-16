@@ -10,16 +10,18 @@ import SwiftUI
 import Combine
 import BackgroundTasks
 import Swifter
+import CoreData
 
 struct HubView: View {
     
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var user: User
     @EnvironmentObject var downloader: Downloader
+   
     @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var logs: FetchedResults<Log>
     
     @State var tweetText: String = ""
-//    @State var BGTaskInfoText: String = "Preparing Next Task"
     
     var body: some View {
         
@@ -49,7 +51,11 @@ struct HubView: View {
                                 .padding([.leading, .trailing, .bottom], 16)
                             
                             HStack {
-                                Text(alerts.logInfo.alertText).font(.caption2).foregroundColor(.gray).opacity(0.5)
+                                NavigationLink(destination: LogMessageView()){
+//                                    NavigationLink(destination: UserMarkManageView()){
+                                    Text(alerts.logInfo.alertText == "" ? "No new log message" : alerts.logInfo.alertText)
+                                    .font(.caption2).foregroundColor(.gray).opacity(0.5)
+                            }
                             }
                             
                             Spacer()
@@ -59,11 +65,14 @@ struct HubView: View {
                             HStack {
                                 Spacer()
                                 Button(action: {
+                                    //用来检测后台运行删推程序以及刷新状况
                                     if user.myInfo.setting.isDeleteTweets {
                                         deleteTweets {
                                             alerts.stripAlert.alertText = "Some tweets deleted."
                                             alerts.stripAlert.isPresentedAlert = true
                                         }
+                                    } else {
+                                        refreshAll()
                                     }
                                 }){Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)}
                                     
@@ -110,6 +119,8 @@ extension HubView {
         let completeHandler = {task.setTaskCompleted(success: true)}
         user.mention.refreshFromTop()
         
+        saveOrUpdateLog(text: "Started background fetch.")
+        
         if !user.myInfo.setting.isDeleteTweets {
             user.home.refreshFromTop(completeHandeler: completeHandler)
         }
@@ -123,9 +134,13 @@ extension HubView {
     
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
-        user.home.refreshFromTop()
+        user.home.refreshFromTop(completeHandeler: {
+                                    alerts.logInfo.alertText = "Fetching ended."
+                                    saveOrUpdateLog(text: "Fetching ended.")})
         user.mention.refreshFromTop()
         user.getMyInfo()
+        alerts.logInfo.alertText = "Started fetching new tweets..."
+        saveOrUpdateLog(text: "Started fetching new tweets...")
     }
     
     func hideKeyboard() {
@@ -156,7 +171,7 @@ extension HubView {
             //如果要删除的推文数量为零，则直接退出并输出信息
             guard !tweetsForDeletion.isEmpty else {
                 self.alerts.logInfo.alertText = "<\(timeNow)> No tweets deleted."
-                saveOrUpdateDraft(text: self.alerts.logInfo.alertText)
+                saveOrUpdateLog(text: "No tweets deleted.")
                 return
             }
             
@@ -173,7 +188,7 @@ extension HubView {
         
         func fh(error: Error) -> Void {
             self.alerts.logInfo.alertText = "<\(timeNow)> Deleting task failed."
-            saveOrUpdateDraft(text: self.alerts.logInfo.alertText)
+            saveOrUpdateLog(text: "Deleting task failed.")
         }
         
         //2 获取推文成功处理闭包，成功后会调用删除推文方法
@@ -196,8 +211,8 @@ extension HubView {
             guard !tweetsTobeDel.isEmpty else {
                 
                 //传递文字并保存到Draft的CoreData数据中
-                self.alerts.logInfo.alertText = "<\(timeNow)> About \(deletedTweetCount) tweets deleted."
-                saveOrUpdateDraft(text: self.alerts.logInfo.alertText)
+                self.alerts.logInfo.alertText = "About \(deletedTweetCount) tweets deleted."
+                saveOrUpdateLog(text: "About \(deletedTweetCount) tweets deleted.")
                 completeHandler()
                 return
             }
@@ -245,12 +260,12 @@ extension HubView {
 
 //MARK:-CoreData操作模块
 extension HubView {
-    private func saveOrUpdateDraft(text: String?){
+    private func saveOrUpdateLog(text: String?){
         withAnimation {
-            let draft = TweetDraft(context: viewContext) //如果没有当前编辑的draft则新生成一个空的draft
-            draft.createdAt = Date()
-            draft.text = text
-            draft.id = UUID()
+            let log = Log(context: viewContext) //如果没有当前编辑的draft则新生成一个空的draft
+            log.createdAt = Date()
+            log.text = text
+            log.id = UUID()
             
             do {
                 try viewContext.save()
@@ -260,10 +275,10 @@ extension HubView {
         }
     }
     
-    private func deleteDraft(draft: TweetDraft?) {
-        guard draft != nil else {return}
+    private func deleteLog(log: Log?) {
+        guard log != nil else {return}
         
-        viewContext.delete(draft!)
+        viewContext.delete(log!)
         
         do {
             try viewContext.save()

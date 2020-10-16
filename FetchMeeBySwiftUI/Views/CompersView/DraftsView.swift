@@ -12,6 +12,7 @@ import CoreData
 
 struct DraftsViewCoreData: View {
     @Environment(\.presentationMode) var presentationMode
+    
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
     

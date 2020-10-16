@@ -1,12 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="20A5384c" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="TweetDraft" representedClassName="TweetDraft" syncable="YES" codeGenerationType="class">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="20A5395g" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Log" representedClassName=".Log" syncable="YES" codeGenerationType="class">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="text" optional="YES" attributeType="String"/>
+        <attribute name="user" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="NickName" representedClassName="NickName" syncable="YES" codeGenerationType="class">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nickName" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TweetDraft" representedClassName=".TweetDraft" syncable="YES" codeGenerationType="class">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="replyIDString" optional="YES" attributeType="String"/>
         <attribute name="text" optional="YES" attributeType="String"/>
+        <attribute name="user" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="TwitterUser" representedClassName="TwitterUser" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nickName" optional="YES" attributeType="String"/>
+        <attribute name="screenName" optional="YES" attributeType="String"/>
+    </entity>
+    <fetchRequest name="FetchRequest" entity="Log"/>
     <elements>
-        <element name="TweetDraft" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="Log" positionX="-63" positionY="-27" width="128" height="103"/>
+        <element name="TweetDraft" positionX="-102.9840087890625" positionY="-217.8199462890625" width="134.492919921875" height="118"/>
+        <element name="TwitterUser" positionX="-81" positionY="-81" width="128" height="89"/>
+        <element name="NickName" positionX="-72" positionY="-72" width="128" height="89"/>
     </elements>
 </model>

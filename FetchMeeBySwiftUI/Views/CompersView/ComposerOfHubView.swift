@@ -39,6 +39,8 @@ struct ComposerOfHubView: View {
     @State var replyIDString : String?
     @State var mediaIDs: [String] = [] //存储上传媒体/图片返回的ID号
     
+    var isUsedAlone: Bool = false //用来区分这个推文发送视图是单独用还是在hubView使用
+    
     var body: some View {
         VStack{
             
@@ -58,9 +60,10 @@ struct ComposerOfHubView: View {
                 
                 TextEditor(text: self.$tweetText)
                     .padding([.leading, .trailing, .bottom])
-            }.frame(height: 122)
+            }.frame(height: isUsedAlone ? 200 : 122) //两种状态下不同的高度
             
-            .background(Color.init("BackGroundLight")).cornerRadius(18)
+            .background(isUsedAlone ? Color.init("BackGround") : Color.init("BackGroundLight"))
+            .cornerRadius(18)
             .shadow(color: Color.black.opacity(0.2), radius: 3, x: 0, y: 3)
             .onAppear() {
                 UITextView.appearance().backgroundColor = .clear }
@@ -150,7 +153,10 @@ struct ComposerOfHubView: View {
                 .disabled(self.tweetText == "" && imageDatas.isEmpty) 
             }
             
-            
+            //如果单独使用则靠顶部
+            if isUsedAlone {
+                Spacer()
+            }
         }
         
     }
@@ -309,7 +315,7 @@ extension ComposerOfHubView {
             draft.text = tweetText
             draft.id = currentTweetDraft?.id ?? UUID()
             draft.replyIDString = replyIDString
-            
+        
             do {
                 try viewContext.save()
             } catch {

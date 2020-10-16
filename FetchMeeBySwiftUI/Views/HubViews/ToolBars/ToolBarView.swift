@@ -38,8 +38,8 @@ enum ToolBarViewType: String {
                           iconImageName: "person.2.circle.fill",
                           themeColor: .orange)
         case .tools:
-            return UIData(label1Text: "Followered:",
-                          label2Text: "Following:",
+            return UIData(label1Text: "DraftsCout:",
+                          label2Text: "LogsCount:",
                           label3Text: "new message.",
                           iconImageName: "paperclip.circle.fill",
                           themeColor: Color("DarkGreen"))
@@ -128,17 +128,7 @@ struct ToolBarView: View, Identifiable {
                             return AnyView( BackOfTweetsToolBar())
                         
                         case .tools:
-                            return AnyView(
-                                ScrollView {
-                                    ForEach(drafts) { draft in
-                                        HStack{
-                                            Text(draft.text ?? "pay")
-                                                .foregroundColor(.white).font(.caption2).multilineTextAlignment(.leading)
-                                            Spacer()
-                                            }
-                                    }
-                                }.padding([.leading, .trailing])
-                            )
+                            return AnyView( BackOfToolsToolBar() )
                         }
                     }
                 }
@@ -158,13 +148,13 @@ struct ToolBarView_Previews: PreviewProvider {
         ZStack{
         RoundedRectangle(cornerRadius: 16)
             .foregroundColor(Color.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
-        BackOfFriendToolBar().environmentObject(User())
+            BackOfToolsToolBar().environmentObject(User())
         }.frame(height: 76).padding([.leading, .trailing], 16)
         
         ZStack{
         RoundedRectangle(cornerRadius: 16)
             .foregroundColor(Color.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
-        BackOfTweetsToolBar().environmentObject(User())
+            BackOfToolsToolBar().environmentObject(User())
         }.frame(height: 76).padding([.leading, .trailing], 16)
     }
 }
@@ -211,3 +201,4 @@ struct BackOfFriendToolBar: View {
         }.padding([.leading, .trailing])
     }
 }
+
