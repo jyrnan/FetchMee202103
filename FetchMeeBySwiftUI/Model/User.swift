@@ -9,6 +9,7 @@
 import SwiftUI
 import Swifter
 import Combine
+import CoreData
 
 struct UserInfomation: Identifiable {
     var id: String = "0000" //设置成默认ID是“0000”，所以在进行用户信息更新之前需要设置该ID的值
@@ -38,7 +39,7 @@ struct UserInfomation: Identifiable {
     var lists: [String : ListTag] = [:]
     
     var setting: UserSetting = UserSetting()
-        }
+}
 
 enum ThemeColor: String, CaseIterable, Identifiable {
     case blue
@@ -124,12 +125,16 @@ class User: ObservableObject {
     @Published var home: Timeline = Timeline(type: .home)
     @Published var mention: Timeline = Timeline(type: .mention)
     @Published var message: Timeline = Timeline(type: .message)
-
-    @Published var nickName: [String: String] = [:]
+    
     var myUserline: Timeline = Timeline(type: .user) //创建一个自己推文的timeline
     
     let session = URLSession.shared
     
+    //CoreData part
+    let context = ((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.delegate as? SceneDelegate)?.context
+    
+    
+    //MARK:-获取用户信息方法
     func getMyInfo() {
         
         var userTag: UserTag?
@@ -138,8 +143,8 @@ class User: ObservableObject {
         } else {
             //如果没有设置用户ID，且可以读取userDefualt里的IDString（说明已经logined），则设置loginUser的userIDString为登陆用户的userIDString
             if self.myInfo.id == "0000" && userDefault.object(forKey: "userIDString") != nil {
-            self.myInfo.id = userDefault.object(forKey: "userIDString") as! String
-        }
+                self.myInfo.id = userDefault.object(forKey: "userIDString") as! String
+            }
             userTag = UserTag.id(self.myInfo.id)
         }
         
@@ -180,8 +185,8 @@ class User: ObservableObject {
         }
         
         self.myInfo.lists = newLists
-
-
+        
+        
     }
     
     //获取用户信息
@@ -201,7 +206,7 @@ class User: ObservableObject {
         
         self.myInfo.bannerUrlString = json["profile_banner_url"].string
         if self.myInfo.bannerUrlString != nil {
-        self.myInfo.banner = UIImage(data: (try? Data(contentsOf: URL(string: self.myInfo.bannerUrlString!)!)) ?? UIImage(named: "bg")!.pngData()!)
+            self.myInfo.banner = UIImage(data: (try? Data(contentsOf: URL(string: self.myInfo.bannerUrlString!)!)) ?? UIImage(named: "bg")!.pngData()!)
         }
         
         var loc = json["location"].string ?? "Unknow"
@@ -223,6 +228,9 @@ class User: ObservableObject {
         self.myInfo.notifications = json["notifications"].bool
         
         self.myInfo.tweetsCount = json["statuses_count"].integer!
+        
+        //保存用户信息到CoreData，如果是登陆用户，则传入true
+        saveUserInfoToCoreData(id: self.myInfo.id, isLoginUser: self.isLoggedIn)
         
     }
     
@@ -247,13 +255,13 @@ class User: ObservableObject {
             
             let cachelUrl = cfh.getPath()
             let filePath = cachelUrl.appendingPathComponent(fileName, isDirectory: false)
-             
+            
             //先尝试获取本地缓存文件
             if let d = try? Data(contentsOf: filePath) {
                 if let im = UIImage(data: d) {
                     DispatchQueue.main.async {
                         self.myInfo.avatar = im
-
+                        
                     }
                 }
             } else {
@@ -273,15 +281,59 @@ class User: ObservableObject {
     }
 }
 
+
 extension User {
-    /**
-     将UserSetting转换成字典文件进行存储
-     */
-    func saveSetting(setting: UserSetting) -> [String: Int] {
-        var settingDic = [String: Int]()
-        settingDic["isIronFansShowed"] = setting.isIronFansShowed ? 0 : 1
-        return settingDic
+    
+    func saveUserInfoToCoreData(id: String, isLoginUser: Bool = false) {
+        
+        var currentUser: TwitterUser?
+        
+        guard let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
+              let sceneDelegate = windowsScenen.delegate as? SceneDelegate
+        else {
+            return
+        }
+        let viewContext = sceneDelegate.context
+        
+        let userFetch: NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
+        userFetch.predicate = NSPredicate(format: "%K == %@", #keyPath(TwitterUser.userIDString), id)
+        
+        do {
+            let results = try viewContext.fetch(userFetch)
+            
+            if results .count > 0 {
+                currentUser = results.first
+            } else {
+                currentUser = TwitterUser(context: viewContext)
+            }
+            
+            
+            currentUser?.userIDString = id
+            currentUser?.name = myInfo.name
+            currentUser?.screenName = myInfo.screenName
+            currentUser?.avatar = myInfo.avatarUrlString
+            
+            currentUser?.following = Int32(myInfo.following ?? 0)
+            currentUser?.followed = Int32(myInfo.followed ?? 0)
+            currentUser?.isFollowing = myInfo.isFollowing ?? true
+            
+            //如果是当前用户，则统计推文数量等动态信息
+            if isLoginUser {
+            let count: Count = Count(context: viewContext)
+            count.createdAt = Date()
+            count.follower = Int32(myInfo.followed ?? 0)
+            count.following = Int32(myInfo.following ?? 0)
+            count.tweets = Int32(myInfo.tweetsCount ?? 0)
+            
+            currentUser?.addToCount(count)
+            }
+            
+            try viewContext.save()
+            
+        }catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        
     }
 }
-
-

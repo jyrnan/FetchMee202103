@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="20A5395g" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Count" representedClassName=".Count" syncable="YES" codeGenerationType="class">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="follower" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="following" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="tweets" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="countToUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TwitterUser" inverseName="count" inverseEntity="TwitterUser"/>
+    </entity>
     <entity name="Log" representedClassName=".Log" syncable="YES" codeGenerationType="class">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -18,18 +25,30 @@
         <attribute name="replyIDString" optional="YES" attributeType="String"/>
         <attribute name="text" optional="YES" attributeType="String"/>
         <attribute name="user" optional="YES" attributeType="String"/>
+        <relationship name="draftOfuser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TwitterUser" inverseName="draft" inverseEntity="TwitterUser"/>
     </entity>
-    <entity name="TwitterUser" representedClassName="TwitterUser" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="String"/>
+    <entity name="TwitterUser" representedClassName=".TwitterUser" syncable="YES" codeGenerationType="class">
+        <attribute name="avatar" optional="YES" attributeType="String"/>
+        <attribute name="followed" optional="YES" attributeType="Integer 32" usesScalarValueType="YES"/>
+        <attribute name="following" optional="YES" attributeType="Integer 32" usesScalarValueType="YES"/>
+        <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isFollowing" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isLoginUser" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nickName" optional="YES" attributeType="String"/>
         <attribute name="screenName" optional="YES" attributeType="String"/>
+        <attribute name="tweets" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="updateTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="userIDString" optional="YES" attributeType="String"/>
+        <relationship name="count" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Count" inverseName="countToUser" inverseEntity="Count"/>
+        <relationship name="draft" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetDraft" inverseName="draftOfuser" inverseEntity="TweetDraft"/>
     </entity>
-    <fetchRequest name="FetchRequest" entity="Log"/>
+    <fetchRequest name="FetchRequest" entity="TwitterUser" predicateString="id == &quot;id&quot;"/>
     <elements>
+        <element name="Count" positionX="79.246826171875" positionY="-276.2636413574219" width="128" height="118"/>
         <element name="Log" positionX="-63" positionY="-27" width="128" height="103"/>
-        <element name="TweetDraft" positionX="-102.9840087890625" positionY="-217.8199462890625" width="134.492919921875" height="118"/>
-        <element name="TwitterUser" positionX="-81" positionY="-81" width="128" height="89"/>
-        <element name="NickName" positionX="-72" positionY="-72" width="128" height="89"/>
+        <element name="NickName" positionX="-57.08056640625" positionY="171.7831420898438" width="128" height="89"/>
+        <element name="TweetDraft" positionX="-102.9840087890625" positionY="-217.8199462890625" width="136.1802368164062" height="133"/>
+        <element name="TwitterUser" positionX="130.3621826171875" positionY="-81.1378173828125" width="128" height="253"/>
     </elements>
 </model>

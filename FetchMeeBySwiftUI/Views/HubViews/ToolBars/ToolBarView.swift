@@ -102,7 +102,10 @@ struct ToolBarView: View, Identifiable {
                         
                         Spacer()
                         VStack(alignment: .trailing) {
+                            //暂时添加一个观察窗口
+                            NavigationLink(destination: CountView()){
                             Text("\(label3Value ?? 0)").font(.title2).foregroundColor(type.uiData.themeColor)
+                            }
                             Text(type.rawValue).font(.body).bold()
                                 .foregroundColor(Color.init(UIColor.darkGray))
                         }.padding()
@@ -159,6 +162,7 @@ struct ToolBarView_Previews: PreviewProvider {
     }
 }
 
+//MARK:- ToolBar背面
 struct BackOfTweetsToolBar: View {
     @EnvironmentObject var user: User
     

@@ -16,23 +16,23 @@ struct UserMarkManageView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \NickName.createdAt, ascending: true)]) var nickNames: FetchedResults<NickName>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
     
     
     var body: some View {
         List {
-            ForEach(nickNames, id: \.self) { nickName in
+            ForEach(twitterUsers, id: \.self) { user in
                 NavigationLink(
-                    destination: UserInfo(userIDString: nickName.id)) {
+                    destination: UserInfo(userIDString: user.userIDString)) {
                 HStack {
-                    Text(nickName.nickName ?? "NickName").frame(width: 100, alignment: .leading)
-                    Text(nickName.name ?? "Name").bold().frame(width: 120, alignment: .leading)
-                    Text(nickName.id ?? "0123456789").lineLimit(1).frame(alignment: .leading).foregroundColor(.gray)
+                    Text(user.nickName ?? "NickName").frame(width: 100, alignment: .leading)
+                    Text(user.name ?? "Name").bold().frame(width: 120, alignment: .leading)
+                    Text(user.userIDString ?? "0123456789").lineLimit(1).frame(alignment: .leading).foregroundColor(.gray)
                 }
                 }
             }
             .onDelete(perform: { indexSet in
-                deleteNickNames(offsets: indexSet)
+                deleteUser(offsets: indexSet)
             })
         }.navigationBarTitle("UserMark")
     }
@@ -46,8 +46,8 @@ struct UserMarkManageView_Previews: PreviewProvider {
 
 extension UserMarkManageView {
     
-    private func deleteNickNames(offsets: IndexSet) {
-        offsets.map{ nickNames[$0]}.forEach(viewContext.delete)
+    private func deleteUser(offsets: IndexSet) {
+        offsets.map{ twitterUsers[$0]}.forEach(viewContext.delete)
         
         do {
             try viewContext.save()

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cGg-cj-QVq">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_5" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -16,13 +16,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LogoWhite" translatesAutoresizingMaskIntoConstraints="NO" id="zYX-u2-Fwt">
-                                <rect key="frame" x="87" y="287" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoWhite" translatesAutoresizingMaskIntoConstraints="NO" id="zYX-u2-Fwt">
+                                <rect key="frame" x="147" y="388" width="120" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="chR-t1-88r"/>
+                                    <constraint firstAttribute="height" constant="120" id="oY9-MM-2vk"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="5Ys-9f-fq7"/>
                         <color key="backgroundColor" name="TwitterBlue"/>
+                        <color key="tintColor" name="TwitterBlue"/>
+                        <constraints>
+                            <constraint firstItem="zYX-u2-Fwt" firstAttribute="centerX" secondItem="Otc-tm-ZJd" secondAttribute="centerX" id="ReJ-w1-Fnb"/>
+                            <constraint firstItem="zYX-u2-Fwt" firstAttribute="centerY" secondItem="Otc-tm-ZJd" secondAttribute="centerY" id="YTg-ZC-Ysb"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ASV-Af-q9w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

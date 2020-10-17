@@ -14,7 +14,7 @@ struct UserInfo: View {
     @EnvironmentObject var user: User //始终是登录用户的信息
     
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \NickName.id, ascending: true)]) var nickNames: FetchedResults<NickName>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
     
     var userIDString: String? //传入需查看的用户信息的ID
     var userScreenName: String? //传入需查看的用户信息的Name
@@ -114,7 +114,7 @@ struct UserInfo: View {
                                 
                                 Text(self.checkingUser.myInfo.name ?? "Name").font(.title2).bold()
                                 if !isNickNameInputShow {
-                                    Text(nickNames.filter{$0.id == userIDString}.first != nil ? "(\((nickNames.filter{$0.id == userIDString}.first!).nickName!))" : "" ).font(.title2)
+                                    Text(twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName != nil ? "(\((twitterUsers.filter{$0.userIDString == userIDString}.first!).nickName!))" : "" ).font(.title2)
                                 }
                                 
                                 
@@ -122,14 +122,14 @@ struct UserInfo: View {
                                     HStack{
                                         //如果有nickname则在编辑窗内显示当前nickname，否则显示默认的字符"nickname"
                                         
-                                        TextField(nickNames.filter{$0.id == userIDString}.first != nil ? "(\((nickNames.filter{$0.id == userIDString}.first!).nickName!))" : "nickname",
+                                        TextField(twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName != nil ? "(\((twitterUsers.filter{$0.userIDString == userIDString}.first!).nickName!))" : "nickname",
                                                   text: $nickNameText)
                                             .frame(width: 100)
                                             .textFieldStyle(RoundedBorderTextFieldStyle())
                                         
                                         Button(action: {
                                             
-                                            saveOrUpdateNickName()
+                                            saveOrUpdateTwitterUser()
                                             withAnimation{isNickNameInputShow = false}
                                         }){
                                             Image(systemName: "arrow.forward.circle").foregroundColor(.accentColor).font(.title2)
@@ -212,13 +212,13 @@ struct UserInfo_Previews: PreviewProvider {
 
 //MARK:-CoreData Operator
 extension UserInfo {
-    func saveOrUpdateNickName() {
+    func saveOrUpdateTwitterUser() {
         //检查当前用户如果没有nickName，则新建一个nickName
         
-        let nickNameOfcheckingUser = nickNames.filter{$0.id == userIDString}.first ?? NickName(context: viewContext)
-        nickNameOfcheckingUser.nickName = nickNameText
-        nickNameOfcheckingUser.id = userIDString
-        nickNameOfcheckingUser.name = checkingUser.myInfo.name
+        let currentUser = twitterUsers.filter{$0.userIDString == userIDString}.first ?? TwitterUser(context: viewContext)
+        
+        currentUser.nickName = nickNameText
+        
         do {
             try viewContext.save()
         } catch {
