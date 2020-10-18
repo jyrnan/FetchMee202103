@@ -228,6 +228,8 @@ extension ComposerOfHubView {
                
                 //如果是最后一条推文，则执行如下操作
                 self.tweetText = "" //发送成功后把推文文字重新设置成空的
+                self.replyIDString = nil //发送成功后把回复的推文对象设置成nil
+                
                 self.isTweetSentDone = true
                 
                 deleteDraft(draft: currentTweetDraft)

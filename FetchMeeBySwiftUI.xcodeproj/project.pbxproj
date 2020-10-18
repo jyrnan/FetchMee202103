@@ -337,8 +337,8 @@
 			isa = PBXGroup;
 			children = (
 				4BDB05D825316D5C00CF71A1 /* ComposerOfHubView.swift */,
-				D286FFCF24BC29BF005DBC39 /* Composer.swift */,
 				D297390124D11A0800917A97 /* ComposerMoreView.swift */,
+				D286FFCF24BC29BF005DBC39 /* Composer.swift */,
 				D29738FF24D1182600917A97 /* PhotoPickerView.swift */,
 				D730997E24ED6A5F00B57837 /* DraftsView.swift */,
 			);
@@ -625,7 +625,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -650,7 +650,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 34;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
