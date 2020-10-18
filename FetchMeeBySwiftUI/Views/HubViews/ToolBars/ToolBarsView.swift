@@ -7,15 +7,19 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ToolBarsView: View {
     @EnvironmentObject var user: User
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var logs: FetchedResults<Log>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Log.createdAt, ascending: true)]) var logs: FetchedResults<Log>
+   
+    lazy var userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), user.myInfo.id)
+//    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Count.createdAt, ascending: true)]) var counts: FetchedResults<Count>
     
-//    @State var toolBars: [ToolBarView] = []
+
     
     //控制三个toolBar正面朝向
     @State var toolBarIsFaceUp1: Bool = true
@@ -32,7 +36,7 @@ struct ToolBarsView: View {
                         type: .friends,
                         label1Value: user.myInfo.followed,
                         label2Value: user.myInfo.following,
-                        label3Value: Int(arc4random_uniform(100)))
+                        label3Value: user.myInfo.lastDayAddedFollower)
                 .onTapGesture {
                     if !toolBarIsFaceUp1 {
                         toolBarIsFaceUp1.toggle()
@@ -46,7 +50,7 @@ struct ToolBarsView: View {
             ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
                         label1Value: user.myInfo.tweetsCount,
                         label2Value: user.myInfo.tweetsCount,
-                        label3Value: Int(arc4random_uniform(100)))
+                        label3Value: user.myInfo.lastDayAddedTweets)
                 .onTapGesture {
                     if !toolBarIsFaceUp2 {
                         toolBarIsFaceUp2.toggle()
@@ -77,5 +81,42 @@ struct ToolBarsView: View {
 struct ToolBarsView_Previews: PreviewProvider {
     static var previews: some View {
         ToolBarsView().environmentObject(User())
+    }
+}
+
+extension ToolBarsView {
+    mutating func calFollower() ->[Int] {
+        var result: [Int] = [0, 0, 0]
+        
+        let fetchRequest: NSFetchRequest<Count> = Count.fetchRequest()
+        fetchRequest.predicate = userPredicate
+        do {
+            let counts = try viewContext.fetch(fetchRequest)
+            
+            let lastDayCounts = counts.filter{count in
+                return abs(count.createdAt?.timeIntervalSinceNow ?? 1000000 ) < 60 * 60 * 24}
+            
+            let lastDayMax = lastDayCounts.max {a, b in a.follower < b.follower}
+            let lastDayMin = lastDayCounts.max {a, b in a.follower > b.follower}
+            result[0] = Int((lastDayMax!.follower - lastDayMin!.follower))
+            
+        } catch let error as NSError {
+            print("count not fetched \(error), \(error.userInfo)")
+          }
+        
+       
+        
+        
+        
+        
+//        let lastThreeDaysCounts = myCounts.filter{count in
+//            return abs(count.createdAt?.timeIntervalSinceNow ?? 10000000) < 60 * 60 * 24 * 3}
+//
+//        let lastWeekCounts = myCounts.filter{count in
+//            return abs(count.createdAt?.timeIntervalSinceNow ?? 10000000) < 60 * 60 * 24 * 7}
+       
+        
+        
+        return result
     }
 }

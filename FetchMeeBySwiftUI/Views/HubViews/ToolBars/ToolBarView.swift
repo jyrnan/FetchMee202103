@@ -163,46 +163,7 @@ struct ToolBarView_Previews: PreviewProvider {
 }
 
 //MARK:- ToolBar背面
-struct BackOfTweetsToolBar: View {
-    @EnvironmentObject var user: User
-    
-    var body: some View {
-        VStack {
-            HStack{
-                Toggle(isOn: $user.myInfo.setting.isDeleteTweets) {
-                    Text("Delete\nAll")
-                        .font(.caption).bold()
-                        .foregroundColor(.white)
-                }
-                .alert(isPresented: $user.myInfo.setting.isDeleteTweets, content: {
-                                            Alert(title: Text("Delete Tweets?"), message: Text("Delete ALL choosed, it will delete your tweets in background, are you sure?"), primaryButton: .destructive(Text("Sure"), action: {user.myInfo.setting.isDeleteTweets = true}), secondaryButton: .cancel())})
-                
-                Divider()
-                Toggle(isOn: $user.myInfo.setting.isKeepRecentTweets) {
-                    Text("Keep\nRecent").font(.caption).bold()
-                        .foregroundColor(.white)      
-                }
-            }
-            HStack {
-                Spacer()
-                Text("\"Keep Recent\" on to reserve last 80 tweets ")
-                    .foregroundColor(.white).font(.caption2)
-            }
-        }.padding([.leading, .trailing]).fixedSize()
-    }
-}
 
-struct BackOfFriendToolBar: View {
-@EnvironmentObject var user: User
-    var body: some View {
-        VStack{
-            HStack {MentionUserSortedView(mentions: user.mention)}
-            HStack {
-                Spacer()
-                Text("Those who mentioned you mostly")
-                    .foregroundColor(.white).font(.caption2)
-            }
-        }.padding([.leading, .trailing])
-    }
-}
+
+
 

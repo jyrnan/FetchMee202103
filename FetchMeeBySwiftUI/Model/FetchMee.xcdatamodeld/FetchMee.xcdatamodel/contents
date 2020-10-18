@@ -43,9 +43,9 @@
         <relationship name="count" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Count" inverseName="countToUser" inverseEntity="Count"/>
         <relationship name="draft" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetDraft" inverseName="draftOfuser" inverseEntity="TweetDraft"/>
     </entity>
-    <fetchRequest name="FetchRequest" entity="TwitterUser" predicateString="id == &quot;id&quot;"/>
+    <fetchRequest name="FetchRequest" entity="Count" predicateString="TRUEPREDICATE"/>
     <elements>
-        <element name="Count" positionX="79.246826171875" positionY="-276.2636413574219" width="128" height="118"/>
+        <element name="Count" positionX="79.246826171875" positionY="-276.2636413574219" width="128" height="104"/>
         <element name="Log" positionX="-63" positionY="-27" width="128" height="103"/>
         <element name="NickName" positionX="-57.08056640625" positionY="171.7831420898438" width="128" height="89"/>
         <element name="TweetDraft" positionX="-102.9840087890625" positionY="-217.8199462890625" width="136.1802368164062" height="133"/>

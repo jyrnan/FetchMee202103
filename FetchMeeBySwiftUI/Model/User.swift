@@ -39,6 +39,9 @@ struct UserInfomation: Identifiable {
     var lists: [String : ListTag] = [:]
     
     var setting: UserSetting = UserSetting()
+    
+    var lastDayAddedFollower: Int? //24小时内新增fo数
+    var lastDayAddedTweets: Int? //24小时内新增推数
 }
 
 enum ThemeColor: String, CaseIterable, Identifiable {
@@ -131,7 +134,7 @@ class User: ObservableObject {
     let session = URLSession.shared
     
     //CoreData part
-    let context = ((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.delegate as? SceneDelegate)?.context
+    let viewContext = ((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.delegate as? SceneDelegate)?.context
     
     
     //MARK:-获取用户信息方法
@@ -232,6 +235,10 @@ class User: ObservableObject {
         //保存用户信息到CoreData，如果是登陆用户，则传入true
         saveUserInfoToCoreData(id: self.myInfo.id, isLoginUser: self.isLoggedIn)
         
+        //从CoreData读取信息计算24小时内新增fo数和推文数量
+        let results = updateCount()
+        myInfo.lastDayAddedFollower = results[0][0]
+        myInfo.lastDayAddedTweets = results[1][0]
     }
     
     func follow() {
@@ -335,5 +342,48 @@ extension User {
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
         
+    }
+    
+    func updateCount() ->[[Int]] {
+        
+        //参数说明：第一个数组代表follower，第二个代表tweets数量
+        //每类有三个数是预留最近一天，最近一周？最近一月？，现在仅使用第一个
+        var result: [[Int]] = [[0, 0, 0], [0, 0, 0]]
+        
+        guard let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
+              let sceneDelegate = windowsScenen.delegate as? SceneDelegate
+        else {
+            return result
+        }
+        let viewContext = sceneDelegate.context
+        
+        let userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), myInfo.id)
+        
+        let fetchRequest: NSFetchRequest<Count> = Count.fetchRequest()
+        fetchRequest.predicate = userPredicate
+        do {
+            let counts = try viewContext.fetch(fetchRequest)
+            
+            print(#line, counts.count)
+            
+            let lastDayCounts = counts.filter{count in
+                return abs(count.createdAt?.timeIntervalSinceNow ?? 1000000 ) < 60 * 60 * 24}
+            
+            print(#line, lastDayCounts.count)
+            
+            if let lastDayMax = lastDayCounts.max(by: {a, b in a.follower < b.follower}),
+               let lastDayMin = lastDayCounts.max(by: {a, b in a.follower > b.follower}) {
+                result[0][0] = Int((lastDayMax.follower - lastDayMin.follower))}
+            
+            if let lastDayMax = lastDayCounts.max(by: {a, b in a.tweets < b.tweets}),
+               let lastDayMin = lastDayCounts.max(by: {a, b in a.tweets > b.tweets}) {
+                result[1][0] = Int((lastDayMax.tweets - lastDayMin.tweets))}
+            
+        } catch let error as NSError {
+            print("count not fetched \(error), \(error.userInfo)")
+          }
+        
+       
+        return result
     }
 }

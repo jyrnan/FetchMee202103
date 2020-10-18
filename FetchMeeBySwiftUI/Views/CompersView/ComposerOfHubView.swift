@@ -232,7 +232,11 @@ extension ComposerOfHubView {
                 
                 self.alerts.stripAlert.alertText = "Tweet sent!"
                 self.alerts.stripAlert.isPresentedAlert = true
-                return}
+                
+                hideKeyboard()
+                return
+                
+            }
             
             //如果推文分割后不是发送完最后一条，则继续发送。
             swifter.postTweet(
@@ -339,5 +343,10 @@ extension ComposerOfHubView {
     
 }
 
+extension ComposerOfHubView {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
 
 

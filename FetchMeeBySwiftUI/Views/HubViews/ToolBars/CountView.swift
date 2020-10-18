@@ -24,9 +24,10 @@ struct CountView: View {
 //                NavigationLink(
 //                    destination: UserInfo(userIDString: count.userIDString)) {
                 HStack {
-                    Text("Follower: \(count.follower)").frame(width: 100, alignment: .leading)
-                    Text("Following: \(count.following)").frame(width: 120, alignment: .leading)
+                    Text("Follower: \(count.follower)").frame(alignment: .leading)
+                    Text("Following: \(count.following)").frame(alignment: .leading)
                     Text("Tweets: \(count.tweets)").frame(alignment: .leading).foregroundColor(.gray)
+                    Text("Tweets: \(count.countToUser?.name ?? "Unknow")").frame(alignment: .leading).foregroundColor(.gray)
                 }
 //                }
             }.onDelete(perform: { indexSet in
