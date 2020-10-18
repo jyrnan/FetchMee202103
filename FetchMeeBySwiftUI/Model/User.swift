@@ -128,6 +128,7 @@ class User: ObservableObject {
     @Published var home: Timeline = Timeline(type: .home)
     @Published var mention: Timeline = Timeline(type: .mention)
     @Published var message: Timeline = Timeline(type: .message)
+    @Published var favorite: Timeline = Timeline(type: .favorite)
     
     var myUserline: Timeline = Timeline(type: .user) //创建一个自己推文的timeline
     

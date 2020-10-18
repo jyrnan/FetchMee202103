@@ -19,6 +19,7 @@ enum TweetListType: String {
     case user
     case session
     case message = "Message"
+    case favorite = "Favorite"
     
     struct UIData {
         let iconImageName : String
@@ -35,6 +36,8 @@ enum TweetListType: String {
             return UIData(iconImageName: "envelope.circle", themeColor: .orange)
         case .list:
             return UIData(iconImageName: "list.bullet", themeColor: Color.init("DarkGreen"))
+        case .favorite:
+            return UIData(iconImageName: "heart.circle", themeColor: Color.pink)
         default:
             return UIData(iconImageName: "list.bullet", themeColor: Color.init("TwitterBlue"))
         }
@@ -133,6 +136,8 @@ final class Timeline: ObservableObject {
             swifter.getHomeTimeline(count: self.maxCounter, sinceID: self.sinceIDString,  success: sh, failure: failureHandler)
         case .user:
             swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), success: sh, failure: failureHandler)
+        case .favorite:
+            swifter.getRecentlyFavoritedTweets(success: sh, failure: failureHandler)
         case .list:
             if let listTag = listTag {
                 swifter.listTweets(for: listTag, sinceID: self.sinceIDString, maxID: self.maxIDString, count: self.maxCounter, includeEntities: nil, includeRTs: nil, tweetMode: .default, success: sh, failure: failureHandler)
@@ -166,6 +171,9 @@ final class Timeline: ObservableObject {
             swifter.getHomeTimeline(count: self.maxCounter,maxID: self.maxIDString,  success: sh, failure: failureHandler)
         case .user:
             swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), count: self.maxCounter, maxID: self.maxIDString, success: sh, failure: failureHandler)
+         
+        case .favorite:
+            swifter.getRecentlyFavoritedTweets(count: self.maxCounter, maxID: self.maxIDString, success: sh, failure: failureHandler)
         default:
             print(#line, #function)
         }

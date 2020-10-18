@@ -177,6 +177,7 @@
 		4B68D5A92539410800A17AED /* ToolBars */ = {
 			isa = PBXGroup;
 			children = (
+				4B5E606F25340F1700E7A5F1 /* LogoBackground.swift */,
 				4BA662732535923300DE8697 /* ToolBarsView.swift */,
 				D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */,
 				D27744E4253B14DD0062B25C /* BackOfTweetsToolBar.swift */,
@@ -231,7 +232,6 @@
 				4BA6627525359FEC00DE8697 /* TimelinesView.swift */,
 				D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */,
 				D2DDFCC22535DF7E00AE7E39 /* TimelineSimpleView.swift */,
-				4B5E606F25340F1700E7A5F1 /* LogoBackground.swift */,
 				4B68D5A92539410800A17AED /* ToolBars */,
 			);
 			path = HubViews;
@@ -625,7 +625,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 32;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -650,7 +650,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 32;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;

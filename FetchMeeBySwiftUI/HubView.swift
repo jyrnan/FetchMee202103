@@ -26,9 +26,11 @@ struct HubView: View {
     var body: some View {
         
         NavigationView {
+            GeometryReader {geometry in
             ZStack{
                 LogoBackground()
                 ScrollView(.vertical, showsIndicators: false){
+                    
                     ZStack{
                         
                         RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
@@ -42,13 +44,14 @@ struct HubView: View {
                                 ComposerOfHubView(tweetText: $tweetText)
                                     .padding(.top, 16)
                                     .padding([.leading, .trailing], 18)
-                            }.frame(height: 180)
+                            }
+                            .frame(height: geometry.size.height - 428 > 0 ? geometry.size.height - 428 : 180)
                             
                             Divider()
                             TimelinesView()
                             
                             ToolBarsView()
-                                .padding([.leading, .trailing, .bottom], 16)
+                                .padding([.leading, .trailing], 16)
                             
                             HStack {
                                 NavigationLink(destination: LogMessageView()){
@@ -65,14 +68,15 @@ struct HubView: View {
                                 Spacer()
                                 Button(action: {
                                     //用来检测后台运行删推程序以及刷新状况
-                                    if user.myInfo.setting.isDeleteTweets {
-                                        deleteTweets {
-                                            alerts.stripAlert.alertText = "Some tweets deleted."
-                                            alerts.stripAlert.isPresentedAlert = true
-                                        }
-                                    } else {
-                                        refreshAll()
-                                    }
+//                                    if user.myInfo.setting.isDeleteTweets {
+//                                        deleteTweets {
+//                                            alerts.stripAlert.alertText = "Some tweets deleted."
+//                                            alerts.stripAlert.isPresentedAlert = true
+//                                        }
+//                                    } else {
+//                                        refreshAll()
+//                                    }
+                                    print(#line, geometry.size.debugDescription)
                                 }){Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)}
                                     
                                 Spacer()
@@ -82,12 +86,14 @@ struct HubView: View {
                         
                         AlertView()
                     }
+                   
                 }
-            }.onTapGesture(count: 1, perform: {self.hideKeyboard()})
+            }.fixedSize(horizontal: false, vertical: true)
+            .onTapGesture(count: 1, perform: {self.hideKeyboard()})
             .navigationTitle("FetchMee")
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
-                AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center)
-            })
+                AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center)})
+            }
         }
         .onAppear{self.setBackgroundFetch()}
 //        .onTapGesture(count: 1, perform: {self.hideKeyboard()})
