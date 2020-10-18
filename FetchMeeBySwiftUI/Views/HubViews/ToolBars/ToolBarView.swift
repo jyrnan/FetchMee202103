@@ -73,7 +73,8 @@ struct ToolBarView: View, Identifiable {
             if isFaceUp {
                 ZStack{
                     RoundedRectangle(cornerRadius: 16)
-                        .foregroundColor(Color.init("BackGroundLight")).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
+                        .foregroundColor(Color.init("BackGroundLight"))
+//                        .shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
                     
                     HStack {
                         Image(systemName: type.uiData.iconImageName)
