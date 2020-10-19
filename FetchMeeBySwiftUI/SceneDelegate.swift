@@ -21,7 +21,10 @@ var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
 let userDefault = UserDefaults.init()
 let cfh = CacheFileHandler() //设置下载文件的缓存位置
 let session = URLSession.shared
-var backgroudnFetch: ((BGAppRefreshTask) -> Void)?
+
+//两个用来实现后台运行的函数变量，会依据情况不同代表不同的执行内容
+var backgroundFetchTask: ((BGAppRefreshTask) -> Void)?
+var backgroundProcessTask: ((BGProcessingTask) -> Void)?
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -70,7 +73,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // MARK: Registering Launch Handlers for Tasks
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.jyrnan.FetchMee.post", using: nil) { task in
             //后台发推操作
-            self.handlePostNow(task: task as! BGAppRefreshTask)
+            self.handleAppRefresh(task: task as! BGAppRefreshTask)
         }
         
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.jyrnan.FetchMee.process", using: nil) {task in
@@ -111,8 +114,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         loginUser.myInfo.setting.save()
         
         //加入定时程序
-        scheduledPost()
-//        scheduledProcess()
+        scheduledRefresh()
+        scheduledProcess()
         
         
     }
@@ -137,15 +140,31 @@ struct SceneDelegate_Previews: PreviewProvider {
 
 extension SceneDelegate {
     
+    var timeStamp: String {
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .long
+        formatter.timeZone = .current
+        let timeStamp = formatter.string(from: now)
+        return timeStamp
+    }
+    
+    
     // MARK: - Scheduling Tasks
+    
    
-    func scheduledPost() {
+    func scheduledRefresh() {
         let request = BGAppRefreshTaskRequest(identifier: "com.jyrnan.FetchMee.post")
         request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 15)
         
         do {
             try BGTaskScheduler.shared.submit(request)
-            print(#line, "设置预定任务成功！")
+            
+            let taskSetText = "BGAPPRefreshTaskRequest set."
+//            self.alerts.logInfo.alertText = "\(timeStamp) \(taskSetText)"
+            self.saveOrUpdateLog(text: taskSetText)
+            
         } catch {
             print("Could not schedule app refresh: \(error)")
         }
@@ -158,74 +177,101 @@ extension SceneDelegate {
         
         do {
             try BGTaskScheduler.shared.submit(request)
-            print(#line, "Process设置预定任务成功！")
+            
+            let taskSetText = "BGAProcessingTaskRequest set."
+//            self.alerts.logInfo.alertText = "\(timeStamp) \(taskSetText)"
+            self.saveOrUpdateLog(text: taskSetText)
+            
         } catch {
             print("Could not schedule database cleaning: \(error)")
         }
     }
     
     // MARK: - Handling Launch for Tasks
-    func handlePostNow(task: BGAppRefreshTask) {
-        scheduledPost()
-        print(#line, "准备执行发推")
-        
-        let now = Date()
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .medium
-        formatter.timeZone = .current
-        let timeNow = formatter.string(from: now)
+    func handleAppRefresh(task: BGAppRefreshTask) {
+        scheduledRefresh()
         
         task.expirationHandler = {
-            let text = "异常退出：@FetchMee \n \(timeNow)"
-            swifter.postTweet(status: text)
+            let expirationText = "BGAPPRefreshTask unexpectedly exit."
+            self.alerts.logInfo.alertText = "\(self.timeStamp) \(expirationText)"
+            self.saveOrUpdateLog(text: expirationText)
         }
         
-        //成功处理回调通知
+        //成功处理回调通知,因为是作为在Swifter的successHanler来调用，所以如下格式
         let successHandler: (JSON) -> Void = {json in
+            
+            let successText = "BGAPPRefreshTask completed."
+            self.alerts.logInfo.alertText = "\(self.timeStamp) \(successText)"
+            self.saveOrUpdateLog(text: successText)
+            
             task.setTaskCompleted(success: true)
-            print(#line, "success")
         }
         
-        //发推操作
-        let text = "小机器人出来冒个泡：  @FetchMee \n \(timeNow)"
-//        swifter.postTweet(status: text)
-        
-        guard backgroudnFetch != nil else {
+        //实际操作部分，但如果操作内容为空则写入log并结束
+        guard backgroundFetchTask != nil else {
+            //
+            let successText = "BGAPPRefreshTask has no content."
+            self.alerts.logInfo.alertText = "\(self.timeStamp) \(successText)"
+            self.saveOrUpdateLog(text: successText)
+            
             successHandler(JSON.init(""))
             return
         }
-        backgroudnFetch!(task)
-        print(#line, text)
+        //执行真正的操作
+        backgroundFetchTask!(task)
     }
+    
     
     func handleProcess(task: BGProcessingTask) {
         scheduledProcess()
-        print(#line, "Process准备执行发推")
-        
-        let now = Date()
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .medium
-        formatter.timeZone = .current
-        let timeNow = formatter.string(from: now)
-        
+         
         task.expirationHandler = {
-            let text = "Process异常退出：@FetchMee \n \(timeNow)"
-            swifter.postTweet(status: text)
-            print(#line, "Process异常退出")
+            let expirationText = "BGProcessingTask unexpectedly exit."
+            self.alerts.logInfo.alertText = "\(self.timeStamp) \(expirationText)"
+            self.saveOrUpdateLog(text: expirationText)
         }
         
-        //成功处理回调通知
+        //成功处理回调通知，具体形式不一定，取决于执行的任务对成功回调闭包的要求。
         let successHandler: (JSON) -> Void = {json in
+              
+            let successText = "BGProcessingTask completed."
+            self.alerts.logInfo.alertText = "\(self.timeStamp) \(successText)"
+            self.saveOrUpdateLog(text: successText)
+            
             task.setTaskCompleted(success: true)
-            print(#line, "Process success")
         }
         
-        //发推操作
-        let text = "Process小机器人出来冒个泡：  @FetchMee \n \(timeNow)"
-//        swifter.postTweet(status: text, success: successHandler )
-        successHandler(JSON.init(""))
-        print(#line, text)
+        //实际操作部分，但如果操作内容为空则写入log并结束
+        guard backgroundProcessTask != nil else {
+            let successText = "BGProcessingTask has no content."
+            self.alerts.logInfo.alertText = "\(self.timeStamp) \(successText)"
+            self.saveOrUpdateLog(text: successText)
+            
+            successHandler(JSON.init(""))
+            return
+        }
+        //执行真正的操作
+        backgroundProcessTask!(task)
+
     }
+}
+
+//MARK:-CoreData操作
+extension SceneDelegate {
+    
+    private func saveOrUpdateLog(text: String?){
+        guard text != nil else {return}
+        withAnimation {
+            let log = Log(context: context)
+            log.createdAt = Date()
+            log.text = text! + " \(loginUser.myInfo.screenName ?? "screenName")" //临时添加一个用户名做标记
+            log.id = UUID()
+            
+            do {
+                try context.save()
+            } catch {
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")}
+        }
+}
 }

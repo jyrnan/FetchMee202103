@@ -11,7 +11,7 @@
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="text" optional="YES" attributeType="String"/>
-        <attribute name="user" optional="YES" attributeType="String"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TwitterUser" inverseName="log" inverseEntity="TwitterUser"/>
     </entity>
     <entity name="NickName" representedClassName="NickName" syncable="YES" codeGenerationType="class">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -24,8 +24,7 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="replyIDString" optional="YES" attributeType="String"/>
         <attribute name="text" optional="YES" attributeType="String"/>
-        <attribute name="user" optional="YES" attributeType="String"/>
-        <relationship name="draftOfuser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TwitterUser" inverseName="draft" inverseEntity="TwitterUser"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TwitterUser" inverseName="draft" inverseEntity="TwitterUser"/>
     </entity>
     <entity name="TwitterUser" representedClassName=".TwitterUser" syncable="YES" codeGenerationType="class">
         <attribute name="avatar" optional="YES" attributeType="String"/>
@@ -41,14 +40,15 @@
         <attribute name="updateTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="userIDString" optional="YES" attributeType="String"/>
         <relationship name="count" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Count" inverseName="countToUser" inverseEntity="Count"/>
-        <relationship name="draft" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetDraft" inverseName="draftOfuser" inverseEntity="TweetDraft"/>
+        <relationship name="draft" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetDraft" inverseName="user" inverseEntity="TweetDraft"/>
+        <relationship name="log" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Log" inverseName="user" inverseEntity="Log"/>
     </entity>
     <fetchRequest name="FetchRequest" entity="Count" predicateString="TRUEPREDICATE"/>
     <elements>
         <element name="Count" positionX="79.246826171875" positionY="-276.2636413574219" width="128" height="104"/>
-        <element name="Log" positionX="-63" positionY="-27" width="128" height="103"/>
+        <element name="Log" positionX="-63" positionY="-27" width="128" height="89"/>
         <element name="NickName" positionX="-57.08056640625" positionY="171.7831420898438" width="128" height="89"/>
-        <element name="TweetDraft" positionX="-102.9840087890625" positionY="-217.8199462890625" width="136.1802368164062" height="133"/>
-        <element name="TwitterUser" positionX="130.3621826171875" positionY="-81.1378173828125" width="128" height="253"/>
+        <element name="TweetDraft" positionX="-102.9840087890625" positionY="-217.8199462890625" width="136.1802368164062" height="104"/>
+        <element name="TwitterUser" positionX="130.3621826171875" positionY="-81.1378173828125" width="128" height="254"/>
     </elements>
 </model>

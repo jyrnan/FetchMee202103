@@ -24,17 +24,21 @@ struct DraftsViewCoreData: View {
     var body: some View {
         List {
             ForEach(drafts) { draft in
-                        Text(draft.text ?? "pay")
-                            .onTapGesture(count: 1, perform: {
-                                currentTweetDraft = draft as TweetDraft
-                                tweetText = draft.text ?? ""
-                                replyIDString = draft.replyIDString
-                                self.presentationMode.wrappedValue.dismiss()
-                            })
-                    }.onDelete(perform: { indexSet in
-                        deleteDrafts(offsets: indexSet)
-                    })
-               
+                HStack{
+                    Text(draft.text ?? "pay")
+                        .onTapGesture(count: 1, perform: {
+                            currentTweetDraft = draft as TweetDraft
+                            tweetText = draft.text ?? ""
+                            replyIDString = draft.replyIDString
+                            self.presentationMode.wrappedValue.dismiss()
+                        })
+                    
+                    Text(draft.user?.name ?? "NoName")
+                }
+            }.onDelete(perform: { indexSet in
+                deleteDrafts(offsets: indexSet)
+            })
+            
         }.navigationBarTitle("Drafts")
     }
 }

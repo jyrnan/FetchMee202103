@@ -17,24 +17,50 @@ struct CountView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Count.createdAt, ascending: true)]) var counts: FetchedResults<Count>
     
     
+    let format: DateFormatter = {
+        var format = DateFormatter()
+        format.dateStyle = .short
+        format.timeStyle = .short
+        format.timeZone = .current
+        return format
+    }()
+    
     
     var body: some View {
+        VStack {
+            HStack {
+                Text("Date: ").bold().frame(alignment: .leading).padding()
+                Spacer()
+                Text("Follower: ").bold().frame(alignment: .leading)
+                Spacer()
+                Text("Following: ").bold().frame(alignment: .leading)
+                Spacer()
+                Text("Tweets: ").bold().frame(alignment: .leading)
+                Spacer()
+                Text("User: ").bold().frame(alignment: .leading)
+                
+            }.font(.caption2).frame(height: 18).background(Color.gray)
+            
         List {
             ForEach(counts, id: \.self) { count in
-//                NavigationLink(
-//                    destination: UserInfo(userIDString: count.userIDString)) {
                 HStack {
-                    Text("Follower: \(count.follower)").frame(alignment: .leading)
-                    Text("Following: \(count.following)").frame(alignment: .leading)
-                    Text("Tweets: \(count.tweets)").frame(alignment: .leading).foregroundColor(.gray)
-                    Text("Tweets: \(count.countToUser?.name ?? "Unknow")").frame(alignment: .leading).foregroundColor(.gray)
-                }
+                    Text(format.string(from: count.createdAt ?? Date())).frame(alignment: .leading)
+                    Spacer()
+                    Text("\(count.follower)").frame(alignment: .leading)
+                    Spacer()
+                    Text("\(count.following)").frame(alignment: .leading)
+                    Spacer()
+                    Text("\(count.tweets)").frame(alignment: .leading).foregroundColor(.gray)
+                    Spacer()
+                    Text("\(count.countToUser?.name ?? "Unknow")").frame(alignment: .leading).foregroundColor(.gray)
+                }.font(.caption2)
 //                }
             }.onDelete(perform: { indexSet in
                         deleteCounts(offsets: indexSet)
                     })
                
-        }.navigationBarTitle("Drafts")
+        }.navigationBarTitle("Logs", displayMode: .inline)
+    }
     }
 }
 

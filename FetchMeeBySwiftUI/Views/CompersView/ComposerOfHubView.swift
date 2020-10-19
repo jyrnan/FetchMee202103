@@ -25,7 +25,10 @@ struct ComposerOfHubView: View {
     @EnvironmentObject var user: User
     
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: []) var draftsByCoreData: FetchedResults<TweetDraft>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var draftsByCoreData: FetchedResults<TweetDraft>
+    
+    lazy var predicate = NSPredicate(format: "%K == %@", #keyPath(TwitterUser.userIDString), user.myInfo.id)
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
     
     @State var currentTweetDraft: TweetDraft? //用来接受从draft视图传递过来需要编辑的draft
     
@@ -339,14 +342,25 @@ extension ComposerOfHubView {
 //MARK: -CoreData操作模块
 extension ComposerOfHubView {
     
+    func getCurrentUser() -> TwitterUser? {
+        guard !twitterUsers.isEmpty else {return nil}
+        
+        let userIDString = user.myInfo.id
+        let result = twitterUsers.filter{$0.userIDString == userIDString}
+        return result.first
+    }
+    
     private func saveOrUpdateDraft(draft: TweetDraft? = nil){
+        
         withAnimation {
             let draft = draft ?? TweetDraft(context: viewContext) //如果没有当前编辑的draft则新生成一个空的draft
             draft.createdAt = Date()
             draft.text = tweetText
             draft.id = currentTweetDraft?.id ?? UUID()
             draft.replyIDString = replyIDString
-        
+            
+            draft.user = getCurrentUser()
+            
             do {
                 try viewContext.save()
             } catch {

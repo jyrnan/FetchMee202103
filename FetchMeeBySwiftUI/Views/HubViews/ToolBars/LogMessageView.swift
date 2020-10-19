@@ -18,17 +18,17 @@ struct LogMessageView: View {
     
     let timeFormat: DateFormatter = {
         let format = DateFormatter()
-        format.dateStyle = .medium
+        format.dateStyle = .short
         format.timeZone = .current
-        format.timeStyle = .long
+        format.timeStyle = .short
         return format
     }()
     
     var body: some View {
         List {
             ForEach(logs) { log in
-                Text("<") + Text(timeFormat.string(from: log.createdAt!)) + Text(">")
-                        + Text(log.text ?? "pay")
+                Text("<" + timeFormat.string(from: log.createdAt!) + "> " + (log.text ?? "pay")).font(.callout)
+                   
                             
                     }.onDelete(perform: { indexSet in
                         deleteLog(offsets: indexSet)

@@ -114,7 +114,7 @@ struct HubView_Previews: PreviewProvider {
 extension HubView {
     /// 设置后台刷新的内容
     func setBackgroundFetch() {
-        backgroudnFetch = self.backgroundFetch
+        backgroundFetchTask = self.backgroundFetch
     }
     
     /// 后台刷新的具体操作内容
@@ -125,6 +125,22 @@ extension HubView {
         user.mention.refreshFromTop()
         
         saveOrUpdateLog(text: "Started background fetch.")
+        
+        if !user.myInfo.setting.isDeleteTweets {
+            user.home.refreshFromTop(completeHandeler: completeHandler)
+        }
+        
+        if user.myInfo.setting.isDeleteTweets {
+            user.home.refreshFromTop()
+            deleteTweets(completeHandler: completeHandler)
+        }
+    }
+    
+    func backgroundProcessing(task: BGProcessingTask) -> Void {
+        let completeHandler = {task.setTaskCompleted(success: true)}
+        user.mention.refreshFromTop()
+        
+        saveOrUpdateLog(text: "Started background processing.")
         
         if !user.myInfo.setting.isDeleteTweets {
             user.home.refreshFromTop(completeHandeler: completeHandler)
@@ -267,7 +283,7 @@ extension HubView {
 extension HubView {
     private func saveOrUpdateLog(text: String?){
         withAnimation {
-            let log = Log(context: viewContext) //如果没有当前编辑的draft则新生成一个空的draft
+            let log = Log(context: viewContext)
             log.createdAt = Date()
             log.text = text
             log.id = UUID()
