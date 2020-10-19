@@ -157,11 +157,13 @@ extension HubView {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
         user.home.refreshFromTop(completeHandeler: {
                                     alerts.logInfo.alertText = "Fetching ended."
-                                    saveOrUpdateLog(text: "Fetching ended.")})
+//                                    saveOrUpdateLog(text: "Fetching ended.")
+            
+        })
         user.mention.refreshFromTop()
         user.getMyInfo()
         alerts.logInfo.alertText = "Started fetching new tweets..."
-        saveOrUpdateLog(text: "Started fetching new tweets...")
+//        saveOrUpdateLog(text: "Started fetching new tweets...")
     }
     
     func hideKeyboard() {
