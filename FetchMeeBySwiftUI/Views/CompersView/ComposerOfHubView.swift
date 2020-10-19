@@ -269,31 +269,55 @@ extension ComposerOfHubView {
     }
     
     /**
-     实现把一条超过140字的字串转变成低于134字以下，并增加序号
+     实现把一条超过字数的字串转变成符合单条推文限制，并增加序号，根据是否含有中文自动识别
      */
     func splitToTexts(string: String) -> [String] {
         
+        //根据是否含有中文设置单条推文的字数上限
+        let countLimit: Int = {
+            switch  isIncludeChineseIn(string: string) {
+            case true:
+                return 140
+            case false:
+                return 280
+            }
+        }()
+        
+        //判断字符串中是否含有中文
+        func isIncludeChineseIn(string: String) -> Bool {
+
+            for value in string {
+                
+                if ("\u{4E00}" <= value  && value <= "\u{9FA5}") {
+                    return true
+                }
+            }
+
+            return false
+        }
+        
         func splitStingToSubstrings(string: String) -> [Substring] {
+           
             //按照主要标点符号的位置分开
             let strings: [String] = string.map{
-                if "，。！：；？……\n".contains($0) {//定义主要标点符号
-                    return String($0) + "/" //在主要标点符号位置后面增加分割符
+                if "，。！：；？……\n ".contains($0) {//定义主要标点符号
+                    return String($0) + "※" //在主要标点符号位置后面增加分割符
                 } else {
                     return String($0)
                 }
             }
-            return strings.joined().split(separator: "/") //将字节组合起来，并在分割符处进行分割
+            return strings.joined().split(separator: "※") //将字节组合起来，并在分割符处进行分割
         }
         
         //以下内容将按语句分割好的句子按顺序组合起来，并保证组合后每条字数不超过134，
-        guard string.count > 140 else {return [string]}
+        guard string.count > countLimit else {return [string]}
         var result: [String] = [] //定义一个空的推文队列
         var textCount: Int = 0
         var tempString: String = ""
         let substrings = splitStingToSubstrings(string: string)
         
         for sub in substrings {
-            if textCount +  sub.count < 134 {
+            if textCount +  sub.count < countLimit - 6 {
                 tempString += String(sub)
                 textCount += sub.count
             } else {
@@ -310,8 +334,6 @@ extension ComposerOfHubView {
         }
         return result
     }
-    
-    
 }
 
 //MARK: -CoreData操作模块
