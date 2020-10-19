@@ -115,6 +115,7 @@ extension HubView {
     /// 设置后台刷新的内容
     func setBackgroundFetch() {
         backgroundFetchTask = self.backgroundFetch
+        backgroundProcessTask = self.backgroundProcessing(task:)
     }
     
     /// 后台刷新的具体操作内容
