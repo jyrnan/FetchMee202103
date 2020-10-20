@@ -25,7 +25,9 @@ struct BackOfToolsToolBar: View {
             })
             Spacer()
             
-            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+            Button(action: {
+                getRateLimits()
+            }, label: {
                 VStack{
                     Image(systemName: "heart.fill").font(.title2)
                     Text("LikeYou").font(.caption).padding(.top, 1)
@@ -34,7 +36,15 @@ struct BackOfToolsToolBar: View {
             
             Spacer()
             
-            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+            Button(action: {
+                //测试获取Following IDS
+                let userTag = UserTag.id(user.myInfo.id)
+                swifter.getUserFollowersIDs(for: userTag, success: {json, _, _ in
+                    print(json.array?.count)
+                })
+                
+                
+            }, label: {
                 VStack{
                     Image(systemName: "sun.max.fill").font(.title2)
                     Text("Morning").font(.caption).padding(.top, 1)
@@ -64,5 +74,15 @@ struct BackOfToolsToolBar_Previews: PreviewProvider {
                 .foregroundColor(.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3).frame(height: 76)
             BackOfToolsToolBar()
         }
+    }
+}
+
+extension BackOfToolsToolBar {
+    
+    func getRateLimits() {
+        swifter.getRateLimits(for: ["statuses"], success: {
+            json in
+            print(json)
+        }, failure: nil)
     }
 }

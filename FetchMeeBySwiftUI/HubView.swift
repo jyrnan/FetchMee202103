@@ -115,7 +115,7 @@ extension HubView {
     /// 设置后台刷新的内容
     func setBackgroundFetch() {
         backgroundFetchTask = self.backgroundFetch
-        backgroundProcessTask = self.backgroundProcessing(task:)
+        backgroundProcessTask = self.backgroundProcessing
     }
     
     /// 后台刷新的具体操作内容
@@ -157,14 +157,13 @@ extension HubView {
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
         user.home.refreshFromTop(completeHandeler: {
-                                    alerts.logInfo.alertText = "Fetching ended."
-//                                    saveOrUpdateLog(text: "Fetching ended.")
+            self.alerts.setLogInfo(text:  "Fetching ended.")
             
         })
         user.mention.refreshFromTop()
         user.getMyInfo()
-        alerts.logInfo.alertText = "Started fetching new tweets..."
-//        saveOrUpdateLog(text: "Started fetching new tweets...")
+        self.alerts.setLogInfo(text:  "Started fetching new tweets...")
+
     }
     
     func hideKeyboard() {

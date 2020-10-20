@@ -55,15 +55,6 @@ extension AuthView {
         }, failure: failureHandler)
     }
    
-//    func setForLogin() {
-//        //设置未登录时候的界面状态
-//    }
-//    
-//    
-//    
-//    func setForLogout() {
-//        
-//    }
     
     func readInfo() {
         //读取保存的auth信息并生成登录后的Swifter

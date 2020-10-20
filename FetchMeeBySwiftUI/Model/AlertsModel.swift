@@ -21,4 +21,10 @@ class Alerts: ObservableObject {
     
     //可以在hubView的toolbar里面显示一行信息，并作为log输出信息
     @Published var logInfo: MyAlert = MyAlert()
+    
+    func setLogInfo(text: String) {
+        DispatchQueue.main.async {
+            self.logInfo.alertText = text
+        }
+    }
 }

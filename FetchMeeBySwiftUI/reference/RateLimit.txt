@@ -1,0 +1,59 @@
+{
+  "rate_limit_context" : {
+    "access_token" : "47585796-GqTYrwrXpdUDL7zKIiEXuBCpYo0RyWY9PChycaUs3"
+  },
+  "resources" : {
+    "statuses" : {
+      "/statuses/mentions_timeline" : {
+        "limit" : 75.0,
+        "remaining" : 75.0,
+        "reset" : 1603188050.0
+      },
+      "/statuses/oembed" : {
+        "reset" : 1603188050.0,
+        "remaining" : 180.0,
+        "limit" : 180.0
+      },
+      "/statuses/lookup" : {
+        "remaining" : 900.0,
+        "limit" : 900.0,
+        "reset" : 1603188050.0
+      },
+      "/statuses/friends" : {
+        "reset" : 1603188050.0,
+        "remaining" : 15.0,
+        "limit" : 15.0
+      },
+      "/statuses/retweets/:id" : {
+        "remaining" : 75.0,
+        "reset" : 1603188050.0,
+        "limit" : 75.0
+      },
+      "/statuses/user_timeline" : {
+        "reset" : 1603188050.0,
+        "remaining" : 900.0,
+        "limit" : 900.0
+      },
+      "/statuses/show/:id" : {
+        "remaining" : 900.0,
+        "limit" : 900.0,
+        "reset" : 1603188050.0
+      },
+      "/statuses/retweeters/ids" : {
+        "limit" : 75.0,
+        "reset" : 1603188050.0,
+        "remaining" : 75.0
+      },
+      "/statuses/retweets_of_me" : {
+        "remaining" : 75.0,
+        "reset" : 1603188050.0,
+        "limit" : 75.0
+      },
+      "/statuses/home_timeline" : {
+        "remaining" : 15.0,
+        "limit" : 15.0,
+        "reset" : 1603188050.0
+      }
+    }
+  }
+}

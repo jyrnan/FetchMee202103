@@ -30,11 +30,10 @@ struct AvatarView: View {
                 .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName).environmentObject(self.alerts)
                     .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color).environmentObject(downloader)
                 }
-            AvatarImageView(image: avatar)
             .onTapGesture(count: 2, perform: {
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 print(#line, "pai yi pai")
-                self.pat()
+                self.pat(text: "并缓缓举起了了大拇指")
             })
             
             .onTapGesture(count: 1) {self.presentedUserInfo = true}
@@ -54,10 +53,10 @@ struct AvatarView: View {
         }
     }
     
-    func pat() {
+    func pat(text: String? = "") {
         guard let userName = self.userName else { return}
         guard let screenName = self.screenName else { return}
-        let tweetText = "\(self.user.myInfo.name ?? "楼主")拍了拍\"\(userName)\" \n@\(screenName)"
+        let tweetText = "\(self.user.myInfo.name ?? "楼主")拍了拍\"\(userName)\" \(text ?? "") \n@\(screenName)"
         swifter.postTweet(status: tweetText, inReplyToStatusID: self.tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
             self.alerts.stripAlert.alertText = "Patting sent!"
             self.alerts.stripAlert.isPresentedAlert = true

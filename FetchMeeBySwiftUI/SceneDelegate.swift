@@ -162,8 +162,8 @@ extension SceneDelegate {
             try BGTaskScheduler.shared.submit(request)
             
             let taskSetText = "BGAPPRefreshTaskRequest set."
-//            self.alerts.logInfo.alertText = "\(timeStamp) \(taskSetText)"
-            self.saveOrUpdateLog(text: taskSetText)
+            self.alerts.setLogInfo(text: "\(self.timeStamp) \(taskSetText)")
+//            self.saveOrUpdateLog(text: taskSetText)
             
         } catch {
             print("Could not schedule app refresh: \(error)")
@@ -172,15 +172,14 @@ extension SceneDelegate {
     
     func scheduledProcess() {
         let request = BGProcessingTaskRequest(identifier: "com.jyrnan.FetchMee.process")
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 60)
-//        request.requiresNetworkConnectivity = true
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 10)
         
         do {
             try BGTaskScheduler.shared.submit(request)
             
             let taskSetText = "BGAProcessingTaskRequest set."
-//            self.alerts.logInfo.alertText = "\(timeStamp) \(taskSetText)"
-            self.saveOrUpdateLog(text: taskSetText)
+            self.alerts.setLogInfo(text: "\(self.timeStamp) \(taskSetText)")
+//            self.saveOrUpdateLog(text: taskSetText)
             
         } catch {
             print("Could not schedule database cleaning: \(error)")
@@ -193,7 +192,8 @@ extension SceneDelegate {
         
         task.expirationHandler = {
             let expirationText = "BGAPPRefreshTask unexpectedly exit."
-            self.alerts.logInfo.alertText = "\(self.timeStamp) \(expirationText)"
+           
+            self.alerts.setLogInfo(text: "\(self.timeStamp) \(expirationText)")
             self.saveOrUpdateLog(text: expirationText)
         }
         
@@ -201,7 +201,7 @@ extension SceneDelegate {
         let successHandler: (JSON) -> Void = {json in
             
             let successText = "BGAPPRefreshTask completed."
-            self.alerts.logInfo.alertText = "\(self.timeStamp) \(successText)"
+            self.alerts.setLogInfo(text: "\(self.timeStamp) \(successText)")
             self.saveOrUpdateLog(text: successText)
             
             task.setTaskCompleted(success: true)
@@ -209,9 +209,9 @@ extension SceneDelegate {
         
         //实际操作部分，但如果操作内容为空则写入log并结束
         guard backgroundFetchTask != nil else {
-            //
+            
             let successText = "BGAPPRefreshTask has no content."
-            self.alerts.logInfo.alertText = "\(self.timeStamp) \(successText)"
+            self.alerts.setLogInfo(text: "\(self.timeStamp) \(successText)")
             self.saveOrUpdateLog(text: successText)
             
             successHandler(JSON.init(""))
@@ -227,7 +227,6 @@ extension SceneDelegate {
          
         task.expirationHandler = {
             let expirationText = "BGProcessingTask unexpectedly exit."
-            self.alerts.logInfo.alertText = "\(self.timeStamp) \(expirationText)"
             self.saveOrUpdateLog(text: expirationText)
         }
         
@@ -235,7 +234,6 @@ extension SceneDelegate {
         let successHandler: (JSON) -> Void = {json in
               
             let successText = "BGProcessingTask completed."
-            self.alerts.logInfo.alertText = "\(self.timeStamp) \(successText)"
             self.saveOrUpdateLog(text: successText)
             
             task.setTaskCompleted(success: true)
@@ -244,7 +242,6 @@ extension SceneDelegate {
         //实际操作部分，但如果操作内容为空则写入log并结束
         guard backgroundProcessTask != nil else {
             let successText = "BGProcessingTask has no content."
-            self.alerts.logInfo.alertText = "\(self.timeStamp) \(successText)"
             self.saveOrUpdateLog(text: successText)
             
             successHandler(JSON.init(""))
@@ -264,7 +261,7 @@ extension SceneDelegate {
         withAnimation {
             let log = Log(context: context)
             log.createdAt = Date()
-            log.text = text! + " \(loginUser.myInfo.screenName ?? "screenName")" //临时添加一个用户名做标记
+            log.text = " \(loginUser.myInfo.screenName ?? "screenName") " + text! //临时添加一个用户名做标记
             log.id = UUID()
             
             do {
