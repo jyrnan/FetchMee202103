@@ -34,7 +34,7 @@ struct LogMessageView: View {
                         deleteLog(offsets: indexSet)
                     })
                
-        }.navigationBarTitle("LogMessage")
+        }.navigationTitle("LogMessage")
         .navigationBarItems(trailing: Button(action: {deleteAll()}, label: {Text("Clear")}))
     }
 }

@@ -57,7 +57,7 @@ struct TimelineView: View {
                 }.padding([.leading, .trailing], 16)
                 
             }
-            .navigationBarTitle(listName ?? timeline.type.rawValue, displayMode: .automatic)
+            .navigationTitle(listName ?? timeline.type.rawValue)
             .navigationBarItems(leading:
                                     HStack{
                                         if downloader.taskCount != 0 {

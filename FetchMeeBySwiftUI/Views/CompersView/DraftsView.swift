@@ -39,7 +39,7 @@ struct DraftsViewCoreData: View {
                 deleteDrafts(offsets: indexSet)
             })
             
-        }.navigationBarTitle("Drafts")
+        }.navigationTitle("Drafts")
     }
 }
 

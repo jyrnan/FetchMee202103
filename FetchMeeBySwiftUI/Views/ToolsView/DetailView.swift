@@ -38,7 +38,7 @@ struct DetailView: View {
                         self.firstTimeRun = false
                         self.replySession.getReplyDetail(for: self.tweetIDString)
                     } else {print(#line, "firstTimeRun is already true")}} //页面出现时执行一次刷新
-                .navigationBarTitle("Detail", displayMode: .automatic)
+                .navigationTitle("Detail")
                 
                 AlertView()
         }

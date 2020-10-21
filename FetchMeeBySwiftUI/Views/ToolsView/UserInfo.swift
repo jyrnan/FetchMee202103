@@ -106,7 +106,7 @@ struct UserInfo: View {
             }.frame(height:180)
             
             ///用户信息View
-            List {
+            ScrollView {
                 VStack(alignment: .leading){
                     HStack{
                         VStack(alignment: .leading) {
@@ -170,11 +170,13 @@ struct UserInfo: View {
                         Text(String(self.checkingUser.myInfo.followed ?? 0)).font(.body).padding(.leading, 16)
                         Text("Followers").font(.body).foregroundColor(.gray)
                     }.padding(.bottom, 16)
-                }
+                }.padding([.leading, .trailing], 16)
                 
                 ///用户推文部分
                 ForEach(self.userTimeline.tweetIDStrings, id: \.self) {
                     tweetIDString in
+                    
+                    Divider()
                     TweetRow(timeline: self.userTimeline, tweetIDString: tweetIDString)
                 }.onDelete(perform: { _ in print(#line, "delete")})
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))

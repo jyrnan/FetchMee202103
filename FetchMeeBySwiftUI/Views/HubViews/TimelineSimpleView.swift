@@ -25,9 +25,12 @@ struct TimelineSimpleView: View {
     var body: some View {
         
         ZStack {
-            List {
+            ScrollView {
+//                Divider()
                 PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
-                    Composer(timeline: self.timeline)}
+//                    Composer(timeline: self.timeline)
+                    Divider()
+                }.frame(height: 4)
                 
                 //Homeline部分章节
                 LazyVStack(spacing: 0) {
@@ -39,11 +42,11 @@ struct TimelineSimpleView: View {
                             .onTapGesture {
                                 self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed = true
                             }
-                            .background(userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str && timeline.type == .home ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //在HomeTimeline标注被提及的推文
+                            .background(userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str && timeline.type == .home ? Color.accentColor.opacity(0.2) : Color.init(UIColor.systemBackground)) //在HomeTimeline标注被提及的推文
                         
                         Divider()
                     }
-                    
+                }
                     HStack {
                         Spacer()
                         Button("More Tweets...") {self.timeline.refreshFromButtom()}
@@ -53,10 +56,10 @@ struct TimelineSimpleView: View {
                         Spacer()
                     }
                     
-                }
+//                }
                 
             }
-            .navigationBarTitle(listName ?? timeline.type.rawValue, displayMode: .automatic)
+            .navigationTitle(listName ?? timeline.type.rawValue)
             .navigationBarItems(leading:
                                     HStack{
                                         if downloader.taskCount != 0 {
@@ -65,7 +68,7 @@ struct TimelineSimpleView: View {
                                         }
                                     },
                                 trailing:
-                                    AvatarImageView(image: user.myInfo.avatar))
+                                    AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center))
             //通知视图
             AlertView()
         }
