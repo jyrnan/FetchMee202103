@@ -95,7 +95,7 @@ struct HubView: View {
                 AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center)})
             }
         }
-        .onAppear{self.setBackgroundFetch()}
+//        .onAppear{self.setBackgroundFetch()}
 //        .onTapGesture(count: 1, perform: {self.hideKeyboard()})
     }
 }
@@ -113,45 +113,40 @@ struct HubView_Previews: PreviewProvider {
 //MARK:-设置后台刷新的内容
 extension HubView {
     /// 设置后台刷新的内容
-    func setBackgroundFetch() {
-        backgroundFetchTask = self.backgroundFetch
-        backgroundProcessTask = self.backgroundProcessing
-    }
+//    func setBackgroundFetch() {
+//        backgroundFetchTask = self.backgroundFetch
+//        backgroundProcessTask = self.backgroundProcessing
+//    }
     
     /// 后台刷新的具体操作内容
     /// - Parameter task: 传入的task
     /// - Returns: Void
-    func backgroundFetch(task: BGAppRefreshTask) -> Void {
-        let completeHandler = {task.setTaskCompleted(success: true)}
-        user.mention.refreshFromTop()
-        
-        saveOrUpdateLog(text: "Started background fetch.")
-        
-        if !user.myInfo.setting.isDeleteTweets {
-            user.home.refreshFromTop(completeHandeler: completeHandler)
-        }
-        
-        if user.myInfo.setting.isDeleteTweets {
-            user.home.refreshFromTop()
-            deleteTweets(completeHandler: completeHandler)
-        }
-    }
+//    func backgroundFetch(task: BGAppRefreshTask) -> Void {
+//        let completeHandler = {task.setTaskCompleted(success: true)}
+//
+//        saveOrUpdateLog(text: "Started background fetch.")
+//
+//        user.mention.refreshFromTop()
+//
+//        if user.myInfo.setting.isDeleteTweets {
+//
+//            user.home.refreshFromTop()
+//            swifter.deleteTweets(for: user.myInfo.id,
+//                                 keepRecent: user.myInfo.setting.isKeepRecentTweets,
+//                                 completeHandler: completeHandler)
+//
+//        } else {
+//            user.home.refreshFromTop(completeHandeler: completeHandler)
+//        }
+//    }
     
-    func backgroundProcessing(task: BGProcessingTask) -> Void {
-        let completeHandler = {task.setTaskCompleted(success: true)}
-        user.mention.refreshFromTop()
-        
-        saveOrUpdateLog(text: "Started background processing.")
-        
-        if !user.myInfo.setting.isDeleteTweets {
-            user.home.refreshFromTop(completeHandeler: completeHandler)
-        }
-        
-        if user.myInfo.setting.isDeleteTweets {
-            user.home.refreshFromTop()
-            deleteTweets(completeHandler: completeHandler)
-        }
-    }
+//    func backgroundProcessing(task: BGProcessingTask) -> Void {
+//        let completeHandler = {task.setTaskCompleted(success: true)}
+//
+//        saveOrUpdateLog(text: "Started background processing.")
+//
+//       //需要执行的任务内容
+//    }
     
     
     func refreshAll() {
@@ -311,4 +306,5 @@ extension HubView {
         }
     }
 }
+
 

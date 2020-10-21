@@ -156,14 +156,14 @@ extension SceneDelegate {
    
     func scheduledRefresh() {
         let request = BGAppRefreshTaskRequest(identifier: "com.jyrnan.FetchMee.post")
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 15)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 5)
         
         do {
             try BGTaskScheduler.shared.submit(request)
             
             let taskSetText = "BGAPPRefreshTaskRequest set."
             self.alerts.setLogInfo(text: "\(self.timeStamp) \(taskSetText)")
-//            self.saveOrUpdateLog(text: taskSetText)
+
             
         } catch {
             print("Could not schedule app refresh: \(error)")
@@ -179,7 +179,7 @@ extension SceneDelegate {
             
             let taskSetText = "BGAProcessingTaskRequest set."
             self.alerts.setLogInfo(text: "\(self.timeStamp) \(taskSetText)")
-//            self.saveOrUpdateLog(text: taskSetText)
+
             
         } catch {
             print("Could not schedule database cleaning: \(error)")
@@ -198,7 +198,7 @@ extension SceneDelegate {
         }
         
         //成功处理回调通知,因为是作为在Swifter的successHanler来调用，所以如下格式
-        let successHandler: (JSON) -> Void = {json in
+        let completeHandler: () -> () = {
             
             let successText = "BGAPPRefreshTask completed."
             self.alerts.setLogInfo(text: "\(self.timeStamp) \(successText)")
@@ -207,18 +207,22 @@ extension SceneDelegate {
             task.setTaskCompleted(success: true)
         }
         
-        //实际操作部分，但如果操作内容为空则写入log并结束
-        guard backgroundFetchTask != nil else {
+        //实际操作部分，执行真正的操作
+        guard loginUser.isLoggedIn else { return }
+        
+        saveOrUpdateLog(text: "Started background fetch.")
+        loginUser.mention.refreshFromTop()
+        
+        if loginUser.myInfo.setting.isDeleteTweets {
             
-            let successText = "BGAPPRefreshTask has no content."
-            self.alerts.setLogInfo(text: "\(self.timeStamp) \(successText)")
-            self.saveOrUpdateLog(text: successText)
+            loginUser.home.refreshFromTop()
+            swifter.deleteTweets(for: loginUser.myInfo.id,
+                                 keepRecent: loginUser.myInfo.setting.isKeepRecentTweets,
+                                 completeHandler: completeHandler)
             
-            successHandler(JSON.init(""))
-            return
+        } else {
+            loginUser.home.refreshFromTop(completeHandeler: completeHandler)
         }
-        //执行真正的操作
-        backgroundFetchTask!(task)
     }
     
     
@@ -256,7 +260,7 @@ extension SceneDelegate {
 //MARK:-CoreData操作
 extension SceneDelegate {
     
-    private func saveOrUpdateLog(text: String?){
+    func saveOrUpdateLog(text: String?){
         guard text != nil else {return}
         withAnimation {
             let log = Log(context: context)

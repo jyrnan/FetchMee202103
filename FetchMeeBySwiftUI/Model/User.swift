@@ -362,6 +362,7 @@ extension User {
         
         let fetchRequest: NSFetchRequest<Count> = Count.fetchRequest()
         fetchRequest.predicate = userPredicate
+        
         do {
             let counts = try viewContext.fetch(fetchRequest)
             

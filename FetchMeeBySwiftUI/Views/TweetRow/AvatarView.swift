@@ -30,6 +30,7 @@ struct AvatarView: View {
                 .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName).environmentObject(self.alerts)
                     .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color).environmentObject(downloader)
                 }
+            AvatarImageView(image: avatar)
             .onTapGesture(count: 2, perform: {
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 print(#line, "pai yi pai")

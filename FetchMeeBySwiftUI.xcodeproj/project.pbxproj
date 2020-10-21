@@ -25,7 +25,7 @@
 		D205247624C290F10046F1AB /* PullRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = D205247524C290F10046F1AB /* PullRefresh.swift */; };
 		D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F4C4E24DE73C6004B2C20 /* SettingView.swift */; };
 		D2224F8A24BE7C0400AE2110 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F8924BE7C0400AE2110 /* User.swift */; };
-		D2224F9124BE7FE400AE2110 /* Swifter+Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F9024BE7FE400AE2110 /* Swifter+Observable.swift */; };
+		D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */; };
 		D2224FD324BE901E00AE2110 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224FD224BE901E00AE2110 /* AuthView.swift */; };
 		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
 		D252548024D804AB00D8B508 /* WebLinkJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkJson.txt */; };
@@ -109,7 +109,7 @@
 		D205247524C290F10046F1AB /* PullRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRefresh.swift; sourceTree = "<group>"; };
 		D21F4C4E24DE73C6004B2C20 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		D2224F8924BE7C0400AE2110 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		D2224F9024BE7FE400AE2110 /* Swifter+Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swifter+Observable.swift"; sourceTree = "<group>"; };
+		D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swifter+DeleteTweets.swift"; sourceTree = "<group>"; };
 		D2224FD224BE901E00AE2110 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
 		D252547F24D804AB00D8B508 /* WebLinkJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkJson.txt; sourceTree = "<group>"; };
@@ -303,7 +303,7 @@
 				D27DCF3A24B98F9900520BE3 /* Model.swift */,
 				D7AC535C24B9E94300BCD71F /* Timeline.swift */,
 				D2224F8924BE7C0400AE2110 /* User.swift */,
-				D2224F9024BE7FE400AE2110 /* Swifter+Observable.swift */,
+				D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */,
 				D205247324C199500046F1AB /* AlertsModel.swift */,
 				D205247524C290F10046F1AB /* PullRefresh.swift */,
 				D707B6EC24C4040F0023F243 /* KeyboardHide.swift */,
@@ -450,7 +450,7 @@
 				D7AC536E24BB477300BCD71F /* DetailView.swift in Sources */,
 				D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */,
 				D205247624C290F10046F1AB /* PullRefresh.swift in Sources */,
-				D2224F9124BE7FE400AE2110 /* Swifter+Observable.swift in Sources */,
+				D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,
 				D2DDFCBF2532D65100AE7E39 /* ToolBarView.swift in Sources */,
 				D2C7248824E613A500804F18 /* RoundedCorners.swift in Sources */,
