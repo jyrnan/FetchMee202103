@@ -32,6 +32,10 @@ struct HubView: View {
                 ScrollView(.vertical, showsIndicators: false){
                     
                     ZStack{
+                        RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
+                            .padding(.top, 0)
+                            .padding(.bottom, 0)
+                            .shadow(radius: 3 )
                         VStack {
                             PullToRefreshView(action: {self.refreshAll()}, isDone: $user.home.isDone) {
                                 ComposerOfHubView(tweetText: $tweetText)

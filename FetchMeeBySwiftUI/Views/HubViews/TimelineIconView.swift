@@ -13,7 +13,7 @@ struct TimelineIconView: View {
     @State var listName: String?
     
     var body: some View {
-        NavigationLink(destination:TimelineSimpleView(timeline: timeline, listName: listName)){
+        NavigationLink(destination:TimelineView(timeline: timeline, listName: listName)){
             ZStack{
                 RoundedRectangle(cornerRadius: 18)
                     .frame(width: 92, height: 92, alignment: .center)
