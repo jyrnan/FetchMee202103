@@ -24,25 +24,23 @@ struct HubView: View {
     @State var tweetText: String = ""
     
     var body: some View {
-        
+
         NavigationView {
-            GeometryReader {geometry in
-            ZStack{
-                LogoBackground()
+            
                 ScrollView(.vertical, showsIndicators: false){
                     
                     ZStack{
-                        RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
-                            .padding(.top, 0)
-                            .padding(.bottom, 0)
-                            .shadow(radius: 3 )
+//                        RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 18, br: 18)
+//                            .padding(.top, 0)
+//                            .padding(.bottom, 0)
+//                            .shadow(radius: 3 )
                         VStack {
                             PullToRefreshView(action: {self.refreshAll()}, isDone: $user.home.isDone) {
                                 ComposerOfHubView(tweetText: $tweetText)
                                     .padding(.top, 16)
                                     .padding([.leading, .trailing], 18)
                             }
-                            .frame(height: geometry.size.height - 428 > 0 ? geometry.size.height - 428 : 180)
+                            .frame(height: UIScreen.main.bounds.height - 600)
                             
                             Divider()
                             TimelinesView()
@@ -69,17 +67,15 @@ struct HubView: View {
                         }
                         
                         AlertView()
-                    }
+                    }.background(Color.init("BackGround")).cornerRadius(18).shadow(radius: 3 )
                    
                 }
-            }
-            .fixedSize(horizontal: false, vertical: true)
             .onTapGesture(count: 1, perform: {self.hideKeyboard()})
             .navigationTitle("FetchMee")
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
                 AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center)})
             }
-        }
+
     }
 }
 
