@@ -40,7 +40,8 @@ struct HubView: View {
                                     .padding(.top, 16)
                                     .padding([.leading, .trailing], 18)
                             }
-                            .frame(height: UIScreen.main.bounds.height - 600)
+//                            .frame(height: UIScreen.main.bounds.height - 600)
+                            .frame(minHeight: 120, idealHeight: UIScreen.main.bounds.height - 600, maxHeight: .infinity)
                             
                             Divider()
                             TimelinesView()
