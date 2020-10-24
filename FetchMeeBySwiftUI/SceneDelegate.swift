@@ -207,6 +207,12 @@ extension SceneDelegate {
             task.setTaskCompleted(success: true)
         }
         
+        //logHandler用来传入到其他函数中接受记录并输出信息到CoreData中
+        let logHandler: (String) -> () = {logText in
+            self.alerts.setLogInfo(text: logText)
+            self.saveOrUpdateLog(text: logText)
+        }
+        
         //实际操作部分，执行真正的操作
         guard loginUser.isLoggedIn else { return }
         
@@ -218,7 +224,8 @@ extension SceneDelegate {
             loginUser.home.refreshFromTop()
             swifter.deleteTweets(for: loginUser.myInfo.id,
                                  keepRecent: loginUser.myInfo.setting.isKeepRecentTweets,
-                                 completeHandler: completeHandler)
+                                 completeHandler: completeHandler,
+                                 logHandler: logHandler)
             
         } else {
             loginUser.home.refreshFromTop(completeHandeler: completeHandler)

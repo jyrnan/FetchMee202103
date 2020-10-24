@@ -18,12 +18,13 @@ extension Swifter {
     ///   - userID: 要删除推文的用户ID
     ///   - keepRecent: 删除推文时是否保留最新的80条推文，保留数量留到后期可以进一步设置
     ///   - completeHandler: 传入作为所有任务全部完成后的成功回调，主动通知系统后台任务可以结束
+    ///   - logHandler: 传入用来记录和输出信息的处理函数
     /// - Returns: <#description#>
-    func deleteTweets(for userID: String , keepRecent: Bool = false, completeHandler: @escaping ()->()) {
+    func deleteTweets(for userID: String , keepRecent: Bool = false, completeHandler: @escaping ()->(), logHandler: @escaping (String) -> ()) {
         
-        guard let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
-              let sceneDelegate = windowsScenen.delegate as? SceneDelegate
-        else { return }
+//        guard let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
+//              let sceneDelegate = windowsScenen.delegate as? SceneDelegate
+//        else { return }
         
         
         //3 准备好待删除的推文的方法
@@ -41,8 +42,7 @@ extension Swifter {
             }
             //如果要删除的推文数量为零，则直接退出并输出信息
             guard !tweetsForDeletion.isEmpty else {
-                sceneDelegate.alerts.logInfo.alertText = "<\(timeNow)> No tweets deleted."
-                sceneDelegate.saveOrUpdateLog(text: "No tweets deleted.")
+                logHandler("No tweets deleted.")
                 return
             }
             
@@ -58,8 +58,7 @@ extension Swifter {
         }
         
         func fh(error: Error) -> Void {
-            sceneDelegate.alerts.logInfo.alertText = "<\(timeNow)> Deleting task failed."
-            sceneDelegate.saveOrUpdateLog(text: "Deleting task failed.")
+            logHandler( "Deleting task failed.")
         }
         
         //2 获取推文成功处理闭包，成功后会调用删除推文方法
@@ -82,8 +81,7 @@ extension Swifter {
             guard !tweetsTobeDel.isEmpty else {
                 
                 //传递文字并保存到Draft的CoreData数据中
-                sceneDelegate.alerts.logInfo.alertText = "About \(deletedTweetCount) tweets deleted."
-                sceneDelegate.saveOrUpdateLog(text: "About \(deletedTweetCount) tweets deleted.")
+                logHandler("About \(deletedTweetCount) tweets deleted.")
                 
                 completeHandler()
                 return
@@ -108,7 +106,7 @@ extension Swifter {
         
         //1 这里是方法的真正入口
         //先获取SceneDelegate
-        let timeNow = getTimeNow()
+        _ = getTimeNow()
         
         var tweetsTobeDel: [String] = [] //将要删除的推文的id序列
         var deletedTweetCount: Int = 0 //将要删除的推文数量
@@ -128,6 +126,111 @@ extension Swifter {
                             count: maxCount,
                             success: getSH,
                             failure: fh)
+    }
+    
+    
+    func fastDeleteTweets(for userID: String ,willDeleteCount: Int = 300, keepRecent: Bool = false, completeHandler: @escaping ()->(), logHandler: @escaping (String) -> ()) {
+        
+        var tweetsForDeletionIDStrings: [String] = []
+        let userIDString = userID
+        var maxIDString:String?
+        
+        var getTimes: Int = 0 //获取推文的次数
+        
+        //TODO: 获取待删除推文
+        
+        func getSh (json: JSON) -> () {
+            
+            let tweetsForDeletion = json.array ?? []
+            guard !tweetsForDeletion.isEmpty else { return }
+            
+            for tweet in tweetsForDeletion {
+                if let idString = tweet["id_str"].string {
+                    if !tweetsForDeletionIDStrings.contains(idString) {
+                    tweetsForDeletionIDStrings.append(idString)
+                    print(tweet["text"])
+                    }
+                }
+            }
+            
+            getTimes += 1 //获取推文次数加一
+            
+            maxIDString = tweetsForDeletionIDStrings.last
+            
+            //获取推文的次数应该是4次即可，达到4次就开始处理推文
+            if getTimes < 4 {
+                self.getTimeline(for: UserTag.id(userIDString),
+                                 count: 100,
+                                 maxID: maxIDString,
+                                 success:getSh(json:),
+                                 failure: nil)
+            } else {
+                prepareTweetsForDeletion()
+            }
+            
+        }
+        func getTweets() {
+            
+            self.getTimeline(for: UserTag.id(userIDString),
+                             count: 100,
+                             success:getSh(json:),
+                             failure: nil)
+            
+        }
+        
+        func prepareTweetsForDeletion() {
+            //处理是否需要保留最近的100条
+            if keepRecent {
+                if tweetsForDeletionIDStrings.count >= 100 {
+                    tweetsForDeletionIDStrings.removeFirst(100)
+                } else {
+                    tweetsForDeletionIDStrings.removeAll()
+                }
+            }
+            
+            if tweetsForDeletionIDStrings.count >= willDeleteCount {
+                tweetsForDeletionIDStrings.removeLast(tweetsForDeletionIDStrings.count - willDeleteCount)
+            }
+            
+            print(#line, #function)
+            print(#line, "推文数量\(tweetsForDeletionIDStrings.count)" )
+            deleteTweets()
+        }
+        
+        //TODO: 删除推文
+        func deleteTweets() {
+            
+            
+            
+            for i in 0..<tweetsForDeletionIDStrings.count {
+                let idString = tweetsForDeletionIDStrings[i]
+                swifter.destroyTweet(forID: idString, success: { _ in
+                    tweetsForDeletionIDStrings[i] = "success"
+                    if checkIsDeleteFinished() {
+                        completeHandler()
+                    }
+                }, failure: {error in
+                    tweetsForDeletionIDStrings[i] = "failure"
+                    print(error.localizedDescription)
+                    if checkIsDeleteFinished() {
+                        completeHandler()
+                    }
+                })
+                
+                
+            }
+            
+        }
+        
+        func checkIsDeleteFinished() -> Bool{
+            print(#line, #function, tweetsForDeletionIDStrings)
+            let result = tweetsForDeletionIDStrings.filter{$0 != "success" && $0 != "failure"}
+            print(result)
+            return result.isEmpty
+            
+        }
+        //获取待删除推文
+        getTweets()
     }
    
 }

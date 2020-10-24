@@ -17,7 +17,12 @@ struct BackOfToolsToolBar: View {
         HStack {
             Spacer()
             
-            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+            Button(action: {
+                let completeHandler  = {print(#line, #function, "Tweet deleted")}
+                let lh: (String) -> () = {string in}
+                
+                swifter.fastDeleteTweets(for: user.myInfo.id, willDeleteCount: 2, keepRecent: user.myInfo.setting.isKeepRecentTweets,  completeHandler: completeHandler, logHandler: lh)
+            }, label: {
                 VStack{
                     Image(systemName: "message.circle.fill").font(.title2)
                     Text("SayHello").font(.caption).padding(.top, 1)
