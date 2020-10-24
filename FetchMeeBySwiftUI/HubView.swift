@@ -11,6 +11,7 @@ import Combine
 import BackgroundTasks
 import Swifter
 import CoreData
+import UIKit
 
 struct HubView: View {
     
@@ -23,24 +24,32 @@ struct HubView: View {
     
     @State var tweetText: String = ""
     
+    init() {
+        let transAppearance = UINavigationBarAppearance()
+        transAppearance.configureWithOpaqueBackground()
+//        transAppearance.backgroundColor = UIColor.clear
+        transAppearance.backgroundImage = UIImage(named: "Logo")?.alpha(0.05)
+        transAppearance.backgroundImageContentMode = .bottomRight
+        transAppearance.shadowColor = .clear
+        
+        UINavigationBar.appearance().standardAppearance = transAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = transAppearance
+    }
+    
     var body: some View {
-
+//        ZStack{
+//            LogoBackground()
         NavigationView {
             
                 ScrollView(.vertical, showsIndicators: false){
                     
                     ZStack{
-//                        RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 18, br: 18)
-//                            .padding(.top, 0)
-//                            .padding(.bottom, 0)
-//                            .shadow(radius: 3 )
                         VStack {
                             PullToRefreshView(action: {self.refreshAll()}, isDone: $user.home.isDone) {
                                 ComposerOfHubView(tweetText: $tweetText)
                                     .padding(.top, 16)
                                     .padding([.leading, .trailing], 18)
                             }
-//                            .frame(height: UIScreen.main.bounds.height - 600)
                             .frame(minHeight: 120, idealHeight: UIScreen.main.bounds.height - 600, maxHeight: .infinity)
                             
                             Divider()
@@ -109,4 +118,5 @@ extension HubView {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
+
 

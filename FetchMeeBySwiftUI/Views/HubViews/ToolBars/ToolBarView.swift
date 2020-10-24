@@ -116,6 +116,8 @@ struct ToolBarView: View, Identifiable {
                     }
                 }
                 .frame(height: 76)
+                .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth:UIScreen.main.bounds.width - 36 , maxWidth: .infinity)
+                .fixedSize(horizontal: true, vertical: false)
                 
             } else {
                 ZStack{
