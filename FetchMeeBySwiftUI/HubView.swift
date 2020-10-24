@@ -77,7 +77,7 @@ struct HubView: View {
                         }
                         
                         AlertView()
-                    }.background(Color.init("BackGround")).cornerRadius(18).shadow(radius: 3 )
+                    }.background(Color.init("BackGround")).cornerRadius(24).shadow(radius: 3 )
                    
                 }
             .onTapGesture(count: 1, perform: {self.hideKeyboard()})
