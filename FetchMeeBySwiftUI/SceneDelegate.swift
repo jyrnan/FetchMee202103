@@ -222,7 +222,7 @@ extension SceneDelegate {
         if loginUser.myInfo.setting.isDeleteTweets {
             
             loginUser.home.refreshFromTop()
-            swifter.deleteTweets(for: loginUser.myInfo.id,
+            swifter.fastDeleteTweets(for: loginUser.myInfo.id,
                                  keepRecent: loginUser.myInfo.setting.isKeepRecentTweets,
                                  completeHandler: completeHandler,
                                  logHandler: logHandler)

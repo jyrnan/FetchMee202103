@@ -10,6 +10,8 @@ import SwiftUI
 import CoreData
 
 struct PersistenceContainer {
+    private static let lastDeletedKey = "lastDeleted"
+    
     static let shared = PersistenceContainer()
     
     var container: NSPersistentCloudKitContainer
@@ -27,6 +29,23 @@ struct PersistenceContainer {
         })
         
         container.viewContext.automaticallyMergesChangesFromParent = true
+    }
+    
+    static func setLastDeleted(date: Date = Date()) {
+            UserDefaults.standard.set(date, forKey: PersistenceContainer.lastDeletedKey)
+        
+    }
+    
+    static func getLastDeleted() -> Date? {
+        
+            return UserDefaults.standard.object(forKey: PersistenceContainer.lastDeletedKey) as? Date
+       
+    }
+    
+    static func updateLastDeleted() {
+        var lastDeleted = self.getLastDeleted()
+        lastDeleted = lastDeleted?.addingTimeInterval(36)
+        self.setLastDeleted(date: lastDeleted ?? Date())
     }
     
 }

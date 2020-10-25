@@ -128,58 +128,102 @@ extension Swifter {
                             failure: fh)
     }
     
+//MARK:-快速删除推文方法
     
-    func fastDeleteTweets(for userID: String ,willDeleteCount: Int = 300, keepRecent: Bool = false, completeHandler: @escaping ()->(), logHandler: @escaping (String) -> ()) {
+    /// 快速删除推文的方法，一次性删除较多数量的推文。
+    /// 限于API限制，3小时内最多执行300次Post的操作，所以一次最多只能执行300条推文删除
+    /// TODO：根据上次执行时间的间隔来确定本次推文删除动作可以设置的最大删除量
+    /// - Parameters:
+    ///   - userID: 用户ID
+    ///   - willDeleteCount: 将要删除的数量，默认是300条
+    ///   - keepRecent: 是否保留最新的推文不删除
+    ///   - completeHandler: 删除成功后执行的闭包
+    ///   - logHandler: 可以用来写入记录的闭包
+    /// - Returns: nil
+    func fastDeleteTweets(for userID: String ,willDeleteCount: Int? = nil, keepRecent: Bool = false, completeHandler: @escaping ()->(), logHandler: @escaping (String) -> ()) {
         
+        //用来存储等待删除的推文ID
         var tweetsForDeletionIDStrings: [String] = []
         let userIDString = userID
         var maxIDString:String?
         
+        //记录循环获取推文的次数。影响到推文获取总数
         var getTimes: Int = 0 //获取推文的次数
+        var deletedTweetCount: Int = 0 //最终删除的推文数量
         
-        //TODO: 获取待删除推文
+        func calManualDeleteCount() -> Int {
+            var count: Int = 0
+            let lastCleanDate = PersistenceContainer.getLastDeleted() ?? .distantPast
+            
+            let now = Date()
+            let threeHours = TimeInterval(3 * 60 * 60)
+            
+            if now > (lastCleanDate + threeHours) {
+                count = 300
+            } else {
+                count = Int(abs(lastCleanDate.timeIntervalSinceNow / threeHours) * 300.0)
+            }
+            
+            return count
+        }
         
+        //如果没有传入需要删除的数量，则计算最大可以删除推文数量
+        let willDeleteCount = willDeleteCount ?? calManualDeleteCount()
+        print(#line, "可以删除\(willDeleteCount)条推文")
+        
+        /// 获取推文成功的处理闭包
+        /// - Parameter json:
+        /// - Returns:
         func getSh (json: JSON) -> () {
             
             let tweetsForDeletion = json.array ?? []
             guard !tweetsForDeletion.isEmpty else { return }
             
+            //判断是否含有重复的推文ID，因为利用maxID来获取推文会在第一条和上一轮的最后一条重复
+            //所以删除上一轮的最后一条
+            if maxIDString != nil {
+                tweetsForDeletionIDStrings.removeLast(1)
+            }
+            
             for tweet in tweetsForDeletion {
                 if let idString = tweet["id_str"].string {
-                    if !tweetsForDeletionIDStrings.contains(idString) {
                     tweetsForDeletionIDStrings.append(idString)
-                    print(tweet["text"])
-                    }
                 }
             }
             
             getTimes += 1 //获取推文次数加一
             
+            //把本轮最后一条推文ID设置为maxIDString，用于下一轮获取推文的起始位置
             maxIDString = tweetsForDeletionIDStrings.last
             
             //获取推文的次数应该是4次即可，达到4次就开始处理推文
             if getTimes < 4 {
                 self.getTimeline(for: UserTag.id(userIDString),
-                                 count: 100,
+                                 count: 5,
                                  maxID: maxIDString,
                                  success:getSh(json:),
                                  failure: nil)
             } else {
                 prepareTweetsForDeletion()
             }
-            
-        }
-        func getTweets() {
-            
-            self.getTimeline(for: UserTag.id(userIDString),
-                             count: 100,
-                             success:getSh(json:),
-                             failure: nil)
-            
         }
         
+        /// 获取推文的函数，通过调用现在方法，在成功后就可以继续调用获取推文成功的处理闭包
+        func getTweets() {
+            self.getTimeline(for: UserTag.id(userIDString),
+                             count: 5,
+                             success:getSh(json:),
+                             failure: nil)
+        }
+        
+        
+        /// 处理待删除推文ID序列
         func prepareTweetsForDeletion() {
+            
             //处理是否需要保留最近的100条
+            //如果超过100条则移除前100条
+            //如果不足100条，则全部移除
+            //所有移除的ID意味着不会在后续被删除
             if keepRecent {
                 if tweetsForDeletionIDStrings.count >= 100 {
                     tweetsForDeletionIDStrings.removeFirst(100)
@@ -188,32 +232,45 @@ extension Swifter {
                 }
             }
             
+            //如果待删除的ID列表数量大于传入的删除数量，则移除超过的所有ID
             if tweetsForDeletionIDStrings.count >= willDeleteCount {
                 tweetsForDeletionIDStrings.removeLast(tweetsForDeletionIDStrings.count - willDeleteCount)
             }
             
-            print(#line, #function)
-            print(#line, "推文数量\(tweetsForDeletionIDStrings.count)" )
+            
+            //此时剩下的推文ID应该是需要被删除的，执行删除方法
             deleteTweets()
         }
         
-        //TODO: 删除推文
+        //TODO: 删除待删除推文ID列表里面的所有推文
         func deleteTweets() {
             
-            
-            
+            //为每一条待删除推文分配一个删除任务
+            //删除成功则在待删除推文ID列表中相应位置将ID替换成"success"
+            //删除失败则在待删除推文ID列表中相应位置将ID替换成"failure"
+            //每次调用success或failure都会在替换完成后
+            //调用checkIsDeleteFinished()检查是不是所有任务都完成，如果完成则调用completeHandler()
             for i in 0..<tweetsForDeletionIDStrings.count {
                 let idString = tweetsForDeletionIDStrings[i]
                 swifter.destroyTweet(forID: idString, success: { _ in
                     tweetsForDeletionIDStrings[i] = "success"
+                    
+                    //更新最后删推时间
+                    PersistenceContainer.updateLastDeleted()
+                    
                     if checkIsDeleteFinished() {
+                        
                         completeHandler()
+                        let logText = "\(deletedTweetCount) tweets deleted."
+                        logHandler(logText)
                     }
                 }, failure: {error in
                     tweetsForDeletionIDStrings[i] = "failure"
                     print(error.localizedDescription)
                     if checkIsDeleteFinished() {
                         completeHandler()
+                        let logText = "\(deletedTweetCount) tweets deleted."
+                        logHandler(logText)
                     }
                 })
                 
@@ -222,15 +279,26 @@ extension Swifter {
             
         }
         
+        
+        /// 判断所有删除任务是否执行完成。
+        /// - Returns: 如果所有任务执行完成，则返回true
         func checkIsDeleteFinished() -> Bool{
-            print(#line, #function, tweetsForDeletionIDStrings)
-            let result = tweetsForDeletionIDStrings.filter{$0 != "success" && $0 != "failure"}
-            print(result)
-            return result.isEmpty
+            
+            //如果tweetsForDeletionIDStrings所有IDString均被替换成"success"或"failure"
+            //则表明所有的ID都被分配了删除任务并有了返回执行结果，只是删除也可能不成功
+            let unDealedIDStrings = tweetsForDeletionIDStrings.filter{$0 != "success" && $0 != "failure"}
+            
+            let deletedIDString = tweetsForDeletionIDStrings.filter{$0 == "success"}
+            deletedTweetCount = deletedIDString.count
+            
+            return unDealedIDStrings.isEmpty
             
         }
-        //获取待删除推文
+        
+        //获取待删除推文，是程序的入口
         getTweets()
     }
+    
+    
    
 }
