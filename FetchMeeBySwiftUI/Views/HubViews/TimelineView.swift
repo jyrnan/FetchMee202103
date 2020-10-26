@@ -20,7 +20,7 @@ struct TimelineView: View {
     @ObservedObject var timeline: Timeline
     
     @State var tweetText: String = ""
-    @State var listName: String? //如果是list类型则会传入listName
+    var listName: String? //如果是list类型则会传入listName
     
     var body: some View {
         
@@ -57,7 +57,9 @@ struct TimelineView: View {
                 }.padding([.leading, .trailing], 16)
                 
             }
-            .navigationTitle(listName ?? timeline.type.rawValue)
+           .navigationTitle(listName ?? timeline.type.rawValue)
+            .navigationBarTitleDisplayMode(.inline)
+//            .navigationTitle("Timeline")
             .navigationBarItems(leading:
                                     HStack{
                                         if downloader.taskCount != 0 {

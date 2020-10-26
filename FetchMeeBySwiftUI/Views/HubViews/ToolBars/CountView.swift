@@ -42,6 +42,7 @@ struct CountView: View {
             }.font(.caption2).frame(height: 18).background(Color.gray)
             
         List {
+            LazyVStack{
             ForEach(counts, id: \.self) { count in
                 HStack {
                     Text(format.string(from: count.createdAt ?? Date())).frame(alignment: .leading)
@@ -54,12 +55,14 @@ struct CountView: View {
                     Spacer()
                     Text("\(count.countToUser?.name ?? "Unknow")").frame(alignment: .leading).foregroundColor(.gray)
                 }.font(.caption2)
-//                }
+                
             }.onDelete(perform: { indexSet in
                         deleteCounts(offsets: indexSet)
                     })
-               
-        }.navigationBarTitle("Logs", displayMode: .inline)
+            }
+        }
+        .navigationBarTitle("Logs", displayMode: .inline)
+        .navigationBarTitleDisplayMode(.inline)
     }
     }
 }

@@ -34,7 +34,9 @@ struct UserMarkManageView: View {
             .onDelete(perform: { indexSet in
                 deleteUser(offsets: indexSet)
             })
-        }.navigationTitle("UserMark")
+        }
+        .navigationTitle("UserMark")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

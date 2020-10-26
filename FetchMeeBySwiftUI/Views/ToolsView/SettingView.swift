@@ -89,7 +89,7 @@ struct SettingView: View {
             }
         }
         .onDisappear{self.user.myInfo.setting.save()}
-        .navigationTitle("Setting")
+//        .navigationTitle("Setting")
     }
 }
 

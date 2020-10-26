@@ -77,11 +77,13 @@ struct HubView: View {
                         }
                         
                         AlertView()
-                    }.background(Color.init("BackGround")).cornerRadius(24).shadow(radius: 3 )
+                    }.background(Color.init("BackGround")).cornerRadius(24)
+//                    .shadow(radius: 3 )
                    
                 }
             .onTapGesture(count: 1, perform: {self.hideKeyboard()})
-            .navigationTitle("FetchMee")
+            .navigationBarTitle("FetchMee")
+                .navigationBarTitleDisplayMode(.large)
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
                 AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center)})
             }
