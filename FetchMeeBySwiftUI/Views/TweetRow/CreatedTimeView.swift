@@ -15,6 +15,7 @@ struct CreatedTimeView: View {
         Text(updatedTime)
             .font(.subheadline)
             .foregroundColor(.gray)
+            .lineLimit(1)
             .onAppear {
                 updatedTime = self.updateTime(createdTime: createdTime)
             }

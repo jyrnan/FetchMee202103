@@ -22,46 +22,41 @@ struct QuotedTweetRow: View {
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     
     var body: some View {
-        VStack() {
+        VStack(alignment: .leading) {
             HStack(alignment: .top, spacing: 0) {
                 VStack {
                     AvatarView(avatar: tweetMedia.avatar, userIDString: self.tweetMedia.userIDString)
-                        .frame(width: 32, height: 32)
-                        .padding(.init(top: 12, leading: 4, bottom: 12, trailing: 12))
+                        .frame(width: 24, height: 24)
+                        .padding(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
                     Spacer()
                 } //Avatar
                 
                 VStack(alignment: .leading, spacing: 0 ) {
-                    HStack(alignment: .center) {
+                    HStack(alignment: .top) {
                         Text(self.tweetMedia.userName ?? "UnKnowName")
-                            .font(.headline)
+                            .font(.subheadline).bold()
                             .lineLimit(1)
                         Text("@" + (self.tweetMedia.screenName ?? "UnkownName"))
                             .font(.subheadline)
                             .foregroundColor(.gray)
                             .lineLimit(1)
                         CreatedTimeView(createdTime: self.tweetMedia.created)
-                        Spacer()}
+                        Spacer()}.padding(.top, 8)
 
                     if tweetMedia.replyUsers.count != 0 {
-                        ReplyUsersView(replyUsers: tweetMedia.replyUsers)
+                        ReplyUsersView(replyUsers: tweetMedia.replyUsers).font(.callout)
                     }
-                    TweetTextView(tweetText: (tweetMedia.tweetText == []) ? ["This tweet is unavaliable now."] : tweetMedia.tweetText)
-                        .font(.body)
-                        .padding(.top, 8)
-                        .padding(.bottom, 4)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .onTapGesture {
-                            if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
-                                if prev != tweetIDString {self.timeline.tweetMedias[prev]?.isToolsViewShowed = false}
-                            }
-                            withAnimation {self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle() }
-                            self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
-                        }
                 }
-            }.scaleEffect(0.9) //推文内容
+            }
+
+            TweetTextView(tweetText: (tweetMedia.tweetText == []) ? ["This tweet is unavaliable now."] : tweetMedia.tweetText)
+                .font(.callout)
+                .padding(8)
+                .fixedSize(horizontal: false, vertical: true)
+                
             if tweetMedia.images.count != 0 && self.user.myInfo.setting.isMediaShowed {
                 Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
+                    
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0,  maxHeight:.infinity , alignment: .topLeading)
                     .aspectRatio(16 / 9.0, contentMode: .fill)
                     .clipped()
