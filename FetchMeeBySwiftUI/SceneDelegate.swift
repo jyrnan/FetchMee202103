@@ -27,20 +27,20 @@ var backgroundFetchTask: ((BGAppRefreshTask) -> Void)?
 var backgroundProcessTask: ((BGProcessingTask) -> Void)?
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
     var loginUser: User = User() //App登录使用的用户
     var alerts: Alerts = Alerts()
     var downloader = Downloader(configuation: URLSessionConfiguration.default)
     
     let context = PersistenceContainer.shared.container.viewContext
-
-
+    
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-
+        
         // Create the SwiftUI view that provides the window contents.
         self.loginUser.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
         self.loginUser.myInfo.setting.load() //读取存储多设置
@@ -60,11 +60,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                   oauthTokenSecret: tokenSecret)
                 
                 self.loginUser.getMyInfo()}
-
-                window.rootViewController = UIHostingController(rootView: contentView
-                                                                    .environmentObject(alerts).environmentObject(loginUser)
-                                                                    .accentColor(self.loginUser.myInfo.setting.themeColor.color).environmentObject(downloader))
-                
+            
+            window.rootViewController = UIHostingController(rootView: contentView
+                                                                .environmentObject(alerts).environmentObject(loginUser)
+                                                                .accentColor(self.loginUser.myInfo.setting.themeColor.color).environmentObject(downloader))
+            
             
             self.window = window
             window.makeKeyAndVisible()
@@ -82,29 +82,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
         // Release any resources associated with this scene that can be re-created the next time the scene connects.
         // The scene may re-connect later, as its session was not neccessarily discarded (see `application:didDiscardSceneSessions` instead).
     }
-
+    
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
     }
-
+    
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
     }
-
+    
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
     }
-
+    
     func sceneDidEnterBackground(_ scene: UIScene) {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
@@ -119,8 +119,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         
     }
-
-
+    
+    
 }
 
 
@@ -153,7 +153,7 @@ extension SceneDelegate {
     
     // MARK: - Scheduling Tasks
     
-   
+    
     func scheduledRefresh() {
         let request = BGAppRefreshTaskRequest(identifier: "com.jyrnan.FetchMee.post")
         request.earliestBeginDate = Date(timeIntervalSinceNow: 60 * 5)
@@ -163,7 +163,7 @@ extension SceneDelegate {
             
             let taskSetText = "BGAPPRefreshTaskRequest set."
             self.alerts.setLogInfo(text: "\(self.timeStamp) \(taskSetText)")
-
+            
             
         } catch {
             print("Could not schedule app refresh: \(error)")
@@ -179,7 +179,7 @@ extension SceneDelegate {
             
             let taskSetText = "BGAProcessingTaskRequest set."
             self.alerts.setLogInfo(text: "\(self.timeStamp) \(taskSetText)")
-
+            
             
         } catch {
             print("Could not schedule database cleaning: \(error)")
@@ -192,7 +192,7 @@ extension SceneDelegate {
         
         task.expirationHandler = {
             let expirationText = "BGAPPRefreshTask unexpectedly exit."
-           
+            
             self.alerts.setLogInfo(text: "\(self.timeStamp) \(expirationText)")
             self.saveOrUpdateLog(text: expirationText)
         }
@@ -223,9 +223,9 @@ extension SceneDelegate {
             
             loginUser.home.refreshFromTop()
             swifter.fastDeleteTweets(for: loginUser.myInfo.id,
-                                 keepRecent: loginUser.myInfo.setting.isKeepRecentTweets,
-                                 completeHandler: completeHandler,
-                                 logHandler: logHandler)
+                                     keepRecent: loginUser.myInfo.setting.isKeepRecentTweets,
+                                     completeHandler: completeHandler,
+                                     logHandler: logHandler)
             
         } else {
             loginUser.home.refreshFromTop(completeHandeler: completeHandler)
@@ -235,7 +235,7 @@ extension SceneDelegate {
     
     func handleProcess(task: BGProcessingTask) {
         scheduledProcess()
-         
+        
         task.expirationHandler = {
             let expirationText = "BGProcessingTask unexpectedly exit."
             self.saveOrUpdateLog(text: expirationText)
@@ -243,7 +243,7 @@ extension SceneDelegate {
         
         //成功处理回调通知，具体形式不一定，取决于执行的任务对成功回调闭包的要求。
         let successHandler: (JSON) -> Void = {json in
-              
+            
             let successText = "BGProcessingTask completed."
             self.saveOrUpdateLog(text: successText)
             
@@ -251,16 +251,8 @@ extension SceneDelegate {
         }
         
         //实际操作部分，但如果操作内容为空则写入log并结束
-        guard backgroundProcessTask != nil else {
-            let successText = "BGProcessingTask has no content."
-            self.saveOrUpdateLog(text: successText)
-            
-            successHandler(JSON.init(""))
-            return
-        }
-        //执行真正的操作
-        backgroundProcessTask!(task)
-
+       cleanCountdata()
+        
     }
 }
 
@@ -281,5 +273,26 @@ extension SceneDelegate {
                 let nsError = error as NSError
                 fatalError("Unresolved error \(nsError), \(nsError.userInfo)")}
         }
-}
+    }
+    
+    func cleanCountdata() {
+        let sevenDays: TimeInterval = -(60 * 60 * 24 * 7)
+        
+        
+        let timeIntervalPredicate: NSPredicate = NSPredicate(format: "%K <= %@", #keyPath(Count.createdAt), Date().addingTimeInterval(sevenDays) as CVarArg)
+        let fetchRequest: NSFetchRequest<Count> = Count.fetchRequest()
+        fetchRequest.predicate = timeIntervalPredicate
+        
+        do {
+            let counts = try context.fetch(fetchRequest)
+            
+            counts.forEach{context.delete($0)}
+            
+            try context.save()
+            
+        } catch let error as NSError {
+            print("count not fetched \(error), \(error.userInfo)")
+          }
+    }
+    
 }

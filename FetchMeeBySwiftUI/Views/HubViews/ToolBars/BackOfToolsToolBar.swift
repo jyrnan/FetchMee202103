@@ -31,7 +31,12 @@ struct BackOfToolsToolBar: View {
             Spacer()
             
             Button(action: {
-                getRateLimits()
+                guard let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
+                      let sceneDelegate = windowsScenen.delegate as? SceneDelegate
+                else {
+                    return
+                }
+//                sceneDelegate.cleanCountdata()
             }, label: {
                 VStack{
                     Image(systemName: "heart.fill").font(.title2)
