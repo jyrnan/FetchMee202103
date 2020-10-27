@@ -81,7 +81,10 @@ struct HubView: View {
 //                    .shadow(radius: 3 )
                    
                 }
-            .onTapGesture(count: 1, perform: {self.hideKeyboard()})
+            .onTapGesture(count: 1, perform: {
+                self.hideKeyboard()
+                
+            })
             .navigationBarTitle("FetchMee")
                 .navigationBarTitleDisplayMode(.large)
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
@@ -117,6 +120,7 @@ extension HubView {
     }
     
     func hideKeyboard() {
+//        user.myInfo.setting.isFirsResponder = false //暂未使用
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

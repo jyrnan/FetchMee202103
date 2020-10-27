@@ -62,6 +62,7 @@ struct ComposerOfHubView: View {
                 }.padding(.top, 8)
                 
                 TextEditor(text: self.$tweetText)
+//                CustomTextEditor(text: self.$tweetText, isFirstResponder: user.myInfo.setting.isFirsResponder)
                     .padding([.leading, .trailing, .bottom], 8)
             }
 //            .frame(height: isUsedAlone ? 200 : 122) //两种状态下不同的高度
@@ -71,7 +72,8 @@ struct ComposerOfHubView: View {
             .cornerRadius(18)
 //            .shadow(color: Color.black.opacity(0.2), radius: 3, x: 0, y: 3)
             .onAppear() {
-                UITextView.appearance().backgroundColor = .clear }
+                UITextView.appearance().backgroundColor = .clear
+            }
             // 让TextEditor的背景是透明色
             
             //  按钮栏

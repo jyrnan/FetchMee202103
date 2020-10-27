@@ -83,6 +83,7 @@ struct ToolBarView: View, Identifiable {
                             .foregroundColor(type.uiData.themeColor)
                             .frame(width: 40, height: 40, alignment: .center)
                             .padding(16)
+                            
                         
                         VStack(alignment: .leading, spacing: 0) {
                             HStack{

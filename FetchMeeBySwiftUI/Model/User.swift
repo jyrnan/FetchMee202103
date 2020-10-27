@@ -95,6 +95,8 @@ struct UserSetting {
     var isMediaShowed: Bool = true //控制是否显示图片、视频
     var isDeleteTweets: Bool = false //控制是否删推
     var isKeepRecentTweets: Bool = true //控制是否保留最近推文
+    
+    var isFirsResponder: Bool = false //控制是否激活推文输入框，还没完全搞定，暂未使用
     /**
      存储用户的设置信息
      */

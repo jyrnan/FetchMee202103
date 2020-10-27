@@ -27,6 +27,7 @@
 		D2224F8A24BE7C0400AE2110 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F8924BE7C0400AE2110 /* User.swift */; };
 		D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */; };
 		D2224FD324BE901E00AE2110 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224FD224BE901E00AE2110 /* AuthView.swift */; };
+		D2309F222547E09A00549E27 /* CustomTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2309F212547E09A00549E27 /* CustomTextEditor.swift */; };
 		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
 		D252548024D804AB00D8B508 /* WebLinkJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkJson.txt */; };
 		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
@@ -111,6 +112,7 @@
 		D2224F8924BE7C0400AE2110 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swifter+DeleteTweets.swift"; sourceTree = "<group>"; };
 		D2224FD224BE901E00AE2110 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		D2309F212547E09A00549E27 /* CustomTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEditor.swift; sourceTree = "<group>"; };
 		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
 		D252547F24D804AB00D8B508 /* WebLinkJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkJson.txt; sourceTree = "<group>"; };
 		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				D21F4C4E24DE73C6004B2C20 /* SettingView.swift */,
 				D2B2560F24E39020009F982E /* VideoPlayView.swift */,
 				D2C7248724E613A400804F18 /* RoundedCorners.swift */,
+				D2309F212547E09A00549E27 /* CustomTextEditor.swift */,
 			);
 			path = ToolsView;
 			sourceTree = "<group>";
@@ -466,6 +469,7 @@
 				D7AC537024BB4AB200BCD71F /* ImageViewer.swift in Sources */,
 				4BA6627625359FEC00DE8697 /* TimelinesView.swift in Sources */,
 				4B3AD79F253965DB00194B2C /* UserMarkManageView.swift in Sources */,
+				D2309F222547E09A00549E27 /* CustomTextEditor.swift in Sources */,
 				D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */,
 				D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */,
 				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,
