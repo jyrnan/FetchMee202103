@@ -139,6 +139,9 @@ class User: ObservableObject {
     //CoreData part
     let viewContext = ((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.delegate as? SceneDelegate)?.context
     
+    @Published var isShowingPicture: Bool = false //是否浮动显示图片
+    @Published var showingPicture: UIImage = UIImage(named: "defaultImage")!
+    
     
     //MARK:-获取用户信息方法
     func getMyInfo() {

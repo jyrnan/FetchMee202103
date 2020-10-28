@@ -48,11 +48,13 @@ struct BackOfToolsToolBar: View {
             
             Button(action: {
                 //测试获取Following IDS
-                let userTag = UserTag.id(user.myInfo.id)
-                swifter.getUserFollowersIDs(for: userTag, success: {json, _, _ in
-                    print(json.array?.count)
-                })
-                
+//                let userTag = UserTag.id(user.myInfo.id)
+//                swifter.getUserFollowersIDs(for: userTag, success: {json, _, _ in
+//                    print(json.array?.count)
+//                    
+//                    
+//                })
+                withAnimation{user.isShowingPicture = true}
                 
             }, label: {
                 VStack{

@@ -20,29 +20,31 @@ struct ImageViewer: View {
     @State var previousOffset = CGSize.zero
     
     @State var pointTapped: CGPoint = CGPoint.zero
+    
     @State var isShowSharesheet : Bool = false
 
     var body: some View {
 
-        ZStack {
-            VStack {
-                Spacer()
+           
                 GeometryReader { geometry in // here you'll have size and frame
                     Image(uiImage: image)
                         .resizable()
-    //                    .edgesIgnoringSafeArea(.all)
+//                        .edgesIgnoringSafeArea(.all)
                         .scaledToFit()
 //                        .animation(.default)
                         .offset(x: self.currentOffset.width, y: self.currentOffset.height)
-                        .scaleEffect(max(self.currentScale, 1.0))
+                        .scaleEffect(max(self.currentScale, 1.0), anchor: .center)
 //                        .scaleEffect(max(self.currentScale, 1.0), anchor: UnitPoint(x: self.pointTapped.x / geometry.frame(in: .global).maxX, y: self.pointTapped.y / geometry.frame(in: .global).maxY)) // the second question
                         .gesture(TapGesture(count: 2)
                                     .onEnded{
                                         if self.currentScale == 3 {
-                                            withAnimation{self.currentScale = 1}
+                                            withAnimation{self.currentScale = 1
+                                                currentOffset = CGSize.zero
+                                            }
                                         } else {
                                             withAnimation{self.currentScale = 3}
                                         }
+                                        
                                     })
                         .gesture(LongPressGesture().onEnded{_ in
                             print(#line, "longPress")
@@ -50,7 +52,7 @@ struct ImageViewer: View {
                         })
                         .gesture(DragGesture()
                             .onChanged { value in
-//                                self.pointTapped = value.startLocation
+                                self.pointTapped = value.startLocation
 
                                 let deltaX = value.translation.width - self.previousOffset.width
                                 let deltaY = value.translation.height - self.previousOffset.height
@@ -69,32 +71,10 @@ struct ImageViewer: View {
                                 self.currentScale = self.currentScale * delta
                         }
                         .onEnded { value in self.previousScale = 1.0 })
-                        .sheet(isPresented: self.$isShowSharesheet, content: {
-                            ShareSheet(activityItems: [self.image])
-                        })
+                        
                 }
-                Spacer()
-            }
+              
 
-            
-
-            VStack {
-
-                Spacer()
-                Image(systemName: "xmark.circle.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width:24, height: 24)
-                    .foregroundColor(Color.gray.opacity(0.7))
-                .onTapGesture {
-                    presentationMode.wrappedValue.dismiss()
-                }
-
-//                Button(action: {self.presentedImageViewer.toggle()}, label: {
-//                    Text("Close")
-//                })
-            }
-        }
     }
 }
 

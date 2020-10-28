@@ -23,6 +23,7 @@ struct HubView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var logs: FetchedResults<Log>
     
     @State var tweetText: String = ""
+    @State var isShowToast: Bool = true
     
     init() {
         let transAppearance = UINavigationBarAppearance()
@@ -90,6 +91,8 @@ struct HubView: View {
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
                 AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center)})
             }
+        .toast(isShowing: $user.isShowingPicture, image: user.showingPicture)
+        
 
     }
 }

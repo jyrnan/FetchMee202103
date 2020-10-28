@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct Images: View {
+    @EnvironmentObject var user: User
+    
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
     
@@ -67,6 +69,8 @@ struct Images: View {
 }
 
 struct ImageThumb: View {
+    @EnvironmentObject var user: User
+    
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
     var index: Int //在tweetMedia中images的第几个
@@ -112,9 +116,11 @@ struct ImageThumb: View {
                             self.timeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
                                 DispatchQueue.main.async {
                                     self.timeline.tweetMedias[self.tweetIDString]?.images[index] = im
-                                }
+                                    user.showingPicture = im
+                                    withAnimation{user.isShowingPicture = true}                                }
                                                                         self.isImageDownloaded = true
-                                                                        self.presentedImageViewer = true
+//                                                                        self.presentedImageViewer = true
+                                
                                                                         }
                             )}} else {
                                 if self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[index] == false {
