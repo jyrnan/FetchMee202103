@@ -26,7 +26,7 @@ struct ImageViewer: View {
     var body: some View {
 
            
-                GeometryReader { geometry in // here you'll have size and frame
+//                GeometryReader { geometry in // here you'll have size and frame
                     Image(uiImage: image)
                         .resizable()
 //                        .edgesIgnoringSafeArea(.all)
@@ -72,7 +72,7 @@ struct ImageViewer: View {
                         }
                         .onEnded { value in self.previousScale = 1.0 })
                         
-                }
+//                }
               
 
     }
