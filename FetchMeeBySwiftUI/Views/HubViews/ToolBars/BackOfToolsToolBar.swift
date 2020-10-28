@@ -54,7 +54,10 @@ struct BackOfToolsToolBar: View {
 //                    
 //                    
 //                })
-                withAnimation{user.isShowingPicture = true}
+                withAnimation{
+                    user.isShowingPicture = true
+                    user.presentedView = AnyView(Image(systemName: "person").resizable().aspectRatio(contentMode: .fit).foregroundColor(.accentColor))
+                }
                 
             }, label: {
                 VStack{

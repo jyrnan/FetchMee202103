@@ -116,7 +116,8 @@ struct ImageThumb: View {
                             self.timeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
                                 DispatchQueue.main.async {
                                     self.timeline.tweetMedias[self.tweetIDString]?.images[index] = im
-                                    user.showingPicture = im
+                                    let imageViewer = ImageViewer(image: im)
+                                    user.presentedView = AnyView(imageViewer)
                                     withAnimation{user.isShowingPicture = true}                                }
                                                                         self.isImageDownloaded = true
 //                                                                        self.presentedImageViewer = true
@@ -133,7 +134,7 @@ struct ImageThumb: View {
                             }
                     }
                     .fullScreenCover(isPresented: self.$presentedImageViewer) {
-                        ImageViewer(image: self.uiImage,presentedImageViewer: $presentedImageViewer)
+                        ImageViewer(image: self.uiImage)
                     }
                 
             } else {

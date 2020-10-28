@@ -121,6 +121,7 @@ struct UserSetting {
 }
 
 class User: ObservableObject {
+   
     @Published var isLoggedIn: Bool = false
     @Published var myInfo: UserInfomation = UserInfomation() //当前用户的信息
     @Published var userStore: [String: UserInfomation] = [:] //存储多个用户的信息
@@ -140,7 +141,7 @@ class User: ObservableObject {
     let viewContext = ((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.delegate as? SceneDelegate)?.context
     
     @Published var isShowingPicture: Bool = false //是否浮动显示图片
-    @Published var showingPicture: UIImage = UIImage(named: "defaultImage")!
+    @Published var presentedView: AnyView? //通过AnyView就可以实现任意View的传递了？！
     
     
     //MARK:-获取用户信息方法

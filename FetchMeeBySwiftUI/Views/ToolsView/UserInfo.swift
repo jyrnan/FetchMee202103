@@ -53,9 +53,11 @@ struct UserInfo: View {
                             .padding(.leading, 16)
                             .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
                                 self.isShowAvatarDetail = true
+//                                user.showingPicture = ImageViewer(image: self.checkingUser.myInfo.avatar ?? UIImage(systemName: "person.circle")!)
+//                                user.isShowingPicture = true
                             })
-                            .fullScreenCover(isPresented: self.$isShowAvatarDetail){
-                                ImageViewer(image: self.checkingUser.myInfo.avatar ?? UIImage(systemName: "person.circle")!,presentedImageViewer: $isShowAvatarDetail)
+                            .sheet(isPresented: self.$isShowAvatarDetail){
+                                ImageViewer(image: self.checkingUser.myInfo.avatar ?? UIImage(systemName: "person.circle")!)
                             }
                         Spacer()
                         //

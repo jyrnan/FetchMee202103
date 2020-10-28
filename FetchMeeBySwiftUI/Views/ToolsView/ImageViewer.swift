@@ -11,7 +11,7 @@ import SwiftUI
 struct ImageViewer: View {
     @Environment(\.presentationMode) var presentationMode
     var image: UIImage
-    @Binding var presentedImageViewer: Bool
+//    @Binding var presentedImageViewer: Bool
     
     @State var currentScale: CGFloat = 1.0
     @State var previousScale: CGFloat = 1.0
@@ -22,6 +22,8 @@ struct ImageViewer: View {
     @State var pointTapped: CGPoint = CGPoint.zero
     
     @State var isShowSharesheet : Bool = false
+    
+    
 
     var body: some View {
                     Image(uiImage: image)
@@ -33,7 +35,8 @@ struct ImageViewer: View {
                         .gesture(TapGesture(count: 2)
                                     .onEnded{
                                         if self.currentScale == 3 {
-                                            withAnimation{self.currentScale = 1
+                                            withAnimation{
+                                                self.currentScale = 1
                                                 currentOffset = CGSize.zero
                                             }
                                         } else {
@@ -99,6 +102,6 @@ struct ShareSheet: UIViewControllerRepresentable {
 
 struct ImageViewer_Previews: PreviewProvider {
     static var previews: some View {
-        ImageViewer(image: UIImage(named: "defaultImage")!, presentedImageViewer: .constant(true))
+        ImageViewer(image: UIImage(named: "defaultImage")!)
     }
 }

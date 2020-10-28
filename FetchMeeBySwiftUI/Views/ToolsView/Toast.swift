@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct Toast<Presenting>: View where Presenting: View {
+struct Toast<Presenting, Presented>: View where Presenting: View, Presented: View {
 
     /// The binding that decides the appropriate drawing in the body.
     @Binding var isShowing: Bool
     /// The view that will be "presenting" this toast
     let presenting: () -> Presenting
     /// The text to show
-    let image: UIImage
+    let presented: Presented
 
     var body: some View {
 
@@ -28,17 +28,22 @@ struct Toast<Presenting>: View where Presenting: View {
 
                 VStack(alignment: .center) {
                     
-                    ImageViewer(image: image, presentedImageViewer: $isShowing)
+                    self.presented
                
                 }
-                .scaleEffect(isShowing ? 1 : 0)
+//                .scaleEffect(isShowing ? 1 : 0)
                 .frame(width: geometry.size.width,
                        height: geometry.size.height)
                 
                 .background(Color.black.opacity(0.8))
-                .transition(.slide)
+//                .transition(.slide)
                 .opacity(self.isShowing ? 1 : 0)
                 .onTapGesture {
+                    
+                    if let imageViewer = self.presented as? ImageViewer {
+                        imageViewer.currentOffset = CGSize.zero
+                        
+                    }
                     withAnimation{isShowing = false}
                 }
             }
@@ -51,10 +56,10 @@ struct Toast<Presenting>: View where Presenting: View {
 
     extension View {
 
-        func toast(isShowing: Binding<Bool>, image: UIImage) -> some View {
+        func toast<T : View>(isShowing: Binding<Bool>, presented: T?) -> some View {
             Toast(isShowing: isShowing,
                   presenting: { self },
-                  image: image)
+                  presented: presented)
         }
 
     }

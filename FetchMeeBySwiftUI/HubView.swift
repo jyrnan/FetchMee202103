@@ -91,7 +91,7 @@ struct HubView: View {
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
                 AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center)})
             }
-        .toast(isShowing: $user.isShowingPicture, image: user.showingPicture)
+        .toast(isShowing: $user.isShowingPicture, presented: user.presentedView)
         
 
     }

@@ -73,8 +73,7 @@ struct ImageGrabView: View {
                 }
             }
             .fullScreenCover(isPresented: self.$presentedImageViewer) {
-                ImageViewer(image: imageToBeView,
-                            presentedImageViewer: $presentedImageViewer)
+                ImageViewer(image: imageToBeView)
             }
             VStack {
                 HStack{
