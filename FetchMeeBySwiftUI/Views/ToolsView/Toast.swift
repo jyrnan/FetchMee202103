@@ -24,30 +24,23 @@ struct Toast<Presenting>: View where Presenting: View {
             ZStack(alignment: .center) {
 
                 self.presenting()
-                    .blur(radius: self.isShowing ? 1 : 0)
+                    .blur(radius: self.isShowing ? 5 : 0)
 
                 VStack(alignment: .center) {
                     
                     ImageViewer(image: image, presentedImageViewer: $isShowing)
-                        
-//                        .aspectRatio(contentMode: .fit)
-                       
-                  
+               
                 }
                 .scaleEffect(isShowing ? 1 : 0)
                 .frame(width: geometry.size.width,
                        height: geometry.size.height)
                 
                 .background(Color.black.opacity(0.8))
-//                .foregroundColor(Color.primary)
-//                .cornerRadius(20)
                 .transition(.slide)
                 .opacity(self.isShowing ? 1 : 0)
                 .onTapGesture {
                     withAnimation{isShowing = false}
-                    print(#line, #function)
                 }
-
             }
 
         }.ignoresSafeArea()

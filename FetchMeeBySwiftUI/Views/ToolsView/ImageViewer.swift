@@ -24,14 +24,9 @@ struct ImageViewer: View {
     @State var isShowSharesheet : Bool = false
 
     var body: some View {
-
-           
-//                GeometryReader { geometry in // here you'll have size and frame
                     Image(uiImage: image)
                         .resizable()
-//                        .edgesIgnoringSafeArea(.all)
                         .scaledToFit()
-//                        .animation(.default)
                         .offset(x: self.currentOffset.width, y: self.currentOffset.height)
                         .scaleEffect(max(self.currentScale, 1.0), anchor: .center)
 //                        .scaleEffect(max(self.currentScale, 1.0), anchor: UnitPoint(x: self.pointTapped.x / geometry.frame(in: .global).maxX, y: self.pointTapped.y / geometry.frame(in: .global).maxY)) // the second question
@@ -46,7 +41,8 @@ struct ImageViewer: View {
                                         }
                                         
                                     })
-                        .gesture(LongPressGesture().onEnded{_ in
+                        .gesture(LongPressGesture()
+                                    .onEnded{_ in
                             print(#line, "longPress")
                             self.isShowSharesheet = true
                         })
@@ -71,11 +67,9 @@ struct ImageViewer: View {
                                 self.currentScale = self.currentScale * delta
                         }
                         .onEnded { value in self.previousScale = 1.0 })
-                        
-//                }
-              
-
-    }
+                        .sheet(isPresented: self.$isShowSharesheet, content: {
+                            ShareSheet(activityItems: [self.image])
+                        })    }
 }
 
 /**
