@@ -11,8 +11,7 @@ import SwiftUI
 struct ImageViewer: View {
     @Environment(\.presentationMode) var presentationMode
     var image: UIImage
-//    @Binding var presentedImageViewer: Bool
-    
+
     @State var currentScale: CGFloat = 1.0
     @State var previousScale: CGFloat = 1.0
 

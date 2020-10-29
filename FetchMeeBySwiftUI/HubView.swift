@@ -38,8 +38,7 @@ struct HubView: View {
     }
     
     var body: some View {
-//        ZStack{
-//            LogoBackground()
+
         NavigationView {
             
                 ScrollView(.vertical, showsIndicators: false){
@@ -92,7 +91,6 @@ struct HubView: View {
                 AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center)})
             }
         .toast(isShowing: $user.isShowingPicture, presented: user.presentedView)
-        
 
     }
 }

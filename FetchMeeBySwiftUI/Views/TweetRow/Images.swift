@@ -77,32 +77,18 @@ struct ImageThumb: View {
     
     @State var presentedImageViewer: Bool = false
     @State var isImageDownloaded: Bool = true //标记大图是否下载完成
-    var isSelectMode: Bool = false //控制单击是否作为选择
+//    var isSelectMode: Bool = false //控制单击是否作为选择
    
     
     var uiImage: UIImage {
         self.timeline.tweetMedias[tweetIDString]?.images[index] ?? UIImage(named: "defaultImage")!
-//        guard var im = self.timeline.tweetMedias[tweetIDString]?.images[index] else {return UIImage(named: "defaultImage")!}
-//        if isSalientDetectNeed {
-//            im.detectSalientRegions(prioritising: .attentionBased) {
-//                result in
-//                if let croppedImage = im.cropped(with: result, to: CGSize(width: width, height: height)) {
-//                    im = croppedImage
-//                    self.isSalientDetectNeed = false
-//                    DispatchQueue.main.async {
-//                        self.timeline.tweetMedias[tweetIDString]?.images[index] = im
-//                    }
-//                    print(#line, "picture detected and cropped.")
-//                }
-//            }
-//        }
-//            return im
+
     } //定义一个计算属性方便后续引用。增加了重点区域识别功能，但是看起来效果不理想
     var width: CGFloat
     var height: CGFloat
     var body: some View {
         ZStack(alignment: .center) {
-            if #available(iOS 14.0, *) {
+         
                 Image(uiImage: self.uiImage)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -110,7 +96,7 @@ struct ImageThumb: View {
                     .clipped()
                     .contentShape(Rectangle()) //可以定义触控的内容区域，并在此基础上进行触控，也就是触控的区域。完美解决bug
                     .onTapGesture {
-                        if !self.isSelectMode {//不是选择模式则调用大图预览
+//                        if !self.isSelectMode {//不是选择模式则调用大图预览
                         if let urlString = self.timeline.tweetMedias[self.tweetIDString]?.urlStrings![index] {
                             self.isImageDownloaded = false
                             self.timeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
@@ -123,23 +109,23 @@ struct ImageThumb: View {
 //                                                                        self.presentedImageViewer = true
                                 
                                                                         }
-                            )}} else {
-                                if self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[index] == false {
-                                    self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[index].toggle()
-                                    self.timeline.selectedImageCount += 1
-                                } else {
-                                    self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[index].toggle()
-                                    self.timeline.selectedImageCount -= 1
-                                }
-                            }
+                            )}
+                        
+//                    } else {
+//                                if self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[index] == false {
+//                                    self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[index].toggle()
+//                                    self.timeline.selectedImageCount += 1
+//                                } else {
+//                                    self.timeline.tweetMedias[self.tweetIDString]?.imagesSelected[index].toggle()
+//                                    self.timeline.selectedImageCount -= 1
+//                                }
+//                            }
                     }
-                    .fullScreenCover(isPresented: self.$presentedImageViewer) {
-                        ImageViewer(image: self.uiImage)
-                    }
+//                    .fullScreenCover(isPresented: self.$presentedImageViewer) {
+//                        ImageViewer(image: self.uiImage)
+//                    }
                 
-            } else {
-                // Fallback on earlier versions
-            }
+           
             ActivityIndicator(isAnimating: self.$isImageDownloaded, style: .medium)
         }
     }
