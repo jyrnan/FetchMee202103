@@ -21,7 +21,7 @@ struct SettingView: View {
             
             ZStack {VStack {
                 Spacer()
-                Image(uiImage: self.checkingUser.myInfo.banner ?? UIImage(named: "bg")!)
+                Image(uiImage: self.checkingUser.loginUser.banner ?? UIImage(named: "bg")!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 100)
@@ -31,7 +31,7 @@ struct SettingView: View {
                 
                 HStack {
                     Spacer()
-                Image(uiImage: (self.fetchMee.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
+                Image(uiImage: (self.fetchMee.loginUser.avatar ?? UIImage(systemName: "person.circle.fill")!))
                 .resizable()
                 .frame(width: 64, height: 64, alignment: .center)
                     .overlay(Circle().stroke(Color.gray.opacity(0.7), lineWidth: 2))
@@ -46,13 +46,13 @@ struct SettingView: View {
             
             Section(header: Text("Visual"), footer: Text("You can swith this function off to get a simper UI and better performance")) {
                 
-                Picker("Favorit Theme Color", selection: self.$fetchMee.myInfo.setting.themeColor, content: {
+                Picker("Favorit Theme Color", selection: self.$fetchMee.loginUser.setting.themeColor, content: {
                     ForEach(ThemeColor.allCases){color in
                         Text(color.rawValue.capitalized).tag(color)
                     }
                 })
-                Toggle("Iron Fans Rate", isOn: self.$fetchMee.myInfo.setting.isIronFansShowed)
-                Toggle("Show Pictures", isOn: self.$fetchMee.myInfo.setting.isMediaShowed)
+                Toggle("Iron Fans Rate", isOn: self.$fetchMee.loginUser.setting.isIronFansShowed)
+                Toggle("Show Pictures", isOn: self.$fetchMee.loginUser.setting.isMediaShowed)
 //                Toggle("Delete All Tweets", isOn: self.$user.myInfo.setting.isDeleteTweets)
             }
             
@@ -88,7 +88,7 @@ struct SettingView: View {
                 }
             }
         }
-        .onDisappear{self.fetchMee.myInfo.setting.save()}
+        .onDisappear{self.fetchMee.loginUser.setting.save()}
 //        .navigationTitle("Setting")
     }
 }
@@ -97,7 +97,7 @@ extension SettingView {
     
     func logOut() {
         self.fetchMee.isShowUserInfo = false
-        self.fetchMee.myInfo = User() //  设置成一个空的userInfo
+        self.fetchMee.loginUser = User() //  设置成一个空的userInfo
         print(#line, self.fetchMee.isShowUserInfo)
         delay(delay: 1, closure: {
             withAnimation {

@@ -68,7 +68,7 @@ struct TimelineSimpleView: View {
                                         }
                                     },
                                 trailing:
-                                    AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center))
+                                    AvatarImageView(image: user.loginUser.avatar).frame(width: 36, height: 36, alignment: .center))
             //通知视图
             AlertView()
         }

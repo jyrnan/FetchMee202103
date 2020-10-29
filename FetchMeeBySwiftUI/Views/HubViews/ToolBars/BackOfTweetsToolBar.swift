@@ -24,19 +24,19 @@ struct BackOfTweetsToolBar: View {
     var body: some View {
         VStack {
             HStack{
-                Toggle(isOn: $fetchMee.myInfo.setting.isDeleteTweets) {
+                Toggle(isOn: $fetchMee.loginUser.setting.isDeleteTweets) {
                     Text("Auto\nDelete")
                         .font(.caption).bold()
                         .foregroundColor(.white)
                 }
-                .alert(isPresented: $fetchMee.myInfo.setting.isDeleteTweets){
+                .alert(isPresented: $fetchMee.loginUser.setting.isDeleteTweets){
                                             Alert(title: Text("Attention"),
                                                   message: Text(autoDeletWarningMessage),
-                                                  primaryButton: .destructive(Text("Sure"), action: {fetchMee.myInfo.setting.isDeleteTweets = true}),
+                                                  primaryButton: .destructive(Text("Sure"), action: {fetchMee.loginUser.setting.isDeleteTweets = true}),
                                                   secondaryButton: .cancel())}
                 
                 Divider()
-                Toggle(isOn: $fetchMee.myInfo.setting.isKeepRecentTweets) {
+                Toggle(isOn: $fetchMee.loginUser.setting.isKeepRecentTweets) {
                     Text("Keep\nRecent").font(.caption).bold()
                         .foregroundColor(.white)
                 }
@@ -85,8 +85,8 @@ extension BackOfTweetsToolBar {
         let lh: (String) -> () = {string in
             self.alerts.setLogInfo(text: string)
         }
-        swifter.fastDeleteTweets(for: fetchMee.myInfo.id,
-                                 keepRecent: fetchMee.myInfo.setting.isKeepRecentTweets,
+        swifter.fastDeleteTweets(for: fetchMee.loginUser.id,
+                                 keepRecent: fetchMee.loginUser.setting.isKeepRecentTweets,
                                  completeHandler: completeHandler,
                                  logHandler: lh)
     }

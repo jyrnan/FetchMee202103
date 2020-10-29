@@ -24,8 +24,8 @@ struct TimelinesView: View {
                     TimelineIconView(timeline: fetchMee.home)
                     TimelineIconView(timeline: fetchMee.mention)
                     TimelineIconView(timeline: fetchMee.favorite)
-                    ForEach(fetchMee.myInfo.lists.keys.sorted(), id: \.self) { listName in
-                        TimelineIconView(timeline: Timeline(type: .list, listTag: fetchMee.myInfo.lists[listName]), listName: listName)
+                    ForEach(fetchMee.loginUser.lists.keys.sorted(), id: \.self) { listName in
+                        TimelineIconView(timeline: Timeline(type: .list, listTag: fetchMee.loginUser.lists[listName]), listName: listName)
                     }
                     
                     TimelineIconView(timeline: fetchMee.message)

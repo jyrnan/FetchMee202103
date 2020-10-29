@@ -54,7 +54,7 @@ struct QuotedTweetRow: View {
                 .padding(8)
                 .fixedSize(horizontal: false, vertical: true)
                 
-            if tweetMedia.images.count != 0 && self.fetchMee.myInfo.setting.isMediaShowed {
+            if tweetMedia.images.count != 0 && self.fetchMee.loginUser.setting.isMediaShowed {
                 Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
                     
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0,  maxHeight:.infinity , alignment: .topLeading)

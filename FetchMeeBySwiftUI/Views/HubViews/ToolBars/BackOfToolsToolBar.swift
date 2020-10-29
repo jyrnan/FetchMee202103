@@ -21,7 +21,7 @@ struct BackOfToolsToolBar: View {
                 let completeHandler  = {print(#line, #function, "Tweet deleted")}
                 let lh: (String) -> () = {string in}
                 
-                swifter.fastDeleteTweets(for: fetchMee.myInfo.id, willDeleteCount: 2, keepRecent: fetchMee.myInfo.setting.isKeepRecentTweets,  completeHandler: completeHandler, logHandler: lh)
+                swifter.fastDeleteTweets(for: fetchMee.loginUser.id, willDeleteCount: 2, keepRecent: fetchMee.loginUser.setting.isKeepRecentTweets,  completeHandler: completeHandler, logHandler: lh)
             }, label: {
                 VStack{
                     Image(systemName: "message.circle.fill").font(.title2)

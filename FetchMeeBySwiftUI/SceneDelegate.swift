@@ -43,7 +43,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // Create the SwiftUI view that provides the window contents.
         self.fetchMee.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
-        self.fetchMee.myInfo.setting.load() //读取存储多设置
+        self.fetchMee.loginUser.setting.load() //读取存储多设置
         let contentView = ContentView().environment(\.managedObjectContext, context)
         
         // Use a UIHostingController as window root view controller.
@@ -63,7 +63,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             window.rootViewController = UIHostingController(rootView: contentView
                                                                 .environmentObject(alerts).environmentObject(fetchMee)
-                                                                .accentColor(self.fetchMee.myInfo.setting.themeColor.color).environmentObject(downloader))
+                                                                .accentColor(self.fetchMee.loginUser.setting.themeColor.color).environmentObject(downloader))
             
             
             self.window = window
@@ -111,7 +111,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
         
         //保存用户设置
-        fetchMee.myInfo.setting.save()
+        fetchMee.loginUser.setting.save()
         
         //加入定时程序
         scheduledRefresh()
@@ -219,11 +219,11 @@ extension SceneDelegate {
         saveOrUpdateLog(text: "Started background fetch.")
         fetchMee.mention.refreshFromTop()
         
-        if fetchMee.myInfo.setting.isDeleteTweets {
+        if fetchMee.loginUser.setting.isDeleteTweets {
             
             fetchMee.home.refreshFromTop()
-            swifter.fastDeleteTweets(for: fetchMee.myInfo.id,
-                                     keepRecent: fetchMee.myInfo.setting.isKeepRecentTweets,
+            swifter.fastDeleteTweets(for: fetchMee.loginUser.id,
+                                     keepRecent: fetchMee.loginUser.setting.isKeepRecentTweets,
                                      completeHandler: completeHandler,
                                      logHandler: logHandler)
             
@@ -264,7 +264,7 @@ extension SceneDelegate {
         withAnimation {
             let log = Log(context: context)
             log.createdAt = Date()
-            log.text = " \(fetchMee.myInfo.screenName ?? "screenName") " + text! //临时添加一个用户名做标记
+            log.text = " \(fetchMee.loginUser.screenName ?? "screenName") " + text! //临时添加一个用户名做标记
             log.id = UUID()
             
             do {

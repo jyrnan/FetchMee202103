@@ -15,7 +15,7 @@ import CoreData
 class AppData: ObservableObject {
    
     @Published var isLoggedIn: Bool = false
-    @Published var myInfo: User = User() //当前用户的信息
+    @Published var loginUser: User = User() //当前用户的信息
     @Published var userStore: [String: User] = [:] //存储多个用户的信息
     @Published var userStringMark: [String: Int] = [:] // 用户互动数量纪录
     @Published var isShowUserInfo: Bool = false
@@ -40,18 +40,18 @@ class AppData: ObservableObject {
     func getMyInfo() {
         
         var userTag: UserTag?
-        if let screenName = self.myInfo.screenName {
+        if let screenName = self.loginUser.screenName {
             userTag = UserTag.screenName(String(screenName.dropFirst())) //去掉前面的@符号
         } else {
             //如果没有设置用户ID，且可以读取userDefualt里的IDString（说明已经logined），则设置loginUser的userIDString为登陆用户的userIDString
-            if self.myInfo.id == "0000" && userDefault.object(forKey: "userIDString") != nil {
-                self.myInfo.id = userDefault.object(forKey: "userIDString") as! String
+            if self.loginUser.id == "0000" && userDefault.object(forKey: "userIDString") != nil {
+                self.loginUser.id = userDefault.object(forKey: "userIDString") as! String
             }
-            userTag = UserTag.id(self.myInfo.id)
+            userTag = UserTag.id(self.loginUser.id)
         }
         
         //读取用户设置信息
-        myInfo.setting.load()
+        loginUser.setting.load()
         
         guard userTag != nil else {return}
         getUserInfo(for: userTag!)
@@ -86,7 +86,7 @@ class AppData: ObservableObject {
             newLists[name] = listTag
         }
         
-        self.myInfo.lists = newLists
+        self.loginUser.lists = newLists
         
         
     }
@@ -94,63 +94,63 @@ class AppData: ObservableObject {
     //获取用户信息
     func getUserBio(json: JSON) {
         print(#line, #function)
-        self.myInfo.id = json["id_str"].string!
-        self.myInfo.name = json["name"].string!
-        self.myInfo.screenName = "@" + json["screen_name"].string!
-        self.myInfo.description = json["description"].string!
+        self.loginUser.id = json["id_str"].string!
+        self.loginUser.name = json["name"].string!
+        self.loginUser.screenName = "@" + json["screen_name"].string!
+        self.loginUser.description = json["description"].string!
         
         let ct = json["created_at"].string!.split(separator: " ")
-        self.myInfo.createdAt = " Joined " + String(ct[1]) + " " + String(ct[2]) + " " + String(ct[5]) //加入日期
+        self.loginUser.createdAt = " Joined " + String(ct[1]) + " " + String(ct[2]) + " " + String(ct[5]) //加入日期
         
         var avatarUrl = json["profile_image_url_https"].string
         avatarUrl = avatarUrl?.replacingOccurrences(of: "_normal", with: "")
         self.avatarDownloader(from: avatarUrl!)()
         
-        self.myInfo.bannerUrlString = json["profile_banner_url"].string
-        if self.myInfo.bannerUrlString != nil {
-            self.myInfo.banner = UIImage(data: (try? Data(contentsOf: URL(string: self.myInfo.bannerUrlString!)!)) ?? UIImage(named: "bg")!.pngData()!)
+        self.loginUser.bannerUrlString = json["profile_banner_url"].string
+        if self.loginUser.bannerUrlString != nil {
+            self.loginUser.banner = UIImage(data: (try? Data(contentsOf: URL(string: self.loginUser.bannerUrlString!)!)) ?? UIImage(named: "bg")!.pngData()!)
         }
         
         var loc = json["location"].string ?? "Unknow"
         if loc != "" {
             loc = " " + loc
         }
-        self.myInfo.loc = loc
+        self.loginUser.loc = loc
         
         var url = json["url"].string ?? ""
         if url != "" {
             url = " " + url + "\n"
         }
-        self.myInfo.url = url
+        self.loginUser.url = url
         
-        self.myInfo.following = json["friends_count"].integer!
-        self.myInfo.followed = json["followers_count"].integer!
-        self.myInfo.isFollowing = json["following"].bool
+        self.loginUser.following = json["friends_count"].integer!
+        self.loginUser.followed = json["followers_count"].integer!
+        self.loginUser.isFollowing = json["following"].bool
         
-        self.myInfo.notifications = json["notifications"].bool
+        self.loginUser.notifications = json["notifications"].bool
         
-        self.myInfo.tweetsCount = json["statuses_count"].integer!
+        self.loginUser.tweetsCount = json["statuses_count"].integer!
         
         //保存用户信息到CoreData，如果是登陆用户，则传入true
-        saveUserInfoToCoreData(id: self.myInfo.id, isLoginUser: self.isLoggedIn)
+        saveUserInfoToCoreData(id: self.loginUser.id, isLoginUser: self.isLoggedIn)
         
         //从CoreData读取信息计算24小时内新增fo数和推文数量
         let results = updateCount()
-        myInfo.lastDayAddedFollower = results[0][0]
-        myInfo.lastDayAddedTweets = results[1][0]
+        loginUser.lastDayAddedFollower = results[0][0]
+        loginUser.lastDayAddedTweets = results[1][0]
     }
     
     func follow() {
         print(#line, #function)
-        let userTag = UserTag.id(self.myInfo.id)
+        let userTag = UserTag.id(self.loginUser.id)
         swifter.followUser(userTag)
-        self.myInfo.isFollowing = true
+        self.loginUser.isFollowing = true
     }
     
     func unfollow() {
-        let userTag = UserTag.id(self.myInfo.id)
+        let userTag = UserTag.id(self.loginUser.id)
         swifter.unfollowUser(userTag)
-        self.myInfo.isFollowing = false
+        self.loginUser.isFollowing = false
     }
     
     func avatarDownloader(from urlString: String) -> () -> () {
@@ -166,7 +166,7 @@ class AppData: ObservableObject {
             if let d = try? Data(contentsOf: filePath) {
                 if let im = UIImage(data: d) {
                     DispatchQueue.main.async {
-                        self.myInfo.avatar = im
+                        self.loginUser.avatar = im
                         
                     }
                 }
@@ -177,7 +177,7 @@ class AppData: ObservableObject {
                         let im = UIImage(data: d)
                         try? d.write(to: filePath)
                         DispatchQueue.main.async {
-                            self.myInfo.avatar = im
+                            self.loginUser.avatar = im
                         }
                     }
                 }
@@ -215,21 +215,21 @@ extension AppData {
             
             
             currentUser?.userIDString = id
-            currentUser?.name = myInfo.name
-            currentUser?.screenName = myInfo.screenName
-            currentUser?.avatar = myInfo.avatarUrlString
+            currentUser?.name = loginUser.name
+            currentUser?.screenName = loginUser.screenName
+            currentUser?.avatar = loginUser.avatarUrlString
             
-            currentUser?.following = Int32(myInfo.following ?? 0)
-            currentUser?.followed = Int32(myInfo.followed ?? 0)
-            currentUser?.isFollowing = myInfo.isFollowing ?? true
+            currentUser?.following = Int32(loginUser.following ?? 0)
+            currentUser?.followed = Int32(loginUser.followed ?? 0)
+            currentUser?.isFollowing = loginUser.isFollowing ?? true
             
             //如果是当前用户，则统计推文数量等动态信息
             if isLoginUser {
             let count: Count = Count(context: viewContext)
             count.createdAt = Date()
-            count.follower = Int32(myInfo.followed ?? 0)
-            count.following = Int32(myInfo.following ?? 0)
-            count.tweets = Int32(myInfo.tweetsCount ?? 0)
+            count.follower = Int32(loginUser.followed ?? 0)
+            count.following = Int32(loginUser.following ?? 0)
+            count.tweets = Int32(loginUser.tweetsCount ?? 0)
             
             currentUser?.addToCount(count)
             }
@@ -256,7 +256,7 @@ extension AppData {
         }
         let viewContext = sceneDelegate.context
         
-        let userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), myInfo.id)
+        let userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), loginUser.id)
         
         let fetchRequest: NSFetchRequest<Count> = Count.fetchRequest()
         fetchRequest.predicate = userPredicate

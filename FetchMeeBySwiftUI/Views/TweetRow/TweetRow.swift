@@ -104,7 +104,7 @@ struct TweetRow: View {
                         .fixedSize(horizontal: false, vertical: true)
                     
                     //如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
-                    if tweetMedia.images.count != 0 && self.fetchMee.myInfo.setting.isMediaShowed {
+                    if tweetMedia.images.count != 0 && self.fetchMee.loginUser.setting.isMediaShowed {
                         ZStack {
                             
                                 Images(timeline: self.timeline, tweetIDString: self.tweetIDString)

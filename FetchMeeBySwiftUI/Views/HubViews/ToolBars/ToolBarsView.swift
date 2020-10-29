@@ -16,7 +16,7 @@ struct ToolBarsView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Log.createdAt, ascending: true)]) var logs: FetchedResults<Log>
    
-    lazy var userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), fetchMee.myInfo.id)
+    lazy var userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), fetchMee.loginUser.id)
 //    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Count.createdAt, ascending: true)]) var counts: FetchedResults<Count>
     
 
@@ -34,9 +34,9 @@ struct ToolBarsView: View {
             }
             ToolBarView(isFaceUp: toolBarIsFaceUp1,
                         type: .friends,
-                        label1Value: fetchMee.myInfo.followed,
-                        label2Value: fetchMee.myInfo.following,
-                        label3Value: fetchMee.myInfo.lastDayAddedFollower)
+                        label1Value: fetchMee.loginUser.followed,
+                        label2Value: fetchMee.loginUser.following,
+                        label3Value: fetchMee.loginUser.lastDayAddedFollower)
                 .onTapGesture {
                     if !toolBarIsFaceUp1 {
                         toolBarIsFaceUp1.toggle()
@@ -48,9 +48,9 @@ struct ToolBarsView: View {
                 }
             
             ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
-                        label1Value: fetchMee.myInfo.tweetsCount,
-                        label2Value: fetchMee.myInfo.tweetsCount,
-                        label3Value: fetchMee.myInfo.lastDayAddedTweets)
+                        label1Value: fetchMee.loginUser.tweetsCount,
+                        label2Value: fetchMee.loginUser.tweetsCount,
+                        label3Value: fetchMee.loginUser.lastDayAddedTweets)
                 .onTapGesture {
                     if !toolBarIsFaceUp2 {
                         toolBarIsFaceUp2.toggle()
