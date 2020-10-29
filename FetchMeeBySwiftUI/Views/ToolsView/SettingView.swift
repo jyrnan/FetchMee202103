@@ -97,7 +97,7 @@ extension SettingView {
     
     func logOut() {
         self.fetchMee.isShowUserInfo = false
-        self.fetchMee.myInfo = UserInfomation() //  设置成一个空的userInfo
+        self.fetchMee.myInfo = User() //  设置成一个空的userInfo
         print(#line, self.fetchMee.isShowUserInfo)
         delay(delay: 1, closure: {
             withAnimation {

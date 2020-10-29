@@ -12,7 +12,7 @@ import Swifter
 import Combine
 import Photos
 
-enum TweetListType: String {
+enum TimelineType: String {
     case home = "Home"
     case mention = "Mention"
     case list = "List"
@@ -44,6 +44,7 @@ enum TweetListType: String {
     }
 }
 
+
 final class Timeline: ObservableObject {
     @Published var tweetIDStrings: [String] = []
     @Published var imageURLStrings: [String: Bool] = [:] //标记被选择的图片ID???
@@ -60,32 +61,21 @@ final class Timeline: ObservableObject {
     }
     
     @Published var mentionUserIDStringsSorted: [String] = [] //存储根据MentiUserinfo情况排序的UserIDString
-    @Published var userInfos: [String : UserInfomation] = [:] //存储UserInfo供调用
+    @Published var userInfos: [String : User] = [:] //存储UserInfo供调用
     @Published var selectedImageCount: Int = 0
     
-    var type: TweetListType
+    var type: TimelineType
     var listTag: ListTag? // 如果是list类型，则会传入listTag
     var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
     
     var mentionUserInfo: [String:[String]] = [:] //记录用户互动mention推文信息（推文ID）数量,纪录顺序[userName, screenName, avatarUrlString, tweetID...tweetID]
-    
-    
-    //    let swifter = Swifter(consumerKey: "UUHBnDuEAliSe7vPTC55H12wV",
-    //                                  consumerSecret: "Rz9FeINJruwxeiOZJGzWOmdFwCQN9NuI8hmRZc1BlW0u0QLqU7",
-    //                                  oauthToken: "759972733782339584-4ZACqa2TkSuLcTkwsJNcIUpPNzKv6m3",
-    //                                  oauthTokenSecret: "Pu7lxRcs6dRHlr96tTgdSnU0y9IYvjMFues0QxQsNlxVz")
-    
-    //    let swifter = Swifter(consumerKey: "UdVHYrwJqJN6ZX7K8q7H3A",
-    //    consumerSecret: "mmM2G8vffvWF9dXHeJvwIy63GeB3Oc7NKxK7MaHvZc",
-    //    oauthToken: "47585796-oyxjvl2QxPDcjYd09QLihCr4fSsHSXYBjlWDM2usT",
-    //    oauthTokenSecret: "vNQ6PlsdWFqMVK3OZn6IyoatBLCHB8DdFcHqCzK2zdD6C")
-    
+   
     let session = URLSession.shared
     let maxCounter: Int = 100
     var sinceIDString: String?
     var maxIDString: String?
     
-    init(type: TweetListType, listTag: ListTag? = nil) {
+    init(type: TimelineType, listTag: ListTag? = nil) {
         self.type = type
         self.listTag = listTag
         print(#line, "timeline(\(self.type)) init", self)
@@ -109,6 +99,7 @@ final class Timeline: ObservableObject {
             print(#line, "\(self.type) disappeared!")
         }
     }
+    
     //MARK: - 更新推文函数
     ///更新上方推文
     func refreshFromTop(for userIDString: String? = nil, completeHandeler:(() -> Void)? = nil ,fh: ((Error) -> Void)? = nil) {
@@ -495,7 +486,7 @@ extension Timeline {
             self.mentionUserIDStringsSorted.append(userIDString)
             
             if self.userInfos[userIDString] == nil {
-                var userInfo = UserInfomation(id: userIDString)
+                var userInfo = User(id: userIDString)
                 userInfo.name = userName
                 userInfo.screenName = screenName
                 userInfo.avatarUrlString = avatarUrlString

@@ -119,9 +119,7 @@ extension Collection where Element == VNFaceObservation{
         
         context.setStrokeColor(UIColor.red.cgColor)
         context.setLineWidth(0.01 * image.size.width)
-        
-//        context.stroke(faceRect)
-        
+                
         
         let croppedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
