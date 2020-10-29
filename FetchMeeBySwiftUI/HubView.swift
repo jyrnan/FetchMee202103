@@ -115,7 +115,7 @@ extension HubView {
             
         })
         fetchMee.mention.refreshFromTop()
-        fetchMee.getMyInfo()
+        fetchMee.getUserInfo()
         self.alerts.setLogInfo(text:  "Started fetching new tweets...")
 
     }

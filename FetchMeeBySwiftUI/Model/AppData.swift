@@ -16,8 +16,8 @@ class AppData: ObservableObject {
    
     @Published var isLoggedIn: Bool = false
     @Published var loginUser: User = User() //当前用户的信息
-    @Published var userStore: [String: User] = [:] //存储多个用户的信息
-    @Published var userStringMark: [String: Int] = [:] // 用户互动数量纪录
+//    @Published var userStore: [String: User] = [:] //存储多个用户的信息
+
     @Published var isShowUserInfo: Bool = false
     
     @Published var home: Timeline = Timeline(type: .home)
@@ -29,17 +29,15 @@ class AppData: ObservableObject {
     
     let session = URLSession.shared
     
-    //CoreData part
-    let viewContext = ((UIApplication.shared.connectedScenes.first as? UIWindowScene)?.delegate as? SceneDelegate)?.context
-    
     @Published var isShowingPicture: Bool = false //是否浮动显示图片
     @Published var presentedView: AnyView? //通过AnyView就可以实现任意View的传递了？！
     
     
     //MARK:-获取用户信息方法
-    func getMyInfo() {
+    func getUserInfo() {
         
         var userTag: UserTag?
+        
         if let screenName = self.loginUser.screenName {
             userTag = UserTag.screenName(String(screenName.dropFirst())) //去掉前面的@符号
         } else {
@@ -49,6 +47,7 @@ class AppData: ObservableObject {
             }
             userTag = UserTag.id(self.loginUser.id)
         }
+        
         
         //读取用户设置信息
         loginUser.setting.load()

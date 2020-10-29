@@ -22,9 +22,7 @@ struct MentionUserSortedView: View {
                         .frame(width: 32, height: 32)
                 }
             }
-          
         }
-       
     }
 }
 

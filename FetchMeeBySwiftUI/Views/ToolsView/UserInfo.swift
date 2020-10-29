@@ -200,7 +200,7 @@ struct UserInfo: View {
                 self.checkingUser.loginUser.id = self.userIDString ?? "0000"
                 self.checkingUser.loginUser.screenName = self.userScreenName
                 
-                self.checkingUser.getMyInfo()
+                self.checkingUser.getUserInfo()
                 self.userTimeline.refreshFromTop(for: userIDString)
             }
         }

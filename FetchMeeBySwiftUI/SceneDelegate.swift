@@ -59,7 +59,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                   oauthToken: tokenKey,
                                   oauthTokenSecret: tokenSecret)
                 
-                self.fetchMee.getMyInfo()}
+                self.fetchMee.getUserInfo()}
             
             window.rootViewController = UIHostingController(rootView: contentView
                                                                 .environmentObject(alerts).environmentObject(fetchMee)
@@ -261,7 +261,7 @@ extension SceneDelegate {
     
     func saveOrUpdateLog(text: String?){
         guard text != nil else {return}
-        withAnimation {
+       
             let log = Log(context: context)
             log.createdAt = Date()
             log.text = " \(fetchMee.loginUser.screenName ?? "screenName") " + text! //临时添加一个用户名做标记
@@ -271,8 +271,10 @@ extension SceneDelegate {
                 try context.save()
             } catch {
                 let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")}
-        }
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                print(nsError.description)
+            }
+        
     }
     
     func cleanCountdata() {
