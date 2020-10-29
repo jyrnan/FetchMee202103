@@ -120,3 +120,7 @@ struct UserSetting {
         self.isKeepRecentTweets = (userDefault.object(forKey: "isKeepRecentTweets") as? Bool) ?? false
     }
 }
+
+extension User {
+    
+}

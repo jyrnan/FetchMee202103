@@ -15,8 +15,10 @@ import CoreData
 class AppData: ObservableObject {
    
     @Published var isLoggedIn: Bool = false
-    @Published var loginUser: User = User() //当前用户的信息
-//    @Published var userStore: [String: User] = [:] //存储多个用户的信息
+    lazy var loginUser: User = users[loginUserID] ?? User() //当前用户的信息
+    @Published var loginUserID: String = "0000"
+    @Published var users: [String: User] = [:] //存储多个用户的信息
+    @Published var setting: UserSetting = UserSetting() //打算把setting放这里？
 
     @Published var isShowUserInfo: Bool = false
     
@@ -38,22 +40,24 @@ class AppData: ObservableObject {
         
         var userTag: UserTag?
         
-        if let screenName = self.loginUser.screenName {
-            userTag = UserTag.screenName(String(screenName.dropFirst())) //去掉前面的@符号
-        } else {
+//        if let screenName = self.loginUser.screenName {
+//            userTag = UserTag.screenName(String(screenName.dropFirst())) //去掉前面的@符号
+//        } else {
+        
             //如果没有设置用户ID，且可以读取userDefualt里的IDString（说明已经logined），则设置loginUser的userIDString为登陆用户的userIDString
             if self.loginUser.id == "0000" && userDefault.object(forKey: "userIDString") != nil {
-                self.loginUser.id = userDefault.object(forKey: "userIDString") as! String
+                self.loginUserID = userDefault.object(forKey: "userIDString") as! String
             }
-            userTag = UserTag.id(self.loginUser.id)
-        }
+            userTag = UserTag.id(self.loginUserID)
+//        }
         
         
         //读取用户设置信息
-        loginUser.setting.load()
+        setting.load()
         
         guard userTag != nil else {return}
-        getUserInfo(for: userTag!)
+//        getUserInfo(for: userTag!)
+        getUser(userIDString: loginUserID)
     }
     
     func getUserInfo(for userTag: UserTag) {
