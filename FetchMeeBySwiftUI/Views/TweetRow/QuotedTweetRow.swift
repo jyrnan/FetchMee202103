@@ -11,7 +11,7 @@ import Combine
 
 struct QuotedTweetRow: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
    
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
@@ -54,7 +54,7 @@ struct QuotedTweetRow: View {
                 .padding(8)
                 .fixedSize(horizontal: false, vertical: true)
                 
-            if tweetMedia.images.count != 0 && self.user.myInfo.setting.isMediaShowed {
+            if tweetMedia.images.count != 0 && self.fetchMee.myInfo.setting.isMediaShowed {
                 Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
                     
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0,  maxHeight:.infinity , alignment: .topLeading)

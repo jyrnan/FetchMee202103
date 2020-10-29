@@ -10,7 +10,7 @@ import SwiftUI
 
 struct AvatarView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
     @EnvironmentObject var downloader: Downloader
     
     var avatar: UIImage?
@@ -28,7 +28,7 @@ struct AvatarView: View {
         ZStack {
             EmptyView()
                 .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName).environmentObject(self.alerts)
-                    .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color).environmentObject(downloader)
+                    .environmentObject(self.fetchMee).accentColor(self.fetchMee.myInfo.setting.themeColor.color).environmentObject(downloader)
                 }
             AvatarImageView(image: avatar)
             .onTapGesture(count: 2, perform: {
@@ -39,7 +39,7 @@ struct AvatarView: View {
             
             .onTapGesture(count: 1) {self.presentedUserInfo = true}
             .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.userIDString).environmentObject(self.alerts)
-                .environmentObject(self.user).accentColor(self.user.myInfo.setting.themeColor.color)
+                .environmentObject(self.fetchMee).accentColor(self.fetchMee.myInfo.setting.themeColor.color)
             }
             .simultaneousGesture(LongPressGesture()
                                     .onEnded{_ in
@@ -57,7 +57,7 @@ struct AvatarView: View {
     func pat(text: String? = "") {
         guard let userName = self.userName else { return}
         guard let screenName = self.screenName else { return}
-        let tweetText = "\(self.user.myInfo.name ?? "楼主")拍了拍\"\(userName)\" \(text ?? "") \n@\(screenName)"
+        let tweetText = "\(self.fetchMee.myInfo.name ?? "楼主")拍了拍\"\(userName)\" \(text ?? "") \n@\(screenName)"
         swifter.postTweet(status: tweetText, inReplyToStatusID: self.tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
             self.alerts.stripAlert.alertText = "Patting sent!"
             self.alerts.stripAlert.isPresentedAlert = true

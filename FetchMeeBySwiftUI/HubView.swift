@@ -16,7 +16,7 @@ import UIKit
 struct HubView: View {
     
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
     @EnvironmentObject var downloader: Downloader
    
     @Environment(\.managedObjectContext) private var viewContext
@@ -45,7 +45,7 @@ struct HubView: View {
                     
                     ZStack{
                         VStack {
-                            PullToRefreshView(action: {self.refreshAll()}, isDone: $user.home.isDone) {
+                            PullToRefreshView(action: {self.refreshAll()}, isDone: $fetchMee.home.isDone) {
                                 ComposerOfHubView(tweetText: $tweetText)
                                     .padding(.top, 16)
                                     .padding([.leading, .trailing], 18)
@@ -88,9 +88,9 @@ struct HubView: View {
             .navigationBarTitle("FetchMee")
                 .navigationBarTitleDisplayMode(.large)
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
-                AvatarImageView(image: user.myInfo.avatar).frame(width: 36, height: 36, alignment: .center)})
+                AvatarImageView(image: fetchMee.myInfo.avatar).frame(width: 36, height: 36, alignment: .center)})
             }
-        .toast(isShowing: $user.isShowingPicture, presented: user.presentedView)
+        .toast(isShowing: $fetchMee.isShowingPicture, presented: fetchMee.presentedView)
 
     }
 }
@@ -99,8 +99,8 @@ struct HubView_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            HubView().environmentObject(User())
-            HubView().environmentObject(User()).environment(\.colorScheme, .dark)
+            HubView().environmentObject(AppData())
+            HubView().environmentObject(AppData()).environment(\.colorScheme, .dark)
         }
     }
 }
@@ -110,12 +110,12 @@ extension HubView {
     
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
-        user.home.refreshFromTop(completeHandeler: {
+        fetchMee.home.refreshFromTop(completeHandeler: {
             self.alerts.setLogInfo(text:  "Fetching ended.")
             
         })
-        user.mention.refreshFromTop()
-        user.getMyInfo()
+        fetchMee.mention.refreshFromTop()
+        fetchMee.getMyInfo()
         self.alerts.setLogInfo(text:  "Started fetching new tweets...")
 
     }

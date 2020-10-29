@@ -12,7 +12,7 @@ import AVKit
 
 struct TweetRow: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
     
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
@@ -53,7 +53,7 @@ struct TweetRow: View {
                             self.presentedUserInfo = true
                         })
                         .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
-                            .environmentObject(self.user)}
+                            .environmentObject(self.fetchMee)}
                     Spacer()
                 }.offset(x: 44).padding(.top, 8).padding(.bottom, 0)
             }
@@ -104,7 +104,7 @@ struct TweetRow: View {
                         .fixedSize(horizontal: false, vertical: true)
                     
                     //如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
-                    if tweetMedia.images.count != 0 && self.user.myInfo.setting.isMediaShowed {
+                    if tweetMedia.images.count != 0 && self.fetchMee.myInfo.setting.isMediaShowed {
                         ZStack {
                             
                                 Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
@@ -186,7 +186,7 @@ struct TweetRow: View {
 
 struct TweetRow_Previews: PreviewProvider {
     static let alerts = Alerts()
-    static let user = User()
+    static let user = AppData()
     static var timeline = Timeline(type: .home)
     static var tweetIDString = "0000"
     static var previews: some View {

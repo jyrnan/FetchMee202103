@@ -14,7 +14,7 @@ import CoreData
 
 struct ComposerMoreView: View {
     
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) var draftsByCoreData: FetchedResults<TweetDraft>
@@ -42,7 +42,7 @@ struct ComposerMoreView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     HStack(alignment: .top) {
-                        Image(uiImage: (self.user.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
+                        Image(uiImage: (self.fetchMee.myInfo.avatar ?? UIImage(systemName: "person.circle.fill")!))
                             .resizable().frame(width: 32, height: 32, alignment: .center)
                             .clipShape(Circle()).padding(.top, 20).padding(.leading, 16)
                         

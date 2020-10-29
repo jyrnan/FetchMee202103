@@ -120,7 +120,7 @@ struct UserSetting {
     }
 }
 
-class User: ObservableObject {
+class AppData: ObservableObject {
    
     @Published var isLoggedIn: Bool = false
     @Published var myInfo: UserInfomation = UserInfomation() //当前用户的信息
@@ -296,7 +296,7 @@ class User: ObservableObject {
 }
 
 
-extension User {
+extension AppData {
     
     func saveUserInfoToCoreData(id: String, isLoginUser: Bool = false) {
         

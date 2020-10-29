@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TimelinesView: View {
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
     
     var body: some View {
         VStack {
@@ -21,14 +21,14 @@ struct TimelinesView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    TimelineIconView(timeline: user.home)
-                    TimelineIconView(timeline: user.mention)
-                    TimelineIconView(timeline: user.favorite)
-                    ForEach(user.myInfo.lists.keys.sorted(), id: \.self) { listName in
-                        TimelineIconView(timeline: Timeline(type: .list, listTag: user.myInfo.lists[listName]), listName: listName)
+                    TimelineIconView(timeline: fetchMee.home)
+                    TimelineIconView(timeline: fetchMee.mention)
+                    TimelineIconView(timeline: fetchMee.favorite)
+                    ForEach(fetchMee.myInfo.lists.keys.sorted(), id: \.self) { listName in
+                        TimelineIconView(timeline: Timeline(type: .list, listTag: fetchMee.myInfo.lists[listName]), listName: listName)
                     }
                     
-                    TimelineIconView(timeline: user.message)
+                    TimelineIconView(timeline: fetchMee.message)
                     
                 }.padding(.bottom, 8).padding(.leading, 16)
             }.padding(0)

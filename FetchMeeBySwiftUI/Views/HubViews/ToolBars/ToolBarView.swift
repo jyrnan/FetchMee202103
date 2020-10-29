@@ -51,7 +51,7 @@ enum ToolBarViewType: String {
 
 struct ToolBarView: View, Identifiable {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
@@ -155,13 +155,13 @@ struct ToolBarView_Previews: PreviewProvider {
         ZStack{
         RoundedRectangle(cornerRadius: 16)
             .foregroundColor(Color.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
-            BackOfToolsToolBar().environmentObject(User())
+            BackOfToolsToolBar().environmentObject(AppData())
         }.frame(height: 76).padding([.leading, .trailing], 16)
         
         ZStack{
         RoundedRectangle(cornerRadius: 16)
             .foregroundColor(Color.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
-            BackOfToolsToolBar().environmentObject(User())
+            BackOfToolsToolBar().environmentObject(AppData())
         }.frame(height: 76).padding([.leading, .trailing], 16)
     }
 }

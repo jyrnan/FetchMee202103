@@ -11,7 +11,7 @@ import CoreData
 
 struct Composer: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
     
     @Environment(\.managedObjectContext) var viewContext
    
@@ -30,7 +30,7 @@ struct Composer: View {
             Spacer()
             if self.timeline.isDone {
                 NavigationLink(
-                    destination: ComposerOfHubView(tweetText: self.$tweetText, replyIDString: self.tweetIDString, isUsedAlone: true ).environmentObject(user).accentColor(self.user.myInfo.setting.themeColor.color).environment(\.managedObjectContext, viewContext),
+                    destination: ComposerOfHubView(tweetText: self.$tweetText, replyIDString: self.tweetIDString, isUsedAlone: true ).environmentObject(fetchMee).accentColor(self.fetchMee.myInfo.setting.themeColor.color).environment(\.managedObjectContext, viewContext),
                     isActive: $isShowCMV
                 ){
                     Text("more").font(.body).foregroundColor(.primary).opacity(0.7)}

@@ -14,7 +14,7 @@ import UIKit
 
 struct TimelineSimpleView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User
+    @EnvironmentObject var user: AppData
     @EnvironmentObject var downloader: Downloader
     
     @ObservedObject var timeline: Timeline

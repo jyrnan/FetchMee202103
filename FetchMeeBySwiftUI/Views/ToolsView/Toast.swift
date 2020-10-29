@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Toast<Presenting, Presented>: View where Presenting: View, Presented: View {
     
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
     
     /// The binding that decides the appropriate drawing in the body.
     @Binding var isShowing: Bool
@@ -47,7 +47,7 @@ struct Toast<Presenting, Presented>: View where Presenting: View, Presented: Vie
                     
                     //通过设置延时后设置需要显示的View为nil，可以保证下次显示的时候是初始设置。（为什么会这样还有点迷惑）
                     //延时的目的是保证缩放的动画完成
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {user.presentedView = nil})
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {fetchMee.presentedView = nil})
                     
                 }
             }
@@ -64,4 +64,17 @@ extension View {
               presented: presented)
     }
     
+}
+
+extension View {
+    
+    @ViewBuilder
+    func ifThis<Transform: View> (_ condition: Bool, transform: (Self) -> Transform) -> some View {
+        if condition {
+            transform(self)
+        }
+        else {
+            self
+        }
+    }
 }

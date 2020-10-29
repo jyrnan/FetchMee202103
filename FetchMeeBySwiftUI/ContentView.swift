@@ -11,15 +11,15 @@ import Combine
 import CoreData
 
 struct ContentView: View {
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
     @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
-        if self.user.isLoggedIn {
-            HubView().accentColor(self.user.myInfo.setting.themeColor.color)
+        if self.fetchMee.isLoggedIn {
+            HubView().accentColor(self.fetchMee.myInfo.setting.themeColor.color)
 //            TestNavi()
         } else {
-            AuthView().accentColor(self.user.myInfo.setting.themeColor.color)
+            AuthView().accentColor(self.fetchMee.myInfo.setting.themeColor.color)
         }
     }
 }

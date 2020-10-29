@@ -11,7 +11,7 @@ import CoreData
 
 struct UserInfo: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User //始终是登录用户的信息
+    @EnvironmentObject var fetchMee: AppData //始终是登录用户的信息
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
@@ -19,7 +19,7 @@ struct UserInfo: View {
     var userIDString: String? //传入需查看的用户信息的ID
     var userScreenName: String? //传入需查看的用户信息的Name
     
-    @StateObject var checkingUser: User = User()
+    @StateObject var checkingUser: AppData = AppData()
     @StateObject var userTimeline: Timeline = Timeline(type: .user)
     @State var firstTimeRun: Bool = true //检测用于运行一次
     @State var isShowAvatarDetail :Bool = false //显示头像大图

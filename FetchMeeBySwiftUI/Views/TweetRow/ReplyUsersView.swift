@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ReplyUsersView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
     var replyUsers: [String] = ["jyrnan", "FetchMee"]
     @State var presentedUserInfo: Bool = false
     var body: some View {

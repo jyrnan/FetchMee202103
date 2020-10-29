@@ -12,7 +12,7 @@ import CoreData
 
 struct UserMarkManageView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
     
     @Environment(\.managedObjectContext) private var viewContext
     

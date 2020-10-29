@@ -10,13 +10,13 @@ import SwiftUI
 
 struct ImageGrabView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User //始终是登录用户的信息
+    @EnvironmentObject var fetchMee: AppData //始终是登录用户的信息
     @EnvironmentObject var downloader: Downloader
     
     var userIDString: String? //传入需查看的用户信息的ID
     var userScreenName: String? //传入需查看的用户信息的Name
     
-    @StateObject var checkingUser: User = User()
+    @StateObject var checkingUser: AppData = AppData()
     @StateObject var timeline: Timeline = Timeline(type: .user)
     
     @State var isShowActionSheet: Bool = false

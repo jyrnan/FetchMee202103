@@ -12,7 +12,7 @@ import Combine
 
 struct DetailView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: User
+    @EnvironmentObject var fetchMee: AppData
     
     @StateObject var replySession: Timeline = Timeline(type: .session)
     var tweetIDString: String //传入DetailView的初始推文
