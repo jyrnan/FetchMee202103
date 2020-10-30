@@ -42,7 +42,7 @@ struct ComposerMoreView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     HStack(alignment: .top) {
-                        Image(uiImage: (self.fetchMee.loginUser.avatar ?? UIImage(systemName: "person.circle.fill")!))
+                        Image(uiImage: (self.fetchMee.users[fetchMee.loginUserID]?.avatar ?? UIImage(systemName: "person.circle.fill")!))
                             .resizable().frame(width: 32, height: 32, alignment: .center)
                             .clipShape(Circle()).padding(.top, 20).padding(.leading, 16)
                         
@@ -323,7 +323,10 @@ extension ComposerMoreView {
                 try viewContext.save()
             } catch {
                 let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")}
+                print(nsError.description)
+//                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                
+            }
         }
     }
     
@@ -336,7 +339,8 @@ extension ComposerMoreView {
             try viewContext.save()
         } catch {
             let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            print(nsError.description)
+//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
     

@@ -14,7 +14,7 @@ import UIKit
 
 struct TimelineSimpleView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var user: AppData
+    @EnvironmentObject var fetchMee: AppData
     @EnvironmentObject var downloader: Downloader
     
     @ObservedObject var timeline: Timeline
@@ -68,7 +68,7 @@ struct TimelineSimpleView: View {
                                         }
                                     },
                                 trailing:
-                                    AvatarImageView(image: user.loginUser.avatar).frame(width: 36, height: 36, alignment: .center))
+                                    AvatarImageView(image: fetchMee.users[fetchMee.loginUserID]?.avatar).frame(width: 36, height: 36, alignment: .center))
             //通知视图
             AlertView()
         }

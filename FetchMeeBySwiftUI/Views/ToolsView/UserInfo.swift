@@ -19,13 +19,14 @@ struct UserInfo: View {
     var userIDString: String? //传入需查看的用户信息的ID
     var userScreenName: String? //传入需查看的用户信息的Name
     
-//    @Binding var checkingUser: User
     @StateObject var userTimeline: Timeline = Timeline(type: .user)
+    
     @State var firstTimeRun: Bool = true //检测用于运行一次
     @State var isShowAvatarDetail :Bool = false //显示头像大图
     
     @State var nickNameText: String = ""
     @State var isNickNameInputShow: Bool = false
+    
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -53,8 +54,7 @@ struct UserInfo: View {
                             .padding(.leading, 16)
                             .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
                                 self.isShowAvatarDetail = true
-//                                user.showingPicture = ImageViewer(image: self.checkingUser.myInfo.avatar ?? UIImage(systemName: "person.circle")!)
-//                                user.isShowingPicture = true
+
                             })
                             .sheet(isPresented: self.$isShowAvatarDetail){
                                 ImageViewer(image: fetchMee.users[userIDString!]?.avatar ?? UIImage(systemName: "person.circle")!)
@@ -88,7 +88,7 @@ struct UserInfo: View {
                                 .cornerRadius(16)
                                 .padding(.trailing, 16)
                                 .onTapGesture(count: 1, perform: {
-                                    fetchMee.unfollow()
+                                    fetchMee.unfollow(userIDString: userIDString!)
                                 })
                         } else {
                             Text("Follow")
@@ -99,7 +99,7 @@ struct UserInfo: View {
                                 .cornerRadius(16)
                                 .padding(.trailing, 16)
                                 .onTapGesture(count: 1, perform: {
-                                    fetchMee.follow()
+                                    fetchMee.follow(userIDString: userIDString!)
                                 })
                         }
                         
@@ -201,6 +201,9 @@ struct UserInfo: View {
 //                fetchMee.users[userIDString!]?.screenName = self.userScreenName
 //
 //                fetchMee.getUser(userIDString: userIDString!)
+                if userIDString != nil, fetchMee.users[userIDString!] == nil {
+                    fetchMee.getUser(userIDString: userIDString!)
+                }
                 self.userTimeline.refreshFromTop(for: userIDString)
             }
         }
@@ -227,6 +230,9 @@ extension UserInfo {
             try viewContext.save()
         } catch {
             let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")}
+            print(nsError.description)
+//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            
+        }
     }
 }

@@ -111,7 +111,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
         
         //保存用户设置
-        fetchMee.loginUser.setting.save()
+        fetchMee.setting.save()
         
         //加入定时程序
         scheduledRefresh()
@@ -219,11 +219,11 @@ extension SceneDelegate {
         saveOrUpdateLog(text: "Started background fetch.")
         fetchMee.mention.refreshFromTop()
         
-        if fetchMee.loginUser.setting.isDeleteTweets {
+        if fetchMee.setting.isDeleteTweets {
             
             fetchMee.home.refreshFromTop()
-            swifter.fastDeleteTweets(for: fetchMee.loginUser.id,
-                                     keepRecent: fetchMee.loginUser.setting.isKeepRecentTweets,
+            swifter.fastDeleteTweets(for: fetchMee.loginUserID,
+                                     keepRecent: fetchMee.setting.isKeepRecentTweets,
                                      completeHandler: completeHandler,
                                      logHandler: logHandler)
             
@@ -242,7 +242,7 @@ extension SceneDelegate {
         }
         
         //成功处理回调通知，具体形式不一定，取决于执行的任务对成功回调闭包的要求。
-        let successHandler: (JSON) -> Void = {json in
+        let successHandler: () -> Void = {
             
             let successText = "BGProcessingTask completed."
             self.saveOrUpdateLog(text: successText)
@@ -251,7 +251,7 @@ extension SceneDelegate {
         }
         
         //实际操作部分，但如果操作内容为空则写入log并结束
-       cleanCountdata()
+        cleanCountdata(success: successHandler)
         
     }
 }
@@ -261,23 +261,24 @@ extension SceneDelegate {
     
     func saveOrUpdateLog(text: String?){
         guard text != nil else {return}
-       
-            let log = Log(context: context)
-            log.createdAt = Date()
+        
+        let log = Log(context: context)
+        log.createdAt = Date()
         log.text = " \(fetchMee.users[fetchMee.loginUserID]?.screenName ?? "screenName") " + text! //临时添加一个用户名做标记
-            log.id = UUID()
+        log.id = UUID()
+        
+        do {
+            try context.save()
+        } catch {
+            let nsError = error as NSError
+            print(nsError.description)
+//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             
-            do {
-                try context.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                print(nsError.description)
-            }
+        }
         
     }
     
-    func cleanCountdata() {
+    func cleanCountdata(success: () -> ()) {
         let sevenDays: TimeInterval = -(60 * 60 * 24 * 7)
         
         
@@ -292,9 +293,12 @@ extension SceneDelegate {
             
             try context.save()
             
+            //如果删除成功，执行成功回调闭包
+            success()
+            
         } catch let error as NSError {
             print("count not fetched \(error), \(error.userInfo)")
-          }
+        }
     }
     
 }

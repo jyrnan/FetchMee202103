@@ -24,19 +24,19 @@ struct BackOfTweetsToolBar: View {
     var body: some View {
         VStack {
             HStack{
-                Toggle(isOn: $fetchMee.loginUser.setting.isDeleteTweets) {
+                Toggle(isOn: $fetchMee.setting.isDeleteTweets) {
                     Text("Auto\nDelete")
                         .font(.caption).bold()
                         .foregroundColor(.white)
                 }
-                .alert(isPresented: $fetchMee.loginUser.setting.isDeleteTweets){
+                .alert(isPresented: $fetchMee.setting.isDeleteTweets){
                                             Alert(title: Text("Attention"),
                                                   message: Text(autoDeletWarningMessage),
-                                                  primaryButton: .destructive(Text("Sure"), action: {fetchMee.loginUser.setting.isDeleteTweets = true}),
+                                                  primaryButton: .destructive(Text("Sure"), action: {fetchMee.setting.isDeleteTweets = true}),
                                                   secondaryButton: .cancel())}
                 
                 Divider()
-                Toggle(isOn: $fetchMee.loginUser.setting.isKeepRecentTweets) {
+                Toggle(isOn: $fetchMee.setting.isKeepRecentTweets) {
                     Text("Keep\nRecent").font(.caption).bold()
                         .foregroundColor(.white)
                 }
@@ -85,8 +85,8 @@ extension BackOfTweetsToolBar {
         let lh: (String) -> () = {string in
             self.alerts.setLogInfo(text: string)
         }
-        swifter.fastDeleteTweets(for: fetchMee.loginUser.id,
-                                 keepRecent: fetchMee.loginUser.setting.isKeepRecentTweets,
+        swifter.fastDeleteTweets(for: fetchMee.loginUserID,
+                                 keepRecent: fetchMee.setting.isKeepRecentTweets,
                                  completeHandler: completeHandler,
                                  logHandler: lh)
     }

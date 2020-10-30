@@ -24,7 +24,8 @@ struct PersistenceContainer {
         container.loadPersistentStores(completionHandler: {
             (storeDescription, error) in
             if let error = error as NSError? {
-                fatalError("Unresoved error \(error), \(error.userInfo)")
+                print(error.description)
+//                fatalError("Unresoved error \(error), \(error.userInfo)")
             }
         })
         

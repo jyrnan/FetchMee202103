@@ -15,7 +15,7 @@ import CoreData
 class AppData: ObservableObject {
    
     @Published var isLoggedIn: Bool = false
-    lazy var loginUser: User = users[loginUserID] ?? User() //当前用户的信息
+//    lazy var loginUser: User = users[loginUserID] ?? User() //当前用户的信息
     @Published var loginUserID: String = "0000"
     @Published var users: [String: User] = [:] //存储多个用户的信息
     

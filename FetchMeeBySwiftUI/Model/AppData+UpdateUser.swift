@@ -149,17 +149,17 @@ extension AppData {
    
     
     
-    func follow() {
+    func follow(userIDString: String) {
         print(#line, #function)
-        let userTag = UserTag.id(self.loginUser.id)
+        let userTag = UserTag.id(userIDString)
         swifter.followUser(userTag)
-        self.loginUser.isFollowing = true
+        users[userIDString]?.isFollowing = true
     }
     
-    func unfollow() {
-        let userTag = UserTag.id(self.loginUser.id)
+    func unfollow(userIDString: String) {
+        let userTag = UserTag.id(userIDString)
         swifter.unfollowUser(userTag)
-        self.loginUser.isFollowing = false
+        users[userIDString]?.isFollowing = false
     }
     
     
@@ -256,7 +256,8 @@ extension AppData {
             
         }catch {
             let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            print(nsError.description)
+//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
         
     }

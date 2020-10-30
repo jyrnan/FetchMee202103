@@ -28,7 +28,7 @@ struct AvatarView: View {
         ZStack {
             EmptyView()
                 .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName).environmentObject(self.alerts)
-                    .environmentObject(self.fetchMee).accentColor(self.fetchMee.loginUser.setting.themeColor.color).environmentObject(downloader)
+                    .environmentObject(self.fetchMee).accentColor(self.fetchMee.setting.themeColor.color).environmentObject(downloader)
                 }
             AvatarImageView(image: avatar)
             .onTapGesture(count: 2, perform: {
@@ -62,7 +62,7 @@ struct AvatarView: View {
     func pat(text: String? = "") {
         guard let userName = self.userName else { return}
         guard let screenName = self.screenName else { return}
-        let tweetText = "\(self.fetchMee.loginUser.name ?? "楼主")拍了拍\"\(userName)\" \(text ?? "") \n@\(screenName)"
+        let tweetText = "\(fetchMee.users[fetchMee.loginUserID]?.name ?? "楼主")拍了拍\"\(userName)\" \(text ?? "") \n@\(screenName)"
         swifter.postTweet(status: tweetText, inReplyToStatusID: self.tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
             self.alerts.stripAlert.alertText = "Patting sent!"
             self.alerts.stripAlert.isPresentedAlert = true
