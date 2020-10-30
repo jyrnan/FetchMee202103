@@ -37,9 +37,14 @@ struct AvatarView: View {
                 self.pat(text: "并缓缓举起了了大拇指")
             })
             
-            .onTapGesture(count: 1) {self.presentedUserInfo = true}
+            .onTapGesture(count: 1) {
+                guard userIDString != nil else {return}
+                fetchMee.getUser(userIDString: userIDString!)
+                self.presentedUserInfo = true
+                
+            }
             .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.userIDString).environmentObject(self.alerts)
-                .environmentObject(self.fetchMee).accentColor(self.fetchMee.loginUser.setting.themeColor.color)
+                .environmentObject(self.fetchMee).accentColor(self.fetchMee.setting.themeColor.color)
             }
             .simultaneousGesture(LongPressGesture()
                                     .onEnded{_ in

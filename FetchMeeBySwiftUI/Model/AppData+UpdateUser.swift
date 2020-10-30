@@ -33,14 +33,13 @@ extension AppData {
         
     }
     
-    
-    
-    
     /// 获取用户信息，这部分是复用函数，既可以更新loginUser，也可以用来更新任意用户信息
+    /// 如果传入到userIDString是新用户，则会在fetchMee .users里创建一个数据并更新
     /// 更新步骤是首先更新Bio信息，并整体打包赋值给相应的users数据位置
+    /// TODO：增加screenName的参数
     /// - Parameter userIDString: 用户ID
     func getUser(userIDString: String) {
-        
+      
         let userTag = UserTag.id(userIDString)
         var user = User()
         
@@ -106,7 +105,8 @@ extension AppData {
             ///开始更新List相应信息。
             ///这部分将直接更新users里面的user数据，
             ///所以需要在上面更新打包完成后才开始
-            getAndUpdateList(userIDString: userIDString)
+            ///直接传入上方所获得的user.id
+            getAndUpdateList(userIDString: user.id)
            
         }
         
@@ -137,7 +137,7 @@ extension AppData {
                 newLists[name] = listTag
             }
             
-            self.users[self.loginUserID]?.lists = newLists
+            self.users[userIDString]?.lists = newLists
         }
         
         let userTag = UserTag.id(userIDString)

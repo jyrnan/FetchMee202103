@@ -16,10 +16,10 @@ struct ContentView: View {
     
     var body: some View {
         if self.fetchMee.isLoggedIn {
-            HubView().accentColor(self.fetchMee.loginUser.setting.themeColor.color)
+            HubView().accentColor(self.fetchMee.setting.themeColor.color)
 //            TestNavi()
         } else {
-            AuthView().accentColor(self.fetchMee.loginUser.setting.themeColor.color)
+            AuthView().accentColor(self.fetchMee.setting.themeColor.color)
         }
     }
 }

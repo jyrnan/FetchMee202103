@@ -63,7 +63,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             window.rootViewController = UIHostingController(rootView: contentView
                                                                 .environmentObject(alerts).environmentObject(fetchMee)
-                                                                .accentColor(self.fetchMee.loginUser.setting.themeColor.color).environmentObject(downloader))
+                                                                .accentColor(self.fetchMee.setting.themeColor.color).environmentObject(downloader))
             
             
             self.window = window

@@ -11,17 +11,17 @@ import Combine
 
 struct SettingView: View {
     @EnvironmentObject var fetchMee: AppData
-    @StateObject var timeline: Timeline = Timeline(type: .user)
+//    @StateObject var timeline: Timeline = Timeline(type: .user)
     
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
-    var checkingUser: AppData {self.fetchMee} //使用用户和chckingUser是同一个
+//    var checkingUser: AppData {self.fetchMee} //使用用户和chckingUser是同一个
     
     var body: some View {
         Form {
             
             ZStack {VStack {
                 Spacer()
-                Image(uiImage: self.checkingUser.loginUser.banner ?? UIImage(named: "bg")!)
+                Image(uiImage: fetchMee.users[fetchMee.loginUserID]?.banner ?? UIImage(named: "bg")!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 100)
@@ -31,7 +31,7 @@ struct SettingView: View {
                 
                 HStack {
                     Spacer()
-                Image(uiImage: (self.fetchMee.loginUser.avatar ?? UIImage(systemName: "person.circle.fill")!))
+                Image(uiImage: (fetchMee.users[fetchMee.loginUserID]?.avatar ?? UIImage(systemName: "person.circle.fill")!))
                 .resizable()
                 .frame(width: 64, height: 64, alignment: .center)
                     .overlay(Circle().stroke(Color.gray.opacity(0.7), lineWidth: 2))
@@ -46,13 +46,13 @@ struct SettingView: View {
             
             Section(header: Text("Visual"), footer: Text("You can swith this function off to get a simper UI and better performance")) {
                 
-                Picker("Favorit Theme Color", selection: self.$fetchMee.loginUser.setting.themeColor, content: {
+                Picker("Favorit Theme Color", selection: self.$fetchMee.setting.themeColor, content: {
                     ForEach(ThemeColor.allCases){color in
                         Text(color.rawValue.capitalized).tag(color)
                     }
                 })
-                Toggle("Iron Fans Rate", isOn: self.$fetchMee.loginUser.setting.isIronFansShowed)
-                Toggle("Show Pictures", isOn: self.$fetchMee.loginUser.setting.isMediaShowed)
+                Toggle("Iron Fans Rate", isOn: self.$fetchMee.setting.isIronFansShowed)
+                Toggle("Show Pictures", isOn: self.$fetchMee.setting.isMediaShowed)
 //                Toggle("Delete All Tweets", isOn: self.$user.myInfo.setting.isDeleteTweets)
             }
             
@@ -88,7 +88,7 @@ struct SettingView: View {
                 }
             }
         }
-        .onDisappear{self.fetchMee.loginUser.setting.save()}
+        .onDisappear{fetchMee.setting.save()}
 //        .navigationTitle("Setting")
     }
 }
@@ -96,8 +96,8 @@ struct SettingView: View {
 extension SettingView {
     
     func logOut() {
-        self.fetchMee.isShowUserInfo = false
-        self.fetchMee.loginUser = User() //  设置成一个空的userInfo
+        fetchMee.isShowUserInfo = false
+        fetchMee.loginUserID = "0000" //  设置成一个空的userInfo
         print(#line, self.fetchMee.isShowUserInfo)
         delay(delay: 1, closure: {
             withAnimation {
@@ -106,7 +106,7 @@ extension SettingView {
                 userDefault.set(nil, forKey: "userIDString")
                 userDefault.set(nil, forKey: "screenName")
                 userDefault.set(nil, forKey: "mentionUserInfo")
-                self.fetchMee.isLoggedIn = false
+                fetchMee.isLoggedIn = false
             }
         })
     }

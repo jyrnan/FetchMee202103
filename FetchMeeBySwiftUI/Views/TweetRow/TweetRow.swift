@@ -50,7 +50,10 @@ struct TweetRow: View {
                         .font(.subheadline).lineLimit(2)
                         .foregroundColor(.gray)
                         .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                            self.presentedUserInfo = true
+                            if let userIDString = self.tweetMedia.retweeted_by_UserIDString {
+                                fetchMee.getUser(userIDString: userIDString)
+                                self.presentedUserInfo = true
+                            }
                         })
                         .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
                             .environmentObject(self.fetchMee)}
