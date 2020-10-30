@@ -38,8 +38,8 @@ struct AvatarView: View {
             })
             
             .onTapGesture(count: 1) {
-                guard userIDString != nil else {return}
-                fetchMee.getUser(userIDString: userIDString!)
+//                guard userIDString != nil else {return}
+//                fetchMee.getUser(userIDString: userIDString!)
                 self.presentedUserInfo = true
                 
             }

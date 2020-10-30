@@ -61,13 +61,22 @@ extension AppData {
             var avatarUrl = json["profile_image_url_https"].string
             avatarUrl = avatarUrl?.replacingOccurrences(of: "_normal", with: "")
             imageDownloaderWithClosure(from: avatarUrl, sh: {im in
-                self.users[userIDString]?.avatar = im
+                DispatchQueue.main.async {
+                    self.users[userIDString]?.avatar = im
+                }
+                
             })
             
             user.bannerUrlString = json["profile_banner_url"].string
-            if user.bannerUrlString != nil {
-                user.banner = UIImage(data: (try? Data(contentsOf: URL(string: user.bannerUrlString!)!)) ?? UIImage(named: "bg")!.pngData()!)
-            }
+            print(#line," user bannerString",  user.bannerUrlString)
+            imageDownloaderWithClosure(from: user.bannerUrlString, sh: {im in
+                DispatchQueue.main.async {
+                self.users[userIDString]?.banner = im
+                }
+                print(#line, "下载banner成功")
+                })
+                
+            
             
             var loc = json["location"].string ?? "Unknow"
             if loc != "" {
@@ -186,9 +195,10 @@ extension AppData {
         ///先尝试获取本地缓存文件
         if let d = try? Data(contentsOf: filePath) {
             if let im = UIImage(data: d) {
-                DispatchQueue.main.async {
+//                DispatchQueue.main.async {
                     sh(im)
-                }
+                    print(#line, "From local")
+//                }
             }
         } else { //
             let task = self.session.downloadTask(with: url) {
@@ -196,9 +206,10 @@ extension AppData {
                 if let url = fileURL, let d = try? Data(contentsOf: url) {
                     if let im = UIImage(data: d) {
                         try? d.write(to: filePath)
-                        DispatchQueue.main.async {
+//                        DispatchQueue.main.async {
                             sh(im)
-                        }
+                            print(#line, "From remote")
+//                        }
                         
                     }
                 }
@@ -283,12 +294,12 @@ extension AppData {
         do {
             let counts = try viewContext.fetch(fetchRequest)
             
-            print(#line, counts.count)
+//            print(#line, counts.count)
             
             let lastDayCounts = counts.filter{count in
                 return abs(count.createdAt?.timeIntervalSinceNow ?? 1000000 ) < 60 * 60 * 24}
             
-            print(#line, lastDayCounts.count)
+//            print(#line, lastDayCounts.count)
             
             if let lastDayMax = lastDayCounts.max(by: {a, b in a.follower < b.follower}),
                let lastDayMin = lastDayCounts.max(by: {a, b in a.follower > b.follower}) {

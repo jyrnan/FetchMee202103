@@ -201,9 +201,9 @@ struct UserInfo: View {
 //                fetchMee.users[userIDString!]?.screenName = self.userScreenName
 //
 //                fetchMee.getUser(userIDString: userIDString!)
-                if userIDString != nil, fetchMee.users[userIDString!] == nil {
+//                if userIDString != nil, fetchMee.users[userIDString!] == nil {
                     fetchMee.getUser(userIDString: userIDString!)
-                }
+//                }
                 self.userTimeline.refreshFromTop(for: userIDString)
             }
         }

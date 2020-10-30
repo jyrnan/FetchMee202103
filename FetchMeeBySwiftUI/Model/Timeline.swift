@@ -470,7 +470,7 @@ extension Timeline {
     func makeMentionUserSortedList() {
         
         guard self.type == .mention else {return}
-        print(#line, self.mentionUserInfo.count)
+//        print(#line, self.mentionUserInfo.count)
         userDefault.set(self.mentionUserInfo, forKey: "mentionUserInfo")
         
         let mentionUserInfoSorted = self.mentionUserInfo.sorted{$0.value.count > $1.value.count} //按Mention数量照降序排序
