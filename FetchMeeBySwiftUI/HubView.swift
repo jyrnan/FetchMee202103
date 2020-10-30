@@ -88,7 +88,7 @@ struct HubView: View {
             .navigationBarTitle("FetchMee")
                 .navigationBarTitleDisplayMode(.large)
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
-                AvatarImageView(image: fetchMee.loginUser.avatar).frame(width: 36, height: 36, alignment: .center)})
+                                    AvatarImageView(image: fetchMee.users[fetchMee.loginUserID]?.avatar).frame(width: 36, height: 36, alignment: .center)})
             }
         .toast(isShowing: $fetchMee.isShowingPicture, presented: fetchMee.presentedView)
 

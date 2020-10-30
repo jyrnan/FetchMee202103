@@ -34,9 +34,9 @@ struct ToolBarsView: View {
             }
             ToolBarView(isFaceUp: toolBarIsFaceUp1,
                         type: .friends,
-                        label1Value: fetchMee.loginUser.followed,
-                        label2Value: fetchMee.loginUser.following,
-                        label3Value: fetchMee.loginUser.lastDayAddedFollower)
+                        label1Value: fetchMee.users[fetchMee.loginUserID]?.followed,
+                        label2Value: fetchMee.users[fetchMee.loginUserID]?.following,
+                        label3Value: fetchMee.users[fetchMee.loginUserID]?.lastDayAddedFollower)
                 .onTapGesture {
                     if !toolBarIsFaceUp1 {
                         toolBarIsFaceUp1.toggle()
@@ -48,9 +48,9 @@ struct ToolBarsView: View {
                 }
             
             ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
-                        label1Value: fetchMee.loginUser.tweetsCount,
-                        label2Value: fetchMee.loginUser.tweetsCount,
-                        label3Value: fetchMee.loginUser.lastDayAddedTweets)
+                        label1Value: fetchMee.users[fetchMee.loginUserID]?.tweetsCount,
+                        label2Value: fetchMee.users[fetchMee.loginUserID]?.tweetsCount,
+                        label3Value: fetchMee.users[fetchMee.loginUserID]?.lastDayAddedTweets)
                 .onTapGesture {
                     if !toolBarIsFaceUp2 {
                         toolBarIsFaceUp2.toggle()

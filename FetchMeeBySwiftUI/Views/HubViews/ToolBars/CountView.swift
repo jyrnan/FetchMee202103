@@ -42,7 +42,7 @@ struct CountView: View {
             }.font(.caption2).frame(height: 18).background(Color.gray)
             
         List {
-            LazyVStack{
+//            LazyVStack{
             ForEach(counts, id: \.self) { count in
                 HStack {
                     Text(format.string(from: count.createdAt ?? Date())).frame(alignment: .leading)
@@ -54,12 +54,12 @@ struct CountView: View {
                     Text("\(count.tweets)").frame(alignment: .leading).foregroundColor(.gray)
                     Spacer()
                     Text("\(count.countToUser?.name ?? "Unknow")").frame(alignment: .leading).foregroundColor(.gray)
-                }.font(.caption2)
+                }.font(.body)
                 
             }.onDelete(perform: { indexSet in
                         deleteCounts(offsets: indexSet)
                     })
-            }
+//            }
         }
         .navigationBarTitle("Logs", displayMode: .inline)
         .navigationBarTitleDisplayMode(.inline)
@@ -75,6 +75,31 @@ extension CountView {
         do {
             try viewContext.save()
         }catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+}
+
+extension CountView {
+    
+    func deleteLog(offsets: IndexSet) {
+        offsets.map{counts[$0]}.forEach{viewContext.delete($0)}
+        
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+    
+    func deleteAll() {
+        counts.forEach{viewContext.delete($0)}
+        
+        do {
+            try viewContext.save()
+        } catch {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }

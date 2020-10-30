@@ -22,9 +22,9 @@ let userDefault = UserDefaults.init()
 let cfh = CacheFileHandler() //设置下载文件的缓存位置
 let session = URLSession.shared
 
-//两个用来实现后台运行的函数变量，会依据情况不同代表不同的执行内容
-var backgroundFetchTask: ((BGAppRefreshTask) -> Void)?
-var backgroundProcessTask: ((BGProcessingTask) -> Void)?
+////两个用来实现后台运行的函数变量，会依据情况不同代表不同的执行内容
+//var backgroundFetchTask: ((BGAppRefreshTask) -> Void)?
+//var backgroundProcessTask: ((BGProcessingTask) -> Void)?
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -43,7 +43,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // Create the SwiftUI view that provides the window contents.
         self.fetchMee.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
-        self.fetchMee.loginUser.setting.load() //读取存储多设置
+        self.fetchMee.setting.load() //读取存储的设置
         let contentView = ContentView().environment(\.managedObjectContext, context)
         
         // Use a UIHostingController as window root view controller.
@@ -264,7 +264,7 @@ extension SceneDelegate {
        
             let log = Log(context: context)
             log.createdAt = Date()
-            log.text = " \(fetchMee.loginUser.screenName ?? "screenName") " + text! //临时添加一个用户名做标记
+        log.text = " \(fetchMee.users[fetchMee.loginUserID]?.screenName ?? "screenName") " + text! //临时添加一个用户名做标记
             log.id = UUID()
             
             do {
