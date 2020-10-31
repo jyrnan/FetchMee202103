@@ -33,7 +33,7 @@ struct HubView: View {
         transAppearance.backgroundImageContentMode = .bottomRight
         transAppearance.shadowColor = .clear
         
-        UINavigationBar.appearance().standardAppearance = transAppearance
+//        UINavigationBar.appearance().standardAppearance = transAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = transAppearance
     }
     

@@ -74,33 +74,33 @@ struct ImageGrabView: View {
             }
            
             VStack {
-                HStack{
-                    Text("@\(self.userScreenName ?? "UserName")").foregroundColor(.white).font(.title2).bold().padding().shadow(radius: 3)
-                    
-                    Spacer()
-                    Button(action: {self.selectAll()}, label: {
-                        Text("Select & Save")
-                            .bold()
-                            .padding()
-                    })
-                    .contextMenu(menuItems: /*@START_MENU_TOKEN@*/{
-                        
-                        Button(action: {self.selectAll()}, label: {
-                            Text("Select All")
-                            Image(systemName: "checkmark.square")
-                        })
-                        Button(action: {self.deSelectAll()}, label: {
-                            Text("Unselect All")
-                            Image(systemName: "square")
-                        })
-                        
-                        Button(action: {self.saveSelected()}, label: {
-                            Text("Save Seleted")
-                            Image(systemName: "folder")
-                        })
-                    }/*@END_MENU_TOKEN@*/)
-                    
-                }.background(LinearGradient(gradient: Gradient(colors: [Color.black, Color.clear]), startPoint: UnitPoint(x: 0, y: 0), endPoint: UnitPoint(x: 0, y: 1)).opacity(0.7))
+//                HStack{
+//                    Text("@\(self.userScreenName ?? "UserName")").foregroundColor(.white).font(.title2).bold().padding().shadow(radius: 3)
+//
+//                    Spacer()
+////                    Button(action: {self.selectAll()}, label: {
+////                        Text("Select & Save")
+////                            .bold()
+////                            .padding()
+////                    })
+////                    .contextMenu(menuItems: /*@START_MENU_TOKEN@*/{
+////
+////                        Button(action: {self.selectAll()}, label: {
+////                            Text("Select All")
+////                            Image(systemName: "checkmark.square")
+////                        })
+////                        Button(action: {self.deSelectAll()}, label: {
+////                            Text("Unselect All")
+////                            Image(systemName: "square")
+////                        })
+////
+////                        Button(action: {self.saveSelected()}, label: {
+////                            Text("Save Seleted")
+////                            Image(systemName: "folder")
+////                        })
+////                    }/*@END_MENU_TOKEN@*/)
+//
+//                }.background(LinearGradient(gradient: Gradient(colors: [Color.black, Color.clear]), startPoint: UnitPoint(x: 0, y: 0), endPoint: UnitPoint(x: 0, y: 1)).opacity(0.7))
                 Spacer()
                 HStack{
                     Spacer()
@@ -110,9 +110,31 @@ struct ImageGrabView: View {
                     Spacer()
                 }.background(LinearGradient(gradient: Gradient(colors: [Color.black, Color.clear]), startPoint: UnitPoint(x: 0, y: 1), endPoint: UnitPoint(x: 0, y: 0)).opacity(0.5))
                 
-            }
+            }.ignoresSafeArea()
         }
-        .ignoresSafeArea()
+//        .ignoresSafeArea()
+        .navigationTitle("@\(userScreenName ?? "userName")")
+        .navigationBarItems( trailing: Button(action: {self.selectAll()}, label: {
+            Text("Select & Save")
+//                .bold()
+//                .padding()
+        })
+        .contextMenu(menuItems: /*@START_MENU_TOKEN@*/{
+            
+            Button(action: {self.selectAll()}, label: {
+                Text("Select All")
+                Image(systemName: "checkmark.square")
+            })
+            Button(action: {self.deSelectAll()}, label: {
+                Text("Unselect All")
+                Image(systemName: "square")
+            })
+            
+            Button(action: {self.saveSelected()}, label: {
+                Text("Save Seleted")
+                Image(systemName: "folder")
+            })
+        }/*@END_MENU_TOKEN@*/))
         .onAppear{
             self.timeline.refreshFromTop(for: userIDString)
         }
@@ -200,8 +222,13 @@ extension ImageGrabView {
         
         if let urlString = timeline.tweetMedias[tweetIDString]?.urlStrings![index] {
             timeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
-                self.imageToBeView = im
-                self.presentedImageViewer = true
+//                self.imageToBeView = im
+//                self.presentedImageViewer = true
+                DispatchQueue.main.async {
+                    
+                    let imageViewer = ImageViewer(image: im)
+                    fetchMee.presentedView = AnyView(imageViewer)
+                    withAnimation{fetchMee.isShowingPicture = true}                                }
             })
         }
     }

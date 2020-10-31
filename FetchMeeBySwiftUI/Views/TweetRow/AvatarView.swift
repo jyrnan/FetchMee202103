@@ -26,7 +26,8 @@ struct AvatarView: View {
     @State var presentedUserImageGrabber: Bool = false
     var body: some View {
         ZStack {
-            EmptyView()
+            NavigationLink(destination: ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName), isActive: $presentedUserImageGrabber){
+                EmptyView()}
 //                .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName).environmentObject(self.alerts)
 //                    .environmentObject(self.fetchMee).accentColor(self.fetchMee.setting.themeColor.color).environmentObject(downloader)
 //                }

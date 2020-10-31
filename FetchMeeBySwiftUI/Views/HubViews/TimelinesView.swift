@@ -20,7 +20,7 @@ struct TimelinesView: View {
 //            .padding(.top, 16)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
+                LazyHStack {
                     TimelineIconView(timeline: fetchMee.home)
                     TimelineIconView(timeline: fetchMee.mention)
                     TimelineIconView(timeline: fetchMee.favorite)
