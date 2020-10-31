@@ -146,9 +146,24 @@ extension AppData {
                 newLists[name] = listTag
             }
             
+            let originalLists = users[userIDString]?.lists
+//            let originalLists = self.lists
+            ///比较新老lists名称数据，如果有不同则需要更新
+            if originalLists!.keys.sorted() != newLists.keys.sorted() {
+            
             self.users[userIDString]?.lists = newLists
+//                self.lists = newLists
+                self.listTimelines.removeAll()
+                newLists.keys.sorted().map{
+                    let listName = $0
+                    let listTag = newLists[$0]
+                    let listTimeline = Timeline(type: .list, listTag: listTag)
+                    self.listTimelines[listName] = listTimeline
+                }
+            }
         }
         
+       
         let userTag = UserTag.id(userIDString)
         
         swifter.getSubscribedLists(for: userTag,
@@ -317,3 +332,4 @@ extension AppData {
         return result
     }
 }
+

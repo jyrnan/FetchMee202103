@@ -15,11 +15,12 @@ import CoreData
 class AppData: ObservableObject {
    
     @Published var isLoggedIn: Bool = false
-//    lazy var loginUser: User = users[loginUserID] ?? User() //当前用户的信息
     @Published var loginUserID: String = "0000"
     @Published var users: [String: User] = [:] //存储多个用户的信息
     
     @Published var setting: UserSetting = UserSetting() //打算把setting放这里,现在是在SeceneDelegate里面读取
+    
+//    @Published var lists: [String: ListTag] = [:]
 
     @Published var isShowUserInfo: Bool = false
 
@@ -28,6 +29,8 @@ class AppData: ObservableObject {
     @Published var mention: Timeline = Timeline(type: .mention)
     @Published var message: Timeline = Timeline(type: .message)
     @Published var favorite: Timeline = Timeline(type: .favorite)
+    
+    @Published var listTimelines: [String : Timeline] = [:]
     
     var myUserline: Timeline = Timeline(type: .user) //创建一个自己推文的timeline
     
