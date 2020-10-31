@@ -68,16 +68,12 @@ extension AppData {
             })
             
             user.bannerUrlString = json["profile_banner_url"].string
-            print(#line," user bannerString",  user.bannerUrlString)
             imageDownloaderWithClosure(from: user.bannerUrlString, sh: {im in
                 DispatchQueue.main.async {
                 self.users[userIDString]?.banner = im
                 }
-                print(#line, "下载banner成功")
                 })
-                
-            
-            
+
             var loc = json["location"].string ?? "Unknow"
             if loc != "" {
                 loc = " " + loc
@@ -126,6 +122,7 @@ extension AppData {
     func getAndUpdateList(userIDString: String) {
         
         /// 获取用户List信息并更新
+        /// 目前是将List数据直接存储在appData 中
         /// - Parameter json: 返回的包含list信息的结果
         func updateList(json: JSON) {
             
@@ -145,16 +142,12 @@ extension AppData {
                 let listTag = ListTag.id(idString)
                 newLists[name] = listTag
             }
-            
-            let originalLists = users[userIDString]?.lists
-//            let originalLists = self.lists
+
             ///比较新老lists名称数据，如果有不同则需要更新
-            if originalLists!.keys.sorted() != newLists.keys.sorted() {
-            
-            self.users[userIDString]?.lists = newLists
-//                self.lists = newLists
+            if listTimelines.keys.sorted() != newLists.keys.sorted() {
+
                 self.listTimelines.removeAll()
-                newLists.keys.sorted().map{
+                newLists.keys.sorted().forEach{
                     let listName = $0
                     let listTag = newLists[$0]
                     let listTimeline = Timeline(type: .list, listTag: listTag)

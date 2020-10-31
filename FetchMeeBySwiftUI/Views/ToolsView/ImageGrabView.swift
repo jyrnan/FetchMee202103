@@ -16,12 +16,12 @@ struct ImageGrabView: View {
     var userIDString: String? //传入需查看的用户信息的ID
     var userScreenName: String? //传入需查看的用户信息的Name
     
-    @StateObject var checkingUser: AppData = AppData()
+//    @StateObject var checkingUser: AppData = AppData()
     @StateObject var timeline: Timeline = Timeline(type: .user)
     
     @State var isShowActionSheet: Bool = false
-    //    @State var presentedImageViewer: Bool = false //是否显示大图浏览
-    @State var isSelectMode: Bool = true
+   
+//    @State var isSelectMode: Bool = true
     @State var selectCount: Int = 0
     @State var willSavedImageCount: Int = 0
     @State var imageScale: CGFloat = 1 //图片放大倍数
@@ -72,9 +72,7 @@ struct ImageGrabView: View {
                 
                 }
             }
-            .fullScreenCover(isPresented: self.$presentedImageViewer) {
-                ImageViewer(image: imageToBeView)
-            }
+           
             VStack {
                 HStack{
                     Text("@\(self.userScreenName ?? "UserName")").foregroundColor(.white).font(.title2).bold().padding().shadow(radius: 3)
@@ -182,11 +180,7 @@ extension ImageGrabView {
     
     func downloadAndSaveToPhoto(tweetIDString: String, index: Int) -> Void {
         if let urlString = self.timeline.tweetMedias[tweetIDString]?.urlStrings![index] {
-            //            self.isImageDownloaded = false
-//            self.timeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
-//                self.saveToPhoto(image: im)
-//                self.unSelectImage(tweetIDString: tweetIDString, index: index)
-//            })
+           
             downloader.taskCount += 1 //下载任务数量加1
             downloader.download(url: URL(string: urlString + ":large")!, completionHandler: {
                 URL in

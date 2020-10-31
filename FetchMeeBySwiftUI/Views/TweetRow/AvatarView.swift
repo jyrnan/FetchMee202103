@@ -27,9 +27,9 @@ struct AvatarView: View {
     var body: some View {
         ZStack {
             EmptyView()
-                .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName).environmentObject(self.alerts)
-                    .environmentObject(self.fetchMee).accentColor(self.fetchMee.setting.themeColor.color).environmentObject(downloader)
-                }
+//                .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName).environmentObject(self.alerts)
+//                    .environmentObject(self.fetchMee).accentColor(self.fetchMee.setting.themeColor.color).environmentObject(downloader)
+//                }
             AvatarImageView(image: avatar)
             .onTapGesture(count: 2, perform: {
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()

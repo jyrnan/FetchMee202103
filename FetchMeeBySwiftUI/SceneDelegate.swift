@@ -279,7 +279,7 @@ extension SceneDelegate {
     }
     
     func cleanCountdata(success: () -> ()) {
-        let sevenDays: TimeInterval = -(60 * 60 * 24 * 7)
+        let sevenDays: TimeInterval = -(60 * 60 * 24 * 1) //暂时改成一天了
         
         
         let timeIntervalPredicate: NSPredicate = NSPredicate(format: "%K <= %@", #keyPath(Count.createdAt), Date().addingTimeInterval(sevenDays) as CVarArg)

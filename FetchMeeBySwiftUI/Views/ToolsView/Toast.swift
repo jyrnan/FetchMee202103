@@ -29,9 +29,7 @@ struct Toast<Presenting, Presented>: View where Presenting: View, Presented: Vie
                     .blur(radius: self.isShowing ? 5 : 0)
                 
                 VStack(alignment: .center) {
-                    
-                    self.presented
-                    
+                    self.presented    
                 }
                 .scaleEffect(isShowing ? 1 : 0)
                 .frame(width: geometry.size.width,

@@ -37,9 +37,7 @@ struct User: Identifiable {
     var notifications: Bool?
     
     var tweetsCount: Int?
-    ///目前list还是放在user内，和user关联
-    var lists: [String : ListTag] = [:]
-    
+   
     var setting: UserSetting = UserSetting()
     
     var lastDayAddedFollower: Int? //24小时内新增fo数

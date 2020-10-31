@@ -20,7 +20,6 @@ class AppData: ObservableObject {
     
     @Published var setting: UserSetting = UserSetting() //打算把setting放这里,现在是在SeceneDelegate里面读取
     
-//    @Published var lists: [String: ListTag] = [:]
 
     @Published var isShowUserInfo: Bool = false
 
@@ -29,7 +28,7 @@ class AppData: ObservableObject {
     @Published var mention: Timeline = Timeline(type: .mention)
     @Published var message: Timeline = Timeline(type: .message)
     @Published var favorite: Timeline = Timeline(type: .favorite)
-    
+    ///每次updateUser的时候会刷新生成相应ListTimeline
     @Published var listTimelines: [String : Timeline] = [:]
     
     var myUserline: Timeline = Timeline(type: .user) //创建一个自己推文的timeline
