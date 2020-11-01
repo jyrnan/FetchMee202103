@@ -111,8 +111,11 @@ extension AppData {
             ///这部分将直接更新users里面的user数据，
             ///所以需要在上面更新打包完成后才开始
             ///直接传入上方所获得的user.id
+            ///需要判断当前更新的信息是loginUser的才有必要更新List
+            ///TODO：后续需要更新当前查看用户的list信息
+            if userIDString == self.loginUserID {
             getAndUpdateList(userIDString: user.id)
-           
+            }
         }
         
         ///获取用户基本信息，并生成Bio

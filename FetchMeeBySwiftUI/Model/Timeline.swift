@@ -96,7 +96,7 @@ final class Timeline: ObservableObject {
         case .mention:
             print(#line, self.mentionUserInfo.count)
         default:
-            print(#line, "\(self.type) disappeared!")
+            print(#line, "Timeline \(self.type) disappeared!" ,#function)
         }
     }
     
@@ -507,7 +507,12 @@ extension Timeline {
         guard self.type == .user else {return}
         self.refreshFromTop()
         guard self.tweetIDStrings.isEmpty else {return}
-        
+    }
+    
+    func clearTimeline() {
+        self.tweetIDStrings.removeAll()
+        self.imageURLStrings.removeAll()
+        self.tweetMedias.removeAll()
     }
 }
 

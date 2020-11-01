@@ -18,18 +18,31 @@ struct UserInfo: View {
     
     var userIDString: String? //传入需查看的用户信息的ID
     var userScreenName: String? //传入需查看的用户信息的Name
-    
-    @StateObject var userTimeline: Timeline = Timeline(type: .user)
-    
+ 
     @State var firstTimeRun: Bool = true //检测用于运行一次
     @State var isShowAvatarDetail :Bool = false //显示头像大图
     
     @State var nickNameText: String = ""
     @State var isNickNameInputShow: Bool = false
     
+    init(userIDString: String? = nil, userScreenName: String? = nil) {
+        self.userIDString = userIDString
+        self.userScreenName = userScreenName
+        
+//        let transAppearance = UINavigationBarAppearance()
+//        transAppearance.configureWithTransparentBackground()
+//        transAppearance.backgroundColor = UIColor.clear
+////        transAppearance.backgroundImage = UIImage(named: "Logo")?.alpha(0.05)
+////        transAppearance.backgroundImageContentMode = .bottomRight
+//        transAppearance.shadowColor = .clear
+//        
+//        UINavigationBar.appearance().standardAppearance = transAppearance
+//        UINavigationBar.appearance().scrollEdgeAppearance = transAppearance
+    }
     
     var body: some View {
         VStack(alignment: .leading) {
+            ScrollView {
             ZStack {
                 GeometryReader {
                     geometry in
@@ -108,7 +121,7 @@ struct UserInfo: View {
             }.frame(height:180)
             
             ///用户信息View
-            ScrollView {
+            
                 VStack(alignment: .leading){
                     HStack{
                         VStack(alignment: .leading) {
@@ -176,41 +189,41 @@ struct UserInfo: View {
                 }.padding([.leading, .trailing], 16)
                 
                 ///用户推文部分
-                ForEach(self.userTimeline.tweetIDStrings, id: \.self) {
+                ForEach(fetchMee.userTimeline.tweetIDStrings, id: \.self) {
                     tweetIDString in
                     
                     Divider()
-                    TweetRow(timeline: self.userTimeline, tweetIDString: tweetIDString)
+                    TweetRow(timeline: fetchMee.userTimeline, tweetIDString: tweetIDString)
                 }.onDelete(perform: { _ in print(#line, "delete")})
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
                 HStack {
                     Spacer()
                     Button("More Tweets...") {
-                        self.userTimeline.refreshFromButtom(for: userIDString)}
+                        fetchMee.userTimeline.refreshFromButtom(for: userIDString)}
                         .font(.caption)
                         .foregroundColor(.gray)
                     Spacer()
                 } //下方载入更多按钮
             }
             
-        }.ignoresSafeArea()
+        }
+//        .ignoresSafeArea()
         .onAppear(){
             if self.firstTimeRun {
                 self.firstTimeRun = false
                     fetchMee.getUser(userIDString: userIDString!)
-                self.userTimeline.refreshFromTop(for: userIDString)
+                fetchMee.userTimeline.refreshFromTop(for: userIDString)
             }
         }
-        
     }
 }
 
-struct UserInfo_Previews: PreviewProvider {
-    static var previews: some View {
-        UserInfo(userIDString: "0000")
-    }
-}
+//struct UserInfo_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UserInfo(userIDString: "0000")
+//    }
+//}
 
 //MARK:-CoreData Operator
 extension UserInfo {

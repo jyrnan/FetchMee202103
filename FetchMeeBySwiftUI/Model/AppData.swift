@@ -31,7 +31,7 @@ class AppData: ObservableObject {
     ///每次updateUser的时候会刷新生成相应ListTimeline
     @Published var listTimelines: [String : Timeline] = [:]
     
-//    var myUserline: Timeline = Timeline(type: .user) //创建一个自己推文的timeline
+    @Published var userTimeline: Timeline = Timeline(type: .user) //用来查看用户的timeline
     
     let session = URLSession.shared
     
