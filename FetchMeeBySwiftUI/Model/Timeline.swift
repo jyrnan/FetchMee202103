@@ -246,7 +246,7 @@ final class Timeline: ObservableObject {
                                 DispatchQueue.main.async {
                                     self.tweetMedias[IDString]?.images[m] = croppedImage ?? UIImage(named: "defaultImage")!
                                     if result?.count == 1 {
-                                    print(#line," Detected face!")
+//                                    print(#line," Detected face!")
                                     self.tweetMedias[IDString]?.isPortraitImage = true
                                 }
                                 }

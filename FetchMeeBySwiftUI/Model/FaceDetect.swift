@@ -123,7 +123,7 @@ extension Collection where Element == VNFaceObservation{
         
         let croppedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        print(#line, "croped by face...")
+//        print(#line, "croped by face...")
         return croppedImage
     }
 }

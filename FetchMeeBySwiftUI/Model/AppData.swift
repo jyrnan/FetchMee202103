@@ -31,12 +31,28 @@ class AppData: ObservableObject {
     ///每次updateUser的时候会刷新生成相应ListTimeline
     @Published var listTimelines: [String : Timeline] = [:]
     
-    var myUserline: Timeline = Timeline(type: .user) //创建一个自己推文的timeline
+//    var myUserline: Timeline = Timeline(type: .user) //创建一个自己推文的timeline
     
     let session = URLSession.shared
     
     @Published var isShowingPicture: Bool = false //是否浮动显示图片
     @Published var presentedView: AnyView? //通过AnyView就可以实现任意View的传递了？！
+    
+    //获取记录的用户信息
+    lazy var twitterUsers: [TwitterUser] = { () -> [TwitterUser] in
+        guard let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
+              let sceneDelegate = windowsScenen.delegate as? SceneDelegate
+        else {
+            return []
+        }
+        let viewContext = sceneDelegate.context
+        
+        let request:NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
+        
+        let twitterUsers = try? viewContext.fetch(request)
+        print(#line, "Get TwitterUsers in appData")
+        return twitterUsers ?? []
+    }()
    
 }
 

@@ -135,7 +135,8 @@ struct UserInfo: View {
                                             withAnimation{isNickNameInputShow = false}
                                         }){
                                             Image(systemName: "arrow.forward.circle").foregroundColor(.accentColor).font(.title2)
-                                        }.disabled(nickNameText == "")
+                                        }
+//                                        .disabled(nickNameText == "")
                                         Spacer()
                                     }
                                 } else {
@@ -218,7 +219,12 @@ extension UserInfo {
         
         let currentUser = twitterUsers.filter{$0.userIDString == userIDString}.first ?? TwitterUser(context: viewContext)
         
+        ///如果没有输入nick Name，则将该用户的nickName设置成nil
+        if nickNameText != "" {
         currentUser.nickName = nickNameText
+        } else {
+            currentUser.nickName = nil
+        }
         
         do {
             try viewContext.save()
