@@ -28,9 +28,7 @@ struct AvatarView: View {
         ZStack {
             NavigationLink(destination: ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName), isActive: $presentedUserImageGrabber){
                 EmptyView()}
-//                .sheet(isPresented: $presentedUserImageGrabber) {ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName).environmentObject(self.alerts)
-//                    .environmentObject(self.fetchMee).accentColor(self.fetchMee.setting.themeColor.color).environmentObject(downloader)
-//                }
+
             AvatarImageView(image: avatar)
             .onTapGesture(count: 2, perform: {
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
@@ -38,12 +36,7 @@ struct AvatarView: View {
                 self.pat(text: "并缓缓举起了了大拇指")
             })
             
-            .onTapGesture(count: 1) {
-//                guard userIDString != nil else {return}
-//                fetchMee.getUser(userIDString: userIDString!)
-                self.presentedUserInfo = true
-                
-            }
+            .onTapGesture(count: 1) {self.presentedUserInfo = true}
             .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.userIDString).environmentObject(self.alerts)
                 .environmentObject(self.fetchMee).accentColor(self.fetchMee.setting.themeColor.color)
             }

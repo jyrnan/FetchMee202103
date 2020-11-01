@@ -197,13 +197,7 @@ struct UserInfo: View {
         .onAppear(){
             if self.firstTimeRun {
                 self.firstTimeRun = false
-//                fetchMee.users[userIDString!]?.id = self.userIDString ?? "0000"
-//                fetchMee.users[userIDString!]?.screenName = self.userScreenName
-//
-//                fetchMee.getUser(userIDString: userIDString!)
-//                if userIDString != nil, fetchMee.users[userIDString!] == nil {
                     fetchMee.getUser(userIDString: userIDString!)
-//                }
                 self.userTimeline.refreshFromTop(for: userIDString)
             }
         }

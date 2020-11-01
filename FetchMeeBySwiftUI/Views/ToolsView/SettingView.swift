@@ -11,57 +11,36 @@ import Combine
 
 struct SettingView: View {
     @EnvironmentObject var fetchMee: AppData
-//    @StateObject var timeline: Timeline = Timeline(type: .user)
     
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
-//    var checkingUser: AppData {self.fetchMee} //使用用户和chckingUser是同一个
     
     var body: some View {
         Form {
-            
-            ZStack {VStack {
-                Spacer()
                 Image(uiImage: fetchMee.users[fetchMee.loginUserID]?.banner ?? UIImage(named: "bg")!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(height: 100)
-                    .clipped()
-                    .padding(0)
-            }
-                
-                HStack {
-                    Spacer()
-                Image(uiImage: (fetchMee.users[fetchMee.loginUserID]?.avatar ?? UIImage(systemName: "person.circle.fill")!))
-                .resizable()
-                .frame(width: 64, height: 64, alignment: .center)
-                    .overlay(Circle().stroke(Color.gray.opacity(0.7), lineWidth: 2))
-                .clipShape(Circle())
-                    .offset(y: -25)
-                    .padding(.trailing, 32)
-                    .shadow(radius: 6)
-                }
-            }
-            .frame(height: 150)
+            .frame(height: 120)
             .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
             
-            Section(header: Text("Visual"), footer: Text("You can swith this function off to get a simper UI and better performance")) {
+            Section(header: Text("Visual"),
+                    footer: Text("You can swith this function off to get a simper UI and better performance")) {
                 
                 Picker("Favorit Theme Color", selection: self.$fetchMee.setting.themeColor, content: {
                     ForEach(ThemeColor.allCases){color in
                         Text(color.rawValue.capitalized).tag(color)
                     }
                 })
+                
                 Toggle("Iron Fans Rate", isOn: self.$fetchMee.setting.isIronFansShowed)
                 Toggle("Show Pictures", isOn: self.$fetchMee.setting.isMediaShowed)
-//                Toggle("Delete All Tweets", isOn: self.$user.myInfo.setting.isDeleteTweets)
             }
             
-//            Section(header:Text("Other")){
-//                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Bunk Delete Tweets")})
-//                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
-//                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
-//                NavigationLink(destination: DeleteTweetsView(timeline: self.timeline), label: {Text("Place Holder")})
-//            }
+            Section(header:Text("Other")){
+                
+                NavigationLink(destination: ComposerOfHubView(tweetText: .constant("")), label: {Text("Place Holder")})
+                NavigationLink(destination: ComposerOfHubView(tweetText: .constant("")), label: {Text("Place Holder")})
+                NavigationLink(destination: ComposerOfHubView(tweetText: .constant("")), label: {Text("Place Holder")})
+            }
             
             Section(header:Text("")){
                 HStack {
@@ -89,7 +68,9 @@ struct SettingView: View {
             }
         }
         .onDisappear{fetchMee.setting.save()}
-//        .navigationTitle("Setting")
+        .navigationTitle("Setting")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarItems( trailing: AvatarImageView(image: fetchMee.users[fetchMee.loginUserID]?.avatar).frame(width: 36, height: 36, alignment: .center))
     }
 }
 

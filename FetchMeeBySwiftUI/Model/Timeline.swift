@@ -364,7 +364,6 @@ final class Timeline: ObservableObject {
     /**通用的image下载程序
      - Parameter urlString: 传入的下载地址
      - Parameter sh: 传入的闭包用来执行操作，往往用来赋值给数据
-     
      */
     func imageDownloaderWithClosure(from urlString: String?, sh: @escaping (UIImage) -> Void ){
         ///利用这个闭包传入需要的操作，例如赋值
