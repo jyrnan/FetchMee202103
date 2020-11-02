@@ -140,7 +140,7 @@ final class Timeline: ObservableObject {
     }
     
     ///从推文下方开始更新
-    func refreshFromButtom(for userIDString: String? = nil) {
+    func refreshFromBottom(for userIDString: String? = nil) {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
             

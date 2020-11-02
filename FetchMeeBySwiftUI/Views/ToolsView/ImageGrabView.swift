@@ -17,7 +17,7 @@ struct ImageGrabView: View {
     var userScreenName: String? //传入需查看的用户信息的Name
     
 //    @StateObject var checkingUser: AppData = AppData()
-    @StateObject var userTimeline: Timeline = Timeline(type: .user)
+    @ObservedObject var userTimeline: Timeline
     
     @State var isShowActionSheet: Bool = false
    
@@ -37,10 +37,10 @@ struct ImageGrabView: View {
         }
     }
     
-    init(userIDString: String? = nil, userScreenName: String? = nil) {
+    init(userIDString: String? = nil, userScreenName: String? = nil, timeline: Timeline) {
         self.userIDString = userIDString
         self.userScreenName = userScreenName
-        print(#line, "imageGrabView inited")
+        self.userTimeline = timeline
     }
     
     var body: some View {
@@ -69,7 +69,7 @@ struct ImageGrabView: View {
                         .overlay( HStack {
                             Spacer()
                             Button("More ...") {
-                                userTimeline.refreshFromButtom(for: userIDString)}
+                                userTimeline.refreshFromBottom(for: userIDString)}
                                 .font(.caption)
                                 .foregroundColor(.gray)
                             Spacer()
@@ -96,9 +96,8 @@ struct ImageGrabView: View {
 //        .ignoresSafeArea()
         .navigationTitle("@\(userScreenName ?? "userName")")
         .navigationBarItems( trailing: Button(action: {self.selectAll()}, label: {
-            Text("Select & Save")
-//                .bold()
-//                .padding()
+            Text("Select & Save").font(.callout)
+
         })
         .contextMenu(menuItems: /*@START_MENU_TOKEN@*/{
             
@@ -117,9 +116,7 @@ struct ImageGrabView: View {
             })
         }/*@END_MENU_TOKEN@*/))
         .onAppear{
-            userTimeline.refreshFromTop(for: userIDString)
         }
-        
     }
 }
 
@@ -216,7 +213,7 @@ extension ImageGrabView {
 }
 struct ImageGrabView_Previews: PreviewProvider {
     static var previews: some View {
-        ImageGrabView()
+        ImageGrabView(timeline: Timeline(type: .user))
     }
 }
 

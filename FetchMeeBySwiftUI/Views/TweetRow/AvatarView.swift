@@ -30,7 +30,7 @@ struct AvatarView: View {
     var body: some View {
         GeometryReader {geometry in
         ZStack {
-            NavigationLink(destination: UserInfo(userIDString: self.userIDString), isActive: $presentedUserInfo){
+            NavigationLink(destination: UserInfo(userIDString: self.userIDString, userScreenName: screenName), isActive: $presentedUserInfo){
             AvatarImageView(image: avatar)
             .onTapGesture(count: 2, perform: {
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
@@ -38,10 +38,7 @@ struct AvatarView: View {
             })
             .onTapGesture(count: 1) {self.presentedUserInfo = true
             }
-            .simultaneousGesture(LongPressGesture().onEnded{_ in
-                                    fetchMee.userTimeline = Timeline(type: .user)
-                                    self.presentedUserImageGrabber = true})
-            
+//            .simultaneousGesture(LongPressGesture().onEnded{_ in self.presentedUserImageGrabber = true})
             .alert(isPresented: self.$isShowAlert, content: {
                 Alert(title: Text("没拍到"), message: Text("可能\(self.userName ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
             })

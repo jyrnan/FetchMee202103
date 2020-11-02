@@ -49,7 +49,7 @@ struct TimelineSimpleView: View {
                 }
                     HStack {
                         Spacer()
-                        Button("More Tweets...") {self.timeline.refreshFromButtom()}
+                        Button("More Tweets...") {self.timeline.refreshFromBottom()}
                             .font(.caption)
                             .foregroundColor(.gray)
                             .frame(height: 24)

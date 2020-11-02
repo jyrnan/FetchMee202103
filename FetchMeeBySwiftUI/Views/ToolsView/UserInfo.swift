@@ -15,33 +15,16 @@ struct UserInfo: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
-    @StateObject var userTimeline: Timeline = Timeline(type: .user)
     
+    @StateObject var userTimeline: Timeline = Timeline(type: .user)
     
     var userIDString: String? //传入需查看的用户信息的ID
     var userScreenName: String? //传入需查看的用户信息的Name
  
     @State var firstTimeRun: Bool = true //检测用于运行一次
-    @State var isShowAvatarDetail :Bool = false //显示头像大图
     
     @State var nickNameText: String = ""
     @State var isNickNameInputShow: Bool = false
-    
-    init(userIDString: String? = nil, userScreenName: String? = nil) {
-        self.userIDString = userIDString
-        self.userScreenName = userScreenName
-        print(#line, "userInfoView inited")
-        
-//        let transAppearance = UINavigationBarAppearance()
-//        transAppearance.configureWithTransparentBackground()
-//        transAppearance.backgroundColor = UIColor.clear
-////        transAppearance.backgroundImage = UIImage(named: "Logo")?.alpha(0.05)
-////        transAppearance.backgroundImageContentMode = .bottomRight
-//        transAppearance.shadowColor = .clear
-//        
-//        UINavigationBar.appearance().standardAppearance = transAppearance
-//        UINavigationBar.appearance().scrollEdgeAppearance = transAppearance
-    }
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -69,15 +52,16 @@ struct UserInfo: View {
                             .overlay(Circle().stroke(Color.white.opacity(0.6), lineWidth: 3))
                             .padding(.leading, 16)
                             .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                                self.isShowAvatarDetail = true
+                                if let im = fetchMee.users[userIDString!]?.avatar {
+                                let imageViewer = ImageViewer(image: im)
+                                fetchMee.presentedView = AnyView(imageViewer)
+                                withAnimation{fetchMee.isShowingPicture = true}
+                                }
 
                             })
-                            .sheet(isPresented: self.$isShowAvatarDetail){
-                                ImageViewer(image: fetchMee.users[userIDString!]?.avatar ?? UIImage(systemName: "person.circle")!)
-                            }
                         Spacer()
                         //
-                        
+                        NavigationLink(destination: ImageGrabView(userIDString: userIDString, userScreenName: userScreenName, timeline: userTimeline)){
                         Image(systemName: "envelope")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -85,7 +69,7 @@ struct UserInfo: View {
                             .padding(6)
                             .frame(width: 32, height: 32, alignment: .center)
                             .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
+                            .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))}
                         Image(systemName: (self.fetchMee.users[userIDString!]?.notifications == true ? "bell.fill" : "bell"))
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -203,7 +187,7 @@ struct UserInfo: View {
                 HStack {
                     Spacer()
                     Button("More Tweets...") {
-                        userTimeline.refreshFromButtom(for: userIDString)}
+                        userTimeline.refreshFromBottom(for: userIDString)}
                         .font(.caption)
                         .foregroundColor(.gray)
                     Spacer()
@@ -221,12 +205,6 @@ struct UserInfo: View {
         }
     }
 }
-
-//struct UserInfo_Previews: PreviewProvider {
-//    static var previews: some View {
-//        UserInfo(userIDString: "0000")
-//    }
-//}
 
 //MARK:-CoreData Operator
 extension UserInfo {
@@ -251,4 +229,13 @@ extension UserInfo {
             
         }
     }
+}
+
+extension UserInfo {
+    func configureBackground() {
+            let barAppearance = UINavigationBarAppearance()
+            barAppearance.backgroundColor = UIColor.red
+            UINavigationBar.appearance().standardAppearance = barAppearance
+            UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
+        }
 }

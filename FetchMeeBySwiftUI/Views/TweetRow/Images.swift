@@ -69,7 +69,7 @@ struct Images: View {
 }
 
 struct ImageThumb: View {
-    @EnvironmentObject var user: AppData
+    @EnvironmentObject var fetcheMee: AppData
     
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
@@ -102,8 +102,8 @@ struct ImageThumb: View {
                             DispatchQueue.main.async {
                                 self.timeline.tweetMedias[self.tweetIDString]?.images[index] = im
                                 let imageViewer = ImageViewer(image: im)
-                                user.presentedView = AnyView(imageViewer)
-                                withAnimation{user.isShowingPicture = true}                                }
+                                fetcheMee.presentedView = AnyView(imageViewer)
+                                withAnimation{fetcheMee.isShowingPicture = true}                                }
                             self.isImageDownloaded = true
                             
                         }
