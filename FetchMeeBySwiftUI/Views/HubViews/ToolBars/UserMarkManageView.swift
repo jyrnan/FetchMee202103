@@ -56,6 +56,7 @@ extension UserMarkManageView {
         }catch {
             let nsError = error as NSError
 //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            print(nsError.description)
         }
     }
 }

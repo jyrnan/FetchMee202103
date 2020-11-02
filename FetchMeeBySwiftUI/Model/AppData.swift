@@ -30,9 +30,7 @@ class AppData: ObservableObject {
     @Published var favorite: Timeline = Timeline(type: .favorite)
     ///每次updateUser的时候会刷新生成相应ListTimeline
     @Published var listTimelines: [String : Timeline] = [:]
-    
-    @Published var userTimeline: Timeline = Timeline(type: .user) //用来查看用户的timeline
-    
+   
     let session = URLSession.shared
     
     @Published var isShowingPicture: Bool = false //是否浮动显示图片

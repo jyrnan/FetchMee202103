@@ -15,6 +15,8 @@ struct UserInfo: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
+    @StateObject var userTimeline: Timeline = Timeline(type: .user)
+    
     
     var userIDString: String? //传入需查看的用户信息的ID
     var userScreenName: String? //传入需查看的用户信息的Name
@@ -28,6 +30,7 @@ struct UserInfo: View {
     init(userIDString: String? = nil, userScreenName: String? = nil) {
         self.userIDString = userIDString
         self.userScreenName = userScreenName
+        print(#line, "userInfoView inited")
         
 //        let transAppearance = UINavigationBarAppearance()
 //        transAppearance.configureWithTransparentBackground()
@@ -189,18 +192,18 @@ struct UserInfo: View {
                 }.padding([.leading, .trailing], 16)
                 
                 ///用户推文部分
-                ForEach(fetchMee.userTimeline.tweetIDStrings, id: \.self) {
+                ForEach(userTimeline.tweetIDStrings, id: \.self) {
                     tweetIDString in
                     
                     Divider()
-                    TweetRow(timeline: fetchMee.userTimeline, tweetIDString: tweetIDString)
+                    TweetRow(timeline: userTimeline, tweetIDString: tweetIDString)
                 }.onDelete(perform: { _ in print(#line, "delete")})
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
                 HStack {
                     Spacer()
                     Button("More Tweets...") {
-                        fetchMee.userTimeline.refreshFromButtom(for: userIDString)}
+                        userTimeline.refreshFromButtom(for: userIDString)}
                         .font(.caption)
                         .foregroundColor(.gray)
                     Spacer()
@@ -213,7 +216,7 @@ struct UserInfo: View {
             if self.firstTimeRun {
                 self.firstTimeRun = false
                     fetchMee.getUser(userIDString: userIDString!)
-                fetchMee.userTimeline.refreshFromTop(for: userIDString)
+                userTimeline.refreshFromTop(for: userIDString)
             }
         }
     }

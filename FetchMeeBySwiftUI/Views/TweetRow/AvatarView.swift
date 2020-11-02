@@ -30,10 +30,6 @@ struct AvatarView: View {
     var body: some View {
         GeometryReader {geometry in
         ZStack {
-            ///切换到图片抓取页面
-            NavigationLink(destination: ImageGrabView(userIDString: self.userIDString, userScreenName: self.screenName), isActive: $presentedUserImageGrabber){
-                EmptyView()}
-            
             NavigationLink(destination: UserInfo(userIDString: self.userIDString), isActive: $presentedUserInfo){
             AvatarImageView(image: avatar)
             .onTapGesture(count: 2, perform: {
@@ -41,10 +37,7 @@ struct AvatarView: View {
                 self.pat(text: "并缓缓举起了了大拇指")
             })
             .onTapGesture(count: 1) {self.presentedUserInfo = true
-                fetchMee.userTimeline = Timeline(type: .user)
             }
-//            .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.userIDString).environmentObject(self.alerts)
-//                .environmentObject(self.fetchMee).accentColor(self.fetchMee.setting.themeColor.color)}
             .simultaneousGesture(LongPressGesture().onEnded{_ in
                                     fetchMee.userTimeline = Timeline(type: .user)
                                     self.presentedUserImageGrabber = true})

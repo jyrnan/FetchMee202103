@@ -242,7 +242,7 @@ final class Timeline: ObservableObject {
                         //图片识别处理
                         im.detectFaces {result in
                             let croppedImage = result?.cropByFace(im)
-                            let drawOnImage = result?.drawnOn(im)
+                            _ = result?.drawnOn(im)
                                 DispatchQueue.main.async {
                                     self.tweetMedias[IDString]?.images[m] = croppedImage ?? UIImage(named: "defaultImage")!
                                     if result?.count == 1 {
@@ -424,7 +424,7 @@ final class Timeline: ObservableObject {
                            
                             DispatchQueue.main.async{sh()}
                         }
-                        if let error = error {
+                        if error != nil {
                             fh()
                         }
                     }

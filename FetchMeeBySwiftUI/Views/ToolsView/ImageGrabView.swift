@@ -17,7 +17,7 @@ struct ImageGrabView: View {
     var userScreenName: String? //传入需查看的用户信息的Name
     
 //    @StateObject var checkingUser: AppData = AppData()
-//    @StateObject var timeline: Timeline = Timeline(type: .user)
+    @StateObject var userTimeline: Timeline = Timeline(type: .user)
     
     @State var isShowActionSheet: Bool = false
    
@@ -32,9 +32,15 @@ struct ImageGrabView: View {
     
     //计算属性用来获取带有图片的推文ID集合，但是不知道这个优化是否有用
     var tweetWithImageIDStrings: [String]{
-        fetchMee.userTimeline.tweetIDStrings.filter{
-            fetchMee.userTimeline.tweetMedias[$0]?.images.count != 0
+        userTimeline.tweetIDStrings.filter{
+            userTimeline.tweetMedias[$0]?.images.count != 0
         }
+    }
+    
+    init(userIDString: String? = nil, userScreenName: String? = nil) {
+        self.userIDString = userIDString
+        self.userScreenName = userScreenName
+        print(#line, "imageGrabView inited")
     }
     
     var body: some View {
@@ -43,8 +49,8 @@ struct ImageGrabView: View {
                 LazyVGrid(columns: columns,spacing: 2) {
                    
                     ForEach(tweetWithImageIDStrings, id: \.self) {tweetIDString in
-                        ForEach(0..<(fetchMee.userTimeline.tweetMedias[tweetIDString]?.images.count ?? 0) ) {index in
-                            ImageRectGrid(timeline: fetchMee.userTimeline, tweetIDString: tweetIDString, index: index)
+                        ForEach(0..<(userTimeline.tweetMedias[tweetIDString]?.images.count ?? 0) ) {index in
+                            ImageRectGrid(timeline: userTimeline, tweetIDString: tweetIDString, index: index)
                                 .aspectRatio(1, contentMode: .fill)
                                 .contextMenu(menuItems: /*@START_MENU_TOKEN@*/{
                                     Button(action: {self.downloadAndSaveToPhoto(tweetIDString: tweetIDString, index: index)}, label: {
@@ -63,7 +69,7 @@ struct ImageGrabView: View {
                         .overlay( HStack {
                             Spacer()
                             Button("More ...") {
-                                fetchMee.userTimeline.refreshFromButtom(for: userIDString)}
+                                userTimeline.refreshFromButtom(for: userIDString)}
                                 .font(.caption)
                                 .foregroundColor(.gray)
                             Spacer()
@@ -79,7 +85,7 @@ struct ImageGrabView: View {
                 Spacer()
                 HStack{
                     Spacer()
-                    Text("\(fetchMee.userTimeline.selectedImageCount) selected, " + "\(max((self.willSavedImageCount - fetchMee.userTimeline.selectedImageCount), 0)) saved!")
+                    Text("\(userTimeline.selectedImageCount) selected, " + "\(max((self.willSavedImageCount - userTimeline.selectedImageCount), 0)) saved!")
                         .font(.caption).foregroundColor(.white).padding()
                     //                    }
                     Spacer()
@@ -111,7 +117,7 @@ struct ImageGrabView: View {
             })
         }/*@END_MENU_TOKEN@*/))
         .onAppear{
-            fetchMee.userTimeline.refreshFromTop(for: userIDString)
+            userTimeline.refreshFromTop(for: userIDString)
         }
         
     }
@@ -119,33 +125,33 @@ struct ImageGrabView: View {
 
 extension ImageGrabView {
     func selectToggle(tweetIDString: String, index: Int) {
-        if fetchMee.userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] == false {
-            fetchMee.userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] = true
-            fetchMee.userTimeline.selectedImageCount += 1
+        if userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] == false {
+            userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] = true
+            userTimeline.selectedImageCount += 1
         } else {
-            fetchMee.userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] = false
-            fetchMee.userTimeline.selectedImageCount -= 1
+            userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] = false
+            userTimeline.selectedImageCount -= 1
         }
     }
     
     func selectImage(tweetIDString: String, index: Int) {
-        if fetchMee.userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] == false {
-            fetchMee.userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] = true
-            fetchMee.userTimeline.selectedImageCount += 1
+        if userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] == false {
+            userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] = true
+            userTimeline.selectedImageCount += 1
         }
     }
     
     func unSelectImage(tweetIDString: String, index: Int) {
-        if fetchMee.userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] == true {
-            fetchMee.userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] = false
-            fetchMee.userTimeline.selectedImageCount -= 1
+        if userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] == true {
+            userTimeline.tweetMedias[tweetIDString]!.imagesSelected[index] = false
+            userTimeline.selectedImageCount -= 1
         }
     }
     
     func selectAll() {
-        for idString in fetchMee.userTimeline.tweetIDStrings {
-            if !(fetchMee.userTimeline.tweetMedias[idString]?.imagesSelected.isEmpty)! {
-                for index in 0..<(fetchMee.userTimeline.tweetMedias[idString]?.imagesSelected.count)! {
+        for idString in userTimeline.tweetIDStrings {
+            if !(userTimeline.tweetMedias[idString]?.imagesSelected.isEmpty)! {
+                for index in 0..<(userTimeline.tweetMedias[idString]?.imagesSelected.count)! {
                     self.selectImage(tweetIDString: idString, index: index)
                 }
             }
@@ -153,9 +159,9 @@ extension ImageGrabView {
     }
     
     func deSelectAll() {
-        for idString in fetchMee.userTimeline.tweetIDStrings {
-            if !(fetchMee.userTimeline.tweetMedias[idString]?.imagesSelected.isEmpty)! {
-                for index in 0..<(fetchMee.userTimeline.tweetMedias[idString]?.imagesSelected.count)! {
+        for idString in userTimeline.tweetIDStrings {
+            if !(userTimeline.tweetMedias[idString]?.imagesSelected.isEmpty)! {
+                for index in 0..<(userTimeline.tweetMedias[idString]?.imagesSelected.count)! {
                     self.unSelectImage(tweetIDString: idString, index: index)
                 }
             }
@@ -163,11 +169,11 @@ extension ImageGrabView {
     }
     
     func saveSelected() {
-        self.willSavedImageCount = fetchMee.userTimeline.selectedImageCount
-        for idString in fetchMee.userTimeline.tweetIDStrings {
-            if !(fetchMee.userTimeline.tweetMedias[idString]?.imagesSelected.isEmpty)! {
-                for index in 0..<(fetchMee.userTimeline.tweetMedias[idString]?.imagesSelected.count)! {
-                    if fetchMee.userTimeline.tweetMedias[idString]?.imagesSelected[index] == true {
+        self.willSavedImageCount = userTimeline.selectedImageCount
+        for idString in userTimeline.tweetIDStrings {
+            if !(userTimeline.tweetMedias[idString]?.imagesSelected.isEmpty)! {
+                for index in 0..<(userTimeline.tweetMedias[idString]?.imagesSelected.count)! {
+                    if userTimeline.tweetMedias[idString]?.imagesSelected[index] == true {
                         self.downloadAndSaveToPhoto(tweetIDString: idString, index: index)
                     }
                 }
@@ -176,7 +182,7 @@ extension ImageGrabView {
     }
     
     func downloadAndSaveToPhoto(tweetIDString: String, index: Int) -> Void {
-        if let urlString = fetchMee.userTimeline.tweetMedias[tweetIDString]?.urlStrings![index] {
+        if let urlString = userTimeline.tweetMedias[tweetIDString]?.urlStrings![index] {
            
             downloader.taskCount += 1 //下载任务数量加1
             downloader.download(url: URL(string: urlString + ":large")!, completionHandler: {
@@ -195,8 +201,8 @@ extension ImageGrabView {
     
     func showImageViewer(tweetIDString: String, index: Int) {
         
-        if let urlString = fetchMee.userTimeline.tweetMedias[tweetIDString]?.urlStrings![index] {
-            fetchMee.userTimeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
+        if let urlString = userTimeline.tweetMedias[tweetIDString]?.urlStrings![index] {
+            userTimeline.imageDownloaderWithClosure(from: urlString + ":large", sh: { im in
 //                self.imageToBeView = im
 //                self.presentedImageViewer = true
                 DispatchQueue.main.async {
