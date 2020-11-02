@@ -105,15 +105,15 @@ struct ToolBarView: View, Identifiable {
                         Spacer()
                         VStack(alignment: .trailing) {
                             //暂时添加一个观察窗口
-                            NavigationLink(destination: CountView()){
+//                            NavigationLink(destination: CountView()){
                             Text("\(label3Value ?? 0)").font(.title2).foregroundColor(type.uiData.themeColor)
-                            }
+//                            }
                             Text(type.rawValue).font(.body).bold()
                                 .foregroundColor(Color.init(UIColor.darkGray))
                         }.padding()
-                        .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                            print(#line)
-                        })
+//                        .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+//                            print(#line)
+//                        })
                     }
                 }
                 .frame(height: 76)

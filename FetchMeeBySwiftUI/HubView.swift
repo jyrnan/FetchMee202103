@@ -15,6 +15,8 @@ import UIKit
 
 struct HubView: View {
     
+    
+    
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var fetchMee: AppData
     @EnvironmentObject var downloader: Downloader
@@ -59,10 +61,10 @@ struct HubView: View {
                                 .padding([.leading, .trailing], 16)
                             
                             HStack {
-                                NavigationLink(destination: LogMessageView()){
+//                                NavigationLink(destination: LogMessageView()){
                                     Text(alerts.logInfo.alertText == "" ? "No new log message" : alerts.logInfo.alertText)
                                     .font(.caption2).foregroundColor(.gray).opacity(0.5)
-                            }
+//                            }
                             }
                             
                             Spacer()
@@ -78,12 +80,10 @@ struct HubView: View {
                         
                         AlertView()
                     }.background(Color.init("BackGround")).cornerRadius(24)
-//                    .shadow(radius: 3 )
                    
                 }
             .onTapGesture(count: 1, perform: {
                 self.hideKeyboard()
-                
             })
             .navigationBarTitle("FetchMee")
                 .navigationBarTitleDisplayMode(.large)

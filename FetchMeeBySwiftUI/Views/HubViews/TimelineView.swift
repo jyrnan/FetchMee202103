@@ -13,6 +13,23 @@ import UIKit
 
 
 struct TimelineView: View {
+    ///自定义返回按钮的范例
+//    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+//
+//        var btnBack : some View { Button(action: {
+//            self.presentationMode.wrappedValue.dismiss()
+//            }) {
+//                HStack {
+//                Image("Logo") // set image here
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .foregroundColor(.white)
+//                    .frame(width: 24, height: 24, alignment: .center)
+//                    Text("Back")
+//                }
+//            }
+//        }
+    
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var fetchMee: AppData
     @EnvironmentObject var downloader: Downloader
@@ -58,10 +75,13 @@ struct TimelineView: View {
                 
             }
            .navigationTitle(listName ?? timeline.type.rawValue)
-            .navigationBarTitleDisplayMode(.inline)
+//            .navigationBarTitleDisplayMode(.inline)
 //            .navigationTitle("Timeline")
+//            .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading:
                                     HStack{
+//                                        btnBack ///自定义返回按钮的范例
+                                       
                                         if downloader.taskCount != 0 {
                                             Text("\(downloader.taskCount) pictures downloading...")
                                                 .font(.caption).foregroundColor(.gray)
