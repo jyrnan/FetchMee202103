@@ -74,9 +74,9 @@ struct TimelineView: View {
                 }.padding([.leading, .trailing], 16)
                 
             }
-           .navigationTitle(listName ?? timeline.type.rawValue)
+//           .navigationTitle(listName ?? timeline.type.rawValue)
 //            .navigationBarTitleDisplayMode(.inline)
-//            .navigationTitle("Timeline")
+            .navigationTitle("Timeline")
 //            .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading:
                                     HStack{
@@ -97,8 +97,7 @@ struct TimelineView: View {
                 timeline.refreshFromTop()
             }
         }
-//        .overlay(ComposerOfHubView(tweetText: $tweetText).frame(minWidth: 0, maxWidth: .infinity, minHeight: 200, idealHeight: 400, maxHeight: 400, alignment: .center)
-//                    .background(Color.red))
+
     }
 }
 
