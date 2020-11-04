@@ -11,7 +11,7 @@ import Combine
 
 struct QuotedTweetRow: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
    
     @ObservedObject var timeline: Timeline
     var tweetIDString: String

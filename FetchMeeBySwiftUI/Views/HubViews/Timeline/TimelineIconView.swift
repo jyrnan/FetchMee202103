@@ -7,10 +7,17 @@
 //
 
 import SwiftUI
+import Combine
 
 struct TimelineIconView: View {
-    @ObservedObject var timeline: Timeline
+    var type: TimelineType = .home
+    @StateObject private var timeline: Timeline
     @State var listName: String?
+    
+    init(type: TimelineType) {
+        self.type = type
+        _timeline = StateObject(wrappedValue: Timeline(type: type))
+    }
     
     var body: some View {
         NavigationLink(destination:TimelineView(timeline: timeline, listName: listName)){
@@ -67,8 +74,7 @@ struct TimelineIconView: View {
 struct TimelineIconView_Previews: PreviewProvider {
     static var previews: some View {
         HStack {
-            TimelineIconView(timeline: Timeline(type: .home))
-            TimelineIconView(timeline: Timeline(type: .list))
+            TimelineIconView(type: .home)
         }
         
     }

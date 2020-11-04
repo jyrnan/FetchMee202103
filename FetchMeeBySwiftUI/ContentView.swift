@@ -11,7 +11,7 @@ import Combine
 import CoreData
 
 struct ContentView: View {
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {

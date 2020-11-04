@@ -10,16 +10,13 @@ import SwiftUI
 import CoreData
 
 struct ToolBarsView: View {
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Log.createdAt, ascending: true)]) var logs: FetchedResults<Log>
    
-    lazy var userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), fetchMee.loginUserID)
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Count.createdAt, ascending: true)]) var counts: FetchedResults<Count>
-    
-
+    lazy var userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), fetchMee.info.id)
     
     //控制三个toolBar正面朝向
     @State var toolBarIsFaceUp1: Bool = true
@@ -34,9 +31,9 @@ struct ToolBarsView: View {
             }
             ToolBarView(isFaceUp: toolBarIsFaceUp1,
                         type: .friends,
-                        label1Value: fetchMee.users[fetchMee.loginUserID]?.followed,
-                        label2Value: fetchMee.users[fetchMee.loginUserID]?.following,
-                        label3Value: fetchMee.users[fetchMee.loginUserID]?.lastDayAddedFollower)
+                        label1Value: fetchMee.info.followed,
+                        label2Value: fetchMee.info.following,
+                        label3Value: fetchMee.info.lastDayAddedFollower)
                 .onTapGesture {
                     if !toolBarIsFaceUp1 {
                         toolBarIsFaceUp1.toggle()
@@ -48,9 +45,9 @@ struct ToolBarsView: View {
                 }
             
             ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
-                        label1Value: fetchMee.users[fetchMee.loginUserID]?.tweetsCount,
-                        label2Value: fetchMee.users[fetchMee.loginUserID]?.tweetsCount,
-                        label3Value: fetchMee.users[fetchMee.loginUserID]?.lastDayAddedTweets)
+                        label1Value: fetchMee.info.tweetsCount,
+                        label2Value: fetchMee.info.tweetsCount,
+                        label3Value: fetchMee.info.lastDayAddedTweets)
                 .onTapGesture {
                     if !toolBarIsFaceUp2 {
                         toolBarIsFaceUp2.toggle()
@@ -80,7 +77,7 @@ struct ToolBarsView: View {
 
 struct ToolBarsView_Previews: PreviewProvider {
     static var previews: some View {
-        ToolBarsView().environmentObject(AppData())
+        ToolBarsView().environmentObject(User())
     }
 }
 

@@ -1,8 +1,8 @@
 //
-//  TimelineSimpleView.swift
-//  FetchMee
+//  ContentView.swift
+//  FetchMeeBySwiftUI
 //
-//  Created by jyrnan on 2020/10/13.
+//  Created by jyrnan on 2020/7/11.
 //  Copyright © 2020 jyrnan. All rights reserved.
 //
 
@@ -12,28 +12,43 @@ import Combine
 import UIKit
 
 
-struct TimelineSimpleView: View {
+struct TimelineView: View {
+    ///自定义返回按钮的范例
+//    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+//
+//        var btnBack : some View { Button(action: {
+//            self.presentationMode.wrappedValue.dismiss()
+//            }) {
+//                HStack {
+//                Image("Logo") // set image here
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .foregroundColor(.white)
+//                    .frame(width: 24, height: 24, alignment: .center)
+//                    Text("Back")
+//                }
+//            }
+//        }
+    
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     @EnvironmentObject var downloader: Downloader
     
     @ObservedObject var timeline: Timeline
     
     @State var tweetText: String = ""
-    @State var listName: String? //如果是list类型则会传入listName
+    var listName: String? //如果是list类型则会传入listName
     
     var body: some View {
         
         ZStack {
-            ScrollView {
-//                Divider()
+            ScrollView(.vertical) {
                 PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
-//                    Composer(timeline: self.timeline)
-                    Divider()
-                }.frame(height: 4)
+                    Composer(timeline: self.timeline)}.frame(height: 36).background(Color.init("BackGround")).cornerRadius(18).padding([.leading, .trailing,.top], 16)
                 
                 //Homeline部分章节
                 LazyVStack(spacing: 0) {
+                    RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
                     
                     ForEach(self.timeline.tweetIDStrings, id: \.self) {
                         tweetIDString in
@@ -42,11 +57,11 @@ struct TimelineSimpleView: View {
                             .onTapGesture {
                                 self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed = true
                             }
-                            .background(userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str && timeline.type == .home ? Color.accentColor.opacity(0.2) : Color.init(UIColor.systemBackground)) //在HomeTimeline标注被提及的推文
+                            .background(userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str && timeline.type == .home ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //在HomeTimeline标注被提及的推文
                         
                         Divider()
                     }
-                }
+                    
                     HStack {
                         Spacer()
                         Button("More Tweets...") {self.timeline.refreshFromBottom()}
@@ -54,28 +69,39 @@ struct TimelineSimpleView: View {
                             .foregroundColor(.gray)
                             .frame(height: 24)
                         Spacer()
-                    }
-                    
-//                }
+                    }.background(Color.init("BackGround")) //下方载入更多按钮
+                    RoundedCorners(color: Color.init("BackGround"), bl: 18, br: 18 ).frame(height: 18)
+                }.padding([.leading, .trailing], 16)
                 
             }
-            .navigationTitle(listName ?? timeline.type.rawValue)
+//           .navigationTitle(listName ?? timeline.type.rawValue)
+//            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Timeline")
+//            .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading:
                                     HStack{
+//                                        btnBack ///自定义返回按钮的范例
+                                       
                                         if downloader.taskCount != 0 {
                                             Text("\(downloader.taskCount) pictures downloading...")
                                                 .font(.caption).foregroundColor(.gray)
                                         }
                                     },
                                 trailing:
-                                    AvatarImageView(image: fetchMee.users[fetchMee.loginUserID]?.avatar).frame(width: 36, height: 36, alignment: .center))
+                                    AvatarImageView(image: fetchMee.info.avatar).frame(width: 36, height: 36, alignment: .center))
             //通知视图
             AlertView()
         }
+        .onAppear {
+            if timeline.tweetIDStrings.isEmpty {
+                timeline.refreshFromTop()
+            }
+        }
+
     }
 }
 
-extension TimelineSimpleView {
+extension TimelineView {
     /**
      处理出错的handler，可以传入到timeline里面执行。
      */
@@ -96,7 +122,7 @@ extension TimelineSimpleView {
     }
 }
 
-struct TimelineSimpleView_Previews: PreviewProvider {
+struct TimelineView_Previews: PreviewProvider {
     static var previews: some View {
         TimelineView(timeline: Timeline(type: .home))
     }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ImageGrabView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: AppData //始终是登录用户的信息
+    @EnvironmentObject var fetchMee: User //始终是登录用户的信息
     @EnvironmentObject var downloader: Downloader
     
     var userIDString: String? //传入需查看的用户信息的ID

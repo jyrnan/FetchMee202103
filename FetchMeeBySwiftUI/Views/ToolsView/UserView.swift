@@ -9,9 +9,9 @@
 import SwiftUI
 import CoreData
 
-struct UserInfo: View {
+struct UserView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
@@ -135,7 +135,7 @@ struct UserInfo: View {
                         Image(systemName: (self.fetchMee.users[userIDString!]?.notifications == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
                             .foregroundColor(fetchMee.users[userIDString!]?.notifications == true ? .white : .accentColor)
 //                            .padding(6)
-//                            .background(fetchMee.users[userIDString!]?.notifications == true ? Color.accentColor : Color.clear)
+//                            .background(loingUser.users[userIDString!]?.notifications == true ? Color.accentColor : Color.clear)
 //                            .clipShape(Circle())
 //                            .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
                         if fetchMee.users[userIDString!]?.isFollowing == true {
@@ -232,7 +232,7 @@ LazyVStack{
 }
 
 //MARK:-CoreData Operator
-extension UserInfo {
+extension UserView {
     func saveOrUpdateTwitterUser() {
         //检查当前用户如果没有nickName，则新建一个nickName
         
@@ -256,7 +256,7 @@ extension UserInfo {
     }
 }
 
-extension UserInfo {
+extension UserView {
     func configureBackground() {
         let barAppearance = UINavigationBarAppearance()
         barAppearance.backgroundColor = UIColor.red
@@ -278,6 +278,6 @@ extension UserInfo {
 
 struct UserInfo_Previews: PreviewProvider {
     static var previews: some View {
-        UserInfo(userIDString: "0000", userScreenName: "name").environmentObject(Alerts()).environmentObject(AppData())
+        UserView(userIDString: "0000", userScreenName: "name").environmentObject(Alerts()).environmentObject(User())
     }
 }

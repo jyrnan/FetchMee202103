@@ -29,7 +29,7 @@ let session = URLSession.shared
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    var fetchMee: AppData = AppData() //App登录使用的用户
+    var loingUser: User = User() //App登录使用的用户
     var alerts: Alerts = Alerts()
     var downloader = Downloader(configuation: URLSessionConfiguration.default)
     
@@ -42,14 +42,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
         // Create the SwiftUI view that provides the window contents.
-        self.fetchMee.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
-        self.fetchMee.setting.load() //读取存储的设置
+        self.loingUser.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
+        self.loingUser.setting.load() //读取存储的设置
         let contentView = ContentView().environment(\.managedObjectContext, context)
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            if self.fetchMee.isLoggedIn {
+            if self.loingUser.isLoggedIn {
                 // 读取token信息
                 let tokenKey = userDefault.object(forKey: "tokenKey") as! String
                 let tokenSecret = userDefault.object(forKey: "tokenSecret") as! String
@@ -59,11 +59,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                   oauthToken: tokenKey,
                                   oauthTokenSecret: tokenSecret)
                 
-                self.fetchMee.getUserInfo()}
+                self.loingUser.getUserInfo()}
             
             window.rootViewController = UIHostingController(rootView: contentView
-                                                                .environmentObject(alerts).environmentObject(fetchMee)
-                                                                .accentColor(self.fetchMee.setting.themeColor.color).environmentObject(downloader))
+                                                                .environmentObject(alerts).environmentObject(loingUser)
+                                                                .accentColor(self.loingUser.setting.themeColor.color).environmentObject(downloader))
             
             
             self.window = window
@@ -111,7 +111,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
         
         //保存用户设置
-        fetchMee.setting.save()
+        loingUser.setting.save()
         
         //加入定时程序
         scheduledRefresh()
@@ -221,21 +221,21 @@ extension SceneDelegate {
         }
         
         //实际操作部分，执行真正的操作
-        guard fetchMee.isLoggedIn else { return }
+        guard loingUser.isLoggedIn else { return }
         
         saveOrUpdateLog(text: "Started background fetch.")
-        fetchMee.mention.refreshFromTop()
+//        loginUser.mention.refreshFromTop()
         
-        if fetchMee.setting.isDeleteTweets {
+        if loingUser.setting.isDeleteTweets {
             
-            fetchMee.home.refreshFromTop()
-            swifter.fastDeleteTweets(for: fetchMee.loginUserID,
-                                     keepRecent: fetchMee.setting.isKeepRecentTweets,
+//            loginUser.home.refreshFromTop()
+            swifter.fastDeleteTweets(for: loingUser.info.id,
+                                     keepRecent: loingUser.setting.isKeepRecentTweets,
                                      completeHandler: completeHandler,
                                      logHandler: logHandler)
             
         } else {
-            fetchMee.home.refreshFromTop(completeHandeler: completeHandler, fh: failureHandler)
+//            loginUser.home.refreshFromTop(completeHandeler: completeHandler, fh: failureHandler)
         }
     }
     
@@ -271,7 +271,7 @@ extension SceneDelegate {
         
         let log = Log(context: context)
         log.createdAt = Date()
-        log.text = " \(fetchMee.users[fetchMee.loginUserID]?.screenName ?? "screenName") " + text! //临时添加一个用户名做标记
+        log.text = " \(loingUser.info.screenName ?? "screenName") " + text! //临时添加一个用户名做标记
         log.id = UUID()
         
         do {

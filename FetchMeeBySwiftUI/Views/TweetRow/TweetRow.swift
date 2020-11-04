@@ -12,7 +12,7 @@ import AVKit
 
 struct TweetRow: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
@@ -55,7 +55,7 @@ struct TweetRow: View {
                                 self.presentedUserInfo = true
                             }
                         })
-                        .sheet(isPresented: $presentedUserInfo) {UserInfo(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
+                        .sheet(isPresented: $presentedUserInfo) {UserView(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
                             .environmentObject(self.fetchMee)}
                     Spacer()
                 }.offset(x: 44).padding(.top, 8).padding(.bottom, 0)
@@ -189,7 +189,7 @@ struct TweetRow: View {
 
 struct TweetRow_Previews: PreviewProvider {
     static let alerts = Alerts()
-    static let user = AppData()
+    static let user = User()
     static var timeline = Timeline(type: .home)
     static var tweetIDString = "0000"
     static var previews: some View {

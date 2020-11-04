@@ -11,10 +11,10 @@ import Swifter
 import Combine
 
 struct BackOfFriendToolBar: View {
-@EnvironmentObject var fetchMee: AppData
+@EnvironmentObject var fetchMee: User
     var body: some View {
         VStack{
-            HStack {MentionUserSortedView(mentions: fetchMee.mention)}
+//            HStack {MentionUserSortedView(mentions: loingUser.mention)}
             HStack {
                 Spacer()
                 Text("Those who mentioned you mostly")

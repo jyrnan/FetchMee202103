@@ -10,7 +10,7 @@ import SwiftUI
 
 struct AvatarView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     @EnvironmentObject var downloader: Downloader
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -30,7 +30,7 @@ struct AvatarView: View {
     var body: some View {
         GeometryReader {geometry in
         ZStack {
-            NavigationLink(destination: UserInfo(userIDString: self.userIDString, userScreenName: screenName), isActive: $presentedUserInfo){
+            NavigationLink(destination: UserView(userIDString: self.userIDString, userScreenName: screenName), isActive: $presentedUserInfo){
             AvatarImageView(image: avatar)
             .onTapGesture(count: 2, perform: {
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
@@ -63,7 +63,7 @@ struct AvatarView: View {
     func pat(text: String? = "") {
         guard let userName = self.userName else { return}
         guard let screenName = self.screenName else { return}
-        let tweetText = "\(fetchMee.users[fetchMee.loginUserID]?.name ?? "楼主")拍了拍\"\(userName)\" \(text ?? "") \n@\(screenName)"
+        let tweetText = "\(fetchMee.users[fetchMee.info.id]?.name ?? "楼主")拍了拍\"\(userName)\" \(text ?? "") \n@\(screenName)"
         swifter.postTweet(status: tweetText, inReplyToStatusID: self.tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
             self.alerts.stripAlert.alertText = "Patting sent!"
             self.alerts.stripAlert.isPresentedAlert = true

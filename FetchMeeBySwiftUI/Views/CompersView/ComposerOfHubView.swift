@@ -22,12 +22,12 @@ import CoreData
 
 struct ComposerOfHubView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var draftsByCoreData: FetchedResults<TweetDraft>
     
-    lazy var predicate = NSPredicate(format: "%K == %@", #keyPath(TwitterUser.userIDString), fetchMee.loginUserID)
+    lazy var predicate = NSPredicate(format: "%K == %@", #keyPath(TwitterUser.userIDString), fetchMee.info.id)
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
     
     @State var currentTweetDraft: TweetDraft? //用来接受从draft视图传递过来需要编辑的draft
@@ -347,7 +347,7 @@ extension ComposerOfHubView {
     func getCurrentUser() -> TwitterUser? {
         guard !twitterUsers.isEmpty else {return nil}
         
-        let userIDString = fetchMee.loginUserID
+        let userIDString = fetchMee.info.id
         let result = twitterUsers.filter{$0.userIDString == userIDString}
         return result.first
     }

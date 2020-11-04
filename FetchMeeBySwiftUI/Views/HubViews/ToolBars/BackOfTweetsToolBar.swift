@@ -14,7 +14,7 @@ struct BackOfTweetsToolBar: View {
     let autoDeletWarningMessage: String = "Selecting Auto Delete tweets will automatically delete them in the background. Due to api restrictions, approximately 80 tweets are deleted per hour. Please keep the application background refresh open. If you need to keep your recent tweets, make sure the Keep Recent switch is on. \n Are you sure?"
     let manualDeleteWarningMessage: String = "Selecting Manual Delete will immediately delete up to 300 sauces at once. Due to api limits, the app will automatically calculate the maximum number of tweets that can be deleted and delete them. If you need to keep your recent tweets, make sure the Keep Recent switch is on."
     
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var loginUser: User
     @EnvironmentObject var alerts: Alerts
     
     @State var isShowManualDeleteAlert: Bool = false
@@ -24,19 +24,19 @@ struct BackOfTweetsToolBar: View {
     var body: some View {
         VStack {
             HStack{
-                Toggle(isOn: $fetchMee.setting.isDeleteTweets) {
+                Toggle(isOn: $loginUser.setting.isDeleteTweets) {
                     Text("Auto\nDelete")
                         .font(.caption).bold()
                         .foregroundColor(.white)
                 }
-                .alert(isPresented: $fetchMee.setting.isDeleteTweets){
+                .alert(isPresented: $loginUser.setting.isDeleteTweets){
                                             Alert(title: Text("Attention"),
                                                   message: Text(autoDeletWarningMessage),
-                                                  primaryButton: .destructive(Text("Sure"), action: {fetchMee.setting.isDeleteTweets = true}),
+                                                  primaryButton: .destructive(Text("Sure"), action: {loginUser.setting.isDeleteTweets = true}),
                                                   secondaryButton: .cancel())}
                 
                 Divider()
-                Toggle(isOn: $fetchMee.setting.isKeepRecentTweets) {
+                Toggle(isOn: $loginUser.setting.isKeepRecentTweets) {
                     Text("Keep\nRecent").font(.caption).bold()
                         .foregroundColor(.white)
                 }
@@ -61,14 +61,9 @@ struct BackOfTweetsToolBar: View {
                                                                               action: { manualDelete()}),
                                                   secondaryButton: .cancel())}
             }
-//            HStack {
-//                Spacer()
-//                Text("\"Keep Recent\" on to reserve last 80 tweets ")
-//                    .foregroundColor(.white).font(.caption2)
-//            }
+
         }
         .padding([.leading, .trailing], 12)
-//        .fixedSize()
     }
 }
 struct BackOfTweetsToolBar_Previews: PreviewProvider {
@@ -85,8 +80,8 @@ extension BackOfTweetsToolBar {
         let lh: (String) -> () = {string in
             self.alerts.setLogInfo(text: string)
         }
-        swifter.fastDeleteTweets(for: fetchMee.loginUserID,
-                                 keepRecent: fetchMee.setting.isKeepRecentTweets,
+        swifter.fastDeleteTweets(for: loginUser.info.id,
+                                 keepRecent: loginUser.setting.isKeepRecentTweets,
                                  completeHandler: completeHandler,
                                  logHandler: lh)
     }

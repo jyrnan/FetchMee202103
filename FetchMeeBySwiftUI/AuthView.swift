@@ -12,7 +12,7 @@ import UIKit
 import SafariServices
 
 struct AuthView: View {
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     
     var body: some View {
        Button(action: {self.login()}, label: {

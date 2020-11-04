@@ -11,7 +11,7 @@ import Swifter
 import Combine
 import CoreData
 
-extension AppData {
+extension User {
     
     //MARK:-获取用户信息方法
     
@@ -20,28 +20,28 @@ extension AppData {
     func getUserInfo() {
         
         //如果没有设置用户ID，且可以读取userDefualt里的IDString（说明已经logined），则设置loginUser的userIDString为登陆用户的userIDString
-        if self.loginUserID == "0000" && userDefault.object(forKey: "userIDString") != nil {
-            self.loginUserID = userDefault.object(forKey: "userIDString") as! String
+        if self.info.id == "0000" && userDefault.object(forKey: "userIDString") != nil {
+            self.info.id = userDefault.object(forKey: "userIDString") as! String
         }
         
         
 //        //读取用户设置信息,目前还没有做到区分用户
 //        setting.load()
         
-        getUser(userIDString: loginUserID)
+        getUser(userIDString: info.id)
         
         
     }
     
     /// 获取用户信息，这部分是复用函数，既可以更新loginUser，也可以用来更新任意用户信息
-    /// 如果传入到userIDString是新用户，则会在fetchMee .users里创建一个数据并更新
+    /// 如果传入到userIDString是新用户，则会在loingUser .users里创建一个数据并更新
     /// 更新步骤是首先更新Bio信息，并整体打包赋值给相应的users数据位置
     /// TODO：增加screenName的参数
     /// - Parameter userIDString: 用户ID
     func getUser(userIDString: String) {
       
         let userTag = UserTag.id(userIDString)
-        var user = User()
+        var user = UserInfo()
         
         ///第一步：
         /// 更新Bio信息，这部分信息需要从Twitter获取，通过一个成功回调函数来完成赋值
@@ -113,8 +113,8 @@ extension AppData {
             ///直接传入上方所获得的user.id
             ///需要判断当前更新的信息是loginUser的才有必要更新List
             ///TODO：后续需要更新当前查看用户的list信息
-            if userIDString == self.loginUserID {
-            getAndUpdateList(userIDString: user.id)
+            if userIDString == self.info.id {
+//            getAndUpdateList(userIDString: user.id)
             }
         }
         
@@ -122,49 +122,49 @@ extension AppData {
         swifter.showUser(userTag, includeEntities: nil, success: getUserBio(json:), failure: nil)
     }
     
-    func getAndUpdateList(userIDString: String) {
-        
-        /// 获取用户List信息并更新
-        /// 目前是将List数据直接存储在appData 中
-        /// - Parameter json: 返回的包含list信息的结果
-        func updateList(json: JSON) {
-            
-            let lists: [JSON] = json.array!
-            
-            var newLists: [String : ListTag] = [:]
-            for list in lists {
-                let name: String = list["name"].string!
-                let idString: String = list["id_str"].string!
-                let listTag = ListTag.id(idString)
-                newLists[name] = listTag
-            }
-            
-            if newLists.isEmpty {
-                let name: String = "No List"
-                let idString: String = "0000"
-                let listTag = ListTag.id(idString)
-                newLists[name] = listTag
-            }
-
-            ///比较新老lists名称数据，如果有不同则需要更新
-            if listTimelines.keys.sorted() != newLists.keys.sorted() {
-
-                self.listTimelines.removeAll()
-                newLists.keys.sorted().forEach{
-                    let listName = $0
-                    let listTag = newLists[$0]
-                    let listTimeline = Timeline(type: .list, listTag: listTag)
-                    self.listTimelines[listName] = listTimeline
-                }
-            }
-        }
-        
-       
-        let userTag = UserTag.id(userIDString)
-        
-        swifter.getSubscribedLists(for: userTag,
-                                   success:updateList)
-    }
+//    func getAndUpdateList(userIDString: String) {
+//        
+//        /// 获取用户List信息并更新
+//        /// 目前是将List数据直接存储在appData 中
+//        /// - Parameter json: 返回的包含list信息的结果
+//        func updateList(json: JSON) {
+//            
+//            let lists: [JSON] = json.array!
+//            
+//            var newLists: [String : ListTag] = [:]
+//            for list in lists {
+//                let name: String = list["name"].string!
+//                let idString: String = list["id_str"].string!
+//                let listTag = ListTag.id(idString)
+//                newLists[name] = listTag
+//            }
+//            
+//            if newLists.isEmpty {
+//                let name: String = "No List"
+//                let idString: String = "0000"
+//                let listTag = ListTag.id(idString)
+//                newLists[name] = listTag
+//            }
+//
+//            ///比较新老lists名称数据，如果有不同则需要更新
+//            if listTimelines.keys.sorted() != newLists.keys.sorted() {
+//
+//                self.listTimelines.removeAll()
+//                newLists.keys.sorted().forEach{
+//                    let listName = $0
+//                    let listTag = newLists[$0]
+//                    let listTimeline = Timeline(type: .list, listTag: listTag)
+//                    self.listTimelines[listName] = listTimeline
+//                }
+//            }
+//        }
+//        
+//       
+//        let userTag = UserTag.id(userIDString)
+//        
+//        swifter.getSubscribedLists(for: userTag,
+//                                   success:updateList)
+//    }
     
    
     
@@ -230,7 +230,7 @@ extension AppData {
     }
     
     //MARK:-CoreData part
-    func saveUserInfoToCoreData(user: User) {
+    func saveUserInfoToCoreData(user: UserInfo) {
         
         var currentUser: TwitterUser?
         
@@ -264,7 +264,7 @@ extension AppData {
             currentUser?.isFollowing = user.isFollowing ?? true
             
             //如果是当前用户，则统计推文数量等动态信息
-            if user.id == loginUserID {
+            if user.id == info.id {
                 let count: Count = Count(context: viewContext)
                 count.createdAt = Date()
                 count.follower = Int32(user.followed ?? 0)
@@ -284,7 +284,7 @@ extension AppData {
         
     }
     
-    func updateCount(user: User) ->[[Int]] {
+    func updateCount(user: UserInfo) ->[[Int]] {
         
         //参数说明：第一个数组代表follower，第二个代表tweets数量
         //每类有三个数是预留最近一天，最近一周？最近一月？，现在仅使用第一个

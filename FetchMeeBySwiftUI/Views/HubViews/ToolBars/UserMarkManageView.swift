@@ -12,7 +12,7 @@ import CoreData
 
 struct UserMarkManageView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -23,7 +23,7 @@ struct UserMarkManageView: View {
         List {
             ForEach(twitterUsers, id: \.self) { user in
                 NavigationLink(
-                    destination: UserInfo(userIDString: user.userIDString)) {
+                    destination: UserView(userIDString: user.userIDString)) {
                 HStack {
                     Text(user.nickName ?? "NickName").frame(width: 100, alignment: .leading)
                     Text(user.name ?? "Name").bold().frame(width: 120, alignment: .leading)

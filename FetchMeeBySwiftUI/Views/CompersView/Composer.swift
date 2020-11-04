@@ -11,7 +11,7 @@ import CoreData
 
 struct Composer: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     
     @Environment(\.managedObjectContext) var viewContext
    

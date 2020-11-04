@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Toast<Presenting, Presented>: View where Presenting: View, Presented: View {
     
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     
     /// The binding that decides the appropriate drawing in the body.
     @Binding var isShowing: Bool

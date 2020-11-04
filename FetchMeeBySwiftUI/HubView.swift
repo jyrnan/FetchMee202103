@@ -18,7 +18,7 @@ struct HubView: View {
     
     
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     @EnvironmentObject var downloader: Downloader
    
     @Environment(\.managedObjectContext) private var viewContext
@@ -27,16 +27,20 @@ struct HubView: View {
     @State var tweetText: String = ""
     @State var isShowToast: Bool = true
     
-    init() {
+    fileprivate func setNavigationBar() {
         let transAppearance = UINavigationBarAppearance()
         transAppearance.configureWithOpaqueBackground()
-//        transAppearance.backgroundColor = UIColor.clear
+        //        transAppearance.backgroundColor = UIColor.clear
         transAppearance.backgroundImage = UIImage(named: "Logo")?.alpha(0.05)
         transAppearance.backgroundImageContentMode = .bottomRight
         transAppearance.shadowColor = .clear
         
-//        UINavigationBar.appearance().standardAppearance = transAppearance
+        //        UINavigationBar.appearance().standardAppearance = transAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = transAppearance
+    }
+    
+    init() {
+        setNavigationBar()
     }
     
     var body: some View {
@@ -47,7 +51,7 @@ struct HubView: View {
                     
                     ZStack{
                         VStack {
-                            PullToRefreshView(action: {self.refreshAll()}, isDone: $fetchMee.home.isDone) {
+                            PullToRefreshView(action: {self.refreshAll()}, isDone: .constant(true)) {
                                 ComposerOfHubView(tweetText: $tweetText)
                                     .padding(.top, 16)
                                     .padding([.leading, .trailing], 18)
@@ -88,7 +92,7 @@ struct HubView: View {
             .navigationBarTitle("FetchMee")
                 .navigationBarTitleDisplayMode(.large)
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
-                                    AvatarImageView(image: fetchMee.users[fetchMee.loginUserID]?.avatar).frame(width: 36, height: 36, alignment: .center)})
+                                    AvatarImageView(image: fetchMee.info.avatar).frame(width: 36, height: 36, alignment: .center)})
             }
         .toast(isShowing: $fetchMee.isShowingPicture, presented: fetchMee.presentedView)
 
@@ -99,8 +103,8 @@ struct HubView_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            HubView().environmentObject(AppData())
-            HubView().environmentObject(AppData()).environment(\.colorScheme, .dark)
+            HubView().environmentObject(User())
+            HubView().environmentObject(User()).environment(\.colorScheme, .dark)
         }
     }
 }
@@ -110,11 +114,11 @@ extension HubView {
     
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
-        fetchMee.home.refreshFromTop(completeHandeler: {
-            self.alerts.setLogInfo(text:  "Fetching ended.")
-            
-        })
-        fetchMee.mention.refreshFromTop()
+//        loginUser.home.refreshFromTop(completeHandeler: {
+//            self.alerts.setLogInfo(text:  "Fetching ended.")
+//
+//        })
+//        loginUser.mention.refreshFromTop()
         fetchMee.getUserInfo()
         self.alerts.setLogInfo(text:  "Started fetching new tweets...")
 

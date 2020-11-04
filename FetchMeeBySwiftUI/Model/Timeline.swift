@@ -61,7 +61,7 @@ final class Timeline: ObservableObject {
     }
     
     @Published var mentionUserIDStringsSorted: [String] = [] //存储根据MentiUserinfo情况排序的UserIDString
-    @Published var userInfos: [String : User] = [:] //存储UserInfo供调用
+    @Published var userInfos: [String : UserInfo] = [:] //存储UserInfo供调用
     @Published var selectedImageCount: Int = 0
     
     var type: TimelineType
@@ -485,7 +485,7 @@ extension Timeline {
             self.mentionUserIDStringsSorted.append(userIDString)
             
             if self.userInfos[userIDString] == nil {
-                var userInfo = User(id: userIDString)
+                var userInfo = UserInfo(id: userIDString)
                 userInfo.name = userName
                 userInfo.screenName = screenName
                 userInfo.avatarUrlString = avatarUrlString

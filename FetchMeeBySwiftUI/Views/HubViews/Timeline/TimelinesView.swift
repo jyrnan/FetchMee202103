@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct TimelinesView: View {
-    @EnvironmentObject var fetchMee: AppData
     
     var body: some View {
         VStack {
@@ -17,19 +16,13 @@ struct TimelinesView: View {
                 Text("Timeline").font(.caption).bold().foregroundColor(Color.gray)
                 Spacer()
             }.padding(.leading,16)
-//            .padding(.top, 16)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack {
-                    TimelineIconView(timeline: fetchMee.home)
-                    TimelineIconView(timeline: fetchMee.mention)
-                    TimelineIconView(timeline: fetchMee.favorite)
-                    ForEach((fetchMee
-                                .listTimelines.keys.sorted()), id: \.self) { listName in
-                        TimelineIconView(timeline: fetchMee.listTimelines[listName] ?? fetchMee.home, listName: listName)
-                    }
-                    
-                    TimelineIconView(timeline: fetchMee.message)
+                    TimelineIconView(type: .home)
+                    TimelineIconView(type: .mention)
+                    TimelineIconView(type: .favorite)
+                    TimelineIconView(type: .message)
                     
                 }.padding(.bottom, 8).padding(.leading, 16)
             }.padding(0)

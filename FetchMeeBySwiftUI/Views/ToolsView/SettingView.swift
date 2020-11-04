@@ -10,13 +10,13 @@ import SwiftUI
 import Combine
 
 struct SettingView: View {
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
     
     var body: some View {
         Form {
-                Image(uiImage: fetchMee.users[fetchMee.loginUserID]?.banner ?? UIImage(named: "bg")!)
+                Image(uiImage: fetchMee.info.banner ?? UIImage(named: "bg")!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             .frame(height: 120)
@@ -70,16 +70,16 @@ struct SettingView: View {
         .onDisappear{fetchMee.setting.save()}
         .navigationTitle("Setting")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems( trailing: AvatarImageView(image: fetchMee.users[fetchMee.loginUserID]?.avatar).frame(width: 36, height: 36, alignment: .center))
+        .navigationBarItems( trailing: AvatarImageView(image: fetchMee.info.avatar).frame(width: 36, height: 36, alignment: .center))
     }
 }
 
 extension SettingView {
     
     func logOut() {
-        fetchMee.isShowUserInfo = false
-        fetchMee.loginUserID = "0000" //  设置成一个空的userInfo
-        print(#line, self.fetchMee.isShowUserInfo)
+//        loginUser.isShowUserInfo = false
+        fetchMee.info.id = "0000" //  设置成一个空的userInfo
+//        print(#line, self.loginUser.isShowUserInfo)
         delay(delay: 1, closure: {
             withAnimation {
                 
@@ -99,7 +99,7 @@ extension SettingView {
 }
 
 struct SettingView_Previews: PreviewProvider {
-    static var user: AppData = AppData()
+    static var user: User = User()
 //    static var timeline = Timeline(type: .user)
     static var previews: some View {
         NavigationView {

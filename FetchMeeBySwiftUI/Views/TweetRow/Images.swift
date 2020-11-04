@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct Images: View {
-    @EnvironmentObject var fetchMee: AppData
+    @EnvironmentObject var fetchMee: User
     
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
@@ -69,7 +69,7 @@ struct Images: View {
 }
 
 struct ImageThumb: View {
-    @EnvironmentObject var fetcheMee: AppData
+    @EnvironmentObject var fetcheMee: User
     
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
