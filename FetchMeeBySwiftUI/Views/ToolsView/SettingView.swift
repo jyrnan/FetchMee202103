@@ -10,13 +10,13 @@ import SwiftUI
 import Combine
 
 struct SettingView: View {
-    @EnvironmentObject var fetchMee: User
+    @EnvironmentObject var loginUser: User
     
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
     
     var body: some View {
         Form {
-                Image(uiImage: fetchMee.info.banner ?? UIImage(named: "bg")!)
+                Image(uiImage: loginUser.info.banner ?? UIImage(named: "bg")!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             .frame(height: 120)
@@ -25,14 +25,14 @@ struct SettingView: View {
             Section(header: Text("Visual"),
                     footer: Text("You can swith this function off to get a simper UI and better performance")) {
                 
-                Picker("Favorit Theme Color", selection: self.$fetchMee.setting.themeColor, content: {
+                Picker("Favorit Theme Color", selection: self.$loginUser.setting.themeColor, content: {
                     ForEach(ThemeColor.allCases){color in
                         Text(color.rawValue.capitalized).tag(color)
                     }
                 })
                 
-                Toggle("Iron Fans Rate", isOn: self.$fetchMee.setting.isIronFansShowed)
-                Toggle("Show Pictures", isOn: self.$fetchMee.setting.isMediaShowed)
+                Toggle("Iron Fans Rate", isOn: self.$loginUser.setting.isIronFansShowed)
+                Toggle("Show Pictures", isOn: self.$loginUser.setting.isMediaShowed)
             }
             
             Section(header:Text("Other")){
@@ -67,10 +67,10 @@ struct SettingView: View {
                 }
             }
         }
-        .onDisappear{fetchMee.setting.save()}
+        .onDisappear{loginUser.setting.save()}
         .navigationTitle("Setting")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems( trailing: AvatarImageView(image: fetchMee.info.avatar).frame(width: 36, height: 36, alignment: .center))
+        .navigationBarItems( trailing: AvatarImageView(image: loginUser.info.avatar).frame(width: 36, height: 36, alignment: .center))
     }
 }
 
@@ -78,7 +78,7 @@ extension SettingView {
     
     func logOut() {
 //        loginUser.isShowUserInfo = false
-        fetchMee.info.id = "0000" //  设置成一个空的userInfo
+        loginUser.info.id = "0000" //  设置成一个空的userInfo
 //        print(#line, self.loginUser.isShowUserInfo)
         delay(delay: 1, closure: {
             withAnimation {
@@ -87,7 +87,7 @@ extension SettingView {
                 userDefault.set(nil, forKey: "userIDString")
                 userDefault.set(nil, forKey: "screenName")
                 userDefault.set(nil, forKey: "mentionUserInfo")
-                fetchMee.isLoggedIn = false
+                loginUser.isLoggedIn = false
             }
         })
     }

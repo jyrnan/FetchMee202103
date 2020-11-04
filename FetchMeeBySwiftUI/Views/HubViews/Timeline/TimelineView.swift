@@ -31,12 +31,12 @@ struct TimelineView: View {
 //        }
     
     @EnvironmentObject var alerts: Alerts
-//    @EnvironmentObject var fetchMee: User
     @EnvironmentObject var downloader: Downloader
     
     @ObservedObject var timeline: Timeline
     
     @State var tweetText: String = ""
+    
     var listName: String? //如果是list类型则会传入listName
     
     var body: some View {
@@ -76,13 +76,7 @@ struct TimelineView: View {
             }
            .navigationTitle(listName ?? timeline.type.rawValue)
             .navigationTitle("Timeline")
-//            .navigationBarItems(leading:
-//                                    HStack{
-//                                        if downloader.taskCount != 0 {
-//                                            Text("\(downloader.taskCount) pictures downloading...")
-//                                                .font(.caption).foregroundColor(.gray)
-//                                        }
-//                                    })
+
             //通知视图
             AlertView()
         }

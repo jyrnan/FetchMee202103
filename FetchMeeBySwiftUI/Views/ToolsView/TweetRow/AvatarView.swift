@@ -30,7 +30,8 @@ struct AvatarView: View {
     var body: some View {
         GeometryReader {geometry in
         ZStack {
-            NavigationLink(destination: UserView(userIDString: self.userIDString, userScreenName: screenName), isActive: $presentedUserInfo){
+            NavigationLink(destination: UserView(userIDString: self.userIDString, userScreenName: screenName),
+                           isActive: $presentedUserInfo){
             AvatarImageView(image: avatar)
             .onTapGesture(count: 2, perform: {
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()

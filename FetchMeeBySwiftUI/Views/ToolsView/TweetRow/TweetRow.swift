@@ -51,12 +51,11 @@ struct TweetRow: View {
                         .foregroundColor(.gray)
                         .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
                             if let userIDString = self.tweetMedia.retweeted_by_UserIDString {
-                                fetchMee.getUser(userIDString: userIDString)
                                 self.presentedUserInfo = true
                             }
                         })
-                        .sheet(isPresented: $presentedUserInfo) {UserView(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
-                            .environmentObject(self.fetchMee)}
+//                        .sheet(isPresented: $presentedUserInfo) {UserView(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
+//                            .environmentObject(self.fetchMee)}
                     Spacer()
                 }.offset(x: 44).padding(.top, 8).padding(.bottom, 0)
             }

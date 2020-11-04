@@ -60,6 +60,7 @@
 		D297390024D1182600917A97 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29738FF24D1182600917A97 /* PhotoPickerView.swift */; };
 		D297390224D11A0800917A97 /* ComposerMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D297390124D11A0800917A97 /* ComposerMoreView.swift */; };
 		D2A4D27F2552902F00668650 /* UIImage+alhpa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */; };
+		D2A4D2812552AF9500668650 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4D2802552AF9500668650 /* TestView.swift */; };
 		D2B2560E24E38824009F982E /* videoJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2B2560D24E38824009F982E /* videoJson.txt */; };
 		D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B2560F24E39020009F982E /* VideoPlayView.swift */; };
 		D2C12CD5254A6A6B00D74778 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C12CD4254A6A6B00D74778 /* UserInfo.swift */; };
@@ -149,6 +150,7 @@
 		D29738FF24D1182600917A97 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		D297390124D11A0800917A97 /* ComposerMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerMoreView.swift; sourceTree = "<group>"; };
 		D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+alhpa.swift"; sourceTree = "<group>"; };
+		D2A4D2802552AF9500668650 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		D2B2560D24E38824009F982E /* videoJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = videoJson.txt; sourceTree = "<group>"; };
 		D2B2560F24E39020009F982E /* VideoPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayView.swift; sourceTree = "<group>"; };
 		D2C12CD4254A6A6B00D74778 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				D7AC536F24BB4AB200BCD71F /* ImageViewer.swift */,
 				4B2C746C24FA2B410052F356 /* ImageGrabView.swift */,
 				D286FFD624BC31F0005DBC39 /* UserView.swift */,
+				D2A4D2802552AF9500668650 /* TestView.swift */,
 				D205246B24C18AC30046F1AB /* AlertView.swift */,
 				D262FDD924D2CEED00682B99 /* SafariView.swift */,
 				D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */,
@@ -462,6 +465,7 @@
 				4B5E607625353A7200E7A5F1 /* AvatarImageView.swift in Sources */,
 				D7AC536E24BB477300BCD71F /* DetailView.swift in Sources */,
 				D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */,
+				D2A4D2812552AF9500668650 /* TestView.swift in Sources */,
 				D205247624C290F10046F1AB /* PullRefresh.swift in Sources */,
 				D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,

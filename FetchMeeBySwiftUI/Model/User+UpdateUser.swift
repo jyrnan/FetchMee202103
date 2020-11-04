@@ -18,18 +18,20 @@ extension User {
     
     /// 更新用户信息的入口
     func getUserInfo() {
+        var userTag: UserTag
         
-        //如果没有设置用户ID，且可以读取userDefualt里的IDString（说明已经logined），则设置loginUser的userIDString为登陆用户的userIDString
-        if info.id == "0000" && userDefault.object(forKey: "userIDString") != nil {
+        ///如果用户已经登陆，且可以读取userDefualt里的IDString（说明已经logined），
+        ///则设置loginUser的userIDString为登陆用户的userIDString
+        if self.isLoggedIn && userDefault.object(forKey: "userIDString") != nil {
             info.id = userDefault.object(forKey: "userIDString") as! String
+            userTag = UserTag.id(info.id)
+            
+        } else {
+            ///如果用户没用登陆，则根据用户info里面是否有idString或者screenName来生成userTage
+            userTag = info.id != "0000" ? UserTag.id(info.id) : UserTag.screenName(info.screenName!)
         }
         
-        
-//        //读取用户设置信息,目前还没有做到区分用户
-//        setting.load()
-        
-        getUser(userIDString: info.id)
-        
+        getUser(userTag: userTag)
         
     }
     
@@ -38,9 +40,9 @@ extension User {
     /// 更新步骤是首先更新Bio信息，并整体打包赋值给相应的users数据位置
     /// TODO：增加screenName的参数
     /// - Parameter userIDString: 用户ID
-    func getUser(userIDString: String) {
-      
-        let userTag = UserTag.id(userIDString)
+    func getUser(userTag: UserTag) {
+        
+        let userTag = userTag
         var userInfo = UserInfo()
         
         ///第一步：
@@ -70,10 +72,10 @@ extension User {
             userInfo.bannerUrlString = json["profile_banner_url"].string
             imageDownloaderWithClosure(from: userInfo.bannerUrlString, sh: {im in
                 DispatchQueue.main.async {
-                self.info.banner = im
+                    self.info.banner = im
                 }
-                })
-
+            })
+            
             var loc = json["location"].string ?? "Unknow"
             if loc != "" {
                 loc = " " + loc
@@ -114,7 +116,7 @@ extension User {
             ///需要判断当前更新的信息是loginUser的才有必要更新List
             ///TODO：后续需要更新当前查看用户的list信息
             
-            getAndUpdateList(userIDString: userInfo.id)
+            getAndUpdateList(userTag: userTag)
             
         }
         
@@ -122,7 +124,7 @@ extension User {
         swifter.showUser(userTag, includeEntities: nil, success: getUserBio(json:), failure: nil)
     }
     
-    func getAndUpdateList(userIDString: String) {
+    func getAndUpdateList(userTag: UserTag) {
         
         /// 获取用户List信息并更新
         /// 目前是将List数据直接存储在appData 中
@@ -139,27 +141,20 @@ extension User {
                 newLists[name] = listTag
             }
             
-//            if newLists.isEmpty {
-//                let name: String = "No List"
-//                let idString: String = "0000"
-//                let listTag = ListTag.id(idString)
-//                newLists[name] = listTag
-//            }
-
             ///比较新老lists名称数据，如果有不同则需要更新
             if self.lists.keys.sorted() != newLists.keys.sorted() {
                 self.lists = newLists
             }
         }
         
-       
-        let userTag = UserTag.id(userIDString)
+        
+        //        let userTag = UserTag.id(userIDString)
         
         swifter.getSubscribedLists(for: userTag,
                                    success:updateList)
     }
     
-   
+    
     
     
     func follow(userIDString: String) {
@@ -199,10 +194,10 @@ extension User {
         ///先尝试获取本地缓存文件
         if let d = try? Data(contentsOf: filePath) {
             if let im = UIImage(data: d) {
-//                DispatchQueue.main.async {
-                    sh(im)
-                    print(#line, "From local")
-//                }
+                //                DispatchQueue.main.async {
+                sh(im)
+                print(#line, "From local")
+                //                }
             }
         } else { //
             let task = URLSession.shared.downloadTask(with: url) {
@@ -210,10 +205,10 @@ extension User {
                 if let url = fileURL, let d = try? Data(contentsOf: url) {
                     if let im = UIImage(data: d) {
                         try? d.write(to: filePath)
-//                        DispatchQueue.main.async {
-                            sh(im)
-                            print(#line, "From remote")
-//                        }
+                        //                        DispatchQueue.main.async {
+                        sh(im)
+                        print(#line, "From remote")
+                        //                        }
                         
                     }
                 }
@@ -272,7 +267,7 @@ extension User {
         }catch {
             let nsError = error as NSError
             print(nsError.description)
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
         
     }
@@ -298,12 +293,12 @@ extension User {
         do {
             let counts = try viewContext.fetch(fetchRequest)
             
-//            print(#line, counts.count)
+            //            print(#line, counts.count)
             
             let lastDayCounts = counts.filter{count in
                 return abs(count.createdAt?.timeIntervalSinceNow ?? 1000000 ) < 60 * 60 * 24}
             
-//            print(#line, lastDayCounts.count)
+            //            print(#line, lastDayCounts.count)
             
             if let lastDayMax = lastDayCounts.max(by: {a, b in a.follower < b.follower}),
                let lastDayMin = lastDayCounts.max(by: {a, b in a.follower > b.follower}) {

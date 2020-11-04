@@ -11,12 +11,12 @@ import CoreData
 
 struct UserView: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: User
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
     
-    @StateObject var userTimeline: Timeline = Timeline(type: .user)
+    @StateObject var userTimeline: Timeline
+    @StateObject var user: User
     
     var userIDString: String? //传入需查看的用户信息的ID
     var userScreenName: String? //传入需查看的用户信息的Name
@@ -25,6 +25,13 @@ struct UserView: View {
     
     @State var nickNameText: String = ""
     @State var isNickNameInputShow: Bool = false
+    
+    init(userIDString: String? = nil, userScreenName: String? = nil) {
+        self.userIDString = userIDString
+        self.userScreenName = userScreenName
+        _user = StateObject(wrappedValue: User(userIDString: userIDString ?? "0000", screenName: userScreenName))
+        _userTimeline = StateObject(wrappedValue: Timeline(type: .user))
+    }
     
     ///自定义返回按钮的范例
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -50,21 +57,17 @@ struct UserView: View {
                 
                 
                 ZStack{
-                    Image(uiImage: fetchMee.info.banner ?? UIImage(named: "bg")!)
+                    Image(uiImage: user.info.banner ?? UIImage(named: "bg")!)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         
                         .frame(width:  UIScreen.main.bounds.width - 36, height:150)
                         .cornerRadius(18)
                         .overlay(LinearGradient.init(gradient: Gradient(colors: [Color(UIColor.systemBackground), Color.clear]), startPoint: .init(x: 0.5, y: 0.9), endPoint: .init(x: 0.5, y: 0.4)))
-                    //头像
-                   
-//                    Rectangle()
-//                        .foregroundColor(.clear)
-//                        .background(LinearGradient.init(gradient: Gradient(colors: [Color(UIColor.systemBackground), Color.clear]), startPoint: .bottom, endPoint: .center))
+
                     
                             ///个人信息大头像
-                            Image(uiImage: fetchMee.info.avatar ?? UIImage(systemName: "person.circle")!)
+                            Image(uiImage: user.info.avatar ?? UIImage(systemName: "person.circle")!)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 80, height: 80)
@@ -72,10 +75,10 @@ struct UserView: View {
                                 .clipShape(Circle())
                                 .overlay(Circle().stroke(Color.gray.opacity(0.6), lineWidth: 3))
                                 .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                                    if let im = fetchMee.info.avatar {
+                                    if let im = user.info.avatar {
                                         let imageViewer = ImageViewer(image: im)
-                                        fetchMee.presentedView = AnyView(imageViewer)
-                                        withAnimation{fetchMee.isShowingPicture = true}
+                                        user.presentedView = AnyView(imageViewer)
+                                        withAnimation{user.isShowingPicture = true}
                                     }
                                     
                                 })
@@ -91,7 +94,7 @@ struct UserView: View {
                     VStack(alignment: .center) {
                         HStack {
                             Spacer()
-                            Text(fetchMee.info.name ?? "Name").font(.body).bold()
+                            Text(user.info.name ?? "Name").font(.body).bold()
                             if !isNickNameInputShow {
                                 Text(twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName != nil ? "(\((twitterUsers.filter{$0.userIDString == userIDString}.first!).nickName!))" : "" ).font(.body)
                             }
@@ -124,7 +127,7 @@ struct UserView: View {
 
                             Spacer()
                         }
-                        Text(fetchMee.info.screenName ?? "ScreenName")
+                        Text(user.info.screenName ?? "ScreenName")
                             .font(.callout).foregroundColor(.gray)
                     }
                     .padding(.top, 60)
@@ -132,13 +135,13 @@ struct UserView: View {
                     ///信封，铃铛和follow按钮
                     HStack{
                        
-                        Image(systemName: (self.fetchMee.info.notifications == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
-                            .foregroundColor(fetchMee.info.notifications == true ? .white : .accentColor)
+                        Image(systemName: (self.user.info.notifications == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
+                            .foregroundColor(user.info.notifications == true ? .white : .accentColor)
 //                            .padding(6)
 //                            .background(loingUser.info.notifications == true ? Color.accentColor : Color.clear)
 //                            .clipShape(Circle())
 //                            .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
-                        if fetchMee.info.isFollowing == true {
+                        if user.info.isFollowing == true {
                             Text("Following")
                                 .font(.callout).bold()
                                 .frame(width: 84, height: 24, alignment: .center)
@@ -146,7 +149,7 @@ struct UserView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(12)
                                 .onTapGesture(count: 1, perform: {
-                                    fetchMee.unfollow(userIDString: userIDString!)
+                                    user.unfollow(userIDString: userIDString!)
                                 })
                         } else {
                             Text("Follow")
@@ -156,42 +159,36 @@ struct UserView: View {
                                 .foregroundColor(.accentColor)
                                 .cornerRadius(12)
                                 .onTapGesture(count: 1, perform: {
-                                    fetchMee.follow(userIDString: userIDString!)
+                                    user.follow(userIDString: userIDString!)
                                 })
                         }
                         
                         NavigationLink(destination: ImageGrabView(userIDString: userIDString, userScreenName: userScreenName, timeline: userTimeline)){
                             Image(systemName: "arrow.forward.circle").font(.title2)
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
                                 .foregroundColor(.accentColor)
-//                                .padding(6)
-////                                .frame(width: 32, height: 32, alignment: .center)
-//                                .clipShape(Circle())
-//                                .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
-                            
+//
                         }
                         
                     }.padding()
 
                     ///用户Bio信息
-                    Text(fetchMee.info.description ?? "userBio").font(.callout)
+                    Text(user.info.description ?? "userBio").font(.callout)
                         .multilineTextAlignment(.center)
                         .padding([.top], 16)
 
                     ///用户位置信息
                     HStack() {
                         Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
-                        Text(fetchMee.info.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
+                        Text(user.info.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
                         Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
-                        Text(fetchMee.info.createdAt ?? "Unknow").font(.caption).foregroundColor(.gray)
+                        Text(user.info.createdAt ?? "Unknow").font(.caption).foregroundColor(.gray)
                     }.padding(0)
 
                     ///用户following信息
                     HStack {
-                        Text(String(fetchMee.info.following ?? 0)).font(.callout)
+                        Text(String(user.info.following ?? 0)).font(.callout)
                         Text("Following").font(.callout).foregroundColor(.gray)
-                        Text(String(fetchMee.info.followed ?? 0)).font(.callout).padding(.leading, 16)
+                        Text(String(user.info.followed ?? 0)).font(.callout).padding(.leading, 16)
                         Text("Followers").font(.callout).foregroundColor(.gray)
                     }.padding(.bottom, 16)
                 }
@@ -224,7 +221,7 @@ LazyVStack{
         .onAppear(){
             if self.firstTimeRun {
                 self.firstTimeRun = false
-                fetchMee.getUser(userIDString: userIDString!)
+                user.getUserInfo()
                 userTimeline.refreshFromTop(for: userIDString)
             }
         }
@@ -264,11 +261,12 @@ extension UserView {
         UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
     }
     
+    
     func getTitle() -> String {
         
         if let title = twitterUsers.filter({$0.userIDString == userIDString}).first?.nickName {
             return title
-        } else if let title = fetchMee.info.name {
+        } else if let title = user.info.name {
             return title
         } else {
             return "UserName"

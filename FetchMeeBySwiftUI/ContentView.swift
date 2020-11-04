@@ -17,10 +17,10 @@ struct ContentView: View {
     var body: some View {
         if self.loginUser.isLoggedIn {
             HubView()
-//                .accentColor(self.loginUser.setting.themeColor.color)
+                .accentColor(self.loginUser.setting.themeColor.color)
         } else {
             AuthView()
-//                .accentColor(self.loginUser.setting.themeColor.color)
+                .accentColor(self.loginUser.setting.themeColor.color)
         }
     }
 }

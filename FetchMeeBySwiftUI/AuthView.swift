@@ -12,7 +12,7 @@ import UIKit
 import SafariServices
 
 struct AuthView: View {
-    @EnvironmentObject var fetchMee: User
+    @EnvironmentObject var loginUser: User
     
     var body: some View {
        Button(action: {self.login()}, label: {
@@ -46,11 +46,11 @@ extension AuthView {
                 userDefault.set(token.userID, forKey: "userIDString")
                 userDefault.set(token.screenName, forKey: "screenName")
                 
-                self.readInfo() //登录后读取信息并设置新的swifter
-                
                 userDefault.set(true, forKey: "isLoggedIn")
-                self.fetchMee.isLoggedIn = true
+                self.loginUser.isLoggedIn = true
                 print(#line, "set isLoggedIn")
+                
+                self.readInfo() //登录后读取信息并设置新的swifter
             }
         }, failure: failureHandler)
     }
@@ -65,7 +65,7 @@ extension AuthView {
                           oauthToken: tokenKey,
                           oauthTokenSecret: tokenSecret)
         
-        self.fetchMee.getUserInfo() //
+        self.loginUser.getUserInfo() //
     }
     
 
