@@ -50,7 +50,7 @@ struct UserView: View {
                 
                 
                 ZStack{
-                    Image(uiImage: fetchMee.users[userIDString!]?.banner ?? UIImage(named: "bg")!)
+                    Image(uiImage: fetchMee.info.banner ?? UIImage(named: "bg")!)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         
@@ -64,7 +64,7 @@ struct UserView: View {
 //                        .background(LinearGradient.init(gradient: Gradient(colors: [Color(UIColor.systemBackground), Color.clear]), startPoint: .bottom, endPoint: .center))
                     
                             ///个人信息大头像
-                            Image(uiImage: fetchMee.users[userIDString!]?.avatar ?? UIImage(systemName: "person.circle")!)
+                            Image(uiImage: fetchMee.info.avatar ?? UIImage(systemName: "person.circle")!)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 80, height: 80)
@@ -72,7 +72,7 @@ struct UserView: View {
                                 .clipShape(Circle())
                                 .overlay(Circle().stroke(Color.gray.opacity(0.6), lineWidth: 3))
                                 .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                                    if let im = fetchMee.users[userIDString!]?.avatar {
+                                    if let im = fetchMee.info.avatar {
                                         let imageViewer = ImageViewer(image: im)
                                         fetchMee.presentedView = AnyView(imageViewer)
                                         withAnimation{fetchMee.isShowingPicture = true}
@@ -91,7 +91,7 @@ struct UserView: View {
                     VStack(alignment: .center) {
                         HStack {
                             Spacer()
-                            Text(fetchMee.users[userIDString!]?.name ?? "Name").font(.body).bold()
+                            Text(fetchMee.info.name ?? "Name").font(.body).bold()
                             if !isNickNameInputShow {
                                 Text(twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName != nil ? "(\((twitterUsers.filter{$0.userIDString == userIDString}.first!).nickName!))" : "" ).font(.body)
                             }
@@ -124,7 +124,7 @@ struct UserView: View {
 
                             Spacer()
                         }
-                        Text(fetchMee.users[userIDString!]?.screenName ?? "ScreenName")
+                        Text(fetchMee.info.screenName ?? "ScreenName")
                             .font(.callout).foregroundColor(.gray)
                     }
                     .padding(.top, 60)
@@ -132,13 +132,13 @@ struct UserView: View {
                     ///信封，铃铛和follow按钮
                     HStack{
                        
-                        Image(systemName: (self.fetchMee.users[userIDString!]?.notifications == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
-                            .foregroundColor(fetchMee.users[userIDString!]?.notifications == true ? .white : .accentColor)
+                        Image(systemName: (self.fetchMee.info.notifications == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
+                            .foregroundColor(fetchMee.info.notifications == true ? .white : .accentColor)
 //                            .padding(6)
-//                            .background(loingUser.users[userIDString!]?.notifications == true ? Color.accentColor : Color.clear)
+//                            .background(loingUser.info.notifications == true ? Color.accentColor : Color.clear)
 //                            .clipShape(Circle())
 //                            .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
-                        if fetchMee.users[userIDString!]?.isFollowing == true {
+                        if fetchMee.info.isFollowing == true {
                             Text("Following")
                                 .font(.callout).bold()
                                 .frame(width: 84, height: 24, alignment: .center)
@@ -175,23 +175,23 @@ struct UserView: View {
                     }.padding()
 
                     ///用户Bio信息
-                    Text(fetchMee.users[userIDString!]?.description ?? "userBio").font(.callout)
+                    Text(fetchMee.info.description ?? "userBio").font(.callout)
                         .multilineTextAlignment(.center)
                         .padding([.top], 16)
 
                     ///用户位置信息
                     HStack() {
                         Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
-                        Text(fetchMee.users[userIDString!]?.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
+                        Text(fetchMee.info.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
                         Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
-                        Text(fetchMee.users[userIDString!]?.createdAt ?? "Unknow").font(.caption).foregroundColor(.gray)
+                        Text(fetchMee.info.createdAt ?? "Unknow").font(.caption).foregroundColor(.gray)
                     }.padding(0)
 
                     ///用户following信息
                     HStack {
-                        Text(String(fetchMee.users[userIDString!]?.following ?? 0)).font(.callout)
+                        Text(String(fetchMee.info.following ?? 0)).font(.callout)
                         Text("Following").font(.callout).foregroundColor(.gray)
-                        Text(String(fetchMee.users[userIDString!]?.followed ?? 0)).font(.callout).padding(.leading, 16)
+                        Text(String(fetchMee.info.followed ?? 0)).font(.callout).padding(.leading, 16)
                         Text("Followers").font(.callout).foregroundColor(.gray)
                     }.padding(.bottom, 16)
                 }
@@ -268,7 +268,7 @@ extension UserView {
         
         if let title = twitterUsers.filter({$0.userIDString == userIDString}).first?.nickName {
             return title
-        } else if let title = fetchMee.users[userIDString!]?.name {
+        } else if let title = fetchMee.info.name {
             return title
         } else {
             return "UserName"

@@ -11,15 +11,16 @@ import Combine
 import CoreData
 
 struct ContentView: View {
-    @EnvironmentObject var fetchMee: User
-    @Environment(\.managedObjectContext) private var viewContext
-    
+    @EnvironmentObject var loginUser: User
+//    @Environment(\.managedObjectContext) private var viewContext
+//
     var body: some View {
-        if self.fetchMee.isLoggedIn {
-            HubView().accentColor(self.fetchMee.setting.themeColor.color)
-//            TestNavi()
+        if self.loginUser.isLoggedIn {
+            HubView()
+//                .accentColor(self.loginUser.setting.themeColor.color)
         } else {
-            AuthView().accentColor(self.fetchMee.setting.themeColor.color)
+            AuthView()
+//                .accentColor(self.loginUser.setting.themeColor.color)
         }
     }
 }

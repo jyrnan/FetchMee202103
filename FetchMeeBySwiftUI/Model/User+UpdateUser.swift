@@ -20,8 +20,8 @@ extension User {
     func getUserInfo() {
         
         //如果没有设置用户ID，且可以读取userDefualt里的IDString（说明已经logined），则设置loginUser的userIDString为登陆用户的userIDString
-        if self.info.id == "0000" && userDefault.object(forKey: "userIDString") != nil {
-            self.info.id = userDefault.object(forKey: "userIDString") as! String
+        if info.id == "0000" && userDefault.object(forKey: "userIDString") != nil {
+            info.id = userDefault.object(forKey: "userIDString") as! String
         }
         
         
@@ -41,7 +41,7 @@ extension User {
     func getUser(userIDString: String) {
       
         let userTag = UserTag.id(userIDString)
-        var user = UserInfo()
+        var userInfo = UserInfo()
         
         ///第一步：
         /// 更新Bio信息，这部分信息需要从Twitter获取，通过一个成功回调函数来完成赋值
@@ -50,27 +50,27 @@ extension User {
         func getUserBio(json: JSON) {
             
             ///userBio信息更新开始
-            user.id = json["id_str"].string!
-            user.name = json["name"].string!
-            user.screenName = "@" + json["screen_name"].string!
-            user.description = json["description"].string!
+            userInfo.id = json["id_str"].string!
+            userInfo.name = json["name"].string!
+            userInfo.screenName = "@" + json["screen_name"].string!
+            userInfo.description = json["description"].string!
             
             let ct = json["created_at"].string!.split(separator: " ")
-            user.createdAt = " Joined " + String(ct[1]) + " " + String(ct[2]) + " " + String(ct[5]) //加入日期
+            userInfo.createdAt = " Joined " + String(ct[1]) + " " + String(ct[2]) + " " + String(ct[5]) //加入日期
             
             var avatarUrl = json["profile_image_url_https"].string
             avatarUrl = avatarUrl?.replacingOccurrences(of: "_normal", with: "")
             imageDownloaderWithClosure(from: avatarUrl, sh: {im in
                 DispatchQueue.main.async {
-                    self.users[userIDString]?.avatar = im
+                    self.info.avatar = im
                 }
                 
             })
             
-            user.bannerUrlString = json["profile_banner_url"].string
-            imageDownloaderWithClosure(from: user.bannerUrlString, sh: {im in
+            userInfo.bannerUrlString = json["profile_banner_url"].string
+            imageDownloaderWithClosure(from: userInfo.bannerUrlString, sh: {im in
                 DispatchQueue.main.async {
-                self.users[userIDString]?.banner = im
+                self.info.banner = im
                 }
                 })
 
@@ -78,33 +78,33 @@ extension User {
             if loc != "" {
                 loc = " " + loc
             }
-            user.loc = loc
+            userInfo.loc = loc
             
             var url = json["url"].string ?? ""
             if url != "" {
                 url = " " + url + "\n"
             }
-            user.url = url
+            userInfo.url = url
             
-            user.following = json["friends_count"].integer!
-            user.followed = json["followers_count"].integer!
-            user.isFollowing = json["following"].bool
+            userInfo.following = json["friends_count"].integer!
+            userInfo.followed = json["followers_count"].integer!
+            userInfo.isFollowing = json["following"].bool
             
-            user.notifications = json["notifications"].bool
+            userInfo.notifications = json["notifications"].bool
             
-            user.tweetsCount = json["statuses_count"].integer!
+            userInfo.tweetsCount = json["statuses_count"].integer!
             
             
             ///从CoreData读取信息计算24小时内新增fo数和推文数量
-            let results = updateCount(user: user)
-            user.lastDayAddedFollower = results[0][0]
-            user.lastDayAddedTweets = results[1][0]
+            let results = updateCount(user: userInfo)
+            userInfo.lastDayAddedFollower = results[0][0]
+            userInfo.lastDayAddedTweets = results[1][0]
             
             ///保存用户信息到CoreData，如果是登陆用户，则传入true
-            saveUserInfoToCoreData(user: user)
+            saveUserInfoToCoreData(user: userInfo)
             
             ///信息更新完成，将user数据替换到相应位置
-            self.users[userIDString] = user
+            self.info = userInfo
             
             ///第二步：
             ///开始更新List相应信息。
@@ -113,58 +113,51 @@ extension User {
             ///直接传入上方所获得的user.id
             ///需要判断当前更新的信息是loginUser的才有必要更新List
             ///TODO：后续需要更新当前查看用户的list信息
-            if userIDString == self.info.id {
-//            getAndUpdateList(userIDString: user.id)
-            }
+            
+            getAndUpdateList(userIDString: userInfo.id)
+            
         }
         
         ///获取用户基本信息，并生成Bio
         swifter.showUser(userTag, includeEntities: nil, success: getUserBio(json:), failure: nil)
     }
     
-//    func getAndUpdateList(userIDString: String) {
-//        
-//        /// 获取用户List信息并更新
-//        /// 目前是将List数据直接存储在appData 中
-//        /// - Parameter json: 返回的包含list信息的结果
-//        func updateList(json: JSON) {
-//            
-//            let lists: [JSON] = json.array!
-//            
-//            var newLists: [String : ListTag] = [:]
-//            for list in lists {
-//                let name: String = list["name"].string!
-//                let idString: String = list["id_str"].string!
-//                let listTag = ListTag.id(idString)
-//                newLists[name] = listTag
-//            }
-//            
+    func getAndUpdateList(userIDString: String) {
+        
+        /// 获取用户List信息并更新
+        /// 目前是将List数据直接存储在appData 中
+        /// - Parameter json: 返回的包含list信息的结果
+        func updateList(json: JSON) {
+            
+            let listsJson: [JSON] = json.array!
+            
+            var newLists: [String : ListTag] = [:]
+            for list in listsJson {
+                let name: String = list["name"].string!
+                let idString: String = list["id_str"].string!
+                let listTag = ListTag.id(idString)
+                newLists[name] = listTag
+            }
+            
 //            if newLists.isEmpty {
 //                let name: String = "No List"
 //                let idString: String = "0000"
 //                let listTag = ListTag.id(idString)
 //                newLists[name] = listTag
 //            }
-//
-//            ///比较新老lists名称数据，如果有不同则需要更新
-//            if listTimelines.keys.sorted() != newLists.keys.sorted() {
-//
-//                self.listTimelines.removeAll()
-//                newLists.keys.sorted().forEach{
-//                    let listName = $0
-//                    let listTag = newLists[$0]
-//                    let listTimeline = Timeline(type: .list, listTag: listTag)
-//                    self.listTimelines[listName] = listTimeline
-//                }
-//            }
-//        }
-//        
-//       
-//        let userTag = UserTag.id(userIDString)
-//        
-//        swifter.getSubscribedLists(for: userTag,
-//                                   success:updateList)
-//    }
+
+            ///比较新老lists名称数据，如果有不同则需要更新
+            if self.lists.keys.sorted() != newLists.keys.sorted() {
+                self.lists = newLists
+            }
+        }
+        
+       
+        let userTag = UserTag.id(userIDString)
+        
+        swifter.getSubscribedLists(for: userTag,
+                                   success:updateList)
+    }
     
    
     
@@ -173,13 +166,13 @@ extension User {
         print(#line, #function)
         let userTag = UserTag.id(userIDString)
         swifter.followUser(userTag)
-        users[userIDString]?.isFollowing = true
+        self.info.isFollowing = true
     }
     
     func unfollow(userIDString: String) {
         let userTag = UserTag.id(userIDString)
         swifter.unfollowUser(userTag)
-        users[userIDString]?.isFollowing = false
+        self.info.isFollowing = false
     }
     
     
@@ -212,7 +205,7 @@ extension User {
 //                }
             }
         } else { //
-            let task = self.session.downloadTask(with: url) {
+            let task = URLSession.shared.downloadTask(with: url) {
                 fileURL, resp, err in
                 if let url = fileURL, let d = try? Data(contentsOf: url) {
                     if let im = UIImage(data: d) {

@@ -15,44 +15,13 @@ import CoreData
 class User: ObservableObject {
    
     @Published var isLoggedIn: Bool = false
-//    @Published var loginUserID: String = "0000"
-    @Published var users: [String: UserInfo] = [:] //存储多个用户的信息
-    
-    @Published var setting: UserSetting = UserSetting() //打算把setting放这里,现在是在SeceneDelegate里面读取
-    
     @Published var info: UserInfo = UserInfo() //用户的基本信息
-    
+    @Published var lists: [String: ListTag] = [:]
 
-//    @Published var isShowUserInfo: Bool = false
-
-    
-//    @Published var home: Timeline = Timeline(type: .home)
-//    @Published var mention: Timeline = Timeline(type: .mention)
-//    @Published var message: Timeline = Timeline(type: .message)
-//    @Published var favorite: Timeline = Timeline(type: .favorite)
-//    ///每次updateUser的时候会刷新生成相应ListTimeline
-//    @Published var listTimelines: [String : Timeline] = [:]
-   
-    let session = URLSession.shared
+    @Published var setting: UserSetting = UserSetting() //打算把setting放这里,现在是在SeceneDelegate里面读取
     
     @Published var isShowingPicture: Bool = false //是否浮动显示图片
     @Published var presentedView: AnyView? //通过AnyView就可以实现任意View的传递了？！
-    
-    //获取记录的用户信息
-//    lazy var twitterUsers: [TwitterUser] = { () -> [TwitterUser] in
-//        guard let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
-//              let sceneDelegate = windowsScenen.delegate as? SceneDelegate
-//        else {
-//            return []
-//        }
-//        let viewContext = sceneDelegate.context
-//
-//        let request:NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
-//
-//        let twitterUsers = try? viewContext.fetch(request)
-//        print(#line, "Get TwitterUsers in appData")
-//        return twitterUsers ?? []
-//    }()
-//
+
 }
 

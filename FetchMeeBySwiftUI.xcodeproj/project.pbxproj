@@ -31,7 +31,6 @@
 		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
 		D252548024D804AB00D8B508 /* WebLinkJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkJson.txt */; };
 		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
-		D257C0E624EA8A5600ECAAC2 /* DeleteTweetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D257C0E524EA8A5600ECAAC2 /* DeleteTweetsView.swift */; };
 		D258D617254AF44B00CA01E7 /* User+UpdateUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D258D616254AF44B00CA01E7 /* User+UpdateUser.swift */; };
 		D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDD924D2CEED00682B99 /* SafariView.swift */; };
 		D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */; };
@@ -60,6 +59,7 @@
 		D2946F2E24CD802C00F8A7C6 /* ReplyUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2946F2D24CD802C00F8A7C6 /* ReplyUsersView.swift */; };
 		D297390024D1182600917A97 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29738FF24D1182600917A97 /* PhotoPickerView.swift */; };
 		D297390224D11A0800917A97 /* ComposerMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D297390124D11A0800917A97 /* ComposerMoreView.swift */; };
+		D2A4D27F2552902F00668650 /* UIImage+alhpa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */; };
 		D2B2560E24E38824009F982E /* videoJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2B2560D24E38824009F982E /* videoJson.txt */; };
 		D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B2560F24E39020009F982E /* VideoPlayView.swift */; };
 		D2C12CD5254A6A6B00D74778 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C12CD4254A6A6B00D74778 /* UserInfo.swift */; };
@@ -117,7 +117,6 @@
 		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
 		D252547F24D804AB00D8B508 /* WebLinkJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkJson.txt; sourceTree = "<group>"; };
 		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
-		D257C0E524EA8A5600ECAAC2 /* DeleteTweetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteTweetsView.swift; sourceTree = "<group>"; };
 		D258D616254AF44B00CA01E7 /* User+UpdateUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+UpdateUser.swift"; sourceTree = "<group>"; };
 		D262FDD924D2CEED00682B99 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionUserSortedView.swift; sourceTree = "<group>"; };
@@ -149,6 +148,7 @@
 		D2946F2D24CD802C00F8A7C6 /* ReplyUsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyUsersView.swift; sourceTree = "<group>"; };
 		D29738FF24D1182600917A97 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		D297390124D11A0800917A97 /* ComposerMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerMoreView.swift; sourceTree = "<group>"; };
+		D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+alhpa.swift"; sourceTree = "<group>"; };
 		D2B2560D24E38824009F982E /* videoJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = videoJson.txt; sourceTree = "<group>"; };
 		D2B2560F24E39020009F982E /* VideoPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayView.swift; sourceTree = "<group>"; };
 		D2C12CD4254A6A6B00D74778 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -215,11 +215,12 @@
 		4B7130AE2535750D00CE0082 /* ToolsView */ = {
 			isa = PBXGroup;
 			children = (
+				D297390324D150B300917A97 /* CompersView */,
+				4B7130AD253574A500CE0082 /* TweetRow */,
 				D7AC536D24BB477300BCD71F /* DetailView.swift */,
 				D7AC536F24BB4AB200BCD71F /* ImageViewer.swift */,
 				4B2C746C24FA2B410052F356 /* ImageGrabView.swift */,
 				D286FFD624BC31F0005DBC39 /* UserView.swift */,
-				D257C0E524EA8A5600ECAAC2 /* DeleteTweetsView.swift */,
 				D205246B24C18AC30046F1AB /* AlertView.swift */,
 				D262FDD924D2CEED00682B99 /* SafariView.swift */,
 				D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */,
@@ -317,6 +318,7 @@
 				D2794F32251F1DE200824E6D /* SaliencyDetection.swift */,
 				D2905075252C07360065EA83 /* Persistance.swift */,
 				D2905077252C09360065EA83 /* FetchMee.xcdatamodeld */,
+				D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -333,8 +335,6 @@
 			isa = PBXGroup;
 			children = (
 				4BDB05D5253160A000CF71A1 /* HubViews */,
-				D297390324D150B300917A97 /* CompersView */,
-				4B7130AD253574A500CE0082 /* TweetRow */,
 				4B7130AE2535750D00CE0082 /* ToolsView */,
 			);
 			path = Views;
@@ -477,6 +477,7 @@
 				D286FFD724BC31F0005DBC39 /* UserView.swift in Sources */,
 				D2224F8A24BE7C0400AE2110 /* User.swift in Sources */,
 				4BA662742535923300DE8697 /* ToolBarsView.swift in Sources */,
+				D2A4D27F2552902F00668650 /* UIImage+alhpa.swift in Sources */,
 				D7AC537024BB4AB200BCD71F /* ImageViewer.swift in Sources */,
 				4BA6627625359FEC00DE8697 /* TimelinesView.swift in Sources */,
 				4B3AD79F253965DB00194B2C /* UserMarkManageView.swift in Sources */,
@@ -502,7 +503,6 @@
 				D27DCEBE24B96D5F00520BE3 /* TimelineView.swift in Sources */,
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
 				D2DDFCC12532DE3300AE7E39 /* TimelineIconView.swift in Sources */,
-				D257C0E624EA8A5600ECAAC2 /* DeleteTweetsView.swift in Sources */,
 				D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */,
 				D27DCF3B24B98F9900520BE3 /* Tweet.swift in Sources */,
 			);

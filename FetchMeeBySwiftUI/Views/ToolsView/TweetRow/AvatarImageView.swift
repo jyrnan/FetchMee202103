@@ -22,7 +22,7 @@ struct AvatarImageView: View {
             .clipShape(Circle())
             .overlay(Circle()
              .stroke(Color.gray.opacity(0.3), lineWidth: 1))
-            .contentShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+            .contentShape(Circle())
     }
 }
 

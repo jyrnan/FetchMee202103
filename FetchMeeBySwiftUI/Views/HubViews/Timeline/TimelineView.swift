@@ -31,7 +31,7 @@ struct TimelineView: View {
 //        }
     
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: User
+//    @EnvironmentObject var fetchMee: User
     @EnvironmentObject var downloader: Downloader
     
     @ObservedObject var timeline: Timeline
@@ -74,21 +74,15 @@ struct TimelineView: View {
                 }.padding([.leading, .trailing], 16)
                 
             }
-//           .navigationTitle(listName ?? timeline.type.rawValue)
-//            .navigationBarTitleDisplayMode(.inline)
+           .navigationTitle(listName ?? timeline.type.rawValue)
             .navigationTitle("Timeline")
-//            .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading:
-                                    HStack{
-//                                        btnBack ///自定义返回按钮的范例
-                                       
-                                        if downloader.taskCount != 0 {
-                                            Text("\(downloader.taskCount) pictures downloading...")
-                                                .font(.caption).foregroundColor(.gray)
-                                        }
-                                    },
-                                trailing:
-                                    AvatarImageView(image: fetchMee.info.avatar).frame(width: 36, height: 36, alignment: .center))
+//            .navigationBarItems(leading:
+//                                    HStack{
+//                                        if downloader.taskCount != 0 {
+//                                            Text("\(downloader.taskCount) pictures downloading...")
+//                                                .font(.caption).foregroundColor(.gray)
+//                                        }
+//                                    })
             //通知视图
             AlertView()
         }

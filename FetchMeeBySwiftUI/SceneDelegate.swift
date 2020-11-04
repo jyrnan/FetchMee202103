@@ -22,10 +22,6 @@ let userDefault = UserDefaults.init()
 let cfh = CacheFileHandler() //设置下载文件的缓存位置
 let session = URLSession.shared
 
-////两个用来实现后台运行的函数变量，会依据情况不同代表不同的执行内容
-//var backgroundFetchTask: ((BGAppRefreshTask) -> Void)?
-//var backgroundProcessTask: ((BGProcessingTask) -> Void)?
-
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
@@ -62,8 +58,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.loingUser.getUserInfo()}
             
             window.rootViewController = UIHostingController(rootView: contentView
-                                                                .environmentObject(alerts).environmentObject(loingUser)
-                                                                .accentColor(self.loingUser.setting.themeColor.color).environmentObject(downloader))
+                                                                .environmentObject(alerts)
+                                                                .environmentObject(loingUser)
+                                                                .accentColor(loingUser.setting.themeColor.color)
+                                                                .environmentObject(downloader))
             
             
             self.window = window
