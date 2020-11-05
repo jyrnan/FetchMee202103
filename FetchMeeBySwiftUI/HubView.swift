@@ -54,7 +54,7 @@ struct HubView: View {
                             .padding([.leading, .trailing], 16)
                         
                         HStack {
-                            Text(alerts.logInfo.alertText == "" ? "No new log message" : alerts.logInfo.alertText)
+                            Text(alerts.logMessage.alertText == "" ? "No new log message" : alerts.logMessage.alertText)
                                 .font(.caption2).foregroundColor(.gray).opacity(0.5)
                         }
                         
@@ -63,7 +63,6 @@ struct HubView: View {
                         HStack {
                             Spacer()
                             Button(action: {}){Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)}
-                            
                             Spacer()
                         }.padding(.top, 20).padding()
                         

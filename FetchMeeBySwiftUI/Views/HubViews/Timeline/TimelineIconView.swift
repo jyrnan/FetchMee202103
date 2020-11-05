@@ -10,12 +10,12 @@ import SwiftUI
 import Combine
 
 struct TimelineIconView: View {
-    var type: TimelineType = .home
+//    var type: TimelineType = .home
     @StateObject private var timeline: Timeline
     @State var listName: String?
     
-    init(type: TimelineType) {
-        self.type = type
+    init(type: TimelineType = .home) {
+//        self.type = type
         _timeline = StateObject(wrappedValue: Timeline(type: type))
     }
     

@@ -14,7 +14,7 @@ struct BackOfFriendToolBar: View {
 @EnvironmentObject var fetchMee: User
     var body: some View {
         VStack{
-//            HStack {MentionUserSortedView(mentions: loingUser.mention)}
+            HStack {MentionUserSortedView()}
             HStack {
                 Spacer()
                 Text("Those who mentioned you mostly")

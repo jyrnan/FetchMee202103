@@ -48,9 +48,8 @@ struct AvatarView: View {
             ///如果该用户nickName不为空，则显示星标
             if twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName != nil {
             Image(systemName: "star.circle.fill").foregroundColor(.accentColor)
-                .scaledToFit()
+                .scaledToFit().background(Circle().foregroundColor(.white).scaleEffect(0.9))
                 .frame(width: geometry.size.width * 0.18, height: geometry.size.height * 0.18, alignment: .center)
-                .background(Color.white)
                 .offset(x: geometry.size.width * 0.33, y: geometry.size.height * 0.33)
             }
         }

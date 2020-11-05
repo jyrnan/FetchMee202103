@@ -11,14 +11,14 @@ import Combine
 
 struct MentionUserSortedView: View {
     
-    @ObservedObject var mentions: Timeline
+    @StateObject var mentionUsers = MentionUser()
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ///选取最多10个用户显示
-                ForEach(mentions.mentionUserIDStringsSorted[0..<min(10, self.mentions.mentionUserIDStringsSorted.count)], id: \.self) {userIDString in
-                    AvatarView(avatar: mentions.userInfos[userIDString]?.avatar, userIDString: userIDString)
+                ForEach(mentionUsers.mentionUserIDStringsSorted[0..<min(10, self.mentionUsers.mentionUserIDStringsSorted.count)], id: \.self) {userIDString in
+                    AvatarView(avatar: mentionUsers.userInfos[userIDString]?.avatar, userIDString: userIDString)
                         .frame(width: 32, height: 32)
                 }
             }
@@ -28,6 +28,6 @@ struct MentionUserSortedView: View {
 
 struct MentionUserSortedView_Previews: PreviewProvider {
     static var previews: some View {
-        MentionUserSortedView(mentions: Timeline(type: .mention))
+        MentionUserSortedView(mentionUsers: MentionUser())
     }
 }

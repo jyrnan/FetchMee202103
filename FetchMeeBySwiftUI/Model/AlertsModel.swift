@@ -20,14 +20,14 @@ class Alerts: ObservableObject {
     @Published var refreshIsDone: Bool = true
     
     //可以在hubView的toolbar里面显示一行信息，并作为log输出信息
-    @Published var logInfo: MyAlert = MyAlert()
+    @Published var logMessage: MyAlert = MyAlert()
     
     @Published var isShowingPicture: Bool = false //是否浮动显示图片
     @Published var presentedView: AnyView? //通过AnyView就可以实现任意View的传递了？！
     
     func setLogInfo(text: String) {
         DispatchQueue.main.async {
-            self.logInfo.alertText = text
+            self.logMessage.alertText = text
         }
     }
 }

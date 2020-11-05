@@ -60,16 +60,20 @@ final class Timeline: ObservableObject {
         }
     }
     
-    @Published var mentionUserIDStringsSorted: [String] = [] //存储根据MentiUserinfo情况排序的UserIDString
+    ///存储根据MentiUserinfo情况排序的UserIDString
+    @Published var mentionUserIDStringsSorted: [String] = []
     @Published var userInfos: [String : UserInfo] = [:] //存储UserInfo供调用
+    ///记录用户互动mention推文信息（推文ID）数量,
+    ///纪录顺序[userName, screenName, avatarUrlString, tweetID...tweetID]
+    ///这个数据会被保存到本地
+    var mentionUserInfo: [String:[String]] = [:]
+    
     @Published var selectedImageCount: Int = 0
     
     var type: TimelineType
     var listTag: ListTag? // 如果是list类型，则会传入listTag
     var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
     
-    var mentionUserInfo: [String:[String]] = [:] //记录用户互动mention推文信息（推文ID）数量,纪录顺序[userName, screenName, avatarUrlString, tweetID...tweetID]
-   
     let session = URLSession.shared
     let maxCounter: Int = 100
     var sinceIDString: String?
@@ -292,9 +296,11 @@ final class Timeline: ObservableObject {
                     .replacingOccurrences(of: "_normal", with: "") ?? ""
                 let tweetID = newTweet["in_reply_to_status_id_str"].string ?? ""
                 
+                ///如果新的Mention用护，则按照格式创建一个用户数据
                 if self.mentionUserInfo[userIDString] == nil {
                     self.mentionUserInfo[userIDString] = [userName, screenName, avatarUrlString, tweetID]
                 } else {
+                    ///如果该用户存在，且该推文是该用户新回复，则将推文ID添加至尾端
                     if self.mentionUserInfo[userIDString]?.contains(tweetID) == false {
                         self.mentionUserInfo[userIDString]?.append(tweetID)
                     }
@@ -469,7 +475,7 @@ extension Timeline {
     func makeMentionUserSortedList() {
         
         guard self.type == .mention else {return}
-//        print(#line, self.mentionUserInfo.count)
+        ///先保存当前的回复用户信息。
         userDefault.set(self.mentionUserInfo, forKey: "mentionUserInfo")
         
         let mentionUserInfoSorted = self.mentionUserInfo.sorted{$0.value.count > $1.value.count} //按Mention数量照降序排序
@@ -482,6 +488,7 @@ extension Timeline {
             let screenName = user.value[1]
             let avatarUrlString = user.value[2]
             
+            ///将回复用户排序后添加到数据中
             self.mentionUserIDStringsSorted.append(userIDString)
             
             if self.userInfos[userIDString] == nil {
