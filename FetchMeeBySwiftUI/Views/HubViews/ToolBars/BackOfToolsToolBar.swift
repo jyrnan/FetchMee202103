@@ -11,7 +11,8 @@ import Swifter
 import Combine
 
 struct BackOfToolsToolBar: View {
-    @EnvironmentObject var fetchMee: User
+    @EnvironmentObject var alerts: Alerts
+    @EnvironmentObject var loginUser: User
     
     var body: some View {
         HStack {
@@ -21,7 +22,7 @@ struct BackOfToolsToolBar: View {
                 let completeHandler  = {print(#line, #function, "Tweet deleted")}
                 let lh: (String) -> () = {string in}
                 
-                swifter.fastDeleteTweets(for: fetchMee.info.id, willDeleteCount: 2, keepRecent: fetchMee.setting.isKeepRecentTweets,  completeHandler: completeHandler, logHandler: lh)
+                swifter.fastDeleteTweets(for: loginUser.info.id, willDeleteCount: 2, keepRecent: loginUser.setting.isKeepRecentTweets,  completeHandler: completeHandler, logHandler: lh)
             }, label: {
                 VStack{
                     Image(systemName: "message.circle.fill").font(.title2)
@@ -50,8 +51,8 @@ struct BackOfToolsToolBar: View {
 //                    
 //                })
                 withAnimation{
-                    fetchMee.isShowingPicture = true
-                    fetchMee.presentedView = AnyView(Image(systemName: "person").resizable().aspectRatio(contentMode: .fit).foregroundColor(.accentColor))
+                    alerts.isShowingPicture = true
+                    alerts.presentedView = AnyView(Image(systemName: "person").resizable().aspectRatio(contentMode: .fit).foregroundColor(.accentColor))
                 }
                 
             }, label: {

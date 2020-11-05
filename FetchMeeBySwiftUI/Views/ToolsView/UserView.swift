@@ -77,8 +77,8 @@ struct UserView: View {
                                 .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
                                     if let im = user.info.avatar {
                                         let imageViewer = ImageViewer(image: im)
-                                        user.presentedView = AnyView(imageViewer)
-                                        withAnimation{user.isShowingPicture = true}
+                                        alerts.presentedView = AnyView(imageViewer)
+                                        withAnimation{alerts.isShowingPicture = true}
                                     }
                                     
                                 })

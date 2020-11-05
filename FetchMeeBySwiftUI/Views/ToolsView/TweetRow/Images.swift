@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct Images: View {
-    @EnvironmentObject var fetchMee: User
+//    @EnvironmentObject var fetchMee: User
+    @EnvironmentObject var alerts: Alerts
     
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
@@ -69,7 +70,8 @@ struct Images: View {
 }
 
 struct ImageThumb: View {
-    @EnvironmentObject var fetcheMee: User
+//    @EnvironmentObject var fetcheMee: User
+    @EnvironmentObject var alerts: Alerts
     
     @ObservedObject var timeline: Timeline
     var tweetIDString: String
@@ -102,8 +104,8 @@ struct ImageThumb: View {
                             DispatchQueue.main.async {
                                 self.timeline.tweetMedias[self.tweetIDString]?.images[index] = im
                                 let imageViewer = ImageViewer(image: im)
-                                fetcheMee.presentedView = AnyView(imageViewer)
-                                withAnimation{fetcheMee.isShowingPicture = true}                                }
+                                alerts.presentedView = AnyView(imageViewer)
+                                withAnimation{alerts.isShowingPicture = true}                                }
                             self.isImageDownloaded = true
                             
                         }

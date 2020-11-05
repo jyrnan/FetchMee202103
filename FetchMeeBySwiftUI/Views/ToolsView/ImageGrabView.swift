@@ -205,8 +205,8 @@ extension ImageGrabView {
                 DispatchQueue.main.async {
                     
                     let imageViewer = ImageViewer(image: im)
-                    fetchMee.presentedView = AnyView(imageViewer)
-                    withAnimation{fetchMee.isShowingPicture = true}                                }
+                    alerts.presentedView = AnyView(imageViewer)
+                    withAnimation{alerts.isShowingPicture = true}                                }
             })
         }
     }
