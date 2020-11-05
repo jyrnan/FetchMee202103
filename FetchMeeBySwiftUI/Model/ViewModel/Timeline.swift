@@ -111,9 +111,10 @@ final class Timeline: ObservableObject {
             let newTweets = json.array ?? []
             self.newTweetNumber += newTweets.count
             
+           
+            self.updateTimelineTop(with: newTweets)
             self.isDone = true
             self.makeMentionUserSortedList() //存储MentionUserInfo并更新MentionUser的排序
-            self.updateTimelineTop(with: newTweets)
             
             //用于设置后台刷新完成时调用setTaskCompleted(success: true)
             guard completeHandeler != nil else {
@@ -477,6 +478,7 @@ extension Timeline {
         guard self.type == .mention else {return}
         ///先保存当前的回复用户信息。
         userDefault.set(self.mentionUserInfo, forKey: "mentionUserInfo")
+        print(#line, mentionUserInfo)
         
         let mentionUserInfoSorted = self.mentionUserInfo.sorted{$0.value.count > $1.value.count} //按Mention数量照降序排序
         
