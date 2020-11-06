@@ -71,7 +71,9 @@ struct ImageViewer: View {
                         .onEnded { value in self.previousScale = 1.0 })
                         .sheet(isPresented: self.$isShowSharesheet, content: {
                             ShareSheet(activityItems: [self.image])
-                        })    }
+                        })
+                        
+    }
 }
 
 /**

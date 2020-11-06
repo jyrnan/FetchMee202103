@@ -313,6 +313,7 @@
 				D2C12CD4254A6A6B00D74778 /* UserInfo.swift */,
 				D205247324C199500046F1AB /* AlertsModel.swift */,
 				D205247524C290F10046F1AB /* PullRefresh.swift */,
+				D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */,
 				D707B6EC24C4040F0023F243 /* KeyboardHide.swift */,
 				D290E6E524CD1ED100662FAF /* KeyBoard Notification.swift */,
 				4B2C746424FA05310052F356 /* DownLoader.swift */,
@@ -367,7 +368,6 @@
 		D2AE50632553C69000437337 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */,
 				D7AC535C24B9E94300BCD71F /* Timeline.swift */,
 				D2224F8924BE7C0400AE2110 /* User.swift */,
 				D258D616254AF44B00CA01E7 /* User+UpdateUser.swift */,

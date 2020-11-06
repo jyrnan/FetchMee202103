@@ -38,7 +38,7 @@ struct HubView: View {
             
             ScrollView(.vertical, showsIndicators: false){
                 
-                ZStack{
+//                ZStack{
                     VStack {
 //                        PullToRefreshView(action: {self.refreshAll()}, isDone: .constant(true)) {
                             ComposerOfHubView(tweetText: $tweetText)
@@ -66,10 +66,10 @@ struct HubView: View {
                             Spacer()
                         }.padding(.top, 20).padding()
                         
-                    }
+                    }.background(Color.init("BackGround")).cornerRadius(24)
                     
-                    AlertView()
-                }.background(Color.init("BackGround")).cornerRadius(24)
+//                    AlertView()
+//                }
                 
             }
             .onTapGesture(count: 1, perform: {
@@ -80,6 +80,7 @@ struct HubView: View {
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
                                     AvatarImageView(image: loginUser.info.avatar).frame(width: 36, height: 36, alignment: .center)})
         }
+        .overlay(AlertView()) //所有条状通知在NavigationBar上出现
         .toast(isShowing: $alerts.isShowingPicture, presented: alerts.presentedView)
         
     }
@@ -101,7 +102,7 @@ extension HubView {
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
         loginUser.getUserInfo()
-        self.alerts.setLogInfo(text:  "Started fetching new tweets...")
+        self.alerts.setLogMessage(text:  "Started fetching new tweets...")
         
     }
     

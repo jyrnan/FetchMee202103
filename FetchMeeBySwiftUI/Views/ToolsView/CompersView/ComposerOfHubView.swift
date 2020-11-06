@@ -65,7 +65,6 @@ struct ComposerOfHubView: View {
 //                CustomTextEditor(text: self.$tweetText, isFirstResponder: user.myInfo.setting.isFirsResponder)
                     .padding([.leading, .trailing, .bottom], 8)
             }
-//            .frame(height: isUsedAlone ? 200 : 122) //两种状态下不同的高度
             .frame(minHeight: 50, idealHeight: 180, maxHeight: .infinity, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             
             .background(isUsedAlone ? Color.init("BackGround") : Color.init("BackGroundLight"))

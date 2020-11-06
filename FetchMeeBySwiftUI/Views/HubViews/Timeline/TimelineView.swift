@@ -41,7 +41,7 @@ struct TimelineView: View {
     
     var body: some View {
         
-        ZStack {
+//        ZStack {
             ScrollView(.vertical) {
                 PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
                     Composer(timeline: self.timeline)}.frame(height: 36).background(Color.init("BackGround")).cornerRadius(18).padding([.leading, .trailing,.top], 16)
@@ -78,8 +78,8 @@ struct TimelineView: View {
             .navigationTitle("Timeline")
 
             //通知视图
-            AlertView()
-        }
+//            AlertView()
+//        }
         .onAppear {
             if timeline.tweetIDStrings.isEmpty {
                 timeline.refreshFromTop()

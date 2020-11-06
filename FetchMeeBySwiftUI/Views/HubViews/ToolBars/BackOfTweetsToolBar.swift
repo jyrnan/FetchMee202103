@@ -78,7 +78,7 @@ extension BackOfTweetsToolBar {
             print(#line, #function, "Tweet deleted")
         }
         let lh: (String) -> () = {string in
-            self.alerts.setLogInfo(text: string)
+            self.alerts.setLogMessage(text: string)
         }
         swifter.fastDeleteTweets(for: loginUser.info.id,
                                  keepRecent: loginUser.setting.isKeepRecentTweets,

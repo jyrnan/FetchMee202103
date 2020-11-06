@@ -160,7 +160,7 @@ extension SceneDelegate {
             try BGTaskScheduler.shared.submit(request)
             
             let taskSetText = "BGAPPRefreshTaskRequest set."
-            self.alerts.setLogInfo(text: "\(self.timeStamp) \(taskSetText)")
+            self.alerts.setLogMessage(text: "\(self.timeStamp) \(taskSetText)")
             
             
         } catch {
@@ -176,7 +176,7 @@ extension SceneDelegate {
             try BGTaskScheduler.shared.submit(request)
             
             let taskSetText = "BGAProcessingTaskRequest set."
-            self.alerts.setLogInfo(text: "\(self.timeStamp) \(taskSetText)")
+            self.alerts.setLogMessage(text: "\(self.timeStamp) \(taskSetText)")
             
             
         } catch {
@@ -191,7 +191,7 @@ extension SceneDelegate {
         task.expirationHandler = {
             let expirationText = "BGAPPRefreshTask unexpectedly exit."
             
-            self.alerts.setLogInfo(text: "\(self.timeStamp) \(expirationText)")
+            self.alerts.setLogMessage(text: "\(self.timeStamp) \(expirationText)")
             self.saveOrUpdateLog(text: expirationText)
         }
         
@@ -199,7 +199,7 @@ extension SceneDelegate {
         let completeHandler: () -> () = {
             
             let successText = "BGAPPRefreshTask completed."
-            self.alerts.setLogInfo(text: "\(self.timeStamp) \(successText)")
+            self.alerts.setLogMessage(text: "\(self.timeStamp) \(successText)")
             self.saveOrUpdateLog(text: successText)
             
             task.setTaskCompleted(success: true)
@@ -207,7 +207,7 @@ extension SceneDelegate {
         
         //logHandler用来传入到其他函数中接受记录并输出信息到CoreData中
         let logHandler: (String) -> () = {logText in
-            self.alerts.setLogInfo(text: logText)
+            self.alerts.setLogMessage(text: logText)
             self.saveOrUpdateLog(text: logText)
         }
         
@@ -222,18 +222,15 @@ extension SceneDelegate {
         guard loingUser.isLoggedIn else { return }
         
         saveOrUpdateLog(text: "Started background fetch.")
-//        loginUser.mention.refreshFromTop()
         
         if loingUser.setting.isDeleteTweets {
             
-//            loginUser.home.refreshFromTop()
             swifter.fastDeleteTweets(for: loingUser.info.id,
                                      keepRecent: loingUser.setting.isKeepRecentTweets,
                                      completeHandler: completeHandler,
                                      logHandler: logHandler)
             
         } else {
-//            loginUser.home.refreshFromTop(completeHandeler: completeHandler, fh: failureHandler)
         }
     }
     

@@ -17,6 +17,8 @@ struct MyAlert: Identifiable {
 class Alerts: ObservableObject {
     @Published var stripAlert: MyAlert = MyAlert()
     @Published var standAlert: MyAlert = MyAlert()
+    
+    ///菊花转
     @Published var refreshIsDone: Bool = true
     
     //可以在hubView的toolbar里面显示一行信息，并作为log输出信息
@@ -25,7 +27,10 @@ class Alerts: ObservableObject {
     @Published var isShowingPicture: Bool = false //是否浮动显示图片
     @Published var presentedView: AnyView? //通过AnyView就可以实现任意View的传递了？！
     
-    func setLogInfo(text: String) {
+    
+    /// 设置用于显示的LogMessage，可以在引入Alerts环境变量的View里面调用来设置
+    /// - Parameter text: 显示的文字内容
+    func setLogMessage(text: String) {
         DispatchQueue.main.async {
             self.logMessage.alertText = text
         }

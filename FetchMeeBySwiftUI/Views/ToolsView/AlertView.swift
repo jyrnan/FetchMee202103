@@ -11,10 +11,10 @@ import SwiftUI
 struct AlertView: View {
     @EnvironmentObject var alerts: Alerts
     
-//    @Binding var isAlertShow: Bool
+    let offsetInScreen: CGFloat = 56 //偏移进入屏幕的数值
+  
+    @State private var offsetValue: CGFloat = -28 //初始的偏移值
     
-    
-    @State var offsetValue: CGFloat = -28 //初始的便宜值
     
     var body: some View {
         VStack(spacing: 0){
@@ -25,7 +25,7 @@ struct AlertView: View {
                         .foregroundColor(.white)
                         .frame(height: 25, alignment: .center)
                         .onAppear {
-                            withAnimation(){self.offsetValue = 16}
+                            withAnimation(){self.offsetValue = offsetInScreen}
                             delay(delay: 2) {
                                 withAnimation{self.offsetValue = -28
                                 }
@@ -37,7 +37,7 @@ struct AlertView: View {
                     
                     Spacer()
                 }
-                .frame(width: 200)
+                .frame(width: 150)
                 
                 .background(alerts.stripAlert.alertText == "Sorry! Network error!" ? Color.red : Color.accentColor .opacity(0.8))
                 .cornerRadius(12)
