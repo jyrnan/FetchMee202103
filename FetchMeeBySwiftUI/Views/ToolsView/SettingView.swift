@@ -37,9 +37,9 @@ struct SettingView: View {
             
             Section(header:Text("Other")){
                 
-                NavigationLink(destination: ComposerOfHubView(tweetText: .constant("")), label: {Text("Place Holder")})
-                NavigationLink(destination: ComposerOfHubView(tweetText: .constant("")), label: {Text("Place Holder")})
-                NavigationLink(destination: ComposerOfHubView(tweetText: .constant("")), label: {Text("Place Holder")})
+                NavigationLink(destination: UserMarkManageView(), label: {Text("User Mark")})
+                NavigationLink(destination: LogMessageView(), label: {Text("Log Message")})
+                NavigationLink(destination: CountView(), label: {Text("User info")})
             }
             
             Section(header:Text("")){
@@ -69,7 +69,7 @@ struct SettingView: View {
         }
         .onDisappear{loginUser.setting.save()}
         .navigationTitle("Setting")
-        .navigationBarTitleDisplayMode(.inline)
+//        .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems( trailing: AvatarImageView(image: loginUser.info.avatar).frame(width: 36, height: 36, alignment: .center))
     }
 }

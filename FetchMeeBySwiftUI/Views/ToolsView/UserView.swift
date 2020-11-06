@@ -53,157 +53,152 @@ struct UserView: View {
     var body: some View {
         
         ScrollView(.vertical, showsIndicators: false) {
+            ZStack{
+                Image(uiImage: user.info.banner ?? UIImage(named: "bg")!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width:  UIScreen.main.bounds.width - 36, height:150)
+                    .cornerRadius(18)
+                    .overlay(LinearGradient.init(gradient: Gradient(colors: [Color(UIColor.systemBackground), Color.clear]), startPoint: .init(x: 0.5, y: 0.9), endPoint: .init(x: 0.5, y: 0.4)))
+                
+                
+                ///个人信息大头像
+                Image(uiImage: user.info.avatar ?? UIImage(systemName: "person.circle")!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 80, height: 80)
+                    .background(Color.white)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.gray.opacity(0.6), lineWidth: 3))
+                    .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                        if let im = user.info.avatar {
+                            let imageViewer = ImageViewer(image: im)
+                            alerts.presentedView = AnyView(imageViewer)
+                            withAnimation{alerts.isShowingPicture = true}
+                        }
+                        
+                    })
+                    .offset(x: 0, y: 65)
+                
+            }.padding([.leading, .trailing], 16)
             
+            
+            
+            //用户信息View
+            VStack(alignment: .center){
                 
-                
-                ZStack{
-                    Image(uiImage: user.info.banner ?? UIImage(named: "bg")!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        
-                        .frame(width:  UIScreen.main.bounds.width - 36, height:150)
-                        .cornerRadius(18)
-                        .overlay(LinearGradient.init(gradient: Gradient(colors: [Color(UIColor.systemBackground), Color.clear]), startPoint: .init(x: 0.5, y: 0.9), endPoint: .init(x: 0.5, y: 0.4)))
-
-                    
-                            ///个人信息大头像
-                            Image(uiImage: user.info.avatar ?? UIImage(systemName: "person.circle")!)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 80, height: 80)
-                                .background(Color.white)
-                                .clipShape(Circle())
-                                .overlay(Circle().stroke(Color.gray.opacity(0.6), lineWidth: 3))
-                                .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                                    if let im = user.info.avatar {
-                                        let imageViewer = ImageViewer(image: im)
-                                        alerts.presentedView = AnyView(imageViewer)
-                                        withAnimation{alerts.isShowingPicture = true}
-                                    }
-                                    
-                                })
-                                .offset(x: 0, y: 65)
-                            
-                }.padding([.leading, .trailing], 16)
-                
-               
-                
-                //用户信息View
-                VStack(alignment: .center){
-
-                    VStack(alignment: .center) {
-                        HStack {
-                            Spacer()
-                            Text(user.info.name ?? "Name").font(.body).bold()
-                            if !isNickNameInputShow {
-                                Text(twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName != nil ? "(\((twitterUsers.filter{$0.userIDString == userIDString}.first!).nickName!))" : "" ).font(.body)
-                            }
-
-                            if isNickNameInputShow {
-                                HStack{
-                                    //如果有nickname则在编辑窗内显示当前nickname，否则显示默认的字符"nickname"
-
-                                    TextField(twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName != nil ? "(\((twitterUsers.filter{$0.userIDString == userIDString}.first!).nickName!))" : "nickname",
-                                              text: $nickNameText)
-                                        .frame(width: 100)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-
-                                    Button(action: {
-
-                                        saveOrUpdateTwitterUser()
-                                        withAnimation{isNickNameInputShow = false}
-                                    }){
-                                        Image(systemName: "arrow.forward.circle").foregroundColor(.accentColor).font(.body)
-                                    }
-
-                                }
-                            } else {
-                                Button(action: {
-                                    withAnimation{isNickNameInputShow = true}
-                                }){
-                                    Image(systemName: "highlighter").foregroundColor(.gray).font(.body)
-                                }
-                            }
-
-                            Spacer()
-                        }
-                        Text(user.info.screenName ?? "ScreenName")
-                            .font(.callout).foregroundColor(.gray)
-                    }
-                    .padding(.top, 60)
-                  
-                    ///信封，铃铛和follow按钮
-                    HStack{
-                       
-                        Image(systemName: (self.user.info.notifications == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
-                            .foregroundColor(user.info.notifications == true ? .white : .accentColor)
-//                            .padding(6)
-//                            .background(loingUser.info.notifications == true ? Color.accentColor : Color.clear)
-//                            .clipShape(Circle())
-//                            .overlay(Circle().stroke(Color.accentColor, lineWidth: 1))
-                        if user.info.isFollowing == true {
-                            Text("Following")
-                                .font(.callout).bold()
-                                .frame(width: 84, height: 24, alignment: .center)
-                                .background(Color.accentColor)
-                                .foregroundColor(.white)
-                                .cornerRadius(12)
-                                .onTapGesture(count: 1, perform: {
-                                    user.unfollow(userIDString: userIDString!)
-                                })
-                        } else {
-                            Text("Follow")
-                                .font(.callout).bold()
-                                .frame(width: 84, height: 24, alignment: .center)
-                                .background(Color.primary.opacity(0.1))
-                                .foregroundColor(.accentColor)
-                                .cornerRadius(12)
-                                .onTapGesture(count: 1, perform: {
-                                    user.follow(userIDString: userIDString!)
-                                })
-                        }
-                        
-                        NavigationLink(destination: ImageGrabView(userIDString: userIDString, userScreenName: userScreenName, timeline: userTimeline)){
-                            Image(systemName: "arrow.forward.circle").font(.title2)
-                                .foregroundColor(.accentColor)
-//
-                        }
-                        
-                    }.padding()
-
-                    ///用户Bio信息
-                    Text(user.info.description ?? "userBio").font(.callout)
-                        .multilineTextAlignment(.center)
-                        .padding([.top], 16)
-
-                    ///用户位置信息
-                    HStack() {
-                        Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
-                        Text(user.info.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
-                        Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
-                        Text(user.info.createdAt ?? "Unknow").font(.caption).foregroundColor(.gray)
-                    }.padding(0)
-
-                    ///用户following信息
+                VStack(alignment: .center) {
                     HStack {
-                        Text(String(user.info.following ?? 0)).font(.callout)
-                        Text("Following").font(.callout).foregroundColor(.gray)
-                        Text(String(user.info.followed ?? 0)).font(.callout).padding(.leading, 16)
-                        Text("Followers").font(.callout).foregroundColor(.gray)
-                    }.padding(.bottom, 16)
+                        Spacer()
+                        Text(user.info.name ?? "Name").font(.body).bold()
+                        if !isNickNameInputShow {
+                            Text(twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName != nil ? "(\((twitterUsers.filter{$0.userIDString == userIDString}.first!).nickName!))" : "" ).font(.body)
+                        }
+                        
+                        if isNickNameInputShow {
+                            HStack{
+                                //如果有nickname则在编辑窗内显示当前nickname，否则显示默认的字符"nickname"
+                                
+                                TextField(twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName ?? "nickname",
+                                          text: $nickNameText)
+                                    .frame(width: 100)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                
+                                Button(action: {
+                                    ///先将nickName的text赋值，然后调用方法来存储/更新该用户信息
+                                    user.info.nickName = nickNameText
+                                    user.saveOrUpdateUserInfoToCoreData(user: user.info, updateNickName: true)
+                                    
+                                    withAnimation{isNickNameInputShow = false}
+                                }){
+                                    Image(systemName: "arrow.forward.circle").foregroundColor(.accentColor).font(.body)
+                                }
+                                
+                            }
+                        } else {
+                            Button(action: {
+                                withAnimation{isNickNameInputShow = true}
+                            }){
+                                Image(systemName: "highlighter").foregroundColor(.gray).font(.body)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                    Text(user.info.screenName ?? "ScreenName")
+                        .font(.callout).foregroundColor(.gray)
                 }
-                .padding([.leading, .trailing], 16)
-LazyVStack{
+                .padding(.top, 60)
+                
+                ///信封，铃铛和follow按钮
+                HStack{
+                    
+                    Image(systemName: (self.user.info.notifications == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
+                        .foregroundColor(user.info.notifications == true ? .white : .accentColor)
+                    //
+                    if user.info.isFollowing == true {
+                        Text("Following")
+                            .font(.callout).bold()
+                            .frame(width: 84, height: 24, alignment: .center)
+                            .background(Color.accentColor)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                            .onTapGesture(count: 1, perform: {
+                                user.unfollow(userIDString: userIDString!)
+                            })
+                    } else {
+                        Text("Follow")
+                            .font(.callout).bold()
+                            .frame(width: 84, height: 24, alignment: .center)
+                            .background(Color.primary.opacity(0.1))
+                            .foregroundColor(.accentColor)
+                            .cornerRadius(12)
+                            .onTapGesture(count: 1, perform: {
+                                user.follow(userIDString: userIDString!)
+                            })
+                    }
+                    
+                    NavigationLink(destination: ImageGrabView(userIDString: userIDString, userScreenName: userScreenName, timeline: userTimeline)){
+                        Image(systemName: "arrow.forward.circle").font(.title2)
+                            .foregroundColor(.accentColor)
+                        //
+                    }
+                    
+                }.padding()
+                
+                ///用户Bio信息
+                Text(user.info.description ?? "userBio").font(.callout)
+                    .multilineTextAlignment(.center)
+                    .padding([.top], 16)
+                
+                ///用户位置信息
+                HStack() {
+                    Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
+                    Text(user.info.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
+                    Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
+                    Text(user.info.createdAt ?? "Unknow").font(.caption).foregroundColor(.gray)
+                }.padding(0)
+                
+                ///用户following信息
+                HStack {
+                    Text(String(user.info.following ?? 0)).font(.callout)
+                    Text("Following").font(.callout).foregroundColor(.gray)
+                    Text(String(user.info.followed ?? 0)).font(.callout).padding(.leading, 16)
+                    Text("Followers").font(.callout).foregroundColor(.gray)
+                }.padding(.bottom, 16)
+            }
+            .padding([.leading, .trailing], 16)
+            LazyVStack{
                 ///用户推文部分
                 ForEach(userTimeline.tweetIDStrings, id: \.self) {
                     tweetIDString in
-
+                    
                     Divider()
                     TweetRow(timeline: userTimeline, tweetIDString: tweetIDString)
                 }
                 .onDelete(perform: { _ in print(#line, "delete")})
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-
+                
                 //下方载入更多按钮
                 HStack {
                     Spacer()
@@ -216,8 +211,8 @@ LazyVStack{
             }
         }
         .navigationTitle(Text(getTitle()))
-//        .navigationBarBackButtonHidden(true)
-//        .navigationBarItems(leading: btnBack)
+        //        .navigationBarBackButtonHidden(true)
+        //        .navigationBarItems(leading: btnBack)
         .onAppear(){
             if self.firstTimeRun {
                 self.firstTimeRun = false
@@ -239,7 +234,8 @@ extension UserView {
         if nickNameText != "" {
             currentUser.nickName = nickNameText
         } else {
-            currentUser.nickName = nil
+            //            currentUser.nickName = nil
+            viewContext.delete(currentUser)
         }
         
         do {
@@ -262,6 +258,9 @@ extension UserView {
     }
     
     
+    
+    /// 返回用户的昵称，如果没有昵称则返回用户名
+    /// - Returns: <#description#>
     func getTitle() -> String {
         
         if let title = twitterUsers.filter({$0.userIDString == userIDString}).first?.nickName {

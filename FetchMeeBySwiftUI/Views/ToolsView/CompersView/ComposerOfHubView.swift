@@ -65,11 +65,10 @@ struct ComposerOfHubView: View {
 //                CustomTextEditor(text: self.$tweetText, isFirstResponder: user.myInfo.setting.isFirsResponder)
                     .padding([.leading, .trailing, .bottom], 8)
             }
-            .frame(minHeight: 50, idealHeight: 180, maxHeight: .infinity, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            .frame(minHeight: 50, idealHeight: 180, maxHeight: isUsedAlone ? 240 : .infinity, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             
             .background(isUsedAlone ? Color.init("BackGround") : Color.init("BackGroundLight"))
             .cornerRadius(18)
-//            .shadow(color: Color.black.opacity(0.2), radius: 3, x: 0, y: 3)
             .onAppear() {
                 UITextView.appearance().backgroundColor = .clear
             }
@@ -164,7 +163,7 @@ struct ComposerOfHubView: View {
             if isUsedAlone {
                 Spacer()
             }
-        }
+        }.padding(isUsedAlone ? 16 : 0)
         
     }
 }

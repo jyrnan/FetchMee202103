@@ -28,7 +28,7 @@ extension User {
             
         } else {
             ///如果用户没用登陆，则根据用户info里面是否有idString或者screenName来生成userTage
-            userTag = info.id != "0000" ? UserTag.id(info.id) : UserTag.screenName(info.screenName!)
+            userTag = info.id != "0000" ? UserTag.id(info.id) : UserTag.screenName(info.screenName ?? "ScreenName")
         }
         
         getUser(userTag: userTag)
@@ -102,8 +102,9 @@ extension User {
             userInfo.lastDayAddedFollower = results[0][0]
             userInfo.lastDayAddedTweets = results[1][0]
             
-            ///保存用户信息到CoreData，如果是登陆用户，则传入true
-            saveUserInfoToCoreData(user: userInfo)
+            ///保存用户信息到CoreData，如果是登陆用户，则保存信息到CoreData
+            if self.isLoggedIn {
+                saveOrUpdateUserInfoToCoreData(user: userInfo) }
             
             ///信息更新完成，将user数据替换到相应位置
             self.info = userInfo
@@ -218,9 +219,14 @@ extension User {
     }
     
     //MARK:-CoreData part
-    func saveUserInfoToCoreData(user: UserInfo) {
+    
+    /// <#Description#>
+    /// - Parameters:
+    ///   - user: <#user description#>
+    ///   - updateNickName: <#updateNickName description#>
+    func saveOrUpdateUserInfoToCoreData(user: UserInfo, updateNickName: Bool = false) {
         
-        var currentUser: TwitterUser?
+        var currentUser: TwitterUser
         
         guard let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
               let sceneDelegate = windowsScenen.delegate as? SceneDelegate
@@ -231,35 +237,63 @@ extension User {
         
         let userFetch: NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
         userFetch.predicate = NSPredicate(format: "%K == %@", #keyPath(TwitterUser.userIDString), user.id)
+        userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.createdAt, ascending: true)]
         
         do {
-            let results = try viewContext.fetch(userFetch)
+            var results = try viewContext.fetch(userFetch)
+            ///由于重新安装软件时候CoreData还没来得及同步云端的保存的用户信息
+            ///所以在第一次启动时候调用用户信息会保存一个全新的UserInfo到本地CoreData，应用启动会出现一个重复的用户。
+            ///因此需要查询是按照时间排序，如果有重复，就仅保留第一个结果
             
-            if results .count > 0 {
-                currentUser = results.first
+            if results.count > 0 {
+                currentUser = results.removeFirst()
+                
+                if !results.isEmpty {
+                    results.forEach{viewContext.delete($0)}
+                }
+                
+                
             } else {
                 currentUser = TwitterUser(context: viewContext)
             }
             
+            currentUser.createdAt = Date()
             
-            currentUser?.userIDString = user.id
-            currentUser?.name = user.name
-            currentUser?.screenName = user.screenName
-            currentUser?.avatar = user.avatarUrlString
+            currentUser.userIDString = user.id
+            currentUser.name = user.name
+            currentUser.screenName = user.screenName
+           
+            ///如果是本地用户更新信息，则不需要改nickName
+            ///如果需要更改nickName，则需要传入更改参数
+            if updateNickName {
+                currentUser.nickName = user.nickName}
             
-            currentUser?.following = Int32(user.following ?? 0)
-            currentUser?.followed = Int32(user.followed ?? 0)
-            currentUser?.isFollowing = user.isFollowing ?? true
+            currentUser.avatar = user.avatarUrlString
             
-            //如果是当前用户，则统计推文数量等动态信息
-            if user.id == info.id {
+            currentUser.following = Int32(user.following ?? 0)
+            currentUser.followed = Int32(user.followed ?? 0)
+            currentUser.isFollowing = user.isFollowing ?? true
+            
+            ///如果是当前用户，则统计推文数量等动态信息
+            ///如果是当前登陆用户则将isLoginUser和isLoacluser两项均设置成true
+            ///否则要把isLoginUser设置成false，但是isLocalUser可以不用更改
+            if self.isLoggedIn {
+                
+                currentUser.isLocalUser = true
+                
                 let count: Count = Count(context: viewContext)
                 count.createdAt = Date()
                 count.follower = Int32(user.followed ?? 0)
                 count.following = Int32(user.following ?? 0)
                 count.tweets = Int32(user.tweetsCount ?? 0)
                 
-                currentUser?.addToCount(count)
+                currentUser.addToCount(count)
+                
+            }
+            
+            ///如果nickName是空，且不是本地用户，则从CoreData中删除该用户
+            if user.nickName == "" && currentUser.isLocalUser == false {
+                viewContext.delete(currentUser)
             }
             
             try viewContext.save()

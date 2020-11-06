@@ -75,7 +75,6 @@ struct TimelineView: View {
                 
             }
            .navigationTitle(listName ?? timeline.type.rawValue)
-            .navigationTitle("Timeline")
 
             //通知视图
 //            AlertView()

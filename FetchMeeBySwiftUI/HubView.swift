@@ -53,10 +53,13 @@ struct HubView: View {
                         ToolBarsView()
                             .padding([.leading, .trailing], 16)
                         
-                        HStack {
-                            Text(alerts.logMessage.alertText == "" ? "No new log message" : alerts.logMessage.alertText)
-                                .font(.caption2).foregroundColor(.gray).opacity(0.5)
-                        }
+//                        HStack {
+//                            NavigationLink(
+//                                destination: LogMessageView()
+//                                ) {
+//                            Text(alerts.logMessage.alertText == "" ? "No new log message" : alerts.logMessage.alertText)
+//                                .font(.caption2).foregroundColor(.gray).opacity(0.5)}
+//                        }
                         
                         Spacer()
                         
@@ -64,7 +67,7 @@ struct HubView: View {
                             Spacer()
                             Button(action: {}){Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)}
                             Spacer()
-                        }.padding(.top, 20).padding()
+                        }.padding(.top, 30).padding()
                         
                     }.background(Color.init("BackGround")).cornerRadius(24)
                     

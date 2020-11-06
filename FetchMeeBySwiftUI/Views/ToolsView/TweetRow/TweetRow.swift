@@ -88,9 +88,6 @@ struct TweetRow: View {
                         DetailIndicator(timeline: timeline, tweetIDString: tweetIDString)
                             .padding(.all, 0)
                             .contentShape(Rectangle())
-//                            .onTapGesture {
-//                                showToolsView()
-//                            }
                         }
                     }
                     .padding(.top, (self.tweetMedia.retweeted_by_UserName != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙

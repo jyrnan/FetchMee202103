@@ -30,7 +30,7 @@ struct Composer: View {
             Spacer()
             if self.timeline.isDone {
                 NavigationLink(
-                    destination: ComposerOfHubView(tweetText: self.$tweetText, replyIDString: self.tweetIDString, isUsedAlone: true ).environmentObject(fetchMee).accentColor(self.fetchMee.setting.themeColor.color).environment(\.managedObjectContext, viewContext),
+                    destination: ComposerOfHubView(tweetText: self.$tweetText, replyIDString: self.tweetIDString, isUsedAlone: true ),
                     isActive: $isShowCMV
                 ){
                     Text("more").font(.body).foregroundColor(.primary).opacity(0.7)}

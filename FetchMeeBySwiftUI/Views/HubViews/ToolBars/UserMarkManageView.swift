@@ -37,6 +37,7 @@ struct UserMarkManageView: View {
         }
         .navigationTitle("UserMark")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarItems(trailing: Button(action: {deleteAll()}, label: {Text("Clear")}))
     }
 }
 
@@ -59,4 +60,15 @@ extension UserMarkManageView {
             print(nsError.description)
         }
     }
+    
+    private func deleteAll() {
+        twitterUsers.forEach{viewContext.delete($0)}
+        
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            print(nsError.description)
+    }
+}
 }
