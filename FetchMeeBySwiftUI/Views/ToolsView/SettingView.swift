@@ -68,7 +68,7 @@ struct SettingView: View {
             Section(header:Text("")){
                 HStack {
                     Spacer()
-                    Button("Clear Logs") {
+                    Button("Clear Cache") {
                         
                     }
                     Spacer()

@@ -48,7 +48,7 @@ struct HubView: View {
                         .frame(minHeight: 120, idealHeight: UIScreen.main.bounds.height - 600, maxHeight: .infinity)
                         
                         Divider()
-                        TimelinesView()
+                        TimelinesView(lists: loginUser.lists)
                         
                         ToolBarsView()
                             .padding([.leading, .trailing], 16)

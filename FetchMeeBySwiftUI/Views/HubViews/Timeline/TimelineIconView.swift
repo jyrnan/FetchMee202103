@@ -8,15 +8,26 @@
 
 import SwiftUI
 import Combine
+import Swifter
 
 struct TimelineIconView: View {
 //    var type: TimelineType = .home
     @StateObject private var timeline: Timeline
-    @State var listName: String?
+    var listName: String?
+    var listTag: ListTag?
     
-    init(type: TimelineType = .home) {
-//        self.type = type
-        _timeline = StateObject(wrappedValue: Timeline(type: type))
+    init(type: TimelineType = .home, listName: String? = nil, listTag: ListTag? = nil) {
+        self.listName = listName
+        self.listTag = listTag
+        switch type {
+        case .list:
+            _timeline = StateObject(wrappedValue: Timeline(type: .list, listTag: listTag))
+        default:
+            _timeline = StateObject(wrappedValue: Timeline(type: type))
+
+        }
+
+        
     }
     
     var body: some View {

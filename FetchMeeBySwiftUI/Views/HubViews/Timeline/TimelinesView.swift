@@ -7,8 +7,11 @@
 //
 
 import SwiftUI
+import Swifter
 
 struct TimelinesView: View {
+    
+    var lists: [String: ListTag]
     
     var body: some View {
         VStack {
@@ -22,6 +25,12 @@ struct TimelinesView: View {
                     TimelineIconView(type: .home)
                     TimelineIconView(type: .mention)
                     TimelineIconView(type: .favorite)
+                    
+                
+                    ForEach(lists.keys.sorted(), id: \.self) {listName in
+                        TimelineIconView(type: .list, listName: listName, listTag:lists[listName])
+                    }
+                    
                     TimelineIconView(type: .message)
                     
                 }.padding(.bottom, 8).padding(.leading, 16)
@@ -32,6 +41,6 @@ struct TimelinesView: View {
 
 struct TimelinesView_Previews: PreviewProvider {
     static var previews: some View {
-        TimelinesView()
+        TimelinesView(lists: [:])
     }
 }
