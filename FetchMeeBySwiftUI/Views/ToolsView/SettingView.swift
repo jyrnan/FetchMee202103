@@ -19,6 +19,8 @@ struct SettingView: View {
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Log.createdAt, ascending: true)]) var logs: FetchedResults<Log>
     
+    let autoDeletWarningMessage: String = "Selecting Auto Delete tweets will automatically delete them in the background. Due to api restrictions, approximately 80 tweets are deleted per hour. Please keep the application background refresh open. If you need to keep your recent tweets, make sure the Keep Recent switch is on. \n Are you sure?"
+    
     var body: some View {
         Form {
                 Image(uiImage: loginUser.info.banner ?? UIImage(named: "bg")!)
@@ -40,18 +42,34 @@ struct SettingView: View {
                 Toggle("Show Pictures", isOn: self.$loginUser.setting.isMediaShowed)
             }
             
+            Section(header:Text("Delete Tweets"),
+                    footer: Text(autoDeletWarningMessage)){
+                
+                Toggle("Auto Delete Tweets", isOn: self.$loginUser.setting.isDeleteTweets)
+                if loginUser.setting.isDeleteTweets {
+                    Toggle("Keep Recent 100 Tweets", isOn: self.$loginUser.setting.isKeepRecentTweets)}
+            }
+            
             Section(header:Text("Other")){
                 
-                NavigationLink(destination: UserMarkManageView(), label: {Text("User Mark")})
-                NavigationLink(destination: LogMessageView(), label: {Text("Log Message")})
-                NavigationLink(destination: CountView(), label: {Text("User info")})
+                NavigationLink(destination: UserMarkManageView(),
+                               label: {Label(title: {Text("Favorite User")},
+                                             icon:{Image(systemName: "star.circle.fill").foregroundColor(.accentColor)})})
+                NavigationLink(destination: LogMessageView(),
+                               label: {Label(title: {Text("Log Message")},
+                                             icon:{Image(systemName: "envelope.circle.fill").foregroundColor(.accentColor)})})
+                NavigationLink(destination: CountView(),
+                               label: {Label(title: {Text("Login User Infomation")},
+                                             icon:{Image(systemName: "info.circle.fill")
+                                                .foregroundColor(.accentColor)
+                                             })})
             }
             
             Section(header:Text("")){
                 HStack {
                     Spacer()
                     Button("Clear Logs") {
-                        deleteAllLogs()
+                        
                     }
                     Spacer()
                 }

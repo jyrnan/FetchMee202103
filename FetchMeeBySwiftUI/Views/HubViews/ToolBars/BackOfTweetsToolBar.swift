@@ -24,20 +24,20 @@ struct BackOfTweetsToolBar: View {
     var body: some View {
         VStack {
             HStack{
-                Toggle(isOn: $loginUser.setting.isDeleteTweets) {
-                    Text("Auto\nDelete")
-                        .font(.caption).bold()
-                        .foregroundColor(.white)
-                }
-                .alert(isPresented: $loginUser.setting.isDeleteTweets){
-                                            Alert(title: Text("Attention"),
-                                                  message: Text(autoDeletWarningMessage),
-                                                  primaryButton: .destructive(Text("Sure"), action: {loginUser.setting.isDeleteTweets = true}),
-                                                  secondaryButton: .cancel())}
+//                Toggle(isOn: $loginUser.setting.isDeleteTweets) {
+//                    Text("Auto\nDelete")
+//                        .font(.caption).bold()
+//                        .foregroundColor(.white)
+//                }
+//                .alert(isPresented: $loginUser.setting.isDeleteTweets){
+//                                            Alert(title: Text("Attention"),
+//                                                  message: Text(autoDeletWarningMessage),
+//                                                  primaryButton: .destructive(Text("Sure"), action: {loginUser.setting.isDeleteTweets = true}),
+//                                                  secondaryButton: .cancel())}
                 
-                Divider()
+//                Divider()
                 Toggle(isOn: $loginUser.setting.isKeepRecentTweets) {
-                    Text("Keep\nRecent").font(.caption).bold()
+                    Text("Keep Recent").font(.caption).bold()
                         .foregroundColor(.white)
                 }
                 
@@ -48,7 +48,7 @@ struct BackOfTweetsToolBar: View {
                        label: {
                     HStack{
                         
-                        Text("Manual\nDelete").font(.caption).bold()
+                        Text("Manual Delete").font(.caption).bold()
                             .foregroundColor(.white)
                         Spacer()
                         Image(systemName: "trash.circle.fill").font(.title).foregroundColor(.white)
