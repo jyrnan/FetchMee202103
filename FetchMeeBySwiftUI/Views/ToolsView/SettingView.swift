@@ -8,11 +8,16 @@
 
 import SwiftUI
 import Combine
+import CoreData
 
 struct SettingView: View {
     @EnvironmentObject var loginUser: User
     
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Log.createdAt, ascending: true)]) var logs: FetchedResults<Log>
     
     var body: some View {
         Form {
@@ -45,7 +50,9 @@ struct SettingView: View {
             Section(header:Text("")){
                 HStack {
                     Spacer()
-                    Text("Clean Cache")
+                    Button("Clear Logs") {
+                        deleteAllLogs()
+                    }
                     Spacer()
                 }
                 
@@ -98,6 +105,20 @@ extension SettingView {
     }
 }
 
+extension SettingView {
+    func deleteAllLogs() {
+        logs.forEach{viewContext.delete($0)}
+        
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            print(nsError.description)
+//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+}
+
 struct SettingView_Previews: PreviewProvider {
     static var user: User = User()
 //    static var timeline = Timeline(type: .user)
@@ -107,3 +128,5 @@ struct SettingView_Previews: PreviewProvider {
         }
     }
 }
+
+
