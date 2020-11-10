@@ -478,7 +478,6 @@ extension Timeline {
         guard self.type == .mention else {return}
         ///先保存当前的回复用户信息。
         userDefault.set(self.mentionUserInfo, forKey: "mentionUserInfo")
-        print(#line, mentionUserInfo)
         
         let mentionUserInfoSorted = self.mentionUserInfo.sorted{$0.value.count > $1.value.count} //按Mention数量照降序排序
         

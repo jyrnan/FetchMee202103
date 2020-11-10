@@ -213,10 +213,10 @@ extension SceneDelegate {
         
         //失败回调闭包用来获取推文失败是调用，会记录失败信息
         //并标注任务结束，但是是失败状态（不知道这个标注成失败和成功会有什么区别）
-        let failureHandler:(Error) -> Void = { error in
-            logHandler(error.localizedDescription)
-            task.setTaskCompleted(success: false)
-        }
+//        let failureHandler:(Error) -> Void = { error in
+//            logHandler(error.localizedDescription)
+//            task.setTaskCompleted(success: false)
+//        }
         
         //实际操作部分，执行真正的操作
         guard loingUser.isLoggedIn else { return }

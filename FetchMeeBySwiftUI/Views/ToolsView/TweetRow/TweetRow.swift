@@ -41,6 +41,7 @@ struct TweetRow: View {
             //如果是retweet推文，则显示retweet用户信息
             if self.tweetMedia.retweeted_by_UserName != nil {
                 HStack {
+                    NavigationLink(destination: UserView(userIDString: self.tweetMedia.retweeted_by_UserIDString), isActive: $presentedUserInfo, label: {EmptyView()})
                     Image(systemName:"repeat")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -50,9 +51,7 @@ struct TweetRow: View {
                         .font(.subheadline).lineLimit(2)
                         .foregroundColor(.gray)
                         .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                            if let userIDString = self.tweetMedia.retweeted_by_UserIDString {
-                                self.presentedUserInfo = true
-                            }
+                            self.presentedUserInfo = true
                         })
 //                        .sheet(isPresented: $presentedUserInfo) {UserView(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
 //                            .environmentObject(self.fetchMee)}

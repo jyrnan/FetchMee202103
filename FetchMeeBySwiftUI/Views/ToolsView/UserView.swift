@@ -13,7 +13,8 @@ struct UserView: View {
     @EnvironmentObject var alerts: Alerts
     
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
+//    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
+    @FetchRequest var twitterUsers: FetchedResults<TwitterUser>
     
     @StateObject var userTimeline: Timeline
     @StateObject var user: User
@@ -31,6 +32,14 @@ struct UserView: View {
         self.userScreenName = userScreenName
         _user = StateObject(wrappedValue: User(userIDString: userIDString ?? "0000", screenName: userScreenName))
         _userTimeline = StateObject(wrappedValue: Timeline(type: .user))
+        
+        ///从CoreData里获取用户信息,但是不能立刻打印相应的内容，因为获取需要一定时间，是异步进行
+        ///所以此时打印twitterUser的信息是没有的，但是在后续的代码中则可以看到其实已经获取到了相应值
+        ///这样做法可以简化CoreData获取的结果，后续代码更加简洁
+        let userFetch:NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
+        userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.createdAt, ascending: true)]
+        userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), userIDString ?? "0000")
+        _twitterUsers = FetchRequest(fetchRequest: userFetch)
     }
     
     ///自定义返回按钮的范例
@@ -90,16 +99,17 @@ struct UserView: View {
                 VStack(alignment: .center) {
                     HStack {
                         Spacer()
-                        Text(user.info.name ?? "Name").font(.body).bold()
+                        Text(user.info.name ?? "Name").font(.body).bold().onTapGesture {
+                        }
                         if !isNickNameInputShow {
-                            Text(twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName != nil ? "(\((twitterUsers.filter{$0.userIDString == userIDString}.first!).nickName!))" : "" ).font(.body)
+                            Text(twitterUsers.first?.nickName != nil ? "(\(twitterUsers.first!.nickName!))" : "" ).font(.body)
                         }
                         
                         if isNickNameInputShow {
                             HStack{
                                 //如果有nickname则在编辑窗内显示当前nickname，否则显示默认的字符"nickname"
                                 
-                                TextField(twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName ?? "nickname",
+                                TextField(twitterUsers.first?.nickName ?? "nickname",
                                           text: $nickNameText)
                                     .frame(width: 100)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -107,8 +117,7 @@ struct UserView: View {
                                 Button(action: {
                                     ///先将nickName的text赋值，然后调用方法来存储/更新该用户信息
                                     user.info.nickName = nickNameText
-//                                    user.saveOrUpdateUserInfoToCoreData(user: user.info, updateNickName: true)
-                                    TwitterUser.updateOrSaveToCoreData(from: user.info, in: viewContext,isLocalUser: false, updateNickName: true)
+                                    let _ = TwitterUser.updateOrSaveToCoreData(from: user.info, in: viewContext,isLocalUser: false, updateNickName: true)
                                     
                                     withAnimation{isNickNameInputShow = false}
                                 }){
@@ -225,30 +234,30 @@ struct UserView: View {
 }
 
 //MARK:-CoreData Operator
-extension UserView {
-    func saveOrUpdateTwitterUser() {
-        //检查当前用户如果没有nickName，则新建一个nickName
-        
-        let currentUser = twitterUsers.filter{$0.userIDString == userIDString}.first ?? TwitterUser(context: viewContext)
-        
-        ///如果没有输入nick Name，则将该用户的nickName设置成nil
-        if nickNameText != "" {
-            currentUser.nickName = nickNameText
-        } else {
-            //            currentUser.nickName = nil
-            viewContext.delete(currentUser)
-        }
-        
-        do {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            print(nsError.description)
-            //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            
-        }
-    }
-}
+//extension UserView {
+//    func saveOrUpdateTwitterUser() {
+//        //检查当前用户如果没有nickName，则新建一个nickName
+//
+//        let currentUser = twitterUsers.filter{$0.userIDString == userIDString}.first ?? TwitterUser(context: viewContext)
+//
+//        ///如果没有输入nick Name，则将该用户的nickName设置成nil
+//        if nickNameText != "" {
+//            currentUser.nickName = nickNameText
+//        } else {
+//            //            currentUser.nickName = nil
+//            viewContext.delete(currentUser)
+//        }
+//
+//        do {
+//            try viewContext.save()
+//        } catch {
+//            let nsError = error as NSError
+//            print(nsError.description)
+//            //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//
+//        }
+//    }
+//}
 
 extension UserView {
     func configureBackground() {
