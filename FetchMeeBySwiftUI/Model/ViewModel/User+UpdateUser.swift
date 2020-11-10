@@ -99,8 +99,8 @@ extension User {
             
             ///从CoreData读取信息计算24小时内新增fo数和推文数量
             let results = updateCount(user: userInfo)
-            userInfo.lastDayAddedFollower = results[0][0]
-            userInfo.lastDayAddedTweets = results[1][0]
+            userInfo.lastDayAddedFollower = Count.updateCount(for: userInfo, in: viewContext).followerOfLastDay
+            userInfo.lastDayAddedTweets = Count.updateCount(for: userInfo, in: viewContext).tweetsOfLastDay
             
             ///保存用户信息到CoreData，如果是登陆用户，则保存信息到CoreData
             if self.isLoggedIn {

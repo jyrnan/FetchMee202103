@@ -53,8 +53,8 @@ extension Count {
         let counts = try? viewContext.fetch(countRequest)
         
         
-        countValue.followerOfLastDay, _ = valueCalculate(counts, for: 1.0)
-        
+        countValue.followerOfLastDay = valueCalculate(counts, for: 1.0).0
+        countValue.tweetsOfLastDay = valueCalculate(counts, for: 1.0).1
         return countValue
     }
 }

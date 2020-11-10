@@ -10,13 +10,13 @@ import SwiftUI
 import CoreData
 
 struct ToolBarsView: View {
-    @EnvironmentObject var fetchMee: User
+    @EnvironmentObject var user: User
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Log.createdAt, ascending: true)]) var logs: FetchedResults<Log>
    
-    lazy var userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), fetchMee.info.id)
+    lazy var userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), user.info.id)
     
     //控制三个toolBar正面朝向
     @State var toolBarIsFaceUp1: Bool = true
@@ -31,9 +31,9 @@ struct ToolBarsView: View {
             }
             ToolBarView(isFaceUp: toolBarIsFaceUp1,
                         type: .friends,
-                        label1Value: fetchMee.info.followed,
-                        label2Value: fetchMee.info.following,
-                        label3Value: fetchMee.info.lastDayAddedFollower)
+                        label1Value: user.info.followed,
+                        label2Value: user.info.following,
+                        label3Value: user.info.lastDayAddedFollower)
                 .onTapGesture {
                     if !toolBarIsFaceUp1 {
                         toolBarIsFaceUp1.toggle()
@@ -45,9 +45,9 @@ struct ToolBarsView: View {
                 }
             
             ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
-                        label1Value: fetchMee.info.tweetsCount,
-                        label2Value: fetchMee.info.tweetsCount,
-                        label3Value: fetchMee.info.lastDayAddedTweets)
+                        label1Value: user.info.tweetsCount,
+                        label2Value: user.info.tweetsCount,
+                        label3Value: user.info.lastDayAddedTweets)
                 .onTapGesture {
                     if !toolBarIsFaceUp2 {
                         toolBarIsFaceUp2.toggle()
