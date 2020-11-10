@@ -19,6 +19,7 @@ extension TwitterUser {
     ///   - isLoginUser: 是否当前App用户，如果是则会保留当前的fo等基本信息
     ///   - updateNickName: 是否需要更新当前用户的NickName
     /// - Returns: 返回当前用户
+    @discardableResult
     static func updateOrSaveToCoreData(from user: UserInfo, in viewContext: NSManagedObjectContext, isLocalUser: Bool = false, updateNickName: Bool = false) -> TwitterUser {
         
         var currentUser: TwitterUser

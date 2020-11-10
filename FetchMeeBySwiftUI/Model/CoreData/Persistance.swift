@@ -10,6 +10,7 @@ import SwiftUI
 import CoreData
 
 struct PersistenceContainer {
+    ///用来存储最新删除时间的key值
     private static let lastDeletedKey = "lastDeleted"
     
     static let shared = PersistenceContainer()
@@ -32,6 +33,7 @@ struct PersistenceContainer {
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
+    //MARK:- 自定义的CoreData相关数据保存时间方法
     static func setLastDeleted(date: Date = Date()) {
             UserDefaults.standard.set(date, forKey: PersistenceContainer.lastDeletedKey)
         

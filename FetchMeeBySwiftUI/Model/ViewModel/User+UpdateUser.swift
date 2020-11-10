@@ -104,7 +104,7 @@ extension User {
             
             ///保存用户信息到CoreData，如果是登陆用户，则保存信息到CoreData
             if self.isLoggedIn {
-                let _ = TwitterUser.updateOrSaveToCoreData(from: userInfo, in: getContext(), isLocalUser: true)
+                TwitterUser.updateOrSaveToCoreData(from: userInfo, in: getContext(), isLocalUser: true)
             }
             
             ///信息更新完成，将user数据替换到相应位置
