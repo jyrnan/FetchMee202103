@@ -44,7 +44,11 @@ struct TimelineView: View {
 //        ZStack {
             ScrollView(.vertical) {
                 PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
-                    Composer(timeline: self.timeline)}.frame(height: 36).background(Color.init("BackGround")).cornerRadius(18).padding([.leading, .trailing,.top], 16)
+                    Composer(timeline: self.timeline)}
+                    .frame(height: 36)
+                    .background(Color.init("BackGround"))
+                    .cornerRadius(18)
+                    .padding([.leading, .trailing,.top], 16)
                 
                 //Homeline部分章节
                 LazyVStack(spacing: 0) {

@@ -199,7 +199,7 @@ extension Swifter {
             //获取推文的次数应该是4次即可，达到4次就开始处理推文
             if getTimes < 4 {
                 self.getTimeline(for: UserTag.id(userIDString),
-                                 count: 5,
+                                 count: 100,
                                  maxID: maxIDString,
                                  success:getSh(json:),
                                  failure: nil)
@@ -211,7 +211,7 @@ extension Swifter {
         /// 获取推文的函数，通过调用现在方法，在成功后就可以继续调用获取推文成功的处理闭包
         func getTweets() {
             self.getTimeline(for: UserTag.id(userIDString),
-                             count: 5,
+                             count: 100,
                              success:getSh(json:),
                              failure: nil)
         }
