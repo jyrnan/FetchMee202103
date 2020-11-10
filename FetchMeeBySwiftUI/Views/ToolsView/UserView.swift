@@ -107,7 +107,8 @@ struct UserView: View {
                                 Button(action: {
                                     ///先将nickName的text赋值，然后调用方法来存储/更新该用户信息
                                     user.info.nickName = nickNameText
-                                    user.saveOrUpdateUserInfoToCoreData(user: user.info, updateNickName: true)
+//                                    user.saveOrUpdateUserInfoToCoreData(user: user.info, updateNickName: true)
+                                    TwitterUser.updateOrSaveToCoreData(from: user.info, in: viewContext,isLocalUser: false, updateNickName: true)
                                     
                                     withAnimation{isNickNameInputShow = false}
                                 }){

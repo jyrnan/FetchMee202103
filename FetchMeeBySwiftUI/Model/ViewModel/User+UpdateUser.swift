@@ -104,7 +104,9 @@ extension User {
             
             ///保存用户信息到CoreData，如果是登陆用户，则保存信息到CoreData
             if self.isLoggedIn {
-                saveOrUpdateUserInfoToCoreData(user: userInfo) }
+//                saveOrUpdateUserInfoToCoreData(user: userInfo)
+                TwitterUser.updateOrSaveToCoreData(from: userInfo, in: getContext(), isLocalUser: true)
+            }
             
             ///信息更新完成，将user数据替换到相应位置
             self.info = userInfo
@@ -219,6 +221,20 @@ extension User {
     }
     
     //MARK:-CoreData part
+    
+    func getContext() -> NSManagedObjectContext {
+        
+        var viewContext: NSManagedObjectContext!
+        
+       if let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
+              let sceneDelegate = windowsScenen.delegate as? SceneDelegate
+        {
+        viewContext = sceneDelegate.context
+        }
+        
+        return viewContext
+    }
+    
     
     /// <#Description#>
     /// - Parameters:

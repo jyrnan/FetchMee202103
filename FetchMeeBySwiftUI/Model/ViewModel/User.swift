@@ -20,6 +20,16 @@ class User: ObservableObject {
 
     @Published var setting: UserSetting = UserSetting() //打算把setting放这里,现在是在SeceneDelegate里面读取
     
+    var viewContext: NSManagedObjectContext {
+        get {
+        var context: NSManagedObjectContext!
+        if let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
+               let sceneDelegate = windowsScenen.delegate as? SceneDelegate
+         {
+         context = sceneDelegate.context
+         }
+            return context }
+    }
     
     
     init(userIDString: String = "0000", screenName: String? = nil) {

@@ -49,6 +49,7 @@
 		D27DCEC624B96D6100520BE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEC424B96D6100520BE3 /* LaunchScreen.storyboard */; };
 		D27DCF3B24B98F9900520BE3 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF3A24B98F9900520BE3 /* Tweet.swift */; };
 		D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF8B24B9A56100520BE3 /* TweetRow.swift */; };
+		D286EC32255A2BD600C98195 /* TwitterUser+UpdateAndSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286EC31255A2BD500C98195 /* TwitterUser+UpdateAndSave.swift */; };
 		D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFCF24BC29BF005DBC39 /* Composer.swift */; };
 		D286FFD724BC31F0005DBC39 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFD624BC31F0005DBC39 /* UserView.swift */; };
 		D2905076252C07360065EA83 /* Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2905075252C07360065EA83 /* Persistance.swift */; };
@@ -140,6 +141,7 @@
 		D27DCEC724B96D6100520BE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D27DCF3A24B98F9900520BE3 /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		D27DCF8B24B9A56100520BE3 /* TweetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetRow.swift; sourceTree = "<group>"; };
+		D286EC31255A2BD500C98195 /* TwitterUser+UpdateAndSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterUser+UpdateAndSave.swift"; sourceTree = "<group>"; };
 		D286FFCF24BC29BF005DBC39 /* Composer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Composer.swift; sourceTree = "<group>"; };
 		D286FFD624BC31F0005DBC39 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		D2905075252C07360065EA83 /* Persistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistance.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				D2905075252C07360065EA83 /* Persistance.swift */,
 				D2905077252C09360065EA83 /* FetchMee.xcdatamodeld */,
 				D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */,
+				D286EC31255A2BD500C98195 /* TwitterUser+UpdateAndSave.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
 				D2DDFCC12532DE3300AE7E39 /* TimelineIconView.swift in Sources */,
 				D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */,
+				D286EC32255A2BD600C98195 /* TwitterUser+UpdateAndSave.swift in Sources */,
 				D27DCF3B24B98F9900520BE3 /* Tweet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
