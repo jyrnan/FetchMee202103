@@ -11,7 +11,6 @@ import Combine
 import Swifter
 
 struct TimelineIconView: View {
-//    var type: TimelineType = .home
     @StateObject private var timeline: Timeline
     var listName: String?
     var listTag: ListTag?

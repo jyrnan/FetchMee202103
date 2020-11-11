@@ -231,6 +231,7 @@ extension SceneDelegate {
                                      logHandler: logHandler)
             
         } else {
+            completeHandler()
         }
     }
     
