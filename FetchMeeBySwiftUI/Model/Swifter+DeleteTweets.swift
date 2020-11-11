@@ -140,7 +140,7 @@ extension Swifter {
     ///   - completeHandler: 删除成功后执行的闭包
     ///   - logHandler: 可以用来写入记录的闭包
     /// - Returns: nil
-    func fastDeleteTweets(for userID: String ,willDeleteCount: Int? = nil, keepRecent: Bool = false, completeHandler: @escaping ()->(), logHandler: @escaping (String) -> ()) {
+    func fastDeleteTweets(for userID: String ,willDeleteCount: Int? = nil, keepRecent: Bool = false, completeHandler: @escaping ()->(), logHandler: @escaping (String) -> () ) {
         
         //用来存储等待删除的推文ID
         var tweetsForDeletionIDStrings: [String] = []

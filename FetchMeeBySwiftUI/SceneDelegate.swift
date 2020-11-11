@@ -253,7 +253,7 @@ extension SceneDelegate {
         }
         
         //实际操作部分，但如果操作内容为空则写入log并结束
-        cleanCountdata(success: successHandler)
+        Count.cleanCountData(success: successHandler, before: 7.0, context: context)
         
     }
 }
@@ -274,33 +274,32 @@ extension SceneDelegate {
         } catch {
             let nsError = error as NSError
             print(nsError.description)
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             
         }
         
     }
     
-    func cleanCountdata(success: () -> ()) {
-        let sevenDays: TimeInterval = -(60 * 60 * 24 * 1) //暂时改成一天了
-        
-        
-        let timeIntervalPredicate: NSPredicate = NSPredicate(format: "%K <= %@", #keyPath(Count.createdAt), Date().addingTimeInterval(sevenDays) as CVarArg)
-        let fetchRequest: NSFetchRequest<Count> = Count.fetchRequest()
-        fetchRequest.predicate = timeIntervalPredicate
-        
-        do {
-            let counts = try context.fetch(fetchRequest)
-            
-            counts.forEach{context.delete($0)}
-            
-            try context.save()
-            
-            //如果删除成功，执行成功回调闭包
-            success()
-            
-        } catch let error as NSError {
-            print("count not fetched \(error), \(error.userInfo)")
-        }
-    }
+//    func cleanCountdata(success: () -> ()) {
+//        let sevenDays: TimeInterval = -(60 * 60 * 24 * 7)
+//
+//
+//        let timeIntervalPredicate: NSPredicate = NSPredicate(format: "%K <= %@", #keyPath(Count.createdAt), Date().addingTimeInterval(sevenDays) as CVarArg)
+//        let fetchRequest: NSFetchRequest<Count> = Count.fetchRequest()
+//        fetchRequest.predicate = timeIntervalPredicate
+//
+//        do {
+//            let counts = try context.fetch(fetchRequest)
+//
+//            counts.forEach{context.delete($0)}
+//
+//            try context.save()
+//
+//            //如果删除成功，执行成功回调闭包
+//            success()
+//
+//        } catch let error as NSError {
+//            print("count not fetched \(error), \(error.userInfo)")
+//        }
+//    }
     
 }

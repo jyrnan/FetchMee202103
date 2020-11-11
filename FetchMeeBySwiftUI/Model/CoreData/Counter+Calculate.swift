@@ -32,11 +32,11 @@ extension Count {
         
         if let max = lastDayCounts?.max(by: {a, b in a.follower < b.follower}),
            let min = lastDayCounts?.min(by: {a, b in a.follower < b.follower}) {
-            followers = Int(max.follower - min.follower)}
+            followers = Int((max.follower - min.follower) / Int32(days))}
         
         if let max = lastDayCounts?.max(by: {a, b in a.tweets < b.tweets}),
            let min = lastDayCounts?.min(by: {a, b in a.tweets < b.tweets}) {
-            tweets = Int((max.tweets - min.tweets))}
+            tweets = Int((max.tweets - min.tweets) / Int32(days))}
         
         return (followers, tweets)
     }
@@ -56,6 +56,27 @@ extension Count {
         countValue.followerOfLastDay = valueCalculate(counts, for: 1.0).0
         countValue.tweetsOfLastDay = valueCalculate(counts, for: 1.0).1
         return countValue
+    }
+    
+    static func cleanCountData(success: () -> (), before days: Double, context: NSManagedObjectContext) {
+        let daysInterval: TimeInterval = -(60 * 60 * 24 * days)
+        let daysBefore = Date().addingTimeInterval(daysInterval)
+        
+        let timeIntervalPredicate: NSPredicate = NSPredicate(format: "%K <= %@", #keyPath(Count.createdAt), daysBefore as CVarArg)
+        let fetchRequest: NSFetchRequest = Count.fetchRequest()
+        fetchRequest.predicate = timeIntervalPredicate
+        
+        do {
+            let counts = try context.fetch(fetchRequest)
+            
+            counts.forEach{context.delete($0)}
+            
+            try context.save()
+            
+            success()
+        } catch let error as NSError {
+            print("count not fetched \(error), \(error.userInfo)")
+        }
     }
 }
 

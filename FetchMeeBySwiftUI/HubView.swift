@@ -79,7 +79,7 @@ struct HubView: View {
                 self.hideKeyboard()
             })
             .navigationTitle("FetchMee")
-            .navigationBarTitleDisplayMode(.large)
+//            .navigationBarTitleDisplayMode(.large)
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
                                     AvatarImageView(image: loginUser.info.avatar).frame(width: 36, height: 36, alignment: .center)})
         }

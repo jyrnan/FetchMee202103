@@ -97,6 +97,7 @@ struct ImageGrabView: View {
         .navigationTitle("@\(userScreenName ?? "userName")")
         .navigationBarItems( trailing: Button(action: {self.selectAll()}, label: {
             Text("Select & Save").font(.callout)
+                .navigationBarTitleDisplayMode(.inline)
 
         })
         .contextMenu(menuItems: /*@START_MENU_TOKEN@*/{

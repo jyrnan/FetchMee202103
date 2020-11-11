@@ -13,7 +13,6 @@ struct UserView: View {
     @EnvironmentObject var alerts: Alerts
     
     @Environment(\.managedObjectContext) private var viewContext
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
     @FetchRequest var twitterUsers: FetchedResults<TwitterUser>
     
     @StateObject var userTimeline: Timeline
@@ -40,6 +39,8 @@ struct UserView: View {
         userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.createdAt, ascending: true)]
         userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), userIDString ?? "0000")
         _twitterUsers = FetchRequest(fetchRequest: userFetch)
+        
+//        configureBackground()
     }
     
     ///自定义返回按钮的范例
@@ -233,31 +234,7 @@ struct UserView: View {
     }
 }
 
-//MARK:-CoreData Operator
-//extension UserView {
-//    func saveOrUpdateTwitterUser() {
-//        //检查当前用户如果没有nickName，则新建一个nickName
-//
-//        let currentUser = twitterUsers.filter{$0.userIDString == userIDString}.first ?? TwitterUser(context: viewContext)
-//
-//        ///如果没有输入nick Name，则将该用户的nickName设置成nil
-//        if nickNameText != "" {
-//            currentUser.nickName = nickNameText
-//        } else {
-//            //            currentUser.nickName = nil
-//            viewContext.delete(currentUser)
-//        }
-//
-//        do {
-//            try viewContext.save()
-//        } catch {
-//            let nsError = error as NSError
-//            print(nsError.description)
-//            //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//
-//        }
-//    }
-//}
+
 
 extension UserView {
     func configureBackground() {
@@ -265,6 +242,7 @@ extension UserView {
         barAppearance.backgroundColor = UIColor.red
         UINavigationBar.appearance().standardAppearance = barAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
+        print(#line, "NavigationBar changed.")
     }
     
     

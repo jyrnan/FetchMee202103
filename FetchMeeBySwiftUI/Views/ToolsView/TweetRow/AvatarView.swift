@@ -37,7 +37,12 @@ struct AvatarView: View {
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 self.pat(text: "并缓缓举起了了大拇指")
             })
-            .onTapGesture(count: 1) {self.presentedUserInfo = true
+            .onTapGesture(count: 1) {
+//                let imageViewer = UserView(userIDString: self.userIDString, userScreenName: screenName)
+//                alerts.presentedView = AnyView(imageViewer)
+//                withAnimation{alerts.isShowingPicture = true}
+
+                self.presentedUserInfo = true
             }
 //            .simultaneousGesture(LongPressGesture().onEnded{_ in self.presentedUserImageGrabber = true})
             .alert(isPresented: self.$isShowAlert, content: {
@@ -74,5 +79,15 @@ struct AvatarView: View {
 struct AvatarView_Previews: PreviewProvider {
     static var previews: some View {
         AvatarView(avatar: UIImage(systemName: "person.circle.fill"))
+    }
+}
+
+extension AvatarView {
+    func configureBackground() {
+        let barAppearance = UINavigationBarAppearance()
+        barAppearance.backgroundColor = UIColor.red
+        UINavigationBar.appearance().standardAppearance = barAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
+        print(#line, "NavigationBar changed.")
     }
 }
