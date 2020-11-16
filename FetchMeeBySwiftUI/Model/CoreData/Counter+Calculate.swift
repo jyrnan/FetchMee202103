@@ -9,7 +9,10 @@
 import Foundation
 import CoreData
 
-struct CountValue {
+struct CountValue: Identifiable {
+    var  id = UUID()
+    
+    
     var followerOfLastDay: Int = 0
     var followerOfLastThreeDays: Int = 0
     var followerOfLastSevenDays: Int = 0
@@ -55,6 +58,15 @@ extension Count {
         
         countValue.followerOfLastDay = valueCalculate(counts, for: 1.0).0
         countValue.tweetsOfLastDay = valueCalculate(counts, for: 1.0).1
+        
+        countValue.followerOfLastThreeDays = valueCalculate(counts, for: 3.0).0
+        countValue.tweetsOfLastThreeDays = valueCalculate(counts, for: 3.0).1
+        
+        countValue.followerOfLastSevenDays = valueCalculate(counts, for: 7.0).0
+        countValue.tweetsOfLastSevenDays = valueCalculate(counts, for: 7.0).1
+        
+        
+        
         return countValue
     }
     

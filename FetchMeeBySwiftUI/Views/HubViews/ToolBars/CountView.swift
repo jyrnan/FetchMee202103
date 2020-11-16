@@ -10,6 +10,7 @@ import SwiftUI
 import Combine
 import CoreData
 
+///用来显示用户的Count信息，默认是保留最近七天的数据
 struct CountView: View {
     @Environment(\.presentationMode) var presentationMode
     

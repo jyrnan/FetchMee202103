@@ -36,31 +36,33 @@ struct BackOfTweetsToolBar: View {
 //                                                  secondaryButton: .cancel())}
                 
 //                Divider()
-                Toggle(isOn: $loginUser.setting.isKeepRecentTweets) {
-                    Text("Keep Recent").font(.caption).bold()
-                        .foregroundColor(.white)
-                }
-                
-                Divider()
-                
-                //快速删除按钮
-                Button(action: {isShowManualDeleteAlert = true},
-                       label: {
-                    HStack{
-                        
-                        Text("Manual Delete").font(.caption).bold()
-                            .foregroundColor(.white)
-                        Spacer()
-                        Image(systemName: "trash.circle.fill").font(.title).foregroundColor(.white)
-                    }
-                })
-                .alert(isPresented: $isShowManualDeleteAlert){
-                                            Alert(title: Text("Attention"),
-                                                  message: Text(manualDeleteWarningMessage),
-                                                  primaryButton: .destructive(Text("Delete"),
-                                                                              action: { manualDelete()}),
-                                                  secondaryButton: .cancel())}
+//                Toggle(isOn: $loginUser.setting.isKeepRecentTweets) {
+//                    Text("Keep Recent").font(.caption).bold()
+//                        .foregroundColor(.white)
+//                }
+//
+//                Divider()
+//
+//                //快速删除按钮
+//                Button(action: {isShowManualDeleteAlert = true},
+//                       label: {
+//                    HStack{
+//
+//                        Text("Manual Delete").font(.caption).bold()
+//                            .foregroundColor(.white)
+//                        Spacer()
+//                        Image(systemName: "trash.circle.fill").font(.title).foregroundColor(.white)
+//                    }
+//                })
+//                .alert(isPresented: $isShowManualDeleteAlert){
+//                                            Alert(title: Text("Attention"),
+//                                                  message: Text(manualDeleteWarningMessage),
+//                                                  primaryButton: .destructive(Text("Delete"),
+//                                                                              action: { manualDelete()}),
+//                                                  secondaryButton: .cancel())}
+                CountDiagramView()
             }
+                
 
         }
         .padding([.leading, .trailing], 12)
