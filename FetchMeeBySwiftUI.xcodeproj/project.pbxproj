@@ -197,13 +197,12 @@
 		4B68D5A92539410800A17AED /* ToolBars */ = {
 			isa = PBXGroup;
 			children = (
+				D2DF0CE42562B6450058305A /* CountView */,
 				4BA662732535923300DE8697 /* ToolBarsView.swift */,
 				D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */,
 				D27744E4253B14DD0062B25C /* BackOfTweetsToolBar.swift */,
 				4B68D5A7253940FC00A17AED /* BackOfToolsToolBar.swift */,
 				D27744E2253B149B0062B25C /* BackOfFriendToolBar.swift */,
-				4BA0161D253AEACB003D1475 /* CountView.swift */,
-				D26A8B08256284C8003BFEE6 /* CountDiagramView.swift */,
 				4B68D5A52539131800A17AED /* LogMessageView.swift */,
 				D2AE506625564A2800437337 /* LogMessageSmallView.swift */,
 				4B3AD79E253965DB00194B2C /* UserMarkManageView.swift */,
@@ -397,6 +396,15 @@
 				D2AE50642553C6D500437337 /* MentionUser.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		D2DF0CE42562B6450058305A /* CountView */ = {
+			isa = PBXGroup;
+			children = (
+				D26A8B08256284C8003BFEE6 /* CountDiagramView.swift */,
+				4BA0161D253AEACB003D1475 /* CountView.swift */,
+			);
+			path = CountView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

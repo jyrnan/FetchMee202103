@@ -16,6 +16,7 @@ struct BackOfTweetsToolBar: View {
     
     @EnvironmentObject var loginUser: User
     @EnvironmentObject var alerts: Alerts
+    @Environment(\.managedObjectContext) private var viewContext
     
     @State var isShowManualDeleteAlert: Bool = false
     
@@ -60,7 +61,7 @@ struct BackOfTweetsToolBar: View {
 //                                                  primaryButton: .destructive(Text("Delete"),
 //                                                                              action: { manualDelete()}),
 //                                                  secondaryButton: .cancel())}
-                CountDiagramView()
+                CountDiagramView(userInfo: loginUser.info, context: viewContext).padding(4)
             }
                 
 
