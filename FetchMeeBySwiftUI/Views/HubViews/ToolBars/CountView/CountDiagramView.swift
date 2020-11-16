@@ -76,18 +76,18 @@ struct countDiagramRectangle: View {
     var count: Int = 0
     var maxCount: Int = 1
     var height: CGFloat = 0
+    var color: Color = .orange
     
-    let fill = LinearGradient(gradient: Gradient(colors: [Color.white, .red]), startPoint: .center , endPoint: .bottom)
+    let fill = LinearGradient(gradient: Gradient(colors: [Color.white, .orange]), startPoint: .center , endPoint: .bottom)
     
     var body: some View {
         ZStack{
         VStack{
             
             Spacer()
-            Rectangle().background(fill)
+            Rectangle().cornerRadius(6.0)
                 .frame(width: 35, height: height)
-                
-                .opacity(0.3)
+                .foregroundColor(.orange)
                 .padding(0)
                 .shadow(radius: 3 )
             Text(days != 1 ? "\(days)Days" : "Today").font(.caption2).bold().foregroundColor(.white)
