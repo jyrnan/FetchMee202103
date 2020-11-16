@@ -12,6 +12,7 @@ import CoreData
 
 struct SettingView: View {
     @EnvironmentObject var loginUser: User
+    @EnvironmentObject var alerts: Alerts
     
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
     
@@ -19,7 +20,11 @@ struct SettingView: View {
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Log.createdAt, ascending: true)]) var logs: FetchedResults<Log>
     
-    let autoDeletWarningMessage: String = "Selecting Auto Delete tweets will automatically delete them in the background. Due to api restrictions, approximately 80 tweets are deleted per hour. Please keep the application background refresh open. If you need to keep your recent tweets, make sure the Keep Recent switch is on. \n Are you sure?"
+    let footerMessage: String = "Switching on Auto Delete tweets will automatically delete them in the background. Due to api restrictions, approximately 80 tweets are deleted per hour. Please keep the application background refresh open. \nIf you need to keep your recent tweets, make sure the Keep Recent switch on. \nPress Delete Tweets Now will immediately delete up to 300 sauces at once. "
+    
+    let manualDeleteWarningMessage: String = "Selecting Manual Delete will immediately delete up to 300 sauces at once. Due to api limits, the app will automatically calculate the maximum number of tweets that can be deleted and delete them. If you need to keep your recent tweets, make sure the Keep Recent switch is on."
+    
+    @State var isShowManualDeleteAlert: Bool = false
     
     var body: some View {
         Form {
@@ -43,12 +48,30 @@ struct SettingView: View {
             }
             
             Section(header:Text("Delete Tweets"),
-                    footer: Text(autoDeletWarningMessage)){
+                    footer: Text(footerMessage)){
+                
+                
                 
                 Toggle("Auto Delete Tweets", isOn: self.$loginUser.setting.isDeleteTweets)
-                if loginUser.setting.isDeleteTweets {
-                    Toggle("Keep Recent 100 Tweets", isOn: self.$loginUser.setting.isKeepRecentTweets)}
+//                if loginUser.setting.isDeleteTweets {
+                    Toggle("Keep Recent 100 Tweets", isOn: self.$loginUser.setting.isKeepRecentTweets)
+//            }
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        isShowManualDeleteAlert = true
+                    }) {
+                        Text("Delete Tweets Now")
+                    }
+                    Spacer()
+                }.alert(isPresented: $isShowManualDeleteAlert){
+                    Alert(title: Text("Attention"),
+                          message: Text(manualDeleteWarningMessage),
+                          primaryButton: .destructive(Text("Delete"),
+                                                      action: { manualDelete()}),
+                          secondaryButton: .cancel())}
             }
+            
             
             Section(header:Text("Other")){
                 
@@ -147,4 +170,18 @@ struct SettingView_Previews: PreviewProvider {
     }
 }
 
-
+extension SettingView {
+    fileprivate func manualDelete() {
+        let completeHandler  = {
+            print(#line, #function, "Tweet deleted")
+        }
+        let lh: (String) -> () = {string in
+            self.alerts.setLogMessage(text: string)
+        }
+        swifter.fastDeleteTweets(for: loginUser.info.id,
+                                 keepRecent: loginUser.setting.isKeepRecentTweets,
+                                 completeHandler: completeHandler,
+                                 logHandler: lh)
+    }
+}
+///
