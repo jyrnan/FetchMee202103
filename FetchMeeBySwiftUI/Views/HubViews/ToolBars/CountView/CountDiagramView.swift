@@ -31,7 +31,10 @@ struct CountDiagramView: View {
 //                Text("hello\(countValue.tweetsOfLastSevenDays)")
             subCountDiagramView(lastDay: countValue.followerOfLastDay, lastThreeDays: countValue.followerOfLastThreeDays, lastSevenDays: countValue.followerOfLastSevenDays)
             Divider()
-            subCountDiagramView(lastDay: countValue.tweetsOfLastDay, lastThreeDays: countValue.tweetsOfLastThreeDays, lastSevenDays: countValue.tweetsOfLastSevenDays)
+            HStack{
+//                Image(systemName: "message.circle").font(.body).foregroundColor(.white)
+            subCountDiagramView(lastDay: countValue.tweetsOfLastDay, lastThreeDays: countValue.tweetsOfLastThreeDays, lastSevenDays: countValue.tweetsOfLastSevenDays, color: Color.pink.opacity(0.8))
+            }
         }
     }
 }
@@ -42,6 +45,7 @@ struct subCountDiagramView: View {
     var lastSevenDays: Int
     
     var roomForText: CGFloat = 30 //给字体留下的空间
+    var color: Color = .orange
     
     var maxCount: Int {
         get {
@@ -54,15 +58,15 @@ struct subCountDiagramView: View {
             HStack(alignment: .bottom) {
                 Spacer()
                 
-                countDiagramRectangle(days: 7, count: lastSevenDays, height: (geometry.size.height - roomForText) * CGFloat(lastSevenDays) /  CGFloat(maxCount))
+                countDiagramRectangle(days: 7, count: lastSevenDays, height: (geometry.size.height - roomForText) * CGFloat(lastSevenDays) /  CGFloat(maxCount), color: color)
                     
                 Spacer()
                 
-                countDiagramRectangle(days: 3, count: lastThreeDays, height: (geometry.size.height - roomForText) * CGFloat(lastThreeDays) /  CGFloat(maxCount))
+                countDiagramRectangle(days: 3, count: lastThreeDays, height: (geometry.size.height - roomForText) * CGFloat(lastThreeDays) /  CGFloat(maxCount), color: color)
                     
                 Spacer()
                 
-                countDiagramRectangle(days: 1, count: lastDay, height: (geometry.size.height - roomForText) * CGFloat(lastDay) /  CGFloat(maxCount))
+                countDiagramRectangle(days: 1, count: lastDay, height: (geometry.size.height - roomForText) * CGFloat(lastDay) /  CGFloat(maxCount), color: color)
                  
                 Spacer()
             }
@@ -85,8 +89,9 @@ struct countDiagramRectangle: View {
         VStack{
             
             Spacer()
-            Rectangle().cornerRadius(6.0)
-                .frame(width: 35, height: height)
+//            Rectangle().cornerRadius(6.0)
+            RoundedCorners(color: color, tl: 6, tr: 6, bl: 0, br: 0)
+                .frame(width: 32, height: height)
                 .foregroundColor(.orange)
                 .padding(0)
                 .shadow(radius: 3 )
