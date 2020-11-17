@@ -29,17 +29,30 @@ struct CountDiagramView: View {
 //            Text("hello\(countValue.tweetsOfLastDay)")
 //                Text("hello\(countValue.tweetsOfLastThreeDays)")
 //                Text("hello\(countValue.tweetsOfLastSevenDays)")
-            subCountDiagramView(lastDay: countValue.followerOfLastDay, lastThreeDays: countValue.followerOfLastThreeDays, lastSevenDays: countValue.followerOfLastSevenDays)
+            
+            HStack {
+                VStack{
+//                    Spacer()
+                Image(systemName: "person.2.fill").font(.caption).foregroundColor(.white).opacity(0.8)
+                }
+            SubCountDiagramView(lastDay: countValue.followerOfLastDay, lastThreeDays: countValue.followerOfLastThreeDays, lastSevenDays: countValue.followerOfLastSevenDays)
+            }
             Divider()
             HStack{
-//                Image(systemName: "message.circle").font(.body).foregroundColor(.white)
-            subCountDiagramView(lastDay: countValue.tweetsOfLastDay, lastThreeDays: countValue.tweetsOfLastThreeDays, lastSevenDays: countValue.tweetsOfLastSevenDays, color: Color.pink.opacity(0.8))
+               
+               
+            SubCountDiagramView(lastDay: countValue.tweetsOfLastDay, lastThreeDays: countValue.tweetsOfLastThreeDays, lastSevenDays: countValue.tweetsOfLastSevenDays, color: Color.pink.opacity(0.8))
+                
+                VStack{
+//                    Spacer()
+                    Image(systemName: "message.fill").font(.caption).foregroundColor(.white).opacity(0.8)
+                }
             }
         }
     }
 }
 
-struct subCountDiagramView: View {
+struct SubCountDiagramView: View {
     var lastDay: Int
     var lastThreeDays: Int
     var lastSevenDays: Int
@@ -91,20 +104,20 @@ struct countDiagramRectangle: View {
             Spacer()
 //            Rectangle().cornerRadius(6.0)
             RoundedCorners(color: color, tl: 6, tr: 6, bl: 0, br: 0)
-                .frame(width: 32, height: height)
-                .foregroundColor(.orange)
+                .frame(width: 24, height: height)
                 .padding(0)
-                .shadow(radius: 3 )
-            Text(days != 1 ? "\(days)Days" : "Today").font(.caption2).bold().foregroundColor(.white)
+//                .shadow(radius: 3 )
+            Text(days != 1 ? "\(days)d" : "Today").font(.caption2).bold().foregroundColor(.white).opacity(0.6)
         }
             Text("\(count)").font(.caption2).bold()
-                .foregroundColor(.white).padding(0).shadow(radius: 1)
+                .foregroundColor(.white).padding(0)
+                .shadow(radius: 1)
         }
     }
 }
 
-struct subCountDiagramView_Previews: PreviewProvider {
+struct SubCountDiagramView_Previews: PreviewProvider {
     static var previews: some View {
-        subCountDiagramView(lastDay: 10, lastThreeDays: 20, lastSevenDays: 30).background(Color.blue).frame(height: 100).padding()
+        SubCountDiagramView(lastDay: 10, lastThreeDays: 20, lastSevenDays: 30).background(Color.blue).frame(height: 100).padding()
     }
 }
