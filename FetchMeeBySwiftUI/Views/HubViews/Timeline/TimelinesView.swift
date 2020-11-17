@@ -21,7 +21,7 @@ struct TimelinesView: View {
             }.padding(.leading,16)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack {
+                HStack {
                     TimelineIconView(type: .home)
                     TimelineIconView(type: .mention)
                     TimelineIconView(type: .favorite)
@@ -31,10 +31,12 @@ struct TimelinesView: View {
                         TimelineIconView(type: .list, listName: listName, listTag:lists[listName])
                     }
                     
-                    TimelineIconView(type: .message)
+//                    TimelineIconView(type: .message)
                     
-                }.padding(.bottom, 8).padding(.leading, 16)
-            }.padding(0)
+                }
+                .padding(.bottom, 8).padding(.leading, 16)
+            }
+            .padding(0)
         }
     }
 }

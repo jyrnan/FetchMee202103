@@ -89,13 +89,13 @@ struct SettingView: View {
             }
             
             Section(header:Text("")){
-                HStack {
-                    Spacer()
-                    Button("Clear Cache") {
-                        
-                    }
-                    Spacer()
-                }
+//                HStack {
+//                    Spacer()
+//                    Button("Clear Cache") {
+//                        
+//                    }
+//                    Spacer()
+//                }
                 
                 HStack {
                     Spacer()
