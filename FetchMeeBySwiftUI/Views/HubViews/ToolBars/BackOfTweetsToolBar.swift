@@ -61,7 +61,7 @@ struct BackOfTweetsToolBar: View {
 //                                                  primaryButton: .destructive(Text("Delete"),
 //                                                                              action: { manualDelete()}),
 //                                                  secondaryButton: .cancel())}
-                CountDiagramView(userInfo: loginUser.info, context: viewContext).padding(4)
+                CountDiagramView(userInfo: loginUser.info, context: viewContext)
             }
                 
 

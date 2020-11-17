@@ -33,11 +33,13 @@ struct CountDiagramView: View {
             HStack {
                 VStack{
 //                    Spacer()
-                Image(systemName: "person.2.fill").font(.caption).foregroundColor(.white).opacity(0.8)
+                Image(systemName: "person.2.fill").font(.body).foregroundColor(.white).opacity(0.8)
                 }
             SubCountDiagramView(lastDay: countValue.followerOfLastDay, lastThreeDays: countValue.followerOfLastThreeDays, lastSevenDays: countValue.followerOfLastSevenDays)
             }
+            
             Divider()
+            
             HStack{
                
                
@@ -45,7 +47,7 @@ struct CountDiagramView: View {
                 
                 VStack{
 //                    Spacer()
-                    Image(systemName: "message.fill").font(.caption).foregroundColor(.white).opacity(0.8)
+                    Image(systemName: "message.fill").font(.body).foregroundColor(.white).opacity(0.8)
                 }
             }
         }
@@ -57,7 +59,7 @@ struct SubCountDiagramView: View {
     var lastThreeDays: Int
     var lastSevenDays: Int
     
-    var roomForText: CGFloat = 30 //给字体留下的空间
+    var roomForText: CGFloat = 0 //给字体留下的空间
     var color: Color = .orange
     
     var maxCount: Int {
@@ -67,10 +69,10 @@ struct SubCountDiagramView: View {
     }
     
     var body: some View {
+        VStack {
         GeometryReader { geometry in
             HStack(alignment: .bottom) {
                 Spacer()
-                
                 countDiagramRectangle(days: 7, count: lastSevenDays, height: (geometry.size.height - roomForText) * CGFloat(lastSevenDays) /  CGFloat(maxCount), color: color)
                     
                 Spacer()
@@ -80,10 +82,22 @@ struct SubCountDiagramView: View {
                 Spacer()
                 
                 countDiagramRectangle(days: 1, count: lastDay, height: (geometry.size.height - roomForText) * CGFloat(lastDay) /  CGFloat(maxCount), color: color)
-                 
                 Spacer()
             }
             
+        }
+            
+            Divider().padding(0)
+            HStack(alignment: .top){
+                Spacer()
+                Text("7Days").font(.caption2).bold().foregroundColor(.white).opacity(0.6).lineLimit(1)
+                Spacer()
+                Text("3Days").font(.caption2).bold().foregroundColor(.white).opacity(0.6).lineLimit(1)
+                Spacer()
+                Text("Today").font(.caption2).bold().foregroundColor(.white).opacity(0.6).lineLimit(1)
+                Spacer()
+            }.padding(0)
+            Spacer()
         }
     }
 }
@@ -105,13 +119,17 @@ struct countDiagramRectangle: View {
 //            Rectangle().cornerRadius(6.0)
             RoundedCorners(color: color, tl: 6, tr: 6, bl: 0, br: 0)
                 .frame(width: 24, height: height)
-                .padding(0)
+//                .padding(4)
 //                .shadow(radius: 3 )
-            Text(days != 1 ? "\(days)d" : "Today").font(.caption2).bold().foregroundColor(.white).opacity(0.6)
+//            Text(days != 1 ? "\(days)d" : "Today").font(.caption2).bold().foregroundColor(.white).opacity(0.6)
         }
+            VStack{
+                Spacer()
             Text("\(count)").font(.caption2).bold()
-                .foregroundColor(.white).padding(0)
+                .foregroundColor(.white)
+                .padding(4)
                 .shadow(radius: 1)
+            }
         }
     }
 }

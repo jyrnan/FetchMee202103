@@ -58,10 +58,10 @@ enum ThemeColor: String, CaseIterable, Identifiable {
     var color : Color {
         switch self {
         case .blue:     return Color.init("TwitterBlue")
-        case .green:    return Color.green
+        case .green:    return Color.init("DarkGreen")
         case .purple:   return Color.purple
         case .pink:   return Color.pink
-        case .orange:   return Color.orange
+        case .orange:   return Color.init("DarkOrange")
         case .gray:   return Color.secondary
         case .auto: return withAnimation {colorByDate()}
         }
