@@ -45,6 +45,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
+            
             if self.loingUser.isLoggedIn {
                 // 读取token信息
                 let tokenKey = userDefault.object(forKey: "tokenKey") as! String
@@ -62,8 +63,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                                                 .environmentObject(loingUser)
                                                                 .accentColor(loingUser.setting.themeColor.color)
                                                                 .environmentObject(downloader))
-            
-            
+//            let authVC = AuthViewController()
+//            print(#line, #function, "AuthVC init")
+//
+//            window.rootViewController = authVC
+
             self.window = window
             window.makeKeyAndVisible()
         }

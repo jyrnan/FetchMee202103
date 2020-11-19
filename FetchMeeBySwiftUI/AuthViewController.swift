@@ -1,45 +1,38 @@
 //
-//  AuthView.swift
-//  FetchMeeBySwiftUI
+//  AuthViewController.swift
+//  FetchMee
 //
-//  Created by jyrnan on 2020/7/15.
+//  Created by jyrnan on 2020/11/19.
 //  Copyright © 2020 jyrnan. All rights reserved.
 //
 
-import SwiftUI
-import Swifter
+import Foundation
 import UIKit
 import SafariServices
+import Swifter
+import SwiftUI
 
-struct AuthView: View {
-    @EnvironmentObject var loginUser: User
+class AuthViewController: UIViewController, SFSafariViewControllerDelegate {
     
-    let safariDelegate = SafariDelegate()
-    
-    var body: some View {
-//       Button(action: {self.login()}, label: {
-//                HStack {
-//                    Spacer()
-//                    Image("Logo")
-//                        .resizable()
-//                        .frame(width: 48, height: 48, alignment: .center)
-//                    Text("Press to Login").foregroundColor(Color.init("TwitterBlue"))
-//                    Spacer()
-//                }
-//
-//            })
-       authViewFromVC()
+    @IBAction func login(_ sender: Any) {
+        login()
     }
-}
-
-extension AuthView {
-   
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let view = UIView()
+        view.backgroundColor = .blue
+        self.view.addSubview(view)
+        
+        
+    }
+    
     func login() {
         let failureHandler: (Error) -> Void = { error in
             print(error.localizedDescription)
         }
         let url = URL(string: "fetchmee://success")!
-        swifter.authorize(withCallback: url, presentingFrom:UIHostingController(rootView: self) , safariDelegate: safariDelegate, success: {token, _ in
+        swifter.authorize(withCallback: url, presentingFrom:self, success: {token, _ in
             if let token = token {
                 // 写入登陆后信息, writeInfo
                 //把Token相关信息存储到文件中
@@ -49,7 +42,7 @@ extension AuthView {
                 userDefault.set(token.screenName, forKey: "screenName")
                 
                 userDefault.set(true, forKey: "isLoggedIn")
-                self.loginUser.isLoggedIn = true
+//                loginUser.isLoggedIn = true
                 print(#line, "set isLoggedIn")
                 
                 self.readInfo() //登录后读取信息并设置新的swifter
@@ -67,19 +60,27 @@ extension AuthView {
                           oauthToken: tokenKey,
                           oauthTokenSecret: tokenSecret)
         
-        self.loginUser.getUserInfo() //
+//        self.loginUser.getUserInfo() //
+    }
+}
+
+
+struct authViewFromVC: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> AuthViewController {
+        let authViewController = AuthViewController()
+        return authViewController
     }
     
-
-}
-
-struct AuthView_Previews: PreviewProvider {
-    static var previews: some View {
-        AuthView()
+    func updateUIViewController(_ uiViewController: AuthViewController, context: Context) {
+        print(#line)
     }
-}
-
-class SafariDelegate: NSObject, SFSafariViewControllerDelegate {
+    
+//    func makeUIViewController(context: Context) -> UIViewController {
+//        let authViewController = AuthViewController() as UIViewController
+//        return authViewController
+//    }
+    
+    typealias UIViewControllerType = AuthViewController
     
     
 }
