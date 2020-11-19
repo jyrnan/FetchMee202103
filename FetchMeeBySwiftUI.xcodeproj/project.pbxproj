@@ -311,9 +311,7 @@
 				4BDB05D62531613B00CF71A1 /* HubView.swift */,
 				D2C45BAB24C6D31B007D67B6 /* ContentView.swift */,
 				D27744DC253A55470062B25C /* TestNavi.swift */,
-				D2224FD224BE901E00AE2110 /* AuthView.swift */,
-				D286BE492566460600DCEA1E /* AuthViewController.swift */,
-				D286BE772566610C00DCEA1E /* AuthViewController.xib */,
+				D286BE79256666BA00DCEA1E /* Auth */,
 				D27DCF8A24B9A54500520BE3 /* Views */,
 				D27DCF3C24B98FA600520BE3 /* Model */,
 				D252547824D8000700D8B508 /* reference */,
@@ -369,6 +367,16 @@
 				4B7130AE2535750D00CE0082 /* ToolsView */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		D286BE79256666BA00DCEA1E /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				D2224FD224BE901E00AE2110 /* AuthView.swift */,
+				D286BE492566460600DCEA1E /* AuthViewController.swift */,
+				D286BE772566610C00DCEA1E /* AuthViewController.xib */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		D297390324D150B300917A97 /* CompersView */ = {
