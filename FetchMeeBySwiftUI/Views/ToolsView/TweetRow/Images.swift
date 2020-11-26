@@ -81,13 +81,28 @@ struct ImageThumb: View {
     @State var isImageDownloaded: Bool = true //标记大图是否下载完成
     //    var isSelectMode: Bool = false //控制单击是否作为选择
     
+    @StateObject var remoteImageUrl: RemoteImageUrl
     
     var uiImage: UIImage {
-        self.timeline.tweetMedias[tweetIDString]?.images[index] ?? UIImage(named: "defaultImage")!
+//        self.timeline.tweetMedias[tweetIDString]?.images[index] ?? UIImage(named: "defaultImage")!
+        UIImage(data: remoteImageUrl.data) ?? UIImage(named: "defaultImage")!
         
     } //定义一个计算属性方便后续引用。增加了重点区域识别功能，但是看起来效果不理想
     var width: CGFloat
     var height: CGFloat
+    
+    init(timeline: Timeline, tweetIDString: String, index: Int, width: CGFloat, height: CGFloat) {
+        self.timeline = timeline
+        self.tweetIDString = tweetIDString
+        self.index = index
+        self.width = width
+        self.height = height
+        
+        let url = timeline.tweetMedias[tweetIDString]?.urlStrings?[index] ?? ""
+        _remoteImageUrl = StateObject(wrappedValue: RemoteImageUrl(imageUrl: url))
+    }
+    
+    
     var body: some View {
         ZStack(alignment: .center) {
             
@@ -124,5 +139,58 @@ struct Images_Previews: PreviewProvider {
     static var tweetIDString = "0000"
     static var previews: some View {
         Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
+    }
+}
+
+
+class RemoteImageUrl: ObservableObject {
+    @Published var data = Data()
+    
+    init(imageUrl: String) {
+//        guard let url = URL(string: imageUrl) else { return }
+//        URLSession.shared.dataTask(with: url) { (data, response, err) in
+//            guard let data = data else { return }
+//            DispatchQueue.main.async {
+//                self.data = data
+//            }
+//        }.resume()
+        let url = imageUrl
+            getImage(imageUrl: url)
+        print(#line, #function, "RemoteImageUrl inited...")
+    }
+    
+    deinit {
+        print(#line, #function, "RemoteImageUrl deinited...")
+    }
+    
+    func getImage(imageUrl: String) {
+        guard let url = URL(string: imageUrl) else { return}
+        let fileName = url.lastPathComponent ///获取下载文件名用于本地存储
+        
+        let cachelUrl = cfh.getPath()
+        let filePath = cachelUrl.appendingPathComponent(fileName, isDirectory: false)
+        
+        ///先尝试获取本地缓存文件
+        if let d = try? Data(contentsOf: filePath) {
+            
+                DispatchQueue.main.async {
+                    self.data = d
+                
+                }
+        } else { //
+            let task = URLSession.shared.downloadTask(with: url) {
+                fileURL, resp, err in
+                if let url = fileURL, let d = try? Data(contentsOf: url) {
+                    if let _ = UIImage(data: d) {
+                    try? d.write(to: filePath)
+                    DispatchQueue.main.async {
+                        self.data = d
+                    }
+                        
+                    }
+                }
+            }
+            task.resume()
+        }
     }
 }

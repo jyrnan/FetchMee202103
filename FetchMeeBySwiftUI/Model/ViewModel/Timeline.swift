@@ -243,20 +243,20 @@ final class Timeline: ObservableObject {
                     tweetMedia.urlStrings?.append(urlstring)
                     tweetMedia.images.append(UIImage(named: "defaultImage")!) //先设置占位
                     tweetMedia.imagesSelected.append(false) //增加一个选择标记
-                    self.imageDownloaderWithClosure(from: urlstring + ":small", sh: { im in
-                        //图片识别处理
-                        im.detectFaces {result in
-                            let croppedImage = result?.cropByFace(im)
-                            _ = result?.drawnOn(im)
-                                DispatchQueue.main.async {
-                                    self.tweetMedias[IDString]?.images[m] = croppedImage ?? UIImage(named: "defaultImage")!
-                                    if result?.count == 1 {
-//                                    print(#line," Detected face!")
-                                    self.tweetMedias[IDString]?.isPortraitImage = true
-                                }
-                                }
-                        }
-                    })
+//                    self.imageDownloaderWithClosure(from: urlstring + ":small", sh: { im in
+//                        //图片识别处理
+//                        im.detectFaces {result in
+//                            let croppedImage = result?.cropByFace(im)
+//                            _ = result?.drawnOn(im)
+//                                DispatchQueue.main.async {
+//                                    self.tweetMedias[IDString]?.images[m] = croppedImage ?? UIImage(named: "defaultImage")!
+//                                    if result?.count == 1 {
+////                                    print(#line," Detected face!")
+//                                    self.tweetMedias[IDString]?.isPortraitImage = true
+//                                }
+//                                }
+//                        }
+//                    })
                 }
                 
             }
