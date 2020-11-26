@@ -67,6 +67,8 @@
 		D297390224D11A0800917A97 /* ComposerMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D297390124D11A0800917A97 /* ComposerMoreView.swift */; };
 		D2A4D27F2552902F00668650 /* UIImage+alhpa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */; };
 		D2A4D2812552AF9500668650 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4D2802552AF9500668650 /* TestView.swift */; };
+		D2ABAD1B256F9345009FDD94 /* ImageThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */; };
+		D2ABAD1D256F938E009FDD94 /* ImageThrumbViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1C256F938E009FDD94 /* ImageThrumbViewModel.swift */; };
 		D2AE50652553C6D500437337 /* MentionUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE50642553C6D500437337 /* MentionUser.swift */; };
 		D2AE506725564A2800437337 /* LogMessageSmallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE506625564A2800437337 /* LogMessageSmallView.swift */; };
 		D2B2560E24E38824009F982E /* videoJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2B2560D24E38824009F982E /* videoJson.txt */; };
@@ -165,6 +167,8 @@
 		D297390124D11A0800917A97 /* ComposerMoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerMoreView.swift; sourceTree = "<group>"; };
 		D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+alhpa.swift"; sourceTree = "<group>"; };
 		D2A4D2802552AF9500668650 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThumbView.swift; sourceTree = "<group>"; };
+		D2ABAD1C256F938E009FDD94 /* ImageThrumbViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThrumbViewModel.swift; sourceTree = "<group>"; };
 		D2AE50642553C6D500437337 /* MentionUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionUser.swift; sourceTree = "<group>"; };
 		D2AE506625564A2800437337 /* LogMessageSmallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogMessageSmallView.swift; sourceTree = "<group>"; };
 		D2B2560D24E38824009F982E /* videoJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = videoJson.txt; sourceTree = "<group>"; };
@@ -217,7 +221,7 @@
 		4B7130AD253574A500CE0082 /* TweetRow */ = {
 			isa = PBXGroup;
 			children = (
-				D7AC536B24BAD91A00BCD71F /* Images.swift */,
+				D2ABAD19256F930C009FDD94 /* image */,
 				D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */,
 				D270E87C24C01C9100BBD3FE /* ToolsView.swift */,
 				D707B6EE24C44CE10023F243 /* DetailIndicator.swift */,
@@ -401,6 +405,16 @@
 			path = Timeline;
 			sourceTree = "<group>";
 		};
+		D2ABAD19256F930C009FDD94 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				D7AC536B24BAD91A00BCD71F /* Images.swift */,
+				D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */,
+				D2ABAD1C256F938E009FDD94 /* ImageThrumbViewModel.swift */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
 		D2AE50632553C69000437337 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -519,7 +533,9 @@
 				D27744E3253B149B0062B25C /* BackOfFriendToolBar.swift in Sources */,
 				D27744E5253B14DD0062B25C /* BackOfTweetsToolBar.swift in Sources */,
 				D2946F2E24CD802C00F8A7C6 /* ReplyUsersView.swift in Sources */,
+				D2ABAD1B256F9345009FDD94 /* ImageThumbView.swift in Sources */,
 				4B2C746D24FA2B410052F356 /* ImageGrabView.swift in Sources */,
+				D2ABAD1D256F938E009FDD94 /* ImageThrumbViewModel.swift in Sources */,
 				D21C3304255A827C001CBBCD /* Counter+Calculate.swift in Sources */,
 				D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */,
 				4B5E607625353A7200E7A5F1 /* AvatarImageView.swift in Sources */,

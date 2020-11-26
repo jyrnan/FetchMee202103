@@ -31,7 +31,7 @@ struct Toast<Presenting, Presented>: View where Presenting: View, Presented: Vie
                 VStack(alignment: .center) {
                     self.presented    
                 }
-                .scaleEffect(isShowing ? 1 : 0)
+                .scaleEffect(isShowing ? 1 : 0.01)
                 .frame(width: geometry.size.width,
                        height: geometry.size.height)
                 
