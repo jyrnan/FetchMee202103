@@ -241,7 +241,6 @@
 				D297390324D150B300917A97 /* CompersView */,
 				4B7130AD253574A500CE0082 /* TweetRow */,
 				D7AC536D24BB477300BCD71F /* DetailView.swift */,
-				D7AC536F24BB4AB200BCD71F /* ImageViewer.swift */,
 				4B2C746C24FA2B410052F356 /* ImageGrabView.swift */,
 				D286FFD624BC31F0005DBC39 /* UserView.swift */,
 				D2A4D2802552AF9500668650 /* TestView.swift */,
@@ -411,6 +410,7 @@
 				D7AC536B24BAD91A00BCD71F /* Images.swift */,
 				D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */,
 				D2ABAD1C256F938E009FDD94 /* ImageThrumbViewModel.swift */,
+				D7AC536F24BB4AB200BCD71F /* ImageViewer.swift */,
 			);
 			path = image;
 			sourceTree = "<group>";

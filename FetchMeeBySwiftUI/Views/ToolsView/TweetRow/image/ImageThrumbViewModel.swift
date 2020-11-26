@@ -10,20 +10,39 @@ import Foundation
 import UIKit
 
 class RemoteImageUrl: ObservableObject {
+    
+    //MARK:-Properties
     @Published var image = UIImage(named: "defaultImage")!
     
-    init(imageUrl: String) {
+    var imageType: ImageType
+    
+   //MARK:-Fucntions
+    
+    init(imageUrl: String, imageType: ImageType = .thrumb) {
+        self.imageType = imageType
         
-        ///添加后缀下载小图
-        let url = imageUrl + ":small"
-        imageDownloaderWithClosure(imageUrl: url, sh: dectectFaceAndSetImageValue(_:))
-        print(#line, #function, "RemoteImageUrl inited...")
+        getImage(from: imageUrl)
+        
     }
     
-    deinit {
-        print(#line, #function, "RemoteImageUrl deinited...")
+    fileprivate func getImage(from imageUrl: String) {
+        
+        switch self.imageType {
+        case .thrumb:
+            let url = imageUrl + ":small"
+            imageDownloaderWithClosure(imageUrl: url, sh: dectectFaceAndSetImageValue(_:))
+        case .original:
+            let url = imageUrl + ":large"
+            imageDownloaderWithClosure(imageUrl: url, sh: setImage(_:))
+        } 
     }
      
+    fileprivate func setImage(_ image: UIImage?) {
+        DispatchQueue.main.async {
+            self.image = image ?? UIImage(named: "defaultImage")!
+        }
+    }
+    
     /// 识别图片中的人像，如果有人像则按照人像优化裁剪
     /// 将识别后到image设定到被观察值
     /// - Parameter d: 图像文件的数据
@@ -32,12 +51,10 @@ class RemoteImageUrl: ObservableObject {
             image.detectFaces {result in
                 let croppedImage = result?.cropByFace(image)
                 _ = result?.drawnOn(image)
-                DispatchQueue.main.async {
-                    self.image = croppedImage ?? UIImage(named: "defaultImage")!
-                    
-                    if result?.count == 1 {
-                        print(#line," Detected face!")
-                    }
+                self.setImage(croppedImage)
+                
+                if result?.count == 1 {
+                    print(#line," Detected face!")
                 }
             }
     }
@@ -56,22 +73,29 @@ class RemoteImageUrl: ObservableObject {
         let filePath = cachelUrl.appendingPathComponent(fileName, isDirectory: false)
         
         ///先尝试获取本地缓存文件
-        if let data = try? Data(contentsOf: filePath), let im = UIImage(data: data) {
+        if let data = try? Data(contentsOf: filePath), let image = UIImage(data: data) {
             
-            sh(im)
+            sh(image)
             
         } else {
             let task = URLSession.shared.downloadTask(with: url) {
                 fileURL, resp, err in
-                if let url = fileURL, let data = try? Data(contentsOf: url), let im = UIImage(data: data) {
+                if let url = fileURL, let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
                     
                     ///先转存一份数据到本地
                     try? data.write(to: filePath)
                     
-                    sh(im)
+                    sh(image)
                 }
             }
             task.resume()
         }
+    }
+}
+
+extension RemoteImageUrl {
+    enum ImageType {
+        case thrumb
+        case original
     }
 }
