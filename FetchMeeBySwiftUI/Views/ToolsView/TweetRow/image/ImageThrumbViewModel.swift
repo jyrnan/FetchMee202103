@@ -13,26 +13,29 @@ class RemoteImageUrl: ObservableObject {
     
     //MARK:-Properties
     @Published var image = UIImage(named: "defaultImage")!
-    
+    let imageUrl: String
     var imageType: ImageType
+    
+    
     
    //MARK:-Fucntions
     
     init(imageUrl: String, imageType: ImageType = .thrumb) {
+        self.imageUrl = imageUrl
         self.imageType = imageType
         
-        getImage(from: imageUrl)
+        getImage()
         
     }
     
-    fileprivate func getImage(from imageUrl: String) {
+    func getImage() {
         
         switch self.imageType {
         case .thrumb:
-            let url = imageUrl + ":small"
+            let url = self.imageUrl + ":small"
             imageDownloaderWithClosure(imageUrl: url, sh: dectectFaceAndSetImageValue(_:))
         case .original:
-            let url = imageUrl + ":large"
+            let url = self.imageUrl + ":large"
             imageDownloaderWithClosure(imageUrl: url, sh: setImage(_:))
         } 
     }
