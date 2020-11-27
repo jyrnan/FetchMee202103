@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class RemoteImageUrl: ObservableObject {
+class RemoteImageFromUrl: ObservableObject {
     
     //MARK:-Properties
     @Published var image = UIImage(named: "defaultImage")!
@@ -96,7 +96,7 @@ class RemoteImageUrl: ObservableObject {
     }
 }
 
-extension RemoteImageUrl {
+extension RemoteImageFromUrl {
     enum ImageType {
         case thrumb
         case original

@@ -227,8 +227,7 @@
 				D707B6EE24C44CE10023F243 /* DetailIndicator.swift */,
 				D2946F2624CD6C8100F8A7C6 /* TweetTextView.swift */,
 				D2946F2D24CD802C00F8A7C6 /* ReplyUsersView.swift */,
-				D2C4D40224D3D11100395660 /* AvatarView.swift */,
-				4B5E607525353A7200E7A5F1 /* AvatarImageView.swift */,
+				D2ABAD1E2570A7C4009FDD94 /* Avatar */,
 				D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */,
 				D27DCF8B24B9A56100520BE3 /* TweetRow.swift */,
 			);
@@ -413,6 +412,15 @@
 				D7AC536F24BB4AB200BCD71F /* ImageViewer.swift */,
 			);
 			path = image;
+			sourceTree = "<group>";
+		};
+		D2ABAD1E2570A7C4009FDD94 /* Avatar */ = {
+			isa = PBXGroup;
+			children = (
+				4B5E607525353A7200E7A5F1 /* AvatarImageView.swift */,
+				D2C4D40224D3D11100395660 /* AvatarView.swift */,
+			);
+			path = Avatar;
 			sourceTree = "<group>";
 		};
 		D2AE50632553C69000437337 /* ViewModel */ = {

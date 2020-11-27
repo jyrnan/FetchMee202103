@@ -9,61 +9,50 @@
 import SwiftUI
 
 struct ImageThumb: View {
+    //MARK:-Properties
     @EnvironmentObject var alerts: Alerts
-    
-
-    
-    var imageUrl: String
-    
     @State var presentedImageViewer: Bool = false
     @State var isImageDownloaded: Bool = true //标记大图是否下载完成
     
-    @StateObject var remoteImageUrl: RemoteImageUrl
+    var imageUrl: String
+    @StateObject var remoteImageFromUrl: RemoteImageFromUrl
     
-    var uiImage: UIImage {
-
-        
-        remoteImageUrl.image
-        
-        
-    } //定义一个计算属性方便后续引用。增加了重点区域识别功能，但是看起来效果不理想
     var width: CGFloat
     var height: CGFloat
     
+    //MARK:-Functions
+    
     init(imageUrl: String, width: CGFloat, height: CGFloat) {
-
         
         self.imageUrl = imageUrl
         
         self.width = width
         self.height = height
         
-        _remoteImageUrl = StateObject(wrappedValue: RemoteImageUrl(imageUrl: imageUrl))
+        _remoteImageFromUrl = StateObject(wrappedValue: RemoteImageFromUrl(imageUrl: imageUrl))
     }
     
     
     var body: some View {
         ZStack(alignment: .center) {
             
-            Image(uiImage: self.uiImage)
+            Image(uiImage: remoteImageFromUrl.image)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: width, height: height, alignment: .center) //直接按照传入的大小进行图片调整。
                 .clipped()
                 .contentShape(Rectangle()) //可以定义触控的内容区域，并在此基础上进行触控，也就是触控的区域。完美解决bug
                 .onTapGesture {
-                    //点击下载原图并调用imageViewer
-                        self.isImageDownloaded = false
-                    self.remoteImageUrl.imageType = .original
-                    self.remoteImageUrl.getImage()
-                       
-                            DispatchQueue.main.async {
-                            
-                                let imageViewer = ImageViewer(image: remoteImageUrl.image)
-                                alerts.presentedView = AnyView(imageViewer)
-                                withAnimation{alerts.isShowingPicture = true}                                }
-                            self.isImageDownloaded = true
-                }
+                    ///点击下载原图并调用imageViewer
+                    self.isImageDownloaded = false
+                    self.remoteImageFromUrl.imageDownloaderWithClosure(imageUrl: imageUrl + ":large") {image in
+                        ///下载完成后调用imageViewer
+                        DispatchQueue.main.async {
+                            let imageViewer = ImageViewer(image: image)
+                            alerts.presentedView = AnyView(imageViewer)
+                            withAnimation{alerts.isShowingPicture = true}                                }
+                        self.isImageDownloaded = true}}
+            
             
             ActivityIndicator(isAnimating: self.$isImageDownloaded, style: .medium)
         }
