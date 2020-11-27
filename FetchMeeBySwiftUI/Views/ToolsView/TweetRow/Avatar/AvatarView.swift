@@ -18,33 +18,39 @@ struct AvatarView: View {
     
     var avatar: UIImage?
     
+    var avatarUrlString: String
+    @StateObject var avatarImage: RemoteImageFromUrl
+    
     var userIDString: String?
     var userName: String? //传入用户的名字
     var screenName: String? //传入用户的名字
     var tweetIDString: String? //传入该头像所在的推文ID
     
     @State var isShowAlert: Bool = false //是否显示警告
-    
     @State var presentedUserInfo: Bool = false
-    @State var presentedUserImageGrabber: Bool = false
+    
+    init(avatar: UIImage?, avatarUrlString: String, userIDString: String? = nil, userName: String? = nil, screenName: String? = nil, tweetIDString: String? = nil) {
+        self.avatar = avatar
+        self.avatarUrlString = avatarUrlString
+        self.userIDString = userIDString
+        self.screenName = screenName
+        self.tweetIDString = tweetIDString
+        
+        _avatarImage = StateObject(wrappedValue: RemoteImageFromUrl(imageUrl: avatarUrlString, imageType: .original))
+    }
+    
     var body: some View {
         GeometryReader {geometry in
         ZStack {
             NavigationLink(destination: UserView(userIDString: self.userIDString, userScreenName: screenName),
                            isActive: $presentedUserInfo){
-            AvatarImageView(image: avatar)
+                AvatarImageView(image: avatarImage.image)
             .onTapGesture(count: 2, perform: {
                 UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                 self.pat(text: "并缓缓举起了了大拇指")
             })
             .onTapGesture(count: 1) {
-//                let imageViewer = UserView(userIDString: self.userIDString, userScreenName: screenName)
-//                alerts.presentedView = AnyView(imageViewer)
-//                withAnimation{alerts.isShowingPicture = true}
-
-                self.presentedUserInfo = true
-            }
-//            .simultaneousGesture(LongPressGesture().onEnded{_ in self.presentedUserImageGrabber = true})
+                self.presentedUserInfo = true            }
             .alert(isPresented: self.$isShowAlert, content: {
                 Alert(title: Text("没拍到"), message: Text("可能\(self.userName ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
             })
@@ -78,7 +84,7 @@ struct AvatarView: View {
 
 struct AvatarView_Previews: PreviewProvider {
     static var previews: some View {
-        AvatarView(avatar: UIImage(systemName: "person.circle.fill"))
+        AvatarView(avatar: UIImage(systemName: "person.circle.fill"), avatarUrlString: "")
     }
 }
 

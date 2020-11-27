@@ -28,15 +28,15 @@ class RemoteImageFromUrl: ObservableObject {
         
     }
     
-    func getImage() {
+    fileprivate func getImage() {
         
         switch self.imageType {
         case .thrumb:
             let url = self.imageUrl + ":small"
-            imageDownloaderWithClosure(imageUrl: url, sh: dectectFaceAndSetImageValue(_:))
+            RemoteImageFromUrl.imageDownloaderWithClosure(imageUrl: url, sh: dectectFaceAndSetImageValue(_:))
         case .original:
-            let url = self.imageUrl + ":large"
-            imageDownloaderWithClosure(imageUrl: url, sh: setImage(_:))
+            let url = self.imageUrl
+            RemoteImageFromUrl.imageDownloaderWithClosure(imageUrl: url, sh: setImage(_:))
         } 
     }
      
@@ -65,8 +65,9 @@ class RemoteImageFromUrl: ObservableObject {
     /// 获取图像的数据
     /// 先查找本地缓存是否有数据
     /// 如果没有则从网址下载
+    /// 可以作为一个图片下载的标准程序来使用
     /// - Parameter imageUrl: 图片的URL位置
-    func imageDownloaderWithClosure(imageUrl: String, sh: @escaping (UIImage) -> Void) {
+    static func imageDownloaderWithClosure(imageUrl: String, sh: @escaping (UIImage) -> Void) {
         let sh: (UIImage) -> Void = sh
         
         guard let url = URL(string: imageUrl) else { return}

@@ -44,8 +44,8 @@ struct ImageThumb: View {
                 .contentShape(Rectangle()) //可以定义触控的内容区域，并在此基础上进行触控，也就是触控的区域。完美解决bug
                 .onTapGesture {
                     ///点击下载原图并调用imageViewer
-                    self.isImageDownloaded = false
-                    self.remoteImageFromUrl.imageDownloaderWithClosure(imageUrl: imageUrl + ":large") {image in
+                    isImageDownloaded = false
+                    RemoteImageFromUrl.imageDownloaderWithClosure(imageUrl: imageUrl + ":large") {image in
                         ///下载完成后调用imageViewer
                         DispatchQueue.main.async {
                             let imageViewer = ImageViewer(image: image)

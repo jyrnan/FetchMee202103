@@ -225,12 +225,12 @@ final class Timeline: ObservableObject {
             tweetMedia.avatarUrlString = newTweet["user"]["profile_image_url_https"].string
             tweetMedia.avatarUrlString = tweetMedia.avatarUrlString?.replacingOccurrences(of: "_normal", with: "")
             tweetMedia.avatar = UIImage(systemName: "person.fill")
-            self.imageDownloaderWithClosure(from: tweetMedia.avatarUrlString, sh: { im in
-                DispatchQueue.main.async {
-                    self.tweetMedias[IDString]?.avatar = im
-                }
-
-            })
+//            self.imageDownloaderWithClosure(from: tweetMedia.avatarUrlString, sh: { im in
+//                DispatchQueue.main.async {
+//                    self.tweetMedias[IDString]?.avatar = im
+//                }
+//
+//            })
             
             //图片数据处理
             if newTweet["extended_entities"]["media"].array?.count != nil {

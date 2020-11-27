@@ -14,6 +14,8 @@ struct AvatarImageView: View {
     
     var image: UIImage?
     
+    
+    
     var body: some View {
         Image(uiImage: image ?? UIImage(systemName: "person.circle.fill")!)
             .resizable()
