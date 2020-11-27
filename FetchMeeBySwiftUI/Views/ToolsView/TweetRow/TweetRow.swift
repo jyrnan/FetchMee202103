@@ -105,10 +105,10 @@ struct TweetRow: View {
                     if tweetMedia.images.count != 0 && self.fetchMee.setting.isMediaShowed {
                         ZStack {
                             
-                                Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
+                            Images(
+                                imageUrlStrings: timeline.tweetMedias[tweetIDString]?.urlStrings ?? [])
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0,  maxHeight:.infinity , alignment: .topLeading)
                                     .aspectRatio(16 / 9.0, contentMode: .fill)
-//                                    .frame(height: 160, alignment: .center)
                                     .cornerRadius(16)
                                     .clipped()
                                     .padding(.top, 8)

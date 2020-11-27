@@ -9,11 +9,9 @@
 import SwiftUI
 
 struct Images: View {
-//    @EnvironmentObject var fetchMee: User
     @EnvironmentObject var alerts: Alerts
-    
-    @ObservedObject var timeline: Timeline
-    var tweetIDString: String
+
+    var imageUrlStrings: [String]
     
     @State var presentedImageViewer: Bool = false
     
@@ -22,12 +20,13 @@ struct Images: View {
     }
     
     func containedView() -> AnyView {
-        switch self.timeline.tweetMedias[tweetIDString]?.images.count {
+        switch imageUrlStrings.count {
         case 1:
             return AnyView(GeometryReader {
                 geometry in
                 HStack {
-                    ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 0, width: geometry.size.width, height: geometry.size.height)
+                    ImageThumb(imageUrl: imageUrlStrings[0],
+                               width: geometry.size.width, height: geometry.size.height)
                 }
             })
             
@@ -35,8 +34,8 @@ struct Images: View {
             return AnyView(GeometryReader {
                 geometry in
                 HStack(spacing:2) {
-                    ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 0, width: geometry.size.width / 2, height: geometry.size.height)
-                    ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 1, width: geometry.size.width / 2, height: geometry.size.height)
+                    ImageThumb(imageUrl: imageUrlStrings[0], width: geometry.size.width / 2, height: geometry.size.height)
+                    ImageThumb(imageUrl: imageUrlStrings[1], width: geometry.size.width / 2, height: geometry.size.height)
                 }
             })
         case 3:
@@ -44,10 +43,10 @@ struct Images: View {
                 geometry in
                 HStack(spacing:2) {
                     VStack(spacing:2) {
-                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 0, width: geometry.size.width / 2, height: geometry.size.height / 2)
-                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 2, width: geometry.size.width / 2, height: geometry.size.height / 2)
+                        ImageThumb(imageUrl: imageUrlStrings[0], width: geometry.size.width / 2, height: geometry.size.height / 2)
+                        ImageThumb(imageUrl: imageUrlStrings[2], width: geometry.size.width / 2, height: geometry.size.height / 2)
                     }
-                    ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 1, width: geometry.size.width / 2, height: geometry.size.height)
+                    ImageThumb(imageUrl: imageUrlStrings[1], width: geometry.size.width / 2, height: geometry.size.height)
                 }
             })
         default:
@@ -56,12 +55,12 @@ struct Images: View {
                 HStack(spacing:2) {
                     
                     VStack(spacing:2) {
-                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 0, width: geometry.size.width / 2, height: geometry.size.height / 2)
-                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 2, width: geometry.size.width / 2, height: geometry.size.height / 2)
+                        ImageThumb(imageUrl: imageUrlStrings[0], width: geometry.size.width / 2, height: geometry.size.height / 2)
+                        ImageThumb(imageUrl: imageUrlStrings[2], width: geometry.size.width / 2, height: geometry.size.height / 2)
                     }
                     VStack(spacing:2) {
-                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 1, width: geometry.size.width / 2, height: geometry.size.height / 2)
-                        ImageThumb(timeline: self.timeline, tweetIDString: self.tweetIDString, index: 3, width: geometry.size.width / 2, height: geometry.size.height / 2)
+                        ImageThumb(imageUrl: imageUrlStrings[1], width: geometry.size.width / 2, height: geometry.size.height / 2)
+                        ImageThumb(imageUrl: imageUrlStrings[3], width: geometry.size.width / 2, height: geometry.size.height / 2)
                     }
                 }
             })
@@ -74,7 +73,7 @@ struct Images_Previews: PreviewProvider {
     static var timeline = Timeline(type: .home)
     static var tweetIDString = "0000"
     static var previews: some View {
-        Images(timeline: self.timeline, tweetIDString: self.tweetIDString)
+        Images(imageUrlStrings: [])
     }
 }
 
