@@ -23,7 +23,7 @@ struct DetailView: View {
                     
                     ForEach(replySession.tweetIDStrings, id: \.self) {tweetIDString in
                         
-                        TweetRow(timeline: replySession, tweetIDString: tweetIDString)
+                        TweetRow(viewModel: TweetRowViewModel(timeline: replySession, tweetIDString: tweetIDString))
                         Divider()
                     }
                     .listRowInsets(EdgeInsets(top: 8, leading:0, bottom: 0, trailing: 0))

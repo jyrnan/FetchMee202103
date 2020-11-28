@@ -12,11 +12,16 @@ import AVKit
 
 struct TweetRow: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: User
+    @EnvironmentObject var loginUser: User
     
-    @ObservedObject var timeline: Timeline
-    var tweetIDString: String
-    var tweetMedia: TweetMedia {self.timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: "0000")} //生成一个计算属性用来简化，如果没有相应TweetMedia则生成一个缺省的
+    var timeline: Timeline {viewModel.timeline}
+    var tweetIDString: String {viewModel.tweetIDString}
+    
+    @ObservedObject var viewModel: TweetRowViewModel
+
+    
+    var tweetMedia: TweetMedia {viewModel.tweetMedia}
+//    {self.timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: "0000")} //生成一个计算属性用来简化，如果没有相应TweetMedia则生成一个缺省的
     
     
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
@@ -27,7 +32,7 @@ struct TweetRow: View {
     @State var player: AVPlayer = AVPlayer()
     
     fileprivate func showToolsView() {
-        //                                self.isShowDetail = true
+                                        self.isShowDetail = true
         if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
             if prev != tweetIDString {self.timeline.tweetMedias[prev]?.isToolsViewShowed = false} //判断如果先前选定显示ToolsView的tweetID不是自己，则将原激活ToolSView的推文取消激活
         }
@@ -102,7 +107,7 @@ struct TweetRow: View {
                         .fixedSize(horizontal: false, vertical: true)
                     
                     //如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
-                    if tweetMedia.images.count != 0 && self.fetchMee.setting.isMediaShowed {
+                    if tweetMedia.images.count != 0 && self.loginUser.setting.isMediaShowed {
                         ZStack {
                             
                             Images(
@@ -166,16 +171,18 @@ struct TweetRow: View {
                 }
                 .padding(.trailing, 16)
                 .onTapGesture {
-                    showToolsView()
+                    withAnimation(){
+                        viewModel.toggleToolsView()}
                 }
             }
             Spacer()
             //根据isToolsViewShowed确定是否显示ToolsView
-            if self.tweetMedia.isToolsViewShowed {
+            if viewModel.isToolsViewShowed {
                 ToolsView(timeline: timeline, tweetIDString: tweetIDString)
             } else {
                 EmptyView()}
         }
+        
     }
     
 }
@@ -188,7 +195,9 @@ struct TweetRow_Previews: PreviewProvider {
     static var timeline = Timeline(type: .home)
     static var tweetIDString = "0000"
     static var previews: some View {
-        TweetRow(timeline: self.timeline, tweetIDString: self.tweetIDString).environmentObject(self.alerts).environmentObject(self.user)
+        TweetRow(
+//            timeline: self.timeline, tweetIDString: self.tweetIDString,
+                 viewModel: TweetRowViewModel(timeline: Timeline(type: .home), tweetIDString: "")).environmentObject(self.alerts).environmentObject(self.user)
     }
 }
 

@@ -205,7 +205,7 @@ struct UserView: View {
                     tweetIDString in
                     
                     Divider()
-                    TweetRow(timeline: userTimeline, tweetIDString: tweetIDString)
+                    TweetRow(viewModel: TweetRowViewModel(timeline: userTimeline, tweetIDString: tweetIDString))
                 }
                 .onDelete(perform: { _ in print(#line, "delete")})
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))

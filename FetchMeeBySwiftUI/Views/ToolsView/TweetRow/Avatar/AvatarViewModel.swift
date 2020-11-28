@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 class AvatarViewModel: ObservableObject {
     
     @Published var image: UIImage?

@@ -72,7 +72,7 @@ final class Timeline: ObservableObject {
     
     var type: TimelineType
     var listTag: ListTag? // 如果是list类型，则会传入listTag
-    var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
+    @Published var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
     
     let session = URLSession.shared
     let maxCounter: Int = 100

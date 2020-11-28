@@ -33,6 +33,7 @@
 		D2318AA92571E40900F55BDF /* FavoriteStarMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2318AA82571E40900F55BDF /* FavoriteStarMarkView.swift */; };
 		D2318AAF2571FE1A00F55BDF /* AvatarFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2318AAE2571FE1A00F55BDF /* AvatarFactory.swift */; };
 		D2318AB12572002D00F55BDF /* UserFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2318AB02572002D00F55BDF /* UserFactory.swift */; };
+		D2318AB7257228CC00F55BDF /* TweetRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2318AB6257228CC00F55BDF /* TweetRowViewModel.swift */; };
 		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
 		D252548024D804AB00D8B508 /* WebLinkJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkJson.txt */; };
 		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
@@ -134,6 +135,7 @@
 		D2318AA82571E40900F55BDF /* FavoriteStarMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStarMarkView.swift; sourceTree = "<group>"; };
 		D2318AAE2571FE1A00F55BDF /* AvatarFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarFactory.swift; sourceTree = "<group>"; };
 		D2318AB02572002D00F55BDF /* UserFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFactory.swift; sourceTree = "<group>"; };
+		D2318AB6257228CC00F55BDF /* TweetRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetRowViewModel.swift; sourceTree = "<group>"; };
 		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
 		D252547F24D804AB00D8B508 /* WebLinkJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkJson.txt; sourceTree = "<group>"; };
 		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
@@ -229,6 +231,9 @@
 		4B7130AD253574A500CE0082 /* TweetRow */ = {
 			isa = PBXGroup;
 			children = (
+				D27DCF8B24B9A56100520BE3 /* TweetRow.swift */,
+				D2318AB6257228CC00F55BDF /* TweetRowViewModel.swift */,
+				D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */,
 				D2ABAD1E2570A7C4009FDD94 /* Avatar */,
 				D2ABAD19256F930C009FDD94 /* image */,
 				D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */,
@@ -236,8 +241,6 @@
 				D707B6EE24C44CE10023F243 /* DetailIndicator.swift */,
 				D2946F2624CD6C8100F8A7C6 /* TweetTextView.swift */,
 				D2946F2D24CD802C00F8A7C6 /* ReplyUsersView.swift */,
-				D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */,
-				D27DCF8B24B9A56100520BE3 /* TweetRow.swift */,
 			);
 			path = TweetRow;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */,
 				4BA6627525359FEC00DE8697 /* TimelinesView.swift */,
 				D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */,
+				D7AC535C24B9E94300BCD71F /* Timeline.swift */,
 			);
 			path = Timeline;
 			sourceTree = "<group>";
@@ -446,7 +450,6 @@
 		D2AE50632553C69000437337 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				D7AC535C24B9E94300BCD71F /* Timeline.swift */,
 				D2224F8924BE7C0400AE2110 /* User.swift */,
 				D258D616254AF44B00CA01E7 /* User+UpdateUser.swift */,
 				D2AE50642553C6D500437337 /* MentionUser.swift */,
@@ -578,6 +581,7 @@
 				D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,
 				D2DDFCBF2532D65100AE7E39 /* ToolBarView.swift in Sources */,
+				D2318AB7257228CC00F55BDF /* TweetRowViewModel.swift in Sources */,
 				D2C7248824E613A500804F18 /* RoundedCorners.swift in Sources */,
 				D205247424C199500046F1AB /* AlertsModel.swift in Sources */,
 				D258D617254AF44B00CA01E7 /* User+UpdateUser.swift in Sources */,

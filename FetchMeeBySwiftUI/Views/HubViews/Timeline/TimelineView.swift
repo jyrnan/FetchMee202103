@@ -61,10 +61,12 @@ struct TimelineView: View {
                 ForEach(self.timeline.tweetIDStrings, id: \.self) {
                     tweetIDString in
                     //
-                    TweetRow(timeline: timeline, tweetIDString: tweetIDString)
-                        .onTapGesture {
-                            self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed = true
-                        }
+                    TweetRow(
+//                        timeline: timeline, tweetIDString: tweetIDString,
+                             viewModel: TweetRowViewModel(timeline: timeline, tweetIDString: tweetIDString))
+//                        .onTapGesture {
+//                            self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed = true
+//                        }
                         .background(userDefault.object(forKey: "userIDString") as? String == self.timeline.tweetMedias[tweetIDString]?.in_reply_to_user_id_str && timeline.type == .home ? Color.accentColor.opacity(0.2) : Color.init("BackGround")) //在HomeTimeline标注被提及的推文
                     
                     Divider()
