@@ -25,7 +25,7 @@ struct QuotedTweetRow: View {
         VStack(alignment: .leading) {
             HStack(alignment: .top, spacing: 0) {
                 VStack {
-                    AvatarView(avatar: tweetMedia.avatar, avatarUrlString: tweetMedia.avatarUrlString ?? "", userIDString: self.tweetMedia.userIDString)
+                    AvatarView(userInfo: UserInfo(id:tweetMedia.userIDString ?? "", avatarUrlString: tweetMedia.avatarUrlString))
                         .frame(width: 24, height: 24)
                         .padding(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
                     Spacer()

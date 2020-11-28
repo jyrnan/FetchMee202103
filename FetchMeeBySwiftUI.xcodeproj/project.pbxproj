@@ -30,6 +30,9 @@
 		D2224FD324BE901E00AE2110 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224FD224BE901E00AE2110 /* AuthView.swift */; };
 		D2309F222547E09A00549E27 /* CustomTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2309F212547E09A00549E27 /* CustomTextEditor.swift */; };
 		D2309F29254922B000549E27 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2309F28254922B000549E27 /* Toast.swift */; };
+		D2318AA92571E40900F55BDF /* FavoriteStarMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2318AA82571E40900F55BDF /* FavoriteStarMarkView.swift */; };
+		D2318AAF2571FE1A00F55BDF /* AvatarFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2318AAE2571FE1A00F55BDF /* AvatarFactory.swift */; };
+		D2318AB12572002D00F55BDF /* UserFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2318AB02572002D00F55BDF /* UserFactory.swift */; };
 		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
 		D252548024D804AB00D8B508 /* WebLinkJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkJson.txt */; };
 		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
@@ -128,6 +131,9 @@
 		D2224FD224BE901E00AE2110 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		D2309F212547E09A00549E27 /* CustomTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEditor.swift; sourceTree = "<group>"; };
 		D2309F28254922B000549E27 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		D2318AA82571E40900F55BDF /* FavoriteStarMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStarMarkView.swift; sourceTree = "<group>"; };
+		D2318AAE2571FE1A00F55BDF /* AvatarFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarFactory.swift; sourceTree = "<group>"; };
+		D2318AB02572002D00F55BDF /* UserFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFactory.swift; sourceTree = "<group>"; };
 		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
 		D252547F24D804AB00D8B508 /* WebLinkJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkJson.txt; sourceTree = "<group>"; };
 		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
@@ -277,6 +283,14 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		D2318AAD2571FBF500F55BDF /* User */ = {
+			isa = PBXGroup;
+			children = (
+				D2318AB02572002D00F55BDF /* UserFactory.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
 		D252547824D8000700D8B508 /* reference */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,6 +352,7 @@
 		D27DCF3C24B98FA600520BE3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D2318AAD2571FBF500F55BDF /* User */,
 				D2AE50632553C69000437337 /* ViewModel */,
 				D27DCF3A24B98F9900520BE3 /* Tweet.swift */,
 				D2C12CD4254A6A6B00D74778 /* UserInfo.swift */,
@@ -422,6 +437,8 @@
 				4B5E607525353A7200E7A5F1 /* AvatarImageView.swift */,
 				D2C4D40224D3D11100395660 /* AvatarView.swift */,
 				D2ABAD1F2570D74B009FDD94 /* AvatarViewModel.swift */,
+				D2318AA82571E40900F55BDF /* FavoriteStarMarkView.swift */,
+				D2318AAE2571FE1A00F55BDF /* AvatarFactory.swift */,
 			);
 			path = Avatar;
 			sourceTree = "<group>";
@@ -534,6 +551,7 @@
 				D2AE506725564A2800437337 /* LogMessageSmallView.swift in Sources */,
 				D7AC535D24B9E94300BCD71F /* Timeline.swift in Sources */,
 				D297390224D11A0800917A97 /* ComposerMoreView.swift in Sources */,
+				D2318AAF2571FE1A00F55BDF /* AvatarFactory.swift in Sources */,
 				D205246C24C18AC30046F1AB /* AlertView.swift in Sources */,
 				D2309F29254922B000549E27 /* Toast.swift in Sources */,
 				D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */,
@@ -548,9 +566,11 @@
 				4B2C746D24FA2B410052F356 /* ImageGrabView.swift in Sources */,
 				D2ABAD1D256F938E009FDD94 /* ImageThrumbViewModel.swift in Sources */,
 				D21C3304255A827C001CBBCD /* Counter+Calculate.swift in Sources */,
+				D2318AB12572002D00F55BDF /* UserFactory.swift in Sources */,
 				D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */,
 				4B5E607625353A7200E7A5F1 /* AvatarImageView.swift in Sources */,
 				D7AC536E24BB477300BCD71F /* DetailView.swift in Sources */,
+				D2318AA92571E40900F55BDF /* FavoriteStarMarkView.swift in Sources */,
 				D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */,
 				D2A4D2812552AF9500668650 /* TestView.swift in Sources */,
 				D21C3306255A8356001CBBCD /* FoundationExtensions.swift in Sources */,

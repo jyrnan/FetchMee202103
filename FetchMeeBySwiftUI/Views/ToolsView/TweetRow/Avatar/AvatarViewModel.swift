@@ -10,21 +10,42 @@ import Foundation
 import UIKit
 
 
-class AvatarViewModel: User {
+class AvatarViewModel: ObservableObject {
     
-    let userIDString: String?
-    let userName: String? //传入用户的名字
-    let screenName: String? //传入用户的名字
-    let tweetIDString: String? //传入该头像所在的推文ID
-    let avatarUrlString: String //传入该头像Url
+    @Published var image: UIImage?
+    @Published var isShowAlert: Bool = false
+    @Published var userInfo: UserInfo
     
     
-    init(userIDString: String?, avatarUrlString: String, userName: String? = nil, screenName: String? = nil, tweetIDString: String? = nil) {
+    fileprivate func getImage(_ avatarUrlString: String?) {
+        if let url = avatarUrlString {
+        RemoteImageFromUrl.imageDownloaderWithClosure(imageUrl: url, sh: {image in
+            DispatchQueue.main.async {
+                self.image = image
+            }
+        })
+    }
+    }
+    
+    init(userInfo: UserInfo) {
         
-        self.userIDString = userIDString
-        self.avatarUrlString = avatarUrlString
-        self.userName = userName
-        self.screenName = screenName
-        self.tweetIDString = tweetIDString
+        self.userInfo = userInfo
+        
+        getImage(userInfo.avatarUrlString)
+    }
+    
+    
+    
+    /// 拍一拍的实现方法
+    /// TODO：自定义动作类型
+    /// - Parameter text: 输入的文字
+    func tickle(text: String? = "") {
+        print(#line, #function, "pat")
+        isShowAlert.toggle()
+//        let tweetText = "\(fetchMee.info.name ?? "楼主")拍了拍\"\(userName)\" \(text ?? "") \n@\(screenName)"
+//        swifter.postTweet(status: tweetText, inReplyToStatusID: self.tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
+//            self.alerts.stripAlert.alertText = "Patting sent!"
+//            self.alerts.stripAlert.isPresentedAlert = true
+//        }, failure: {error in self.isShowAlert = true })
     }
 }

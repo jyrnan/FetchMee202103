@@ -64,11 +64,7 @@ struct TweetRow: View {
                 
                 //Avatar显示
                 VStack {
-                    AvatarView(avatar: tweetMedia.avatar, avatarUrlString: tweetMedia.avatarUrlString!,
-                               userIDString: self.tweetMedia.userIDString,
-                               userName: self.tweetMedia.userName,
-                               screenName: self.tweetMedia.screenName,
-                               tweetIDString: self.tweetIDString)
+                    AvatarView(userInfo: UserInfo(id: tweetMedia.userIDString ?? "0000", avatarUrlString: tweetMedia.avatarUrlString))
                         .frame(width: 36, height: 36)
                         .padding(.init(top: 8, leading: 16, bottom: 12, trailing: 12))
                     Spacer()
@@ -195,3 +191,4 @@ struct TweetRow_Previews: PreviewProvider {
         TweetRow(timeline: self.timeline, tweetIDString: self.tweetIDString).environmentObject(self.alerts).environmentObject(self.user)
     }
 }
+
