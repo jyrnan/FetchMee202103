@@ -82,6 +82,7 @@
 		D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C45BAB24C6D31B007D67B6 /* ContentView.swift */; };
 		D2C4D40324D3D11100395660 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C4D40224D3D11100395660 /* AvatarView.swift */; };
 		D2C7248824E613A500804F18 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C7248724E613A400804F18 /* RoundedCorners.swift */; };
+		D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D4878C257272D6005EE4A7 /* RetweetMarkView.swift */; };
 		D2DDFCBF2532D65100AE7E39 /* ToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */; };
 		D2DDFCC12532DE3300AE7E39 /* TimelineIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */; };
 		D2E4D75324D851EA00D68A09 /* QuotedTweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */; };
@@ -187,6 +188,7 @@
 		D2C45BAB24C6D31B007D67B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D2C4D40224D3D11100395660 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		D2C7248724E613A400804F18 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
+		D2D4878C257272D6005EE4A7 /* RetweetMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetweetMarkView.swift; sourceTree = "<group>"; };
 		D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarView.swift; sourceTree = "<group>"; };
 		D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineIconView.swift; sourceTree = "<group>"; };
 		D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotedTweetRow.swift; sourceTree = "<group>"; };
@@ -234,10 +236,11 @@
 				D27DCF8B24B9A56100520BE3 /* TweetRow.swift */,
 				D2318AB6257228CC00F55BDF /* TweetRowViewModel.swift */,
 				D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */,
+				D270E87C24C01C9100BBD3FE /* ToolsView.swift */,
+				D2D4878C257272D6005EE4A7 /* RetweetMarkView.swift */,
 				D2ABAD1E2570A7C4009FDD94 /* Avatar */,
 				D2ABAD19256F930C009FDD94 /* image */,
 				D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */,
-				D270E87C24C01C9100BBD3FE /* ToolsView.swift */,
 				D707B6EE24C44CE10023F243 /* DetailIndicator.swift */,
 				D2946F2624CD6C8100F8A7C6 /* TweetTextView.swift */,
 				D2946F2D24CD802C00F8A7C6 /* ReplyUsersView.swift */,
@@ -620,6 +623,7 @@
 				D286BE4A2566460600DCEA1E /* AuthViewController.swift in Sources */,
 				D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */,
 				D27DCEBE24B96D5F00520BE3 /* TimelineView.swift in Sources */,
+				D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */,
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
 				D2DDFCC12532DE3300AE7E39 /* TimelineIconView.swift in Sources */,
 				D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */,

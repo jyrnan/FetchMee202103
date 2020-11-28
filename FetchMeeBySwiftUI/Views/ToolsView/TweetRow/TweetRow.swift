@@ -11,19 +11,16 @@ import Combine
 import AVKit
 
 struct TweetRow: View {
+    //MARK:- Properties
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var loginUser: User
     
-    var timeline: Timeline {viewModel.timeline}
-    var tweetIDString: String {viewModel.tweetIDString}
-    
     @ObservedObject var viewModel: TweetRowViewModel
 
-    
+    var timeline: Timeline {viewModel.timeline}
+    var tweetIDString: String {viewModel.tweetIDString}
     var tweetMedia: TweetMedia {viewModel.tweetMedia}
-//    {self.timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: "0000")} //生成一个计算属性用来简化，如果没有相应TweetMedia则生成一个缺省的
-    
-    
+  
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     @State var playVideo: Bool = false //控制是否显示视频播放页面
@@ -31,37 +28,21 @@ struct TweetRow: View {
     
     @State var player: AVPlayer = AVPlayer()
     
-    fileprivate func showToolsView() {
-                                        self.isShowDetail = true
-        if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
-            if prev != tweetIDString {self.timeline.tweetMedias[prev]?.isToolsViewShowed = false} //判断如果先前选定显示ToolsView的tweetID不是自己，则将原激活ToolSView的推文取消激活
-        }
-        withAnimation {self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle() }
-        self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
-    }
+//    fileprivate func showToolsView() {
+//                                        self.isShowDetail = true
+//        if let prev = self.timeline.tweetIDStringOfRowToolsViewShowed {
+//            if prev != tweetIDString {self.timeline.tweetMedias[prev]?.isToolsViewShowed = false} //判断如果先前选定显示ToolsView的tweetID不是自己，则将原激活ToolSView的推文取消激活
+//        }
+//        withAnimation {self.timeline.tweetMedias[tweetIDString]?.isToolsViewShowed.toggle() }
+//        self.timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+//    }
     
     var body: some View {
         
         VStack() {
             //如果是retweet推文，则显示retweet用户信息
             if self.tweetMedia.retweeted_by_UserName != nil {
-                HStack {
-                    NavigationLink(destination: UserView(userIDString: self.tweetMedia.retweeted_by_UserIDString), isActive: $presentedUserInfo, label: {EmptyView()})
-                    Image(systemName:"repeat")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 12, height: 12, alignment: .center)
-                        .foregroundColor(.gray)
-                    Text(self.tweetMedia.retweeted_by_UserName! + "  retweeted")
-                        .font(.subheadline).lineLimit(2)
-                        .foregroundColor(.gray)
-                        .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                            self.presentedUserInfo = true
-                        })
-//                        .sheet(isPresented: $presentedUserInfo) {UserView(userIDString: self.tweetMedia.retweeted_by_UserIDString).environmentObject(self.alerts)
-//                            .environmentObject(self.fetchMee)}
-                    Spacer()
-                }.offset(x: 44).padding(.top, 8).padding(.bottom, 0)
+                RetweetMarkView()
             }
             
             
@@ -88,6 +69,7 @@ struct TweetRow: View {
                             .lineLimit(1)
                         CreatedTimeView(createdTime: self.tweetMedia.created)
                         Spacer()
+                        
                         NavigationLink(destination: DetailView(tweetIDString: tweetIDString)){
                         DetailIndicator(timeline: timeline, tweetIDString: tweetIDString)
                             .padding(.all, 0)

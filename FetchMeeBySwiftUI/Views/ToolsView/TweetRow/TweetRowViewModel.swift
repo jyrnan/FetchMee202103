@@ -24,6 +24,8 @@ class TweetRowViewModel: ObservableObject{
     
     func toggleToolsView() {
         if self.isToolsViewShowed {
+            ///判断如果先前选定显示ToolsView的tweetID不是自己，
+            ///则将原激活ToolSView的推文取消激活
             timeline.tweetIDStringOfRowToolsViewShowed = nil
         } else {
             timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString }
