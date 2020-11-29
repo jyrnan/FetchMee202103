@@ -31,16 +31,24 @@ struct TimelineView: View {
     var body: some View {
         
         ScrollView(.vertical){
-            PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
-                Composer(timeline: self.timeline)}
-                .frame(height: 36)
-                .background(Color.init("BackGround"))
-                .cornerRadius(18)
-                .padding(16)
-            
+           
+           
             //Homeline部分章节
             LazyVStack(spacing: 0) {
                 RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
+                
+                PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
+                        Composer(timeline: self.timeline)
+                }
+                .frame(height: 36)
+                .padding(0)
+                .background(Color.init("BackGround"))
+                
+                Rectangle()
+                    .frame(height: 18)
+                    .foregroundColor(Color.init("BackGround"))
+                
+                Divider()
                 
                 ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
                     TweetRow(viewModel: TweetRowViewModel(timeline: timeline, tweetIDString: tweetIDString))
@@ -61,7 +69,7 @@ struct TimelineView: View {
                 RoundedCorners(color: Color.init("BackGround"), bl: 18, br: 18 )
                     .frame(height: 18)
             }
-            .padding([.leading, .trailing], 16)
+//            .padding([.leading, .trailing], 16)
             
         }
         .navigationTitle(listName ?? timeline.type.rawValue)
