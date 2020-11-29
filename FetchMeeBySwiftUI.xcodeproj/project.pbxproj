@@ -241,7 +241,7 @@
 				D2318AB6257228CC00F55BDF /* TweetRowViewModel.swift */,
 				D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */,
 				D270E87C24C01C9100BBD3FE /* ToolsView.swift */,
-				D2D4878C257272D6005EE4A7 /* RetweetMarkView.swift */,
+				D2D48793257386A0005EE4A7 /* RetweetMark */,
 				D2D4879025734C0D005EE4A7 /* PlayButton */,
 				D2ABAD1E2570A7C4009FDD94 /* Avatar */,
 				D2ABAD19256F930C009FDD94 /* image */,
@@ -266,7 +266,6 @@
 				D262FDD924D2CEED00682B99 /* SafariView.swift */,
 				D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */,
 				D21F4C4E24DE73C6004B2C20 /* SettingView.swift */,
-				D2B2560F24E39020009F982E /* VideoPlayView.swift */,
 				D2C7248724E613A400804F18 /* RoundedCorners.swift */,
 				D2309F212547E09A00549E27 /* CustomTextEditor.swift */,
 				D2309F28254922B000549E27 /* Toast.swift */,
@@ -470,8 +469,17 @@
 			children = (
 				D2D4878E25734B0A005EE4A7 /* PlayButtonView.swift */,
 				D2D4879125734C60005EE4A7 /* PlayButtonViewModel.swift */,
+				D2B2560F24E39020009F982E /* VideoPlayView.swift */,
 			);
 			path = PlayButton;
+			sourceTree = "<group>";
+		};
+		D2D48793257386A0005EE4A7 /* RetweetMark */ = {
+			isa = PBXGroup;
+			children = (
+				D2D4878C257272D6005EE4A7 /* RetweetMarkView.swift */,
+			);
+			path = RetweetMark;
 			sourceTree = "<group>";
 		};
 		D2DF0CE42562B6450058305A /* CountView */ = {

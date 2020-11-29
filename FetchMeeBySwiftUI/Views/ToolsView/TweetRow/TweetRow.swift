@@ -89,19 +89,7 @@ struct TweetRow: View {
                         
                         ///媒体视图上叠加一个播放按钮
                         viewModel.playButtonView
-                            .onTapGesture(count: 1, perform: {
-                                if self.playVideo {
-                                    self.player = AVPlayer()
-                                    self.playVideo = false
-                                } else {
-                                    if let url = self.tweetMedia.mediaUrlString {
-                                        self.player = AVPlayer(url: URL(string: url)!)
-                                        self.playVideo = true }
-                                }
-                            })
-                            .fullScreenCover(isPresented: self.$playVideo, onDismiss: {self.player = AVPlayer()}, content: {
-                                PlayerContainerView(player: self.player)
-                            })
+
                     }
                     
                     

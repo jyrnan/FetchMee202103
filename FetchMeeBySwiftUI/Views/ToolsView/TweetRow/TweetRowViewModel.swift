@@ -29,6 +29,12 @@ class TweetRowViewModel: ObservableObject{
         self.tweetMedia = timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: tweetIDString)
         
         makeViews()
+        
+        print(#line, #function, "TweetRowViewModel inited")
+    }
+    
+    deinit {
+        print(#line, #function, "TweetRowViewModel deinited")
     }
     
     func makeViews() {
@@ -81,8 +87,7 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func makePlayButtonViewModel() -> PlayButtonViewModel {
-        return PlayButtonViewModel(timeline: timeline,
-                                   url: tweetMedia.mediaUrlString)
+        return PlayButtonViewModel(url: tweetMedia.mediaUrlString)
     }
     
 }

@@ -52,15 +52,24 @@ struct VideoPlayView: View {
     let player: AVPlayer
     
     var body: some View {
-        VideoPlayer(player: player)
-        Text("Close")
-            .padding(4)
-            .foregroundColor(.white)
-            .background(Color.accentColor)
-            .clipShape(Capsule())
-            .onTapGesture {
-                presentationMode.wrappedValue.dismiss()
+        ZStack{
+            VideoPlayer(player: player)
+            VStack{
+                HStack{
+                    Image(systemName: "xmark.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width:24, height: 24)
+                        .foregroundColor(.gray).opacity(0.4)
+                        .padding()
+                        .onTapGesture {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    Spacer()
+                }
+                Spacer()
             }
+        }
     }
 }
 
@@ -111,8 +120,8 @@ struct PlayerContainerView : View {
     @State var showController: Bool = false {
         didSet {
             delay(delay: 4, closure: {
-                if self.showController == true {
-                    withAnimation {self.showController = false}}})
+                    if self.showController == true {
+                        withAnimation {self.showController = false}}})
         }
     }
     
@@ -126,7 +135,7 @@ struct PlayerContainerView : View {
             VStack {
                 Spacer()
                 if self.showController {
-                PlayerControlsView(player: player)
+                    PlayerControlsView(player: player)
                 }
             }
             
@@ -152,7 +161,7 @@ struct PlayerControlsView : View {
                 .fill(Color.gray).opacity(0.2)
                 .padding()
                 .frame(height: 140)
-        
+            
             VStack {
                 HStack {
                     Spacer()
