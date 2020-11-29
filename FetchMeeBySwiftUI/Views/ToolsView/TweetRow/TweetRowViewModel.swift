@@ -18,8 +18,11 @@ class TweetRowViewModel: ObservableObject{
     
     var retweetMarkView: RetweetMarkView?
     var avatarView: AvatarView!
+    var userNameView: UserNameView!
     var images: Images?
     var playButtonView: PlayButtonView?
+    
+    
     
     //MARK:- Methods
     init(timeline:Timeline, tweetIDString: String) {
@@ -40,6 +43,7 @@ class TweetRowViewModel: ObservableObject{
     func makeViews() {
         checkIsRetweet()
         makeAvatarView()
+        makeUserNameView()
         makeImagesView()
         makePlayButtonView()
     }
@@ -71,6 +75,12 @@ class TweetRowViewModel: ObservableObject{
             self.avatarView = AvatarView(userInfo: userInfo )
         }
         
+    }
+    
+    func makeUserNameView() {
+        if let userName = tweetMedia.userName, let screenName = tweetMedia.screenName {
+            userNameView = UserNameView(userName: userName, screenName: screenName)
+        }
     }
     
     func makeImagesView() {

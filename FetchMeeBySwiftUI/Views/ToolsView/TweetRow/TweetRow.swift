@@ -21,6 +21,12 @@ struct TweetRow: View {
     var tweetIDString: String {viewModel.tweetIDString}
     var tweetMedia: TweetMedia {viewModel.tweetMedia}
     
+    var backgroundColor: Color {
+        if userDefault.object(forKey: "userIDString") as? String == tweetMedia.in_reply_to_user_id_str && timeline.type == .home {
+            return Color.accentColor.opacity(0.2)
+        } else{ return Color.init("BackGround") }
+    }
+    
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     @State var playVideo: Bool = false //控制是否显示视频播放页面
@@ -49,26 +55,23 @@ struct TweetRow: View {
                     
                     ///用户名和创建时间以及详情页面点点点等信息
                     HStack(alignment: .center) {
-                        Text(self.tweetMedia.userName ?? "UserName")
-                            .font(.headline)
-                            .lineLimit(1)
-                        Text("@" + (self.tweetMedia.screenName ?? "screenName"))
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .lineLimit(1)
+                        viewModel.userNameView
+
                         CreatedTimeView(createdTime: self.tweetMedia.created)
+                        
                         Spacer()
                         
                         NavigationLink(destination: DetailView(tweetIDString: tweetIDString)){
                             DetailIndicator(timeline: timeline, tweetIDString: tweetIDString)
-                                .padding(.all, 0)
-                                .contentShape(Rectangle())
                         }
                     }
-                    .padding(.top, (self.tweetMedia.retweeted_by_UserName != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
+                    .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
                     
                     ///如果有回复用户列表不为空，则显示回复用户
-                    if tweetMedia.replyUsers.count != 0 {ReplyUsersView(replyUsers: tweetMedia.replyUsers)}
+                    
+                    if tweetMedia.replyUsers.count != 0 {
+                        ReplyUsersView(replyUsers: tweetMedia.replyUsers)
+                    }
                     
                     ///推文正文
                     TweetTextView(tweetText: tweetMedia.tweetText)
@@ -80,16 +83,8 @@ struct TweetRow: View {
                     ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
                     ZStack {
                         viewModel.images
-                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0,  maxHeight:.infinity , alignment: .topLeading)
-                            .aspectRatio(16 / 9.0, contentMode: .fill)
-                            .cornerRadius(16)
-                            .clipped()
-                            .padding(.top, 8)
-                            .padding(.bottom, 8)
-                        
                         ///媒体视图上叠加一个播放按钮
                         viewModel.playButtonView
-
                     }
                     
                     
@@ -114,7 +109,7 @@ struct TweetRow: View {
                 ToolsView(timeline: timeline, tweetIDString: tweetIDString)
             } else {
                 EmptyView()}
-        }
+        }.background(backgroundColor)
         
     }
     

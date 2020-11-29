@@ -17,6 +17,12 @@ struct Images: View {
     
     var body: some View {
         return containedView()
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0,  maxHeight:.infinity , alignment: .topLeading)
+            .aspectRatio(16 / 9.0, contentMode: .fill)
+            .cornerRadius(16)
+            .clipped()
+            .padding(.top, 8)
+            .padding(.bottom, 8)
     }
     
     func containedView() -> AnyView {

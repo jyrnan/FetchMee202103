@@ -13,6 +13,7 @@ struct ReplyUsersView: View {
     @EnvironmentObject var fetchMee: User
     var replyUsers: [String] = ["jyrnan", "FetchMee"]
     @State var presentedUserInfo: Bool = false
+    
     var body: some View {
         Group {
             () -> AnyView in

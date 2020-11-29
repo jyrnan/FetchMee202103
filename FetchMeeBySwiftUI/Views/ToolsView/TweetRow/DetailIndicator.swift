@@ -42,6 +42,8 @@ struct DetailIndicator: View {
         }
         .frame(width: 27, height: 11, alignment: .center)
         .opacity(0.7)
+        .padding(.all, 0)
+        .contentShape(Rectangle())
     }
     
     func delay(delay: Double, closure: @escaping () -> ()) {
