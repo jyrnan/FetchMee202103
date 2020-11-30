@@ -13,7 +13,8 @@ class AvatarViewModel: ObservableObject {
     
     @Published var image: UIImage?
     @Published var isShowAlert: Bool = false
-    @Published var userInfo: UserInfo
+    
+    var userInfo: UserInfo
     
     init(userInfo: UserInfo) {
         self.userInfo = userInfo

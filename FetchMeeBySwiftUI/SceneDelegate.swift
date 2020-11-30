@@ -25,6 +25,10 @@ let session = URLSession.shared
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
+    
+    ///这个还真不知道有没有必要呢……
+    let injectionContainer = FetchMeeAppDependencyContainer()
+    
     var loingUser: User = User() //App登录使用的用户
     var alerts: Alerts = Alerts()
     var downloader = Downloader(configuation: URLSessionConfiguration.default)
