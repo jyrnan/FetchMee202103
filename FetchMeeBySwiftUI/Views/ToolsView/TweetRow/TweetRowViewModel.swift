@@ -19,6 +19,7 @@ class TweetRowViewModel: ObservableObject{
     var retweetMarkView: RetweetMarkView?
     var avatarView: AvatarView!
     var userNameView: UserNameView!
+    var replyUsersView: ReplyUsersView?
     var images: Images?
     var playButtonView: PlayButtonView?
     
@@ -41,9 +42,10 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func makeViews() {
-        checkIsRetweet()
-        makeAvatarView()
+        retweetMarkView = makeRetweetMarkView()
+        avatarView = makeAvatarView()
         makeUserNameView()
+        replyUsersView = makeReplyUsersView()
         makeImagesView()
         makePlayButtonView()
     }
@@ -57,30 +59,38 @@ class TweetRowViewModel: ObservableObject{
             timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString }
     }
     
-    func checkIsRetweet() {
-        if let name = tweetMedia.retweeted_by_UserName, let id = tweetMedia.retweeted_by_IDString {
-            makeRetweetMarkView(id: id, name: name)
-        }
+    func makeRetweetMarkView() -> RetweetMarkView? {
+        guard let name = tweetMedia.retweeted_by_UserName, let id = tweetMedia.retweeted_by_IDString  else {return nil }
+        let retweetMarkView = RetweetMarkView(userIDString: id, userName: name)
+        return retweetMarkView
     }
     
-    func makeRetweetMarkView(id: String, name: String) {
-        self.retweetMarkView = RetweetMarkView(userIDString: id, userName: name)
+    //生产AvatarView头像
+    
+    func makeAvatarViewModel() -> AvatarViewModel {
+        var avatarViewModel: AvatarViewModel
+        var userInfo = UserInfo()
+        userInfo.id = tweetMedia.userIDString!
+        userInfo.avatarUrlString = tweetMedia.avatarUrlString
+        avatarViewModel = AvatarViewModel(userInfo: userInfo )
+        return avatarViewModel
     }
     
-    func makeAvatarView() {
-        if let userID = tweetMedia.userIDString, let avatarUrl = tweetMedia.avatarUrlString {
-            var userInfo = UserInfo()
-            userInfo.id = userID
-            userInfo.avatarUrlString = avatarUrl
-            self.avatarView = AvatarView(userInfo: userInfo )
-        }
-        
+    func makeAvatarView() -> AvatarView {
+        let avatarViewModel: AvatarViewModel = makeAvatarViewModel()
+        return AvatarView(avatarViewModel: avatarViewModel)
     }
     
     func makeUserNameView() {
         if let userName = tweetMedia.userName, let screenName = tweetMedia.screenName {
             userNameView = UserNameView(userName: userName, screenName: screenName)
         }
+    }
+    
+    func makeReplyUsersView() -> ReplyUsersView? {
+        guard !tweetMedia.replyUsers.isEmpty else {return nil}
+        let replyUsersView = ReplyUsersView(replyUsers: tweetMedia.replyUsers)
+        return replyUsersView
     }
     
     func makeImagesView() {
@@ -99,5 +109,4 @@ class TweetRowViewModel: ObservableObject{
     func makePlayButtonViewModel() -> PlayButtonViewModel {
         return PlayButtonViewModel(url: tweetMedia.mediaUrlString)
     }
-    
 }

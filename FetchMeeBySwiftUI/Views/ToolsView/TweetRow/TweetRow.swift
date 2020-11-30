@@ -34,6 +34,11 @@ struct TweetRow: View {
     
     @State var player: AVPlayer = AVPlayer()
     
+    init(viewModel: TweetRowViewModel) {
+        self.viewModel = viewModel
+        print(#line, #function, "TweetRowView inited")
+    }
+    
     
     var body: some View {
         
@@ -68,10 +73,10 @@ struct TweetRow: View {
                     .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
                     
                     ///如果有回复用户列表不为空，则显示回复用户
-                    
-                    if tweetMedia.replyUsers.count != 0 {
-                        ReplyUsersView(replyUsers: tweetMedia.replyUsers)
-                    }
+                    viewModel.replyUsersView
+//                    if tweetMedia.replyUsers.count != 0 {
+//                        ReplyUsersView(replyUsers: tweetMedia.replyUsers)
+//                    }
                     
                     ///推文正文
                     TweetTextView(tweetText: tweetMedia.tweetText)

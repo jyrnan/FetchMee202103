@@ -15,6 +15,10 @@ class AvatarViewModel: ObservableObject {
     @Published var isShowAlert: Bool = false
     @Published var userInfo: UserInfo
     
+    init(userInfo: UserInfo) {
+        self.userInfo = userInfo
+        getImage(userInfo.avatarUrlString)
+    }
     
     fileprivate func getImage(_ avatarUrlString: String?) {
         if let url = avatarUrlString {
@@ -25,15 +29,6 @@ class AvatarViewModel: ObservableObject {
         })
     }
     }
-    
-    init(userInfo: UserInfo) {
-        
-        self.userInfo = userInfo
-        
-        getImage(userInfo.avatarUrlString)
-    }
-    
-    
     
     /// 拍一拍的实现方法
     /// TODO：自定义动作类型

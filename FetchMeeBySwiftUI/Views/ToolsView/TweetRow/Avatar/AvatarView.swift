@@ -20,8 +20,8 @@ struct AvatarView: View {
    
     @State var presentedUserInfo: Bool = false
     
-    init(userInfo: UserInfo) {
-        _avatarViewModel = StateObject(wrappedValue: AvatarViewModel(userInfo: userInfo))
+    init(avatarViewModel: AvatarViewModel) {
+        _avatarViewModel = StateObject(wrappedValue: avatarViewModel)
     }
     
     var body: some View {
@@ -51,7 +51,7 @@ struct AvatarView: View {
 
 struct AvatarView_Previews: PreviewProvider {
     static var previews: some View {
-        AvatarView(userInfo: UserInfo())
+        AvatarView(avatarViewModel: AvatarViewModel(userInfo: UserInfo()))
     }
 }
 

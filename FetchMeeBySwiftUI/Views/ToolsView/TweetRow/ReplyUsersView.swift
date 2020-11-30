@@ -17,7 +17,7 @@ struct ReplyUsersView: View {
     var body: some View {
         Group {
             () -> AnyView in
-            guard !self.replyUsers.isEmpty else {return AnyView(EmptyView())}
+//            guard !self.replyUsers.isEmpty else {return AnyView(EmptyView())}
             var replyUsersView = Text("Replying to ").foregroundColor(.gray)
             for replyUser in self.replyUsers {
                 replyUsersView = replyUsersView
