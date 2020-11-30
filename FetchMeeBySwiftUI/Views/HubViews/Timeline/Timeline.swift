@@ -48,7 +48,7 @@ enum TimelineType: String {
 final class Timeline: ObservableObject {
     @Published var tweetIDStrings: [String] = []
     @Published var imageURLStrings: [String: Bool] = [:] //标记被选择的图片ID???
-    var tweetMedias: [String: TweetMedia] = [:]
+    @Published var tweetMedias: [String: TweetMedia] = [:]
     @Published var newTweetNumber: Int = 0
     @Published var isDone: Bool = true { //设定在更新任务时候状态指示器是否显示，但无论任务是否结束，10秒种后状态指示器消失
         didSet {

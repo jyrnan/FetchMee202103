@@ -12,10 +12,12 @@ import Combine
 struct QuotedTweetRow: View {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var fetchMee: User
-   
-    @ObservedObject var timeline: Timeline
-    var tweetIDString: String
-    var tweetMedia: TweetMedia {self.timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: "")} //生成一个计算属性用来简化
+    
+    @ObservedObject var viewModel: TweetRowViewModel
+    
+//    var timeline: Timeline {viewModel.timeline}
+//    var tweetIDString: String {viewModel.tweetIDString}
+//    var tweetMedia: TweetMedia {viewModel.tweetMedia}
     
     
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
@@ -25,44 +27,33 @@ struct QuotedTweetRow: View {
         VStack(alignment: .leading) {
             HStack(alignment: .top, spacing: 0) {
                 VStack {
-                    AvatarView(avatarViewModel: AvatarViewModel(userInfo: UserInfo()))
-                        .frame(width: 24, height: 24)
-                        .padding(.init(top: 8, leading: 8, bottom: 8, trailing: 8))
+                    viewModel.avatarView
+                        .frame(width: 18, height: 18)
+                        .padding(.init(top: 8, leading: 8, bottom: 0, trailing: 8))
                     Spacer()
                 } //Avatar
                 
                 VStack(alignment: .leading, spacing: 0 ) {
                     HStack(alignment: .top) {
-                        Text(self.tweetMedia.userName ?? "UnKnowName")
-                            .font(.subheadline).bold()
-                            .lineLimit(1)
-                        Text("@" + (self.tweetMedia.screenName ?? "UnkownName"))
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .lineLimit(1)
-                        CreatedTimeView(createdTime: self.tweetMedia.created)
-                        Spacer()}.padding(.top, 8)
-
-                    if tweetMedia.replyUsers.count != 0 {
-                        ReplyUsersView(replyUsers: tweetMedia.replyUsers).font(.callout)
+                        viewModel.userNameView
+                        CreatedTimeView(createdTime: viewModel.tweetMedia.created)
+                        Spacer()
                     }
+                    .padding(.top, 8)
+                    ///replyUser
+                    viewModel.replyUsersView
                 }
             }
-
-            TweetTextView(tweetText: (tweetMedia.tweetText == []) ? ["This tweet is unavaliable now."] : tweetMedia.tweetText)
+            
+            TweetTextView(tweetText: (viewModel.tweetMedia.tweetText == []) ? ["This tweet is unavaliable now."] : viewModel.tweetMedia.tweetText)
                 .font(.callout)
                 .padding(8)
                 .fixedSize(horizontal: false, vertical: true)
-                
-            if tweetMedia.images.count != 0 && self.fetchMee.setting.isMediaShowed {
-                Images(imageUrlStrings: timeline.tweetMedias[tweetIDString]?.urlStrings ?? [])
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0,  maxHeight:.infinity , alignment: .topLeading)
-                    .aspectRatio(16 / 9.0, contentMode: .fill)
-                    .clipped()
-            } //推文图片显示区域
-            }
+            
+            viewModel.images//推文图片显示区域
         }
     }
+}
 
 
 

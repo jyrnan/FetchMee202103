@@ -10,7 +10,7 @@ import Foundation
 
 class TweetRowViewModel: ObservableObject{
     //MARK:- Properties
-    @Published var tweetMedia: TweetMedia
+    var tweetMedia: TweetMedia
     var isToolsViewShowed: Bool {timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString}
     
     let timeline: Timeline
@@ -22,6 +22,7 @@ class TweetRowViewModel: ObservableObject{
     var replyUsersView: ReplyUsersView?
     var images: Images?
     var playButtonView: PlayButtonView?
+    var quotedTweetRow: QuotedTweetRow?
     
     
     
@@ -44,10 +45,11 @@ class TweetRowViewModel: ObservableObject{
     func makeViews() {
         retweetMarkView = makeRetweetMarkView()
         avatarView = makeAvatarView()
-        makeUserNameView()
+        userNameView = makeUserNameView()
         replyUsersView = makeReplyUsersView()
-        makeImagesView()
-        makePlayButtonView()
+        images = makeImagesView()
+        playButtonView = makePlayButtonView()
+        quotedTweetRow = makeQuotedTweetRowView()
     }
     
     func toggleToolsView() {
@@ -81,10 +83,11 @@ class TweetRowViewModel: ObservableObject{
         return AvatarView(avatarViewModel: avatarViewModel)
     }
     
-    func makeUserNameView() {
-        if let userName = tweetMedia.userName, let screenName = tweetMedia.screenName {
-            userNameView = UserNameView(userName: userName, screenName: screenName)
-        }
+    func makeUserNameView() -> UserNameView {
+        let userName = tweetMedia.userName ?? "UserName"
+        let screenName = tweetMedia.screenName ?? "ScreenName"
+        let userNameView = UserNameView(userName: userName, screenName: screenName)
+        return userNameView
     }
     
     func makeReplyUsersView() -> ReplyUsersView? {
@@ -93,20 +96,33 @@ class TweetRowViewModel: ObservableObject{
         return replyUsersView
     }
     
-    func makeImagesView() {
-        if let imageUrls = tweetMedia.urlStrings, !imageUrls.isEmpty{
-            images = Images(imageUrlStrings: imageUrls)
-        }
+    func makeImagesView() -> Images? {
+        guard let imageUrls = tweetMedia.urlStrings, !imageUrls.isEmpty else {return nil}
+        let images = Images(imageUrlStrings: imageUrls)
+        return images
     }
     
-    func makePlayButtonView() {
+    func makePlayButtonView() -> PlayButtonView? {
+        guard tweetMedia.mediaType == "video" || tweetMedia.mediaType == "animated_gif" else {return nil}
         let viewModel:PlayButtonViewModel = makePlayButtonViewModel()
-        if tweetMedia.mediaType == "video" || tweetMedia.mediaType == "animated_gif" {
-            playButtonView = PlayButtonView(viewModel: viewModel)
-        }
+        let playButtonView = PlayButtonView(viewModel: viewModel)
+        return playButtonView
     }
     
     func makePlayButtonViewModel() -> PlayButtonViewModel {
         return PlayButtonViewModel(url: tweetMedia.mediaUrlString)
     }
+    
+    func makeQuotedTweetRowViewModel() -> TweetRowViewModel {
+        let quotedTweetIDString = tweetMedia.quoted_status_id_str ?? "0000"
+        return TweetRowViewModel(timeline: timeline, tweetIDString: quotedTweetIDString)
+    }
+    
+    func makeQuotedTweetRowView() -> QuotedTweetRow? {
+        guard tweetMedia.quoted_status_id_str != nil else {return nil}
+        let quotedTweetRowViewModel = makeQuotedTweetRowViewModel()
+        let quotedTweetRow = QuotedTweetRow(viewModel: quotedTweetRowViewModel)
+        return quotedTweetRow
+    }
+    
 }

@@ -88,18 +88,26 @@ struct TweetRow: View {
                     ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
                     ZStack {
                         viewModel.images
+                            .cornerRadius(16)
+                            .clipped()
+                            .padding(.top, 8)
+                            .padding(.bottom, 8)
                         ///媒体视图上叠加一个播放按钮
                         viewModel.playButtonView
                     }
                     
                     
                     ///如果包含引用推文，则显示引用推文内容
-                    if let quoted_status_id_str = tweetMedia.quoted_status_id_str {
-                        QuotedTweetRow(timeline: self.timeline, tweetIDString: quoted_status_id_str)
-                            .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1))
-                    }
+                    viewModel.quotedTweetRow
+                        .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                                    .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                                                .stroke(Color.gray.opacity(0.2), lineWidth: 1))
+//                    if let quoted_status_id_str = tweetMedia.quoted_status_id_str {
+//                        QuotedTweetRow(timeline: self.timeline, tweetIDString: quoted_status_id_str)
+//                            .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
+//                            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
+//                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1))
+//                    }
                     
                 }
                 .padding(.trailing, 16)
