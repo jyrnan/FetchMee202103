@@ -70,6 +70,9 @@ final class Timeline: ObservableObject {
     
     @Published var selectedImageCount: Int = 0
     
+    
+    var tweetRowViewModels: [String: TweetRowViewModel] = [:]
+    
     var type: TimelineType
     var listTag: ListTag? // 如果是list类型，则会传入listTag
     @Published var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
@@ -535,5 +538,21 @@ extension Timeline {
 struct Timeline_Previews: PreviewProvider {
     static var previews: some View {
         /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+    }
+}
+
+extension Timeline {
+    func getTweetViewModel(tweetIDString: String) -> TweetRowViewModel {
+        if let tweetRowViewModel = tweetRowViewModels[tweetIDString] {
+            return tweetRowViewModel
+        } else {
+            return makeTweetRowViewModel(tweetIDString: tweetIDString)
+        }
+    }
+    
+    func makeTweetRowViewModel(tweetIDString: String) ->TweetRowViewModel {
+        let tweetRowViewModel = TweetRowViewModel(timeline: self, tweetIDString: tweetIDString)
+        tweetRowViewModels[tweetIDString] = tweetRowViewModel
+        return tweetRowViewModel
     }
 }

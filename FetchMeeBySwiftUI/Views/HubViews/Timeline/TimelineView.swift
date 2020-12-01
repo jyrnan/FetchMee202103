@@ -51,7 +51,7 @@ struct TimelineView: View {
                 Divider()
                 
                 ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
-                    TweetRow(viewModel: TweetRowViewModel(timeline: timeline, tweetIDString: tweetIDString))
+                    TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString))
                     Divider()
                 }
                 
