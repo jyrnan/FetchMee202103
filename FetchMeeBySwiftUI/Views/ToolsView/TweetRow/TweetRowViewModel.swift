@@ -24,6 +24,7 @@ class TweetRowViewModel: ObservableObject{
     var playButtonView: PlayButtonView?
     var quotedTweetRow: QuotedTweetRow?
     
+    var toolsVeiw: ToolsView? {makeToolsView()}
     
     
     //MARK:- Methods
@@ -53,7 +54,7 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func toggleToolsView() {
-        if self.isToolsViewShowed {
+        if timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString {
             ///判断如果先前选定显示ToolsView的tweetID不是自己，
             ///则将原激活ToolSView的推文取消激活
             timeline.tweetIDStringOfRowToolsViewShowed = nil
@@ -124,5 +125,11 @@ class TweetRowViewModel: ObservableObject{
         let quotedTweetRow = QuotedTweetRow(viewModel: quotedTweetRowViewModel)
         return quotedTweetRow
     }
+    
+    func makeToolsView() -> ToolsView? {
+        guard timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString else {return nil}
+        return ToolsView(timeline: timeline, tweetIDString: tweetIDString)
+    }
+    
     
 }

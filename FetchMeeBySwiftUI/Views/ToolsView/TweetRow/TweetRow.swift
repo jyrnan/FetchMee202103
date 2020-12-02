@@ -102,13 +102,7 @@ struct TweetRow: View {
                         .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
                                                     .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
                                                                 .stroke(Color.gray.opacity(0.2), lineWidth: 1))
-//                    if let quoted_status_id_str = tweetMedia.quoted_status_id_str {
-//                        QuotedTweetRow(timeline: self.timeline, tweetIDString: quoted_status_id_str)
-//                            .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
-//                            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
-//                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1))
-//                    }
-                    
+
                 }
                 .padding(.trailing, 16)
                 .onTapGesture {
@@ -118,10 +112,11 @@ struct TweetRow: View {
             }
             Spacer()
             //根据isToolsViewShowed确定是否显示ToolsView
-            if viewModel.isToolsViewShowed {
-                ToolsView(timeline: timeline, tweetIDString: tweetIDString)
-            } else {
-                EmptyView()}
+//            if viewModel.isToolsViewShowed {
+//                ToolsView(timeline: timeline, tweetIDString: tweetIDString)
+//            } else {
+//                EmptyView()}
+            viewModel.toolsVeiw
         }.background(backgroundColor)
         
     }
