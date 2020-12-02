@@ -17,7 +17,6 @@ class TweetRowViewModel: ObservableObject{
     var status: JSON
 
     let timeline: Timeline
-    let tweetIDString: String
     
     var retweetMarkView: RetweetMarkView?
     var avatarView: AvatarView!
@@ -30,19 +29,21 @@ class TweetRowViewModel: ObservableObject{
     
     var isReplyToMe: Bool!
     
-    var userName:String {status["user"]["name"].string ?? "UnkownName"}
-    var screenName:String {status["user"]["screen_name"].string ?? "UnkownName"}
+    var tweetIDString: String {status["id_str"].string ?? "0000"}
+    var userName:String {status["user"]["name"].string ?? "name"}
+    var screenName:String {status["user"]["screen_name"].string ?? "screenName"}
+    
+    
   
     //MARK:- Methods
     init(timeline:Timeline, tweetIDString: String) {
         self.timeline = timeline
-        self.tweetIDString = tweetIDString
-        
-        self.tweetMedia = timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: tweetIDString)
         
         ///MVVM
         self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
         
+        ///备用
+        self.tweetMedia = timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: tweetIDString)
         makeViews()
     }
     
@@ -67,7 +68,10 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func makeRetweetMarkView() -> RetweetMarkView? {
-        guard let name = tweetMedia.retweeted_by_UserName, let id = tweetMedia.retweeted_by_IDString  else {return nil }
+        guard status["retweeted_status"]["id_str"].string != nil else {return nil }
+        let id = status["user"]["id_str"].string
+        let name = status["user"]["name"].string
+        
         let retweetMarkView = RetweetMarkView(userIDString: id, userName: name)
         return retweetMarkView
     }
@@ -76,20 +80,17 @@ class TweetRowViewModel: ObservableObject{
     
     func makeAvatarViewModel() -> AvatarViewModel {
         var avatarViewModel: AvatarViewModel
-        var userInfo = UserInfo()
-        userInfo.id = tweetMedia.userIDString ?? "0000"
-        userInfo.avatarUrlString = tweetMedia.avatarUrlString
         
         ///MVVM
         let user = status["user"]
         
-        avatarViewModel = AvatarViewModel(userInfo: userInfo, user: user )
+        avatarViewModel = AvatarViewModel(user: user )
         return avatarViewModel
     }
     
     func makeAvatarView() -> AvatarView {
         let avatarViewModel: AvatarViewModel = makeAvatarViewModel()
-        return AvatarView(avatarViewModel: avatarViewModel)
+        return AvatarView(viewModel: avatarViewModel)
     }
     
     func makeUserNameView() -> UserNameView {

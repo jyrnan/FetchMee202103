@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct RetweetMarkView: View {
-    var userIDString: String = "0000"
-    var userName: String = "UserName"
+    var userIDString: String?
+    var userName: String?
     
     @State var presentedUserInfo: Bool = false
     
@@ -22,7 +22,7 @@ struct RetweetMarkView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 12, height: 12, alignment: .center)
                 .foregroundColor(.gray)
-            Text( "\(userName)  retweeted")
+            Text( "\(userName ?? "userName")  retweeted")
                 .font(.subheadline).lineLimit(2)
                 .foregroundColor(.gray)
                 .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {

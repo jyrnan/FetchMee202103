@@ -15,26 +15,21 @@ class AvatarViewModel: ObservableObject {
     @Published var image: UIImage?
     @Published var isShowAlert: Bool = false
     
-    var userInfo: UserInfo
+    let user: JSON
     
-    ///MVVM
-    var user: JSON
+    var userIDString: String? {user["id_str"].string}
+    var userName: String? {user["name"].string}
     
-    init(userInfo: UserInfo, user: JSON) {
-        self.userInfo = userInfo
+    init(user: JSON) {
         
-        
-        ///MVVM
         self.user = user
-        if let avatarUrlString = user["profile_image_url_https"].string {
-            let avatarUrlStringHD = avatarUrlString.replacingOccurrences(of: "_normal", with: "")
-            getImage(avatarUrlStringHD)
-        }
-        
+        let avatarUrlString = user["profile_image_url_https"].string
+            getImage(avatarUrlString)
     }
     
     fileprivate func getImage(_ avatarUrlString: String?) {
-        if let url = avatarUrlString {
+        if var url = avatarUrlString {
+            url = url.replacingOccurrences(of: "_normal", with: "")
         RemoteImageFromUrl.imageDownloaderWithClosure(imageUrl: url, sh: {image in
             DispatchQueue.main.async {
                 self.image = image

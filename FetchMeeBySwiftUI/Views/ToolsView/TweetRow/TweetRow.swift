@@ -49,7 +49,7 @@ struct TweetRow: View {
                     HStack(alignment: .center) {
                         viewModel.userNameView
                         
-                        CreatedTimeView(createdTime: viewModel.tweetMedia.created)
+                        CreatedTimeView(createdTime: viewModel.status["created_at"].string)
                         
                         Spacer()
                         

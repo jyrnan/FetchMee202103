@@ -8,9 +8,11 @@
 
 import SwiftUI
 import Combine
+import Swifter
 
 struct TweetTextView: View {
     var tweetText: [String] = ["hello", "#world!", "Nice"]
+    var status: JSON? 
     
     var body: some View {
         Group {

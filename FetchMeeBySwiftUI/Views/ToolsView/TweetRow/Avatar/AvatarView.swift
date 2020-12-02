@@ -18,18 +18,18 @@ struct AvatarView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
     
     
-    @StateObject var viewModel: AvatarViewModel
+    @ObservedObject var viewModel: AvatarViewModel
    
     @State var presentedUserInfo: Bool = false
     
-    init(avatarViewModel: AvatarViewModel) {
-        _viewModel = StateObject(wrappedValue: avatarViewModel)
+    init(viewModel: AvatarViewModel) {
+        self.viewModel = viewModel
     }
     
     var body: some View {
         GeometryReader {geometry in
             ZStack {
-                NavigationLink(destination: UserView(userIDString: viewModel.userInfo.id),
+                NavigationLink(destination: UserView(userIDString: viewModel.userIDString),
                                isActive: $presentedUserInfo){
                     AvatarImageView(image: viewModel.image)
                         .onTapGesture(count: 2){
@@ -38,7 +38,7 @@ struct AvatarView: View {
                         }
                         .onTapGesture(count: 1) {self.presentedUserInfo = true}
                         .alert(isPresented: $viewModel.isShowAlert, content: {
-                            Alert(title: Text("没拍到"), message: Text("可能\(viewModel.userInfo.name ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
+                            Alert(title: Text("没拍到"), message: Text("可能\(viewModel.userName ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
                         })
                 }
                 ///显示头像补充图标
@@ -51,13 +51,13 @@ struct AvatarView: View {
     }
     
     func checkFavoriteUser() -> Bool {
-        return twitterUsers.map{$0.userIDString}.contains(viewModel.userInfo.id)
+        return twitterUsers.map{$0.userIDString}.contains(viewModel.userIDString)
     }
 }
 
 struct AvatarView_Previews: PreviewProvider {
     static var previews: some View {
-        AvatarView(avatarViewModel: AvatarViewModel(userInfo: UserInfo(), user: JSON.init("")))
+        AvatarView(viewModel: AvatarViewModel(user: JSON.init("")))
     }
 }
 
