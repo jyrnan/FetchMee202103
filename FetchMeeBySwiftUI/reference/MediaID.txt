@@ -1,0 +1,12 @@
+{
+  "image" : {
+    "h" : 3024.0,
+    "image_type" : "image/jpeg",
+    "w" : 4032.0
+  },
+  "size" : 2618048.0,
+  "media_id_string" : "1256178103606337542",
+  "expires_after_secs" : 86400.0,
+  "media_id" : 1.2561781036063375e+18
+}
+

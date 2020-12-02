@@ -25,7 +25,7 @@ struct ReplyUsersView: View {
                     + Text(replyUser)
                     .foregroundColor(.accentColor)
                     }
-            return AnyView(replyUsersView.font(.body))
+            return AnyView(replyUsersView)
         }
         
     }

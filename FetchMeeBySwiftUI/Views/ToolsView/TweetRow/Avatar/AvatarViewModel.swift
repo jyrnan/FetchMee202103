@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Swifter
 
 class AvatarViewModel: ObservableObject {
     
@@ -16,9 +17,20 @@ class AvatarViewModel: ObservableObject {
     
     var userInfo: UserInfo
     
-    init(userInfo: UserInfo) {
+    ///MVVM
+    var user: JSON
+    
+    init(userInfo: UserInfo, user: JSON) {
         self.userInfo = userInfo
-        getImage(userInfo.avatarUrlString)
+        
+        
+        ///MVVM
+        self.user = user
+        if let avatarUrlString = user["profile_image_url_https"].string {
+            let avatarUrlStringHD = avatarUrlString.replacingOccurrences(of: "_normal", with: "")
+            getImage(avatarUrlStringHD)
+        }
+        
     }
     
     fileprivate func getImage(_ avatarUrlString: String?) {

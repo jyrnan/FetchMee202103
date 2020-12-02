@@ -16,16 +16,9 @@ struct TweetRow: View {
     @EnvironmentObject var loginUser: User
     
     @ObservedObject var viewModel: TweetRowViewModel
+
+    var backgroundColor: Color {viewModel.isReplyToMe ? Color.accentColor.opacity(0.2) : Color.init("BackGround")}
     
-    var timeline: Timeline {viewModel.timeline}
-    var tweetIDString: String {viewModel.tweetIDString}
-    var tweetMedia: TweetMedia {viewModel.tweetMedia}
-    
-    var backgroundColor: Color {
-        if userDefault.object(forKey: "userIDString") as? String == tweetMedia.in_reply_to_user_id_str && timeline.type == .home {
-            return Color.accentColor.opacity(0.2)
-        } else{ return Color.init("BackGround") }
-    }
     
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
     @State var isShowDetail: Bool = false //控制显示推文详情页面
@@ -33,12 +26,6 @@ struct TweetRow: View {
     @State var isShowAction: Bool = false //控制显示推文相关操作
     
     @State var player: AVPlayer = AVPlayer()
-    
-    init(viewModel: TweetRowViewModel) {
-        self.viewModel = viewModel
-        print(#line, #function, "TweetRowView inited")
-    }
-    
     
     var body: some View {
         
@@ -61,25 +48,22 @@ struct TweetRow: View {
                     ///用户名和创建时间以及详情页面点点点等信息
                     HStack(alignment: .center) {
                         viewModel.userNameView
-
-                        CreatedTimeView(createdTime: self.tweetMedia.created)
+                        
+                        CreatedTimeView(createdTime: viewModel.tweetMedia.created)
                         
                         Spacer()
                         
-                        NavigationLink(destination: DetailView(tweetIDString: tweetIDString)){
-                            DetailIndicator(timeline: timeline, tweetIDString: tweetIDString)
+                        NavigationLink(destination: DetailView(tweetIDString: viewModel.tweetIDString)){
+                            DetailIndicator(timeline: viewModel.timeline, tweetIDString: viewModel.tweetIDString)
                         }
                     }
                     .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
                     
                     ///如果有回复用户列表不为空，则显示回复用户
                     viewModel.replyUsersView
-//                    if tweetMedia.replyUsers.count != 0 {
-//                        ReplyUsersView(replyUsers: tweetMedia.replyUsers)
-//                    }
                     
                     ///推文正文
-                    TweetTextView(tweetText: tweetMedia.tweetText)
+                    TweetTextView(tweetText: viewModel.tweetMedia.tweetText)
                         .font(.body)
                         .padding(.top, 8)
                         .padding(.bottom, 16)
@@ -96,13 +80,8 @@ struct TweetRow: View {
                         viewModel.playButtonView
                     }
                     
-                    
                     ///如果包含引用推文，则显示引用推文内容
                     viewModel.quotedTweetRow
-                        .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                                                    .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                                                .stroke(Color.gray.opacity(0.2), lineWidth: 1))
-
                 }
                 .padding(.trailing, 16)
                 .onTapGesture {
@@ -111,19 +90,12 @@ struct TweetRow: View {
                 }
             }
             Spacer()
-            //根据isToolsViewShowed确定是否显示ToolsView
-//            if viewModel.isToolsViewShowed {
-//                ToolsView(timeline: timeline, tweetIDString: tweetIDString)
-//            } else {
-//                EmptyView()}
             viewModel.toolsVeiw
         }.background(backgroundColor)
         
     }
     
 }
-
-
 
 struct TweetRow_Previews: PreviewProvider {
     static let alerts = Alerts()

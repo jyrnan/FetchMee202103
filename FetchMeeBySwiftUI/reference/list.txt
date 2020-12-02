@@ -1,0 +1,375 @@
+[
+  {
+    "full_name" : "@oakvale5/tweets1",
+    "subscriber_count" : 123.0,
+    "mode" : "public",
+    "slug" : "tweets1",
+    "uri" : "/oakvale5/lists/tweets1",
+    "description" : "可能收到过大陆付费tweets邀请的推友",
+    "id" : 1.235889352829309e+18,
+    "member_count" : 126.0,
+    "user" : {
+      "profile_text_color" : "333333",
+      "following" : false,
+      "profile_background_tile" : false,
+      "url" : null,
+      "friends_count" : 2225.0,
+      "name" : "oak",
+      "notifications" : false,
+      "default_profile_image" : false,
+      "translator_type" : "none",
+      "profile_sidebar_fill_color" : "DDEEF6",
+      "profile_link_color" : "0084B4",
+      "protected" : false,
+      "lang" : null,
+      "id_str" : "96453272",
+      "entities" : {
+        "description" : {
+          "urls" : [
+
+          ]
+        }
+      },
+      "time_zone" : null,
+      "description" : "Rest at the edge of chaos.  .... . .-.. .--. -....- -- .God plays dice. \nMaybe that's a feature, not a bug.\n一切都会好起来",
+      "has_extended_profile" : true,
+      "favourites_count" : 1387.0,
+      "listed_count" : 72.0,
+      "profile_background_image_url" : "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "geo_enabled" : true,
+      "follow_request_sent" : false,
+      "location" : "美帝 Boston,MA",
+      "id" : 96453272.0,
+      "profile_sidebar_border_color" : "FFFFFF",
+      "profile_image_url_https" : "https://pbs.twimg.com/profile_images/1073186741907947520/Q8Cvgndp_normal.jpg",
+      "contributors_enabled" : false,
+      "created_at" : "Sun Dec 13 00:51:58 +0000 2009",
+      "profile_banner_url" : "https://pbs.twimg.com/profile_banners/96453272/1357758197",
+      "profile_image_url" : "http://pbs.twimg.com/profile_images/1073186741907947520/Q8Cvgndp_normal.jpg",
+      "profile_use_background_image" : true,
+      "default_profile" : false,
+      "followers_count" : 6366.0,
+      "utc_offset" : null,
+      "is_translator" : false,
+      "profile_background_image_url_https" : "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_color" : "C0DEED",
+      "is_translation_enabled" : false,
+      "screen_name" : "oakvale5",
+      "verified" : false,
+      "statuses_count" : 65280.0
+    },
+    "name" : "有潜力发付费tweets的推友",
+    "id_str" : "1235889352829308930",
+    "following" : true,
+    "created_at" : "Fri Mar 06 11:25:58 +0000 2020"
+  },
+  {
+    "id" : 1.1498966098633646e+18,
+    "subscriber_count" : 4.0,
+    "user" : {
+      "profile_sidebar_border_color" : "000000",
+      "profile_text_color" : "000000",
+      "has_extended_profile" : true,
+      "profile_use_background_image" : false,
+      "statuses_count" : 5909.0,
+      "profile_background_image_url_https" : "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "time_zone" : null,
+      "profile_sidebar_fill_color" : "000000",
+      "profile_background_image_url" : "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "id" : 47585796.0,
+      "is_translation_enabled" : false,
+      "translator_type" : "none",
+      "created_at" : "Tue Jun 16 09:30:09 +0000 2009",
+      "url" : "https://t.co/YO6RlIUPoH",
+      "default_profile_image" : false,
+      "default_profile" : false,
+      "lang" : null,
+      "name" : " 胖™",
+      "screen_name" : "jyrnan",
+      "geo_enabled" : true,
+      "utc_offset" : null,
+      "contributors_enabled" : false,
+      "followers_count" : 4629.0,
+      "friends_count" : 1085.0,
+      "is_translator" : false,
+      "profile_background_color" : "000000",
+      "protected" : false,
+      "verified" : false,
+      "location" : "ÜT: 22.5390094,113.986897",
+      "profile_image_url" : "http://pbs.twimg.com/profile_images/1239713558847320064/a9G6O5t2_normal.jpg",
+      "entities" : {
+        "url" : {
+          "urls" : [
+            {
+              "indices" : [
+                0.0,
+                23.0
+              ],
+              "display_url" : "t.me/jyrnan",
+              "url" : "https://t.co/YO6RlIUPoH",
+              "expanded_url" : "https://t.me/jyrnan"
+            }
+          ]
+        },
+        "description" : {
+          "urls" : [
+
+          ]
+        }
+      },
+      "profile_background_tile" : false,
+      "description" : "Stay hungry， Stay foolish！ #局部果粉 #不务正业的设计师 #Python的低级爱好者 #零基础学习Swift #偶尔有吐槽生活的负能量 #DM我会及时收到通知并回复的 #不喜政治勿扰",
+      "profile_banner_url" : "https://pbs.twimg.com/profile_banners/47585796/1411817989",
+      "notifications" : false,
+      "follow_request_sent" : false,
+      "listed_count" : 52.0,
+      "following" : false,
+      "id_str" : "47585796",
+      "profile_link_color" : "1B95E0",
+      "profile_image_url_https" : "https://pbs.twimg.com/profile_images/1239713558847320064/a9G6O5t2_normal.jpg",
+      "favourites_count" : 3035.0
+    },
+    "mode" : "public",
+    "following" : true,
+    "uri" : "/jyrnan/lists/professional",
+    "name" : "Professional",
+    "created_at" : "Sat Jul 13 04:21:30 +0000 2019",
+    "full_name" : "@jyrnan/professional",
+    "description" : "Coder and etc.",
+    "member_count" : 28.0,
+    "id_str" : "1149896609863364609",
+    "slug" : "professional"
+  },
+  {
+    "uri" : "/jyrnan/lists/news",
+    "mode" : "public",
+    "id_str" : "880061745192210435",
+    "id" : 8.800617451922104e+17,
+    "user" : {
+      "profile_image_url" : "http://pbs.twimg.com/profile_images/1239713558847320064/a9G6O5t2_normal.jpg",
+      "favourites_count" : 3035.0,
+      "entities" : {
+        "description" : {
+          "urls" : [
+
+          ]
+        },
+        "url" : {
+          "urls" : [
+            {
+              "indices" : [
+                0.0,
+                23.0
+              ],
+              "url" : "https://t.co/YO6RlIUPoH",
+              "display_url" : "t.me/jyrnan",
+              "expanded_url" : "https://t.me/jyrnan"
+            }
+          ]
+        }
+      },
+      "id" : 47585796.0,
+      "follow_request_sent" : false,
+      "profile_sidebar_fill_color" : "000000",
+      "utc_offset" : null,
+      "created_at" : "Tue Jun 16 09:30:09 +0000 2009",
+      "location" : "ÜT: 22.5390094,113.986897",
+      "lang" : null,
+      "verified" : false,
+      "profile_sidebar_border_color" : "000000",
+      "id_str" : "47585796",
+      "name" : " 胖™",
+      "geo_enabled" : true,
+      "notifications" : false,
+      "profile_background_image_url_https" : "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "followers_count" : 4629.0,
+      "is_translator" : false,
+      "statuses_count" : 5909.0,
+      "has_extended_profile" : true,
+      "listed_count" : 52.0,
+      "description" : "Stay hungry， Stay foolish！ #局部果粉 #不务正业的设计师 #Python的低级爱好者 #零基础学习Swift #偶尔有吐槽生活的负能量 #DM我会及时收到通知并回复的 #不喜政治勿扰",
+      "translator_type" : "none",
+      "profile_background_color" : "000000",
+      "default_profile_image" : false,
+      "following" : false,
+      "time_zone" : null,
+      "url" : "https://t.co/YO6RlIUPoH",
+      "default_profile" : false,
+      "screen_name" : "jyrnan",
+      "profile_banner_url" : "https://pbs.twimg.com/profile_banners/47585796/1411817989",
+      "profile_link_color" : "1B95E0",
+      "friends_count" : 1085.0,
+      "protected" : false,
+      "profile_text_color" : "000000",
+      "profile_image_url_https" : "https://pbs.twimg.com/profile_images/1239713558847320064/a9G6O5t2_normal.jpg",
+      "contributors_enabled" : false,
+      "profile_background_image_url" : "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "is_translation_enabled" : false,
+      "profile_background_tile" : false,
+      "profile_use_background_image" : false
+    },
+    "name" : "News",
+    "full_name" : "@jyrnan/news",
+    "created_at" : "Wed Jun 28 13:54:05 +0000 2017",
+    "slug" : "news",
+    "following" : true,
+    "description" : "news resojrce and service info",
+    "subscriber_count" : 0.0,
+    "member_count" : 13.0
+  },
+  {
+    "mode" : "private",
+    "user" : {
+      "protected" : false,
+      "profile_background_image_url" : "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_image_url_https" : "https://pbs.twimg.com/profile_images/1239713558847320064/a9G6O5t2_normal.jpg",
+      "follow_request_sent" : false,
+      "profile_use_background_image" : false,
+      "listed_count" : 52.0,
+      "profile_background_image_url_https" : "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "entities" : {
+        "url" : {
+          "urls" : [
+            {
+              "display_url" : "t.me/jyrnan",
+              "expanded_url" : "https://t.me/jyrnan",
+              "indices" : [
+                0.0,
+                23.0
+              ],
+              "url" : "https://t.co/YO6RlIUPoH"
+            }
+          ]
+        },
+        "description" : {
+          "urls" : [
+
+          ]
+        }
+      },
+      "url" : "https://t.co/YO6RlIUPoH",
+      "utc_offset" : null,
+      "profile_sidebar_border_color" : "000000",
+      "profile_background_tile" : false,
+      "followers_count" : 4629.0,
+      "created_at" : "Tue Jun 16 09:30:09 +0000 2009",
+      "friends_count" : 1085.0,
+      "is_translation_enabled" : false,
+      "profile_sidebar_fill_color" : "000000",
+      "contributors_enabled" : false,
+      "notifications" : false,
+      "verified" : false,
+      "screen_name" : "jyrnan",
+      "default_profile" : false,
+      "is_translator" : false,
+      "default_profile_image" : false,
+      "profile_image_url" : "http://pbs.twimg.com/profile_images/1239713558847320064/a9G6O5t2_normal.jpg",
+      "has_extended_profile" : true,
+      "description" : "Stay hungry， Stay foolish！ #局部果粉 #不务正业的设计师 #Python的低级爱好者 #零基础学习Swift #偶尔有吐槽生活的负能量 #DM我会及时收到通知并回复的 #不喜政治勿扰",
+      "statuses_count" : 5909.0,
+      "geo_enabled" : true,
+      "profile_banner_url" : "https://pbs.twimg.com/profile_banners/47585796/1411817989",
+      "translator_type" : "none",
+      "profile_text_color" : "000000",
+      "location" : "ÜT: 22.5390094,113.986897",
+      "profile_link_color" : "1B95E0",
+      "id_str" : "47585796",
+      "lang" : null,
+      "following" : false,
+      "name" : " 胖™",
+      "profile_background_color" : "000000",
+      "id" : 47585796.0,
+      "favourites_count" : 3035.0,
+      "time_zone" : null
+    },
+    "description" : "",
+    "full_name" : "@jyrnan/cyfh",
+    "member_count" : 44.0,
+    "slug" : "cyfh",
+    "subscriber_count" : 0.0,
+    "created_at" : "Thu Apr 02 11:16:32 +0000 2015",
+    "following" : true,
+    "name" : "cyfh",
+    "id_str" : "200823143",
+    "id" : 200823143.0,
+    "uri" : "/jyrnan/lists/cyfh"
+  },
+  {
+    "full_name" : "@jyrnan/interactive",
+    "user" : {
+      "profile_background_tile" : false,
+      "entities" : {
+        "description" : {
+          "urls" : [
+
+          ]
+        },
+        "url" : {
+          "urls" : [
+            {
+              "indices" : [
+                0.0,
+                23.0
+              ],
+              "display_url" : "t.me/jyrnan",
+              "expanded_url" : "https://t.me/jyrnan",
+              "url" : "https://t.co/YO6RlIUPoH"
+            }
+          ]
+        }
+      },
+      "utc_offset" : null,
+      "listed_count" : 52.0,
+      "profile_text_color" : "000000",
+      "profile_sidebar_border_color" : "000000",
+      "location" : "ÜT: 22.5390094,113.986897",
+      "friends_count" : 1085.0,
+      "followers_count" : 4629.0,
+      "lang" : null,
+      "profile_background_color" : "000000",
+      "default_profile_image" : false,
+      "is_translator" : false,
+      "time_zone" : null,
+      "profile_image_url" : "http://pbs.twimg.com/profile_images/1239713558847320064/a9G6O5t2_normal.jpg",
+      "follow_request_sent" : false,
+      "profile_use_background_image" : false,
+      "profile_background_image_url" : "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "has_extended_profile" : true,
+      "profile_image_url_https" : "https://pbs.twimg.com/profile_images/1239713558847320064/a9G6O5t2_normal.jpg",
+      "profile_banner_url" : "https://pbs.twimg.com/profile_banners/47585796/1411817989",
+      "geo_enabled" : true,
+      "notifications" : false,
+      "id" : 47585796.0,
+      "contributors_enabled" : false,
+      "is_translation_enabled" : false,
+      "following" : false,
+      "url" : "https://t.co/YO6RlIUPoH",
+      "name" : " 胖™",
+      "protected" : false,
+      "id_str" : "47585796",
+      "screen_name" : "jyrnan",
+      "description" : "Stay hungry， Stay foolish！ #局部果粉 #不务正业的设计师 #Python的低级爱好者 #零基础学习Swift #偶尔有吐槽生活的负能量 #DM我会及时收到通知并回复的 #不喜政治勿扰",
+      "profile_background_image_url_https" : "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "statuses_count" : 5909.0,
+      "created_at" : "Tue Jun 16 09:30:09 +0000 2009",
+      "default_profile" : false,
+      "translator_type" : "none",
+      "favourites_count" : 3035.0,
+      "profile_link_color" : "1B95E0",
+      "profile_sidebar_fill_color" : "000000",
+      "verified" : false
+    },
+    "member_count" : 132.0,
+    "following" : true,
+    "id" : 34080258.0,
+    "id_str" : "34080258",
+    "slug" : "interactive",
+    "name" : "Interactive",
+    "mode" : "private",
+    "created_at" : "Thu Jan 20 06:06:26 +0000 2011",
+    "uri" : "/jyrnan/lists/interactive",
+    "description" : "Those who often interacted with me rr rr t trr r",
+    "subscriber_count" : 0.0
+  }
+]
+

@@ -8,6 +8,7 @@
 
 import SwiftUI
 import CoreData
+import Swifter
 
 struct AvatarView: View {
     @EnvironmentObject var alerts: Alerts
@@ -56,7 +57,7 @@ struct AvatarView: View {
 
 struct AvatarView_Previews: PreviewProvider {
     static var previews: some View {
-        AvatarView(avatarViewModel: AvatarViewModel(userInfo: UserInfo()))
+        AvatarView(avatarViewModel: AvatarViewModel(userInfo: UserInfo(), user: JSON.init("")))
     }
 }
 

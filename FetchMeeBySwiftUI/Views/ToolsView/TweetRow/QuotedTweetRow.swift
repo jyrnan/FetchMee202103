@@ -15,11 +15,6 @@ struct QuotedTweetRow: View {
     
     @ObservedObject var viewModel: TweetRowViewModel
     
-//    var timeline: Timeline {viewModel.timeline}
-//    var tweetIDString: String {viewModel.tweetIDString}
-//    var tweetMedia: TweetMedia {viewModel.tweetMedia}
-    
-    
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     
@@ -41,7 +36,7 @@ struct QuotedTweetRow: View {
                     }
                     .padding(.top, 8)
                     ///replyUser
-                    viewModel.replyUsersView
+                    viewModel.replyUsersView.font(.callout)
                 }
             }
             
@@ -52,6 +47,9 @@ struct QuotedTweetRow: View {
             
             viewModel.images//推文图片显示区域
         }
+        .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                    .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                                .stroke(Color.gray.opacity(0.2), lineWidth: 1))
     }
 }
 

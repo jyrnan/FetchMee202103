@@ -1,0 +1,116 @@
+/*
+  hashtag tweet.strings
+  FetchMee
+
+  Created by yoeking on 2020/4/12.
+  Copyright © 2020 jinyong. All rights reserved.
+*/
+
+
+带Hashtag的推文数据是: {
+  "retweet_count" : 0.0,
+  "truncated" : false,
+  "coordinates" : null,
+  "place" : null,
+  "id_str" : "1249326169775697920",
+  "text" : "今天的时光马上又结束了  #明天是万恶的周一",
+  "favorite_count" : 2.0,
+  "created_at" : "Sun Apr 12 13:19:04 +0000 2020",
+  "in_reply_to_screen_name" : null,
+  "in_reply_to_user_id" : null,
+  "lang" : "zh",
+  "entities" : {
+    "user_mentions" : [
+
+    ],
+    "urls" : [
+
+    ],
+    "symbols" : [
+
+    ],
+    "hashtags" : [
+      {
+        "indices" : [
+          13.0,
+          22.0
+        ],
+        "text" : "明天是万恶的周一"
+      }
+    ]
+  },
+  "contributors" : null,
+  "retweeted" : false,
+  "in_reply_to_user_id_str" : null,
+  "favorited" : false,
+  "in_reply_to_status_id_str" : null,
+  "user" : {
+    "profile_sidebar_fill_color" : "000000",
+    "notifications" : false,
+    "utc_offset" : null,
+    "screen_name" : "jyrnan",
+    "entities" : {
+      "url" : {
+        "urls" : [
+          {
+            "url" : "https://t.co/YO6RlIUPoH",
+            "display_url" : "t.me/jyrnan",
+            "indices" : [
+              0.0,
+              23.0
+            ],
+            "expanded_url" : "https://t.me/jyrnan"
+          }
+        ]
+      },
+      "description" : {
+        "urls" : [
+
+        ]
+      }
+    },
+    "time_zone" : null,
+    "profile_background_image_url_https" : "https://abs.twimg.com/images/themes/theme1/bg.png",
+    "listed_count" : 57.0,
+    "is_translation_enabled" : false,
+    "profile_banner_url" : "https://pbs.twimg.com/profile_banners/47585796/1411817989",
+    "created_at" : "Tue Jun 16 09:30:09 +0000 2009",
+    "id_str" : "47585796",
+    "follow_request_sent" : false,
+    "profile_image_url" : "http://pbs.twimg.com/profile_images/1239713558847320064/a9G6O5t2_normal.jpg",
+    "profile_sidebar_border_color" : "000000",
+    "default_profile" : false,
+    "profile_background_image_url" : "http://abs.twimg.com/images/themes/theme1/bg.png",
+    "default_profile_image" : false,
+    "geo_enabled" : true,
+    "friends_count" : 1072.0,
+    "has_extended_profile" : true,
+    "profile_link_color" : "1B95E0",
+    "profile_background_tile" : false,
+    "location" : "ÜT: 22.5390094,113.986897",
+    "lang" : null,
+    "url" : "https://t.co/YO6RlIUPoH",
+    "contributors_enabled" : false,
+    "protected" : false,
+    "statuses_count" : 4576.0,
+    "translator_type" : "none",
+    "followers_count" : 4538.0,
+    "following" : true,
+    "verified" : false,
+    "is_translator" : false,
+    "description" : "Stay hungry， Stay foolish！ #局部果粉 #不务正业的设计师 #Python的低级爱好者 #零基础学习Swift #偶尔有吐槽生活的负能量 #DM我会及时收到通知并回复的 #不喜政治勿扰",
+    "profile_image_url_https" : "https://pbs.twimg.com/profile_images/1239713558847320064/a9G6O5t2_normal.jpg",
+    "profile_use_background_image" : false,
+    "favourites_count" : 2757.0,
+    "profile_background_color" : "000000",
+    "id" : 47585796.0,
+    "profile_text_color" : "000000",
+    "name" : "jyrnn ™"
+  },
+  "geo" : null,
+  "is_quote_status" : false,
+  "source" : "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+  "in_reply_to_status_id" : null,
+  "id" : 1.249326169775698e+18
+}
+

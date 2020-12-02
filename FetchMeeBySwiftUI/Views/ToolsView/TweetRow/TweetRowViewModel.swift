@@ -7,12 +7,15 @@
 //
 
 import Foundation
+import Swifter
 
 class TweetRowViewModel: ObservableObject{
     //MARK:- Properties
     var tweetMedia: TweetMedia
-    var isToolsViewShowed: Bool {timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString}
     
+    ///MVVM
+    var status: JSON
+
     let timeline: Timeline
     let tweetIDString: String
     
@@ -23,10 +26,13 @@ class TweetRowViewModel: ObservableObject{
     var images: Images?
     var playButtonView: PlayButtonView?
     var quotedTweetRow: QuotedTweetRow?
-    
     var toolsVeiw: ToolsView? {makeToolsView()}
     
+    var isReplyToMe: Bool!
     
+    var userName:String {status["user"]["name"].string ?? "UnkownName"}
+    var screenName:String {status["user"]["screen_name"].string ?? "UnkownName"}
+  
     //MARK:- Methods
     init(timeline:Timeline, tweetIDString: String) {
         self.timeline = timeline
@@ -34,13 +40,10 @@ class TweetRowViewModel: ObservableObject{
         
         self.tweetMedia = timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: tweetIDString)
         
-        makeViews()
+        ///MVVM
+        self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
         
-        print(#line, #function, "TweetRowViewModel inited")
-    }
-    
-    deinit {
-        print(#line, #function, "TweetRowViewModel deinited")
+        makeViews()
     }
     
     func makeViews() {
@@ -51,6 +54,7 @@ class TweetRowViewModel: ObservableObject{
         images = makeImagesView()
         playButtonView = makePlayButtonView()
         quotedTweetRow = makeQuotedTweetRowView()
+        isReplyToMe = checkIsReplyToMe()
     }
     
     func toggleToolsView() {
@@ -73,9 +77,13 @@ class TweetRowViewModel: ObservableObject{
     func makeAvatarViewModel() -> AvatarViewModel {
         var avatarViewModel: AvatarViewModel
         var userInfo = UserInfo()
-        userInfo.id = tweetMedia.userIDString!
+        userInfo.id = tweetMedia.userIDString ?? "0000"
         userInfo.avatarUrlString = tweetMedia.avatarUrlString
-        avatarViewModel = AvatarViewModel(userInfo: userInfo )
+        
+        ///MVVM
+        let user = status["user"]
+        
+        avatarViewModel = AvatarViewModel(userInfo: userInfo, user: user )
         return avatarViewModel
     }
     
@@ -85,8 +93,8 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func makeUserNameView() -> UserNameView {
-        let userName = tweetMedia.userName ?? "UserName"
-        let screenName = tweetMedia.screenName ?? "ScreenName"
+//        let userName = tweetMedia.userName ?? "UserName"
+//        let screenName = tweetMedia.screenName ?? "ScreenName"
         let userNameView = UserNameView(userName: userName, screenName: screenName)
         return userNameView
     }
@@ -115,12 +123,19 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func makeQuotedTweetRowViewModel() -> TweetRowViewModel {
-        let quotedTweetIDString = tweetMedia.quoted_status_id_str ?? "0000"
+        
+        let quotedTweetIDString = status["quoted_status_id_str"].string ?? "0000"
+        let quotedStatus = status["quoted_status"]
+        
+        StatusRepository.shared.status[quotedTweetIDString] = quotedStatus
+        
         return TweetRowViewModel(timeline: timeline, tweetIDString: quotedTweetIDString)
     }
     
     func makeQuotedTweetRowView() -> QuotedTweetRow? {
-        guard tweetMedia.quoted_status_id_str != nil else {return nil}
+        guard status["quoted_status_id_str"].string != nil else {return nil}
+        
+       
         let quotedTweetRowViewModel = makeQuotedTweetRowViewModel()
         let quotedTweetRow = QuotedTweetRow(viewModel: quotedTweetRowViewModel)
         return quotedTweetRow
@@ -131,5 +146,7 @@ class TweetRowViewModel: ObservableObject{
         return ToolsView(timeline: timeline, tweetIDString: tweetIDString)
     }
     
-    
+    func checkIsReplyToMe() -> Bool {
+        return userDefault.object(forKey: "userIDString") as? String == tweetMedia.in_reply_to_user_id_str && timeline.type == .home
+    }
 }

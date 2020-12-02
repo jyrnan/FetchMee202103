@@ -12,39 +12,6 @@ import Swifter
 import Combine
 import Photos
 
-enum TimelineType: String {
-    case home = "Home"
-    case mention = "Mention"
-    case list = "List"
-    case user
-    case session
-    case message = "Message"
-    case favorite = "Favorite"
-    
-    struct UIData {
-        let iconImageName : String
-        let themeColor: Color
-    }
-    
-    var uiData: UIData {
-        switch self {
-        case .home:
-            return UIData(iconImageName: "house.circle", themeColor: Color.init("TwitterBlue"))
-        case .mention:
-            return UIData(iconImageName: "at.circle", themeColor: Color.init("DarkOrange"))
-        case .message:
-            return UIData(iconImageName: "envelope.circle", themeColor: .orange)
-        case .list:
-            return UIData(iconImageName: "list.bullet", themeColor: Color.init("DarkGreen"))
-        case .favorite:
-            return UIData(iconImageName: "heart.circle", themeColor: Color.pink)
-        default:
-            return UIData(iconImageName: "list.bullet", themeColor: Color.init("TwitterBlue"))
-        }
-    }
-}
-
-
 final class Timeline: ObservableObject {
     @Published var tweetIDStrings: [String] = []
     @Published var imageURLStrings: [String: Bool] = [:] //标记被选择的图片ID???
@@ -114,6 +81,9 @@ final class Timeline: ObservableObject {
             let newTweets = json.array ?? []
             self.newTweetNumber += newTweets.count
             
+            ///MVVM
+            newTweets.forEach{StatusRepository.shared.addStatus($0)}
+            ///MVVM END
            
             self.updateTimelineTop(with: newTweets)
             self.isDone = true
@@ -228,12 +198,6 @@ final class Timeline: ObservableObject {
             tweetMedia.avatarUrlString = newTweet["user"]["profile_image_url_https"].string
             tweetMedia.avatarUrlString = tweetMedia.avatarUrlString?.replacingOccurrences(of: "_normal", with: "")
             tweetMedia.avatar = UIImage(systemName: "person.fill")
-//            self.imageDownloaderWithClosure(from: tweetMedia.avatarUrlString, sh: { im in
-//                DispatchQueue.main.async {
-//                    self.tweetMedias[IDString]?.avatar = im
-//                }
-//
-//            })
             
             //图片数据处理
             if newTweet["extended_entities"]["media"].array?.count != nil {
@@ -246,22 +210,7 @@ final class Timeline: ObservableObject {
                     tweetMedia.urlStrings?.append(urlstring)
                     tweetMedia.images.append(UIImage(named: "defaultImage")!) //先设置占位
                     tweetMedia.imagesSelected.append(false) //增加一个选择标记
-//                    self.imageDownloaderWithClosure(from: urlstring + ":small", sh: { im in
-//                        //图片识别处理
-//                        im.detectFaces {result in
-//                            let croppedImage = result?.cropByFace(im)
-//                            _ = result?.drawnOn(im)
-//                                DispatchQueue.main.async {
-//                                    self.tweetMedias[IDString]?.images[m] = croppedImage ?? UIImage(named: "defaultImage")!
-//                                    if result?.count == 1 {
-////                                    print(#line," Detected face!")
-//                                    self.tweetMedias[IDString]?.isPortraitImage = true
-//                                }
-//                                }
-//                        }
-//                    })
                 }
-                
             }
             
             //视频数据处理
