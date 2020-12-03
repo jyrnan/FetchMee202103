@@ -36,7 +36,7 @@ struct QuotedTweetRow: View {
                     }
                     .padding(.top, 8)
                     ///replyUser
-                    viewModel.replyUsersView.font(.callout)
+//                    viewModel.replyUsersView.font(.callout)
                 }
             }
             

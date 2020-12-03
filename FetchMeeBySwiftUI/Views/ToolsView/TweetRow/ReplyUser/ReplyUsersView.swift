@@ -18,8 +18,9 @@ struct ReplyUsersView: View {
     @State var presentedUserInfo: Bool = false
     
     var body: some View {
-        
-        NSAttributedStringView(myCustomAttributedModel: viewModel.attributedString)
+        Text("hello")
+//        NSAttributedStringView(myCustomAttributedModel: viewModel.attributedString)
+//            .border(Color.red)
         
         
 //        Group {
@@ -50,12 +51,12 @@ struct ReplyUsersView: View {
 struct NSAttributedStringView: View {
     
     var myCustomAttributedModel = MyCustomTextModel()
-    
+//        var width: CGFloat
     var body: some View {
         GeometryReader{proxy in
             //Wrapping an UILabel
-            TextWithAttributedString(width: proxy.size.width, attributedString: myCustomAttributedModel.myCustomAttributedString)
-        }
+        TextWithAttributedString(width: proxy.size.width, attributedString: myCustomAttributedModel.myCustomAttributedString)
+    }
     }
 }
 

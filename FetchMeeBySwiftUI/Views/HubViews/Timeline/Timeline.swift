@@ -45,7 +45,7 @@ final class Timeline: ObservableObject {
     @Published var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
     
     let session = URLSession.shared
-    let maxCounter: Int = 100
+    let maxCounter: Int = 1
     var sinceIDString: String?
     var maxIDString: String?
     

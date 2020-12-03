@@ -28,7 +28,7 @@ struct TweetRow: View {
     @State var player: AVPlayer = AVPlayer()
     
     var body: some View {
-        
+       
         VStack() {
             //如果是retweet推文，则显示retweet用户信息
             viewModel.retweetMarkView
@@ -60,8 +60,13 @@ struct TweetRow: View {
                     .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
                     
                     ///如果有回复用户列表不为空，则显示回复用户
-                    viewModel.replyUsersView
-                    
+//                    viewModel.replyUsersView
+//                    viewModel.makeStatusTextView(width: proxy.size.width)
+                    GeometryReader{proxy in
+                    NSAttributedStringView(myCustomAttributedModel: MyCustomTextModel(myCustomAttributedString: NSMutableAttributedString(string: "DI makes the design more flexible, keeps your code honest, and, when paired with a protocol, allows you to test the object behavior by providing test doubles.The challenge with dependency injection is how to provide components with the dependencies they need without manually passing them through all of their ancestors in the hierarchy. ")), width: proxy.size.width)
+                        
+                        .border(Color.red)
+                    }
                     ///推文正文
 //                    TweetTextView(tweetText: viewModel.tweetMedia.tweetText)
 //                        .font(.body)
@@ -70,15 +75,15 @@ struct TweetRow: View {
 //                        .fixedSize(horizontal: false, vertical: true)
                     
                     ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
-                    ZStack {
-                        viewModel.images
-                            .cornerRadius(16)
-                            .clipped()
-                            .padding(.top, 8)
-                            .padding(.bottom, 8)
-                        ///媒体视图上叠加一个播放按钮
-                        viewModel.playButtonView
-                    }
+//                    ZStack {
+//                        viewModel.images
+//                            .cornerRadius(16)
+//                            .clipped()
+//                            .padding(.top, 8)
+//                            .padding(.bottom, 8)
+//                        ///媒体视图上叠加一个播放按钮
+//                        viewModel.playButtonView
+//                    }
                     
                     ///如果包含引用推文，则显示引用推文内容
                     viewModel.quotedTweetRow
@@ -88,9 +93,12 @@ struct TweetRow: View {
                     withAnimation(){
                         viewModel.toggleToolsView()}
                 }
+                
             }
+//            .frame(height: 300)
             Spacer()
             viewModel.toolsVeiw
+            Rectangle()
         }.background(backgroundColor)
         
     }

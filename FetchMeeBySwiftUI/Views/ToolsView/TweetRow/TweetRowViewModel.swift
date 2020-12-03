@@ -6,7 +6,7 @@
 //  Copyright © 2020 jyrnan. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Swifter
 
 class TweetRowViewModel: ObservableObject{
@@ -21,11 +21,13 @@ class TweetRowViewModel: ObservableObject{
     var retweetMarkView: RetweetMarkView?
     var avatarView: AvatarView!
     var userNameView: UserNameView!
-    var replyUsersView: ReplyUsersView?
+    var replyUsersView: ReplyUsersView!
     var images: Images?
     var playButtonView: PlayButtonView?
     var quotedTweetRow: QuotedTweetRow?
     var toolsVeiw: ToolsView? {makeToolsView()}
+    
+    var statusTextView: NSAttributedStringView!
     
     var isReplyToMe: Bool!
     
@@ -56,6 +58,7 @@ class TweetRowViewModel: ObservableObject{
         playButtonView = makePlayButtonView()
         quotedTweetRow = makeQuotedTweetRowView()
         isReplyToMe = checkIsReplyToMe()
+//        statusTextView = makeStatusTextView()
     }
     
     func toggleToolsView() {
@@ -107,12 +110,20 @@ class TweetRowViewModel: ObservableObject{
         return ReplyUserViewModel(status: status)
     }
     
-    func makeReplyUsersView() -> ReplyUsersView? {
-        guard let user_mentions = status["entities"]["user_mentions"].array, !user_mentions.isEmpty else {return nil}
+    func makeReplyUsersView() -> ReplyUsersView {
+//        guard let user_mentions = status["entities"]["user_mentions"].array, !user_mentions.isEmpty else {return nil}
         let viewModel = makeReplyUserViewModel()
         let replyUsersView = ReplyUsersView(viewModel: viewModel)
         return replyUsersView
     }
+    
+    func makeStatusTextView(width: CGFloat) -> NSAttributedStringView {
+        var viewModel = MyCustomTextModel()
+        viewModel.myCustomAttributedString = NSMutableAttributedString(string: status["text"].string!)
+        return NSAttributedStringView(myCustomAttributedModel: viewModel)
+    }
+    
+    
     
     func makeImagesView() -> Images? {
         guard let imageUrls = tweetMedia.urlStrings, !imageUrls.isEmpty else {return nil}
