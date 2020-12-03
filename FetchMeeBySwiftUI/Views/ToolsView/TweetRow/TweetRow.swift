@@ -28,7 +28,7 @@ struct TweetRow: View {
     @State var player: AVPlayer = AVPlayer()
     
     var body: some View {
-       
+        GeometryReader{ proxy in
         VStack() {
             //如果是retweet推文，则显示retweet用户信息
             viewModel.retweetMarkView
@@ -62,11 +62,11 @@ struct TweetRow: View {
                     ///如果有回复用户列表不为空，则显示回复用户
 //                    viewModel.replyUsersView
 //                    viewModel.makeStatusTextView(width: proxy.size.width)
-                    GeometryReader{proxy in
+                    
                     NSAttributedStringView(myCustomAttributedModel: MyCustomTextModel(myCustomAttributedString: NSMutableAttributedString(string: "DI makes the design more flexible, keeps your code honest, and, when paired with a protocol, allows you to test the object behavior by providing test doubles.The challenge with dependency injection is how to provide components with the dependencies they need without manually passing them through all of their ancestors in the hierarchy. ")), width: proxy.size.width)
                         
                         .border(Color.red)
-                    }
+                   
                     ///推文正文
 //                    TweetTextView(tweetText: viewModel.tweetMedia.tweetText)
 //                        .font(.body)
@@ -100,7 +100,7 @@ struct TweetRow: View {
             viewModel.toolsVeiw
             Rectangle()
         }.background(backgroundColor)
-        
+        }
     }
     
 }

@@ -120,7 +120,7 @@ class TweetRowViewModel: ObservableObject{
     func makeStatusTextView(width: CGFloat) -> NSAttributedStringView {
         var viewModel = MyCustomTextModel()
         viewModel.myCustomAttributedString = NSMutableAttributedString(string: status["text"].string!)
-        return NSAttributedStringView(myCustomAttributedModel: viewModel)
+        return NSAttributedStringView(myCustomAttributedModel: viewModel, width: 50)
     }
     
     
