@@ -63,11 +63,11 @@ struct TweetRow: View {
                     viewModel.replyUsersView
                     
                     ///推文正文
-                    TweetTextView(tweetText: viewModel.tweetMedia.tweetText)
-                        .font(.body)
-                        .padding(.top, 8)
-                        .padding(.bottom, 16)
-                        .fixedSize(horizontal: false, vertical: true)
+//                    TweetTextView(tweetText: viewModel.tweetMedia.tweetText)
+//                        .font(.body)
+//                        .padding(.top, 8)
+//                        .padding(.bottom, 16)
+//                        .fixedSize(horizontal: false, vertical: true)
                     
                     ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
                     ZStack {

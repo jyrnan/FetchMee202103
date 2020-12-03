@@ -30,8 +30,8 @@ class TweetRowViewModel: ObservableObject{
     var isReplyToMe: Bool!
     
     var tweetIDString: String {status["id_str"].string ?? "0000"}
-    var userName:String {status["user"]["name"].string ?? "name"}
-    var screenName:String {status["user"]["screen_name"].string ?? "screenName"}
+//    var userName:String {status["user"]["name"].string ?? "name"}
+//    var screenName:String {status["user"]["screen_name"].string ?? "screenName"}
     
     
   
@@ -94,15 +94,23 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func makeUserNameView() -> UserNameView {
-//        let userName = tweetMedia.userName ?? "UserName"
-//        let screenName = tweetMedia.screenName ?? "ScreenName"
+        let userName = status["user"]["name"].string ?? "name"
+        let screenName = status["user"]["screen_name"].string ?? "screenName"
         let userNameView = UserNameView(userName: userName, screenName: screenName)
         return userNameView
     }
     
+    
+    ///ReplyUserView
+    ///TODO: 需要按照JSON信息来提取
+    func makeReplyUserViewModel() ->ReplyUserViewModel {
+        return ReplyUserViewModel(status: status)
+    }
+    
     func makeReplyUsersView() -> ReplyUsersView? {
-        guard !tweetMedia.replyUsers.isEmpty else {return nil}
-        let replyUsersView = ReplyUsersView(replyUsers: tweetMedia.replyUsers)
+        guard let user_mentions = status["entities"]["user_mentions"].array, !user_mentions.isEmpty else {return nil}
+        let viewModel = makeReplyUserViewModel()
+        let replyUsersView = ReplyUsersView(viewModel: viewModel)
         return replyUsersView
     }
     
