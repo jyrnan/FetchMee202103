@@ -156,13 +156,13 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func makeToolsViewModel() -> ToolsViewModel {
-        return ToolsViewModel(status: status)
+        return ToolsViewModel(status: status, timeline: timeline)
     }
     
     func makeToolsView() -> ToolsView? {
         guard timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString else {return nil}
         let viewModel = makeToolsViewModel()
-        return ToolsView(timeline: timeline, viewModel: viewModel)
+        return ToolsView(viewModel: viewModel)
     }
     
     func checkIsReplyToMe() -> Bool {

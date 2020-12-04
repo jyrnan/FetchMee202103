@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ToolsView: View {
-    @ObservedObject var timeline: Timeline
+    var timeline: Timeline {viewModel.timeline}
     var tweetIDString: String {viewModel.status["id_str"].string ?? "0000"}
     
     @ObservedObject var viewModel: ToolsViewModel
