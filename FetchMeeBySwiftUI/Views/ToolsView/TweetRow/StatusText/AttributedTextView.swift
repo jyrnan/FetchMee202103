@@ -10,40 +10,40 @@ import SwiftUI
 
 
 struct NSAttributedStringView: View {
-    
-    var text:NSMutableAttributedString
-    @State var height: CGFloat = 80
-    
-//    init(text: NSMutableAttributedString) {
-//        self.text = text
-//    }
+    var viewModel :StatusTextViewModel
+    var text:NSMutableAttributedString {viewModel.attributedText}
+    @State var height: CGFloat = 0
     
     var body: some View {
+        
+//        Text(viewModel.status["text"].string ?? "")
        
         GeometryReader{ proxy in
-            VStack{
-                makeNativeTextView(width: proxy.size.width, attributedText: text)
-            }
+            makeNativeTextView(width: proxy.size.width, attributedText: text)
         }
         .frame(height:height)
     }
     
-    func makeTextWithAttributedString(width: CGFloat, attributedText:NSMutableAttributedString) ->TextWithAttributedString {
-        
-        
-        DispatchQueue.main.async {
-//            self.height = attributedText.height(containerWidth: width)
-        }
-        
-        return TextWithAttributedString(width: width, attributedText: attributedText)
-        
-    }
+//    func makeNativeViewAndEmptyView(width: CGFloat) -> some View {
+////        viewModel.setStatusTextView(width: width)
+//        print(#line, #function, width)
+//        return Rectangle()
+//    }
+    
+//    func makeTextWithAttributedString(width: CGFloat, attributedText:NSMutableAttributedString) ->TextWithAttributedString {
+//        DispatchQueue.main.async {
+////            self.height = attributedText.height(containerWidth: width)
+//        }
+//        return TextWithAttributedString(width: width, attributedText: attributedText)
+//    }
     
     func makeNativeTextView(width: CGFloat, attributedText: NSMutableAttributedString) -> some View {
          DispatchQueue.main.async {
-//            self.height = attributedText.height(containerWidth: width)
+            self.height = attributedText.height(containerWidth: width)
         }
-        return NativeTextView(attributedText: attributedText).frame(width: width, height: height).id(text)
+        return NativeTextView(attributedText: attributedText)
+//            .frame(width: width, height: height)
+//            .id(text)
     }
 }
 
@@ -58,7 +58,7 @@ struct NativeTextView: UIViewRepresentable {
                 let textView = UITextView()
                 textView.isEditable = false
                 textView.isScrollEnabled = false
-                textView.dataDetectorTypes = .link
+            textView.dataDetectorTypes = .link
                 textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
                 textView.textContainer.lineFragmentPadding = 0
@@ -92,18 +92,7 @@ struct TextWithAttributedString: UIViewRepresentable {
 
 
 #endif
-//func attributedString(for string: String) -> NSAttributedString {
-//        let attributedString = NSMutableAttributedString(string: string)
-//        let paragraphStyle = NSMutableParagraphStyle()
-//        paragraphStyle.lineSpacing = 4
-//        let range = NSMakeRange(0, (string as NSString).length)
-//        attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
-//        attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
-//
-//    let mentionsAttribute = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body), .foregroundColor: UIColor.label] as [NSAttributedString.Key : Any]
-//    attributedString.addAttributes(mentionsAttribute, range: range)
-//        return attributedString
-//}
+
 
 
 extension NSAttributedString {

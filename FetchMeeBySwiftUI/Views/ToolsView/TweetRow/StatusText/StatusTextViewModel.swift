@@ -36,5 +36,7 @@ class StatusTextViewModel: ObservableObject {
         attributedString.addAttributes(mentionsAttribute, range: range)
             return attributedString
     }
+    
+    
 
 }

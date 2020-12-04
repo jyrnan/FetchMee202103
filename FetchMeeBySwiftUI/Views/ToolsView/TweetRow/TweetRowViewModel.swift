@@ -28,7 +28,7 @@ class TweetRowViewModel: ObservableObject{
     var toolsVeiw: ToolsView? {makeToolsView()}
     
     var statusTextView: NSAttributedStringView?
-    
+    @Published var statusTextView2: NativeTextView?
     var isReplyToMe: Bool!
     
     var tweetIDString: String {status["id_str"].string ?? "0000"}
@@ -54,11 +54,12 @@ class TweetRowViewModel: ObservableObject{
         avatarView = makeAvatarView()
         userNameView = makeUserNameView()
         replyUsersView = makeReplyUsersView()
+        statusTextView = makeStatusTextView()
         images = makeImagesView()
         playButtonView = makePlayButtonView()
         quotedTweetRow = makeQuotedTweetRowView()
         isReplyToMe = checkIsReplyToMe()
-        statusTextView = makeStatusTextView()
+       
     }
     
     func toggleToolsView() {
@@ -108,10 +109,19 @@ class TweetRowViewModel: ObservableObject{
     func makeStatusTextView() -> NSAttributedStringView?{
         guard status["text"].string != nil else {return nil}
         let viewModel = StatusTextViewModel(status: status)
-        
-        return NSAttributedStringView(text: viewModel.attributedText)
+        return NSAttributedStringView(viewModel: viewModel)
     }
     
+    func setStatusTextView(width: CGFloat) {
+        print(#line, #function, width)
+        let viewModel = StatusTextViewModel(status: status)
+        let statusTextView = NativeTextView(attributedText: viewModel.attributedText)
+        DispatchQueue.main.async {
+            self.statusTextView2 = statusTextView
+        }
+        
+        
+    }
     
     func makeImagesView() -> Images? {
         guard let imageUrls = tweetMedia.urlStrings, !imageUrls.isEmpty else {return nil}

@@ -64,7 +64,7 @@ struct TweetRow: View {
 //                    viewModel.makeStatusTextView(width: proxy.size.width)
                     
                     viewModel.statusTextView
-                   
+                    viewModel.statusTextView2
                     ///推文正文
 //                    TweetTextView(tweetText: viewModel.tweetMedia.tweetText)
 //                        .font(.body)
