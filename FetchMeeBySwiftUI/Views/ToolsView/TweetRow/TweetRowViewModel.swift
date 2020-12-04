@@ -17,20 +17,21 @@ class TweetRowViewModel: ObservableObject{
     var status: JSON
 
     let timeline: Timeline
-    
+   
+    //传人的视窗宽度
     var width: CGFloat
     
     var retweetMarkView: RetweetMarkView?
     var avatarView: AvatarView!
     var userNameView: UserNameView!
-    var replyUsersView: ReplyUsersView!
+//    var replyUsersView: ReplyUsersView!
     var images: Images?
     var playButtonView: PlayButtonView?
     var quotedTweetRow: QuotedTweetRow?
     var toolsVeiw: ToolsView? {makeToolsView()}
     
     var statusTextView: NSAttributedStringView?
-    @Published var statusTextView2: NativeTextView?
+    
     var isReplyToMe: Bool!
     
     var tweetIDString: String {status["id_str"].string ?? "0000"}
@@ -55,7 +56,7 @@ class TweetRowViewModel: ObservableObject{
         retweetMarkView = makeRetweetMarkView()
         avatarView = makeAvatarView()
         userNameView = makeUserNameView()
-        replyUsersView = makeReplyUsersView()
+//        replyUsersView = makeReplyUsersView()
         statusTextView = makeStatusTextView()
         images = makeImagesView()
         playButtonView = makePlayButtonView()
@@ -79,6 +80,10 @@ class TweetRowViewModel: ObservableObject{
         let name = status["user"]["name"].string
         
         let retweetMarkView = RetweetMarkView(userIDString: id, userName: name)
+        
+        self.status = status["retweeted_status"]
+        StatusRepository.shared.addStatus(status)
+        
         return retweetMarkView
     }
     
@@ -106,24 +111,13 @@ class TweetRowViewModel: ObservableObject{
         return userNameView
     }
     
-    
-    
     func makeStatusTextView() -> NSAttributedStringView?{
         guard status["text"].string != nil else {return nil}
         let viewModel = StatusTextViewModel(status: status)
         return NSAttributedStringView(viewModel: viewModel, width: width - 80)
     }
     
-    func setStatusTextView(width: CGFloat) {
-        print(#line, #function, width)
-        let viewModel = StatusTextViewModel(status: status)
-        let statusTextView = NativeTextView(attributedText: viewModel.attributedText)
-        DispatchQueue.main.async {
-            self.statusTextView2 = statusTextView
-        }
-        
-        
-    }
+   
     
     func makeImagesView() -> Images? {
         guard let imageUrls = tweetMedia.urlStrings, !imageUrls.isEmpty else {return nil}
@@ -149,7 +143,7 @@ class TweetRowViewModel: ObservableObject{
         
         StatusRepository.shared.status[quotedTweetIDString] = quotedStatus
         
-        return TweetRowViewModel(timeline: timeline, tweetIDString: quotedTweetIDString, width: 300)
+        return TweetRowViewModel(timeline: timeline, tweetIDString: quotedTweetIDString, width: width - 90)
     }
     
     func makeQuotedTweetRowView() -> QuotedTweetRow? {
@@ -161,9 +155,14 @@ class TweetRowViewModel: ObservableObject{
         return quotedTweetRow
     }
     
+    func makeToolsViewModel() -> ToolsViewModel {
+        return ToolsViewModel(status: status)
+    }
+    
     func makeToolsView() -> ToolsView? {
         guard timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString else {return nil}
-        return ToolsView(timeline: timeline, tweetIDString: tweetIDString)
+        let viewModel = makeToolsViewModel()
+        return ToolsView(timeline: timeline, viewModel: viewModel)
     }
     
     func checkIsReplyToMe() -> Bool {
@@ -174,13 +173,13 @@ class TweetRowViewModel: ObservableObject{
     
     ///ReplyUserView
     ///TODO: 需要按照JSON信息来提取
-    func makeReplyUserViewModel() ->ReplyUserViewModel {
-        return ReplyUserViewModel(status: status)
-    }
-    
-    func makeReplyUsersView() -> ReplyUsersView {
-        let viewModel = makeReplyUserViewModel()
-        let replyUsersView = ReplyUsersView(viewModel: viewModel)
-        return replyUsersView
-    }
+//    func makeReplyUserViewModel() ->ReplyUserViewModel {
+//        return ReplyUserViewModel(status: status)
+//    }
+//
+//    func makeReplyUsersView() -> ReplyUsersView {
+//        let viewModel = makeReplyUserViewModel()
+//        let replyUsersView = ReplyUsersView(viewModel: viewModel)
+//        return replyUsersView
+//    }
 }

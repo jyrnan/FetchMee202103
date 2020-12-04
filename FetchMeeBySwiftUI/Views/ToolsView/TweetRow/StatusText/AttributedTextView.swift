@@ -11,40 +11,16 @@ import SwiftUI
 
 struct NSAttributedStringView: View {
     var viewModel :StatusTextViewModel
-    var text:NSMutableAttributedString {viewModel.attributedText}
     var width: CGFloat
-//    @State var height: CGFloat = 0
-    
+
     var body: some View {
-        
-//        Text(viewModel.status["text"].string ?? "")
-       
-//        GeometryReader{ proxy in
-            makeNativeTextView(width: width,attributedText: text)
-//        }
-//        .frame(height:height)
+            makeNativeTextView(width: width,attributedText: viewModel.attributedText)
     }
     
-//    func makeNativeViewAndEmptyView(width: CGFloat) -> some View {
-////        viewModel.setStatusTextView(width: width)
-//        print(#line, #function, width)
-//        return Rectangle()
-//    }
-    
-//    func makeTextWithAttributedString(width: CGFloat, attributedText:NSMutableAttributedString) ->TextWithAttributedString {
-//        DispatchQueue.main.async {
-////            self.height = attributedText.height(containerWidth: width)
-//        }
-//        return TextWithAttributedString(width: width, attributedText: attributedText)
-//    }
-    
     func makeNativeTextView(width: CGFloat, attributedText: NSMutableAttributedString) -> some View {
-//         DispatchQueue.main.async {
             let height = attributedText.height(containerWidth: width)
-//        }
         return NativeTextView(attributedText: attributedText)
             .frame(width: width, height: height)
-//            .id(text)
     }
 }
 
@@ -71,31 +47,6 @@ struct NativeTextView: UIViewRepresentable {
         }
 }
 
-/// 采用ULLabel
-struct TextWithAttributedString: UIViewRepresentable {
-    var width: CGFloat
-    var attributedText:NSMutableAttributedString
-    
-    func makeUIView(context: Context) -> UILabel {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        
-        return label
-    }
-    
-    func updateUIView(_ uiView: UILabel, context: UIViewRepresentableContext<TextWithAttributedString>) {
-        
-        uiView.preferredMaxLayoutWidth = width
-        uiView.attributedText = attributedText
-    }
-}
-
-
-#endif
-
-
-
 extension NSAttributedString {
         func height(containerWidth: CGFloat) -> CGFloat {
                 let rect = self.boundingRect(with: CGSize.init(width: containerWidth, height: CGFloat.greatestFiniteMagnitude),
@@ -104,6 +55,33 @@ extension NSAttributedString {
                 return ceil(rect.size.height)
         }
 }
+
+/// 采用ULLabel
+//struct TextWithAttributedString: UIViewRepresentable {
+//    var width: CGFloat
+//    var attributedText:NSMutableAttributedString
+//
+//    func makeUIView(context: Context) -> UILabel {
+//        let label = UILabel()
+//        label.numberOfLines = 0
+//        label.lineBreakMode = .byWordWrapping
+//
+//        return label
+//    }
+//
+//    func updateUIView(_ uiView: UILabel, context: UIViewRepresentableContext<TextWithAttributedString>) {
+//
+//        uiView.preferredMaxLayoutWidth = width
+//        uiView.attributedText = attributedText
+//    }
+//}
+
+
+#endif
+
+
+
+
 
 
 

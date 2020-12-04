@@ -10,7 +10,9 @@ import SwiftUI
 
 struct ToolsView: View {
     @ObservedObject var timeline: Timeline
-    var tweetIDString: String
+    var tweetIDString: String {viewModel.status["id_str"].string ?? "0000"}
+    
+    @ObservedObject var viewModel: ToolsViewModel
     
     @State var isShowSafari: Bool = false
     @State var url: URL = URL(string: "https://www.twitter.com")!
@@ -26,7 +28,7 @@ struct ToolsView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 18, height: 18, alignment: .center)
                     .onTapGesture {
-                        
+                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         swifter.destroyTweet(forID: tweetIDString,
                                              success: { _ in
                                                 if let index = self.timeline.tweetIDStrings.firstIndex(of: tweetIDString) {
@@ -41,47 +43,29 @@ struct ToolsView: View {
            
             Spacer()
             
-            Image(systemName: self.timeline.tweetMedias[tweetIDString]!.retweeted == false ? "repeat" : "repeat.1")
+                Image(systemName: viewModel.retweeted ? "repeat.1" : "repeat")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 18, height: 18, alignment: .center)
-                .foregroundColor(self.timeline.tweetMedias[tweetIDString]?.retweeted == true ? Color.green : Color.gray)
+                .foregroundColor(viewModel.retweeted == true ? Color.green : Color.gray)
                 .onTapGesture {
-                    if self.timeline.tweetMedias[tweetIDString] != nil {
-                        switch self.timeline.tweetMedias[tweetIDString]!.retweeted {
-                        case true:
-                            swifter.unretweetTweet(forID: tweetIDString)
-                            self.timeline.tweetMedias[tweetIDString]?.retweeted = false
-                        case false:
-                            swifter.retweetTweet(forID: tweetIDString)
-                            self.timeline.tweetMedias[tweetIDString]?.retweeted = true
-                        }
-                    }
+                    viewModel.retweet()
                 }
             
-            if self.timeline.tweetMedias[tweetIDString]?.retweet_count != 0 {
-                Text(String(self.timeline.tweetMedias[tweetIDString]?.retweet_count ?? 0)).font(.subheadline) }
+            if viewModel.retweetedCount != 0 {
+                Text(String(viewModel.retweetedCount)).font(.subheadline) }
             Spacer()
             
-            Image(systemName: (self.timeline.tweetMedias[tweetIDString]!.favorited == false ? "heart" : "heart.fill"))
+                Image(systemName: viewModel.favorited ? "heart.fill" : "heart")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 18, height: 18, alignment: .center)
-                .foregroundColor(self.timeline.tweetMedias[tweetIDString]?.favorited == true ? Color.red : Color.gray)
+                .foregroundColor(viewModel.favorited ? Color.red : Color.gray)
                 .onTapGesture {
-                    if self.timeline.tweetMedias[tweetIDString] != nil {
-                        switch self.timeline.tweetMedias[tweetIDString]!.favorited {
-                        case true:
-                            swifter.unfavoriteTweet(forID: tweetIDString)
-                            self.timeline.tweetMedias[tweetIDString]?.favorited = false
-                        case false:
-                            swifter.favoriteTweet(forID: tweetIDString)
-                            self.timeline.tweetMedias[tweetIDString]?.favorited = true
-                        }
-                    }
+                    viewModel.favorite()
                 }
-            if self.timeline.tweetMedias[tweetIDString]?.favorite_count != 0 {
-                Text(String(self.timeline.tweetMedias[tweetIDString]?.favorite_count ?? 0)).font(.subheadline) }
+                if viewModel.favoritedCount != 0 {
+                Text(String(viewModel.favoritedCount)).font(.subheadline) }
             Spacer()
             
             Image(systemName: "square.and.arrow.up")
@@ -89,7 +73,7 @@ struct ToolsView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 18, height: 18, alignment: .center)
                 .onTapGesture {
-                    if let screenName = self.timeline.tweetMedias[tweetIDString]?.screenName {
+                    if let screenName = viewModel.status["screen_name"].string {
                         self.url = URL(string: "https://twitter.com/\(screenName)/status/\(tweetIDString)")!
                     }
                     print(#line, self.url)
@@ -118,12 +102,12 @@ struct ToolsView: View {
 }
 }
 
-struct ToolsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ToolsView(timeline: Timeline(type: .home), tweetIDString: "")
-            .preferredColorScheme(.light)
-    }
-}
+//struct ToolsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ToolsView(timeline: Timeline(type: .home), tweetIDString: "")
+//            .preferredColorScheme(.light)
+//    }
+//}
 
 struct TopShadow: View {
     var body: some View {
