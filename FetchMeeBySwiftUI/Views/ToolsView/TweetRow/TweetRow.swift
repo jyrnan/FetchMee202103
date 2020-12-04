@@ -101,15 +101,15 @@ struct TweetRow: View {
     
 }
 
-struct TweetRow_Previews: PreviewProvider {
-    static let alerts = Alerts()
-    static let user = User()
-    static var timeline = Timeline(type: .home)
-    static var tweetIDString = "0000"
-    static var previews: some View {
-        TweetRow(
-            //            timeline: self.timeline, tweetIDString: self.tweetIDString,
-            viewModel: TweetRowViewModel(timeline: Timeline(type: .home), tweetIDString: "")).environmentObject(self.alerts).environmentObject(self.user)
-    }
-}
+//struct TweetRow_Previews: PreviewProvider {
+//    static let alerts = Alerts()
+//    static let user = User()
+//    static var timeline = Timeline(type: .home)
+//    static var tweetIDString = "0000"
+//    static var previews: some View {
+//        TweetRow(
+//            //            timeline: self.timeline, tweetIDString: self.tweetIDString,
+//            viewModel: TweetRowViewModel(timeline: Timeline(type: .home), tweetIDString: "")).environmentObject(self.alerts).environmentObject(self.user)
+//    }
+//}
 

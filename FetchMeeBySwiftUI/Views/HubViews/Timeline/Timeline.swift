@@ -492,16 +492,16 @@ struct Timeline_Previews: PreviewProvider {
 }
 
 extension Timeline {
-    func getTweetViewModel(tweetIDString: String) -> TweetRowViewModel {
+    func getTweetViewModel(tweetIDString: String, width: CGFloat) -> TweetRowViewModel {
         if let tweetRowViewModel = tweetRowViewModels[tweetIDString] {
             return tweetRowViewModel
         } else {
-            return makeTweetRowViewModel(tweetIDString: tweetIDString)
+            return makeTweetRowViewModel(tweetIDString: tweetIDString, width: width)
         }
     }
     
-    func makeTweetRowViewModel(tweetIDString: String) ->TweetRowViewModel {
-        let tweetRowViewModel = TweetRowViewModel(timeline: self, tweetIDString: tweetIDString)
+    func makeTweetRowViewModel(tweetIDString: String, width: CGFloat) ->TweetRowViewModel {
+        let tweetRowViewModel = TweetRowViewModel(timeline: self, tweetIDString: tweetIDString, width: width)
         tweetRowViewModels[tweetIDString] = tweetRowViewModel
         return tweetRowViewModel
     }

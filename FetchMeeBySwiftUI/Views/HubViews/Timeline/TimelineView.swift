@@ -29,7 +29,7 @@ struct TimelineView: View {
     }
     
     var body: some View {
-        
+        GeometryReader {proxy in
         ScrollView(.vertical){
            
            
@@ -51,7 +51,7 @@ struct TimelineView: View {
                 Divider()
                 
                 ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
-                    TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString))
+                    TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
                     Divider()
                 }
                 
@@ -76,7 +76,7 @@ struct TimelineView: View {
                 timeline.refreshFromTop()
             }
         }
-        
+        }
         
     }
 }

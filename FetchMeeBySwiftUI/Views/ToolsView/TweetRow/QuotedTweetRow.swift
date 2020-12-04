@@ -56,8 +56,8 @@ struct QuotedTweetRow: View {
 
 
 
-struct QuotedTweetRow_Previews: PreviewProvider {
-    static var previews: some View {
-        TweetRow(viewModel: TweetRowViewModel(timeline: Timeline(type: .home), tweetIDString: "tweetIDString)"))
-    }
-}
+//struct QuotedTweetRow_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TweetRow(viewModel: TweetRowViewModel(timeline: Timeline(type: .home), tweetIDString: "tweetIDString)"))
+//    }
+//}

@@ -18,6 +18,8 @@ class TweetRowViewModel: ObservableObject{
 
     let timeline: Timeline
     
+    var width: CGFloat
+    
     var retweetMarkView: RetweetMarkView?
     var avatarView: AvatarView!
     var userNameView: UserNameView!
@@ -38,9 +40,9 @@ class TweetRowViewModel: ObservableObject{
     
   
     //MARK:- Methods
-    init(timeline:Timeline, tweetIDString: String) {
+    init(timeline:Timeline, tweetIDString: String, width: CGFloat) {
         self.timeline = timeline
-        
+        self.width = width
         ///MVVM
         self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
         
@@ -109,7 +111,7 @@ class TweetRowViewModel: ObservableObject{
     func makeStatusTextView() -> NSAttributedStringView?{
         guard status["text"].string != nil else {return nil}
         let viewModel = StatusTextViewModel(status: status)
-        return NSAttributedStringView(viewModel: viewModel)
+        return NSAttributedStringView(viewModel: viewModel, width: width - 80)
     }
     
     func setStatusTextView(width: CGFloat) {
@@ -147,7 +149,7 @@ class TweetRowViewModel: ObservableObject{
         
         StatusRepository.shared.status[quotedTweetIDString] = quotedStatus
         
-        return TweetRowViewModel(timeline: timeline, tweetIDString: quotedTweetIDString)
+        return TweetRowViewModel(timeline: timeline, tweetIDString: quotedTweetIDString, width: 300)
     }
     
     func makeQuotedTweetRowView() -> QuotedTweetRow? {

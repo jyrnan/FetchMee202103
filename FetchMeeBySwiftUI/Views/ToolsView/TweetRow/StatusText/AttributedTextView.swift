@@ -12,16 +12,17 @@ import SwiftUI
 struct NSAttributedStringView: View {
     var viewModel :StatusTextViewModel
     var text:NSMutableAttributedString {viewModel.attributedText}
-    @State var height: CGFloat = 0
+    var width: CGFloat
+//    @State var height: CGFloat = 0
     
     var body: some View {
         
 //        Text(viewModel.status["text"].string ?? "")
        
-        GeometryReader{ proxy in
-            makeNativeTextView(width: proxy.size.width, attributedText: text)
-        }
-        .frame(height:height)
+//        GeometryReader{ proxy in
+            makeNativeTextView(width: width,attributedText: text)
+//        }
+//        .frame(height:height)
     }
     
 //    func makeNativeViewAndEmptyView(width: CGFloat) -> some View {
@@ -38,11 +39,11 @@ struct NSAttributedStringView: View {
 //    }
     
     func makeNativeTextView(width: CGFloat, attributedText: NSMutableAttributedString) -> some View {
-         DispatchQueue.main.async {
-            self.height = attributedText.height(containerWidth: width)
-        }
+//         DispatchQueue.main.async {
+            let height = attributedText.height(containerWidth: width)
+//        }
         return NativeTextView(attributedText: attributedText)
-//            .frame(width: width, height: height)
+            .frame(width: width, height: height)
 //            .id(text)
     }
 }
