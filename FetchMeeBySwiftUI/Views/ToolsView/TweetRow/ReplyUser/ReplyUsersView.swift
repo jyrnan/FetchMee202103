@@ -48,33 +48,33 @@ struct ReplyUsersView: View {
 
 
 
-struct NSAttributedStringView: View {
-    
-    var myCustomAttributedModel = MyCustomTextModel()
-        var width: CGFloat
-    var body: some View {
-       
-            //Wrapping an UILabel
-        TextWithAttributedString(width: width, attributedString: myCustomAttributedModel.myCustomAttributedString)
-    }
-  
-}
-
-struct TextWithAttributedString: UIViewRepresentable {
-    var width: CGFloat
-    var attributedString:NSMutableAttributedString
-    
-    func makeUIView(context: Context) -> UILabel {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-
-        return label
-    }
-    
-    func updateUIView(_ uiView: UILabel, context: UIViewRepresentableContext<TextWithAttributedString>) {
-        
-        uiView.preferredMaxLayoutWidth = width
-        uiView.attributedText = attributedString
-    }
-}
+//struct NSAttributedStringView: View {
+//
+//    var myCustomAttributedModel = MyCustomTextModel()
+//        var width: CGFloat
+//    var body: some View {
+//
+//            //Wrapping an UILabel
+//        TextWithAttributedString(width: width, attributedString: myCustomAttributedModel.myCustomAttributedString)
+//    }
+//
+//}
+//
+//struct TextWithAttributedString: UIViewRepresentable {
+//    var width: CGFloat
+//    var attributedString:NSMutableAttributedString
+//
+//    func makeUIView(context: Context) -> UILabel {
+//        let label = UILabel()
+//        label.numberOfLines = 0
+//        label.lineBreakMode = .byWordWrapping
+//
+//        return label
+//    }
+//
+//    func updateUIView(_ uiView: UILabel, context: UIViewRepresentableContext<TextWithAttributedString>) {
+//
+//        uiView.preferredMaxLayoutWidth = width
+//        uiView.attributedText = attributedString
+//    }
+//}

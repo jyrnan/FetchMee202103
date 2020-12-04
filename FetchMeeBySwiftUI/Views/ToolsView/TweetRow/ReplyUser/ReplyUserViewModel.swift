@@ -21,7 +21,7 @@ class ReplyUserViewModel: ObservableObject {
         let attString = setAttributeString(status: status)
         
         attributedString = MyCustomTextModel(myCustomAttributedString: attString)
-        print(#line, status)
+       
     }
     
     func getReplyUsers(status: JSON) -> [String] {

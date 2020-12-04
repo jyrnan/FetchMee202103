@@ -27,7 +27,7 @@ class TweetRowViewModel: ObservableObject{
     var quotedTweetRow: QuotedTweetRow?
     var toolsVeiw: ToolsView? {makeToolsView()}
     
-    var statusTextView: NSAttributedStringView!
+    var statusTextView: NSAttributedStringView?
     
     var isReplyToMe: Bool!
     
@@ -58,7 +58,7 @@ class TweetRowViewModel: ObservableObject{
         playButtonView = makePlayButtonView()
         quotedTweetRow = makeQuotedTweetRowView()
         isReplyToMe = checkIsReplyToMe()
-//        statusTextView = makeStatusTextView()
+        statusTextView = makeStatusTextView()
     }
     
     func toggleToolsView() {
@@ -104,25 +104,13 @@ class TweetRowViewModel: ObservableObject{
     }
     
     
-    ///ReplyUserView
-    ///TODO: 需要按照JSON信息来提取
-    func makeReplyUserViewModel() ->ReplyUserViewModel {
-        return ReplyUserViewModel(status: status)
-    }
     
-    func makeReplyUsersView() -> ReplyUsersView {
-//        guard let user_mentions = status["entities"]["user_mentions"].array, !user_mentions.isEmpty else {return nil}
-        let viewModel = makeReplyUserViewModel()
-        let replyUsersView = ReplyUsersView(viewModel: viewModel)
-        return replyUsersView
+    func makeStatusTextView() -> NSAttributedStringView?{
+        guard status["text"].string != nil else {return nil}
+        let viewModel = StatusTextViewModel(status: status)
+        
+        return NSAttributedStringView(text: viewModel.attributedText)
     }
-    
-    func makeStatusTextView(width: CGFloat) -> NSAttributedStringView {
-        var viewModel = MyCustomTextModel()
-        viewModel.myCustomAttributedString = NSMutableAttributedString(string: status["text"].string!)
-        return NSAttributedStringView(myCustomAttributedModel: viewModel, width: 50)
-    }
-    
     
     
     func makeImagesView() -> Images? {
@@ -168,5 +156,19 @@ class TweetRowViewModel: ObservableObject{
     
     func checkIsReplyToMe() -> Bool {
         return userDefault.object(forKey: "userIDString") as? String == tweetMedia.in_reply_to_user_id_str && timeline.type == .home
+    }
+    
+    
+    
+    ///ReplyUserView
+    ///TODO: 需要按照JSON信息来提取
+    func makeReplyUserViewModel() ->ReplyUserViewModel {
+        return ReplyUserViewModel(status: status)
+    }
+    
+    func makeReplyUsersView() -> ReplyUsersView {
+        let viewModel = makeReplyUserViewModel()
+        let replyUsersView = ReplyUsersView(viewModel: viewModel)
+        return replyUsersView
     }
 }

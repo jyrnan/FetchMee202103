@@ -50,6 +50,8 @@
 		D2419C242577746700A9CF98 /* TimelineType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C232577746700A9CF98 /* TimelineType.swift */; };
 		D2419C272578849B00A9CF98 /* ReplyUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C262578849B00A9CF98 /* ReplyUserViewModel.swift */; };
 		D2419C2A2578B75E00A9CF98 /* TweetTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C292578B75E00A9CF98 /* TweetTextViewModel.swift */; };
+		D2419C712579E43900A9CF98 /* AttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C702579E43900A9CF98 /* AttributedTextView.swift */; };
+		D2419C732579F39700A9CF98 /* StatusTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C722579F39700A9CF98 /* StatusTextViewModel.swift */; };
 		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
 		D252548024D804AB00D8B508 /* WebLinkJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkJson.txt */; };
 		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
@@ -172,6 +174,8 @@
 		D2419C232577746700A9CF98 /* TimelineType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineType.swift; sourceTree = "<group>"; };
 		D2419C262578849B00A9CF98 /* ReplyUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyUserViewModel.swift; sourceTree = "<group>"; };
 		D2419C292578B75E00A9CF98 /* TweetTextViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTextViewModel.swift; sourceTree = "<group>"; };
+		D2419C702579E43900A9CF98 /* AttributedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextView.swift; sourceTree = "<group>"; };
+		D2419C722579F39700A9CF98 /* StatusTextViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTextViewModel.swift; sourceTree = "<group>"; };
 		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
 		D252547F24D804AB00D8B508 /* WebLinkJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkJson.txt; sourceTree = "<group>"; };
 		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
@@ -278,6 +282,7 @@
 				D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */,
 				D707B6EE24C44CE10023F243 /* DetailIndicator.swift */,
 				D2EFF67A2573E2A600E016C1 /* UserNameView.swift */,
+				D2419C6F2579E3D600A9CF98 /* StatusText */,
 				D2419C282578B73B00A9CF98 /* TweetText */,
 				D2419C252578847000A9CF98 /* ReplyUser */,
 				D2D48793257386A0005EE4A7 /* RetweetMark */,
@@ -374,6 +379,15 @@
 				D2419C292578B75E00A9CF98 /* TweetTextViewModel.swift */,
 			);
 			path = TweetText;
+			sourceTree = "<group>";
+		};
+		D2419C6F2579E3D600A9CF98 /* StatusText */ = {
+			isa = PBXGroup;
+			children = (
+				D2419C702579E43900A9CF98 /* AttributedTextView.swift */,
+				D2419C722579F39700A9CF98 /* StatusTextViewModel.swift */,
+			);
+			path = StatusText;
 			sourceTree = "<group>";
 		};
 		D252547824D8000700D8B508 /* reference */ = {
@@ -684,6 +698,7 @@
 				D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */,
 				D27744E3253B149B0062B25C /* BackOfFriendToolBar.swift in Sources */,
 				D27744E5253B14DD0062B25C /* BackOfTweetsToolBar.swift in Sources */,
+				D2419C732579F39700A9CF98 /* StatusTextViewModel.swift in Sources */,
 				D2946F2E24CD802C00F8A7C6 /* ReplyUsersView.swift in Sources */,
 				D2ABAD1B256F9345009FDD94 /* ImageThumbView.swift in Sources */,
 				4B2C746D24FA2B410052F356 /* ImageGrabView.swift in Sources */,
@@ -749,6 +764,7 @@
 				D27DCEBE24B96D5F00520BE3 /* TimelineView.swift in Sources */,
 				D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */,
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
+				D2419C712579E43900A9CF98 /* AttributedTextView.swift in Sources */,
 				D2DDFCC12532DE3300AE7E39 /* TimelineIconView.swift in Sources */,
 				D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */,
 				D286EC32255A2BD600C98195 /* TwitterUser+UpdateAndSave.swift in Sources */,
