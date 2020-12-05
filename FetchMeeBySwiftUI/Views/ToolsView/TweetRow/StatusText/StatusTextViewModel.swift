@@ -97,6 +97,8 @@ class StatusTextViewModel: ObservableObject {
     
     func addReplyingToPrefix(attributedString: NSMutableAttributedString) -> NSMutableAttributedString {
         
+        guard attributedString.string.first == "@" else {return attributedString}
+        
         let replyingToprefix = NSMutableAttributedString(string: "Replying to ")
         let range = NSMakeRange(0, replyingToprefix.string.count)
         replyingToprefix.addAttribute(.foregroundColor, value: UIColor.gray, range: range)

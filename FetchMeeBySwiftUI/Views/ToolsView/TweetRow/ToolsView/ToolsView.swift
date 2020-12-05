@@ -86,7 +86,7 @@ struct ToolsView: View {
         }.foregroundColor(.gray).padding([.leading, .trailing], 16)
         
         //            Divider()
-//        Composer(timeline: self.timeline, tweetIDString: self.tweetIDString)
+        Composer(tweetIDString: self.tweetIDString)
             .padding(.top, 4)
             .padding(.bottom, 4)
             .frame(height: 36)

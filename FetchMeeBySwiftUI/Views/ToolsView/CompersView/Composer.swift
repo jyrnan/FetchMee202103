@@ -16,10 +16,11 @@ struct Composer: View {
     @Environment(\.managedObjectContext) var viewContext
    
     
-    @ObservedObject var timeline : Timeline
+//    @ObservedObject var timeline : Timeline
     @State var tweetText: String = ""
     
     @State var isShowCMV: Bool = false  //是否显示详细新推文视图
+    @State var isShowActivityIndicator: Bool = false
     
     var tweetIDString: String?
     
@@ -28,7 +29,8 @@ struct Composer: View {
         HStack(alignment: .center) {
             TextField("Tweet something here...", text: $tweetText).font(.body).padding(.leading, 16)
             Spacer()
-            if self.timeline.isDone {
+            ///显示详细发推视图或者菊花
+            if !isShowActivityIndicator {
                 NavigationLink(
                     destination: ComposerOfHubView(tweetText: self.$tweetText, replyIDString: self.tweetIDString, isUsedAlone: true ),
                     isActive: $isShowCMV
@@ -37,25 +39,25 @@ struct Composer: View {
                 .onTapGesture {self.isShowCMV = true }
             
         } else {
-                    ActivityIndicator(isAnimating: self.$timeline.isDone, style: .medium)
+                    ActivityIndicator(isAnimating: $isShowActivityIndicator, style: .medium)
                 }
             
             Divider()
             
             Button(action: {
-                self.timeline.isDone = false
+                isShowActivityIndicator = true
                 swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
                     self.tweetText = ""
-                    switch self.timeline.type { //如果是在detail视图则不更新timeline
-                    case .session:
-                        self.timeline.isDone = true
-                        self.alerts.stripAlert.alertText = "Reply sent!"
-                        self.alerts.stripAlert.isPresentedAlert = true
-                    default:
-                        self.timeline.refreshFromTop()
+//                    switch self.timeline.type { //如果是在detail视图则不更新timeline
+//                    case .session:
+//                        self.timeline.isDone = true
+//                        self.alerts.stripAlert.alertText = "Reply sent!"
+//                        self.alerts.stripAlert.isPresentedAlert = true
+//                    default:
+//                        self.timeline.refreshFromTop()
                         self.alerts.stripAlert.alertText = "Tweet sent!"
                         self.alerts.stripAlert.isPresentedAlert = true
-                    }
+//                    }
                 })
                 self.hideKeyboard()
             },
@@ -76,6 +78,6 @@ extension Composer {
 
 struct Composer_Previews: PreviewProvider {
     static var previews: some View {
-        Composer(timeline: Timeline(type: .home))
+        Composer()
     }
 }
