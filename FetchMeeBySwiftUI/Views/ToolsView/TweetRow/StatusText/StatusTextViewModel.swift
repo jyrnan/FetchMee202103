@@ -13,6 +13,9 @@ class StatusTextViewModel: ObservableObject {
     var status: JSON
     var attributedText: NSMutableAttributedString!
     
+    let themeColor = UIColor(ThemeColor(rawValue: (userDefault.object(forKey: "themeColor") as? String) ?? "blue")!.color)
+    //
+    
     init(status: JSON) {
         self.status = status
         attributedText = setAttributedText()
@@ -25,38 +28,40 @@ class StatusTextViewModel: ObservableObject {
     }
     
     func attributedString(for string: String) -> NSAttributedString {
-            var attributedString = NSMutableAttributedString(string: string)
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = 4
+        var attributedString = NSMutableAttributedString(string: string)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4
         paragraphStyle.paragraphSpacing = 8
-            let range = NSMakeRange(0, (string as NSString).length)
-            attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
-            attributedString.addAttribute(.foregroundColor, value: UIColor.label, range: range)
-            attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
-            
-//        guard let user_mentions = status["entities"]["user_mentions"].array, !user_mentions.isEmpty else {return attributedString}
+        let range = NSMakeRange(0, (string as NSString).length)
+        attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
+        attributedString.addAttribute(.foregroundColor, value: UIColor.label, range: range)
+        attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
         
-//        let mentionsAttribute = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body), .foregroundColor: UIColor.orange] as [NSAttributedString.Key : Any]
-//
-//        for user_mention in user_mentions {
-//            if let begin: Int = user_mention["indices"].array?.first?.integer,
-//               let end: Int = user_mention["indices"].array?.last?.integer {
-//                let range: NSRange = NSRange(location: begin, length: end - begin)
-//                attributedString.addAttribute(.foregroundColor, value: UIColor.init(named: "TwitterBlue"), range: range)
-//            }
-//
-//        }
-            attributedString = setMentionAttribute(status: status, attributedString: attributedString)
+        attributedString = setHashTagAttribute(status: status, attributedString: attributedString)
+        attributedString = setMentionAttribute(status: status, attributedString: attributedString)
         
-            
+        return attributedString
+    }
+    
+    func setHashTagAttribute(status: JSON, attributedString: NSMutableAttributedString) -> NSMutableAttributedString {
+        guard let hashTags = status["entities"]["hashtags"].array, !hashTags.isEmpty else {return attributedString}
         
-            return attributedString
+        let hashTagAttribute = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body), .foregroundColor: themeColor] as [NSAttributedString.Key : Any]
+        
+        for hashTag in hashTags {
+            if let begin: Int = hashTag["indices"].array?.first?.integer,
+               let end: Int = hashTag["indices"].array?.last?.integer {
+                let range: NSRange = NSRange(location: begin, length: end - begin)
+                attributedString.addAttributes(hashTagAttribute, range: range)
+            }
+        }
+        return attributedString
     }
     
     func setMentionAttribute(status: JSON, attributedString: NSMutableAttributedString) -> NSMutableAttributedString {
         guard let user_mentions = status["entities"]["user_mentions"].array, !user_mentions.isEmpty else {return attributedString}
         
-        let mentionsAttribute = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body), .foregroundColor: UIColor.init(named: "TwitterBlue")] as [NSAttributedString.Key : Any]
+        let mentionsAttribute = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body), .foregroundColor: themeColor] as [NSAttributedString.Key : Any]
         
         ///设置一个换行初始位置
         var wrapPosition = 0
@@ -88,7 +93,7 @@ class StatusTextViewModel: ObservableObject {
         
         let index = statusText.index(statusText.startIndex, offsetBy: indice + 1)
         return statusText[index] != "@"
-}
+    }
     
     func addReplyingToPrefix(attributedString: NSMutableAttributedString) -> NSMutableAttributedString {
         

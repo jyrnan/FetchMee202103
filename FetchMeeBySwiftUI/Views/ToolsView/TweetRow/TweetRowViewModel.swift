@@ -16,7 +16,7 @@ class TweetRowViewModel: ObservableObject{
     ///MVVM
     var status: JSON
 
-    let timeline: Timeline
+    var timeline: TimelineViewModel
    
     //传人的视窗宽度
     var width: CGFloat
@@ -41,14 +41,14 @@ class TweetRowViewModel: ObservableObject{
     
   
     //MARK:- Methods
-    init(timeline:Timeline, tweetIDString: String, width: CGFloat) {
+    init(timeline:TimelineViewModel, tweetIDString: String, width: CGFloat) {
         self.timeline = timeline
         self.width = width
         ///MVVM
         self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
         
         ///备用
-        self.tweetMedia = timeline.tweetMedias[tweetIDString] ?? TweetMedia(id: tweetIDString)
+        self.tweetMedia = (timeline as? Timeline)?.tweetMedias[tweetIDString] ?? TweetMedia(id: tweetIDString)
         makeViews()
     }
     
@@ -166,7 +166,7 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func checkIsReplyToMe() -> Bool {
-        return userDefault.object(forKey: "userIDString") as? String == tweetMedia.in_reply_to_user_id_str && timeline.type == .home
+        return userDefault.object(forKey: "userIDString") as? String == status["in_reply_to_user_id_str"].string
     }
     
     

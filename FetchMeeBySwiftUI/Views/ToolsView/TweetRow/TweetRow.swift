@@ -53,8 +53,8 @@ struct TweetRow: View {
                         
                         Spacer()
                         
-                        NavigationLink(destination: DetailView(tweetIDString: viewModel.tweetIDString)){
-                            DetailIndicator(timeline: viewModel.timeline, tweetIDString: viewModel.tweetIDString)
+                        NavigationLink(destination: DetailView(viewModel: DetailViewModel(tweetIDString: viewModel.tweetIDString))){
+                            DetailIndicator()
                         }
                     }
                     .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
@@ -63,7 +63,7 @@ struct TweetRow: View {
 //                    viewModel.replyUsersView
 //                    viewModel.makeStatusTextView(width: proxy.size.width)
                     
-                    viewModel.statusTextView
+                    viewModel.statusTextView?.padding(.top, 8)
                     
                     ///推文正文
 //                    TweetTextView(tweetText: viewModel.tweetMedia.tweetText)

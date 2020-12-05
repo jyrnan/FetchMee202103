@@ -11,7 +11,7 @@ import Swifter
 
 class ToolsViewModel: ObservableObject {
     var status: JSON
-    var timeline: Timeline
+    var timeline: TimelineViewModel
     
     @Published var retweeted: Bool
     @Published var retweetedCount: Int
@@ -22,9 +22,9 @@ class ToolsViewModel: ObservableObject {
     
     var tweetIDString: String {status["id_str"].string ?? "0000"}
     
-    init(status: JSON, timeline: Timeline) {
+    init(status: JSON, timeline: TimelineViewModel) {
         self.status = status
-        self.timeline = timeline
+         self.timeline = timeline
         
         self.retweeted = status["retweeted"].bool ?? false
         self.retweetedCount = status["retweet_count"].integer ?? 0

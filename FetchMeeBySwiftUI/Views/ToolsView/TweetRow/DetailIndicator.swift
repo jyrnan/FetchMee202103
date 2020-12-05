@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct DetailIndicator: View {
-    @ObservedObject var timeline: Timeline
-     var tweetIDString: String
+    var timeline = Timeline(type: .home)
+     var tweetIDString: String = "0000"
     
 //    var retweetColor: Color = { self.timeline[tweetIDString].retweeted? Color(.red) : Color(.gray) }
     var body: some View {

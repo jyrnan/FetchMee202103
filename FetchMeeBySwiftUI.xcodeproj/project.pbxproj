@@ -53,6 +53,8 @@
 		D2419C2A2578B75E00A9CF98 /* TweetTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C292578B75E00A9CF98 /* TweetTextViewModel.swift */; };
 		D2419C712579E43900A9CF98 /* AttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C702579E43900A9CF98 /* AttributedTextView.swift */; };
 		D2419C732579F39700A9CF98 /* StatusTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C722579F39700A9CF98 /* StatusTextViewModel.swift */; };
+		D24E409F257B6F3B00401BBB /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24E409E257B6F3B00401BBB /* DetailViewModel.swift */; };
+		D24E40A1257B74E700401BBB /* TimelineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24E40A0257B74E700401BBB /* TimelineProtocol.swift */; };
 		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
 		D252548024D804AB00D8B508 /* WebLinkJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkJson.txt */; };
 		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
@@ -178,6 +180,8 @@
 		D2419C292578B75E00A9CF98 /* TweetTextViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTextViewModel.swift; sourceTree = "<group>"; };
 		D2419C702579E43900A9CF98 /* AttributedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextView.swift; sourceTree = "<group>"; };
 		D2419C722579F39700A9CF98 /* StatusTextViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTextViewModel.swift; sourceTree = "<group>"; };
+		D24E409E257B6F3B00401BBB /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		D24E40A0257B74E700401BBB /* TimelineProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineProtocol.swift; sourceTree = "<group>"; };
 		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
 		D252547F24D804AB00D8B508 /* WebLinkJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkJson.txt; sourceTree = "<group>"; };
 		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
@@ -300,7 +304,7 @@
 			children = (
 				D297390324D150B300917A97 /* CompersView */,
 				4B7130AD253574A500CE0082 /* TweetRow */,
-				D7AC536D24BB477300BCD71F /* DetailView.swift */,
+				D24E409D257B6F2800401BBB /* DetailView */,
 				4B2C746C24FA2B410052F356 /* ImageGrabView.swift */,
 				D286FFD624BC31F0005DBC39 /* UserView.swift */,
 				D2A4D2802552AF9500668650 /* TestView.swift */,
@@ -399,6 +403,15 @@
 				D2419C722579F39700A9CF98 /* StatusTextViewModel.swift */,
 			);
 			path = StatusText;
+			sourceTree = "<group>";
+		};
+		D24E409D257B6F2800401BBB /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				D7AC536D24BB477300BCD71F /* DetailView.swift */,
+				D24E409E257B6F3B00401BBB /* DetailViewModel.swift */,
+			);
+			path = DetailView;
 			sourceTree = "<group>";
 		};
 		D252547824D8000700D8B508 /* reference */ = {
@@ -535,6 +548,7 @@
 				D7AC535C24B9E94300BCD71F /* Timeline.swift */,
 				D2318AB82574D86C00F55BDF /* TimelinesViewModel.swift */,
 				D2419C232577746700A9CF98 /* TimelineType.swift */,
+				D24E40A0257B74E700401BBB /* TimelineProtocol.swift */,
 			);
 			path = Timeline;
 			sourceTree = "<group>";
@@ -705,6 +719,7 @@
 				D2419C272578849B00A9CF98 /* ReplyUserViewModel.swift in Sources */,
 				D2318AB92574D86C00F55BDF /* TimelinesViewModel.swift in Sources */,
 				D2905079252C09360065EA83 /* FetchMee.xcdatamodeld in Sources */,
+				D24E409F257B6F3B00401BBB /* DetailViewModel.swift in Sources */,
 				D26A8B09256284C8003BFEE6 /* CountDiagramView.swift in Sources */,
 				D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */,
 				D27744E3253B149B0062B25C /* BackOfFriendToolBar.swift in Sources */,
@@ -759,6 +774,7 @@
 				D270E87D24C01C9100BBD3FE /* ToolsView.swift in Sources */,
 				4B68D5A62539131800A17AED /* LogMessageView.swift in Sources */,
 				D2E4D75324D851EA00D68A09 /* QuotedTweetRow.swift in Sources */,
+				D24E40A1257B74E700401BBB /* TimelineProtocol.swift in Sources */,
 				D2794F33251F1DE200824E6D /* SaliencyDetection.swift in Sources */,
 				D2EFF67B2573E2A600E016C1 /* UserNameView.swift in Sources */,
 				D2C12CD5254A6A6B00D74778 /* UserInfo.swift in Sources */,

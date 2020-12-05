@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ToolsView: View {
-    var timeline: Timeline {viewModel.timeline}
+//    var timeline: Timeline {viewModel.timeline as Timeline}
     var tweetIDString: String {viewModel.status["id_str"].string ?? "0000"}
     
     @ObservedObject var viewModel: ToolsViewModel
@@ -31,8 +31,8 @@ struct ToolsView: View {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         swifter.destroyTweet(forID: tweetIDString,
                                              success: { _ in
-                                                if let index = self.timeline.tweetIDStrings.firstIndex(of: tweetIDString) {
-                                                    self.timeline.tweetIDStrings.remove(at: index) } },
+                                                if let index = viewModel.timeline.tweetIDStrings.firstIndex(of: tweetIDString) {
+                                                    viewModel.timeline.tweetIDStrings.remove(at: index) } },
                                              failure: {_ in
                                                 self.isAlertShowed = true
                                              })
@@ -86,7 +86,7 @@ struct ToolsView: View {
         }.foregroundColor(.gray).padding([.leading, .trailing], 16)
         
         //            Divider()
-        Composer(timeline: self.timeline, tweetIDString: self.tweetIDString)
+//        Composer(timeline: self.timeline, tweetIDString: self.tweetIDString)
             .padding(.top, 4)
             .padding(.bottom, 4)
             .frame(height: 36)

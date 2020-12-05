@@ -12,7 +12,7 @@ import Swifter
 import Combine
 import Photos
 
-final class Timeline: ObservableObject {
+final class Timeline: TimelineViewModel, ObservableObject {
     @Published var tweetIDStrings: [String] = []
     @Published var imageURLStrings: [String: Bool] = [:] //标记被选择的图片ID???
     @Published var tweetMedias: [String: TweetMedia] = [:]
@@ -122,6 +122,10 @@ final class Timeline: ObservableObject {
     func refreshFromBottom(for userIDString: String? = nil) {
         func sh(json: JSON) ->Void {
             let newTweets = json.array ?? []
+            
+            ///MVVM
+            newTweets.forEach{StatusRepository.shared.addStatus($0)}
+            ///MVVM END
             
             self.isDone = true
             self.updateTimelineBottom(with: newTweets)
@@ -410,6 +414,11 @@ extension Timeline {
         }
         func sh(json: JSON) -> () {
             let newTweets = [json]
+            
+            ///MVVM
+            newTweets.forEach{StatusRepository.shared.addStatus($0)}
+            ///MVVM END
+            
             let newTweetIDStrings = converJSON2TweetDatas(from: newTweets)
             self.tweetIDStrings = newTweetIDStrings + self.tweetIDStrings
             if let in_reply_to_status_id_str = json["in_reply_to_status_id_str"].string, counter < 8 {
