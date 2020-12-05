@@ -9,35 +9,36 @@
 import SwiftUI
 
 struct DetailIndicator: View {
-    var timeline = Timeline(type: .home)
-     var tweetIDString: String = "0000"
+//    var timeline = Timeline(type: .home)
+     var tweetIDString: String
+    
     
 //    var retweetColor: Color = { self.timeline[tweetIDString].retweeted? Color(.red) : Color(.gray) }
     var body: some View {
         HStack(spacing: 0){
             Spacer()
             Circle()
-                .fill(self.timeline.tweetMedias[tweetIDString]?.retweeted == true ? Color.green : Color.gray)
+                .fill(Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
             Circle()
-                .fill(self.timeline.tweetMedias[tweetIDString]?.favorited == true ? Color.red : Color.gray)
+                .fill(Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
             Circle()
-                .fill(self.timeline.tweetMedias[tweetIDString]?.rowIsViewed == true ? Color.gray : Color.accentColor)
+                .fill(Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
-                .onAppear{
-                    ///该视图出现则减少新推文数量1，并设置成已经阅读变量标志，避免重复
-                    if !(self.timeline.tweetMedias[tweetIDString]?.rowIsViewed ?? true) && (self.timeline.newTweetNumber > 0) {
-                        self.timeline.newTweetNumber -= 1
-                    }
-                    self.delay(delay: 3, closure: {
-                        self.timeline.tweetMedias[tweetIDString]?.rowIsViewed = true
-                        
-                    })
-                }
+//                .onAppear{
+//                    ///该视图出现则减少新推文数量1，并设置成已经阅读变量标志，避免重复
+//                    if !(self.timeline.tweetMedias[tweetIDString]?.rowIsViewed ?? true) && (self.timeline.newTweetNumber > 0) {
+//                        self.timeline.newTweetNumber -= 1
+//                    }
+//                    self.delay(delay: 3, closure: {
+//                        self.timeline.tweetMedias[tweetIDString]?.rowIsViewed = true
+//
+//                    })
+//                }
             Spacer()
         }
         .frame(width: 27, height: 11, alignment: .center)
@@ -54,6 +55,6 @@ struct DetailIndicator: View {
 
 struct DetailIndicator_Previews: PreviewProvider {
     static var previews: some View {
-        DetailIndicator(timeline: Timeline(type: .home), tweetIDString: "")
+        DetailIndicator(tweetIDString: "")
     }
 }

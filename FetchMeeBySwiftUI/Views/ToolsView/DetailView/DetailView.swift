@@ -18,27 +18,34 @@ struct DetailView: View {
     
     
     var body: some View {
-
+        GeometryReader{proxy in
                 ScrollView {
+                    VStack(spacing: 0) {
+                    RoundedCorners(color: Color.init("BackGround"), tl: 24, tr: 24 ).frame(height: 24)
                     
                     ForEach(viewModel.tweetIDStrings, id: \.self) {tweetIDString in
                         
-                        TweetRow(viewModel: TweetRowViewModel(timeline: viewModel, tweetIDString: tweetIDString, width: 300))
+                        TweetRow(viewModel: TweetRowViewModel(timeline: viewModel, tweetIDString: tweetIDString, width: proxy.size.width))
                         Divider()
                     }
-                    .listRowInsets(EdgeInsets(top: 8, leading:0, bottom: 0, trailing: 0))
-//                    Composer(tweetIDString: viewModel.tweetIDString)
-//                        .frame(height: 24)
-                    Divider()
+                    
+                    if viewModel.tweetIDStringOfRowToolsViewShowed == nil {
+                        Divider()
+                    Composer(tweetIDString: viewModel.tweetIDString)
+                        .frame(height: 36)
+                        Divider()
+                    }
+                    RoundedCorners(color: Color.init("BackGround"), bl: 24, br: 24 ).frame(height: 24)
                     Spacer()
+                    }
                 }
                 .navigationTitle("Detail")
-                .onAppear {
-                    if self.firstTimeRun {
-                        self.firstTimeRun = false
-                        viewModel.getReplyDetail(for: viewModel.tweetIDString)
-                    } else {print(#line, "firstTimeRun is already true")}} //页面出现时执行一次刷新
-                
+//                .onAppear {
+//                    if self.firstTimeRun {
+//                        self.firstTimeRun = false
+//                        viewModel.getReplyDetail(for: viewModel.tweetIDString)
+//                    } else {print(#line, "firstTimeRun is already true")}} //页面出现时执行一次刷新
+        }
     }
 }
 

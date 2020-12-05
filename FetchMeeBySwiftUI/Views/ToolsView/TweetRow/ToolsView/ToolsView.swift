@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ToolsView: View {
-//    var timeline: Timeline {viewModel.timeline as Timeline}
     var tweetIDString: String {viewModel.status["id_str"].string ?? "0000"}
     
     @ObservedObject var viewModel: ToolsViewModel
@@ -48,9 +47,7 @@ struct ToolsView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 18, height: 18, alignment: .center)
                 .foregroundColor(viewModel.retweeted == true ? Color.green : Color.gray)
-                .onTapGesture {
-                    viewModel.retweet()
-                }
+                .onTapGesture {viewModel.retweet()}
             
             if viewModel.retweetedCount != 0 {
                 Text(String(viewModel.retweetedCount)).font(.subheadline) }
@@ -61,9 +58,8 @@ struct ToolsView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 18, height: 18, alignment: .center)
                 .foregroundColor(viewModel.favorited ? Color.red : Color.gray)
-                .onTapGesture {
-                    viewModel.favorite()
-                }
+                .onTapGesture {viewModel.favorite()}
+                
                 if viewModel.favoritedCount != 0 {
                 Text(String(viewModel.favoritedCount)).font(.subheadline) }
             Spacer()
@@ -102,12 +98,6 @@ struct ToolsView: View {
 }
 }
 
-//struct ToolsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ToolsView(timeline: Timeline(type: .home), tweetIDString: "")
-//            .preferredColorScheme(.light)
-//    }
-//}
 
 struct TopShadow: View {
     var body: some View {

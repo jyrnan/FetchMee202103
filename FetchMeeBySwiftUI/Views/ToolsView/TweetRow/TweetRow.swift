@@ -54,7 +54,7 @@ struct TweetRow: View {
                         Spacer()
                         
                         NavigationLink(destination: DetailView(viewModel: DetailViewModel(tweetIDString: viewModel.tweetIDString))){
-                            DetailIndicator()
+                            viewModel.detailIndicator
                         }
                     }
                     .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙

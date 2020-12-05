@@ -284,17 +284,13 @@
 				D27DCF8B24B9A56100520BE3 /* TweetRow.swift */,
 				D2318AB6257228CC00F55BDF /* TweetRowViewModel.swift */,
 				D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */,
-				D22A76AE257A738E005863CE /* ToolsView */,
-				D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */,
-				D707B6EE24C44CE10023F243 /* DetailIndicator.swift */,
-				D2EFF67A2573E2A600E016C1 /* UserNameView.swift */,
-				D2419C6F2579E3D600A9CF98 /* StatusText */,
-				D2419C282578B73B00A9CF98 /* TweetText */,
-				D2419C252578847000A9CF98 /* ReplyUser */,
 				D2D48793257386A0005EE4A7 /* RetweetMark */,
-				D2D4879025734C0D005EE4A7 /* PlayButton */,
 				D2ABAD1E2570A7C4009FDD94 /* Avatar */,
+				D2BB68F7257BC3F9003BDA13 /* UserNameCreatedAt */,
+				D2419C6F2579E3D600A9CF98 /* StatusText */,
 				D2ABAD19256F930C009FDD94 /* image */,
+				D2D4879025734C0D005EE4A7 /* PlayButton */,
+				D22A76AE257A738E005863CE /* ToolsView */,
 			);
 			path = TweetRow;
 			sourceTree = "<group>";
@@ -460,6 +456,7 @@
 				D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */,
 				D2318ABC2574F23100F55BDF /* FetchMee_iOS */,
 				D27DCF8A24B9A54500520BE3 /* Views */,
+				D2BB68F8257BC420003BDA13 /* ForDelete */,
 				D27DCF3C24B98FA600520BE3 /* Model */,
 				D252547824D8000700D8B508 /* reference */,
 				D27DCEBF24B96D6100520BE3 /* Assets.xcassets */,
@@ -584,6 +581,25 @@
 				D2AE50642553C6D500437337 /* MentionUser.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		D2BB68F7257BC3F9003BDA13 /* UserNameCreatedAt */ = {
+			isa = PBXGroup;
+			children = (
+				D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */,
+				D707B6EE24C44CE10023F243 /* DetailIndicator.swift */,
+				D2EFF67A2573E2A600E016C1 /* UserNameView.swift */,
+			);
+			path = UserNameCreatedAt;
+			sourceTree = "<group>";
+		};
+		D2BB68F8257BC420003BDA13 /* ForDelete */ = {
+			isa = PBXGroup;
+			children = (
+				D2419C282578B73B00A9CF98 /* TweetText */,
+				D2419C252578847000A9CF98 /* ReplyUser */,
+			);
+			path = ForDelete;
 			sourceTree = "<group>";
 		};
 		D2D4879025734C0D005EE4A7 /* PlayButton */ = {

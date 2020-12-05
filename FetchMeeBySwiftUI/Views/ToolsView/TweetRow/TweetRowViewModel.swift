@@ -17,29 +17,24 @@ class TweetRowViewModel: ObservableObject{
     var status: JSON
 
     var timeline: TimelineViewModel
-   
+    var tweetIDString: String {status["id_str"].string ?? "0000"}
     //传人的视窗宽度
     var width: CGFloat
     
     var retweetMarkView: RetweetMarkView?
     var avatarView: AvatarView!
     var userNameView: UserNameView!
-//    var replyUsersView: ReplyUsersView!
+    var detailIndicator: DetailIndicator!
     var images: Images?
     var playButtonView: PlayButtonView?
     var quotedTweetRow: QuotedTweetRow?
     var toolsVeiw: ToolsView? {makeToolsView()}
-    
     var statusTextView: NSAttributedStringView?
     
     var isReplyToMe: Bool!
     
-    var tweetIDString: String {status["id_str"].string ?? "0000"}
-//    var userName:String {status["user"]["name"].string ?? "name"}
-//    var screenName:String {status["user"]["screen_name"].string ?? "screenName"}
-    
-    
-  
+   
+
     //MARK:- Methods
     init(timeline:TimelineViewModel, tweetIDString: String, width: CGFloat) {
         self.timeline = timeline
@@ -56,7 +51,7 @@ class TweetRowViewModel: ObservableObject{
         retweetMarkView = makeRetweetMarkView()
         avatarView = makeAvatarView()
         userNameView = makeUserNameView()
-//        replyUsersView = makeReplyUsersView()
+        detailIndicator = makeDetailIndicatorView()
         statusTextView = makeStatusTextView()
         images = makeImagesView()
         playButtonView = makePlayButtonView()
@@ -88,7 +83,6 @@ class TweetRowViewModel: ObservableObject{
     }
     
     //生产AvatarView头像
-    
     func makeAvatarViewModel() -> AvatarViewModel {
         var avatarViewModel: AvatarViewModel
         
@@ -109,6 +103,10 @@ class TweetRowViewModel: ObservableObject{
         let screenName = status["user"]["screen_name"].string ?? "screenName"
         let userNameView = UserNameView(userName: userName, screenName: screenName)
         return userNameView
+    }
+    
+    func makeDetailIndicatorView() -> DetailIndicator {
+        return DetailIndicator(tweetIDString: tweetIDString)
     }
     
     func makeStatusTextView() -> NSAttributedStringView?{
@@ -149,7 +147,6 @@ class TweetRowViewModel: ObservableObject{
     func makeQuotedTweetRowView() -> QuotedTweetRow? {
         guard status["quoted_status_id_str"].string != nil else {return nil}
         
-       
         let quotedTweetRowViewModel = makeQuotedTweetRowViewModel()
         let quotedTweetRow = QuotedTweetRow(viewModel: quotedTweetRowViewModel)
         return quotedTweetRow
@@ -168,18 +165,4 @@ class TweetRowViewModel: ObservableObject{
     func checkIsReplyToMe() -> Bool {
         return userDefault.object(forKey: "userIDString") as? String == status["in_reply_to_user_id_str"].string
     }
-    
-    
-    
-    ///ReplyUserView
-    ///TODO: 需要按照JSON信息来提取
-//    func makeReplyUserViewModel() ->ReplyUserViewModel {
-//        return ReplyUserViewModel(status: status)
-//    }
-//
-//    func makeReplyUsersView() -> ReplyUsersView {
-//        let viewModel = makeReplyUserViewModel()
-//        let replyUsersView = ReplyUsersView(viewModel: viewModel)
-//        return replyUsersView
-//    }
 }

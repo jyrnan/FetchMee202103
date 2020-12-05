@@ -67,13 +67,17 @@ struct TimelineView: View {
                 RoundedCorners(color: Color.init("BackGround"), bl: 18, br: 18 )
                     .frame(height: 18)
             }
-//            .padding([.leading, .trailing], 16)
             
         }
         .navigationTitle(listName ?? timeline.type.rawValue)
         .onAppear {
             if timeline.tweetIDStrings.isEmpty {
                 timeline.refreshFromTop()
+            }
+            
+            //出现后重置新推文数量
+            if timeline.newTweetNumber != 0 {
+                timeline.newTweetNumber = 0
             }
         }
         }
