@@ -53,7 +53,7 @@ struct TweetRow: View {
                         
                         Spacer()
                         
-                        NavigationLink(destination: DetailView(viewModel: DetailViewModel(tweetIDString: viewModel.tweetIDString))){
+                        NavigationLink(destination: DetailView(tweetIDString: viewModel.tweetIDString)){
                             viewModel.detailIndicator
                         }
                     }

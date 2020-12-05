@@ -298,7 +298,7 @@
 		4B7130AE2535750D00CE0082 /* ToolsView */ = {
 			isa = PBXGroup;
 			children = (
-				D297390324D150B300917A97 /* CompersView */,
+				D297390324D150B300917A97 /* ComposerView */,
 				4B7130AD253574A500CE0082 /* TweetRow */,
 				D24E409D257B6F2800401BBB /* DetailView */,
 				4B2C746C24FA2B410052F356 /* ImageGrabView.swift */,
@@ -524,7 +524,7 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
-		D297390324D150B300917A97 /* CompersView */ = {
+		D297390324D150B300917A97 /* ComposerView */ = {
 			isa = PBXGroup;
 			children = (
 				4BDB05D825316D5C00CF71A1 /* ComposerOfHubView.swift */,
@@ -533,7 +533,7 @@
 				D29738FF24D1182600917A97 /* PhotoPickerView.swift */,
 				D730997E24ED6A5F00B57837 /* DraftsView.swift */,
 			);
-			path = CompersView;
+			path = ComposerView;
 			sourceTree = "<group>";
 		};
 		D2A4D27D25527A0800668650 /* Timeline */ = {

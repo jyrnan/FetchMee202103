@@ -11,11 +11,15 @@ import Combine
 
 
 struct DetailView: View {
-    @ObservedObject var viewModel: DetailViewModel
-//    var tweetIDString: String //传入DetailView的初始推文
+    @StateObject var viewModel: DetailViewModel
+    var tweetIDString: String //传入DetailView的初始推文
     
     @State var firstTimeRun: Bool = true //检测用于运行一次
     
+    init(tweetIDString: String) {
+        self.tweetIDString = tweetIDString
+        _viewModel = StateObject(wrappedValue: DetailViewModel(tweetIDString: tweetIDString))
+    }
     
     var body: some View {
         GeometryReader{proxy in
@@ -51,6 +55,6 @@ struct DetailView: View {
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(viewModel: DetailViewModel(tweetIDString: "0000"))
+        DetailView(tweetIDString: "0000")
     }
 }
