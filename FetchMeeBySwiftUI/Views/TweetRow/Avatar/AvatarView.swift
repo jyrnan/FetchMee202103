@@ -36,7 +36,11 @@ struct AvatarView: View {
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                             viewModel.tickle()
                         }
-                        .onTapGesture(count: 1) {self.presentedUserInfo = true}
+                        .onTapGesture(count: 1) {
+                            
+                            self.presentedUserInfo = true
+                            
+                        }
                         .alert(isPresented: $viewModel.isShowAlert, content: {
                             Alert(title: Text("没拍到"), message: Text("可能\(viewModel.userName ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
                         })

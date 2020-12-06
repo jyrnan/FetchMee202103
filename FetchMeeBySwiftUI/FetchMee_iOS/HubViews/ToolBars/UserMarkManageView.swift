@@ -22,14 +22,14 @@ struct UserMarkManageView: View {
     var body: some View {
         List {
             ForEach(twitterUsers, id: \.self) { user in
-                NavigationLink(
-                    destination: UserView(userIDString: user.userIDString)) {
+//                NavigationLink(
+//                    destination: UserView(userIDString: user.userIDString)) {
                 HStack {
                     Text(user.nickName ?? "NickName").frame(width: 100, alignment: .leading)
                     Text(user.name ?? "Name").bold().frame(width: 120, alignment: .leading)
                     Text(user.userIDString ?? "0123456789").lineLimit(1).frame(alignment: .leading).foregroundColor(.gray)
                 }
-                }
+//                }
             }
             .onDelete(perform: { indexSet in
                 deleteUser(offsets: indexSet)

@@ -82,7 +82,11 @@ final class Timeline: TimelineViewModel, ObservableObject {
             self.newTweetNumber += newTweets.count
             
             ///MVVM
-            newTweets.forEach{StatusRepository.shared.addStatus($0)}
+            newTweets.forEach{StatusRepository.shared.addStatus($0)
+                let user = $0["user"]
+                    UserRepository.shared.addUser(user)
+            }
+            
             ///MVVM END
            
             self.updateTimelineTop(with: newTweets)

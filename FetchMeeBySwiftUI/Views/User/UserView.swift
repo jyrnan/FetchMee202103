@@ -18,6 +18,8 @@ struct UserView: View {
     @StateObject var userTimeline: Timeline
     @StateObject var user: User
     
+    @StateObject var viewModel: UserViewModel
+    
     var userIDString: String? //传入需查看的用户信息的ID
     var userScreenName: String? //传入需查看的用户信息的Name
     
@@ -31,6 +33,10 @@ struct UserView: View {
         self.userScreenName = userScreenName
         _user = StateObject(wrappedValue: User(userIDString: userIDString ?? "0000", screenName: userScreenName))
         _userTimeline = StateObject(wrappedValue: Timeline(type: .user))
+        
+        let user = UserRepository.shared.users[userIDString!]!
+        _viewModel = StateObject(wrappedValue: UserViewModel(user: user))
+        print(#line, #function)
         
         ///从CoreData里获取用户信息,但是不能立刻打印相应的内容，因为获取需要一定时间，是异步进行
         ///所以此时打印twitterUser的信息是没有的，但是在后续的代码中则可以看到其实已经获取到了相应值
@@ -73,7 +79,8 @@ struct UserView: View {
                 
                 
                 ///个人信息大头像
-                Image(uiImage: user.info.avatar ?? UIImage(systemName: "person.circle")!)
+                Image(uiImage: viewModel.avataImage ?? UIImage(systemName: "person.circle")!)
+                
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 80, height: 80)
@@ -199,27 +206,27 @@ struct UserView: View {
                 }.padding(.bottom, 16)
             }
             .padding([.leading, .trailing], 16)
-            LazyVStack{
-                ///用户推文部分
-                ForEach(userTimeline.tweetIDStrings, id: \.self) {
-                    tweetIDString in
-                    
-                    Divider()
-                    TweetRow(viewModel: TweetRowViewModel(timeline: userTimeline, tweetIDString: tweetIDString, width: 300))
-                }
-                .onDelete(perform: { _ in print(#line, "delete")})
-                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                
-                //下方载入更多按钮
-                HStack {
-                    Spacer()
-                    Button("More Tweets...") {
-                        userTimeline.refreshFromBottom(for: userIDString)}
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                    Spacer()
-                }
-            }
+//            LazyVStack{
+//                ///用户推文部分
+//                ForEach(userTimeline.tweetIDStrings, id: \.self) {
+//                    tweetIDString in
+//
+//                    Divider()
+//                    TweetRow(viewModel: TweetRowViewModel(timeline: userTimeline, tweetIDString: tweetIDString, width: 300))
+//                }
+//                .onDelete(perform: { _ in print(#line, "delete")})
+//                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+//
+//                //下方载入更多按钮
+//                HStack {
+//                    Spacer()
+//                    Button("More Tweets...") {
+//                        userTimeline.refreshFromBottom(for: userIDString)}
+//                        .font(.caption)
+//                        .foregroundColor(.gray)
+//                    Spacer()
+//                }
+//            }
         }
         .navigationTitle(Text(getTitle()))
         //        .navigationBarBackButtonHidden(true)
@@ -261,8 +268,8 @@ extension UserView {
     }
 }
 
-struct UserInfo_Previews: PreviewProvider {
-    static var previews: some View {
-        UserView(userIDString: "0000", userScreenName: "name").environmentObject(Alerts()).environmentObject(User())
-    }
-}
+//struct UserInfo_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UserView(userIDString: "0000", userScreenName: "name").environmentObject(Alerts()).environmentObject(User())
+//    }
+//}

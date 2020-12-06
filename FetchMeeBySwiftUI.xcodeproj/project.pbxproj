@@ -100,6 +100,7 @@
 		D2B2560E24E38824009F982E /* videoJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2B2560D24E38824009F982E /* videoJson.txt */; };
 		D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B2560F24E39020009F982E /* VideoPlayView.swift */; };
 		D2BB68FD257C74C5003BDA13 /* FetchMeeHubDependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BB68FC257C74C5003BDA13 /* FetchMeeHubDependencyContainer.swift */; };
+		D2BB6900257C849D003BDA13 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BB68FF257C849D003BDA13 /* UserViewModel.swift */; };
 		D2C12CD5254A6A6B00D74778 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C12CD4254A6A6B00D74778 /* UserInfo.swift */; };
 		D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C45BAB24C6D31B007D67B6 /* ContentView.swift */; };
 		D2C4D40324D3D11100395660 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C4D40224D3D11100395660 /* AvatarView.swift */; };
@@ -231,6 +232,7 @@
 		D2B2560D24E38824009F982E /* videoJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = videoJson.txt; sourceTree = "<group>"; };
 		D2B2560F24E39020009F982E /* VideoPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayView.swift; sourceTree = "<group>"; };
 		D2BB68FC257C74C5003BDA13 /* FetchMeeHubDependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchMeeHubDependencyContainer.swift; sourceTree = "<group>"; };
+		D2BB68FF257C849D003BDA13 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		D2C12CD4254A6A6B00D74778 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		D2C45BAB24C6D31B007D67B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D2C4D40224D3D11100395660 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
@@ -300,11 +302,7 @@
 		4B7130AE2535750D00CE0082 /* ToolsView */ = {
 			isa = PBXGroup;
 			children = (
-				D297390324D150B300917A97 /* ComposerView */,
-				4B7130AD253574A500CE0082 /* TweetRow */,
-				D24E409D257B6F2800401BBB /* DetailView */,
 				4B2C746C24FA2B410052F356 /* ImageGrabView.swift */,
-				D286FFD624BC31F0005DBC39 /* UserView.swift */,
 				D2A4D2802552AF9500668650 /* TestView.swift */,
 				D205246B24C18AC30046F1AB /* AlertView.swift */,
 				D262FDD924D2CEED00682B99 /* SafariView.swift */,
@@ -512,6 +510,10 @@
 		D27DCF8A24B9A54500520BE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4B7130AD253574A500CE0082 /* TweetRow */,
+				D24E409D257B6F2800401BBB /* DetailView */,
+				D297390324D150B300917A97 /* ComposerView */,
+				D2BB68FE257C8483003BDA13 /* User */,
 				4B7130AE2535750D00CE0082 /* ToolsView */,
 			);
 			path = Views;
@@ -603,6 +605,15 @@
 				D2419C252578847000A9CF98 /* ReplyUser */,
 			);
 			path = WillDeleted;
+			sourceTree = "<group>";
+		};
+		D2BB68FE257C8483003BDA13 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				D286FFD624BC31F0005DBC39 /* UserView.swift */,
+				D2BB68FF257C849D003BDA13 /* UserViewModel.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		D2D4879025734C0D005EE4A7 /* PlayButton */ = {
@@ -813,6 +824,7 @@
 				D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */,
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
 				D2419C712579E43900A9CF98 /* AttributedTextView.swift in Sources */,
+				D2BB6900257C849D003BDA13 /* UserViewModel.swift in Sources */,
 				D2DDFCC12532DE3300AE7E39 /* TimelineIconView.swift in Sources */,
 				D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */,
 				D286EC32255A2BD600C98195 /* TwitterUser+UpdateAndSave.swift in Sources */,
