@@ -17,7 +17,7 @@ struct TweetRow: View {
     
     @ObservedObject var viewModel: TweetRowViewModel
 
-    var backgroundColor: Color {viewModel.isReplyToMe ? Color.accentColor.opacity(0.2) : Color.init("BackGround")}
+    var backgroundColor: Color {viewModel.isReplyToMe ? Color.accentColor.opacity(0.1) : Color.init("BackGround")}
     
     
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面

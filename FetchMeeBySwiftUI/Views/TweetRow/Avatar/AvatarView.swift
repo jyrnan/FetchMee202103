@@ -29,7 +29,7 @@ struct AvatarView: View {
     var body: some View {
         GeometryReader {geometry in
             ZStack {
-                NavigationLink(destination: UserView(userIDString: viewModel.userIDString),
+                NavigationLink(destination: UserView(userIDString: viewModel.userIDString ?? "0000"),
                                isActive: $presentedUserInfo){
                     AvatarImageView(image: viewModel.image)
                         .onTapGesture(count: 2){

@@ -20,7 +20,7 @@ struct UserView: View {
     
     @StateObject var viewModel: UserViewModel
     
-    var userIDString: String? //传入需查看的用户信息的ID
+    var userIDString: String //传入需查看的用户信息的ID
     var userScreenName: String? //传入需查看的用户信息的Name
     
     @State var firstTimeRun: Bool = true //检测用于运行一次
@@ -28,22 +28,22 @@ struct UserView: View {
     @State var nickNameText: String = ""
     @State var isNickNameInputShow: Bool = false
     
-    init(userIDString: String? = nil, userScreenName: String? = nil) {
+    init(userIDString: String, userScreenName: String? = nil) {
         self.userIDString = userIDString
         self.userScreenName = userScreenName
-        _user = StateObject(wrappedValue: User(userIDString: userIDString ?? "0000", screenName: userScreenName))
+        _user = StateObject(wrappedValue: User(userIDString: userIDString, screenName: userScreenName))
         _userTimeline = StateObject(wrappedValue: Timeline(type: .user))
         
-        let user = UserRepository.shared.users[userIDString!]!
-        _viewModel = StateObject(wrappedValue: UserViewModel(user: user))
-        print(#line, #function)
+        
+        _viewModel = StateObject(wrappedValue: UserViewModel(userIDString: userIDString))
+        print(#line, #function, "UserView inited")
         
         ///从CoreData里获取用户信息,但是不能立刻打印相应的内容，因为获取需要一定时间，是异步进行
         ///所以此时打印twitterUser的信息是没有的，但是在后续的代码中则可以看到其实已经获取到了相应值
         ///这样做法可以简化CoreData获取的结果，后续代码更加简洁
         let userFetch:NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
         userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.createdAt, ascending: true)]
-        userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), userIDString ?? "0000")
+        userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), userIDString)
         _twitterUsers = FetchRequest(fetchRequest: userFetch)
         
 //        configureBackground()
@@ -70,12 +70,14 @@ struct UserView: View {
         
         ScrollView(.vertical, showsIndicators: false) {
             ZStack{
-                Image(uiImage: user.info.banner ?? UIImage(named: "bg")!)
+                Image(uiImage: viewModel.bannerImage ?? UIImage(named: "bg")!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width:  UIScreen.main.bounds.width - 36, height:150)
-                    .cornerRadius(18)
-                    .overlay(LinearGradient.init(gradient: Gradient(colors: [Color(UIColor.systemBackground), Color.clear]), startPoint: .init(x: 0.5, y: 0.9), endPoint: .init(x: 0.5, y: 0.4)))
+                    .frame(
+                        width:  UIScreen.main.bounds.width,
+                        height:150)
+                    .cornerRadius(24)
+                    .overlay(LinearGradient.init(gradient: Gradient(colors: [Color.init("BackGround"), Color.clear]), startPoint: .init(x: 0.5, y: 0.9), endPoint: .init(x: 0.5, y: 0.4)))
                 
                 
                 ///个人信息大头像
@@ -97,7 +99,8 @@ struct UserView: View {
                     })
                     .offset(x: 0, y: 65)
                 
-            }.padding([.leading, .trailing], 16)
+            }
+//            .padding([.leading, .trailing], 16)
             
             
             
@@ -107,7 +110,7 @@ struct UserView: View {
                 VStack(alignment: .center) {
                     HStack {
                         Spacer()
-                        Text(user.info.name ?? "Name").font(.body).bold().onTapGesture {
+                        Text(viewModel.user["name"].string ?? "Name").font(.body).bold().onTapGesture {
                         }
                         if !isNickNameInputShow {
                             Text(twitterUsers.first?.nickName != nil ? "(\(twitterUsers.first!.nickName!))" : "" ).font(.body)
@@ -143,7 +146,7 @@ struct UserView: View {
                         
                         Spacer()
                     }
-                    Text(user.info.screenName ?? "ScreenName")
+                    Text(viewModel.user["screen_name"].string ?? "ScreenName")
                         .font(.callout).foregroundColor(.gray)
                 }
                 .padding(.top, 60)
@@ -151,10 +154,10 @@ struct UserView: View {
                 ///信封，铃铛和follow按钮
                 HStack{
                     
-                    Image(systemName: (self.user.info.notifications == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
-                        .foregroundColor(user.info.notifications == true ? .white : .accentColor)
+                    Image(systemName: (viewModel.user["notifications"].bool == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
+                        .foregroundColor(viewModel.user["notifications"].bool == true ? .white : .accentColor)
                     //
-                    if user.info.isFollowing == true {
+                    if viewModel.user["following"].bool == true {
                         Text("Following")
                             .font(.callout).bold()
                             .frame(width: 84, height: 24, alignment: .center)
@@ -162,7 +165,7 @@ struct UserView: View {
                             .foregroundColor(.white)
                             .cornerRadius(12)
                             .onTapGesture(count: 1, perform: {
-                                user.unfollow(userIDString: userIDString!)
+                                user.unfollow(userIDString: userIDString)
                             })
                     } else {
                         Text("Follow")
@@ -172,7 +175,7 @@ struct UserView: View {
                             .foregroundColor(.accentColor)
                             .cornerRadius(12)
                             .onTapGesture(count: 1, perform: {
-                                user.follow(userIDString: userIDString!)
+                                user.follow(userIDString: userIDString)
                             })
                     }
                     
@@ -185,23 +188,23 @@ struct UserView: View {
                 }.padding()
                 
                 ///用户Bio信息
-                Text(user.info.description ?? "userBio").font(.callout)
+                Text(viewModel.user["description"].string ?? "userBio").font(.callout)
                     .multilineTextAlignment(.center)
                     .padding([.top], 16)
                 
                 ///用户位置信息
                 HStack() {
                     Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
-                    Text(user.info.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
+                    Text(viewModel.user["location"].string ?? "Unknow").font(.caption).foregroundColor(.gray)
                     Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
                     Text(user.info.createdAt ?? "Unknow").font(.caption).foregroundColor(.gray)
                 }.padding(0)
                 
                 ///用户following信息
                 HStack {
-                    Text(String(user.info.following ?? 0)).font(.callout)
+                    Text(String(viewModel.user["friends_count"].integer ?? 0)).font(.callout)
                     Text("Following").font(.callout).foregroundColor(.gray)
-                    Text(String(user.info.followed ?? 0)).font(.callout).padding(.leading, 16)
+                    Text(String(viewModel.user["followers_count"].integer ?? 0)).font(.callout).padding(.leading, 16)
                     Text("Followers").font(.callout).foregroundColor(.gray)
                 }.padding(.bottom, 16)
             }
@@ -228,6 +231,7 @@ struct UserView: View {
 //                }
 //            }
         }
+        .background(Color.init("BackGround").cornerRadius(24))
         .navigationTitle(Text(getTitle()))
         //        .navigationBarBackButtonHidden(true)
         //        .navigationBarItems(leading: btnBack)
