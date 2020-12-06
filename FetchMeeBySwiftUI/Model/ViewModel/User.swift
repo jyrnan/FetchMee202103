@@ -17,6 +17,8 @@ class User: ObservableObject {
     @Published var isLoggedIn: Bool = false
     @Published var info: UserInfo //用户的基本信息
     @Published var lists: [String: ListTag] = [:]
+    
+    
 
     @Published var setting: UserSetting = UserSetting() //打算把setting放这里,现在是在SeceneDelegate里面读取
     
@@ -35,6 +37,5 @@ class User: ObservableObject {
     init(userIDString: String = "0000", screenName: String? = nil) {
         self.info = UserInfo(id: userIDString, screenName: screenName)
     }
-
 }
 

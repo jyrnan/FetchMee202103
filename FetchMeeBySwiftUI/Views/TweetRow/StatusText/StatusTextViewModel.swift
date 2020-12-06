@@ -22,7 +22,7 @@ class StatusTextViewModel: ObservableObject {
     }
     
     func setAttributedText() -> NSMutableAttributedString{
-        let text = status["text"].string!
+        let text = status["text"].string ??  status["description"].string!
         let attributedText = attributedString(for: text)
         return attributedText as! NSMutableAttributedString
     }

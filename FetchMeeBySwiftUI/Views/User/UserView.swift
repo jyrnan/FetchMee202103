@@ -25,6 +25,8 @@ struct UserView: View {
     
     @State var firstTimeRun: Bool = true //检测用于运行一次
     
+    
+    
     @State var nickNameText: String = ""
     @State var isNickNameInputShow: Bool = false
     
@@ -127,8 +129,8 @@ struct UserView: View {
                                 
                                 Button(action: {
                                     ///先将nickName的text赋值，然后调用方法来存储/更新该用户信息
-                                    user.info.nickName = nickNameText
-                                    TwitterUser.updateOrSaveToCoreData(from: user.info, in: viewContext,isLocalUser: false, updateNickName: true)
+//                                    user.info.nickName = nickNameText
+                                    TwitterUser.updateOrSaveToCoreData(from: viewModel.user, in: viewContext,isLocalUser: false, updateNickName: nickNameText)
                                     
                                     withAnimation{isNickNameInputShow = false}
                                 }){
@@ -188,10 +190,10 @@ struct UserView: View {
                 }.padding()
                 
                 ///用户Bio信息
-                Text(viewModel.user["description"].string ?? "userBio").font(.callout)
-                    .multilineTextAlignment(.center)
-                    .padding([.top], 16)
-                
+//                Text(viewModel.user["description"].string ?? "userBio").font(.callout)
+//                    .multilineTextAlignment(.center)
+//                    .padding([.top], 16)
+                NSAttributedStringView(viewModel: StatusTextViewModel(status: viewModel.user), width: 300).padding([.top], 16)
                 ///用户位置信息
                 HStack() {
                     Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
@@ -209,27 +211,27 @@ struct UserView: View {
                 }.padding(.bottom, 16)
             }
             .padding([.leading, .trailing], 16)
-//            LazyVStack{
-//                ///用户推文部分
-//                ForEach(userTimeline.tweetIDStrings, id: \.self) {
-//                    tweetIDString in
-//
-//                    Divider()
-//                    TweetRow(viewModel: TweetRowViewModel(timeline: userTimeline, tweetIDString: tweetIDString, width: 300))
-//                }
-//                .onDelete(perform: { _ in print(#line, "delete")})
-//                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-//
-//                //下方载入更多按钮
-//                HStack {
-//                    Spacer()
-//                    Button("More Tweets...") {
-//                        userTimeline.refreshFromBottom(for: userIDString)}
-//                        .font(.caption)
-//                        .foregroundColor(.gray)
-//                    Spacer()
-//                }
-//            }
+            LazyVStack{
+                ///用户推文部分
+                ForEach(userTimeline.tweetIDStrings, id: \.self) {
+                    tweetIDString in
+
+                    Divider()
+                    TweetRow(viewModel: TweetRowViewModel(timeline: userTimeline, tweetIDString: tweetIDString, width: 300))
+                }
+                .onDelete(perform: { _ in print(#line, "delete")})
+                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+
+                //下方载入更多按钮
+                HStack {
+                    Spacer()
+                    Button("More Tweets...") {
+                        userTimeline.refreshFromBottom(for: userIDString)}
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                    Spacer()
+                }
+            }
         }
         .background(Color.init("BackGround").cornerRadius(24))
         .navigationTitle(Text(getTitle()))

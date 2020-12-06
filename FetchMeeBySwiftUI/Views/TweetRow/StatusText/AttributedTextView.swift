@@ -14,10 +14,10 @@ struct NSAttributedStringView: View {
     var width: CGFloat
 
     var body: some View {
-            makeNativeTextView(width: width,attributedText: viewModel.attributedText)
+        NSAttributedStringView.makeNativeTextView(width: width,attributedText: viewModel.attributedText)
     }
     
-    func makeNativeTextView(width: CGFloat, attributedText: NSMutableAttributedString) -> some View {
+    static func makeNativeTextView(width: CGFloat, attributedText: NSMutableAttributedString) -> some View {
             let height = attributedText.height(containerWidth: width)
         return NativeTextView(attributedText: attributedText)
             .frame(width: width, height: height)

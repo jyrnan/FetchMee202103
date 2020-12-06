@@ -13,6 +13,8 @@ class UserViewModel: ObservableObject {
     var userIDString: String
     @Published var user: JSON!
 
+    ///设置一个可以编辑的userNamey用来显示
+    @Published var userName: String = "Name"
     
     @Published var avataImage: UIImage!
     @Published var bannerImage: UIImage!
@@ -23,7 +25,7 @@ class UserViewModel: ObservableObject {
         print(#line, #function, #file)
         
         //获取用户的JSON信息，获取信息后执行回调函数获取图片
-        getUser(userIDString: userIDString, completeHandeler: downloadMedias)
+        getUser(userIDString: userIDString, completeHandeler: updateMedias)
     }
     
     
@@ -38,6 +40,7 @@ class UserViewModel: ObservableObject {
             self.user = user
             completeHandeler()
         } else {
+            self.user = UserRepository.shared.users.randomElement()?.value
             let sh:(JSON) -> () = {json in
                 self.user = json
                 UserRepository.shared.addUser(json)
@@ -47,11 +50,19 @@ class UserViewModel: ObservableObject {
         }
     }
     
-   
-    func downloadMedias() {
+    
+    /// 获取用户信息后执行相应信息更新
+    func updateMedias() {
         getavatarImage()
         getBannerImage()
+        userName = user["name"].string!
     }
+    
+//    func changeUserName(addBy nickName: String) {
+//        if let userName = user["name"].string {
+//
+//        }
+//    }
     
     fileprivate func getavatarImage() {
         if var url = user["profile_image_url_https"].string {
@@ -65,7 +76,7 @@ class UserViewModel: ObservableObject {
     }
     
     fileprivate func getBannerImage() {
-        if var url = user["profile_banner_url"].string {
+        if let url = user["profile_banner_url"].string {
             
         RemoteImageFromUrl.imageDownloaderWithClosure(imageUrl: url, sh: {image in
             DispatchQueue.main.async {
