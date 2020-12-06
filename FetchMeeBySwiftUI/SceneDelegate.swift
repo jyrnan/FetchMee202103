@@ -62,7 +62,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
                 self.loingUser.getUserInfo()}
             
-            window.rootViewController = UIHostingController(rootView: contentView
+            window.rootViewController = UIHostingController(
+                    rootView: contentView
                                                                 .environmentObject(alerts)
                                                                 .environmentObject(loingUser)
                                                                 .accentColor(loingUser.setting.themeColor.color)
@@ -287,28 +288,5 @@ extension SceneDelegate {
         }
         
     }
-    
-//    func cleanCountdata(success: () -> ()) {
-//        let sevenDays: TimeInterval = -(60 * 60 * 24 * 7)
-//
-//
-//        let timeIntervalPredicate: NSPredicate = NSPredicate(format: "%K <= %@", #keyPath(Count.createdAt), Date().addingTimeInterval(sevenDays) as CVarArg)
-//        let fetchRequest: NSFetchRequest<Count> = Count.fetchRequest()
-//        fetchRequest.predicate = timeIntervalPredicate
-//
-//        do {
-//            let counts = try context.fetch(fetchRequest)
-//
-//            counts.forEach{context.delete($0)}
-//
-//            try context.save()
-//
-//            //如果删除成功，执行成功回调闭包
-//            success()
-//
-//        } catch let error as NSError {
-//            print("count not fetched \(error), \(error.userInfo)")
-//        }
-//    }
     
 }

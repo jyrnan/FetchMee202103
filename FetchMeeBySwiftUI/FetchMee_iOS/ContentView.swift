@@ -12,8 +12,7 @@ import CoreData
 
 struct ContentView: View {
     @EnvironmentObject var loginUser: User
-//    @Environment(\.managedObjectContext) private var viewContext
-//
+
     var body: some View {
         if self.loginUser.isLoggedIn {
             HubView()

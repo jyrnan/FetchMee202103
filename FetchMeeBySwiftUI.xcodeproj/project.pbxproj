@@ -46,7 +46,7 @@
 		D2419C1B2577603C00A9CF98 /* ReplyTweet.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2419C122577603C00A9CF98 /* ReplyTweet.txt */; };
 		D2419C1C2577603C00A9CF98 /* Retweet.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2419C132577603C00A9CF98 /* Retweet.txt */; };
 		D2419C1D2577603C00A9CF98 /* followers in Resources */ = {isa = PBXBuildFile; fileRef = D2419C142577603C00A9CF98 /* followers */; };
-		D2419C1F2577659F00A9CF98 /* StatusRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C1E2577659F00A9CF98 /* StatusRepository.swift */; };
+		D2419C1F2577659F00A9CF98 /* StatusRepositoryInRam.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C1E2577659F00A9CF98 /* StatusRepositoryInRam.swift */; };
 		D2419C212577666300A9CF98 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C202577666300A9CF98 /* UserRepository.swift */; };
 		D2419C242577746700A9CF98 /* TimelineType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C232577746700A9CF98 /* TimelineType.swift */; };
 		D2419C272578849B00A9CF98 /* ReplyUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C262578849B00A9CF98 /* ReplyUserViewModel.swift */; };
@@ -99,6 +99,7 @@
 		D2AE506725564A2800437337 /* LogMessageSmallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE506625564A2800437337 /* LogMessageSmallView.swift */; };
 		D2B2560E24E38824009F982E /* videoJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2B2560D24E38824009F982E /* videoJson.txt */; };
 		D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B2560F24E39020009F982E /* VideoPlayView.swift */; };
+		D2BB68FD257C74C5003BDA13 /* FetchMeeHubDependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BB68FC257C74C5003BDA13 /* FetchMeeHubDependencyContainer.swift */; };
 		D2C12CD5254A6A6B00D74778 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C12CD4254A6A6B00D74778 /* UserInfo.swift */; };
 		D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C45BAB24C6D31B007D67B6 /* ContentView.swift */; };
 		D2C4D40324D3D11100395660 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C4D40224D3D11100395660 /* AvatarView.swift */; };
@@ -173,7 +174,7 @@
 		D2419C122577603C00A9CF98 /* ReplyTweet.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReplyTweet.txt; sourceTree = "<group>"; };
 		D2419C132577603C00A9CF98 /* Retweet.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Retweet.txt; sourceTree = "<group>"; };
 		D2419C142577603C00A9CF98 /* followers */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = followers; sourceTree = "<group>"; };
-		D2419C1E2577659F00A9CF98 /* StatusRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusRepository.swift; sourceTree = "<group>"; };
+		D2419C1E2577659F00A9CF98 /* StatusRepositoryInRam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusRepositoryInRam.swift; sourceTree = "<group>"; };
 		D2419C202577666300A9CF98 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		D2419C232577746700A9CF98 /* TimelineType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineType.swift; sourceTree = "<group>"; };
 		D2419C262578849B00A9CF98 /* ReplyUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyUserViewModel.swift; sourceTree = "<group>"; };
@@ -229,6 +230,7 @@
 		D2AE506625564A2800437337 /* LogMessageSmallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogMessageSmallView.swift; sourceTree = "<group>"; };
 		D2B2560D24E38824009F982E /* videoJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = videoJson.txt; sourceTree = "<group>"; };
 		D2B2560F24E39020009F982E /* VideoPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayView.swift; sourceTree = "<group>"; };
+		D2BB68FC257C74C5003BDA13 /* FetchMeeHubDependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchMeeHubDependencyContainer.swift; sourceTree = "<group>"; };
 		D2C12CD4254A6A6B00D74778 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		D2C45BAB24C6D31B007D67B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D2C4D40224D3D11100395660 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
@@ -318,6 +320,8 @@
 		4BDB05D5253160A000CF71A1 /* HubViews */ = {
 			isa = PBXGroup;
 			children = (
+				4BDB05D62531613B00CF71A1 /* HubView.swift */,
+				D2BB68FC257C74C5003BDA13 /* FetchMeeHubDependencyContainer.swift */,
 				D2A4D27D25527A0800668650 /* Timeline */,
 				4B68D5A92539410800A17AED /* ToolBars */,
 			);
@@ -355,11 +359,11 @@
 		D2318ABC2574F23100F55BDF /* FetchMee_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				4BDB05D62531613B00CF71A1 /* HubView.swift */,
 				D2318ABA2574F0CF00F55BDF /* FetchMeeAppDepedencyContainer.swift */,
 				D2C45BAB24C6D31B007D67B6 /* ContentView.swift */,
 				D27744DC253A55470062B25C /* TestNavi.swift */,
 				D286BE79256666BA00DCEA1E /* Auth */,
+				4BDB05D5253160A000CF71A1 /* HubViews */,
 				D2419C222577685500A9CF98 /* Repositories */,
 			);
 			path = FetchMee_iOS;
@@ -368,7 +372,7 @@
 		D2419C222577685500A9CF98 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				D2419C1E2577659F00A9CF98 /* StatusRepository.swift */,
+				D2419C1E2577659F00A9CF98 /* StatusRepositoryInRam.swift */,
 				D2419C202577666300A9CF98 /* UserRepository.swift */,
 			);
 			path = Repositories;
@@ -456,7 +460,7 @@
 				D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */,
 				D2318ABC2574F23100F55BDF /* FetchMee_iOS */,
 				D27DCF8A24B9A54500520BE3 /* Views */,
-				D2BB68F8257BC420003BDA13 /* ForDelete */,
+				D2BB68F8257BC420003BDA13 /* WillDeleted */,
 				D27DCF3C24B98FA600520BE3 /* Model */,
 				D252547824D8000700D8B508 /* reference */,
 				D27DCEBF24B96D6100520BE3 /* Assets.xcassets */,
@@ -508,7 +512,6 @@
 		D27DCF8A24B9A54500520BE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4BDB05D5253160A000CF71A1 /* HubViews */,
 				4B7130AE2535750D00CE0082 /* ToolsView */,
 			);
 			path = Views;
@@ -593,13 +596,13 @@
 			path = UserNameCreatedAt;
 			sourceTree = "<group>";
 		};
-		D2BB68F8257BC420003BDA13 /* ForDelete */ = {
+		D2BB68F8257BC420003BDA13 /* WillDeleted */ = {
 			isa = PBXGroup;
 			children = (
 				D2419C282578B73B00A9CF98 /* TweetText */,
 				D2419C252578847000A9CF98 /* ReplyUser */,
 			);
-			path = ForDelete;
+			path = WillDeleted;
 			sourceTree = "<group>";
 		};
 		D2D4879025734C0D005EE4A7 /* PlayButton */ = {
@@ -779,8 +782,9 @@
 				D7AC537024BB4AB200BCD71F /* ImageViewer.swift in Sources */,
 				4BA6627625359FEC00DE8697 /* TimelinesView.swift in Sources */,
 				4B3AD79F253965DB00194B2C /* UserMarkManageView.swift in Sources */,
+				D2BB68FD257C74C5003BDA13 /* FetchMeeHubDependencyContainer.swift in Sources */,
 				D2309F222547E09A00549E27 /* CustomTextEditor.swift in Sources */,
-				D2419C1F2577659F00A9CF98 /* StatusRepository.swift in Sources */,
+				D2419C1F2577659F00A9CF98 /* StatusRepositoryInRam.swift in Sources */,
 				D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */,
 				D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */,
 				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,

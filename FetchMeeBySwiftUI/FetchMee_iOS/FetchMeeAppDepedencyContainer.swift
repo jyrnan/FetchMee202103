@@ -10,8 +10,8 @@ import Foundation
 
 class FetchMeeAppDependencyContainer {
     // MARK: - Properties
-    
-    
+//    let sharedStatusRepository: StatusRepositoryInRam
+//    let sharedUserRepository: UserRepository
     
     // MARK: - Methods
 }
