@@ -58,11 +58,6 @@ class UserViewModel: ObservableObject {
         userName = user["name"].string!
     }
     
-//    func changeUserName(addBy nickName: String) {
-//        if let userName = user["name"].string {
-//
-//        }
-//    }
     
     fileprivate func getavatarImage() {
         if var url = user["profile_image_url_https"].string {

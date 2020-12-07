@@ -22,7 +22,7 @@ struct TimelineView: View {
     @State var tweetText: String = ""
     
     var listName: String? //如果是list类型则会传入listName
-    init(timeline: Timeline, listName: String?) {
+    init(timeline: Timeline, listName: String? = nil) {
         self.timeline = timeline
         self.listName = listName
         

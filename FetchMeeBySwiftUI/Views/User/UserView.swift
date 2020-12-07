@@ -48,7 +48,6 @@ struct UserView: View {
         userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), userIDString)
         _twitterUsers = FetchRequest(fetchRequest: userFetch)
         
-//        configureBackground()
     }
     
     ///自定义返回按钮的范例
@@ -102,10 +101,7 @@ struct UserView: View {
                     .offset(x: 0, y: 65)
                 
             }
-//            .padding([.leading, .trailing], 16)
-            
-            
-            
+                
             //用户信息View
             VStack(alignment: .center){
                 
@@ -210,31 +206,36 @@ struct UserView: View {
                     Text("Followers").font(.callout).foregroundColor(.gray)
                 }.padding(.bottom, 16)
             }
-            .padding([.leading, .trailing], 16)
-            LazyVStack{
-                ///用户推文部分
-                ForEach(userTimeline.tweetIDStrings, id: \.self) {
-                    tweetIDString in
-
-                    Divider()
-                    TweetRow(viewModel: TweetRowViewModel(timeline: userTimeline, tweetIDString: tweetIDString, width: 300))
-                }
-                .onDelete(perform: { _ in print(#line, "delete")})
-                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-
-                //下方载入更多按钮
-                HStack {
-                    Spacer()
-                    Button("More Tweets...") {
-                        userTimeline.refreshFromBottom(for: userIDString)}
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                    Spacer()
-                }
-            }
+//            .padding([.leading, .trailing], 16)
+           
+            
+//            LazyVStack{
+//                ///用户推文部分
+//                ForEach(userTimeline.tweetIDStrings, id: \.self) {
+//                    tweetIDString in
+//
+//                    Divider()
+//                    TweetRow(viewModel: TweetRowViewModel(timeline: userTimeline, tweetIDString: tweetIDString, width: 300))
+//                }
+//                .onDelete(perform: { _ in print(#line, "delete")})
+//                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+//
+//                //下方载入更多按钮
+//                HStack {
+//                    Spacer()
+//                    Button("More Tweets...") {
+//                        userTimeline.refreshFromBottom(for: userIDString)}
+//                        .font(.caption)
+//                        .foregroundColor(.gray)
+//                    Spacer()
+//                }
+//            }
+            
+//            TimelineView(timeline: userTimeline, listName: nil)
+            
         }
         .background(Color.init("BackGround").cornerRadius(24))
-        .navigationTitle(Text(getTitle()))
+        .navigationTitle(viewModel.user["name"].string ?? "Name")
         //        .navigationBarBackButtonHidden(true)
         //        .navigationBarItems(leading: btnBack)
         .onAppear(){
