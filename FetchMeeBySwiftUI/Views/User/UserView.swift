@@ -177,11 +177,11 @@ struct UserView: View {
                             })
                     }
                     
-                    NavigationLink(destination: ImageGrabView(userIDString: userIDString, userScreenName: userScreenName, timeline: userTimeline)){
+//                    NavigationLink(destination: ImageGrabView(userIDString: userIDString, userScreenName: userScreenName, timeline: userTimeline)){
                         Image(systemName: "arrow.forward.circle").font(.title2)
                             .foregroundColor(.accentColor)
                         //
-                    }
+//                    }
                     
                 }.padding()
                 

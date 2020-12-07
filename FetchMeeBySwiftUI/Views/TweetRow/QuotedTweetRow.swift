@@ -31,7 +31,7 @@ struct QuotedTweetRow: View {
                 VStack(alignment: .leading, spacing: 0 ) {
                     HStack(alignment: .top) {
                         viewModel.userNameView
-                        CreatedTimeView(createdTime: viewModel.tweetMedia.created)
+                        CreatedTimeView(createdTime: viewModel.status["created_at"].string)
                         Spacer()
                     }
                     .padding(.top, 8)
@@ -40,10 +40,16 @@ struct QuotedTweetRow: View {
                 }
             }
             
-            TweetTextView(tweetText: (viewModel.tweetMedia.tweetText == []) ? ["This tweet is unavaliable now."] : viewModel.tweetMedia.tweetText)
-                .font(.callout)
-                .padding(8)
-                .fixedSize(horizontal: false, vertical: true)
+//            TweetTextView(tweetText: (viewModel.tweetMedia.tweetText == []) ? ["This tweet is unavaliable now."] : viewModel.tweetMedia.tweetText)
+//                .font(.callout)
+//                .padding(8)
+//                .fixedSize(horizontal: false, vertical: true)
+            HStack{
+                Spacer()
+                viewModel.statusTextView
+                Spacer()
+            }
+            
             
             viewModel.images//推文图片显示区域
         }

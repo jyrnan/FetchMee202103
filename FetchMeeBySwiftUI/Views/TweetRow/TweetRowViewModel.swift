@@ -11,7 +11,7 @@ import Swifter
 
 class TweetRowViewModel: ObservableObject{
     //MARK:- Properties
-    var tweetMedia: TweetMedia
+//    var tweetMedia: TweetMedia
     
     ///MVVM
     var status: JSON
@@ -32,7 +32,6 @@ class TweetRowViewModel: ObservableObject{
     var statusTextView: NSAttributedStringView?
     
     var isReplyToMe: Bool!
-    
    
 
     //MARK:- Methods
@@ -42,8 +41,9 @@ class TweetRowViewModel: ObservableObject{
         ///MVVM
         self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
         
+        
         ///备用
-        self.tweetMedia = (timeline as? Timeline)?.tweetMedias[tweetIDString] ?? TweetMedia(id: tweetIDString)
+//        self.tweetMedia = (timeline as? Timeline)?.tweetMedias[tweetIDString] ?? TweetMedia(id: tweetIDString)
         makeViews()
     }
     
@@ -139,7 +139,7 @@ class TweetRowViewModel: ObservableObject{
         
         StatusRepository.shared.status[quotedTweetIDString] = quotedStatus
         
-        return TweetRowViewModel(timeline: timeline, tweetIDString: quotedTweetIDString, width: width - 90)
+        return TweetRowViewModel(timeline: timeline, tweetIDString: quotedTweetIDString, width: width - 16 )
     }
     
     func makeQuotedTweetRowView() -> QuotedTweetRow? {
