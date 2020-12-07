@@ -134,7 +134,7 @@ extension SettingView {
                 userDefault.set(false, forKey: "isLoggedIn")
                 userDefault.set(nil, forKey: "userIDString")
                 userDefault.set(nil, forKey: "screenName")
-                userDefault.set(nil, forKey: "mentionUserInfo")
+                userDefault.set(nil, forKey: "mentionUserData")
                 loginUser.isLoggedIn = false
             }
         })

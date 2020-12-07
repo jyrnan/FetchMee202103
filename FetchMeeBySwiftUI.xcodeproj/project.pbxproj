@@ -274,7 +274,7 @@
 				D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */,
 				D27744E4253B14DD0062B25C /* BackOfTweetsToolBar.swift */,
 				4B68D5A7253940FC00A17AED /* BackOfToolsToolBar.swift */,
-				D27744E2253B149B0062B25C /* BackOfFriendToolBar.swift */,
+				D2D5A937257E2BDE000A9C8B /* FriendToolBar */,
 				4B68D5A52539131800A17AED /* LogMessageView.swift */,
 				D2AE506625564A2800437337 /* LogMessageSmallView.swift */,
 				4B3AD79E253965DB00194B2C /* UserMarkManageView.swift */,
@@ -306,7 +306,6 @@
 				D2A4D2802552AF9500668650 /* TestView.swift */,
 				D205246B24C18AC30046F1AB /* AlertView.swift */,
 				D262FDD924D2CEED00682B99 /* SafariView.swift */,
-				D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */,
 				D21F4C4E24DE73C6004B2C20 /* SettingView.swift */,
 				D2C7248724E613A400804F18 /* RoundedCorners.swift */,
 				D2309F212547E09A00549E27 /* CustomTextEditor.swift */,
@@ -583,7 +582,6 @@
 			children = (
 				D2224F8924BE7C0400AE2110 /* User.swift */,
 				D258D616254AF44B00CA01E7 /* User+UpdateUser.swift */,
-				D2AE50642553C6D500437337 /* MentionUser.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -632,6 +630,16 @@
 				D2D4878C257272D6005EE4A7 /* RetweetMarkView.swift */,
 			);
 			path = RetweetMark;
+			sourceTree = "<group>";
+		};
+		D2D5A937257E2BDE000A9C8B /* FriendToolBar */ = {
+			isa = PBXGroup;
+			children = (
+				D27744E2253B149B0062B25C /* BackOfFriendToolBar.swift */,
+				D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */,
+				D2AE50642553C6D500437337 /* MentionUser.swift */,
+			);
+			path = FriendToolBar;
 			sourceTree = "<group>";
 		};
 		D2DF0CE42562B6450058305A /* CountView */ = {

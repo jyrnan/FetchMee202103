@@ -29,7 +29,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
     
     ///存储根据MentiUserinfo情况排序的UserIDString
     @Published var mentionUserIDStringsSorted: [String] = []
-    var mentionUserInfo: [String:[String]] = [:]
+    var mentionUserData: [String:[String]] = [:]
     
     var tweetRowViewModels: [String: TweetRowViewModel] = [:]
     
@@ -44,9 +44,9 @@ final class Timeline: TimelineViewModel, ObservableObject {
         self.type = type
         self.listTag = listTag
         ///如果是Mention类型则读取存储好的相应用户数据
-        if let mentionUser = userDefault.object(forKey: "mentionUserInfo") as? [String:[String]], type == .mention {
-            self.mentionUserInfo = mentionUser //读取数据
-            self.makeMentionUserSortedList()//初始化更新MentionUser排序
+        if let mentionUser = userDefault.object(forKey: "mentionUserData") as? [String:[String]], type == .mention {
+            self.mentionUserData = mentionUser //读取数据
+            self.saveMentionUserData()//初始化更新MentionUser排序
         }
         
         if tweetIDStrings.isEmpty {refreshFromTop()}
@@ -60,13 +60,13 @@ final class Timeline: TimelineViewModel, ObservableObject {
         
         func successHandeler(json: JSON) ->Void {
             guard let newTweets = json.array else {return}
-//            self.newTweetNumber += newTweets.count
+            self.newTweetNumber += newTweets.count
             
             newTweets.forEach{ addDataToStore($0) }
             
             self.updateTimelineTop(with: newTweets)
             self.isDone = true
-            self.makeMentionUserSortedList() //存储MentionUserInfo并更新MentionUser的排序
+            self.saveMentionUserData() //存储MentionUserInfo并更新MentionUser的排序
             
             //用于设置后台刷新完成时调用setTaskCompleted(success: true)
             guard completeHandeler != nil else { return }
@@ -101,7 +101,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
             
             updateTimelineBottom(with: newTweets)
             isDone = true
-            makeMentionUserSortedList() //存储MentionUserInfo并更新MentionUser的排序
+            saveMentionUserData() //存储MentionUserInfo并更新MentionUser的排序
         }
         
         let failureHandler: (Error) -> Void = { error in print(#line, error.localizedDescription)}
@@ -158,24 +158,21 @@ extension Timeline {
         guard self.type == .mention else {return}
         guard let userIDString = mention["user"]["id_str"].string else {return}
         let mentionIDString = mention["id_str"].string!
-        if self.mentionUserInfo[userIDString] == nil {
-            self.mentionUserInfo[userIDString] = [mentionIDString]
+        if self.mentionUserData[userIDString] == nil {
+            self.mentionUserData[userIDString] = [mentionIDString]
         } else {
             ///如果该用户存在，且该推文是该用户新回复，则将推文ID添加至尾端
-            if self.mentionUserInfo[userIDString]?.contains(mentionIDString ) == false {
-                self.mentionUserInfo[userIDString]?.append(mentionIDString)
+            if self.mentionUserData[userIDString]?.contains(mentionIDString ) == false {
+                self.mentionUserData[userIDString]?.append(mentionIDString)
             }
         }
     }
     
     ///生成互动用户的排序列表并存储用户回复的用户和推文ID列表
-    func makeMentionUserSortedList() {
+    func saveMentionUserData() {
         guard self.type == .mention else {return}
         ///先保存当前的回复用户信息。
-        userDefault.set(self.mentionUserInfo, forKey: "mentionUserInfo")
-        ///按Mention数量照降序排序再生产排序的userIDString
-        let mentionUserInfoSorted = self.mentionUserInfo.sorted{$0.value.count > $1.value.count}
-        self.mentionUserIDStringsSorted = mentionUserInfoSorted.map{$0.key}
+        userDefault.set(self.mentionUserData, forKey: "mentionUserData") 
     }
 }
 

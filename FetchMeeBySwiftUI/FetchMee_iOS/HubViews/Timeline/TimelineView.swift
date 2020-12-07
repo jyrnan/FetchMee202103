@@ -70,16 +70,16 @@ struct TimelineView: View {
             
         }
         .navigationTitle(listName ?? timeline.type.rawValue)
-//        .onAppear {
+        .onAppear {
 //            if timeline.tweetIDStrings.isEmpty {
 //                timeline.refreshFromTop()
 //            }
-//            
-//            //出现后重置新推文数量
-//            if timeline.newTweetNumber != 0 {
-//                timeline.newTweetNumber = 0
-//            }
-//        }
+
+            //出现后重置新推文数量
+            if timeline.newTweetNumber != 0 {
+                timeline.newTweetNumber = 0
+            }
+        }
         }
         
     }

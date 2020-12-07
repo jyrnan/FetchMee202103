@@ -12,14 +12,14 @@ import Swifter
 
 struct MentionUserSortedView: View {
     
-    @StateObject var mentionUsers = MentionUser()
+    @StateObject var mentionUsers = MentionUserSortedViewModel()
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ///选取最多10个用户显示
                 ForEach(mentionUsers.mentionUserIDStringsSorted[0..<min(10, self.mentionUsers.mentionUserIDStringsSorted.count)], id: \.self) {userIDString in
-                    AvatarView(viewModel: AvatarViewModel(user: JSON.init("")))
+                    AvatarView(viewModel: AvatarViewModel(user: UserRepository.shared.users[userIDString] ?? JSON.init("")))
                         .frame(width: 32, height: 32)
                 }
             }
@@ -29,6 +29,6 @@ struct MentionUserSortedView: View {
 
 struct MentionUserSortedView_Previews: PreviewProvider {
     static var previews: some View {
-        MentionUserSortedView(mentionUsers: MentionUser())
+        MentionUserSortedView(mentionUsers: MentionUserSortedViewModel())
     }
 }
