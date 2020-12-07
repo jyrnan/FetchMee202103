@@ -81,10 +81,13 @@ struct TweetRow: View {
                             .padding(.bottom, 8)
                         ///媒体视图上叠加一个播放按钮
                         viewModel.playButtonView
+                            
                     }
                     
                     ///如果包含引用推文，则显示引用推文内容
                     viewModel.quotedTweetRow
+                        .padding(.top, 8)
+                        .padding(.bottom, 8)
                 }
                 .padding(.trailing, 16)
                 .onTapGesture {

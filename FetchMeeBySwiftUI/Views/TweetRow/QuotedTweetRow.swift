@@ -50,8 +50,10 @@ struct QuotedTweetRow: View {
                 Spacer()
             }
             
-            
+            ZStack {
             viewModel.images//推文图片显示区域
+                viewModel.playButtonView
+            }
         }
         .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
                                     .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
