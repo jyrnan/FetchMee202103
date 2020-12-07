@@ -25,8 +25,6 @@ struct UserView: View {
     
     @State var firstTimeRun: Bool = true //检测用于运行一次
     
-    
-    
     @State var nickNameText: String = ""
     @State var isNickNameInputShow: Bool = false
     
@@ -35,10 +33,7 @@ struct UserView: View {
         self.userScreenName = userScreenName
         _user = StateObject(wrappedValue: User(userIDString: userIDString, screenName: userScreenName))
         _userTimeline = StateObject(wrappedValue: Timeline(type: .user))
-        
-        
         _viewModel = StateObject(wrappedValue: UserViewModel(userIDString: userIDString))
-        print(#line, #function, "UserView inited")
         
         ///从CoreData里获取用户信息,但是不能立刻打印相应的内容，因为获取需要一定时间，是异步进行
         ///所以此时打印twitterUser的信息是没有的，但是在后续的代码中则可以看到其实已经获取到了相应值
@@ -47,7 +42,6 @@ struct UserView: View {
         userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.createdAt, ascending: true)]
         userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), userIDString)
         _twitterUsers = FetchRequest(fetchRequest: userFetch)
-        
     }
     
     ///自定义返回按钮的范例
@@ -68,7 +62,7 @@ struct UserView: View {
     
     
     var body: some View {
-        
+        GeometryReader{proxy in
         ScrollView(.vertical, showsIndicators: false) {
             ZStack{
                 Image(uiImage: viewModel.bannerImage ?? UIImage(named: "bg")!)
@@ -186,9 +180,6 @@ struct UserView: View {
                 }.padding()
                 
                 ///用户Bio信息
-//                Text(viewModel.user["description"].string ?? "userBio").font(.callout)
-//                    .multilineTextAlignment(.center)
-//                    .padding([.top], 16)
                 NSAttributedStringView(viewModel: StatusTextViewModel(status: viewModel.user), width: 300).padding([.top], 16)
                 ///用户位置信息
                 HStack() {
@@ -206,44 +197,44 @@ struct UserView: View {
                     Text("Followers").font(.callout).foregroundColor(.gray)
                 }.padding(.bottom, 16)
             }
-//            .padding([.leading, .trailing], 16)
            
-            
-//            LazyVStack{
-//                ///用户推文部分
-//                ForEach(userTimeline.tweetIDStrings, id: \.self) {
-//                    tweetIDString in
-//
-//                    Divider()
-//                    TweetRow(viewModel: TweetRowViewModel(timeline: userTimeline, tweetIDString: tweetIDString, width: 300))
-//                }
-//                .onDelete(perform: { _ in print(#line, "delete")})
-//                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-//
-//                //下方载入更多按钮
-//                HStack {
-//                    Spacer()
-//                    Button("More Tweets...") {
-//                        userTimeline.refreshFromBottom(for: userIDString)}
-//                        .font(.caption)
-//                        .foregroundColor(.gray)
-//                    Spacer()
-//                }
-//            }
-            
-//            TimelineView(timeline: userTimeline, listName: nil)
+            ///用户推文部分
+            LazyVStack(spacing: 0){
+                ForEach(userTimeline.tweetIDStrings, id: \.self) {
+                    tweetIDString in
+
+                    Divider()
+                    TweetRow(viewModel: userTimeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
+                }
+
+                //下方载入更多按钮
+                Divider()
+                HStack {
+                    Spacer()
+                    Button("More Tweets...") {
+                        userTimeline.refreshFromBottom(for: userIDString)}
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                        .padding()
+                    Spacer()
+                }
+            }
+            }
+            .background(Color.init("BackGround").cornerRadius(24))
             
         }
-        .background(Color.init("BackGround").cornerRadius(24))
+        
         .navigationTitle(viewModel.user["name"].string ?? "Name")
         //        .navigationBarBackButtonHidden(true)
         //        .navigationBarItems(leading: btnBack)
         .onAppear(){
-            if self.firstTimeRun {
-                self.firstTimeRun = false
-                user.getUserInfo()
+//            if self.firstTimeRun {
+//                self.firstTimeRun = false
+//                user.getUserInfo()
+            if userTimeline.tweetIDStrings.isEmpty {
                 userTimeline.refreshFromTop(for: userIDString)
             }
+//            }
         }
     }
 }

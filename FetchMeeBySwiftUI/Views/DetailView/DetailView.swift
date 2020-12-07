@@ -19,7 +19,6 @@ struct DetailView: View {
     init(tweetIDString: String) {
         self.tweetIDString = tweetIDString
         _viewModel = StateObject(wrappedValue: DetailViewModel(tweetIDString: tweetIDString))
-        print(#line, #function, "DetailView inited")
     }
     
     var body: some View {
