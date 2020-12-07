@@ -57,17 +57,8 @@ class TweetRowViewModel: ObservableObject{
         playButtonView = makePlayButtonView()
         quotedTweetRow = makeQuotedTweetRowView()
         isReplyToMe = checkIsReplyToMe()
-       
     }
     
-    func toggleToolsView() {
-        if timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString {
-            ///判断如果先前选定显示ToolsView的tweetID不是自己，
-            ///则将原激活ToolSView的推文取消激活
-            timeline.tweetIDStringOfRowToolsViewShowed = nil
-        } else {
-            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString }
-    }
     
     func makeRetweetMarkView() -> RetweetMarkView? {
         guard status["retweeted_status"]["id_str"].string != nil else {return nil }
@@ -84,7 +75,7 @@ class TweetRowViewModel: ObservableObject{
         return retweetMarkView
     }
     
-    //生产AvatarView头像
+    //MARK:-AvatarView
     func makeAvatarViewModel() -> AvatarViewModel {
         var avatarViewModel: AvatarViewModel
         
@@ -117,25 +108,30 @@ class TweetRowViewModel: ObservableObject{
         return NSAttributedStringView(viewModel: viewModel, width: width - 80)
     }
     
-   
     
     func makeImagesView() -> Images? {
-        guard let imageUrls = tweetMedia.urlStrings, !imageUrls.isEmpty else {return nil}
+        guard let medias = status["extended_entities"]["media"].array else {return nil}
+        let imageUrls = medias.map{$0["media_url_https"].string!}
         let images = Images(imageUrlStrings: imageUrls)
         return images
     }
     
+    //MARK:-playButton
+    func makePlayButtonViewModel() -> PlayButtonViewModel {
+        let videoUrl = status["extended_entities"]["media"].array?.first?["video_info"]["variants"].array?.first?["url"].string
+        return PlayButtonViewModel(url: videoUrl)
+    }
+    
     func makePlayButtonView() -> PlayButtonView? {
-        guard tweetMedia.mediaType == "video" || tweetMedia.mediaType == "animated_gif" else {return nil}
+        guard let medias = status["extended_entities"]["media"].array else {return nil}
+        guard medias.first?["type"] == "video" || medias.first?["type"] == "animated_gif" else {return nil}
         let viewModel:PlayButtonViewModel = makePlayButtonViewModel()
         let playButtonView = PlayButtonView(viewModel: viewModel)
         return playButtonView
     }
     
-    func makePlayButtonViewModel() -> PlayButtonViewModel {
-        return PlayButtonViewModel(url: tweetMedia.mediaUrlString)
-    }
     
+    //MARK:-QuotedTweetRowView
     func makeQuotedTweetRowViewModel() -> TweetRowViewModel {
         
         let quotedTweetIDString = status["quoted_status_id_str"].string ?? "0000"
@@ -154,6 +150,7 @@ class TweetRowViewModel: ObservableObject{
         return quotedTweetRow
     }
     
+    //MARK:-ToolsView
     func makeToolsViewModel() -> ToolsViewModel {
         return ToolsViewModel(status: status, timeline: timeline)
     }
@@ -163,6 +160,16 @@ class TweetRowViewModel: ObservableObject{
         let viewModel = makeToolsViewModel()
         return ToolsView(viewModel: viewModel)
     }
+    
+    func toggleToolsView() {
+        if timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString {
+            ///判断如果先前选定显示ToolsView的tweetID不是自己，
+            ///则将原激活ToolSView的推文取消激活
+            timeline.tweetIDStringOfRowToolsViewShowed = nil
+        } else {
+            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString }
+    }
+    
     
     func checkIsReplyToMe() -> Bool {
         return userDefault.object(forKey: "userIDString") as? String == status["in_reply_to_user_id_str"].string

@@ -56,7 +56,7 @@
 		D24E409F257B6F3B00401BBB /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24E409E257B6F3B00401BBB /* DetailViewModel.swift */; };
 		D24E40A1257B74E700401BBB /* TimelineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D24E40A0257B74E700401BBB /* TimelineProtocol.swift */; };
 		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
-		D252548024D804AB00D8B508 /* WebLinkJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkJson.txt */; };
+		D252548024D804AB00D8B508 /* WebLinkAndImageJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkAndImageJson.txt */; };
 		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
 		D258D617254AF44B00CA01E7 /* User+UpdateUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D258D616254AF44B00CA01E7 /* User+UpdateUser.swift */; };
 		D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDD924D2CEED00682B99 /* SafariView.swift */; };
@@ -185,7 +185,7 @@
 		D24E409E257B6F3B00401BBB /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		D24E40A0257B74E700401BBB /* TimelineProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineProtocol.swift; sourceTree = "<group>"; };
 		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
-		D252547F24D804AB00D8B508 /* WebLinkJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkJson.txt; sourceTree = "<group>"; };
+		D252547F24D804AB00D8B508 /* WebLinkAndImageJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkAndImageJson.txt; sourceTree = "<group>"; };
 		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
 		D258D616254AF44B00CA01E7 /* User+UpdateUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+UpdateUser.swift"; sourceTree = "<group>"; };
 		D262FDD924D2CEED00682B99 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
@@ -425,7 +425,7 @@
 				D2419C102577603C00A9CF98 /* SimpleTweet.txt */,
 				D2419C0F2577603C00A9CF98 /* user.txt */,
 				D252547D24D8003B00D8B508 /* RetweetJson.txt */,
-				D252547F24D804AB00D8B508 /* WebLinkJson.txt */,
+				D252547F24D804AB00D8B508 /* WebLinkAndImageJson.txt */,
 				D252548124D807F500D8B508 /* QuoteTweetJson.txt */,
 				D2B2560D24E38824009F982E /* videoJson.txt */,
 				4B6FE754253EE99500750AD6 /* RateLimit.txt */,
@@ -722,7 +722,7 @@
 				D2419C172577603C00A9CF98 /* BugWor.txt in Resources */,
 				D2419C1D2577603C00A9CF98 /* followers in Resources */,
 				D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */,
-				D252548024D804AB00D8B508 /* WebLinkJson.txt in Resources */,
+				D252548024D804AB00D8B508 /* WebLinkAndImageJson.txt in Resources */,
 				4B6FE755253EE99500750AD6 /* RateLimit.txt in Resources */,
 				D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */,
 				D286BE782566610C00DCEA1E /* AuthViewController.xib in Resources */,
