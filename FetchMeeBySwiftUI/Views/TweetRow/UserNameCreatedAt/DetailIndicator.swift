@@ -9,8 +9,11 @@
 import SwiftUI
 
 struct DetailIndicator: View {
-//    var timeline = Timeline(type: .home)
+    var timeline: Timeline
      var tweetIDString: String
+    @ObservedObject var viewModel: ToolsViewModel
+    
+    @State var isUnRead: Bool = true
     
     
 //    var retweetColor: Color = { self.timeline[tweetIDString].retweeted? Color(.red) : Color(.gray) }
@@ -18,27 +21,27 @@ struct DetailIndicator: View {
         HStack(spacing: 0){
             Spacer()
             Circle()
-                .fill(Color.gray)
+                .fill(viewModel.retweeted ? Color.green : Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
             Circle()
-                .fill(Color.gray)
+                .fill(viewModel.favorited ? Color.red : Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
             Circle()
-                .fill(Color.gray)
+                .fill(isUnRead ? Color.blue : Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
-//                .onAppear{
-//                    ///该视图出现则减少新推文数量1，并设置成已经阅读变量标志，避免重复
-//                    if !(self.timeline.tweetMedias[tweetIDString]?.rowIsViewed ?? true) && (self.timeline.newTweetNumber > 0) {
-//                        self.timeline.newTweetNumber -= 1
-//                    }
-//                    self.delay(delay: 3, closure: {
-//                        self.timeline.tweetMedias[tweetIDString]?.rowIsViewed = true
-//
-//                    })
-//                }
+                .onAppear{
+                    ///该视图出现则减少新推文数量1，并设置成已经阅读变量标志，避免重复
+                    if isUnRead && (self.timeline.newTweetNumber > 0) {
+                        self.timeline.newTweetNumber -= 1
+                    }
+                    self.delay(delay: 3, closure: {
+                        self.isUnRead = false
+
+                    })
+                }
             Spacer()
         }
         .frame(width: 27, height: 11, alignment: .center)
@@ -55,6 +58,6 @@ struct DetailIndicator: View {
 
 struct DetailIndicator_Previews: PreviewProvider {
     static var previews: some View {
-        DetailIndicator(tweetIDString: "")
+        DetailIndicator(timeline: Timeline(type: .home), tweetIDString: "", viewModel: ToolsViewModel(timeline: Timeline(type: .home), tweetIDString: ""))
     }
 }

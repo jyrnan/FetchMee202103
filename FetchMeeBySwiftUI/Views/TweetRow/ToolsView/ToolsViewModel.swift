@@ -13,15 +13,13 @@ import Combine
 class ToolsViewModel: ObservableObject {
     var status: JSON
     var timeline: TimelineViewModel
+    var tweetIDString: String
     
     @Published var retweeted: Bool
     @Published var retweetedCount: Int
     
     @Published var favorited: Bool
     @Published var favoritedCount: Int
-    
-    
-    var tweetIDString: String
     
     init(timeline: TimelineViewModel, tweetIDString: String) {
         self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
@@ -32,11 +30,9 @@ class ToolsViewModel: ObservableObject {
         self.retweetedCount = status["retweet_count"].integer ?? 0
         self.favorited = status["favorited"].bool ?? false
         self.favoritedCount = status["favorite_count"].integer ?? 0
-        print(#line, #file, "inited.")
     }
     
     deinit {
-        print(#line, #file, "deinited.")
     }
     
     func retweet() {
@@ -47,7 +43,6 @@ class ToolsViewModel: ObservableObject {
                     let status = json
                     self.status = json
                     StatusRepository.shared.addStatus(status)
-                    print(#line,#file, "unretweeted")
                     self.retweeted = false
                     self.retweetedCount -= 1
                 })
@@ -56,7 +51,6 @@ class ToolsViewModel: ObservableObject {
                 swifter.retweetTweet(forID: tweetIDString, success: {json in
                     let status = json
                     StatusRepository.shared.addStatus(status)
-                    print(#line,#file, "retweeted")
                     self.retweeted = true
                     self.retweetedCount += 1
                 })

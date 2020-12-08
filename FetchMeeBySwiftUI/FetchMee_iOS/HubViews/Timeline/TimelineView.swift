@@ -76,9 +76,9 @@ struct TimelineView: View {
 //            }
 
             //出现后重置新推文数量
-            if timeline.newTweetNumber != 0 {
-                timeline.newTweetNumber = 0
-            }
+//            if timeline.newTweetNumber != 0 {
+//                timeline.newTweetNumber = 0
+//            }
         }
         }
         

@@ -32,6 +32,7 @@ class TweetRowViewModel: ObservableObject{
     var images: Images?
     var playButtonView: PlayButtonView?
     var quotedTweetRow: QuotedTweetRow?
+    var toolsVeiwModel: ToolsViewModel!
     var toolsVeiw: ToolsView?
     var statusTextView: NSAttributedStringView?
     
@@ -52,19 +53,22 @@ class TweetRowViewModel: ObservableObject{
 
         makeViews()
         
-        print(#line, #file, "TweetRowViewModel inited")
+//        print(#line, #file, "TweetRowViewModel inited")
     }
     
     func makeViews() {
         retweetMarkView = makeRetweetMarkView()
         avatarView = makeAvatarView()
         userNameView = makeUserNameView()
-        detailIndicator = makeDetailIndicatorView()
+        
         statusTextView = makeStatusTextView()
         images = makeImagesView()
         playButtonView = makePlayButtonView()
         quotedTweetRow = makeQuotedTweetRowView()
         
+        
+        toolsVeiwModel = makeToolsViewModel()
+        detailIndicator = makeDetailIndicatorView()
         toolsVeiw = makeToolsView()
         isReplyToMe = checkIsReplyToMe()
     }
@@ -111,7 +115,7 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func makeDetailIndicatorView() -> DetailIndicator {
-        return DetailIndicator(tweetIDString: tweetIDString)
+        return DetailIndicator( timeline: timeline  as! Timeline,tweetIDString: tweetIDString, viewModel: toolsVeiwModel)
     }
     
     func makeStatusTextView() -> NSAttributedStringView?{
@@ -169,8 +173,8 @@ class TweetRowViewModel: ObservableObject{
     
     func makeToolsView() -> ToolsView? {
 //        guard timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString else {return nil}
-        let viewModel = makeToolsViewModel()
-        return ToolsView(viewModel: viewModel)
+//        let viewModel = makeToolsViewModel()
+        return ToolsView(viewModel: toolsVeiwModel)
     }
     
     func toggleToolsView() {

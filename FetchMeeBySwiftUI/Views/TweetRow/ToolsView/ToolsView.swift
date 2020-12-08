@@ -20,7 +20,6 @@ struct ToolsView: View {
     
     init(viewModel: ToolsViewModel) {
         self.viewModel = viewModel
-        print(#line, #file, "inited.")
     }
     
     var body: some View {
@@ -86,12 +85,10 @@ struct ToolsView: View {
             
         }.foregroundColor(.gray).padding([.leading, .trailing], 16)
         
-        //            Divider()
         Composer(tweetIDString: self.tweetIDString)
             .padding(.top, 4)
             .padding(.bottom, 4)
             .frame(height: 36)
-//            .padding(8)
             .background(Color.accentColor.opacity(0.8))
             .overlay(TopShadow(), alignment: .top)
             .overlay(BottomShadow(), alignment: .bottom)
