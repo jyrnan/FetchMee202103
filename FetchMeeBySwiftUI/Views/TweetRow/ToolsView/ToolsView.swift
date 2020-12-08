@@ -11,12 +11,17 @@ import SwiftUI
 struct ToolsView: View {
     var tweetIDString: String {viewModel.status["id_str"].string ?? "0000"}
     
-    @ObservedObject var viewModel: ToolsViewModel
+    var viewModel: ToolsViewModel
     
     @State var isShowSafari: Bool = false
     @State var url: URL = URL(string: "https://www.twitter.com")!
     
     @State var isAlertShowed: Bool = false
+    
+    init(viewModel: ToolsViewModel) {
+        self.viewModel = viewModel
+        print(#line, #file, "inited.")
+    }
     
     var body: some View {
         VStack {

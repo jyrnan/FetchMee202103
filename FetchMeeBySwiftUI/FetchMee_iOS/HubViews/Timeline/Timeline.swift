@@ -49,7 +49,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
             self.saveMentionUserData()//初始化更新MentionUser排序
         }
         
-        if tweetIDStrings.isEmpty {refreshFromTop()}
+        if tweetIDStrings.isEmpty && type != .list {refreshFromTop()}
         
         print(#line, #function,#file, "timeline \(self.type) inited.")
     }

@@ -17,7 +17,7 @@ class TweetRowViewModel: ObservableObject{
     var status: JSON
 
     var timeline: TimelineViewModel
-    var tweetIDString: String {status["id_str"].string ?? "0000"}
+    var tweetIDString: String
     
     //传人的视窗宽度
     var tweetRowViewWidth: CGFloat
@@ -43,6 +43,7 @@ class TweetRowViewModel: ObservableObject{
     //MARK:- Methods
     init(timeline:TimelineViewModel, tweetIDString: String, width: CGFloat, isQuoteded:Bool = false) {
         self.timeline = timeline
+        self.tweetIDString = tweetIDString
         self.tweetRowViewWidth = width
         ///MVVM
         self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
@@ -50,6 +51,8 @@ class TweetRowViewModel: ObservableObject{
         self.isQuotedTweetRowViewModel = isQuoteded
 
         makeViews()
+        
+        print(#line, #file, "TweetRowViewModel inited")
     }
     
     func makeViews() {
@@ -72,7 +75,7 @@ class TweetRowViewModel: ObservableObject{
         
         let retweetMarkView = RetweetMarkView(userIDString: id, userName: name)
         
-        self.status = status["retweeted_status"]
+//        self.status = status["retweeted_status"]
         StatusRepository.shared.addStatus(status)
         
         UserRepository.shared.addUser(status["user"])
@@ -159,7 +162,7 @@ class TweetRowViewModel: ObservableObject{
     
     //MARK:-ToolsView
     func makeToolsViewModel() -> ToolsViewModel {
-        return ToolsViewModel(status: status, timeline: timeline)
+        return ToolsViewModel(timeline: timeline, tweetIDString: tweetIDString)
     }
     
     func makeToolsView() -> ToolsView? {

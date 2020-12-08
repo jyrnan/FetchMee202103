@@ -14,35 +14,52 @@ class ToolsViewModel: ObservableObject {
     var timeline: TimelineViewModel
     
     @Published var retweeted: Bool
-    @Published var retweetedCount: Int
+    var retweetedCount: Int {status["retweet_count"].integer ?? 0}
     
-    @Published var favorited: Bool
-    @Published var favoritedCount: Int
+    var favorited: Bool {status["favorited"].bool ?? false}
+    var favoritedCount: Int {status["favorite_count"].integer ?? 0}
     
     
-    var tweetIDString: String {status["id_str"].string ?? "0000"}
+    var tweetIDString: String
     
-    init(status: JSON, timeline: TimelineViewModel) {
-        self.status = status
+    init(timeline: TimelineViewModel, tweetIDString: String) {
+        self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
          self.timeline = timeline
+        self.tweetIDString = tweetIDString
         
         self.retweeted = status["retweeted"].bool ?? false
-        self.retweetedCount = status["retweet_count"].integer ?? 0
-        self.favorited = status["favorited"].bool ?? false
-        self.favoritedCount = status["favorite_count"].integer ?? 0
+//        self.retweetedCount = status["retweet_count"].integer ?? 0
+//        self.favorited = status["favorited"].bool ?? false
+//        self.favoritedCount = status["favorite_count"].integer ?? 0
+        print(#line, #file, "inited.")
+    }
+    
+    deinit {
+        print(#line, #file, "deinited.")
     }
     
     func retweet() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
         switch retweeted {
             case true:
-                swifter.unretweetTweet(forID: tweetIDString)
-                self.retweeted = false
-                retweetedCount -= 1
+                swifter.unretweetTweet(forID: tweetIDString, success: {json in
+                    let status = json
+                    self.status = json
+                    StatusRepository.shared.addStatus(status)
+                    print(#line,#file, "unretweeted")
+                    self.retweeted = false
+                    //                retweetedCount -= 1
+                })
+//
             case false:
-                swifter.retweetTweet(forID: tweetIDString)
-                self.retweeted = true
-                retweetedCount += 1
+                swifter.retweetTweet(forID: tweetIDString, success: {json in
+                    let status = json
+                    StatusRepository.shared.addStatus(status)
+                    print(#line,#file, "retweeted")
+                    self.retweeted = true
+                })
+//                self.retweeted = true
+//                retweetedCount += 1
         }
     }
     
@@ -50,13 +67,17 @@ class ToolsViewModel: ObservableObject {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
         switch favorited {
         case true:
-            swifter.unfavoriteTweet(forID: tweetIDString)
-            favorited = false
-            favoritedCount -= 1
+            swifter.unfavoriteTweet(forID: tweetIDString, success: {json in
+                StatusRepository.shared.addStatus(json)
+            })
+//            favorited = false
+//            favoritedCount -= 1
         case false:
-            swifter.favoriteTweet(forID: tweetIDString)
-            favorited = true
-            favoritedCount += 1
+            swifter.favoriteTweet(forID: tweetIDString, success: {json in
+                StatusRepository.shared.addStatus(json)
+            })
+//            favorited = true
+//            favoritedCount += 1
         }
     }
     
