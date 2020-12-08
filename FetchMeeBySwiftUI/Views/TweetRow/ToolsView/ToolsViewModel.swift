@@ -8,16 +8,17 @@
 
 import UIKit
 import Swifter
+import Combine
 
 class ToolsViewModel: ObservableObject {
     var status: JSON
     var timeline: TimelineViewModel
     
     @Published var retweeted: Bool
-    var retweetedCount: Int {status["retweet_count"].integer ?? 0}
+    @Published var retweetedCount: Int
     
-    var favorited: Bool {status["favorited"].bool ?? false}
-    var favoritedCount: Int {status["favorite_count"].integer ?? 0}
+    @Published var favorited: Bool
+    @Published var favoritedCount: Int
     
     
     var tweetIDString: String
@@ -28,9 +29,9 @@ class ToolsViewModel: ObservableObject {
         self.tweetIDString = tweetIDString
         
         self.retweeted = status["retweeted"].bool ?? false
-//        self.retweetedCount = status["retweet_count"].integer ?? 0
-//        self.favorited = status["favorited"].bool ?? false
-//        self.favoritedCount = status["favorite_count"].integer ?? 0
+        self.retweetedCount = status["retweet_count"].integer ?? 0
+        self.favorited = status["favorited"].bool ?? false
+        self.favoritedCount = status["favorite_count"].integer ?? 0
         print(#line, #file, "inited.")
     }
     
@@ -48,7 +49,7 @@ class ToolsViewModel: ObservableObject {
                     StatusRepository.shared.addStatus(status)
                     print(#line,#file, "unretweeted")
                     self.retweeted = false
-                    //                retweetedCount -= 1
+                    self.retweetedCount -= 1
                 })
 //
             case false:
@@ -57,9 +58,8 @@ class ToolsViewModel: ObservableObject {
                     StatusRepository.shared.addStatus(status)
                     print(#line,#file, "retweeted")
                     self.retweeted = true
+                    self.retweetedCount += 1
                 })
-//                self.retweeted = true
-//                retweetedCount += 1
         }
     }
     
@@ -69,15 +69,17 @@ class ToolsViewModel: ObservableObject {
         case true:
             swifter.unfavoriteTweet(forID: tweetIDString, success: {json in
                 StatusRepository.shared.addStatus(json)
+                self.favorited = false
+                self.favoritedCount -= 1
             })
-//            favorited = false
-//            favoritedCount -= 1
+            
         case false:
             swifter.favoriteTweet(forID: tweetIDString, success: {json in
                 StatusRepository.shared.addStatus(json)
+                self.favorited = true
+                self.favoritedCount += 1
             })
-//            favorited = true
-//            favoritedCount += 1
+            
         }
     }
     

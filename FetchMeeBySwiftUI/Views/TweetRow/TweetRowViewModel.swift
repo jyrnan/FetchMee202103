@@ -32,7 +32,7 @@ class TweetRowViewModel: ObservableObject{
     var images: Images?
     var playButtonView: PlayButtonView?
     var quotedTweetRow: QuotedTweetRow?
-    var toolsVeiw: ToolsView? {makeToolsView()}
+    var toolsVeiw: ToolsView?
     var statusTextView: NSAttributedStringView?
     
     var isReplyToMe: Bool!
@@ -64,6 +64,8 @@ class TweetRowViewModel: ObservableObject{
         images = makeImagesView()
         playButtonView = makePlayButtonView()
         quotedTweetRow = makeQuotedTweetRowView()
+        
+        toolsVeiw = makeToolsView()
         isReplyToMe = checkIsReplyToMe()
     }
     
@@ -166,7 +168,7 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func makeToolsView() -> ToolsView? {
-        guard timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString else {return nil}
+//        guard timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString else {return nil}
         let viewModel = makeToolsViewModel()
         return ToolsView(viewModel: viewModel)
     }

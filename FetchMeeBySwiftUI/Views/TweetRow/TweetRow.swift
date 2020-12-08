@@ -92,7 +92,8 @@ struct TweetRow: View {
                 
             }
             Spacer()
-            viewModel.toolsVeiw
+            if viewModel.timeline.tweetIDStringOfRowToolsViewShowed == viewModel.tweetIDString{
+                viewModel.toolsVeiw}
         }.background(backgroundColor)
         
     }

@@ -11,7 +11,7 @@ import SwiftUI
 struct ToolsView: View {
     var tweetIDString: String {viewModel.status["id_str"].string ?? "0000"}
     
-    var viewModel: ToolsViewModel
+    @ObservedObject var viewModel: ToolsViewModel
     
     @State var isShowSafari: Bool = false
     @State var url: URL = URL(string: "https://www.twitter.com")!
