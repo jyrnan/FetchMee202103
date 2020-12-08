@@ -38,10 +38,11 @@ struct TweetRow: View {
                 //Avatar显示
                 VStack {
                     viewModel.avatarView
-                        .frame(width: 36, height: 36)
+//                        .frame(width: 36, height: 36)
                         .padding(.init(top: 8, leading: 16, bottom: 12, trailing: 12))
                     Spacer()
                 }
+                .frame(width: viewModel.iconColumWidth)
                 
                 VStack(alignment: .leading, spacing: 0 ) {
                     
@@ -60,17 +61,8 @@ struct TweetRow: View {
                     .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
                     
                     ///如果有回复用户列表不为空，则显示回复用户
-//                    viewModel.replyUsersView
-//                    viewModel.makeStatusTextView(width: proxy.size.width)
-                    
                     viewModel.statusTextView?.padding(.top, 8)
                     
-                    ///推文正文
-//                    TweetTextView(tweetText: viewModel.tweetMedia.tweetText)
-//                        .font(.body)
-//                        .padding(.top, 8)
-//                        .padding(.bottom, 16)
-//                        .fixedSize(horizontal: false, vertical: true)
                     
                     ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
                     ZStack {
@@ -91,8 +83,7 @@ struct TweetRow: View {
                 }
                 .padding(.trailing, 16)
                 .onTapGesture {
-                    withAnimation(){
-                        viewModel.toggleToolsView()}
+                    withAnimation(){  viewModel.toggleToolsView()}
                 }
                 
             }
@@ -104,15 +95,4 @@ struct TweetRow: View {
     
 }
 
-//struct TweetRow_Previews: PreviewProvider {
-//    static let alerts = Alerts()
-//    static let user = User()
-//    static var timeline = Timeline(type: .home)
-//    static var tweetIDString = "0000"
-//    static var previews: some View {
-//        TweetRow(
-//            //            timeline: self.timeline, tweetIDString: self.tweetIDString,
-//            viewModel: TweetRowViewModel(timeline: Timeline(type: .home), tweetIDString: "")).environmentObject(self.alerts).environmentObject(self.user)
-//    }
-//}
 

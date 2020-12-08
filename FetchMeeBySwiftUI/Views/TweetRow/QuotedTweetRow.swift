@@ -23,7 +23,9 @@ struct QuotedTweetRow: View {
             HStack(alignment: .top, spacing: 0) {
                 VStack {
                     viewModel.avatarView
+                        .scaledToFit()
                         .frame(width: 18, height: 18)
+                        
                         .padding(.init(top: 8, leading: 8, bottom: 0, trailing: 8))
                     Spacer()
                 } //Avatar
@@ -36,14 +38,9 @@ struct QuotedTweetRow: View {
                     }
                     .padding(.top, 8)
                     ///replyUser
-//                    viewModel.replyUsersView.font(.callout)
                 }
             }
             
-//            TweetTextView(tweetText: (viewModel.tweetMedia.tweetText == []) ? ["This tweet is unavaliable now."] : viewModel.tweetMedia.tweetText)
-//                .font(.callout)
-//                .padding(8)
-//                .fixedSize(horizontal: false, vertical: true)
             HStack{
                 Spacer()
                 viewModel.statusTextView
@@ -60,12 +57,3 @@ struct QuotedTweetRow: View {
                                                 .stroke(Color.gray.opacity(0.2), lineWidth: 1))
     }
 }
-
-
-
-
-//struct QuotedTweetRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TweetRow(viewModel: TweetRowViewModel(timeline: Timeline(type: .home), tweetIDString: "tweetIDString)"))
-//    }
-//}

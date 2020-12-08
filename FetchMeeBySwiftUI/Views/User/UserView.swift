@@ -186,7 +186,7 @@ struct UserView: View {
                     Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
                     Text(viewModel.user["location"].string ?? "Unknow").font(.caption).foregroundColor(.gray)
                     Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
-                    Text(user.info.createdAt ?? "Unknow").font(.caption).foregroundColor(.gray)
+                    Text(viewModel.user["created_at"].string ?? "Unknow").font(.caption).foregroundColor(.gray)
                 }.padding(0)
                 
                 ///用户following信息

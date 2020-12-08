@@ -18,8 +18,12 @@ class TweetRowViewModel: ObservableObject{
 
     var timeline: TimelineViewModel
     var tweetIDString: String {status["id_str"].string ?? "0000"}
+    
     //传人的视窗宽度
-    var width: CGFloat
+    var tweetRowViewWidth: CGFloat
+    
+    ///图标栏宽度
+    var iconColumWidth: CGFloat = 64
     
     var retweetMarkView: RetweetMarkView?
     var avatarView: AvatarView!
@@ -32,18 +36,19 @@ class TweetRowViewModel: ObservableObject{
     var statusTextView: NSAttributedStringView?
     
     var isReplyToMe: Bool!
+    
+    let isQuotedTweetRowViewModel: Bool
    
 
     //MARK:- Methods
-    init(timeline:TimelineViewModel, tweetIDString: String, width: CGFloat) {
+    init(timeline:TimelineViewModel, tweetIDString: String, width: CGFloat, isQuoteded:Bool = false) {
         self.timeline = timeline
-        self.width = width
+        self.tweetRowViewWidth = width
         ///MVVM
         self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
         
-        
-        ///备用
-//        self.tweetMedia = (timeline as? Timeline)?.tweetMedias[tweetIDString] ?? TweetMedia(id: tweetIDString)
+        self.isQuotedTweetRowViewModel = isQuoteded
+
         makeViews()
     }
     
@@ -82,13 +87,15 @@ class TweetRowViewModel: ObservableObject{
         ///MVVM
         let user = status["user"]
         
-        avatarViewModel = AvatarViewModel(user: user )
+        avatarViewModel = AvatarViewModel(user: user)
         return avatarViewModel
     }
     
     func makeAvatarView() -> AvatarView {
         let avatarViewModel: AvatarViewModel = makeAvatarViewModel()
-        return AvatarView(viewModel: avatarViewModel)
+        return AvatarView(viewModel: avatarViewModel,
+                          width: isQuotedTweetRowViewModel ? 18 :36,
+                          height: isQuotedTweetRowViewModel ? 18 :36)
     }
     
     func makeUserNameView() -> UserNameView {
@@ -105,7 +112,7 @@ class TweetRowViewModel: ObservableObject{
     func makeStatusTextView() -> NSAttributedStringView?{
         guard status["text"].string != nil else {return nil}
         let viewModel = StatusTextViewModel(status: status)
-        return NSAttributedStringView(viewModel: viewModel, width: width - 80)
+        return NSAttributedStringView(viewModel: viewModel, width: tweetRowViewWidth - iconColumWidth - 16)
     }
     
     
@@ -139,7 +146,7 @@ class TweetRowViewModel: ObservableObject{
         
         StatusRepository.shared.status[quotedTweetIDString] = quotedStatus
         
-        return TweetRowViewModel(timeline: timeline, tweetIDString: quotedTweetIDString, width: width - 16 )
+        return TweetRowViewModel(timeline: timeline, tweetIDString: quotedTweetIDString, width: tweetRowViewWidth - 16, isQuoteded: true )
     }
     
     func makeQuotedTweetRowView() -> QuotedTweetRow? {

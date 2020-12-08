@@ -21,7 +21,7 @@ class AvatarViewModel: ObservableObject {
     var userName: String? {user["name"].string}
     
     init(user: JSON) {
-        
+ 
         self.user = user
         let avatarUrlString = user["profile_image_url_https"].string
             getImage(avatarUrlString)
