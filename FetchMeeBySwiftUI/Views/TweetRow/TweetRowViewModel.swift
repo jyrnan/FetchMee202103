@@ -115,7 +115,7 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func makeDetailIndicatorView() -> DetailIndicator {
-        return DetailIndicator( timeline: timeline  as! Timeline,tweetIDString: tweetIDString, viewModel: toolsVeiwModel)
+        return DetailIndicator(viewModel: toolsVeiwModel)
     }
     
     func makeStatusTextView() -> NSAttributedStringView?{

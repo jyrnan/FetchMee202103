@@ -13,6 +13,7 @@ class DetailViewModel: TimelineViewModel, ObservableObject {
     @Published var tweetIDStrings: [String] = []
     @Published var isDone: Bool = false
     @Published var tweetIDStringOfRowToolsViewShowed: String? = nil
+    var newTweetNumber: Int = 0
     
     var tweetIDString: String //传入DetailView的初始推文
     

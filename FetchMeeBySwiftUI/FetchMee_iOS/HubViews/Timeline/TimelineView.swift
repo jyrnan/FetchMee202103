@@ -38,7 +38,7 @@ struct TimelineView: View {
                 RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
                 
                 PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
-                        Composer()
+                    Composer(isShowActivityIndicator: !timeline.isDone)
                 }
                 .frame(height: 36)
                 .padding(0)

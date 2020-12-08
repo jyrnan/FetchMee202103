@@ -12,4 +12,5 @@ protocol TimelineViewModel {
     var tweetIDStrings: [String] { get set}
     var isDone:Bool{ get set}
     var tweetIDStringOfRowToolsViewShowed: String? { get set}
+    var newTweetNumber: Int { get set }
 }
