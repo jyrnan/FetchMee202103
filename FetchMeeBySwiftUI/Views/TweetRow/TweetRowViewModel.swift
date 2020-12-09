@@ -33,7 +33,7 @@ class TweetRowViewModel: ObservableObject{
     var playButtonView: PlayButtonView?
     var quotedTweetRow: QuotedTweetRow?
     var toolsVeiwModel: ToolsViewModel!
-    var toolsVeiw: ToolsView?
+    @Published var toolsVeiw: ToolsView?
     var statusTextView: NSAttributedStringView?
     
     var isReplyToMe: Bool!
@@ -69,7 +69,7 @@ class TweetRowViewModel: ObservableObject{
         
         toolsVeiwModel = makeToolsViewModel()
         detailIndicator = makeDetailIndicatorView()
-        toolsVeiw = makeToolsView()
+//        toolsVeiw = makeToolsView()
         isReplyToMe = checkIsReplyToMe()
     }
     
@@ -171,19 +171,23 @@ class TweetRowViewModel: ObservableObject{
         return ToolsViewModel(timeline: timeline, tweetIDString: tweetIDString)
     }
     
-    func makeToolsView() -> ToolsView? {
-//        guard timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString else {return nil}
-//        let viewModel = makeToolsViewModel()
-        return ToolsView(viewModel: toolsVeiwModel)
-    }
+    func makeToolsView() {
+            toolsVeiw = ToolsView(viewModel: toolsVeiwModel)
+        }
     
     func toggleToolsView() {
-        if timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString {
-            ///判断如果先前选定显示ToolsView的tweetID不是自己，
-            ///则将原激活ToolSView的推文取消激活
+        switch timeline.tweetIDStringOfRowToolsViewShowed {
+        case nil:
+            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+            makeToolsView()
+        case tweetIDString:
             timeline.tweetIDStringOfRowToolsViewShowed = nil
-        } else {
-            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString }
+            toolsVeiw = nil
+        default:
+            (timeline as! Timeline).tweetRowViewModels[timeline.tweetIDStringOfRowToolsViewShowed!]?.toolsVeiw = nil
+            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+            makeToolsView()
+        }
     }
     
     
