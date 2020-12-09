@@ -56,7 +56,8 @@ class DetailViewModel: TimelineViewModel, ObservableObject {
                 finalReloadView()
             }
         }
-        swifter.getTweet(for: idString, success: sh, failure: failureHandler)
+        let status = StatusRepository.shared.status[tweetIDString]!
+        sh(json: status)
     }
 }
 
