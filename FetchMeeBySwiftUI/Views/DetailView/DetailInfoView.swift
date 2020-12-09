@@ -13,10 +13,10 @@ struct DetailInfoView: View {
     let status: JSON
     
     var created_at:String {updateTime(createdTime: status["created_at"].string)}
-    let source: String = "Twitter for iPhone"
+    var source: String {String((status["source"].string?.split(separator: ">").last?.dropLast(3)) ?? "unknow")}
     
-    let retweet_count: String = "34"
-    let favorite_count: String = "345"
+    var retweet_count: String {String(status["retweet_count"].integer ?? 0)}
+    var favorite_count: String {String(status["favorite_count"].integer ?? 0)}
     
     init(status: JSON) {
         self.status = status
@@ -24,31 +24,35 @@ struct DetailInfoView: View {
     
     var body: some View {
         GeometryReader {proxy in
-            
+           
             VStack{
-                Divider().padding(0)
+               
                 HStack{
                     Text(created_at)
-                    Text("source").foregroundColor(.blue)
+                    Text(source).foregroundColor(.accentColor)
                     Spacer()
                 }
+                
                 Divider().padding(0)
+                
                 HStack{
                     HStack{
-                        Text("Retweeted: ") + Text("44")
+                        Text("Retweeted : ") + Text(retweet_count)
                         Spacer()
                     }.frame(width: proxy.size.width / 2)
                     
                     Divider().padding(0)
+                   
                     HStack{
-                        Text("Favorited: ") + Text("favorite_count")
+                        Text("Favorited : ") + Text(favorite_count)
                         Spacer()
                     }
                 }
-                Divider().padding(0)
+//               Spacer()
             }
-            .frame(height: 60)
+            .padding(.top, 16)
             .font(.callout)
+            .foregroundColor(.gray)
         }
     }
     
@@ -63,9 +67,9 @@ struct DetailInfoView: View {
         if let date = timeFormat.date(from: timeString) {
             let df = DateFormatter()
             df.dateStyle = .short
-            df.timeStyle = .none
+            df.timeStyle = .short
             
-            result = "· " + df.string(from: date)
+            result = df.string(from: date)  + " · "
             
         }
         return result

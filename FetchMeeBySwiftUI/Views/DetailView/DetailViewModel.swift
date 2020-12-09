@@ -18,6 +18,7 @@ class DetailViewModel: TimelineViewModel, ObservableObject {
     var tweetIDString: String //传入DetailView的初始推文
     var tweetRowViewModels: [String: TweetRowViewModel] = [:]
     
+    var detailInfoView: DetailInfoView!
     
     init(tweetIDString: String) {
         self.tweetIDString = tweetIDString
@@ -58,6 +59,7 @@ class DetailViewModel: TimelineViewModel, ObservableObject {
         }
         let status = StatusRepository.shared.status[tweetIDString]!
         sh(json: status)
+        detailInfoView = DetailInfoView(status: status)
     }
 }
 

@@ -32,14 +32,20 @@ struct DetailView: View {
                         TweetRow(viewModel: viewModel.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
                         Divider()
                     }
-                    
+                        
+                        viewModel.detailInfoView
+                            .padding(16)
+                            .frame(height: 100)
+                            .background(Color.init("BackGround"))
+                        
                     if viewModel.tweetIDStringOfRowToolsViewShowed == nil {
                         Divider()
                         Composer(isProcessingDone: $viewModel.isDone, tweetIDString: viewModel.tweetIDString)
-                        .frame(height: 36)
+                        .frame(height: 42)
+                            .background(Color.accentColor.opacity(0.4))
                         Divider()
                     }
-                    RoundedCorners(color: Color.init("BackGround"), bl: 24, br: 24 ).frame(height: 24)
+                    RoundedCorners(color: Color.init("BackGround"), bl: 24, br: 24 ).frame(height: 36)
                     Spacer()
                     }
                 }
