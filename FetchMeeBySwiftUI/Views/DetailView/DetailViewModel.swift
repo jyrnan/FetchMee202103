@@ -6,7 +6,7 @@
 //  Copyright © 2020 jyrnan. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Swifter
 
 class DetailViewModel: TimelineViewModel, ObservableObject {
@@ -16,7 +16,7 @@ class DetailViewModel: TimelineViewModel, ObservableObject {
     var newTweetNumber: Int = 0
     
     var tweetIDString: String //传入DetailView的初始推文
-    
+    var tweetRowViewModels: [String: TweetRowViewModel] = [:]
     
     
     init(tweetIDString: String) {
@@ -57,5 +57,21 @@ class DetailViewModel: TimelineViewModel, ObservableObject {
             }
         }
         swifter.getTweet(for: idString, success: sh, failure: failureHandler)
+    }
+}
+
+extension DetailViewModel {
+    func getTweetViewModel(tweetIDString: String, width: CGFloat) -> TweetRowViewModel {
+        if let tweetRowViewModel = tweetRowViewModels[tweetIDString] {
+            return tweetRowViewModel
+        } else {
+            return makeTweetRowViewModel(tweetIDString: tweetIDString, width: width)
+        }
+    }
+    
+    func makeTweetRowViewModel(tweetIDString: String, width: CGFloat) ->TweetRowViewModel {
+        let tweetRowViewModel = TweetRowViewModel(timeline: self, tweetIDString: tweetIDString, width: width)
+        tweetRowViewModels[tweetIDString] = tweetRowViewModel
+        return tweetRowViewModel
     }
 }

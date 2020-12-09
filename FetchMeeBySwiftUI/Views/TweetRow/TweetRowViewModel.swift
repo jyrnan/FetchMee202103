@@ -81,7 +81,7 @@ class TweetRowViewModel: ObservableObject{
         
         let retweetMarkView = RetweetMarkView(userIDString: id, userName: name)
         
-//        self.status = status["retweeted_status"]
+        self.status = status["retweeted_status"]
         StatusRepository.shared.addStatus(status)
         
         UserRepository.shared.addUser(status["user"])

@@ -23,13 +23,13 @@ struct DetailView: View {
     
     var body: some View {
         GeometryReader{proxy in
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     VStack(spacing: 0) {
                     RoundedCorners(color: Color.init("BackGround"), tl: 24, tr: 24 ).frame(height: 24)
                     
                     ForEach(viewModel.tweetIDStrings, id: \.self) {tweetIDString in
                         
-                        TweetRow(viewModel: TweetRowViewModel(timeline: viewModel, tweetIDString: tweetIDString, width: proxy.size.width))
+                        TweetRow(viewModel: viewModel.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
                         Divider()
                     }
                     
