@@ -158,8 +158,10 @@ extension Timeline {
         guard self.type == .mention else {return}
         guard let userIDString = mention["user"]["id_str"].string else {return}
         let mentionIDString = mention["id_str"].string!
+        let avatarUrlString = mention["user"]["profile_image_url_https"].string!
         if self.mentionUserData[userIDString] == nil {
-            self.mentionUserData[userIDString] = [mentionIDString]
+            ///把avatar地址加入到数组的第一个，供后续读取来获取avatar image
+            self.mentionUserData[userIDString] = [avatarUrlString, mentionIDString]
         } else {
             ///如果该用户存在，且该推文是该用户新回复，则将推文ID添加至尾端
             if self.mentionUserData[userIDString]?.contains(mentionIDString ) == false {

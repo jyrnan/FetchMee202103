@@ -17,13 +17,16 @@ class AvatarViewModel: ObservableObject {
     
     let user: JSON
     
-    var userIDString: String? {user["id_str"].string}
+    var userIDString: String?
     var userName: String? {user["name"].string}
     
-    init(user: JSON) {
+    init(user: JSON = JSON.init(""), userIDString: String? = nil, avatarUrlString: String? = nil) {
  
         self.user = user
-        let avatarUrlString = user["profile_image_url_https"].string
+        
+        self.userIDString = userIDString != nil ? userIDString : user["id_str"].string
+        
+        let avatarUrlString = avatarUrlString != nil ? avatarUrlString : user["profile_image_url_https"].string
             getImage(avatarUrlString)
     }
     
