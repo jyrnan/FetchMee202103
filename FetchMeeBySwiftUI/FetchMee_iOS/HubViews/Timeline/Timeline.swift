@@ -57,6 +57,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
     //MARK: - 更新推文函数
     ///更新上方推文
     func refreshFromTop(for userIDString: String? = nil, completeHandeler:(() -> Void)? = nil ,fh: ((Error) -> Void)? = nil) {
+        self.isDone = false
         
         func successHandeler(json: JSON) ->Void {
             guard let newTweets = json.array else {return}
@@ -94,6 +95,9 @@ final class Timeline: TimelineViewModel, ObservableObject {
     
     ///从推文下方开始更新
     func refreshFromBottom(for userIDString: String? = nil) {
+        
+        self.isDone = false
+        
         func successHandeler(json: JSON) ->Void {
             guard let newTweets = json.array else {return}
             

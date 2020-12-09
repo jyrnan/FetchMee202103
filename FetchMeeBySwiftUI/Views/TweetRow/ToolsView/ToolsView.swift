@@ -85,7 +85,7 @@ struct ToolsView: View {
             
         }.foregroundColor(.gray).padding([.leading, .trailing], 16)
         
-        Composer(tweetIDString: self.tweetIDString)
+            Composer(isProcessingDone: $viewModel.timeline.isDone, tweetIDString: self.tweetIDString)
             .padding(.top, 4)
             .padding(.bottom, 4)
             .frame(height: 36)

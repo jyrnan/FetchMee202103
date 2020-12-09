@@ -35,7 +35,7 @@ struct DetailView: View {
                     
                     if viewModel.tweetIDStringOfRowToolsViewShowed == nil {
                         Divider()
-                    Composer(tweetIDString: viewModel.tweetIDString)
+                        Composer(isProcessingDone: $viewModel.isDone, tweetIDString: viewModel.tweetIDString)
                         .frame(height: 36)
                         Divider()
                     }

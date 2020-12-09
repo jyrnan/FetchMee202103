@@ -299,7 +299,7 @@
 			path = TweetRow;
 			sourceTree = "<group>";
 		};
-		4B7130AE2535750D00CE0082 /* ToolsView */ = {
+		4B7130AE2535750D00CE0082 /* OtherToolsView */ = {
 			isa = PBXGroup;
 			children = (
 				4B2C746C24FA2B410052F356 /* ImageGrabView.swift */,
@@ -311,7 +311,7 @@
 				D2309F212547E09A00549E27 /* CustomTextEditor.swift */,
 				D2309F28254922B000549E27 /* Toast.swift */,
 			);
-			path = ToolsView;
+			path = OtherToolsView;
 			sourceTree = "<group>";
 		};
 		4BDB05D5253160A000CF71A1 /* HubViews */ = {
@@ -513,7 +513,7 @@
 				D24E409D257B6F2800401BBB /* DetailView */,
 				D297390324D150B300917A97 /* ComposerView */,
 				D2BB68FE257C8483003BDA13 /* User */,
-				4B7130AE2535750D00CE0082 /* ToolsView */,
+				4B7130AE2535750D00CE0082 /* OtherToolsView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
