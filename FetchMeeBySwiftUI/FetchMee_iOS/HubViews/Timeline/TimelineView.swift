@@ -13,7 +13,7 @@ import UIKit
 
 
 struct TimelineView: View {
-   
+    
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var downloader: Downloader
     
@@ -30,58 +30,51 @@ struct TimelineView: View {
     
     var body: some View {
         GeometryReader {proxy in
-        ScrollView(.vertical){
-           
-           
-            //Homeline部分章节
-            LazyVStack(spacing: 0) {
-                RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
+            ScrollView(.vertical){
                 
-                PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
-                    Composer(isProcessingDone: $timeline.isDone)
-                }
-                .frame(height: 36)
-                .padding(0)
-                .background(Color.init("BackGround"))
-                
-                Rectangle()
-                    .frame(height: 18)
-                    .foregroundColor(Color.init("BackGround"))
-                
-                Divider()
-                
-                ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
-                    TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
+                //Homeline部分章节
+                LazyVStack(spacing: 0) {
+                    RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
+                    
+                    PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
+                        Composer(isProcessingDone: $timeline.isDone)
+                    }
+                    .frame(height: 36)
+                    .padding(0)
+                    .background(Color.init("BackGround"))
+                    
+                    Rectangle()
+                        .frame(height: 18)
+                        .foregroundColor(Color.init("BackGround"))
+                    
                     Divider()
+                    
+                    ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
+                        TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
+                        Divider()
+                    }
+                    
+                    HStack {
+                        Spacer()
+                        Button("More Tweets...") {self.timeline.refreshFromBottom()}
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                            .frame(height: 24)
+                        Spacer()
+                    }
+                    .background(Color.init("BackGround")) //下方载入更多按钮
+                    RoundedCorners(color: Color.init("BackGround"), bl: 18, br: 18 )
+                        .frame(height: 18)
                 }
                 
-                HStack {
-                    Spacer()
-                    Button("More Tweets...") {self.timeline.refreshFromBottom()}
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                        .frame(height: 24)
-                    Spacer()
-                }
-                .background(Color.init("BackGround")) //下方载入更多按钮
-                RoundedCorners(color: Color.init("BackGround"), bl: 18, br: 18 )
-                    .frame(height: 18)
             }
-            
+            .navigationTitle(listName ?? timeline.type.rawValue)
+            .onAppear {
+                if timeline.tweetIDStrings.isEmpty {
+                    timeline.refreshFromTop()
+                }
+            }
         }
-        .navigationTitle(listName ?? timeline.type.rawValue)
-        .onAppear {
-//            if timeline.tweetIDStrings.isEmpty {
-//                timeline.refreshFromTop()
-//            }
-
-            //出现后重置新推文数量
-//            if timeline.newTweetNumber != 0 {
-//                timeline.newTweetNumber = 0
-//            }
-        }
-        }
-        
     }
 }
 

@@ -139,7 +139,7 @@ struct UserView: View {
                         Image(systemName: (viewModel.user["notifications"].bool == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
                             .foregroundColor(viewModel.user["notifications"].bool == true ? .white : .accentColor)
                         //
-                        if viewModel.user["following"].bool == true {
+                        if viewModel.following == true {
                             Text("Following")
                                 .font(.callout).bold()
                                 .frame(width: 84, height: 24, alignment: .center)
@@ -147,7 +147,7 @@ struct UserView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(12)
                                 .onTapGesture(count: 1, perform: {
-                                    //                                user.unfollow(userIDString: userIDString)
+                                    viewModel.unfollow(userIDString: userIDString)
                                 })
                         } else {
                             Text("Follow")
@@ -157,7 +157,7 @@ struct UserView: View {
                                 .foregroundColor(.accentColor)
                                 .cornerRadius(12)
                                 .onTapGesture(count: 1, perform: {
-                                    //                                user.follow(userIDString: userIDString)
+                                    viewModel.follow(userIDString: userIDString)
                                 })
                         }
                         

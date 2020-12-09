@@ -19,6 +19,8 @@ class UserViewModel: ObservableObject {
     @Published var avataImage: UIImage!
     @Published var bannerImage: UIImage!
     
+    @Published var following: Bool = false
+    
     
     init(userIDString: String) {
         self.userIDString = userIDString
@@ -56,6 +58,7 @@ class UserViewModel: ObservableObject {
         getavatarImage()
         getBannerImage()
         userName = user["name"].string!
+        following = user["following"].bool!
     }
     
     
@@ -81,7 +84,16 @@ class UserViewModel: ObservableObject {
     }
     }
     
-//    func makeUserTimelineView() -> Timelineview {
-//        return TimelineView()
-//    }
+    func follow(userIDString: String) {
+        print(#line, #function)
+        let userTag = UserTag.id(userIDString)
+        swifter.followUser(userTag, success: {json in self.following = true}, failure: {json in self.following = false})
+        following = true
+    }
+    
+    func unfollow(userIDString: String) {
+        let userTag = UserTag.id(userIDString)
+        swifter.unfollowUser(userTag, success: {json in self.following = false}, failure: {json in self.following = true})
+        following = false
+    }
 }

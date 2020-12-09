@@ -39,7 +39,7 @@ struct AlertView: View {
                 }
                 .frame(width: 150)
                 
-                .background(alerts.stripAlert.alertText == "Sorry! Network error!" ? Color.red : Color.accentColor .opacity(0.8))
+                .background(alerts.stripAlert.alertText.contains("Sorry") ? Color.red : Color.accentColor .opacity(0.8))
                 .cornerRadius(12)
                 .shadow(radius: 3 )
                 .offset(y: self.offsetValue)

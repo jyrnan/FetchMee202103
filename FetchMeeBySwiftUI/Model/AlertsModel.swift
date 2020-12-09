@@ -12,6 +12,7 @@ struct MyAlert: Identifiable {
     var id = UUID()
     var isPresentedAlert: Bool = false
     var alertText: String = ""
+    var isWarning: Bool = false
         }
 
 class Alerts: ObservableObject {
