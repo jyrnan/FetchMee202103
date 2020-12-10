@@ -84,7 +84,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
         case .user:
             swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), success: successHandeler, failure: failureHandler)
         case .favorite:
-            swifter.getRecentlyFavoritedTweets(success: successHandeler, failure: failureHandler)
+            swifter.getRecentlyFavoritedTweets(sinceID: sinceIDString, success: successHandeler, failure: failureHandler)
         case .list:
             if let listTag = listTag {
                 swifter.listTweets(for: listTag, sinceID: sinceIDString, maxID: maxIDString, count: maxCounter, includeEntities: nil, includeRTs: nil, tweetMode: .default, success: successHandeler, failure: failureHandler)
