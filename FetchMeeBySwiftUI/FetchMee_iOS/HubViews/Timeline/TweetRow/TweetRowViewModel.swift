@@ -184,7 +184,7 @@ class TweetRowViewModel: ObservableObject{
             timeline.tweetIDStringOfRowToolsViewShowed = nil
             toolsVeiw = nil
         default:
-            (timeline as! Timeline).tweetRowViewModels[timeline.tweetIDStringOfRowToolsViewShowed!]?.toolsVeiw = nil
+            (timeline as? Timeline)?.tweetRowViewModels[timeline.tweetIDStringOfRowToolsViewShowed!]?.toolsVeiw = nil
             timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
             makeToolsView()
         }

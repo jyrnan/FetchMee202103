@@ -512,10 +512,6 @@
 		D27DCF8A24B9A54500520BE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4B7130AD253574A500CE0082 /* TweetRow */,
-				D24E409D257B6F2800401BBB /* DetailView */,
-				D297390324D150B300917A97 /* ComposerView */,
-				D2BB68FE257C8483003BDA13 /* User */,
 				4B7130AE2535750D00CE0082 /* OtherToolsView */,
 			);
 			path = Views;
@@ -553,6 +549,10 @@
 				D2318AB82574D86C00F55BDF /* TimelinesViewModel.swift */,
 				D2419C232577746700A9CF98 /* TimelineType.swift */,
 				D24E40A0257B74E700401BBB /* TimelineProtocol.swift */,
+				4B7130AD253574A500CE0082 /* TweetRow */,
+				D24E409D257B6F2800401BBB /* DetailView */,
+				D297390324D150B300917A97 /* ComposerView */,
+				D2BB68FE257C8483003BDA13 /* User */,
 			);
 			path = Timeline;
 			sourceTree = "<group>";
