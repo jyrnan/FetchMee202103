@@ -32,6 +32,7 @@ class StatusTextViewModel: ObservableObject {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
         paragraphStyle.paragraphSpacing = 8
+//        paragraphStyle.alignment = NSTextAlignment.center
         let range = NSMakeRange(0, (string as NSString).length)
         attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
         attributedString.addAttribute(.foregroundColor, value: UIColor.label, range: range)

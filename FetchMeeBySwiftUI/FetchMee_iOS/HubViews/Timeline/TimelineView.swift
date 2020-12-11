@@ -54,6 +54,7 @@ struct TimelineView: View {
                         Divider()
                     }
                     
+                    
                     HStack {
                         Spacer()
                         Button("More Tweets...") {self.timeline.refreshFromBottom()}
