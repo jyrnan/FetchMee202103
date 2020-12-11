@@ -73,6 +73,10 @@ class StatusTextViewModel: ObservableObject {
                 let range: NSRange = NSRange(location: begin, length: end - begin)
                 attributedString.addAttributes(mentionsAttribute, range: range)
                 
+                ///增加点击功能
+                let userIDString = user_mention["id_str"].string!
+                attributedString.addAttribute(NSAttributedString.Key.link, value: userIDString, range: range)
+                
                 if checkWrapPositionOfText(status: status, indice: end) {
                     wrapPosition = end
                 }
@@ -96,6 +100,10 @@ class StatusTextViewModel: ObservableObject {
         return statusText[index] != "@"
     }
     
+    
+    /// 给最终的字串增加一个ReplyingTo的前缀
+    /// - Parameter attributedString: <#attributedString description#>
+    /// - Returns: <#description#>
     func addReplyingToPrefix(attributedString: NSMutableAttributedString) -> NSMutableAttributedString {
         
         guard attributedString.string.first == "@" else {return attributedString}
@@ -111,7 +119,7 @@ class StatusTextViewModel: ObservableObject {
     }
 }
 
-
+//MARK:-参考
 class ViewController: UIViewController, UITextViewDelegate {
 
     @IBOutlet weak var textView: UITextView!
