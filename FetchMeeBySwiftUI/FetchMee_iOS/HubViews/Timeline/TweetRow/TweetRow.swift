@@ -65,7 +65,7 @@ struct TweetRow: View {
                     .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
                     
                     ///如果有回复用户列表不为空，则显示回复用户
-                    viewModel.statusTextView?.padding(.top, 8).padding(.bottom, 16)
+                    viewModel.statusTextView?.padding(.top, 8).padding(.bottom, 8)
                     
                     
                     ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
