@@ -39,6 +39,7 @@ class StatusTextViewModel: ObservableObject {
         attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
         
         attributedString = setHashTagAttribute(status: status, attributedString: attributedString)
+        attributedString = setLinkAttribute(status: status, attributedString: attributedString)
         attributedString = setMentionAttribute(status: status, attributedString: attributedString)
         
         return attributedString
@@ -54,6 +55,25 @@ class StatusTextViewModel: ObservableObject {
                let end: Int = hashTag["indices"].array?.last?.integer {
                 let range: NSRange = NSRange(location: begin, length: end - begin)
                 attributedString.addAttributes(hashTagAttribute, range: range)
+            }
+        }
+        return attributedString
+    }
+    
+    func setLinkAttribute(status: JSON, attributedString: NSMutableAttributedString) -> NSMutableAttributedString {
+        guard let urls = status["entities"]["urls"].array, !urls.isEmpty else {return attributedString}
+        
+        let urlAttribute = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body), .foregroundColor: themeColor] as [NSAttributedString.Key : Any]
+        
+        for url in urls {
+            if let begin: Int = url["indices"].array?.first?.integer,
+               let end: Int = url["indices"].array?.last?.integer {
+                let range: NSRange = NSRange(location: begin, length: end - begin)
+                attributedString.addAttributes(urlAttribute, range: range)
+                
+                ///增加点击功能
+                let url = url["expanded_url"].string!
+                attributedString.addAttribute(NSAttributedString.Key.link, value: url, range: range)
             }
         }
         return attributedString

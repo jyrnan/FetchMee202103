@@ -59,7 +59,7 @@ struct NativeTextView: UIViewRepresentable {
         let textView = UITextView()
         textView.isEditable = false
         textView.isScrollEnabled = false
-        textView.dataDetectorTypes = .all
+        textView.dataDetectorTypes = .address
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.textContainer.lineFragmentPadding = 0
