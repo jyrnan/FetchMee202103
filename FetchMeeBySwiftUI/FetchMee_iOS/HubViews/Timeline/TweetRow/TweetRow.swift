@@ -19,7 +19,7 @@ struct TweetRow: View {
 
     var backgroundColor: some View {
         Color.init("BackGround")
-            .overlay(viewModel.isReplyToMe ? Color.accentColor.opacity(0.1) : Color.clear)}
+            .overlay(viewModel.isReplyToMe ? Color.accentColor.opacity(0.07) : Color.clear)}
         
        
     

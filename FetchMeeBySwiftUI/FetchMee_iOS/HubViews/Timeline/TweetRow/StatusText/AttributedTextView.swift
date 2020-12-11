@@ -55,28 +55,6 @@ extension NSAttributedString {
                 return ceil(rect.size.height)
         }
 }
-
-/// 采用ULLabel
-//struct TextWithAttributedString: UIViewRepresentable {
-//    var width: CGFloat
-//    var attributedText:NSMutableAttributedString
-//
-//    func makeUIView(context: Context) -> UILabel {
-//        let label = UILabel()
-//        label.numberOfLines = 0
-//        label.lineBreakMode = .byWordWrapping
-//
-//        return label
-//    }
-//
-//    func updateUIView(_ uiView: UILabel, context: UIViewRepresentableContext<TextWithAttributedString>) {
-//
-//        uiView.preferredMaxLayoutWidth = width
-//        uiView.attributedText = attributedText
-//    }
-//}
-
-
 #endif
 
 
