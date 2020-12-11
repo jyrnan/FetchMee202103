@@ -8,34 +8,46 @@
 
 import SwiftUI
 import UIKit
+import SafariServices
 
 
 struct NSAttributedStringView: View {
+    @Environment(\.openURL) var openURL
+    
     var viewModel :StatusTextViewModel
     var width: CGFloat
     
     @State var isShowUserView: Bool = false
-    @State var userIDString: String = "0000"
+    @State var url: URL = URL(string:"https://twitter.com")!
+    @State var isShowSafariView: Bool = false
     
     var body: some View {
         ZStack{
-        NavigationLink(destination: UserView(userIDString: userIDString), isActive: $isShowUserView) {
-            EmptyView()}
+            NavigationLink(destination: UserView(userIDString: url.absoluteString), isActive: $isShowUserView) {
+            EmptyView()
+                .sheet(isPresented: $isShowSafariView) {SafariView(url: $url)}
+            }
         self.makeNativeTextView(width: width,attributedText: viewModel.attributedText)
         }
     }
     
     func makeNativeTextView(width: CGFloat, attributedText: NSMutableAttributedString) -> some View {
         let height = attributedText.height(containerWidth: width)
-        return NativeTextView(attributedText: attributedText, isShowUserView: $isShowUserView, userIDString: $userIDString, action: showUserView(userIDString:))
+        return NativeTextView(attributedText: attributedText, isShowUserView: $isShowUserView, url: $url, action: urlAction(url:))
             .frame(width: width, height: height)
         
     }
     
     ///
-    func showUserView(userIDString: String) -> (){
-        self.userIDString = userIDString
+    func urlAction(url: URL) -> (){
+        self.url = url
+        if url.absoluteString.starts(with: "https") {
+            self.isShowSafariView = true
+        } else if  (url.absoluteString.first(where: {"0123456789".contains($0)}) != nil){
         self.isShowUserView = true
+        } else {
+            openURL(url)
+        }
     }
 }
 
@@ -48,12 +60,12 @@ struct NativeTextView: UIViewRepresentable {
     
     var attributedText: NSMutableAttributedString
     @Binding var isShowUserView: Bool
-    @Binding var userIDString: String
+    @Binding var url: URL
     
-    var action: (String) -> ()
+    var action: (URL) -> ()
     
     func makeCoordinator() -> Coordinator {
-        return Coordinator(textView: self, isShowUserView: $isShowUserView, userIDString: $userIDString, action: action)
+        return Coordinator(textView: self, isShowUserView: $isShowUserView, url: $url, action: action)
     }
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()
@@ -79,27 +91,22 @@ struct NativeTextView: UIViewRepresentable {
         let textView: NativeTextView
         
         var isShowUserView: Binding<Bool>
-        var userIDString: Binding<String>
+        var url: Binding<URL>
         
-        var action: (String) -> ()
+        var action: (URL) -> ()
         
-        init(textView: NativeTextView, isShowUserView: Binding<Bool>, userIDString: Binding<String>, action: @escaping (String) -> ()) {
+        init(textView: NativeTextView, isShowUserView: Binding<Bool>, url: Binding<URL>, action: @escaping (URL) -> ()) {
             self.textView = textView
             self.isShowUserView  = isShowUserView
-            self.userIDString = userIDString
+            self.url = url
             self.action = action
         }
         
         func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
             
             print(#line, #file, "clicked.", characterRange, URL, interaction)
-//            UIApplication.shared.open(URL)
-//            self.userIDString.wrappedValue = URL.absoluteString
-//            self.isShowUserView.wrappedValue = true
-            if URL.absoluteString.starts(with: "http") {
-                UIApplication.shared.open(URL)
-            } else {
-                action(URL.absoluteString)}
+
+                action(URL)
             return false
         }
         
@@ -115,11 +122,3 @@ extension NSAttributedString {
     }
 }
 #endif
-
-
-
-
-
-
-
-
