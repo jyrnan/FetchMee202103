@@ -23,10 +23,11 @@ struct Composer: View {
     
     var tweetIDString: String?
     
+    var placeHolderText:String {tweetIDString == nil ? "Tweet something here..." : "Replying here..."}
     
     var body: some View {
         HStack(alignment: .center) {
-            TextField("Tweet something here...", text: $tweetText).font(.body).padding(.leading, 16)
+            TextField(placeHolderText, text: $tweetText).font(.body).padding(.leading, 16)
             Spacer()
             ///显示详细发推视图或者菊花
             if isProcessingDone {
