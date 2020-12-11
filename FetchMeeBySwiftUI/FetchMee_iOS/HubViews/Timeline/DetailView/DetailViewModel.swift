@@ -51,7 +51,12 @@ class DetailViewModel: TimelineViewModel, ObservableObject {
         
             self.tweetIDStrings = [newTweetIDString] + self.tweetIDStrings
             if let in_reply_to_status_id_str = status["in_reply_to_status_id_str"].string, counter < 8 {
+                ///如果推文已经下过在推文仓库可以获取，则直接获取，否则从网络获取
+                if let status = StatusRepository.shared.status[in_reply_to_status_id_str] {
+                    sh(json: status)
+                } else {
                 swifter.getTweet(for: in_reply_to_status_id_str, success: sh, failure: failureHandler)
+                }
                 counter += 1
             } else {
                 finalReloadView()
