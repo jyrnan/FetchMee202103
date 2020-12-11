@@ -27,7 +27,7 @@ struct NSAttributedStringView: View {
     
     func makeNativeTextView(width: CGFloat, attributedText: NSMutableAttributedString) -> some View {
         let height = attributedText.height(containerWidth: width)
-        return NativeTextView(attributedText: attributedText, isShowUserView: $isShowUserView, userIDString: $userIDString)
+        return NativeTextView(attributedText: attributedText, isShowUserView: $isShowUserView, userIDString: $userIDString, action: showUserView(userIDString:))
             .frame(width: width, height: height)
         
     }
@@ -50,8 +50,10 @@ struct NativeTextView: UIViewRepresentable {
     @Binding var isShowUserView: Bool
     @Binding var userIDString: String
     
+    var action: (String) -> ()
+    
     func makeCoordinator() -> Coordinator {
-        return Coordinator(textView: self, isShowUserView: $isShowUserView, userIDString: $userIDString)
+        return Coordinator(textView: self, isShowUserView: $isShowUserView, userIDString: $userIDString, action: action)
     }
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()
@@ -79,18 +81,25 @@ struct NativeTextView: UIViewRepresentable {
         var isShowUserView: Binding<Bool>
         var userIDString: Binding<String>
         
-        init(textView: NativeTextView, isShowUserView: Binding<Bool>, userIDString: Binding<String>) {
+        var action: (String) -> ()
+        
+        init(textView: NativeTextView, isShowUserView: Binding<Bool>, userIDString: Binding<String>, action: @escaping (String) -> ()) {
             self.textView = textView
             self.isShowUserView  = isShowUserView
             self.userIDString = userIDString
+            self.action = action
         }
         
         func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
             
             print(#line, #file, "clicked.", characterRange, URL, interaction)
 //            UIApplication.shared.open(URL)
-            self.userIDString.wrappedValue = URL.absoluteString
-            self.isShowUserView.wrappedValue = true
+//            self.userIDString.wrappedValue = URL.absoluteString
+//            self.isShowUserView.wrappedValue = true
+            if URL.absoluteString.starts(with: "http") {
+                UIApplication.shared.open(URL)
+            } else {
+                action(URL.absoluteString)}
             return false
         }
         
