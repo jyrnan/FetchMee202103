@@ -15,9 +15,11 @@ class StatusTextViewModel: ObservableObject {
     
     let themeColor = UIColor(ThemeColor(rawValue: (userDefault.object(forKey: "themeColor") as? String) ?? "blue")!.color)
     //
+    let alignMent: NSTextAlignment
     
-    init(status: JSON) {
+    init(status: JSON, alignment: NSTextAlignment = .left) {
         self.status = status
+        self.alignMent = alignment
         attributedText = setAttributedText()
     }
     
@@ -32,7 +34,7 @@ class StatusTextViewModel: ObservableObject {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
 //        paragraphStyle.paragraphSpacing = 8
-//        paragraphStyle.alignment = NSTextAlignment.center
+        paragraphStyle.alignment = alignMent
         let range = NSMakeRange(0, (string as NSString).length)
         attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
         attributedString.addAttribute(.foregroundColor, value: UIColor.label, range: range)

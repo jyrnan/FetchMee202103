@@ -167,13 +167,14 @@ struct UserView: View {
                     }.padding()
                     
                     ///用户Bio信息
-                    NSAttributedStringView(viewModel: StatusTextViewModel(status: viewModel.user), width: 300).padding([.top], 16)
+                    NSAttributedStringView(viewModel: StatusTextViewModel(status: viewModel.user, alignment: .center), width: 300).padding([.top], 16)
+                    
                     ///用户位置信息
                     HStack() {
                         Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
                         Text(viewModel.user["location"].string ?? "Unknow").font(.caption).foregroundColor(.gray)
                         Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
-                        Text(viewModel.user["created_at"].string ?? "Unknow").font(.caption).foregroundColor(.gray)
+                        Text( updateTime(createdTime: viewModel.user["created_at"].string) ).font(.caption).foregroundColor(.gray)
                     }.padding(0)
                     
                     ///用户following信息
@@ -229,21 +230,27 @@ extension UserView {
         UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
         print(#line, "NavigationBar changed.")
     }
+    
+    func updateTime(createdTime: String?) -> String {
+        guard createdTime != nil else {
+            return "N/A"
+        }
+        var result : String = "N/A"
+        let timeString = createdTime!
+        let timeFormat = DateFormatter()
+        timeFormat.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
+        if let date = timeFormat.date(from: timeString) {
+            let df = DateFormatter()
+            df.dateStyle = .short
+            df.timeStyle = .none
+            
+            result = df.string(from: date)
+            
+        }
+        return result
+    }
 }
 
-//    /// 返回用户的昵称，如果没有昵称则返回用户名
-//    /// - Returns: <#description#>
-//    func getTitle() -> String {
-//
-//        if let title = twitterUsers.filter({$0.userIDString == userIDString}).first?.nickName {
-//            return title
-//        } else if let title = user.info.name {
-//            return title
-//        } else {
-//            return "UserName"
-//        }
-//    }
-//}
 
 struct UserInfo_Previews: PreviewProvider {
     static var previews: some View {
