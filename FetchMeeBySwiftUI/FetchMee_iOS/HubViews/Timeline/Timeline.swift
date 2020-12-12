@@ -28,7 +28,6 @@ final class Timeline: TimelineViewModel, ObservableObject {
     @Published var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
     
     ///存储根据MentiUserinfo情况排序的UserIDString
-    @Published var mentionUserIDStringsSorted: [String] = []
     var mentionUserData: [String:[String]] = [:]
     
     var tweetRowViewModels: [String: TweetRowViewModel] = [:]
@@ -144,13 +143,19 @@ final class Timeline: TimelineViewModel, ObservableObject {
         self.tweetIDStrings = self.tweetIDStrings.dropLast() + newTweetIDStrings //需要丢掉原来最后一条推文，否则会重复
     }
     
+    
+    /// 产生推文ID的序列
+    /// - Parameter newTweets: 获取的推文数据
+    /// - Returns: 提取的推文ID序列
     func converJSON2TweetIDStrings(from newTweets: [JSON]) -> [String] {
         return newTweets.map{$0["id_str"].string!}
     }
     
+    ///把推文数据添加到Repository里面，
     func addDataToStore(_ data: JSON) {
         StatusRepository.shared.addStatus(data)
         UserRepository.shared.addUser(data["user"])
+        ///添加mention到mention用户信息中
         addMentionToCount(mention: data)
     }
 }
@@ -174,7 +179,7 @@ extension Timeline {
         }
     }
     
-    ///生成互动用户的排序列表并存储用户回复的用户和推文ID列表
+    ///保存mention用户信息到persistent store
     func saveMentionUserData() {
         guard self.type == .mention else {return}
         ///先保存当前的回复用户信息。
