@@ -43,13 +43,13 @@ struct QuotedTweetRow: View {
             
             HStack{
                 Spacer()
-                viewModel.statusTextView
+                viewModel.statusTextView.padding(.top, 4)
                 Spacer()
             }
             
             ZStack {
             viewModel.images//推文图片显示区域
-                viewModel.playButtonView
+            viewModel.playButtonView
             }
         }
         .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))

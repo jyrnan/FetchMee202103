@@ -63,28 +63,24 @@ struct TweetRow: View {
                         }
                     }
                     .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
-                    .onTapGesture {
-                        withAnimation(){  viewModel.toggleToolsView()}
-                    }
                     
-                    ///如果有回复用户列表不为空，则显示回复用户
-                    viewModel.statusTextView?.padding(.top, 8).padding(.bottom, 0)
+                    ///推文主界面
+                    viewModel.statusTextView?.padding(.top, 8)
                     
                     ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
                     ZStack {
                         viewModel.images
                             .cornerRadius(16)
                             .clipped()
-                            .padding(.bottom, 0)
+                            .padding(.top, 4)
                         
                         ///媒体视图上叠加一个播放按钮
                         viewModel.playButtonView
-                            
                     }
                     
                     ///如果包含引用推文，则显示引用推文内容
                     viewModel.quotedTweetRow
-                        .padding(.bottom, 0)
+                        .padding(.top, 4)
                 }
                 .padding(.trailing, 16)
 //                .onTapGesture {
@@ -92,8 +88,9 @@ struct TweetRow: View {
 //                }
                 
             }
-            Spacer()
+//            Spacer()
             Rectangle()
+                .padding(0)
                 .foregroundColor(.clear)
                 .frame(height: 16)
                 .contentShape(Rectangle())
