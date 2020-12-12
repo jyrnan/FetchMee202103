@@ -41,7 +41,7 @@ struct NSAttributedStringView: View {
     ///
     func urlAction(url: URL) -> (){
         self.url = url
-        if url.absoluteString.starts(with: "https") {
+        if url.absoluteString.starts(with: "http") {
             self.isShowSafariView = true
         } else if  (url.absoluteString.first(where: {"0123456789".contains($0)}) != nil){
         self.isShowUserView = true

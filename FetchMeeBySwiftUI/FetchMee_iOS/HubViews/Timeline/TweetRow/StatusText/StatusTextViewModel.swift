@@ -122,8 +122,6 @@ class StatusTextViewModel: ObservableObject {
     
     
     /// 给最终的字串增加一个ReplyingTo的前缀
-    /// - Parameter attributedString: <#attributedString description#>
-    /// - Returns: <#description#>
     func addReplyingToPrefix(attributedString: NSMutableAttributedString) -> NSMutableAttributedString {
         
         guard attributedString.string.first == "@" else {return attributedString}

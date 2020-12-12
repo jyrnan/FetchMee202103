@@ -42,6 +42,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
     init(type: TimelineType, listTag: ListTag? = nil) {
         self.type = type
         self.listTag = listTag
+        
         ///如果是Mention类型则读取存储好的相应用户数据
         if let mentionUser = userDefault.object(forKey: "mentionUserData") as? [String:[String]], type == .mention {
             self.mentionUserData = mentionUser //读取数据
