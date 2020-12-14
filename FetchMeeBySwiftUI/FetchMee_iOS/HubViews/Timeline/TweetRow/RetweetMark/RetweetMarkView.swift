@@ -29,7 +29,7 @@ struct RetweetMarkView: View {
                     self.presentedUserInfo = true
                 })
             Spacer()
-        }.offset(x: 44).padding(.top, 8).padding(.bottom, 0)
+        }.offset(x: 32).padding(.top, 0).padding(.bottom, 0)
     }
 }
 

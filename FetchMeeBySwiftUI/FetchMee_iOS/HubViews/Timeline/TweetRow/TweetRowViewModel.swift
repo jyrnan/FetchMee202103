@@ -23,7 +23,7 @@ class TweetRowViewModel: ObservableObject{
     var tweetRowViewWidth: CGFloat
     
     ///图标栏宽度
-    var iconColumWidth: CGFloat = 64
+    var iconColumWidth: CGFloat = 48
     
     var retweetMarkView: RetweetMarkView?
     var avatarView: AvatarView!
@@ -121,7 +121,7 @@ class TweetRowViewModel: ObservableObject{
     func makeStatusTextView() -> NSAttributedStringView?{
         guard status["text"].string != nil else {return nil}
         let viewModel = StatusTextViewModel(status: status)
-        return NSAttributedStringView(viewModel: viewModel, width: tweetRowViewWidth - iconColumWidth - 16)
+        return NSAttributedStringView(viewModel: viewModel, width: tweetRowViewWidth - iconColumWidth - 16 - 16)
     }
     
     

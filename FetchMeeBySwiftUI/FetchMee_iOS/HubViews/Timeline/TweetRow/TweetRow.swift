@@ -43,10 +43,11 @@ struct TweetRow: View {
                 VStack {
                     viewModel.avatarView
 //                        .frame(width: 36, height: 36)
-                        .padding(.init(top: 8, leading: 16, bottom: 12, trailing: 12))
+                        .padding(.init(top: 8, leading: 0, bottom: 12, trailing: 12))
                     Spacer()
                 }
                 .frame(width: viewModel.iconColumWidth)
+                .background(Color.red)
                 
                 VStack(alignment: .leading, spacing: 0 ) {
                     
@@ -57,48 +58,52 @@ struct TweetRow: View {
                         CreatedTimeView(createdTime: viewModel.status["created_at"].string)
                         
                         Spacer()
+//                        ZStack{
+//                            NavigationLink(destination: DetailView(tweetIDString: viewModel.tweetIDString)){EmptyView()}
+                        viewModel.detailIndicator.background(Color.init("BackGround"))
+//                        }
+//                        }
+                        .background(Color.blue)
                         
-                        NavigationLink(destination: DetailView(tweetIDString: viewModel.tweetIDString)){
-                            viewModel.detailIndicator
-                        }
                     }
                     .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
                     
                     ///推文主界面
-                    viewModel.statusTextView?.padding(.top, 8)
+                    viewModel.statusTextView?.padding(.top, 8).background(Color.green)
                     
                     ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
                     ZStack {
                         viewModel.images
                             .cornerRadius(16)
                             .clipped()
-                            .padding(.top, 4)
                         
                         ///媒体视图上叠加一个播放按钮
                         viewModel.playButtonView
                     }
+                    .padding(0)
                     
                     ///如果包含引用推文，则显示引用推文内容
                     viewModel.quotedTweetRow
                         .padding(.top, 4)
                 }
-                .padding(.trailing, 16)
+//                .padding(.trailing, 16)
+                .background(Color.orange)
 //                .onTapGesture {
 //                    withAnimation(){  viewModel.toggleToolsView()}
 //                }
                 
             }
-//            Spacer()
-            Rectangle()
-                .padding(0)
-                .foregroundColor(.clear)
-                .frame(height: 16)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    withAnimation(){  viewModel.toggleToolsView()}
-                }
-            viewModel.toolsVeiw
-        }.background(backgroundColor)
+//            Rectangle()
+//                .padding(0)
+//                .foregroundColor(.clear)
+//                .frame(height: 16)
+//                .contentShape(Rectangle())
+//                .onTapGesture {
+//                    withAnimation(){  viewModel.toggleToolsView()}
+//                }
+//            viewModel.toolsVeiw
+        }
+//        .background(backgroundColor)
         
     }
     

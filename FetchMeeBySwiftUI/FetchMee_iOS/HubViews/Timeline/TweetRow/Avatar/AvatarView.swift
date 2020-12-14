@@ -36,7 +36,7 @@ struct AvatarView: View {
 //        GeometryReader {geometry in
             ZStack {
                 NavigationLink(destination: UserView(userIDString: viewModel.userIDString ?? "0000"),
-                               isActive: $presentedUserInfo){
+                               isActive: $presentedUserInfo){EmptyView()}
                     AvatarImageView(image: viewModel.image)
                         .frame(width: width, height: height, alignment: .center)
                         .onTapGesture(count: 2){
@@ -47,7 +47,7 @@ struct AvatarView: View {
                         .alert(isPresented: $viewModel.isShowAlert, content: {
                             Alert(title: Text("没拍到"), message: Text("可能\(viewModel.userName ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
                         })
-                }
+//                }
                 ///显示头像补充图标
                 ///如果该用户nickName不为空，则显示星标
                 if checkFavoriteUser() {

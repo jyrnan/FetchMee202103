@@ -30,29 +30,31 @@ struct TimelineView: View {
     
     var body: some View {
         GeometryReader {proxy in
-            ScrollView(.vertical){
+            List{
                 
                 //Homeline部分章节
-                LazyVStack(spacing: 0) {
-                    RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
+//                LazyVStack(spacing: 0) {
+                
+//                    RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
                     
                     PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
                         Composer(isProcessingDone: $timeline.isDone)
                     }
                     .frame(height: 36)
                     .padding(0)
-                    .background(Color.init("BackGround"))
+                    .listRowBackground(Color.init("BackGround"))
                     
-                    Rectangle()
+                Rectangle()
                         .frame(height: 18)
-                        .foregroundColor(Color.init("BackGround"))
+                        .foregroundColor(Color.blue)
                     
-                    Divider()
+//                    Divider()
                     
                     ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
                         TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
-                        Divider()
-                    }
+                            
+//                        Divider()
+                    }.listRowBackground(Color.init("BackGround"))
                     
                     
                     HStack {
@@ -66,15 +68,18 @@ struct TimelineView: View {
                     .background(Color.init("BackGround")) //下方载入更多按钮
                     RoundedCorners(color: Color.init("BackGround"), bl: 18, br: 18 )
                         .frame(height: 18)
-                }
+//                }
                 
             }
+//            .background(Color.init("BackGround"))
+//            .cornerRadius(24)
             .navigationTitle(listName ?? timeline.type.rawValue)
             .onAppear {
                 if timeline.tweetIDStrings.isEmpty {
                     timeline.refreshFromTop()
                 }
             }
+            
         }
     }
 }
