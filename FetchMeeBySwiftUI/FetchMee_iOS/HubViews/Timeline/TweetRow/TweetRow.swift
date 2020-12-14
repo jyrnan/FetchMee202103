@@ -47,7 +47,7 @@ struct TweetRow: View {
                     Spacer()
                 }
                 .frame(width: viewModel.iconColumWidth)
-                .background(Color.red)
+//                .background(Color.red)
                 
                 VStack(alignment: .leading, spacing: 0 ) {
                     
@@ -63,13 +63,14 @@ struct TweetRow: View {
                         viewModel.detailIndicator.background(Color.init("BackGround"))
 //                        }
 //                        }
-                        .background(Color.blue)
+//                        .background(Color.blue)
                         
                     }
-                    .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 8))///根据是否有Retweet提示控制用户名和Row上边的间隙
+                    .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 4))///根据是否有Retweet提示控制用户名和Row上边的间隙
                     
                     ///推文主界面
-                    viewModel.statusTextView?.padding(.top, 8).background(Color.green)
+                    viewModel.statusTextView?.padding(.top, 8)
+//                        .background(Color.green)
                     
                     ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
                     ZStack {
@@ -80,19 +81,19 @@ struct TweetRow: View {
                         ///媒体视图上叠加一个播放按钮
                         viewModel.playButtonView
                     }
-                    .padding(0)
+                    .padding(.top, 4)
                     
                     ///如果包含引用推文，则显示引用推文内容
                     viewModel.quotedTweetRow
                         .padding(.top, 4)
                 }
-//                .padding(.trailing, 16)
-                .background(Color.orange)
+//                .background(Color.orange)
 //                .onTapGesture {
 //                    withAnimation(){  viewModel.toggleToolsView()}
 //                }
                 
             }
+            
 //            Rectangle()
 //                .padding(0)
 //                .foregroundColor(.clear)

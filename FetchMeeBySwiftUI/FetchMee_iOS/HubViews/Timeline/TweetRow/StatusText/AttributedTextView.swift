@@ -35,7 +35,7 @@ struct NSAttributedStringView: View {
         let height = attributedText.height(containerWidth: width)
         return NativeTextView(attributedText: attributedText, isShowUserView: $isShowUserView, url: $url, action: urlAction(url:))
             .frame(width: width, height: height)
-            .background(Color.pink)
+//            .background(Color.pink)
         
     }
     
@@ -72,7 +72,7 @@ struct NativeTextView: UIViewRepresentable {
         let textView = UITextView()
         textView.isEditable = false
         textView.isScrollEnabled = false
-        textView.dataDetectorTypes = .all
+        textView.dataDetectorTypes = .init()
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.textContainer.lineFragmentPadding = 0

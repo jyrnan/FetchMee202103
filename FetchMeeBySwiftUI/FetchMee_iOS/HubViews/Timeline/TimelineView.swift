@@ -33,9 +33,7 @@ struct TimelineView: View {
             List{
                 
                 //Homeline部分章节
-//                LazyVStack(spacing: 0) {
-                
-//                    RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18 ).frame(height: 18)
+
                     
                     PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
                         Composer(isProcessingDone: $timeline.isDone)
@@ -44,42 +42,35 @@ struct TimelineView: View {
                     .padding(0)
                     .listRowBackground(Color.init("BackGround"))
                     
-                Rectangle()
-                        .frame(height: 18)
-                        .foregroundColor(Color.blue)
-                    
-//                    Divider()
-                    
                     ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
                         TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
-                            
-//                        Divider()
-                    }.listRowBackground(Color.init("BackGround"))
-                    
-                    
+                
+                    }
+                    .listRowBackground(Color.init("BackGround"))
+                   
                     HStack {
                         Spacer()
                         Button("More Tweets...") {self.timeline.refreshFromBottom()}
                             .font(.caption)
-                            .foregroundColor(.gray)
                             .frame(height: 24)
                         Spacer()
                     }
-                    .background(Color.init("BackGround")) //下方载入更多按钮
-                    RoundedCorners(color: Color.init("BackGround"), bl: 18, br: 18 )
-                        .frame(height: 18)
-//                }
-                
+//                    .background(Color.init("BackGround")) //下方载入更多按钮
+//                    RoundedCorners(color: Color.init("BackGround"), bl: 18, br: 18 )
+//                        .frame(height: 18)
+
             }
-//            .background(Color.init("BackGround"))
-//            .cornerRadius(24)
+            
+
             .navigationTitle(listName ?? timeline.type.rawValue)
             .onAppear {
                 if timeline.tweetIDStrings.isEmpty {
                     timeline.refreshFromTop()
                 }
             }
-            
+            .onTapGesture {
+                hideKeyboard()
+            }
         }
     }
 }
@@ -97,6 +88,10 @@ extension TimelineView {
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
         self.timeline.refreshFromTop(fh: failureHandler(error:))
+    }
+    
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
     func delay(delay: Double, closure: @escaping () -> ()) {
