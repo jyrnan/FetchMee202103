@@ -58,6 +58,7 @@ struct TweetRow: View {
                         
                         Spacer()
                         ZStack{
+
                             NavigationLink(destination: DetailView(tweetIDString: viewModel.tweetIDString), isActive:$isShowDetail , label:{EmptyView()} ).disabled(true)
                         viewModel.detailIndicator
                             .onTapGesture {isShowDetail = true }
@@ -87,6 +88,7 @@ struct TweetRow: View {
                 }
             }
         }
+        .listRowBackground(backgroundColor)
     }
     
 }

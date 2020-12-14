@@ -38,48 +38,44 @@ struct TimelineView: View {
                         .frame(height: 60)
                         .foregroundColor(Color.init("BackGround"))
                     
-
-                    
                     PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
                         Composer(isProcessingDone: $timeline.isDone)
                     }
                     .frame(height: 36)
                     .padding(.horizontal, 16)
                 }
-                    
-                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-//                    .listRowBackground(Color.init("BackGround"))
-                    
-                    ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
-                        TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
+                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
-                    }
-                    .listRowBackground(Color.init("BackGround"))
-                   
-                    HStack {
-                        Spacer()
-                        Button("More Tweets...") {self.timeline.refreshFromBottom()}
-                            .font(.caption)
-                            .frame(height: 24)
-                        Spacer()
-                    }
-                    .listRowBackground(Color.init("BackGround"))
+                ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
+                    TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
+                        
+                }
+                .onDelete(perform: {indexSets in print(" ")})
+                
+                HStack {
+                    Spacer()
+                    Button("More Tweets...") {self.timeline.refreshFromBottom()}
+                        .font(.caption)
+                        .frame(height: 24)
+                    Spacer()
+                }
+                .listRowBackground(Color.init("BackGround"))
                 RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
                     .frame(height: 42)
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-
+                
             }
             
-
+            
             .navigationTitle(listName ?? timeline.type.rawValue)
             .onAppear {
                 if timeline.tweetIDStrings.isEmpty {
                     timeline.refreshFromTop()
                 }
             }
-            .onTapGesture {
-                hideKeyboard()
-            }
+            //            .onTapGesture {
+            //                hideKeyboard()
+            //            }
         }
     }
 }
