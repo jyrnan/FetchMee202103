@@ -35,8 +35,8 @@ struct AvatarView: View {
     var body: some View {
 //        GeometryReader {geometry in
             ZStack {
-//                NavigationLink(destination: UserView(userIDString: viewModel.userIDString ?? "0000"),
-//                               isActive: $presentedUserInfo, label:{EmptyView()} )
+                NavigationLink(destination: UserView(userIDString: viewModel.userIDString ?? "0000"),
+                               isActive: $presentedUserInfo, label:{EmptyView()} )
                     AvatarImageView(image: viewModel.image)
                         .frame(width: width, height: height, alignment: .center)
                         .onTapGesture(count: 2){

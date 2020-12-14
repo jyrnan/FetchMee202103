@@ -22,20 +22,20 @@ struct NSAttributedStringView: View {
     @State var isShowSafariView: Bool = false
     
     var body: some View {
-        ZStack{
-            NavigationLink(destination: UserView(userIDString: url.absoluteString), isActive: $isShowUserView) {
-            EmptyView()
-                .sheet(isPresented: $isShowSafariView) {SafariView(url: $url)}
-            }
+//        ZStack{
+//            NavigationLink(destination: UserView(userIDString: url.absoluteString), isActive: $isShowUserView) {
+//            EmptyView()
+//                .sheet(isPresented: $isShowSafariView) {SafariView(url: $url)}
+//            }.disabled(true)
         self.makeNativeTextView(width: width,attributedText: viewModel.attributedText)
-        }
+//        }
     }
     
     func makeNativeTextView(width: CGFloat, attributedText: NSMutableAttributedString) -> some View {
         let height = attributedText.height(containerWidth: width)
         return NativeTextView(attributedText: attributedText, isShowUserView: $isShowUserView, url: $url, action: urlAction(url:))
             .frame(width: width, height: height)
-            .background(Color.init("BackGround"))
+//            .background(Color.init("BackGround"))
         
     }
     

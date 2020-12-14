@@ -33,14 +33,22 @@ struct TimelineView: View {
             List{
                 
                 //Homeline部分章节
+                ZStack{
+                    RoundedCorners(color: Color.init("BackGround"), tl: 24, tr: 24, bl: 0, br: 0)
+                        .frame(height: 60)
+                        .foregroundColor(Color.init("BackGround"))
+                    
 
                     
                     PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
                         Composer(isProcessingDone: $timeline.isDone)
                     }
                     .frame(height: 36)
-                    .padding(0)
-                    .listRowBackground(Color.init("BackGround"))
+                    .padding(.horizontal, 16)
+                }
+                    
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+//                    .listRowBackground(Color.init("BackGround"))
                     
                     ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
                         TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
@@ -55,9 +63,10 @@ struct TimelineView: View {
                             .frame(height: 24)
                         Spacer()
                     }
-//                    .background(Color.init("BackGround")) //下方载入更多按钮
-//                    RoundedCorners(color: Color.init("BackGround"), bl: 18, br: 18 )
-//                        .frame(height: 18)
+                    .listRowBackground(Color.init("BackGround"))
+                RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
+                    .frame(height: 42)
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
 
             }
             
@@ -68,9 +77,9 @@ struct TimelineView: View {
                     timeline.refreshFromTop()
                 }
             }
-//            .onTapGesture {
-//                hideKeyboard()
-//            }
+            .onTapGesture {
+                hideKeyboard()
+            }
         }
     }
 }

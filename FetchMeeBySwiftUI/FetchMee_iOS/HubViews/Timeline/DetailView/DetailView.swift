@@ -25,7 +25,10 @@ struct DetailView: View {
         GeometryReader{proxy in
                 List {
                    
-                   
+                    RoundedCorners(color: Color.init("BackGround"), tl: 24, tr: 24, bl: 0, br: 0)
+                        .frame(height: 42)
+                        .foregroundColor(Color.init("BackGround"))
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                     
                     ForEach(viewModel.tweetIDStrings, id: \.self) {tweetIDString in
                         
@@ -38,11 +41,14 @@ struct DetailView: View {
                             .frame(height: 100)
                             .listRowBackground(Color.init("BackGround"))
                         
-//                    if viewModel.tweetIDStringOfRowToolsViewShowed == nil {
                         Composer(isProcessingDone: $viewModel.isDone, tweetIDString: viewModel.tweetIDString)
                         .frame(height: 42)
                             .listRowBackground(Color.accentColor.opacity(0.4))
-//                    }
+                   
+                    RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
+                        .frame(height: 64)
+                        .foregroundColor(Color.init("BackGround"))
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                     
                    
                 }

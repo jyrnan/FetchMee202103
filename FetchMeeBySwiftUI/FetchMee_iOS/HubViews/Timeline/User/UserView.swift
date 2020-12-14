@@ -58,8 +58,9 @@ struct UserView: View {
     
     var body: some View {
         GeometryReader{proxy in
-            ScrollView(.vertical, showsIndicators: false) {
+            List {
                 ZStack{
+                    VStack{
                     Image(uiImage: viewModel.bannerImage ?? UIImage(named: "bg")!)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -68,7 +69,9 @@ struct UserView: View {
                             height:150)
                         .cornerRadius(24)
                         .overlay(LinearGradient.init(gradient: Gradient(colors: [Color.init("BackGround"), Color.clear]), startPoint: .init(x: 0.5, y: 0.9), endPoint: .init(x: 0.5, y: 0.4)))
-                    
+                        
+                        Rectangle().frame(height: 65).foregroundColor(Color.init("BackGround"))
+                    }
                     ///个人信息大头像
                     Image(uiImage: viewModel.avataImage ?? UIImage(systemName: "person.circle")!)
                         .resizable()
@@ -88,7 +91,8 @@ struct UserView: View {
                         .offset(x: 0, y: 65)
                     
                 }
-                
+                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                .listRowBackground(Color.init("BackGround"))
                 //用户信息View
                 VStack(alignment: .center){
                     
@@ -131,7 +135,7 @@ struct UserView: View {
                         Text(viewModel.user["screen_name"].string ?? "ScreenName")
                             .font(.callout).foregroundColor(.gray)
                     }
-                    .padding(.top, 60)
+                    .padding(.top, 0)
                     
                     ///信封，铃铛和follow按钮
                     HStack{
@@ -185,18 +189,17 @@ struct UserView: View {
                         Text("Followers").font(.callout).foregroundColor(.gray)
                     }.padding(.bottom, 16)
                 }
-                
+                .listRowBackground(Color.init("BackGround"))
                 ///用户推文部分
-                LazyVStack(spacing: 0){
+                
                     ForEach(userTimeline.tweetIDStrings, id: \.self) {
                         tweetIDString in
                         
-                        Divider()
                         TweetRow(viewModel: userTimeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
                     }
-                    
+                    .listRowBackground(Color.init("BackGround"))
                     //下方载入更多按钮
-                    Divider()
+                   
                     HStack {
                         Spacer()
                         Button("More Tweets...") {
@@ -206,9 +209,12 @@ struct UserView: View {
                             .padding()
                         Spacer()
                     }
-                }
+                    .listRowBackground(Color.init("BackGround"))
+                
+                RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
+                    .frame(height: 42)
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
-            .background(Color.init("BackGround").cornerRadius(24))
         }
         
         .navigationTitle(viewModel.user["name"].string ?? "Name")
