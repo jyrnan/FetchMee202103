@@ -209,4 +209,9 @@ extension Timeline {
         tweetRowViewModels[tweetIDString] = tweetRowViewModel
         return tweetRowViewModel
     }
+    
+    func insertRow(indexSet: IndexSet) {
+        tweetIDStrings.insert("toolsView", at: indexSet.first! + 1)
+    }
+    
 }

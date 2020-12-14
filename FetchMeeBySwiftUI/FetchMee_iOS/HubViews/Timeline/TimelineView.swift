@@ -47,10 +47,16 @@ struct TimelineView: View {
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
                 ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
-                    TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
+                    if tweetIDString == "toolsView" {
+                        Rectangle()
+                            .frame(height: 36)
+                            .foregroundColor(.accentColor)
+                            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    } else {
+                        TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width)) }
                         
                 }
-                .onDelete(perform: {indexSets in print(" ")})
+                .onDelete(perform: {indexSet in timeline.insertRow(indexSet: indexSet)})
                 
                 HStack {
                     Spacer()
