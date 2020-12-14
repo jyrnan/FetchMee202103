@@ -36,8 +36,9 @@ struct Composer: View {
                 NavigationLink(
                     destination: ComposerOfHubView(tweetText: self.$tweetText, replyIDString: self.tweetIDString, isUsedAlone: true ),
                     isActive: $isShowCMV
-                ){EmptyView()}
-                    Text("more").font(.body).foregroundColor(.primary).opacity(0.7).background(Color.init("BackGround"))
+                ){EmptyView().disabled(true)}
+                    Text("more").font(.body).foregroundColor(.primary).opacity(0.7)
+//                        .background(Color.init("BackGround"))
                 .onTapGesture {self.isShowCMV = true }
                 }
                 .fixedSize() //可以减少空间的占用量，否则会占据一半的有用空间
@@ -60,7 +61,7 @@ struct Composer: View {
             label: {
                 Image(systemName: "plus.message.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 20, height: 20, alignment: .center)
                     .foregroundColor(self.tweetText == "" ? Color.primary.opacity(0.3) : Color.primary.opacity(0.8) )
-            }).disabled(tweetText == "")
+            }).disabled(tweetText == "").buttonStyle(PlainButtonStyle())
             
         }
     }

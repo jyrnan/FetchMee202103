@@ -41,13 +41,12 @@ struct TweetRow: View {
                 
                 //Avatar显示
                 VStack {
+                 
                     viewModel.avatarView
-//                        .frame(width: 36, height: 36)
-                        .padding(.init(top: 8, leading: 0, bottom: 12, trailing: 12))
+                    .padding(.init(top: 8, leading: 0, bottom: 12, trailing: 12))
                     Spacer()
                 }
                 .frame(width: viewModel.iconColumWidth)
-//                .background(Color.red)
                 
                 VStack(alignment: .leading, spacing: 0 ) {
                     
@@ -58,19 +57,18 @@ struct TweetRow: View {
                         CreatedTimeView(createdTime: viewModel.status["created_at"].string)
                         
                         Spacer()
-//                        ZStack{
-//                            NavigationLink(destination: DetailView(tweetIDString: viewModel.tweetIDString)){EmptyView()}
-                        viewModel.detailIndicator.background(Color.init("BackGround"))
-//                        }
-//                        }
-//                        .background(Color.blue)
-                        
+                        ZStack{
+                            NavigationLink(destination: DetailView(tweetIDString: viewModel.tweetIDString), isActive:$isShowDetail , label:{EmptyView()} ).disabled(true)
+                        viewModel.detailIndicator
+                            .onTapGesture {isShowDetail = true }
+                            .background(Color.init("BackGround"))
+                        }.fixedSize()
+
                     }
                     .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 4))///根据是否有Retweet提示控制用户名和Row上边的间隙
                     
                     ///推文主界面
                     viewModel.statusTextView?.padding(.top, 8)
-//                        .background(Color.green)
                     
                     ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
                     ZStack {
@@ -87,25 +85,8 @@ struct TweetRow: View {
                     viewModel.quotedTweetRow
                         .padding(.top, 4)
                 }
-//                .background(Color.orange)
-//                .onTapGesture {
-//                    withAnimation(){  viewModel.toggleToolsView()}
-//                }
-                
             }
-            
-//            Rectangle()
-//                .padding(0)
-//                .foregroundColor(.clear)
-//                .frame(height: 16)
-//                .contentShape(Rectangle())
-//                .onTapGesture {
-//                    withAnimation(){  viewModel.toggleToolsView()}
-//                }
-//            viewModel.toolsVeiw
         }
-//        .background(backgroundColor)
-        
     }
     
 }

@@ -23,38 +23,31 @@ struct DetailView: View {
     
     var body: some View {
         GeometryReader{proxy in
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 0) {
-                    RoundedCorners(color: Color.init("BackGround"), tl: 24, tr: 24 ).frame(height: 24)
+                List {
+                   
+                   
                     
                     ForEach(viewModel.tweetIDStrings, id: \.self) {tweetIDString in
                         
                         TweetRow(viewModel: viewModel.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
-                        Divider()
                     }
+                    .listRowBackground(Color.init("BackGround"))
                         
                         viewModel.detailInfoView
-                            .padding(16)
+                            .padding(.vertical,16)
                             .frame(height: 100)
-                            .background(Color.init("BackGround"))
+                            .listRowBackground(Color.init("BackGround"))
                         
-                    if viewModel.tweetIDStringOfRowToolsViewShowed == nil {
-                        Divider()
+//                    if viewModel.tweetIDStringOfRowToolsViewShowed == nil {
                         Composer(isProcessingDone: $viewModel.isDone, tweetIDString: viewModel.tweetIDString)
                         .frame(height: 42)
-                            .background(Color.accentColor.opacity(0.4))
-                        Divider()
-                    }
-                    RoundedCorners(color: Color.init("BackGround"), bl: 24, br: 24 ).frame(height: 36)
-                    Spacer()
-                    }
+                            .listRowBackground(Color.accentColor.opacity(0.4))
+//                    }
+                    
+                   
                 }
+                .listRowBackground(Color.init("BackGround"))
                 .navigationTitle("Detail")
-//                .onAppear {
-//                    if self.firstTimeRun {
-//                        self.firstTimeRun = false
-//                        viewModel.getReplyDetail(for: viewModel.tweetIDString)
-//                    } else {print(#line, "firstTimeRun is already true")}} //页面出现时执行一次刷新
         }
     }
 }

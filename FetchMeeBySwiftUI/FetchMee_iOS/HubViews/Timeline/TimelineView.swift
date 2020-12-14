@@ -68,9 +68,9 @@ struct TimelineView: View {
                     timeline.refreshFromTop()
                 }
             }
-            .onTapGesture {
-                hideKeyboard()
-            }
+//            .onTapGesture {
+//                hideKeyboard()
+//            }
         }
     }
 }

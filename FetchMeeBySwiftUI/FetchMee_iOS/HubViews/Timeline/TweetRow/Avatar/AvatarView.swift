@@ -35,15 +35,14 @@ struct AvatarView: View {
     var body: some View {
 //        GeometryReader {geometry in
             ZStack {
-                NavigationLink(destination: UserView(userIDString: viewModel.userIDString ?? "0000"),
-                               isActive: $presentedUserInfo){EmptyView()}
+//                NavigationLink(destination: UserView(userIDString: viewModel.userIDString ?? "0000"),
+//                               isActive: $presentedUserInfo, label:{EmptyView()} )
                     AvatarImageView(image: viewModel.image)
                         .frame(width: width, height: height, alignment: .center)
                         .onTapGesture(count: 2){
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                             viewModel.tickle()
                         }
-                        .onTapGesture(count: 1) {self.presentedUserInfo = true}
                         .alert(isPresented: $viewModel.isShowAlert, content: {
                             Alert(title: Text("没拍到"), message: Text("可能\(viewModel.userName ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
                         })
