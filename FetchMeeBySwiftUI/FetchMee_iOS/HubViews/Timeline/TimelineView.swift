@@ -47,16 +47,27 @@ struct TimelineView: View {
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
                 ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
-                    if tweetIDString == "toolsView" {
-                        Rectangle()
-                            .frame(height: 36)
-                            .foregroundColor(.accentColor)
-                            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    if tweetIDString.contains("toolsView") {
+                        ToolsView(viewModel: timeline.toolsViewModel)
+                                .padding(.top, 16)
+                                .listRowBackground(Color.init("BackGround"))
+                                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                     } else {
-                        TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width)) }
+                        TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
+                            .onTapGesture {
+                                withAnimation(){
+                                    timeline.toggleToolsView(tweetIDString: tweetIDString)
+                                    
+                                }
+                                
+                            }
+                        
+                    }
                         
                 }
-                .onDelete(perform: {indexSet in timeline.insertRow(indexSet: indexSet)})
+                
+//                .onDelete(perform: {indexSet in timeline.addToolsView(indexSet: indexSet)})
+                
                 
                 HStack {
                     Spacer()

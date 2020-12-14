@@ -88,6 +88,7 @@ struct ToolsView: View {
             Composer(isProcessingDone: $viewModel.timeline.isDone, tweetIDString: self.tweetIDString)
             .padding(.top, 4)
             .padding(.bottom, 4)
+                .padding(.horizontal, 16)
             .frame(height: 42)
             .background(Color.accentColor.opacity(0.4))
             .overlay(TopShadow(), alignment: .top)

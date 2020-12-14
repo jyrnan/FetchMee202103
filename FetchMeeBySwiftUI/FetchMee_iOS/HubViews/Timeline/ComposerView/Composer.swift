@@ -36,7 +36,7 @@ struct Composer: View {
                 NavigationLink(
                     destination: ComposerOfHubView(tweetText: self.$tweetText, replyIDString: self.tweetIDString, isUsedAlone: true ),
                     isActive: $isShowCMV
-                ){EmptyView().disabled(true)}.opacity(0.1)
+                ){EmptyView().disabled(true)}.opacity(0.1).disabled(true)
                     Text("more").font(.body).foregroundColor(.primary).opacity(0.7)
 //                        .background(Color.init("BackGround"))
                 .onTapGesture {self.isShowCMV = true }

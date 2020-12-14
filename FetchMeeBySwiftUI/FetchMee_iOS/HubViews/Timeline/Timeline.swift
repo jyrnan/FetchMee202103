@@ -31,6 +31,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
     var mentionUserData: [String:[String]] = [:]
     
     var tweetRowViewModels: [String: TweetRowViewModel] = [:]
+    var toolsViewModel: ToolsViewModel!
     
     var type: TimelineType
     var listTag: ListTag? // 如果是list类型，则会传入listTag
@@ -210,8 +211,28 @@ extension Timeline {
         return tweetRowViewModel
     }
     
-    func insertRow(indexSet: IndexSet) {
-        tweetIDStrings.insert("toolsView", at: indexSet.first! + 1)
-    }
+  
     
+    func toggleToolsView(tweetIDString : String) {
+        
+        toolsViewModel = ToolsViewModel(timeline: self, tweetIDString: tweetIDString)
+        
+        guard let index = tweetIDStrings.firstIndex(of: tweetIDString) else { return }
+        
+        switch tweetIDStringOfRowToolsViewShowed {
+        case nil:
+            tweetIDStringOfRowToolsViewShowed = tweetIDString
+            tweetIDStrings.insert("toolsView", at: index + 1)
+        case tweetIDString:
+            tweetIDStringOfRowToolsViewShowed = nil
+            tweetIDStrings.remove(at: index + 1)
+        default:
+            tweetIDStrings.insert("toolsView", at: index + 1)
+            
+            guard let indexOfRemove  = tweetIDStrings.firstIndex(of: tweetIDStringOfRowToolsViewShowed!) else { return }
+            self.tweetIDStrings.remove(at: indexOfRemove + 1)
+            tweetIDStringOfRowToolsViewShowed = tweetIDString
+
+        }
+    }
 }
