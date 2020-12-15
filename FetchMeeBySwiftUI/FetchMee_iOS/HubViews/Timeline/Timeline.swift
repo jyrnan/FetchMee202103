@@ -35,7 +35,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
     
     var type: TimelineType
     var listTag: ListTag? // 如果是list类型，则会传入listTag
-    let maxCounter: Int = 100
+    let maxCounter: Int = 50
     var sinceIDString: String?
     var maxIDString: String?
     

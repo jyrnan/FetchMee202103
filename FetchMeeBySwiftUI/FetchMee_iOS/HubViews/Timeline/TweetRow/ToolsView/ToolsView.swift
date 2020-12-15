@@ -35,7 +35,10 @@ struct ToolsView: View {
                         swifter.destroyTweet(forID: tweetIDString,
                                              success: { _ in
                                                 if let index = viewModel.timeline.tweetIDStrings.firstIndex(of: tweetIDString) {
-                                                    viewModel.timeline.tweetIDStrings.remove(at: index) } },
+                                                    viewModel.timeline.tweetIDStrings.remove(at: index + 1)
+                                                    viewModel.timeline.tweetIDStrings.remove(at: index)
+                                                    viewModel.timeline.tweetIDStringOfRowToolsViewShowed = nil
+                                                } },
                                              failure: {_ in
                                                 self.isAlertShowed = true
                                              })

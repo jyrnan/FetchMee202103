@@ -30,7 +30,7 @@ struct TimelineView: View {
     
     var body: some View {
         GeometryReader {proxy in
-            List{
+            List(selection: $timeline.tweetIDStringOfRowToolsViewShowed){
                 
                 //Homeline部分章节
                 ZStack{
@@ -56,6 +56,9 @@ struct TimelineView: View {
                     } else {
                         TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
                             .onTapGesture { timeline.toggleToolsView(tweetIDString: tweetIDString) }
+                            .onAppear{if timeline.tweetIDStrings.last == tweetIDString {
+                                timeline.refreshFromBottom()
+                            }}
                             
                         
                     }
