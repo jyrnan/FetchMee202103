@@ -32,6 +32,7 @@ struct TimelineView: View {
     
     var body: some View {
         GeometryReader {proxy in
+            ZStack{
             List(selection: $timeline.tweetIDStringOfRowToolsViewShowed){
                 
                 //Homeline部分章节
@@ -93,7 +94,28 @@ struct TimelineView: View {
                 delay(delay: 0.5){
                     timeline.removeToolsView()}
             }))
-            
+                if isShowFloatComposer {
+                    VStack {
+                        Spacer()
+                    HStack{
+                        Spacer()
+                        NavigationLink(
+                            destination: ComposerOfHubView(tweetText: self.$tweetText, isUsedAlone: true )) {
+                    Image(systemName: "message.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 48, height: 48, alignment: .center)
+                        .foregroundColor(.accentColor)
+                        .background(Circle().foregroundColor(Color.init("BackGround")) )
+                        .padding(.trailing, 24)
+    //                    .offset(x: proxy.size.width / 2 - 80, y: proxy.size.height / 2 - 80)
+                            
+                        }
+                    }
+                   
+                    }
+                }
+            }
             .navigationTitle(listName ?? timeline.type.rawValue)
             .onAppear {
                 if timeline.tweetIDStrings.isEmpty {
