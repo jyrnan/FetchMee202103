@@ -40,6 +40,7 @@ struct DetailIndicator: View {
 
                     })
                 }
+
             Spacer()
         }
         .frame(width: 27, height: 11, alignment: .center)

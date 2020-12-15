@@ -21,6 +21,8 @@ struct TimelineView: View {
     
     @State var tweetText: String = ""
     
+    @State var isShowFloatComposer:Bool = false
+    
     var listName: String? //如果是list类型则会传入listName
     init(timeline: Timeline, listName: String? = nil) {
         self.timeline = timeline
@@ -43,6 +45,10 @@ struct TimelineView: View {
                     }
                     .frame(height: 36)
                     .padding(.horizontal, 16)
+                    .onAppear{isShowFloatComposer = false}
+                    .onDisappear{
+                        isShowFloatComposer = true
+                    }
                 }
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
@@ -83,16 +89,15 @@ struct TimelineView: View {
                 
             }
             
-            
             .navigationTitle(listName ?? timeline.type.rawValue)
+            .navigationBarItems(trailing: Button(action: {}, label: {if isShowFloatComposer {
+                Text("New")
+            } else { EmptyView()}}))
             .onAppear {
                 if timeline.tweetIDStrings.isEmpty {
                     timeline.refreshFromTop()
                 }
             }
-            //            .onTapGesture {
-            //                hideKeyboard()
-            //            }
         }
     }
 }

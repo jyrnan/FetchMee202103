@@ -81,7 +81,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
         case .mention:
             swifter.getMentionsTimelineTweets(count: maxCounter, sinceID: sinceIDString, success: successHandeler, failure: failureHandler)
         case .home:
-            swifter.getHomeTimeline(count: maxCounter, sinceID: sinceIDString,  success: successHandeler, failure: failureHandler)
+            swifter.getHomeTimeline(count: 100, sinceID: sinceIDString,  success: successHandeler, failure: failureHandler)
         case .user:
             swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), success: successHandeler, failure: failureHandler)
         case .favorite:
@@ -246,5 +246,11 @@ extension Timeline {
             delay(delay: 0.5, closure: { self.toggleToolsView(tweetIDString: tweetIDString)})
 
         }
+    }
+    
+    func removeToolsView() {
+        guard let index = tweetIDStrings.firstIndex(of: "toolsView") else {return}
+       tweetIDStrings.remove(at: index)
+        tweetIDStringOfRowToolsViewShowed = nil
     }
 }

@@ -98,7 +98,6 @@ struct ToolsView: View {
             .overlay(BottomShadow(), alignment: .bottom)
     }
     .font(.body)
-    
 }
 }
 
