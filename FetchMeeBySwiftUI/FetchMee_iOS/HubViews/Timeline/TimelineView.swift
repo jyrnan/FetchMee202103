@@ -52,21 +52,18 @@ struct TimelineView: View {
                                 .padding(.top, 16)
                                 .listRowBackground(Color.init("BackGround"))
                                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            
                     } else {
                         TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
-                            .onTapGesture {
-                                withAnimation(){
-                                    timeline.toggleToolsView(tweetIDString: tweetIDString)
-                                    
-                                }
-                                
-                            }
+                            .onTapGesture { timeline.toggleToolsView(tweetIDString: tweetIDString) }
+                            
                         
                     }
                         
                 }
                 
-//                .onDelete(perform: {indexSet in timeline.addToolsView(indexSet: indexSet)})
+                .onDelete(perform: {indexSet in print(#line)})
+                
                 
                 
                 HStack {

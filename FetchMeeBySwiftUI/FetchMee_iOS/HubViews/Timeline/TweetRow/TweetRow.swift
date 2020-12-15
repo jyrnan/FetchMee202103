@@ -89,6 +89,7 @@ struct TweetRow: View {
             }
         }
         .listRowBackground(backgroundColor)
+//        .transition(.move(edge: .leading))
     }
     
 }

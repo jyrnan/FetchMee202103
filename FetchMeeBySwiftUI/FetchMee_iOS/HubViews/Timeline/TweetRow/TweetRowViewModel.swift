@@ -33,7 +33,7 @@ class TweetRowViewModel: ObservableObject{
     var playButtonView: PlayButtonView?
     var quotedTweetRow: QuotedTweetRow?
     var toolsVeiwModel: ToolsViewModel!
-    @Published var toolsVeiw: ToolsView?
+//    @Published var toolsVeiw: ToolsView?
     var statusTextView: NSAttributedStringView?
     
     var isReplyToMe: Bool!
@@ -171,24 +171,24 @@ class TweetRowViewModel: ObservableObject{
         return ToolsViewModel(timeline: timeline, tweetIDString: tweetIDString)
     }
     
-    func makeToolsView() {
-            toolsVeiw = ToolsView(viewModel: toolsVeiwModel)
-        }
-    
-    func toggleToolsView() {
-        switch timeline.tweetIDStringOfRowToolsViewShowed {
-        case nil:
-            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
-            makeToolsView()
-        case tweetIDString:
-            timeline.tweetIDStringOfRowToolsViewShowed = nil
-            toolsVeiw = nil
-        default:
-            (timeline as? Timeline)?.tweetRowViewModels[timeline.tweetIDStringOfRowToolsViewShowed!]?.toolsVeiw = nil
-            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
-            makeToolsView()
-        }
-    }
+//    func makeToolsView() {
+//            toolsVeiw = ToolsView(viewModel: toolsVeiwModel)
+//        }
+//    
+//    func toggleToolsView() {
+//        switch timeline.tweetIDStringOfRowToolsViewShowed {
+//        case nil:
+//            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+//            makeToolsView()
+//        case tweetIDString:
+//            timeline.tweetIDStringOfRowToolsViewShowed = nil
+//            toolsVeiw = nil
+//        default:
+//            (timeline as? Timeline)?.tweetRowViewModels[timeline.tweetIDStringOfRowToolsViewShowed!]?.toolsVeiw = nil
+//            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+//            makeToolsView()
+//        }
+//    }
     
     
     func checkIsReplyToMe() -> Bool {

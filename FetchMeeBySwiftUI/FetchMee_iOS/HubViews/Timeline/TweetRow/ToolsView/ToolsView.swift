@@ -93,9 +93,7 @@ struct ToolsView: View {
             .background(Color.accentColor.opacity(0.4))
             .overlay(TopShadow(), alignment: .top)
             .overlay(BottomShadow(), alignment: .bottom)
-        //            content: Gradient(colors: [.black, .clear])
     }
-    //        .padding(16)
     .font(.body)
     
 }

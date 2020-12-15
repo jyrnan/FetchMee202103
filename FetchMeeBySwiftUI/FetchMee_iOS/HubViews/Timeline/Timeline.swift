@@ -25,7 +25,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
             })
         }
     }
-    @Published var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
+    var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
     
     ///存储根据MentiUserinfo情况排序的UserIDString
     var mentionUserData: [String:[String]] = [:]
@@ -222,16 +222,28 @@ extension Timeline {
         switch tweetIDStringOfRowToolsViewShowed {
         case nil:
             tweetIDStringOfRowToolsViewShowed = tweetIDString
-            tweetIDStrings.insert("toolsView", at: index + 1)
+            withAnimation {tweetIDStrings.insert("toolsView", at: index + 1)}
         case tweetIDString:
             tweetIDStringOfRowToolsViewShowed = nil
-            tweetIDStrings.remove(at: index + 1)
+            withAnimation {tweetIDStrings.remove(at: index + 1)}
         default:
-            tweetIDStrings.insert("toolsView", at: index + 1)
+            ///先删除，再添加，避免冲突。
+            ///在删除
+//            delay(delay: 0.4, closure: {
+//                    let indexOfInsert = self.tweetIDStrings.firstIndex(of: tweetIDString)!
+//                    withAnimation(.spring()){
+//                    self.tweetIDStrings.insert("toolsView", at: indexOfInsert + 1)}})
+            
             
             guard let indexOfRemove  = tweetIDStrings.firstIndex(of: tweetIDStringOfRowToolsViewShowed!) else { return }
-            self.tweetIDStrings.remove(at: indexOfRemove + 1)
-            tweetIDStringOfRowToolsViewShowed = tweetIDString
+            withAnimation(Animation.spring()) {
+                self.tweetIDStrings.remove(at: indexOfRemove + 1)
+            }
+            
+            tweetIDStringOfRowToolsViewShowed = nil
+            
+            ///删除后延迟再次运行，实际就是在下一轮运行中添加
+            delay(delay: 0.5, closure: { self.toggleToolsView(tweetIDString: tweetIDString)})
 
         }
     }
