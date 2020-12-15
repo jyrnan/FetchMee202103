@@ -250,7 +250,7 @@ extension Timeline {
     
     func removeToolsView() {
         guard let index = tweetIDStrings.firstIndex(of: "toolsView") else {return}
-       tweetIDStrings.remove(at: index)
+        withAnimation{tweetIDStrings.remove(at: index)} 
         tweetIDStringOfRowToolsViewShowed = nil
     }
 }

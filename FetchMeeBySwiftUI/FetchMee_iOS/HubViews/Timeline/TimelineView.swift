@@ -88,11 +88,13 @@ struct TimelineView: View {
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
             }
+            .simultaneousGesture(DragGesture().onChanged({ _ in
+                hideKeyboard()
+                delay(delay: 0.5){
+                    timeline.removeToolsView()}
+            }))
             
             .navigationTitle(listName ?? timeline.type.rawValue)
-            .navigationBarItems(trailing: Button(action: {}, label: {if isShowFloatComposer {
-                Text("New")
-            } else { EmptyView()}}))
             .onAppear {
                 if timeline.tweetIDStrings.isEmpty {
                     timeline.refreshFromTop()
