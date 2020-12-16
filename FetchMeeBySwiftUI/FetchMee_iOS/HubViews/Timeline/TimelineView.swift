@@ -30,90 +30,82 @@ struct TimelineView: View {
         
     }
     
+    
+    
     var body: some View {
         GeometryReader {proxy in
             ZStack{
-            List(selection: $timeline.tweetIDStringOfRowToolsViewShowed){
-                
-                //Homeline部分章节
-                ZStack{
-                    RoundedCorners(color: Color.init("BackGround"), tl: 24, tr: 24, bl: 0, br: 0)
-                        .frame(height: 60)
-                        .foregroundColor(Color.init("BackGround"))
+                List(selection: $timeline.tweetIDStringOfRowToolsViewShowed){
                     
-                    PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
-                        Composer(isProcessingDone: $timeline.isDone)
+                    //Homeline部分章节
+                    ZStack{
+                        RoundedCorners(color: Color.init("BackGround"), tl: 24, tr: 24, bl: 0, br: 0)
+                            .frame(height: 60)
+                            .foregroundColor(Color.init("BackGround"))
+                        
+                        PullToRefreshView(action: self.refreshAll, isDone: self.$timeline.isDone) {
+                            Composer(isProcessingDone: $timeline.isDone)
+                        }
+                        .frame(height: 36)
+                        .padding(.horizontal, 16)
+                        .onAppear{isShowFloatComposer = false}
+                        .onDisappear{
+                            isShowFloatComposer = true
+                        }
                     }
-                    .frame(height: 36)
-                    .padding(.horizontal, 16)
-                    .onAppear{isShowFloatComposer = false}
-                    .onDisappear{
-                        isShowFloatComposer = true
-                    }
-                }
-                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                
-                ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
-                    if tweetIDString.contains("toolsView") {
-                        ToolsView(viewModel: timeline.toolsViewModel)
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    
+                    ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
+                        if tweetIDString.contains("toolsView") {
+                            ToolsView(viewModel: timeline.toolsViewModel)
                                 .padding(.top, 16)
                                 .listRowBackground(Color.init("BackGround"))
                                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                             
-                    } else {
-                        TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
-                            .onTapGesture { timeline.toggleToolsView(tweetIDString: tweetIDString) }
-                            .onAppear{if timeline.tweetIDStrings.last == tweetIDString {
-                                timeline.refreshFromBottom()
-                            }}
+                        } else {
+                            TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
+                                .onTapGesture { timeline.toggleToolsView(tweetIDString: tweetIDString) }
+                                .onAppear{if timeline.tweetIDStrings.last == tweetIDString {
+                                    timeline.refreshFromBottom()
+                                }}
                             
-                        
-                    }
-                        
-                }
-                
-                .onDelete(perform: {indexSet in print(#line)})
-                
-                
-                
-                HStack {
-                    Spacer()
-                    Button("More Tweets...") {self.timeline.refreshFromBottom()}
-                        .font(.caption)
-                        .frame(height: 24)
-                    Spacer()
-                }
-                .listRowBackground(Color.init("BackGround"))
-                RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
-                    .frame(height: 42)
-                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                
-            }
-            .simultaneousGesture(DragGesture().onChanged({ _ in
-                hideKeyboard()
-                delay(delay: 0.5){
-                    timeline.removeToolsView()}
-            }))
-                if isShowFloatComposer {
-                    VStack {
-                        Spacer()
-                    HStack{
-                        Spacer()
-                        NavigationLink(
-                            destination: ComposerOfHubView(tweetText: self.$tweetText, isUsedAlone: true )) {
-                    Image(systemName: "message.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 48, height: 48, alignment: .center)
-                        .foregroundColor(.accentColor)
-                        .background(Circle().foregroundColor(Color.init("BackGround")) )
-                        .padding(.trailing, 24)
-    //                    .offset(x: proxy.size.width / 2 - 80, y: proxy.size.height / 2 - 80)
                             
                         }
+                        
                     }
-                   
+                    
+                    .onDelete(perform: {indexSet in print(#line)})
+                    
+                    
+                    
+                    HStack {
+                        Spacer()
+                        Button("More Tweets...") {self.timeline.refreshFromBottom()}
+                            .font(.caption)
+                            .frame(height: 24)
+                        Spacer()
                     }
+                    .listRowBackground(Color.init("BackGround"))
+                    RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
+                        .frame(height: 42)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    
+                }
+                .simultaneousGesture(DragGesture()
+                                        .onChanged({ value in
+                                            hideKeyboard()
+                                            delay(delay: 0.5){
+                                                timeline.removeToolsView()}
+                                            if value.translation.height > 0{
+                                                withAnimation(){ isShowFloatComposer = true}
+                                            } else {
+                                                withAnimation(){ isShowFloatComposer = false}
+                                            }
+                                            
+                                        })
+                )
+                if isShowFloatComposer && timeline.tweetIDStringOfRowToolsViewShowed == nil {
+                    ComposerButtonView(tweetText: $tweetText)
                 }
             }
             .navigationTitle(listName ?? timeline.type.rawValue)

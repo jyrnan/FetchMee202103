@@ -1,0 +1,38 @@
+//
+//  ComposerButtonView.swift
+//  FetchMee
+//
+//  Created by jyrnan on 2020/12/16.
+//  Copyright © 2020 jyrnan. All rights reserved.
+//
+
+import SwiftUI
+
+struct ComposerButtonView: View {
+    @Binding var tweetText: String
+    var body: some View {
+        VStack {
+            Spacer()
+        HStack{
+            Spacer()
+            NavigationLink(
+                destination: ComposerOfHubView(tweetText: self.$tweetText, isUsedAlone: true )) {
+        Image(systemName: "message.circle.fill")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: 48, height: 48, alignment: .center)
+            .foregroundColor(.accentColor)
+            .background(Circle().foregroundColor(Color.white) )
+            .padding(.trailing, 24)
+            }
+        }
+       
+        }
+    }
+}
+
+struct ComposerButtonView_Previews: PreviewProvider {
+    static var previews: some View {
+        ComposerButtonView(tweetText: .constant("Tweet"))
+    }
+}
