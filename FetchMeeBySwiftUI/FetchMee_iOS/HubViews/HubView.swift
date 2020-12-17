@@ -106,7 +106,7 @@ extension HubView {
         let transAppearance = UINavigationBarAppearance()
         transAppearance.configureWithOpaqueBackground()
         //        transAppearance.backgroundColor = UIColor.clear
-        transAppearance.backgroundImage = UIImage(named: "Logo")?.alpha(0.05)
+        transAppearance.backgroundImage = UIImage(named: "Logo")?.alpha(0.05).withRenderingMode(.alwaysTemplate)
         transAppearance.backgroundImageContentMode = .bottomRight
         transAppearance.shadowColor = .clear
         

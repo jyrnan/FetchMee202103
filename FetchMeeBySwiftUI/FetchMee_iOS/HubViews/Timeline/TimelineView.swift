@@ -60,7 +60,10 @@ struct TimelineView: View {
                         } else {
                             TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
                                 .onTapGesture { timeline.toggleToolsView(tweetIDString: tweetIDString) }
-                                .onAppear{if timeline.tweetIDStrings.last == tweetIDString {
+                                .onAppear{
+                                    guard timeline.tweetIDStrings.count > 5 else {return}
+                                    let index = timeline.tweetIDStrings.count - 5 
+                                    if timeline.tweetIDStrings[index] == tweetIDString {
                                     timeline.refreshFromBottom()
                                 }}
                         }
@@ -102,7 +105,7 @@ struct TimelineView: View {
             .navigationTitle(listName ?? timeline.type.rawValue)
             .onAppear {
                 if timeline.tweetIDStrings.isEmpty {
-                    timeline.refreshFromTop()
+                    timeline.refreshFromTop(count: 20)
                 }
             }
         }

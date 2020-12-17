@@ -122,6 +122,10 @@ final class Timeline: TimelineViewModel, ObservableObject {
             swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), count: maxCounter, maxID: maxIDString, success: successHandeler, failure: failureHandler)
         case .favorite:
             swifter.getRecentlyFavoritedTweets(maxID: maxIDString, success: successHandeler, failure: failureHandler)
+        case .list:
+            if let listTag = listTag {
+                swifter.listTweets(for: listTag, maxID: maxIDString, includeEntities: nil, includeRTs: nil, tweetMode: .default, success: successHandeler, failure: failureHandler)
+            }
         default:print(#line, #function)
         }
     }
