@@ -79,7 +79,7 @@ struct TimelineView: View {
                     }
                     
                 }
-                .onDelete(perform: {indexSet in print(#line)})
+//                .onDelete(perform: {indexSet in print(#line)})
                 
                 
                     HStack {
@@ -101,16 +101,15 @@ struct TimelineView: View {
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
             }
-            .simultaneousGesture(DragGesture()
+            .gesture(DragGesture()
                                     .onChanged({ value in
                                         hideKeyboard()
-                                        delay(delay: 0.5){
-                                            timeline.removeToolsView()}
-                                        if value.translation.height > 0{
-                                            withAnimation(){ isShowFloatComposer = true}
-                                        } else {
-                                            withAnimation(){ isShowFloatComposer = false}
-                                        }
+                                        delay(delay: 0.5){ timeline.removeToolsView()}
+//                                        if value.translation.height > 0{
+//                                            withAnimation(){ isShowFloatComposer = true}
+//                                        } else {
+//                                            withAnimation(){ isShowFloatComposer = false}
+//                                        }
                                     })
             )
             
