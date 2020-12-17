@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ComposerButtonView: View {
     @Binding var tweetText: String
+    
     var body: some View {
         VStack {
             Spacer()
@@ -17,12 +18,13 @@ struct ComposerButtonView: View {
             Spacer()
             NavigationLink(
                 destination: ComposerOfHubView(tweetText: self.$tweetText, isUsedAlone: true )) {
-        Image(systemName: "message.circle.fill")
+//        Image(systemName: "message.circle.fill")
+            Image(uiImage: UIImage(named: "Logo")!)
             .resizable()
             .aspectRatio(contentMode: .fill)
-            .frame(width: 48, height: 48, alignment: .center)
+            .frame(width: 40, height: 40, alignment: .center)
             .foregroundColor(.accentColor)
-            .background(Circle().foregroundColor(Color.white) )
+                .background(Circle().frame(width: 48, height: 48, alignment: .center).foregroundColor(Color.init("BackGround")).opacity(0.8))
             .padding(.trailing, 24)
             }
         }
@@ -33,6 +35,8 @@ struct ComposerButtonView: View {
 
 struct ComposerButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        ComposerButtonView(tweetText: .constant("Tweet"))
+        Group {
+            ComposerButtonView(tweetText: .constant("Tweet"))
+        }
     }
 }

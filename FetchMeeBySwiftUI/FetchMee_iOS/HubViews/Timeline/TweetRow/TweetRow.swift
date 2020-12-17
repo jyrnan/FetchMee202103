@@ -59,10 +59,10 @@ struct TweetRow: View {
                         Spacer()
                         ZStack{
 
-                            NavigationLink(destination: DetailView(tweetIDString: viewModel.tweetIDString), isActive:$isShowDetail , label:{EmptyView()} ).disabled(true)
+                            NavigationLink(destination: DetailView(tweetIDString: viewModel.tweetIDString), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
                         viewModel.detailIndicator
                             .onTapGesture {isShowDetail = true }
-                            .background(Color.init("BackGround"))
+//                            .background(Color.init("BackGround"))
                         }.fixedSize()
 
                     }
@@ -89,7 +89,6 @@ struct TweetRow: View {
             }
         }
         .listRowBackground(backgroundColor)
-//        .transition(.move(edge: .leading))
     }
     
 }

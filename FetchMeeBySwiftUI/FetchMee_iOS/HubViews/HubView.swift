@@ -53,13 +53,6 @@ struct HubView: View {
                         ToolBarsView()
                             .padding([.leading, .trailing], 16)
                         
-//                        HStack {
-//                            NavigationLink(
-//                                destination: LogMessageView()
-//                                ) {
-//                            Text(alerts.logMessage.alertText == "" ? "No new log message" : alerts.logMessage.alertText)
-//                                .font(.caption2).foregroundColor(.gray).opacity(0.5)}
-//                        }
                         
                         Spacer()
                         
@@ -70,16 +63,12 @@ struct HubView: View {
                         }.padding(.top, 30).padding()
                         
                     }.background(Color.init("BackGround")).cornerRadius(24)
-                    
-//                    AlertView()
-//                }
-                
+
             }
             .onTapGesture(count: 1, perform: {
                 self.hideKeyboard()
             })
             .navigationTitle("FetchMee")
-//            .navigationBarTitleDisplayMode(.large)
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
                                     AvatarImageView(image: loginUser.info.avatar).frame(width: 36, height: 36, alignment: .center)})
         }

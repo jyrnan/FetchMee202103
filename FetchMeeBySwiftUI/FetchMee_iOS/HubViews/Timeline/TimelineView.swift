@@ -30,11 +30,10 @@ struct TimelineView: View {
         
     }
     
-    
+    @GestureState var dragAmount = CGSize.zero
     
     var body: some View {
         GeometryReader {proxy in
-            ZStack{
                 List(selection: $timeline.tweetIDStringOfRowToolsViewShowed){
                     
                     //Homeline部分章节
@@ -48,10 +47,6 @@ struct TimelineView: View {
                         }
                         .frame(height: 36)
                         .padding(.horizontal, 16)
-                        .onAppear{isShowFloatComposer = false}
-                        .onDisappear{
-                            isShowFloatComposer = true
-                        }
                     }
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                     
@@ -68,24 +63,24 @@ struct TimelineView: View {
                                 .onAppear{if timeline.tweetIDStrings.last == tweetIDString {
                                     timeline.refreshFromBottom()
                                 }}
-                            
-                            
                         }
                         
                     }
-                    
                     .onDelete(perform: {indexSet in print(#line)})
                     
-                    
-                    
+                    if !timeline.isDone {
                     HStack {
                         Spacer()
-                        Button("More Tweets...") {self.timeline.refreshFromBottom()}
+                        ActivityIndicator(isAnimating: $timeline.isDone, style: .medium)
+                        Button("Loading More Tweets...") {self.timeline.refreshFromBottom()}
                             .font(.caption)
+                            .foregroundColor(.gray)
                             .frame(height: 24)
                         Spacer()
                     }
                     .listRowBackground(Color.init("BackGround"))
+                    }
+                    
                     RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
                         .frame(height: 42)
                         .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -101,13 +96,9 @@ struct TimelineView: View {
                                             } else {
                                                 withAnimation(){ isShowFloatComposer = false}
                                             }
-                                            
                                         })
                 )
-                if isShowFloatComposer && timeline.tweetIDStringOfRowToolsViewShowed == nil {
-                    ComposerButtonView(tweetText: $tweetText)
-                }
-            }
+
             .navigationTitle(listName ?? timeline.type.rawValue)
             .onAppear {
                 if timeline.tweetIDStrings.isEmpty {

@@ -35,7 +35,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
     
     var type: TimelineType
     var listTag: ListTag? // 如果是list类型，则会传入listTag
-    let maxCounter: Int = 50
+    let maxCounter: Int = 100
     var sinceIDString: String?
     var maxIDString: String?
     
@@ -50,14 +50,14 @@ final class Timeline: TimelineViewModel, ObservableObject {
             self.saveMentionUserData()//初始化更新MentionUser排序
         }
         
-        if tweetIDStrings.isEmpty && type != .list {refreshFromTop()}
+        if tweetIDStrings.isEmpty && type != .list {refreshFromTop(count: 20)}
         
         print(#line, #function,#file, "timeline \(self.type) inited.")
     }
     
     //MARK: - 更新推文函数
     ///更新上方推文
-    func refreshFromTop(for userIDString: String? = nil, completeHandeler:(() -> Void)? = nil ,fh: ((Error) -> Void)? = nil) {
+    func refreshFromTop(for userIDString: String? = nil, count: Int = 100, completeHandeler:(() -> Void)? = nil ,fh: ((Error) -> Void)? = nil) {
         self.isDone = false
         
         func successHandeler(json: JSON) ->Void {
@@ -79,16 +79,16 @@ final class Timeline: TimelineViewModel, ObservableObject {
         
         switch self.type {
         case .mention:
-            swifter.getMentionsTimelineTweets(count: maxCounter, sinceID: sinceIDString, success: successHandeler, failure: failureHandler)
+            swifter.getMentionsTimelineTweets(count: count, sinceID: sinceIDString, success: successHandeler, failure: failureHandler)
         case .home:
-            swifter.getHomeTimeline(count: 100, sinceID: sinceIDString,  success: successHandeler, failure: failureHandler)
+            swifter.getHomeTimeline(count: count, sinceID: sinceIDString,  success: successHandeler, failure: failureHandler)
         case .user:
             swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), success: successHandeler, failure: failureHandler)
         case .favorite:
             swifter.getRecentlyFavoritedTweets(sinceID: sinceIDString, success: successHandeler, failure: failureHandler)
         case .list:
             if let listTag = listTag {
-                swifter.listTweets(for: listTag, sinceID: sinceIDString, maxID: maxIDString, count: maxCounter, includeEntities: nil, includeRTs: nil, tweetMode: .default, success: successHandeler, failure: failureHandler)
+                swifter.listTweets(for: listTag, sinceID: sinceIDString, maxID: maxIDString, count: count, includeEntities: nil, includeRTs: nil, tweetMode: .default, success: successHandeler, failure: failureHandler)
             }
         default: print(#line, #function)
         }
@@ -114,14 +114,14 @@ final class Timeline: TimelineViewModel, ObservableObject {
         switch self.type {
         case .mention:
             isDone = false
-            swifter.getMentionsTimelineTweets(count: maxCounter, maxID: maxIDString, success: successHandeler, failure: failureHandler)
+            swifter.getMentionsTimelineTweets(maxID: maxIDString, success: successHandeler, failure: failureHandler)
         case .home:
             isDone = false
-            swifter.getHomeTimeline(count: maxCounter,maxID: maxIDString,  success: successHandeler, failure: failureHandler)
+            swifter.getHomeTimeline(maxID: maxIDString,  success: successHandeler, failure: failureHandler)
         case .user:
             swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), count: maxCounter, maxID: maxIDString, success: successHandeler, failure: failureHandler)
         case .favorite:
-            swifter.getRecentlyFavoritedTweets(count: maxCounter, maxID: maxIDString, success: successHandeler, failure: failureHandler)
+            swifter.getRecentlyFavoritedTweets(maxID: maxIDString, success: successHandeler, failure: failureHandler)
         default:print(#line, #function)
         }
     }
@@ -225,21 +225,14 @@ extension Timeline {
             withAnimation {tweetIDStrings.insert("toolsView", at: index + 1)}
         case tweetIDString:
             tweetIDStringOfRowToolsViewShowed = nil
-            withAnimation {tweetIDStrings.remove(at: index + 1)}
+            let _ = withAnimation {tweetIDStrings.remove(at: index + 1)}
         default:
             ///先删除，再添加，避免冲突。
             ///在删除
-//            delay(delay: 0.4, closure: {
-//                    let indexOfInsert = self.tweetIDStrings.firstIndex(of: tweetIDString)!
-//                    withAnimation(.spring()){
-//                    self.tweetIDStrings.insert("toolsView", at: indexOfInsert + 1)}})
             
             
             guard let indexOfRemove  = tweetIDStrings.firstIndex(of: tweetIDStringOfRowToolsViewShowed!) else { return }
-            withAnimation(Animation.spring()) {
-                self.tweetIDStrings.remove(at: indexOfRemove + 1)
-            }
-            
+            let _ = withAnimation() {self.tweetIDStrings.remove(at: indexOfRemove + 1)}
             tweetIDStringOfRowToolsViewShowed = nil
             
             ///删除后延迟再次运行，实际就是在下一轮运行中添加
@@ -250,7 +243,7 @@ extension Timeline {
     
     func removeToolsView() {
         guard let index = tweetIDStrings.firstIndex(of: "toolsView") else {return}
-        withAnimation{tweetIDStrings.remove(at: index)} 
+        let _ =  withAnimation{tweetIDStrings.remove(at: index)}
         tweetIDStringOfRowToolsViewShowed = nil
     }
 }
