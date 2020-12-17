@@ -78,10 +78,11 @@ struct HubView: View {
     }
     
     fileprivate func setNavigationBar() {
+        var themeColor: UIColor { UIColor(ThemeColor(rawValue: (userDefault.object(forKey: "themeColor") as? String) ?? "blue")!.color)}
         let transAppearance = UINavigationBarAppearance()
         transAppearance.configureWithOpaqueBackground()
         //        transAppearance.backgroundColor = UIColor.clear
-        transAppearance.backgroundImage = UIImage(named: "Logo")?.alpha(0.05).changeWithColor(color: .gray)
+        transAppearance.backgroundImage = UIImage(named: "Logo")?.alpha(0.05).changeWithColor(color: themeColor)
         transAppearance.backgroundImageContentMode = .bottomRight
         transAppearance.shadowColor = .clear
         
