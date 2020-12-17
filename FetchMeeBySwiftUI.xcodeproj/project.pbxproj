@@ -59,6 +59,7 @@
 		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
 		D252548024D804AB00D8B508 /* WebLinkAndImageJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkAndImageJson.txt */; };
 		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
+		D257D7E9258B30E700DB7F05 /* UIImage+changeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D257D7E8258B30E700DB7F05 /* UIImage+changeColor.swift */; };
 		D258D617254AF44B00CA01E7 /* User+UpdateUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D258D616254AF44B00CA01E7 /* User+UpdateUser.swift */; };
 		D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDD924D2CEED00682B99 /* SafariView.swift */; };
 		D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */; };
@@ -189,6 +190,7 @@
 		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
 		D252547F24D804AB00D8B508 /* WebLinkAndImageJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkAndImageJson.txt; sourceTree = "<group>"; };
 		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
+		D257D7E8258B30E700DB7F05 /* UIImage+changeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+changeColor.swift"; sourceTree = "<group>"; };
 		D258D616254AF44B00CA01E7 /* User+UpdateUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+UpdateUser.swift"; sourceTree = "<group>"; };
 		D262FDD924D2CEED00682B99 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionUserSortedView.swift; sourceTree = "<group>"; };
@@ -495,6 +497,7 @@
 				D2632D64251EEFF50023C417 /* FaceDetect.swift */,
 				D2794F32251F1DE200824E6D /* SaliencyDetection.swift */,
 				D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */,
+				D257D7E8258B30E700DB7F05 /* UIImage+changeColor.swift */,
 				D21C3305255A8356001CBBCD /* FoundationExtensions.swift */,
 				D21C3302255A824A001CBBCD /* CoreData */,
 			);
@@ -792,6 +795,7 @@
 				4BA0161E253AEACB003D1475 /* CountView.swift in Sources */,
 				4B2C746524FA05310052F356 /* DownLoader.swift in Sources */,
 				D282BCA52589902400877B26 /* ComposerButtonView.swift in Sources */,
+				D257D7E9258B30E700DB7F05 /* UIImage+changeColor.swift in Sources */,
 				D730997F24ED6A5F00B57837 /* DraftsView.swift in Sources */,
 				D2224FD324BE901E00AE2110 /* AuthView.swift in Sources */,
 				D2AE50652553C6D500437337 /* MentionUser.swift in Sources */,

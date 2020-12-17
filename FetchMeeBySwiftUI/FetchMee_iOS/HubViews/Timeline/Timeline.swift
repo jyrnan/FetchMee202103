@@ -50,7 +50,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
             self.saveMentionUserData()//初始化更新MentionUser排序
         }
         
-        if tweetIDStrings.isEmpty && type != .list {refreshFromTop(count: 20)}
+        if tweetIDStrings.isEmpty && type != .list {refreshFromTop(count: 50)}
         
         print(#line, #function,#file, "timeline \(self.type) inited.")
     }
@@ -85,7 +85,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
         case .user:
             swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), success: successHandeler, failure: failureHandler)
         case .favorite:
-            swifter.getRecentlyFavoritedTweets(sinceID: sinceIDString, success: successHandeler, failure: failureHandler)
+            swifter.getRecentlyFavoritedTweets(count: count, sinceID: sinceIDString, success: successHandeler, failure: failureHandler)
         case .list:
             if let listTag = listTag {
                 swifter.listTweets(for: listTag, sinceID: sinceIDString, maxID: maxIDString, count: count, includeEntities: nil, includeRTs: nil, tweetMode: .default, success: successHandeler, failure: failureHandler)
@@ -95,7 +95,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
     }
     
     ///从推文下方开始更新
-    func refreshFromBottom(for userIDString: String? = nil) {
+    func refreshFromBottom(for userIDString: String? = nil, count: Int = 20) {
         
         self.isDone = false
         
@@ -114,17 +114,17 @@ final class Timeline: TimelineViewModel, ObservableObject {
         switch self.type {
         case .mention:
             isDone = false
-            swifter.getMentionsTimelineTweets(maxID: maxIDString, success: successHandeler, failure: failureHandler)
+            swifter.getMentionsTimelineTweets(count: count, maxID: maxIDString, success: successHandeler, failure: failureHandler)
         case .home:
             isDone = false
             swifter.getHomeTimeline(maxID: maxIDString,  success: successHandeler, failure: failureHandler)
         case .user:
-            swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), count: maxCounter, maxID: maxIDString, success: successHandeler, failure: failureHandler)
+            swifter.getTimeline(for: UserTag.id(userIDString ?? "0000"), count: count, maxID: maxIDString, success: successHandeler, failure: failureHandler)
         case .favorite:
-            swifter.getRecentlyFavoritedTweets(maxID: maxIDString, success: successHandeler, failure: failureHandler)
+            swifter.getRecentlyFavoritedTweets(count: count, maxID: maxIDString, success: successHandeler, failure: failureHandler)
         case .list:
             if let listTag = listTag {
-                swifter.listTweets(for: listTag, maxID: maxIDString, includeEntities: nil, includeRTs: nil, tweetMode: .default, success: successHandeler, failure: failureHandler)
+                swifter.listTweets(for: listTag, maxID: maxIDString, count: count, includeEntities: nil, includeRTs: nil, tweetMode: .default, success: successHandeler, failure: failureHandler)
             }
         default:print(#line, #function)
         }

@@ -76,6 +76,18 @@ struct HubView: View {
         .toast(isShowing: $alerts.isShowingPicture, presented: alerts.presentedView)
         
     }
+    
+    fileprivate func setNavigationBar() {
+        let transAppearance = UINavigationBarAppearance()
+        transAppearance.configureWithOpaqueBackground()
+        //        transAppearance.backgroundColor = UIColor.clear
+        transAppearance.backgroundImage = UIImage(named: "Logo")?.alpha(0.05).changeWithColor(color: .gray)
+        transAppearance.backgroundImageContentMode = .bottomRight
+        transAppearance.shadowColor = .clear
+        
+        //        UINavigationBar.appearance().standardAppearance = transAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = transAppearance
+    }
 }
 
 struct HubView_Previews: PreviewProvider {
@@ -102,17 +114,7 @@ extension HubView {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
-    fileprivate func setNavigationBar() {
-        let transAppearance = UINavigationBarAppearance()
-        transAppearance.configureWithOpaqueBackground()
-        //        transAppearance.backgroundColor = UIColor.clear
-        transAppearance.backgroundImage = UIImage(named: "Logo")?.alpha(0.05).withRenderingMode(.alwaysTemplate)
-        transAppearance.backgroundImageContentMode = .bottomRight
-        transAppearance.shadowColor = .clear
-        
-        //        UINavigationBar.appearance().standardAppearance = transAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = transAppearance
-    }
+   
     
 }
 
