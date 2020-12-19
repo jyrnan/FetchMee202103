@@ -64,6 +64,8 @@
 		D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDD924D2CEED00682B99 /* SafariView.swift */; };
 		D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */; };
 		D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2632D64251EEFF50023C417 /* FaceDetect.swift */; };
+		D266226B258CE81100FF5F6E /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = D266226A258CE81100FF5F6E /* KingfisherSwiftUI */; };
+		D266226D258D781A00FF5F6E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D266226C258D781A00FF5F6E /* Kingfisher */; };
 		D26A8B09256284C8003BFEE6 /* CountDiagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26A8B08256284C8003BFEE6 /* CountDiagramView.swift */; };
 		D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */; };
 		D270E87D24C01C9100BBD3FE /* ToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87C24C01C9100BBD3FE /* ToolsView.swift */; };
@@ -262,6 +264,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D266226D258D781A00FF5F6E /* Kingfisher in Frameworks */,
+				D266226B258CE81100FF5F6E /* KingfisherSwiftUI in Frameworks */,
 				D2FE6E15250DE11400314966 /* Swifter in Frameworks */,
 				D290507C252C0C170065EA83 /* CloudKit.framework in Frameworks */,
 			);
@@ -676,6 +680,8 @@
 			name = FetchMee;
 			packageProductDependencies = (
 				D2FE6E14250DE11400314966 /* Swifter */,
+				D266226A258CE81100FF5F6E /* KingfisherSwiftUI */,
+				D266226C258D781A00FF5F6E /* Kingfisher */,
 			);
 			productName = FetchMeeBySwiftUI;
 			productReference = D27DCEB624B96D5F00520BE3 /* FetchMee.app */;
@@ -707,6 +713,7 @@
 			mainGroup = D27DCEAD24B96D5F00520BE3;
 			packageReferences = (
 				D2FE6E13250DE11400314966 /* XCRemoteSwiftPackageReference "Swifter" */,
+				D2662269258CE81100FF5F6E /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = D27DCEB724B96D5F00520BE3 /* Products */;
 			projectDirPath = "";
@@ -1052,6 +1059,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D2662269258CE81100FF5F6E /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.15.8;
+			};
+		};
 		D2FE6E13250DE11400314966 /* XCRemoteSwiftPackageReference "Swifter" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mattdonnelly/Swifter.git";
@@ -1063,6 +1078,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D266226A258CE81100FF5F6E /* KingfisherSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D2662269258CE81100FF5F6E /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = KingfisherSwiftUI;
+		};
+		D266226C258D781A00FF5F6E /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D2662269258CE81100FF5F6E /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		D2FE6E14250DE11400314966 /* Swifter */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D2FE6E13250DE11400314966 /* XCRemoteSwiftPackageReference "Swifter" */;

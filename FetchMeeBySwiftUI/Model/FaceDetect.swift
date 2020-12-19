@@ -30,6 +30,26 @@ extension UIImage {
         }
         
     }
+    
+    func detectFaces2(completion: @escaping ([VNFaceObservation]?) -> UIImage?) -> UIImage?{
+        guard var image = self.cgImage else {
+            return nil
+        }
+        let request = VNDetectFaceRectanglesRequest()
+        var resultImage = self
+        DispatchQueue.global().async {
+            let handler = VNImageRequestHandler(cgImage: image,orientation: self.cgImageOrientation
+                                                )
+            
+            try? handler.perform([request])
+            
+            if let observations = request.results as? [VNFaceObservation] {
+               completion(observations)
+            } else {completion(nil)}
+            
+        }
+//        return resultImage
+    }
 }
 
 extension UIImage {
