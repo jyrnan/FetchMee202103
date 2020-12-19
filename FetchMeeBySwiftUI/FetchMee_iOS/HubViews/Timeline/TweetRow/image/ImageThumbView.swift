@@ -45,9 +45,9 @@ struct ImageThumb: View {
     var body: some View {
         ZStack(alignment: .center) {
             
-//            Image(uiImage: remoteImageFromUrl.image)
-            KFImage(URL(string: imageUrl + ":small")!,
-                    options: [.processor(WebpProcessor())])
+            Image(uiImage: remoteImageFromUrl.image)
+//            KFImage(URL(string: imageUrl + ":small")!,
+//                    options: [.processor(WebpProcessor())])
 
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -73,31 +73,31 @@ struct ImageThumb: View {
     
 }
 
-struct WebpProcessor: ImageProcessor {
-
-    // `identifier` should be the same for processors with the same properties/functionality
-    // It will be used when storing and retrieving the image to/from cache.
-    let identifier = "com.jyrnan.webpprocessor"
-    
-    // Convert input data/image to target image and return it.
-    func process(item: ImageProcessItem, options: KingfisherParsedOptionsInfo) -> UIImage? {
-        switch item {
-        case .image(let image):
-            print("already an image")
-            return image.detectFaces2{result in
-                var image = image
-                DispatchQueue.main.async {
-                    image =  (result?.cropByFace(image))!
-                    _ = result?.drawnOn(image)
-                    print(#line, #file, "face process")
-                }
-                return image
-                      }
-            
-            
-        case .data(let data):
-//            return WebpFramework.createImage(from: webpData)
-        return UIImage(data: data)
-        }
-    }
-}
+//struct WebpProcessor: ImageProcessor {
+//
+//    // `identifier` should be the same for processors with the same properties/functionality
+//    // It will be used when storing and retrieving the image to/from cache.
+//    let identifier = "com.jyrnan.webpprocessor"
+//
+//    // Convert input data/image to target image and return it.
+//    func process(item: ImageProcessItem, options: KingfisherParsedOptionsInfo) -> UIImage? {
+//        switch item {
+//        case .image(let image):
+//            print("already an image")
+//            return image.detectFaces{result in
+//                var image = image
+//                DispatchQueue.main.async {
+//                    image =  (result?.cropByFace(image))!
+//                    _ = result?.drawnOn(image)
+//                    print(#line, #file, "face process")
+//                }
+//                return image
+//                      }
+//
+//
+//        case .data(let data):
+////            return WebpFramework.createImage(from: webpData)
+//        return UIImage(data: data)
+//        }
+//    }
+//}
