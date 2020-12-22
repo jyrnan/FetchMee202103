@@ -61,7 +61,12 @@ struct TimelineView: View {
 
 //                    } else {
                         TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
-                            .onTapGesture { timeline.toggleToolsView(tweetIDString: tweetIDString) }
+                            .onTapGesture {
+                                ///如果 是ToolsViewOnly的tweetRow，则触摸无效
+                                guard !tweetIDString.contains("toolsView") else {return}
+                                timeline.toggleToolsView(tweetIDString: tweetIDString)
+                                
+                            }
                             .onAppear{
                                 timeline.fetchMoreIfNeeded(tweetIDString: tweetIDString)
 

@@ -39,10 +39,10 @@ class TweetRowViewModel: ObservableObject{
     var isReplyToMe: Bool!
     
     let isQuotedTweetRowViewModel: Bool
-   
+    let isToolsViewOnly: Bool
 
     //MARK:- Methods
-    init(timeline:TimelineViewModel, tweetIDString: String, width: CGFloat, isQuoteded:Bool = false) {
+    init(timeline:TimelineViewModel, tweetIDString: String, width: CGFloat, isQuoteded:Bool = false, isToolsViewOnly: Bool = false) {
         self.timeline = timeline
         self.tweetIDString = tweetIDString
         self.tweetRowViewWidth = width
@@ -50,6 +50,7 @@ class TweetRowViewModel: ObservableObject{
         self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
         
         self.isQuotedTweetRowViewModel = isQuoteded
+        self.isToolsViewOnly = isToolsViewOnly
 
         makeViews()
         
@@ -73,10 +74,13 @@ class TweetRowViewModel: ObservableObject{
         toolsVeiwModel = makeToolsViewModel()
         detailIndicator = makeDetailIndicatorView()
         isReplyToMe = checkIsReplyToMe()
+        
+        if isToolsViewOnly {
+            makeToolsViewOnly()
+        }
     }
     
     func makeToolsViewOnly() {
-        toolsVeiwModel = makeToolsViewModel()
         toolsView = ToolsView(viewModel: toolsVeiwModel)
     }
     

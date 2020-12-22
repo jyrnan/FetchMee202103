@@ -210,6 +210,9 @@ extension Timeline {
         var tweetIDString = tweetIDString
         if tweetIDString.contains("toolsView") {
             tweetIDString = String(tweetIDString.dropLast(9))
+            
+            let tweetRowViewModel = TweetRowViewModel(timeline: self, tweetIDString: tweetIDString, width: width, isToolsViewOnly:true)
+            return tweetRowViewModel
         }
         
         
