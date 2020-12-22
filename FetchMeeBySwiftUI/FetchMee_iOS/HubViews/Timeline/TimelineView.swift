@@ -53,12 +53,12 @@ struct TimelineView: View {
                 ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
                     
                     ///看起来是这段代码会导致所有的TweetRowModel一次生成，到不带list的Lazy功能
-//                    if tweetIDString.contains("toolsView") {
+//                    if tweetIDString.contains("toolsView") {EmptyView()
 //                        ToolsView(viewModel: timeline.toolsViewModel)
 //                            .padding(.top, 16)
 //                            .listRowBackground(Color.init("BackGround"))
 //                            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-//
+
 //                    } else {
                         TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
                             .onTapGesture { timeline.toggleToolsView(tweetIDString: tweetIDString) }

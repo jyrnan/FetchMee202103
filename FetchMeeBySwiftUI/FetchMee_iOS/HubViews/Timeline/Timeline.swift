@@ -207,7 +207,10 @@ extension Timeline {
 
 extension Timeline {
     func getTweetViewModel(tweetIDString: String, width: CGFloat) -> TweetRowViewModel {
-        
+        var tweetIDString = tweetIDString
+        if tweetIDString.contains("toolsView") {
+            tweetIDString = String(tweetIDString.dropLast(9))
+        }
         
         
         if let tweetRowViewModel = tweetRowViewModels[tweetIDString] {
@@ -234,7 +237,7 @@ extension Timeline {
         switch tweetIDStringOfRowToolsViewShowed {
         case nil:
             tweetIDStringOfRowToolsViewShowed = tweetIDString
-            withAnimation {tweetIDStrings.insert("toolsView", at: index + 1)}
+            withAnimation {tweetIDStrings.insert(tweetIDString + "toolsView", at: index + 1)}
         case tweetIDString:
             tweetIDStringOfRowToolsViewShowed = nil
             let _ = withAnimation {tweetIDStrings.remove(at: index + 1)}
@@ -254,7 +257,7 @@ extension Timeline {
     }
     
     func removeToolsView() {
-        guard let index = tweetIDStrings.firstIndex(of: "toolsView") else {return}
+        guard let index = tweetIDStrings.firstIndex(where: {$0.contains("toolsView")}) else {return}
         let _ =  withAnimation{tweetIDStrings.remove(at: index)}
         tweetIDStringOfRowToolsViewShowed = nil
     }

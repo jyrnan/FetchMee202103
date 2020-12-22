@@ -33,7 +33,7 @@ class TweetRowViewModel: ObservableObject{
     var playButtonView: PlayButtonView?
     var quotedTweetRow: QuotedTweetRow?
     var toolsVeiwModel: ToolsViewModel!
-//    @Published var toolsVeiw: ToolsView?
+    var toolsView: ToolsView?
     var statusTextView: NSAttributedStringView?
     
     var isReplyToMe: Bool!
@@ -70,11 +70,14 @@ class TweetRowViewModel: ObservableObject{
         playButtonView = makePlayButtonView()
         quotedTweetRow = makeQuotedTweetRowView()
         
-        
         toolsVeiwModel = makeToolsViewModel()
         detailIndicator = makeDetailIndicatorView()
-//        toolsVeiw = makeToolsView()
         isReplyToMe = checkIsReplyToMe()
+    }
+    
+    func makeToolsViewOnly() {
+        toolsVeiwModel = makeToolsViewModel()
+        toolsView = ToolsView(viewModel: toolsVeiwModel)
     }
     
     
