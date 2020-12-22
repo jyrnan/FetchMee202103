@@ -61,21 +61,14 @@ struct TimelineView: View {
                         TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
                             .onTapGesture { timeline.toggleToolsView(tweetIDString: tweetIDString) }
                             .onAppear{
-                                guard timeline.tweetIDStrings.count > 5 else {return}
-                                let index = timeline.tweetIDStrings.count - 5
-                                if timeline.tweetIDStrings[index] == tweetIDString {
-                                    timeline.refreshFromBottom(count: 50)
-                                }
+                                timeline.fetchMoreIfNeeded(tweetIDString: tweetIDString)
                                 
-                                guard timeline.tweetIDStrings.count > 100 else {
-                                    return
-                                }
                         if timeline.tweetIDStrings.first == tweetIDString {
                             
-                            timeline.tweetIDStrings.removeLast(timeline.tweetIDStrings.count - 50)
-                            timeline.maxIDString = timeline.tweetIDStrings.last
-                            print(#line, "Got to the top tweets")
-                        }}
+                            timeline.reduceTweetsIfNeed()
+                        }
+                                
+                            }
                     }
                     
                 }

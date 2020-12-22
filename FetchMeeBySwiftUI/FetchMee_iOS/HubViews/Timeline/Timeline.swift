@@ -251,3 +251,30 @@ extension Timeline {
         tweetIDStringOfRowToolsViewShowed = nil
     }
 }
+
+extension Timeline {
+    
+    
+    /// 如果推文属于timeline后端，则往下刷新推文。
+    /// - Parameter tweetIDString: 执行此操作的推文ID
+    func fetchMoreIfNeeded(tweetIDString: String) {
+        ///需要往下刷新推文的推文位置，是从后倒数
+        let shouldFetchIndex = 5
+        guard tweetIDStrings.count > shouldFetchIndex else {return}
+        let index = tweetIDStrings.count - shouldFetchIndex
+        if tweetIDStrings[index] == tweetIDString {
+            refreshFromBottom(count: 50)
+        }
+    }
+    
+    
+    /// 如果超过一定数量的推文，则移除后面超出数目
+    func reduceTweetsIfNeed() {
+        let shoulKeepNumber: Int = 50
+        guard tweetIDStrings.count > shoulKeepNumber else { return }
+        print(#line, "Remove \(tweetIDStrings.count - shoulKeepNumber) tweets")
+        tweetIDStrings.removeLast(tweetIDStrings.count - shoulKeepNumber)
+        maxIDString = tweetIDStrings.last
+       
+    }
+}
