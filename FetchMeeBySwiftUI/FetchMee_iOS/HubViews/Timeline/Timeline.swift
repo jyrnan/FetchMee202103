@@ -30,7 +30,12 @@ final class Timeline: TimelineViewModel, ObservableObject {
     ///存储根据MentiUserinfo情况排序的UserIDString
     var mentionUserData: [String:[String]] = [:]
     
-    var tweetRowViewModels: [String: TweetRowViewModel] = [:]
+    var tweetRowViewModels: [String: TweetRowViewModel] = [:] {
+        didSet {
+            print(#line, "tweetRowModel count", tweetRowViewModels.count)
+        }
+    }
+    
     var toolsViewModel: ToolsViewModel!
     
     var type: TimelineType

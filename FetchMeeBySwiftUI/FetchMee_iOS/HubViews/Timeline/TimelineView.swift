@@ -34,7 +34,7 @@ struct TimelineView: View {
     
     var body: some View {
         GeometryReader {proxy in
-            List(selection: $timeline.tweetIDStringOfRowToolsViewShowed){
+            List{
                 
                 //Homeline部分章节
                 ZStack{
@@ -51,13 +51,15 @@ struct TimelineView: View {
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
                 ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
-                    if tweetIDString.contains("toolsView") {
-                        ToolsView(viewModel: timeline.toolsViewModel)
-                            .padding(.top, 16)
-                            .listRowBackground(Color.init("BackGround"))
-                            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        
-                    } else {
+                    
+                    ///看起来是这段代码会导致所有的TweetRowModel一次生成，到不带list的Lazy功能
+//                    if tweetIDString.contains("toolsView") {
+//                        ToolsView(viewModel: timeline.toolsViewModel)
+//                            .padding(.top, 16)
+//                            .listRowBackground(Color.init("BackGround"))
+//                            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+//
+//                    } else {
                         TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
                             .onTapGesture { timeline.toggleToolsView(tweetIDString: tweetIDString) }
                             .onAppear{
@@ -69,7 +71,7 @@ struct TimelineView: View {
                         }
 
                             }
-                    }
+//                    }
                     
                 }
                 

@@ -33,7 +33,7 @@ struct TweetRow: View {
     
     init(viewModel:TweetRowViewModel) {
         self.viewModel = viewModel
-        print(#line, #file, "tweetRowView inited")
+//        print(#line, #file, "tweetRowView inited")
     }
     
     var body: some View {
