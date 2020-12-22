@@ -202,6 +202,9 @@ extension Timeline {
 
 extension Timeline {
     func getTweetViewModel(tweetIDString: String, width: CGFloat) -> TweetRowViewModel {
+        
+        
+        
         if let tweetRowViewModel = tweetRowViewModels[tweetIDString] {
             return tweetRowViewModel
         } else {
@@ -276,5 +279,10 @@ extension Timeline {
         tweetIDStrings.removeLast(tweetIDStrings.count - shoulKeepNumber)
         maxIDString = tweetIDStrings.last
        
+    }
+    
+    func removeTweetRowModelIfNeed() {
+        tweetRowViewModels.removeAll()
+        print(tweetRowViewModels)
     }
 }

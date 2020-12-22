@@ -62,17 +62,16 @@ struct TimelineView: View {
                             .onTapGesture { timeline.toggleToolsView(tweetIDString: tweetIDString) }
                             .onAppear{
                                 timeline.fetchMoreIfNeeded(tweetIDString: tweetIDString)
-                                
+
                         if timeline.tweetIDStrings.first == tweetIDString {
-                            
+
                             timeline.reduceTweetsIfNeed()
                         }
-                                
+
                             }
                     }
                     
                 }
-//                .onDelete(perform: {indexSet in print(#line)})
                 
                 
                     HStack {
@@ -98,11 +97,7 @@ struct TimelineView: View {
                                     .onChanged({ value in
                                         hideKeyboard()
                                         delay(delay: 0.5){ timeline.removeToolsView()}
-//                                        if value.translation.height > 0{
-//                                            withAnimation(){ isShowFloatComposer = true}
-//                                        } else {
-//                                            withAnimation(){ isShowFloatComposer = false}
-//                                        }
+
                                     })
             )
             
@@ -111,6 +106,11 @@ struct TimelineView: View {
                 if timeline.tweetIDStrings.isEmpty {
                     timeline.refreshFromTop(count: 20)
                 }
+            }
+            .onDisappear{
+                timeline.reduceTweetsIfNeed()
+                timeline.removeTweetRowModelIfNeed()
+                print(#line, #file, "timelineView disappeared")
             }
         }
     }

@@ -30,11 +30,11 @@ class ToolsViewModel: ObservableObject {
         self.retweetedCount = status["retweet_count"].integer ?? 0
         self.favorited = status["favorited"].bool ?? false
         self.favoritedCount = status["favorite_count"].integer ?? 0
-        print(#line, #file, "inited")
+//        print(#line, #file, "inited")
     }
     
     deinit {
-        print(#line, #file, "deinited")
+//        print(#line, #file, "deinited")
     }
     
     func retweet() {

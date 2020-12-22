@@ -31,6 +31,11 @@ struct TweetRow: View {
     
     @State var player: AVPlayer = AVPlayer()
     
+    init(viewModel:TweetRowViewModel) {
+        self.viewModel = viewModel
+        print(#line, #file, "tweetRowView inited")
+    }
+    
     var body: some View {
         
         VStack() {

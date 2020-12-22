@@ -53,7 +53,11 @@ class TweetRowViewModel: ObservableObject{
 
         makeViews()
         
-//        print(#line, #file, "TweetRowViewModel inited")
+        print(#line, #file, "TweetRowViewModel inited")
+    }
+    
+    deinit {
+        print(#line, #file, "TweetRowViewModel deinited")
     }
     
     func makeViews() {
@@ -171,24 +175,6 @@ class TweetRowViewModel: ObservableObject{
         return ToolsViewModel(timeline: timeline, tweetIDString: tweetIDString)
     }
     
-//    func makeToolsView() {
-//            toolsVeiw = ToolsView(viewModel: toolsVeiwModel)
-//        }
-//    
-//    func toggleToolsView() {
-//        switch timeline.tweetIDStringOfRowToolsViewShowed {
-//        case nil:
-//            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
-//            makeToolsView()
-//        case tweetIDString:
-//            timeline.tweetIDStringOfRowToolsViewShowed = nil
-//            toolsVeiw = nil
-//        default:
-//            (timeline as? Timeline)?.tweetRowViewModels[timeline.tweetIDStringOfRowToolsViewShowed!]?.toolsVeiw = nil
-//            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
-//            makeToolsView()
-//        }
-//    }
     
     
     func checkIsReplyToMe() -> Bool {
