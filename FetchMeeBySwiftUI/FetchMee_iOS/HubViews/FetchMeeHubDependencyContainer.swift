@@ -9,7 +9,19 @@
 import Foundation
 
 public class FetchMeeHubDependencyContainer {
+    let sharedStatusRepository: StatusRepository
+    let sharedUserRepository: UserRepository
     init(appDependencyContainer: FetchMeeAppDependencyContainer) {
-        
+        self.sharedStatusRepository = appDependencyContainer.sharedStatusRepository
+        self.sharedUserRepository = appDependencyContainer.sharedUserRepository
+    }
+    
+    func makeHubViewModel() -> HubViewModel {
+        let mention = makeMentionTimeline()
+        return HubViewModel(mention: mention)
+    }
+    
+    func makeMentionTimeline() -> Timeline {
+        return Timeline(type: .mention)
     }
 }

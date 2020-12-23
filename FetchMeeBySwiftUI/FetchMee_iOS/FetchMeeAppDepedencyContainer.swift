@@ -10,8 +10,26 @@ import Foundation
 
 class FetchMeeAppDependencyContainer {
     // MARK: - Properties
-//    let sharedStatusRepository: StatusRepositoryInRam
-//    let sharedUserRepository: UserRepository
+    let sharedStatusRepository: StatusRepository
+    let sharedUserRepository: UserRepository
+    let contentViewModel: ContentViewModel
     
     // MARK: - Methods
+    
+    public init() {
+        
+        func makeContentViewModel() -> ContentViewModel {
+            return ContentViewModel()}
+        
+        self.sharedStatusRepository = StatusRepository.shared
+        self.sharedUserRepository = UserRepository.shared
+        
+        self.contentViewModel = makeContentViewModel()
+        
+    }
+    
+    func makeHubViewModel() -> HubViewModel {
+        let dependancyContainer = FetchMeeHubDependencyContainer(appDependencyContainer: self)
+        return dependancyContainer.makeHubViewModel()
+    }
 }

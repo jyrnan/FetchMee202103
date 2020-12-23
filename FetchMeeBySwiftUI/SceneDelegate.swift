@@ -44,7 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create the SwiftUI view that provides the window contents.
         self.loingUser.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
         self.loingUser.setting.load() //读取存储的设置
-        let contentView = ContentView().environment(\.managedObjectContext, context)
+        let contentView = ContentView(viewModel: injectionContainer.contentViewModel).environment(\.managedObjectContext, context)
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
@@ -68,10 +68,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                                                 .environmentObject(loingUser)
                                                                 .accentColor(loingUser.setting.themeColor.color)
                                                                 .environmentObject(downloader))
-//            let authVC = AuthViewController()
-//            print(#line, #function, "AuthVC init")
-//
-//            window.rootViewController = authVC
 
             self.window = window
             window.makeKeyAndVisible()

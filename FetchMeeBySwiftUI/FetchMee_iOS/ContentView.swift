@@ -12,6 +12,8 @@ import CoreData
 
 struct ContentView: View {
     @EnvironmentObject var loginUser: User
+    @ObservedObject var viewModel: ContentViewModel
+    
 
     var body: some View {
         if self.loginUser.isLoggedIn {
@@ -26,6 +28,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(viewModel: ContentViewModel())
     }
 }
