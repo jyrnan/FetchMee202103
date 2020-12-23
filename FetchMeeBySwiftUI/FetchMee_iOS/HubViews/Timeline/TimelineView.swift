@@ -111,7 +111,7 @@ struct TimelineView: View {
             .navigationTitle(listName ?? timeline.type.rawValue)
             .onAppear {
                 if timeline.tweetIDStrings.isEmpty {
-                    timeline.refreshFromTop(count: 20)
+                    timeline.refreshFromBottom(count: 20)
                 }
             }
             .onDisappear{

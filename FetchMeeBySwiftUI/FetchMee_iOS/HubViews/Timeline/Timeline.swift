@@ -55,6 +55,11 @@ final class Timeline: TimelineViewModel, ObservableObject {
             self.saveMentionUserData()//初始化更新MentionUser排序
         }
         
+        if type != .list {
+            self.sinceIDString = userDefault.string(forKey: type.rawValue + "SinceIDString")
+//            self.maxIDString = userDefault.string(forKey: type.rawValue + "MaxIDString")
+        }
+        
         if tweetIDStrings.isEmpty && type != .list {refreshFromTop(count: 50)}
         
         print(#line, #function,#file, "timeline \(self.type) inited.")
@@ -138,20 +143,28 @@ final class Timeline: TimelineViewModel, ObservableObject {
     func updateTimelineTop(with newTweets: [JSON]) {
         guard !newTweets.isEmpty else {return}
         let newTweetIDStrings = converJSON2TweetIDStrings(from: newTweets)
-        self.sinceIDString = newTweetIDStrings.first //获取新推文的第一条，作为下次刷新的起始点
-        if self.tweetIDStrings.isEmpty {
-            self.maxIDString = newTweetIDStrings.last //如果是全新刷新，则需要设置maxIDstring，以保证今后刷新下部推文会从当前最后一条开始。
-        }
+//        self.sinceIDString = newTweetIDStrings.first //获取新推文的第一条，作为下次刷新的起始点
+//
+//        if type == .mention {
+//            userDefault.setValue(sinceIDString, forKey: "mentionSinceIDString") //存储mention的最新推文id
+//        }
+//
+//        if self.tweetIDStrings.isEmpty {
+//            self.maxIDString = newTweetIDStrings.last //如果是全新刷新，则需要设置maxIDstring，以保证今后刷新下部推文会从当前最后一条开始。
+//        }
         
         self.tweetIDStrings = newTweetIDStrings + self.tweetIDStrings
+        
+        setSinceAndMaxID()
     }
     
     func updateTimelineBottom(with newTweets: [JSON]) {
         guard !newTweets.isEmpty else {return}
         let newTweetIDStrings = converJSON2TweetIDStrings(from: newTweets)
-        self.maxIDString = newTweetIDStrings.last //获取新推文的最后一条，作为下次刷新的起始点
+//        self.maxIDString = newTweetIDStrings.last //获取新推文的最后一条，作为下次刷新的起始点
         
         self.tweetIDStrings = self.tweetIDStrings.dropLast() + newTweetIDStrings //需要丢掉原来最后一条推文，否则会重复
+        setSinceAndMaxID()
     }
     
     
@@ -168,6 +181,19 @@ final class Timeline: TimelineViewModel, ObservableObject {
         UserRepository.shared.addUser(data["user"])
         ///添加mention到mention用户信息中
         addMentionToCount(mention: data)
+    }
+    
+    func setSinceAndMaxID() {
+        guard !tweetIDStrings.isEmpty else {  return }
+        
+        sinceIDString = tweetIDStrings.first
+        maxIDString = tweetIDStrings.last
+        
+        ///暂时不包含List类型
+        if type != .list {
+            userDefault.setValue(sinceIDString, forKey: type.rawValue + "SinceIDString") //存储的最新推文id
+            userDefault.setValue(maxIDString, forKey: type.rawValue + "MaxIDString")
+        }
     }
 }
 
@@ -288,7 +314,8 @@ extension Timeline {
         guard tweetIDStrings.count > shoulKeepNumber else { return }
         print(#line, "Remove \(tweetIDStrings.count - shoulKeepNumber) tweets")
         tweetIDStrings.removeLast(tweetIDStrings.count - shoulKeepNumber)
-        maxIDString = tweetIDStrings.last
+        
+        setSinceAndMaxID()
        
     }
     
@@ -297,3 +324,5 @@ extension Timeline {
         print(tweetRowViewModels)
     }
 }
+
+
