@@ -86,7 +86,7 @@ struct ToolsView: View {
                     SafariView(url: self.$url)
                 })
             
-        }.foregroundColor(.gray).padding([.leading, .trailing], 16)
+            }.foregroundColor(.gray).padding(.horizontal, 16).padding(.top, 4)
         
             Composer(isProcessingDone: $viewModel.timeline.isDone, tweetIDString: self.tweetIDString)
             .padding(.top, 4)
