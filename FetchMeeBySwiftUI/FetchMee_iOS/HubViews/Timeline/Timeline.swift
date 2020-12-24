@@ -61,6 +61,8 @@ final class Timeline: TimelineViewModel, ObservableObject {
         
         if tweetIDStrings.isEmpty && type != .list {refreshFromTop(count: 50)}
         
+        registBGFetchTask()
+        
         print(#line, #function,#file, "timeline \(self.type) inited.")
     }
     
@@ -310,6 +312,23 @@ extension Timeline {
     func removeTweetRowModelIfNeed() {
         tweetRowViewModels.removeAll()
         print(tweetRowViewModels)
+    }
+}
+
+extension Timeline {
+    func registBGFetchTask() {
+        func bgFetchTask(completeHandler: @escaping () -> ()) -> () {
+            let completeHandler = completeHandler
+            self.refreshFromTop(completeHandeler: completeHandler)
+//            swifter.postTweet(status: "\(Date())")
+        }
+        
+        if let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
+               let sceneDelegate = windowsScenen.delegate as? SceneDelegate
+         {
+            if self.type == .mention {
+                sceneDelegate.bgFetchTask = bgFetchTask }
+         }
     }
 }
 

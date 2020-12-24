@@ -26,6 +26,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
+    ///注册一个后台执行刷新的任务
+    var bgFetchTask: (@escaping () -> ()) -> () = {completeHandler in completeHandler()}
+    
     ///这个还真不知道有没有必要呢……
     let injectionContainer = FetchMeeAppDependencyContainer()
     
@@ -228,16 +231,20 @@ extension SceneDelegate {
         
         saveOrUpdateLog(text: "Started background fetch.")
         
-        if loingUser.setting.isDeleteTweets {
-            
-            swifter.fastDeleteTweets(for: loingUser.info.id,
-                                     keepRecent: loingUser.setting.isKeepRecentTweets,
-                                     completeHandler: completeHandler,
-                                     logHandler: logHandler)
-            
-        } else {
-            completeHandler()
-        }
+        bgFetchTask(completeHandler)
+        
+        
+        ///暂时取消删推功能
+//        if loingUser.setting.isDeleteTweets {
+//
+//            swifter.fastDeleteTweets(for: loingUser.info.id,
+//                                     keepRecent: loingUser.setting.isKeepRecentTweets,
+//                                     completeHandler: completeHandler,
+//                                     logHandler: logHandler)
+//
+//        } else {
+//            completeHandler()
+//        }
     }
     
     
