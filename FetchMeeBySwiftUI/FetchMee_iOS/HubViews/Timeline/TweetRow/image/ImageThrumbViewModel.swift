@@ -24,11 +24,11 @@ class RemoteImageFromUrl: ObservableObject {
         self.imageUrl = imageUrl
         self.imageType = imageType
         
-        getImage()
+//        getImage()  //改成视图出现后再调用获取图片的方法
         
     }
     
-    fileprivate func getImage() {
+    func getImage() {
         
         switch self.imageType {
         case .thrumb:

@@ -64,7 +64,7 @@ struct ImageThumb: View {
                             alerts.presentedView = AnyView(imageViewer)
                             withAnimation{alerts.isShowingPicture = true}                                }
                         self.isImageDownloaded = true}}
-            
+                .onAppear{remoteImageFromUrl.getImage()}
             
             ActivityIndicator(isAnimating: self.$isImageDownloaded, style: .medium)
         }
