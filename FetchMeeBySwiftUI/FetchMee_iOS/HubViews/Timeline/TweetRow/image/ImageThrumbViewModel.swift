@@ -72,7 +72,7 @@ class RemoteImageFromUrl: ObservableObject {
         
         guard let url = URL(string: imageUrl) else { return}
         let fileName = url.lastPathComponent ///获取下载文件名用于本地存储
-        
+       
         let cachelUrl = cfh.getPath()
         let filePath = cachelUrl.appendingPathComponent(fileName, isDirectory: false)
         
@@ -80,6 +80,7 @@ class RemoteImageFromUrl: ObservableObject {
         if let data = try? Data(contentsOf: filePath), let image = UIImage(data: data) {
             
             sh(image)
+           
             
         } else {
             let task = URLSession.shared.downloadTask(with: url) {

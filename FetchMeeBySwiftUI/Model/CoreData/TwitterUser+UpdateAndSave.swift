@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import Swifter
+import Combine
 
 
 extension TwitterUser {
@@ -23,6 +24,7 @@ extension TwitterUser {
     @discardableResult
     static func updateOrSaveToCoreData(from user: JSON, in viewContext: NSManagedObjectContext, isLocalUser: Bool = false, updateNickName: String? = nil) -> TwitterUser {
         
+       
         var currentUser: TwitterUser
         
         let userFetch: NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()

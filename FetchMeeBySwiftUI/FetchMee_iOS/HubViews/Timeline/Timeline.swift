@@ -69,7 +69,10 @@ final class Timeline: TimelineViewModel, ObservableObject {
     //MARK: - 更新推文函数
     ///更新上方推文
     func refreshFromTop(for userIDString: String? = nil, count: Int = 100, completeHandeler:(() -> Void)? = nil ,fh: ((Error) -> Void)? = nil) {
-        self.isDone = false
+        DispatchQueue.main.async {
+            self.isDone = false
+        }
+        
         
         func successHandeler(json: JSON) ->Void {
             guard let newTweets = json.array else {return}
