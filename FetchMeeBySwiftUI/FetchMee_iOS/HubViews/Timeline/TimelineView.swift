@@ -11,7 +11,6 @@ import Swifter
 import Combine
 import UIKit
 
-
 struct TimelineView: View {
     
     @EnvironmentObject var alerts: Alerts
@@ -22,6 +21,8 @@ struct TimelineView: View {
     @State var tweetText: String = ""
     
     @State var isShowFloatComposer:Bool = false
+    
+    @State var expandingIDString: String?
     
     var listName: String? //如果是list类型则会传入listName
     init(timeline: Timeline, listName: String? = nil) {
@@ -52,20 +53,14 @@ struct TimelineView: View {
                 
                 ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
                     
-                    ///看起来是这段代码会导致所有的TweetRowModel一次生成，到不带list的Lazy功能
-//                    if tweetIDString.contains("toolsView") {EmptyView()
-//                        ToolsView(viewModel: timeline.toolsViewModel)
-//                            .padding(.top, 16)
-//                            .listRowBackground(Color.init("BackGround"))
-//                            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-
-//                    } else {
-                        TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
+                        TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width), expanded: expandingIDString == tweetIDString)
                             .onTapGesture {
-                                ///如果 是ToolsViewOnly的tweetRow，则触摸无效
-                                guard !tweetIDString.contains("toolsView") else {return}
-                                timeline.toggleToolsView(tweetIDString: tweetIDString)
-                                
+
+                                if expandingIDString == tweetIDString {
+                                    expandingIDString = nil
+                                } else {
+                                    expandingIDString = tweetIDString
+                                }
                             }
                             .onAppear{
                                 timeline.fetchMoreIfNeeded(tweetIDString: tweetIDString)
@@ -76,10 +71,8 @@ struct TimelineView: View {
                         }
 
                             }
-//                    }
                     
                 }
-                
                 
                     HStack {
                         Spacer()

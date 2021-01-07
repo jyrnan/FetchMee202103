@@ -226,13 +226,8 @@ extension Timeline {
 
 extension Timeline {
     func getTweetViewModel(tweetIDString: String, width: CGFloat) -> TweetRowViewModel {
-        var tweetIDString = tweetIDString
-        if tweetIDString.contains("toolsView") {
-            tweetIDString = String(tweetIDString.dropLast(9))
-            
-            let tweetRowViewModel = TweetRowViewModel(timeline: self, tweetIDString: tweetIDString, width: width, isToolsViewOnly:true)
-            return tweetRowViewModel
-        }
+        let tweetIDString = tweetIDString
+//        
         
         
         if let tweetRowViewModel = tweetRowViewModels[tweetIDString] {
@@ -246,36 +241,6 @@ extension Timeline {
         let tweetRowViewModel = TweetRowViewModel(timeline: self, tweetIDString: tweetIDString, width: width)
         tweetRowViewModels[tweetIDString] = tweetRowViewModel
         return tweetRowViewModel
-    }
-    
-  
-    
-    func toggleToolsView(tweetIDString : String) {
-        
-        toolsViewModel = ToolsViewModel(timeline: self, tweetIDString: tweetIDString)
-        
-        guard let index = tweetIDStrings.firstIndex(of: tweetIDString) else { return }
-        
-        switch tweetIDStringOfRowToolsViewShowed {
-        case nil:
-            tweetIDStringOfRowToolsViewShowed = tweetIDString
-            withAnimation {tweetIDStrings.insert(tweetIDString + "toolsView", at: index + 1)}
-        case tweetIDString:
-            tweetIDStringOfRowToolsViewShowed = nil
-            let _ = withAnimation {tweetIDStrings.remove(at: index + 1)}
-        default:
-            ///先删除，再添加，避免冲突。
-            ///在删除
-            
-            
-            guard let indexOfRemove  = tweetIDStrings.firstIndex(of: tweetIDStringOfRowToolsViewShowed!) else { return }
-            let _ = withAnimation() {self.tweetIDStrings.remove(at: indexOfRemove + 1)}
-            tweetIDStringOfRowToolsViewShowed = nil
-            
-            ///删除后延迟再次运行，实际就是在下一轮运行中添加
-            delay(delay: 0.5, closure: { self.toggleToolsView(tweetIDString: tweetIDString)})
-
-        }
     }
     
     func removeToolsView() {

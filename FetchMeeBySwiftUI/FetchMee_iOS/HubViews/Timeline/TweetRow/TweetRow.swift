@@ -27,19 +27,20 @@ struct TweetRow: View {
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     @State var playVideo: Bool = false //控制是否显示视频播放页面
-    @State var isShowAction: Bool = false //控制显示推文相关操作
+    let expanded: Bool //控制显示推文相关操作
     
     @State var player: AVPlayer = AVPlayer()
     
-    init(viewModel:TweetRowViewModel) {
+    init(viewModel:TweetRowViewModel, expanded: Bool = false) {
         self.viewModel = viewModel
         //        print(#line, #file, "tweetRowView inited")
+        self.expanded = expanded
     }
     
     var body: some View {
         
         VStack {
-            if !viewModel.isToolsViewOnly {
+            
                 VStack(spacing: 0){
                     //如果是retweet推文，则显示retweet用户信息
                     viewModel.retweetMarkView?.padding(.top, 8)
@@ -97,8 +98,11 @@ struct TweetRow: View {
                     .padding(.vertical, 8)
                     
                 }
+          
+            
+            if expanded {
+                viewModel.toolsView?.animation(.default)
             }
-            viewModel.toolsView
         }
         .listRowBackground(backgroundColor)
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
