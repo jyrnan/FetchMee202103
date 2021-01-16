@@ -22,7 +22,7 @@ struct TimelineView: View {
     
     @State var isShowFloatComposer:Bool = false
     
-    @State var expandingIDString: String?
+    @State var expandingIDString: String? //标记视图中需要展开显示ToolsView的TweetRowID
     
     var listName: String? //如果是list类型则会传入listName
     init(timeline: Timeline, listName: String? = nil) {
@@ -53,39 +53,31 @@ struct TimelineView: View {
                 
                 ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
                     
-                        TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width), expanded: expandingIDString == tweetIDString)
-                            .onTapGesture {
-
-                                if expandingIDString == tweetIDString {
-                                    expandingIDString = nil
-                                } else {
-                                    expandingIDString = tweetIDString
-                                }
+                    TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width), expandingIDString: $expandingIDString)
+                        .onAppear{
+                            timeline.fetchMoreIfNeeded(tweetIDString: tweetIDString)
+                            
+                            ///如果是顶端推文显示，或者说回到顶端，那么则调用减少推文函数
+                            if timeline.tweetIDStrings.first == tweetIDString {
+                                timeline.reduceTweetsIfNeed()
                             }
-                            .onAppear{
-                                timeline.fetchMoreIfNeeded(tweetIDString: tweetIDString)
-
-                        if timeline.tweetIDStrings.first == tweetIDString {
-
-                            timeline.reduceTweetsIfNeed()
+                            
                         }
-
-                            }
                     
                 }
                 
-                    HStack {
-                        Spacer()
-                        if !timeline.isDone {
+                HStack {
+                    Spacer()
+                    if !timeline.isDone {
                         ActivityIndicator(isAnimating: $timeline.isDone, style: .medium)
-                        }
-                        Button(timeline.isDone ? "More Tweets..." : "Fetching...") {self.timeline.refreshFromBottom()}
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                            .frame(height: 24)
-                        Spacer()
                     }
-                    .listRowBackground(Color.init("BackGround"))
+                    Button(timeline.isDone ? "More Tweets..." : "Fetching...") {self.timeline.refreshFromBottom()}
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                        .frame(height: 24)
+                    Spacer()
+                }
+                .listRowBackground(Color.init("BackGround"))
                 
                 
                 RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
@@ -94,11 +86,11 @@ struct TimelineView: View {
                 
             }
             .gesture(DragGesture()
-                                    .onChanged({ value in
-                                        hideKeyboard()
-                                        delay(delay: 0.5){ timeline.removeToolsView()}
-
-                                    })
+                        .onChanged({ value in
+                            hideKeyboard()
+                            delay(delay: 0.5){ timeline.removeToolsView()}
+                            
+                        })
             )
             
             .navigationTitle(listName ?? timeline.type.rawValue)

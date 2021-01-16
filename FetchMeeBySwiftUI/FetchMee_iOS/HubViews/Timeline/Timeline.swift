@@ -274,6 +274,8 @@ extension Timeline {
         tweetIDStrings.removeLast(tweetIDStrings.count - shoulKeepNumber)
         
         setSinceAndMaxID()
+        
+        self.newTweetNumber = 0
        
     }
     

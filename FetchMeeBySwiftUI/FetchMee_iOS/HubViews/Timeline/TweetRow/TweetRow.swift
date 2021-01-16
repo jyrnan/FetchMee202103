@@ -27,14 +27,18 @@ struct TweetRow: View {
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     @State var playVideo: Bool = false //控制是否显示视频播放页面
-    let expanded: Bool //控制显示推文相关操作
+    
+    private var expanded: Bool {viewModel.tweetIDString == expandingIDString} //控制显示推文相关操作
+    
+    @Binding var expandingIDString: String?
     
     @State var player: AVPlayer = AVPlayer()
     
-    init(viewModel:TweetRowViewModel, expanded: Bool = false) {
+    init(viewModel:TweetRowViewModel, expandingIDString: Binding<String?> = .constant(nil)) {
         self.viewModel = viewModel
         //        print(#line, #file, "tweetRowView inited")
-        self.expanded = expanded
+//        self.expanded = expanded
+        self._expandingIDString = expandingIDString
     }
     
     var body: some View {
@@ -77,6 +81,15 @@ struct TweetRow: View {
                             
                             ///推文主界面
                             viewModel.statusTextView
+                                .onTapGesture {
+                                    let tweetIDString = viewModel.tweetIDString
+
+                                    if expandingIDString == tweetIDString {
+                                        expandingIDString = nil
+                                    } else {
+                                        expandingIDString = tweetIDString
+                                    }
+                                }
                             
                             ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
                             ZStack {
@@ -106,7 +119,6 @@ struct TweetRow: View {
         }
         .listRowBackground(backgroundColor)
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-        
     }
     
 }
