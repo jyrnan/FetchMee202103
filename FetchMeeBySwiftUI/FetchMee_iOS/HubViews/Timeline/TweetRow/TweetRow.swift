@@ -28,17 +28,17 @@ struct TweetRow: View {
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     @State var playVideo: Bool = false //控制是否显示视频播放页面
     
-    private var expanded: Bool {viewModel.tweetIDString == expandingIDString} //控制显示推文相关操作
+    private var expanded: Bool {viewModel.tweetIDString == viewModel.timeline.tweetIDStringOfRowToolsViewShowed} //控制显示推文相关操作
     
-    @Binding var expandingIDString: String?
+//    @Binding var expandingIDString: String?
     
     @State var player: AVPlayer = AVPlayer()
     
-    init(viewModel:TweetRowViewModel, expandingIDString: Binding<String?> = .constant(nil)) {
+    init(viewModel:TweetRowViewModel) {
         self.viewModel = viewModel
         //        print(#line, #file, "tweetRowView inited")
 //        self.expanded = expanded
-        self._expandingIDString = expandingIDString
+//        self._expandingIDString = expandingIDString
     }
     
     var body: some View {
@@ -82,13 +82,14 @@ struct TweetRow: View {
                             ///推文主界面
                             viewModel.statusTextView
                                 .onTapGesture {
-                                    let tweetIDString = viewModel.tweetIDString
-
-                                    if expandingIDString == tweetIDString {
-                                        expandingIDString = nil
-                                    } else {
-                                        expandingIDString = tweetIDString
-                                    }
+//                                    let tweetIDString = viewModel.tweetIDString
+//
+//                                    if expandingIDString == tweetIDString {
+//                                        expandingIDString = nil
+//                                    } else {
+//                                        expandingIDString = tweetIDString
+//                                    }
+                                    viewModel.toggleToolsView()
                                 }
                             
                             ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。

@@ -182,4 +182,12 @@ class TweetRowViewModel: ObservableObject{
     func checkIsReplyToMe() -> Bool {
         return userDefault.object(forKey: "userIDString") as? String == status["in_reply_to_user_id_str"].string
     }
+    
+    func toggleToolsView() {
+        if timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString {
+            timeline.tweetIDStringOfRowToolsViewShowed = nil
+        } else {
+            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+        }
+    }
 }

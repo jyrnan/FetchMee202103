@@ -22,7 +22,7 @@ struct TimelineView: View {
     
     @State var isShowFloatComposer:Bool = false
     
-    @State var expandingIDString: String? //标记视图中需要展开显示ToolsView的TweetRowID
+//    @State var expandingIDString: String? //标记视图中需要展开显示ToolsView的TweetRowID
     
     var listName: String? //如果是list类型则会传入listName
     init(timeline: Timeline, listName: String? = nil) {
@@ -53,7 +53,7 @@ struct TimelineView: View {
                 
                 ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
                     
-                    TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width), expandingIDString: $expandingIDString)
+                    TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
                         .onAppear{
                             timeline.fetchMoreIfNeeded(tweetIDString: tweetIDString)
                             

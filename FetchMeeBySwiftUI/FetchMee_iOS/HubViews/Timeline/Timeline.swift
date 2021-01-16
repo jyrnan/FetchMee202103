@@ -25,7 +25,7 @@ final class Timeline: TimelineViewModel, ObservableObject {
             })
         }
     }
-    var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
+    @Published var tweetIDStringOfRowToolsViewShowed: String? //显示ToolsView的推文ID
     
     ///存储根据MentiUserinfo情况排序的UserIDString
     var mentionUserData: [String:[String]] = [:]
