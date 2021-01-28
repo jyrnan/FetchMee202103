@@ -28,7 +28,9 @@ struct TweetRow: View {
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     @State var playVideo: Bool = false //控制是否显示视频播放页面
     
-    private var expanded: Bool {viewModel.tweetIDString == viewModel.timeline.tweetIDStringOfRowToolsViewShowed} //控制显示推文相关操作
+    private var expanded: Bool {
+            viewModel.tweetIDString == viewModel.timeline.tweetIDStringOfRowToolsViewShowed
+    } //控制显示推文相关操作
     
 //    @Binding var expandingIDString: String?
     
@@ -89,7 +91,10 @@ struct TweetRow: View {
 //                                    } else {
 //                                        expandingIDString = tweetIDString
 //                                    }
-                                    viewModel.toggleToolsView()
+//                                    withAnimation{
+                                        viewModel.toggleToolsView()
+//                                    }
+                                    
                                 }
                             
                             ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
@@ -111,11 +116,11 @@ struct TweetRow: View {
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                     
-                }
+                }.animation(.none)
           
             
             if expanded {
-                viewModel.toolsView?.animation(.default)
+                viewModel.toolsView?.opacity(expanded ? 1 : 0)
             }
         }
         .listRowBackground(backgroundColor)

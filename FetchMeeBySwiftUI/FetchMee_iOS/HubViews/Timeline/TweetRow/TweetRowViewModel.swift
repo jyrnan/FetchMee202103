@@ -8,6 +8,7 @@
 
 import UIKit
 import Swifter
+import SwiftUI
 
 class TweetRowViewModel: ObservableObject{
     //MARK:- Properties
@@ -187,7 +188,10 @@ class TweetRowViewModel: ObservableObject{
         if timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString {
             timeline.tweetIDStringOfRowToolsViewShowed = nil
         } else {
-            timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+            withAnimation{
+                timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+            }
+            
         }
     }
 }
