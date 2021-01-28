@@ -19,8 +19,9 @@ struct TweetRow: View {
     
     var backgroundColor: some View {
         Color.init("BackGround")
-            .overlay(viewModel.isReplyToMe ? Color.accentColor.opacity(0.07) : Color.clear)}
-    
+            .overlay(viewModel.isReplyToMe || expanded ? Color.accentColor.opacity(0.12) : Color.clear)
+            
+    }
     
     
     
@@ -120,7 +121,7 @@ struct TweetRow: View {
           
             
             if expanded {
-                viewModel.toolsView?.opacity(expanded ? 1 : 0)
+                viewModel.toolsView
             }
         }
         .listRowBackground(backgroundColor)
