@@ -243,11 +243,11 @@ extension Timeline {
         return tweetRowViewModel
     }
     
-    func removeToolsView() {
-        guard let index = tweetIDStrings.firstIndex(where: {$0.contains("toolsView")}) else {return}
-        let _ =  withAnimation{tweetIDStrings.remove(at: index)}
-        tweetIDStringOfRowToolsViewShowed = nil
-    }
+//    func removeToolsView() {
+//        guard let index = tweetIDStrings.firstIndex(where: {$0.contains("toolsView")}) else {return}
+//        let _ =  withAnimation{tweetIDStrings.remove(at: index)}
+//        tweetIDStringOfRowToolsViewShowed = nil
+//    }
 }
 
 extension Timeline {

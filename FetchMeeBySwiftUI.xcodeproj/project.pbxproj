@@ -114,6 +114,7 @@
 		D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D4878C257272D6005EE4A7 /* RetweetMarkView.swift */; };
 		D2D4878F25734B0A005EE4A7 /* PlayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D4878E25734B0A005EE4A7 /* PlayButtonView.swift */; };
 		D2D4879225734C60005EE4A7 /* PlayButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D4879125734C60005EE4A7 /* PlayButtonViewModel.swift */; };
+		D2D6744225C5028200348BB7 /* OverlaySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D6744125C5028200348BB7 /* OverlaySheet.swift */; };
 		D2DDFCBF2532D65100AE7E39 /* ToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */; };
 		D2DDFCC12532DE3300AE7E39 /* TimelineIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */; };
 		D2E4D75324D851EA00D68A09 /* QuotedTweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */; };
@@ -250,6 +251,7 @@
 		D2D4878C257272D6005EE4A7 /* RetweetMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetweetMarkView.swift; sourceTree = "<group>"; };
 		D2D4878E25734B0A005EE4A7 /* PlayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButtonView.swift; sourceTree = "<group>"; };
 		D2D4879125734C60005EE4A7 /* PlayButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButtonViewModel.swift; sourceTree = "<group>"; };
+		D2D6744125C5028200348BB7 /* OverlaySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlaySheet.swift; sourceTree = "<group>"; };
 		D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarView.swift; sourceTree = "<group>"; };
 		D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineIconView.swift; sourceTree = "<group>"; };
 		D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotedTweetRow.swift; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 				D2C7248724E613A400804F18 /* RoundedCorners.swift */,
 				D2309F212547E09A00549E27 /* CustomTextEditor.swift */,
 				D2309F28254922B000549E27 /* Toast.swift */,
+				D2D6744125C5028200348BB7 /* OverlaySheet.swift */,
 			);
 			path = OtherToolsView;
 			sourceTree = "<group>";
@@ -815,6 +818,7 @@
 				D2AE50652553C6D500437337 /* MentionUser.swift in Sources */,
 				D2D4878F25734B0A005EE4A7 /* PlayButtonView.swift in Sources */,
 				4BDB05D72531613B00CF71A1 /* HubView.swift in Sources */,
+				D2D6744225C5028200348BB7 /* OverlaySheet.swift in Sources */,
 				D286FFD724BC31F0005DBC39 /* UserView.swift in Sources */,
 				D2224F8A24BE7C0400AE2110 /* User.swift in Sources */,
 				4BA662742535923300DE8697 /* ToolBarsView.swift in Sources */,

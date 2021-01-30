@@ -21,9 +21,7 @@ struct TimelineView: View {
     @State var tweetText: String = ""
     
     @State var isShowFloatComposer:Bool = false
-    
-//    @State var expandingIDString: String? //标记视图中需要展开显示ToolsView的TweetRowID
-    
+        
     var listName: String? //如果是list类型则会传入listName
     init(timeline: Timeline, listName: String? = nil) {
         self.timeline = timeline
@@ -87,13 +85,14 @@ struct TimelineView: View {
             }
             .gesture(DragGesture()
                         .onChanged({ value in
-                            hideKeyboard()
-                            delay(delay: 0.5){ timeline.removeToolsView()}
-                            
-                        })
-            )
+                            hideKeyboard()}))
             
             .navigationTitle(listName ?? timeline.type.rawValue)
+            .navigationBarItems( trailing: Button(action: {
+                alerts.isShowingOverlaySheet = true
+            }, label: {
+                Image(systemName: "plus")
+            }))
             .onAppear {
                 if timeline.tweetIDStrings.isEmpty {
                     timeline.refreshFromBottom(count: 20)
@@ -103,6 +102,15 @@ struct TimelineView: View {
                 timeline.reduceTweetsIfNeed()
                 timeline.removeTweetRowModelIfNeed()
                 print(#line, #file, "timelineView disappeared")
+            }
+            .overlaySheet(isPresented: $alerts.isShowingOverlaySheet){
+                ZStack{
+                    Rectangle()
+                    ComposerOfHubView(
+                        tweetText: .constant(""), isUsedAlone: true)
+                        .frame(height: 240)
+                }
+                .frame(height: 400)
             }
         }
     }

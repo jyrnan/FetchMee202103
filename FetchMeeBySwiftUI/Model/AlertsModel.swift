@@ -28,6 +28,8 @@ class Alerts: ObservableObject {
     @Published var isShowingPicture: Bool = false //是否浮动显示图片
     @Published var presentedView: AnyView? //通过AnyView就可以实现任意View的传递了？！
     
+    @Published var isShowingOverlaySheet: Bool = false //是否显示下部弹出视窗
+    
     
     /// 设置用于显示的LogMessage，可以在引入Alerts环境变量的View里面调用来设置
     /// - Parameter text: 显示的文字内容

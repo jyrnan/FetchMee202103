@@ -28,7 +28,6 @@ struct Composer: View {
     var body: some View {
         HStack(alignment: .center) {
             TextField(placeHolderText, text: $tweetText).font(.body)
-//                .padding(.leading, 16)
             Spacer()
             ///显示详细发推视图或者菊花
             if isProcessingDone {
@@ -38,7 +37,6 @@ struct Composer: View {
                     isActive: $isShowCMV
                 ){EmptyView().disabled(true)}.opacity(0.1).disabled(true)
                     Text("more").font(.body).foregroundColor(.primary).opacity(0.7)
-//                        .background(Color.init("BackGround"))
                 .onTapGesture {self.isShowCMV = true }
                 }
                 .fixedSize() //可以减少空间的占用量，否则会占据一半的有用空间

@@ -29,6 +29,8 @@ struct TweetRow: View {
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     @State var playVideo: Bool = false //控制是否显示视频播放页面
     
+    
+    
     private var expanded: Bool {
             viewModel.tweetIDString == viewModel.timeline.tweetIDStringOfRowToolsViewShowed
     } //控制显示推文相关操作
@@ -77,6 +79,7 @@ struct TweetRow: View {
                                     NavigationLink(destination: DetailView(tweetIDString: viewModel.tweetIDString), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
                                     viewModel.detailIndicator
                                         .onTapGesture {isShowDetail = true }
+                    
                                 }.fixedSize()
                                 
                             }
@@ -126,6 +129,7 @@ struct TweetRow: View {
         }
         .listRowBackground(backgroundColor)
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        
     }
     
 }
