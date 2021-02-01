@@ -74,6 +74,21 @@ struct HubView: View {
         }
         .overlay(AlertView()) //所有条状通知在NavigationBar上出现
         .toast(isShowing: $alerts.isShowingPicture, presented: alerts.presentedView)
+        .overlaySheet(isPresented: $alerts.isShowingOverlaySheet){
+           ZStack{
+//                RoundedCorners(color: Color.clear, tl: 18, tr: 18, bl: 0, br: 0)
+              VStack{
+                ComposerOfHubView(
+                    tweetText: $tweetText, isUsedAlone: true)
+                    .frame(height: 240)
+                Spacer()
+           }
+            }
+            
+           .blurBackground(style: .systemChromeMaterial)
+           .cornerRadius(18)
+            .frame(height: 260)
+        }
         
     }
     

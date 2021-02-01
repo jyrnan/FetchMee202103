@@ -103,15 +103,7 @@ struct TimelineView: View {
                 timeline.removeTweetRowModelIfNeed()
                 print(#line, #file, "timelineView disappeared")
             }
-            .overlaySheet(isPresented: $alerts.isShowingOverlaySheet){
-                ZStack{
-                    Rectangle()
-                    ComposerOfHubView(
-                        tweetText: .constant(""), isUsedAlone: true)
-                        .frame(height: 240)
-                }
-                .frame(height: 400)
-            }
+            
         }
     }
 }
