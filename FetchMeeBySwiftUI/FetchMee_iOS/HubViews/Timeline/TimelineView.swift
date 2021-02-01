@@ -91,7 +91,7 @@ struct TimelineView: View {
             .navigationBarItems( trailing: Button(action: {
                 alerts.isShowingOverlaySheet = true
             }, label: {
-                Image(systemName: "plus")
+                Image(systemName: "plus").font(.title2)
             }))
             .onAppear {
                 if timeline.tweetIDStrings.isEmpty {
