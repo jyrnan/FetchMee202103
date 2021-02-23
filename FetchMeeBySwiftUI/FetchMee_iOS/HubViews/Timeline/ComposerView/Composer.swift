@@ -13,6 +13,8 @@ struct Composer: View {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var fetchMee: User
     
+    @EnvironmentObject var store: Store
+    
     @Environment(\.managedObjectContext) var viewContext
     
     @State var tweetText: String = ""
@@ -50,8 +52,11 @@ struct Composer: View {
                 isProcessingDone = false
                 swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
                     self.tweetText = ""
-                    self.alerts.stripAlert.alertText = "Tweet sent!"
-                    self.alerts.stripAlert.isPresentedAlert = true
+//                    self.alerts.stripAlert.alertText = "Tweet sent!"
+//                    self.alerts.stripAlert.isPresentedAlert = true
+                    
+                    store.dipatch(.alertON(text: "Tweet sent!", isWarning: false))
+                    
                     isProcessingDone = true
                 })
                 self.hideKeyboard()

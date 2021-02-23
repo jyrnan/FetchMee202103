@@ -21,6 +21,8 @@ struct HubView: View {
     @EnvironmentObject var loginUser: User
     @EnvironmentObject var downloader: Downloader
     
+    @EnvironmentObject var store: Store
+    
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var logs: FetchedResults<Log>
     

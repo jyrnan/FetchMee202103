@@ -24,6 +24,8 @@ struct ComposerOfHubView: View {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var fetchMee: User
     
+    @EnvironmentObject var store: Store
+    
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var draftsByCoreData: FetchedResults<TweetDraft>
     
@@ -238,8 +240,10 @@ extension ComposerOfHubView {
                 deleteDraft(draft: currentTweetDraft)
                 currentTweetDraft = nil
                 
-                self.alerts.stripAlert.alertText = "Tweet sent!"
-                self.alerts.stripAlert.isPresentedAlert = true
+//                self.alerts.stripAlert.alertText = "Tweet sent!"
+//                self.alerts.stripAlert.isPresentedAlert = true
+                
+                store.dipatch(.alertON(text: "Tweet sent!", isWarning: false))
                 
                 hideKeyboard()
                 return
