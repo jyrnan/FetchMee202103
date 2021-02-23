@@ -9,6 +9,13 @@
 import Foundation
 import Combine
 
+//Redux下，
+//Store可以有多个State，
+//Action用来改变State，
+//所有的View通过State来获取状态，
+//AppCommand或者midware用来获取异步数据，也可以触发Action，
+//可以这么理解么？ #Swift
+
 class Store: ObservableObject {
     @Published var appState = AppState()
     
@@ -34,15 +41,16 @@ class Store: ObservableObject {
         var appCommand: AppCommand?
         
         switch action {
-        case .alertON(let text, let isWarning):
-            appState.alerts.alertText = text
-            appState.alerts.isWarning = isWarning
-            appState.alerts.isPresentedAlert = true
-            appCommand = AlertOffAppCommand()
+        
+        case .alertOn(let text, let isWarning):
+            appState.setting.alert.alertText = text
+            appState.setting.alert.isWarning = isWarning
+            appState.setting.alert.isPresentedAlert = true
             
         case .alertOff:
-            appState.alerts.isPresentedAlert = false
+            appState.setting.alert.isPresentedAlert = false
         }
+        
         return (appState, appCommand)
     }
 }

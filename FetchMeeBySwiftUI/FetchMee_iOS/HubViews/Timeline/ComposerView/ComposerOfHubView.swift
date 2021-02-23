@@ -243,7 +243,7 @@ extension ComposerOfHubView {
 //                self.alerts.stripAlert.alertText = "Tweet sent!"
 //                self.alerts.stripAlert.isPresentedAlert = true
                 
-                store.dipatch(.alertON(text: "Tweet sent!", isWarning: false))
+                store.dipatch(.alertOn(text: "Tweet sent!", isWarning: false))
                 
                 hideKeyboard()
                 return

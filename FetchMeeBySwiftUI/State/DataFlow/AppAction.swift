@@ -9,6 +9,6 @@
 import Foundation
 
 enum AppAction {
-    case alertON(text: String, isWarning: Bool)
+    case alertOn(text: String, isWarning: Bool)
     case alertOff
 }

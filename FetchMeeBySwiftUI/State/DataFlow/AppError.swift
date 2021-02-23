@@ -7,3 +7,18 @@
 //
 
 import Foundation
+
+enum AppError: Error, Identifiable {
+    var id: String {localizedDescription}
+    
+    case netwokingFailed(Error)
+}
+
+extension AppError: LocalizedError {
+    var localizedDescription: String {
+        switch self {
+        case .netwokingFailed(let error):
+            return error.localizedDescription
+        }
+    }
+}

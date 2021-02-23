@@ -17,8 +17,8 @@ struct AlertView: View {
   
     @State private var offsetValue: CGFloat = -28 //初始的偏移值
     
-    var isPresentedAlert: Bool {store.appState.alerts.isPresentedAlert}
-    var alertText:String {store.appState.alerts.alertText}
+    var isPresentedAlert: Bool {store.appState.setting.alert.isPresentedAlert}
+    var alertText:String {store.appState.setting.alert.alertText}
     
     var body: some View {
         VStack(spacing: 0){
@@ -34,9 +34,10 @@ struct AlertView: View {
                                 withAnimation{self.offsetValue = -28
                                 }
                             }
-//                            delay(delay: 3) {
+                            delay(delay: 3) {
 //                                alerts.stripAlert.isPresentedAlert = false
-//                            }
+                                store.dipatch(.alertOff)
+                            }
                         }
                     
                     Spacer()

@@ -55,7 +55,7 @@ struct Composer: View {
 //                    self.alerts.stripAlert.alertText = "Tweet sent!"
 //                    self.alerts.stripAlert.isPresentedAlert = true
                     
-                    store.dipatch(.alertON(text: "Tweet sent!", isWarning: false))
+                    store.dipatch(.alertOn(text: tweetIDString == nil ? "Tweet sent!" : "Reply sent", isWarning: false))
                     
                     isProcessingDone = true
                 })
