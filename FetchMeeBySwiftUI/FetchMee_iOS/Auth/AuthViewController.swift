@@ -14,6 +14,8 @@ import SwiftUI
 
 class AuthViewController: UIViewController, SFSafariViewControllerDelegate {
     
+    var store: Store!
+    
     var loginUser: User!
     
     @IBAction func login(_ sender: Any) {
@@ -40,8 +42,10 @@ class AuthViewController: UIViewController, SFSafariViewControllerDelegate {
             print(error.localizedDescription)
         }
         let url = URL(string: "fetchmee://success")!
-        swifter.authorize(withCallback: url, presentingFrom:self, success: {token, _ in
+        swifter.authorize(withCallback: url, presentingFrom:self, success: {token, response in
             if let token = token {
+                print(#line, #function, response)
+                
                 // 写入登陆后信息, writeInfo
                 //把Token相关信息存储到文件中
                 userDefault.set(token.key, forKey: "tokenKey")
@@ -51,7 +55,15 @@ class AuthViewController: UIViewController, SFSafariViewControllerDelegate {
                 
                 userDefault.set(true, forKey: "isLoggedIn")
                 self.loginUser.isLoggedIn = true
+                
+                let loginUser = UserInfo(id: token.userID!,
+                                         screenName: token.screenName,
+                                         tokenKey: token.key,
+                                         tokenSecret: token.secret)
+                self.store.appState.setting.loginUser = loginUser
+                
                 print(#line, "set isLoggedIn")
+                print(#line, self.store.appState.setting.loginUser)
                 
                 self.readInfo() //登录后读取信息并设置新的swifter
             }
@@ -73,13 +85,16 @@ class AuthViewController: UIViewController, SFSafariViewControllerDelegate {
 }
 
 
-struct authViewFromVC: UIViewControllerRepresentable {
+struct AuthViewFromVC: UIViewControllerRepresentable {
+    
+    @EnvironmentObject var store: Store
     
     var loginUser: User!
     
     func makeUIViewController(context: Context) -> AuthViewController {
         let authViewController = AuthViewController()
         authViewController.loginUser = loginUser
+        authViewController.store = store
         return authViewController
     }
     

@@ -14,6 +14,8 @@ struct SettingView: View {
     @EnvironmentObject var loginUser: User
     @EnvironmentObject var alerts: Alerts
     
+    @EnvironmentObject var store: Store
+    
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -28,7 +30,7 @@ struct SettingView: View {
     
     var body: some View {
         Form {
-                Image(uiImage: loginUser.info.banner ?? UIImage(named: "bg")!)
+                Image(uiImage: UIImage(named: "bg")!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             .frame(height: 120)
@@ -118,7 +120,7 @@ struct SettingView: View {
         .onDisappear{loginUser.setting.save()}
         .navigationTitle("Setting")
 //        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems( trailing: AvatarImageView(image: loginUser.info.avatar).frame(width: 36, height: 36, alignment: .center))
+        .navigationBarItems( trailing: AvatarImageView(image: UIImage()).frame(width: 36, height: 36, alignment: .center))
     }
 }
 
@@ -136,6 +138,8 @@ extension SettingView {
                 userDefault.set(nil, forKey: "screenName")
                 userDefault.set(nil, forKey: "mentionUserData")
                 loginUser.isLoggedIn = false
+                
+                store.appState.setting.loginUser = nil
             }
         })
     }

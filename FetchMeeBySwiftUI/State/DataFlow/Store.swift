@@ -8,6 +8,7 @@
 
 import Foundation
 import Combine
+import Swifter
 
 //Redux下，
 //Store可以有多个State，
@@ -18,6 +19,9 @@ import Combine
 
 class Store: ObservableObject {
     @Published var appState = AppState()
+    
+    var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
+                                   consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")
     
     private var disposeBag = Set<AnyCancellable>()
     

@@ -34,7 +34,7 @@ extension AppState {
         var alert = Alert()
         
         ///User及login部分
-        
+        @FileStorage(directory: .documentDirectory, fileName: "user.json")
         var loginUser: UserInfo?
         
         var loginRequesting = false

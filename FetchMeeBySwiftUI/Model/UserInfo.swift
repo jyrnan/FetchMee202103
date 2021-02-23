@@ -12,7 +12,7 @@ import Combine
 import CoreData
 
 
-struct UserInfo: Identifiable {
+struct UserInfo: Identifiable, Codable {
     var id: String = "0000" //设置成默认ID是“0000”，所以在进行用户信息更新之前需要设置该ID的值
     var name:String?
     var screenName: String?
@@ -20,11 +20,14 @@ struct UserInfo: Identifiable {
     var description: String?
     var createdAt: String?
     
+    var tokenKey: String?
+    var tokenSecret: String?
+    
     var avatarUrlString: String?
-    var avatar: UIImage?
+//    var avatar: UIImage?
     
     var bannerUrlString: String?
-    var banner: UIImage?
+//    var banner: UIImage?
     
     var bioText: String?
     var loc: String?

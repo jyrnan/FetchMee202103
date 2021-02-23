@@ -64,7 +64,7 @@ extension User {
             avatarUrl = avatarUrl?.replacingOccurrences(of: "_normal", with: "")
             imageDownloaderWithClosure(from: avatarUrl, sh: {im in
                 DispatchQueue.main.async {
-                    self.info.avatar = im
+//                    self.info.avatar = im
                 }
                 
             })
@@ -72,7 +72,7 @@ extension User {
             userInfo.bannerUrlString = json["profile_banner_url"].string
             imageDownloaderWithClosure(from: userInfo.bannerUrlString, sh: {im in
                 DispatchQueue.main.async {
-                    self.info.banner = im
+//                    self.info.banner = im
                 }
             })
             

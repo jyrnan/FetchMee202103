@@ -14,13 +14,16 @@ struct ContentView: View {
     @EnvironmentObject var loginUser: User
     @ObservedObject var viewModel: ContentViewModel
     
+    @EnvironmentObject var store: Store
+    
+    var isLoggedIn:Bool {store.appState.setting.loginUser != nil}
 
     var body: some View {
-        if self.loginUser.isLoggedIn {
+        if isLoggedIn {
             HubView()
                 .accentColor(self.loginUser.setting.themeColor.color)
         } else {
-            AuthView()
+            AuthViewFromVC(loginUser: loginUser).ignoresSafeArea()
                 .accentColor(self.loginUser.setting.themeColor.color)
         }
     }

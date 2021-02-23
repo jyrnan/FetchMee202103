@@ -68,7 +68,7 @@ struct HubView: View {
             })
             .navigationTitle("FetchMee")
             .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
-                                    AvatarImageView(image: loginUser.info.avatar).frame(width: 36, height: 36, alignment: .center)})
+                                    AvatarImageView(image: UIImage()).frame(width: 36, height: 36, alignment: .center)})
         }
         .overlay(AlertView()) //所有条状通知在NavigationBar上出现
         .toast(isShowing: $alerts.isShowingPicture, presented: alerts.presentedView)

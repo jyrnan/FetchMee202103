@@ -47,23 +47,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
         // Create the SwiftUI view that provides the window contents.
-        self.loingUser.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
-        self.loingUser.setting.load() //读取存储的设置
+        
+//        self.loingUser.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
+//        self.loingUser.setting.load() //读取存储的设置
         let contentView = ContentView(viewModel: injectionContainer.contentViewModel).environment(\.managedObjectContext, context)
         
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
-            if self.loingUser.isLoggedIn {
+//            if self.loingUser.isLoggedIn
+            if let loginUserInStore = store.appState.setting.loginUser {
                 // 读取token信息
-                let tokenKey = userDefault.object(forKey: "tokenKey") as! String
-                let tokenSecret = userDefault.object(forKey: "tokenSecret") as! String
+//                let tokenKey = userDefault.object(forKey: "tokenKey") as! String
+//                let tokenSecret = userDefault.object(forKey: "tokenSecret") as! String
                 //设置登录后的Swifter以及获取loginUser的信息
                 swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
                                   consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
-                                  oauthToken: tokenKey,
-                                  oauthTokenSecret: tokenSecret)
+                                  oauthToken: loginUserInStore.tokenKey!,
+                                  oauthTokenSecret: loginUserInStore.tokenSecret!)
                 
                 self.loingUser.getUserInfo()}
             
