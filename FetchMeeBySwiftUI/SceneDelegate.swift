@@ -214,7 +214,7 @@ extension SceneDelegate {
         }
         
         //logHandler用来传入到其他函数中接受记录并输出信息到CoreData中
-        let logHandler: (String) -> () = {logText in
+        let _: (String) -> () = {logText in
             self.alerts.setLogMessage(text: logText)
             self.saveOrUpdateLog(text: logText)
         }

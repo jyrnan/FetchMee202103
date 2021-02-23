@@ -38,32 +38,28 @@ struct HubView: View {
             
             ScrollView(.vertical, showsIndicators: false){
                 
-//                ZStack{
-                    VStack {
-//                        PullToRefreshView(action: {self.refreshAll()}, isDone: .constant(true)) {
-                            ComposerOfHubView(tweetText: $tweetText)
-                                .padding(.top, 16)
-                                .padding([.leading, .trailing], 18)
-//                        }
+                VStack {
+                    ComposerOfHubView(tweetText: $tweetText)
+                        .padding(.top, 16)
+                        .padding([.leading, .trailing], 18)
                         .frame(minHeight: 120, idealHeight: UIScreen.main.bounds.height - 600, maxHeight: .infinity)
-                        
-                        Divider()
-                        TimelinesView(lists: loginUser.lists)
-                        
-                        ToolBarsView()
-                            .padding([.leading, .trailing], 16)
-                        
-                        
+                    
+                    Divider()
+                    TimelinesView(lists: loginUser.lists)
+                    
+                    ToolBarsView()
+                        .padding([.leading, .trailing], 16)
+                    
+                    Spacer()
+                    
+                    HStack {
                         Spacer()
-                        
-                        HStack {
-                            Spacer()
-                            Button(action: {}){Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)}
-                            Spacer()
-                        }.padding(.top, 30).padding()
-                        
-                    }.background(Color.init("BackGround")).cornerRadius(24)
-
+                        Button(action: {}){Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)}
+                        Spacer()
+                    }.padding(.top, 30).padding()
+                    
+                }.background(Color.init("BackGround")).cornerRadius(24)
+                
             }
             .onTapGesture(count: 1, perform: {
                 self.hideKeyboard()
@@ -75,18 +71,16 @@ struct HubView: View {
         .overlay(AlertView()) //所有条状通知在NavigationBar上出现
         .toast(isShowing: $alerts.isShowingPicture, presented: alerts.presentedView)
         .overlaySheet(isPresented: $alerts.isShowingOverlaySheet){
-           ZStack{
-//                RoundedCorners(color: Color.clear, tl: 18, tr: 18, bl: 0, br: 0)
-              VStack{
-                ComposerOfHubView(
-                    tweetText: $tweetText, isUsedAlone: true)
-                    .frame(height: 240)
-                Spacer()
-           }
+            ZStack{
+                VStack{
+                    ComposerOfHubView(
+                        tweetText: $tweetText, isUsedAlone: true)
+                        .frame(height: 240)
+                    Spacer()
+                }
             }
-            
-           .blurBackground(style: .systemChromeMaterial)
-           .cornerRadius(18)
+            .blurBackground(style: .systemChromeMaterial)
+            .cornerRadius(18)
             .frame(height: 260)
         }
         
@@ -101,7 +95,6 @@ struct HubView: View {
         transAppearance.backgroundImageContentMode = .bottomRight
         transAppearance.shadowColor = .clear
         
-        //        UINavigationBar.appearance().standardAppearance = transAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = transAppearance
     }
 }
@@ -130,7 +123,7 @@ extension HubView {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
-   
+    
     
 }
 

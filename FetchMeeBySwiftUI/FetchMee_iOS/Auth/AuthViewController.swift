@@ -68,7 +68,7 @@ class AuthViewController: UIViewController, SFSafariViewControllerDelegate {
                           oauthToken: tokenKey,
                           oauthTokenSecret: tokenSecret)
         
-        self.loginUser.getUserInfo() //
+        self.loginUser.getUserInfo() 
     }
 }
 

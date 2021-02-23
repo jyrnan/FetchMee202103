@@ -98,7 +98,7 @@ extension User {
             
             
             ///从CoreData读取信息计算24小时内新增fo数和推文数量
-            let results = updateCount(user: userInfo)
+            let _ = updateCount(user: userInfo)
             userInfo.lastDayAddedFollower = Count.updateCount(for: userInfo, in: viewContext).followerOfLastDay
             userInfo.lastDayAddedTweets = Count.updateCount(for: userInfo, in: viewContext).tweetsOfLastDay
             

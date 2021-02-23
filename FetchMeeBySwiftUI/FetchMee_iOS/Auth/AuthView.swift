@@ -21,24 +21,9 @@ struct AuthView: View {
     let message = "This allows the app and website to share information about you"
 
     var body: some View {
-//        ZStack{
-//       Button(action: {isShowAlert = true}, label: {
-//                HStack {
-//                    Spacer()
-//                    Image("Logo")
-//                        .resizable()
-//                        .frame(width: 48, height: 48, alignment: .center)
-//                    Text("Press to Login").foregroundColor(Color.init("TwitterBlue"))
-//                    Spacer()
-//                }
-//
-//            })
-//       .alert(isPresented: $isShowAlert) {Alert(title: Text(title), message: Text(message), primaryButton: .default(Text("Continue"), action: {self.isShowAuthView = true}), secondaryButton: .cancel())}
-//       if isShowAuthView {
+
         authViewFromVC(loginUser: loginUser).ignoresSafeArea()
         
-//    }
-//    }
     }
 }
 
