@@ -13,12 +13,11 @@ import SwiftUI
 
 struct AppState {
     var setting = Setting()
+    var timeline = Timeline()
 }
 
 extension AppState {
-    
-    
-    
+   
     struct Setting {
         
         struct Alert {
@@ -41,4 +40,13 @@ extension AppState {
         
         var lists: [String: ListTag] = [:]
     }
+}
+
+extension AppState {
+    struct Timeline {
+        var home: [String] = []
+        var mention: [String] = []
+        
+    }
+    
 }

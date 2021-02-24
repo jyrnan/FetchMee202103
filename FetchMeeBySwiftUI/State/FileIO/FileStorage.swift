@@ -1,10 +1,12 @@
 //
 //  FileStorage.swift
-//  PokeMaster
+//  FetchMee
 //
-//  Created by 王 巍 on 2019/09/13.
-//  Copyright © 2019 OneV's Den. All rights reserved.
+//  Created by jyrnan on 2021/2/24.
+//  Copyright © 2021 jyrnan. All rights reserved.
 //
+
+
 
 import Foundation
 
@@ -34,3 +36,4 @@ struct FileStorage<T: Codable> {
         get { value }
     }
 }
+

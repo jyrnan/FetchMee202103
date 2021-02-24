@@ -24,8 +24,9 @@
 		D205247424C199500046F1AB /* AlertsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D205247324C199500046F1AB /* AlertsModel.swift */; };
 		D205247624C290F10046F1AB /* PullRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = D205247524C290F10046F1AB /* PullRefresh.swift */; };
 		D20A35CC25E53C4E0012CD82 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20A35CB25E53C4E0012CD82 /* FileHelper.swift */; };
-		D20A35CF25E53C860012CD82 /* FileStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20A35CE25E53C860012CD82 /* FileStorage.swift */; };
 		D20A35D125E5418E0012CD82 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20A35D025E5418E0012CD82 /* Helpers.swift */; };
+		D20A35D325E68F870012CD82 /* FileStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20A35D225E68F870012CD82 /* FileStorage.swift */; };
+		D20A35D525E68FFB0012CD82 /* AppCommand_Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20A35D425E68FFB0012CD82 /* AppCommand_Timeline.swift */; };
 		D21C3304255A827C001CBBCD /* Counter+Calculate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C3303255A827C001CBBCD /* Counter+Calculate.swift */; };
 		D21C3306255A8356001CBBCD /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C3305255A8356001CBBCD /* FoundationExtensions.swift */; };
 		D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F4C4E24DE73C6004B2C20 /* SettingView.swift */; };
@@ -166,8 +167,9 @@
 		D205247324C199500046F1AB /* AlertsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsModel.swift; sourceTree = "<group>"; };
 		D205247524C290F10046F1AB /* PullRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullRefresh.swift; sourceTree = "<group>"; };
 		D20A35CB25E53C4E0012CD82 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelper.swift; sourceTree = "<group>"; };
-		D20A35CE25E53C860012CD82 /* FileStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStorage.swift; sourceTree = "<group>"; };
 		D20A35D025E5418E0012CD82 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		D20A35D225E68F870012CD82 /* FileStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileStorage.swift; sourceTree = "<group>"; };
+		D20A35D425E68FFB0012CD82 /* AppCommand_Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommand_Timeline.swift; sourceTree = "<group>"; };
 		D21C3303255A827C001CBBCD /* Counter+Calculate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Counter+Calculate.swift"; sourceTree = "<group>"; };
 		D21C3305255A8356001CBBCD /* FoundationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
 		D21F4C4E24DE73C6004B2C20 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
@@ -366,7 +368,7 @@
 		D20A35CD25E53C5C0012CD82 /* FileIO */ = {
 			isa = PBXGroup;
 			children = (
-				D20A35CE25E53C860012CD82 /* FileStorage.swift */,
+				D20A35D225E68F870012CD82 /* FileStorage.swift */,
 			);
 			path = FileIO;
 			sourceTree = "<group>";
@@ -580,6 +582,7 @@
 				D28F9E9625E4E0FD00B8EF40 /* AppState.swift */,
 				D28F9E9825E4E37600B8EF40 /* AppAction.swift */,
 				D28F9E9A25E4E39200B8EF40 /* AppCommand.swift */,
+				D20A35D425E68FFB0012CD82 /* AppCommand_Timeline.swift */,
 				D28F9E9C25E4E39F00B8EF40 /* AppError.swift */,
 			);
 			path = DataFlow;
@@ -833,7 +836,6 @@
 				D21C3304255A827C001CBBCD /* Counter+Calculate.swift in Sources */,
 				D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */,
 				D28F9E9925E4E37600B8EF40 /* AppAction.swift in Sources */,
-				D20A35CF25E53C860012CD82 /* FileStorage.swift in Sources */,
 				4B5E607625353A7200E7A5F1 /* AvatarImageView.swift in Sources */,
 				D7AC536E24BB477300BCD71F /* DetailView.swift in Sources */,
 				D2318AA92571E40900F55BDF /* FavoriteStarMarkView.swift in Sources */,
@@ -889,6 +891,7 @@
 				D24E40A1257B74E700401BBB /* TimelineProtocol.swift in Sources */,
 				D2794F33251F1DE200824E6D /* SaliencyDetection.swift in Sources */,
 				D2EFF67B2573E2A600E016C1 /* UserNameView.swift in Sources */,
+				D20A35D525E68FFB0012CD82 /* AppCommand_Timeline.swift in Sources */,
 				D2C12CD5254A6A6B00D74778 /* UserInfo.swift in Sources */,
 				4BDB05D925316D5C00CF71A1 /* ComposerOfHubView.swift in Sources */,
 				D2946F2724CD6C8100F8A7C6 /* TweetTextView.swift in Sources */,
@@ -906,6 +909,7 @@
 				D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */,
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
 				D2419C712579E43900A9CF98 /* AttributedTextView.swift in Sources */,
+				D20A35D325E68F870012CD82 /* FileStorage.swift in Sources */,
 				D28F9E9D25E4E39F00B8EF40 /* AppError.swift in Sources */,
 				D2BB6900257C849D003BDA13 /* UserViewModel.swift in Sources */,
 				D2DDFCC12532DE3300AE7E39 /* TimelineIconView.swift in Sources */,
