@@ -19,6 +19,7 @@ struct AlertView: View {
     
     var isPresentedAlert: Bool {store.appState.setting.alert.isPresentedAlert}
     var alertText:String {store.appState.setting.alert.alertText}
+    var isWarning: Bool {store.appState.setting.alert.isWarning}
     
     var body: some View {
         VStack(spacing: 0){
@@ -44,7 +45,7 @@ struct AlertView: View {
                 }
                 .frame(width: 150)
                 
-                .background(alertText.contains("Sorry") ? Color.red : Color.accentColor .opacity(0.8))
+                .background(isWarning ? Color.red : Color.accentColor .opacity(0.8))
                 .cornerRadius(12)
                 .shadow(radius: 3 )
                 .offset(y: self.offsetValue)

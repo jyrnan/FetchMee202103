@@ -14,6 +14,7 @@ import Combine
 import CoreData
 import BackgroundTasks
 
+//TODO: 取消这个swifter的全局变量？
 var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
                                consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")
 
@@ -32,7 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ///这个还真不知道有没有必要呢……
     let injectionContainer = FetchMeeAppDependencyContainer()
     
-    var loingUser: User = User() //App登录使用的用户
+//    var loingUser: User = User() //App登录使用的用户
     var alerts: Alerts = Alerts()
     var downloader = Downloader(configuation: URLSessionConfiguration.default)
     
@@ -47,34 +48,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
         // Create the SwiftUI view that provides the window contents.
-        
-//        self.loingUser.isLoggedIn = userDefault.object(forKey: "isLoggedIn") as? Bool ?? false
-//        self.loingUser.setting.load() //读取存储的设置
+
         let contentView = ContentView(viewModel: injectionContainer.contentViewModel).environment(\.managedObjectContext, context)
         
-        // Use a UIHostingController as window root view controller.
+        store.context = context
+        
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
-//            if self.loingUser.isLoggedIn
-            if let loginUserInStore = store.appState.setting.loginUser {
-                // 读取token信息
-//                let tokenKey = userDefault.object(forKey: "tokenKey") as! String
-//                let tokenSecret = userDefault.object(forKey: "tokenSecret") as! String
-                //设置登录后的Swifter以及获取loginUser的信息
-                swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
-                                  consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
-                                  oauthToken: loginUserInStore.tokenKey!,
-                                  oauthTokenSecret: loginUserInStore.tokenSecret!)
-                
-                self.loingUser.getUserInfo()}
+            if let loginUser = store.appState.setting.loginUser {
+
+                swifter = store.swifter //临时保证全局变量还能使用
+
+                store.dipatch(.userRequest(user: loginUser))
+            }
             
             window.rootViewController = UIHostingController(
                 rootView: contentView
                     .environmentObject(alerts)
-                    .environmentObject(loingUser)
-                    .accentColor(loingUser.setting.themeColor.color)
-                    .environmentObject(downloader)
                     .environmentObject(store))
             
             self.window = window
@@ -114,6 +105,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -122,13 +114,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
         
         //保存用户设置
-        loingUser.setting.save()
+//        loingUser.setting.save()
         
         //加入定时程序
         scheduledRefresh()
         scheduledProcess()
         
-        
+        if let loginUser = store.appState.setting.loginUser { store.dipatch(.userRequest(user: loginUser))
+        }
+       
     }
     
     
@@ -232,7 +226,7 @@ extension SceneDelegate {
         //        }
         
         //实际操作部分，执行真正的操作
-        guard loingUser.isLoggedIn else { return }
+        guard store.appState.setting.loginUser != nil else { return }
         
         saveOrUpdateLog(text: "Started background fetch.")
         
@@ -284,7 +278,7 @@ extension SceneDelegate {
         
         let log = Log(context: context)
         log.createdAt = Date()
-        log.text = " \(loingUser.info.screenName ?? "screenName") " + text! //临时添加一个用户名做标记
+        log.text = " \(store.appState.setting.loginUser?.screenName ?? "screenName") " + text! //临时添加一个用户名做标记
         log.id = UUID()
         
         do {

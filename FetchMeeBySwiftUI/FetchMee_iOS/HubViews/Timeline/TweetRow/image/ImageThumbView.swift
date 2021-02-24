@@ -19,7 +19,9 @@ struct ImageThumb: View {
     
     
     //MARK:-Properties
-    @EnvironmentObject var alerts: Alerts
+//    @EnvironmentObject var alerts: Alerts
+    @EnvironmentObject var store: Store
+    
     @State var presentedImageViewer: Bool = false
     @State var isImageDownloaded: Bool = true //标记大图是否下载完成
     
@@ -46,8 +48,7 @@ struct ImageThumb: View {
         ZStack(alignment: .center) {
             
             Image(uiImage: remoteImageFromUrl.image)
-//            KFImage(URL(string: imageUrl + ":small")!,
-//                    options: [.processor(WebpProcessor())])
+
 
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -61,8 +62,8 @@ struct ImageThumb: View {
                         ///下载完成后调用imageViewer
                         DispatchQueue.main.async {
                             let imageViewer = ImageViewer(image: image)
-                            alerts.presentedView = AnyView(imageViewer)
-                            withAnimation{alerts.isShowingPicture = true}                                }
+                            store.appState.setting.presentedView = AnyView(imageViewer)
+                            withAnimation{store.appState.setting.isShowingPicture = true}                                }
                         self.isImageDownloaded = true}}
                 .onAppear{
                     remoteImageFromUrl.getImage()
@@ -75,31 +76,3 @@ struct ImageThumb: View {
     
 }
 
-//struct WebpProcessor: ImageProcessor {
-//
-//    // `identifier` should be the same for processors with the same properties/functionality
-//    // It will be used when storing and retrieving the image to/from cache.
-//    let identifier = "com.jyrnan.webpprocessor"
-//
-//    // Convert input data/image to target image and return it.
-//    func process(item: ImageProcessItem, options: KingfisherParsedOptionsInfo) -> UIImage? {
-//        switch item {
-//        case .image(let image):
-//            print("already an image")
-//            return image.detectFaces{result in
-//                var image = image
-//                DispatchQueue.main.async {
-//                    image =  (result?.cropByFace(image))!
-//                    _ = result?.drawnOn(image)
-//                    print(#line, #file, "face process")
-//                }
-//                return image
-//                      }
-//
-//
-//        case .data(let data):
-////            return WebpFramework.createImage(from: webpData)
-//        return UIImage(data: data)
-//        }
-//    }
-//}

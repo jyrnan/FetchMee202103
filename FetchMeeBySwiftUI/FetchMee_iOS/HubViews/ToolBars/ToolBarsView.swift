@@ -10,7 +10,11 @@ import SwiftUI
 import CoreData
 
 struct ToolBarsView: View {
-    @EnvironmentObject var user: User
+    @EnvironmentObject var store: Store
+    var user: User {let user =  User()
+        user.info = store.appState.setting.loginUser ?? UserInfo()
+        return user
+    }
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
@@ -100,20 +104,7 @@ extension ToolBarsView {
         } catch let error as NSError {
             print("count not fetched \(error), \(error.userInfo)")
           }
-        
-       
-        
-        
-        
-        
-//        let lastThreeDaysCounts = myCounts.filter{count in
-//            return abs(count.createdAt?.timeIntervalSinceNow ?? 10000000) < 60 * 60 * 24 * 3}
-//
-//        let lastWeekCounts = myCounts.filter{count in
-//            return abs(count.createdAt?.timeIntervalSinceNow ?? 10000000) < 60 * 60 * 24 * 7}
-       
-        
-        
+
         return result
     }
 }

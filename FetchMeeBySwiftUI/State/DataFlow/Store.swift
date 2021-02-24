@@ -9,6 +9,7 @@
 import Foundation
 import Combine
 import Swifter
+import CoreData
 
 //Redux下，
 //Store可以有多个State，
@@ -20,8 +21,18 @@ import Swifter
 class Store: ObservableObject {
     @Published var appState = AppState()
     
-    var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
-                                   consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")
+    lazy var swifter: Swifter = {
+        if let loginUser = appState.setting.loginUser {
+            return Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
+                           consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
+                           oauthToken: loginUser.tokenKey!,
+                           oauthTokenSecret: loginUser.tokenSecret!)
+            
+        } else {
+            return Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
+                           consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")}}()
+    
+    var context: NSManagedObjectContext!
     
     private var disposeBag = Set<AnyCancellable>()
     
@@ -53,6 +64,21 @@ class Store: ObservableObject {
             
         case .alertOff:
             appState.setting.alert.isPresentedAlert = false
+            
+        case .login(let authView, let loginUser):
+            appCommand = LoginCommand(loginUser: loginUser, presentingFrom: authView)
+            
+        case .userRequest(let user):
+            appCommand = UserRequstCommand(user: user)
+            
+        case .updateLoginAccount(let loginUser):
+            appState.setting.loginUser = loginUser
+            
+        case .updateList(let lists):
+            appState.setting.lists = lists
+            
+        case .changeSetting(let setting):
+            appState.setting.loginUser?.setting = setting
         }
         
         return (appState, appCommand)

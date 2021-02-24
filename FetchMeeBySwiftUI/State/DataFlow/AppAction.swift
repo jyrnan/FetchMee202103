@@ -7,8 +7,18 @@
 //
 
 import Foundation
+import Swifter
 
 enum AppAction {
     case alertOn(text: String, isWarning: Bool)
     case alertOff
+    
+    case login(presentingFrom: AuthViewController, loginUser: UserInfo?)
+    case userRequest(user: UserInfo)
+    case updateLoginAccount(loginUser: UserInfo?)
+    
+    case updateList(lists: [String: ListTag])
+    
+    case changeSetting(setting: UserSetting)
+    
 }

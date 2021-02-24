@@ -87,7 +87,7 @@ extension TwitterUser {
         }catch {
             let nsError = error as NSError
             print(nsError.description)
-            //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+           
         }
         
         

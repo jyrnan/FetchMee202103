@@ -11,12 +11,15 @@ import Combine
 import CoreData
 
 struct SettingView: View {
-    @EnvironmentObject var loginUser: User
+    
     @EnvironmentObject var alerts: Alerts
     
     @EnvironmentObject var store: Store
     
+    @State var setting: UserSetting = UserSetting()
+    
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
+    
     
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -39,41 +42,15 @@ struct SettingView: View {
             Section(header: Text("Visual"),
                     footer: Text("You can swith this function off to get a simper UI and better performance")) {
                 
-                Picker("Favorit Theme Color", selection: self.$loginUser.setting.themeColor, content: {
-                    ForEach(ThemeColor.allCases){color in
-                        Text(color.rawValue.capitalized).tag(color)
+                Picker("Favorit Theme Color", selection: $setting.themeColor, content: {
+                    ForEach(ThemeColor.allCases){themeColor in
+                        Text(themeColor.rawValue.capitalized).foregroundColor(themeColor.color).tag(themeColor)
                     }
                 })
                 
-                Toggle("Iron Fans Rate", isOn: self.$loginUser.setting.isIronFansShowed)
-                Toggle("Show Pictures", isOn: self.$loginUser.setting.isMediaShowed)
+                Toggle("Iron Fans Rate", isOn: self.$setting.isIronFansShowed)
+                Toggle("Show Pictures", isOn: self.$setting.isMediaShowed)
             }
-            
-            Section(header:Text("Delete Tweets"),
-                    footer: Text(footerMessage)){
-                
-                
-                
-                Toggle("Auto Delete Tweets", isOn: self.$loginUser.setting.isDeleteTweets)
-//                if loginUser.setting.isDeleteTweets {
-                    Toggle("Keep Recent 100 Tweets", isOn: self.$loginUser.setting.isKeepRecentTweets)
-//            }
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        isShowManualDeleteAlert = true
-                    }) {
-                        Text("Delete Tweets Now")
-                    }
-                    Spacer()
-                }.alert(isPresented: $isShowManualDeleteAlert){
-                    Alert(title: Text("Attention"),
-                          message: Text(manualDeleteWarningMessage),
-                          primaryButton: .destructive(Text("Delete"),
-                                                      action: { manualDelete()}),
-                          secondaryButton: .cancel())}
-            }
-            
             
             Section(header:Text("Other")){
                 
@@ -117,7 +94,7 @@ struct SettingView: View {
                 }
             }
         }
-        .onDisappear{loginUser.setting.save()}
+        .onDisappear{store.dipatch(.changeSetting(setting: setting))}
         .navigationTitle("Setting")
 //        .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems( trailing: AvatarImageView(image: UIImage()).frame(width: 36, height: 36, alignment: .center))
@@ -128,18 +105,18 @@ extension SettingView {
     
     func logOut() {
 //        loginUser.isShowUserInfo = false
-        loginUser.info.id = "0000" //  设置成一个空的userInfo
+//        loginUser.info.id = "0000" //  设置成一个空的userInfo
 //        print(#line, self.loginUser.isShowUserInfo)
         delay(delay: 1, closure: {
             withAnimation {
                 
-                userDefault.set(false, forKey: "isLoggedIn")
-                userDefault.set(nil, forKey: "userIDString")
-                userDefault.set(nil, forKey: "screenName")
-                userDefault.set(nil, forKey: "mentionUserData")
-                loginUser.isLoggedIn = false
+//                userDefault.set(false, forKey: "isLoggedIn")
+//                userDefault.set(nil, forKey: "userIDString")
+//                userDefault.set(nil, forKey: "screenName")
+//                userDefault.set(nil, forKey: "mentionUserData")
+//                loginUser.isLoggedIn = false
                 
-                store.appState.setting.loginUser = nil
+                store.dipatch(.updateLoginAccount(loginUser: nil))
             }
         })
     }
@@ -159,7 +136,6 @@ extension SettingView {
         } catch {
             let nsError = error as NSError
             print(nsError.description)
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
 }
@@ -176,16 +152,16 @@ struct SettingView_Previews: PreviewProvider {
 
 extension SettingView {
     fileprivate func manualDelete() {
-        let completeHandler  = {
-            print(#line, #function, "Tweet deleted")
-        }
-        let lh: (String) -> () = {string in
-            self.alerts.setLogMessage(text: string)
-        }
-        swifter.fastDeleteTweets(for: loginUser.info.id,
-                                 keepRecent: loginUser.setting.isKeepRecentTweets,
-                                 completeHandler: completeHandler,
-                                 logHandler: lh)
+//        let completeHandler  = {
+//            print(#line, #function, "Tweet deleted")
+//        }
+//        let lh: (String) -> () = {string in
+//            self.alerts.setLogMessage(text: string)
+//        }
+//        swifter.fastDeleteTweets(for: loginUser.info.id,
+//                                 keepRecent: loginUser.setting.isKeepRecentTweets,
+//                                 completeHandler: completeHandler,
+//                                 logHandler: lh)
     }
 }
 ///

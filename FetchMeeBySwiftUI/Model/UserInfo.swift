@@ -42,13 +42,13 @@ struct UserInfo: Identifiable, Codable {
     
     var tweetsCount: Int?
    
-//    var setting: UserSetting = UserSetting()
+    var setting: UserSetting = UserSetting()
     
     var lastDayAddedFollower: Int? //24小时内新增fo数
     var lastDayAddedTweets: Int? //24小时内新增推数
 }
 
-enum ThemeColor: String, CaseIterable, Identifiable {
+enum ThemeColor: String, CaseIterable, Identifiable, Codable {
     case blue
     case green
     case purple
@@ -92,7 +92,7 @@ enum ThemeColor: String, CaseIterable, Identifiable {
     }
 }
 
-struct UserSetting {
+struct UserSetting: Codable {
     
     var themeColor: ThemeColor = ThemeColor.blue //缺省值是蓝色
     var isIronFansShowed: Bool = false

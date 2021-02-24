@@ -6,8 +6,10 @@
 //  Copyright © 2021 jyrnan. All rights reserved.
 //
 
-import Foundation
+
 import Combine
+import Swifter
+import SwiftUI
 
 struct AppState {
     var setting = Setting()
@@ -25,13 +27,10 @@ extension AppState {
             var isWarning: Bool = false
         }
         
-        var themeColor: ThemeColor = ThemeColor.blue //缺省值是蓝色
-        var isIronFansShowed: Bool = false
-        var isMediaShowed: Bool = true //控制是否显示图片、视频
-        var isDeleteTweets: Bool = false //控制是否删推
-        var isKeepRecentTweets: Bool = true //控制是否保留最近推文
-        
         var alert = Alert()
+        
+        var isShowingPicture: Bool = false //是否浮动显示图片
+        var presentedView: AnyView? //通过AnyView就可以实现任意View的传递了？！
         
         ///User及login部分
         @FileStorage(directory: .documentDirectory, fileName: "user.json")
@@ -39,5 +38,7 @@ extension AppState {
         
         var loginRequesting = false
         var loginError: AppError?
+        
+        var lists: [String: ListTag] = [:]
     }
 }

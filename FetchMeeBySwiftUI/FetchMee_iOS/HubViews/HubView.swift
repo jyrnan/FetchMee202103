@@ -47,7 +47,7 @@ struct HubView: View {
                         .frame(minHeight: 120, idealHeight: UIScreen.main.bounds.height - 600, maxHeight: .infinity)
                     
                     Divider()
-                    TimelinesView(lists: loginUser.lists)
+                    TimelinesView()
                     
                     ToolBarsView()
                         .padding([.leading, .trailing], 16)
@@ -67,11 +67,11 @@ struct HubView: View {
                 self.hideKeyboard()
             })
             .navigationTitle("FetchMee")
-            .navigationBarItems(trailing: NavigationLink(destination: SettingView()) {
+            .navigationBarItems(trailing: NavigationLink(destination: SettingView(setting: store.appState.setting.loginUser?.setting ?? UserSetting())) {
                                     AvatarImageView(image: UIImage()).frame(width: 36, height: 36, alignment: .center)})
         }
         .overlay(AlertView()) //所有条状通知在NavigationBar上出现
-        .toast(isShowing: $alerts.isShowingPicture, presented: alerts.presentedView)
+        .toast(isShowing: $store.appState.setting.isShowingPicture, presented: store.appState.setting.presentedView)
         .overlaySheet(isPresented: $alerts.isShowingOverlaySheet){
             ZStack{
                 VStack{

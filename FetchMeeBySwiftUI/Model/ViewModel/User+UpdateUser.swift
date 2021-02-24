@@ -98,7 +98,7 @@ extension User {
             
             
             ///从CoreData读取信息计算24小时内新增fo数和推文数量
-            let _ = updateCount(user: userInfo)
+//            let _ = updateCount(user: userInfo)
             userInfo.lastDayAddedFollower = Count.updateCount(for: userInfo, in: viewContext).followerOfLastDay
             userInfo.lastDayAddedTweets = Count.updateCount(for: userInfo, in: viewContext).tweetsOfLastDay
             
@@ -220,149 +220,149 @@ extension User {
     }
     
     //MARK:-CoreData part
-    
+
     func getContext() -> NSManagedObjectContext {
-        
+
         var viewContext: NSManagedObjectContext!
-        
+
        if let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
               let sceneDelegate = windowsScenen.delegate as? SceneDelegate
         {
         viewContext = sceneDelegate.context
         }
-        
+
         return viewContext
     }
-    
-    
-    /// <#Description#>
-    /// - Parameters:
-    ///   - user: <#user description#>
-    ///   - updateNickName: <#updateNickName description#>
-    func saveOrUpdateUserInfoToCoreData(user: UserInfo, updateNickName: Bool = false) {
-        
-        var currentUser: TwitterUser
-        
-        guard let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
-              let sceneDelegate = windowsScenen.delegate as? SceneDelegate
-        else {
-            return
-        }
-        let viewContext = sceneDelegate.context
-        
-        let userFetch: NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
-        userFetch.predicate = NSPredicate(format: "%K == %@", #keyPath(TwitterUser.userIDString), user.id)
-        userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.createdAt, ascending: true)]
-        
-        do {
-            var results = try viewContext.fetch(userFetch)
-            ///由于重新安装软件时候CoreData还没来得及同步云端的保存的用户信息
-            ///所以在第一次启动时候调用用户信息会保存一个全新的UserInfo到本地CoreData，应用启动会出现一个重复的用户。
-            ///因此需要查询是按照时间排序，如果有重复，就仅保留第一个结果
-            
-            if results.count > 0 {
-                currentUser = results.removeFirst()
-                
-                if !results.isEmpty {
-                    results.forEach{viewContext.delete($0)}
-                }
-                
-                
-            } else {
-                currentUser = TwitterUser(context: viewContext)
-            }
-            
-            currentUser.createdAt = Date()
-            
-            currentUser.userIDString = user.id
-            currentUser.name = user.name
-            currentUser.screenName = user.screenName
-           
-            ///如果是本地用户更新信息，则不需要改nickName
-            ///如果需要更改nickName，则需要传入更改参数
-            if updateNickName {
-                currentUser.nickName = user.nickName}
-            
-            currentUser.avatar = user.avatarUrlString
-            
-            currentUser.following = Int32(user.following ?? 0)
-            currentUser.followed = Int32(user.followed ?? 0)
-            currentUser.isFollowing = user.isFollowing ?? true
-            
-            ///如果是当前用户，则统计推文数量等动态信息
-            ///如果是当前登陆用户则将isLoginUser和isLoacluser两项均设置成true
-            ///否则要把isLoginUser设置成false，但是isLocalUser可以不用更改
-            if self.isLoggedIn {
-                
-                currentUser.isLocalUser = true
-                
-                let count: Count = Count(context: viewContext)
-                count.createdAt = Date()
-                count.follower = Int32(user.followed ?? 0)
-                count.following = Int32(user.following ?? 0)
-                count.tweets = Int32(user.tweetsCount ?? 0)
-                
-                currentUser.addToCount(count)
-                
-            }
-            
-            ///如果nickName是空，且不是本地用户，则从CoreData中删除该用户
-            if user.nickName == "" && currentUser.isLocalUser == false {
-                viewContext.delete(currentUser)
-            }
-            
-            try viewContext.save()
-            
-        }catch {
-            let nsError = error as NSError
-            print(nsError.description)
-            //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-        
-    }
-    
-    func updateCount(user: UserInfo) ->[[Int]] {
-        
-        //参数说明：第一个数组代表follower，第二个代表tweets数量
-        //每类有三个数是预留最近一天，最近一周？最近一月？，现在仅使用第一个
-        var result: [[Int]] = [[0, 0, 0], [0, 0, 0]]
-        
-        guard let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
-              let sceneDelegate = windowsScenen.delegate as? SceneDelegate
-        else {
-            return result
-        }
-        let viewContext = sceneDelegate.context
-        
-        let userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), user.id)
-        
-        let fetchRequest: NSFetchRequest<Count> = Count.fetchRequest()
-        fetchRequest.predicate = userPredicate
-        
-        do {
-            let counts = try viewContext.fetch(fetchRequest)
-            
-            //            print(#line, counts.count)
-            
-            let lastDayCounts = counts.filter{count in
-                return abs(count.createdAt?.timeIntervalSinceNow ?? 1000000 ) < 60 * 60 * 24}
-            
-            //            print(#line, lastDayCounts.count)
-            
-            if let lastDayMax = lastDayCounts.max(by: {a, b in a.follower < b.follower}),
-               let lastDayMin = lastDayCounts.max(by: {a, b in a.follower > b.follower}) {
-                result[0][0] = Int((lastDayMax.follower - lastDayMin.follower))}
-            
-            if let lastDayMax = lastDayCounts.max(by: {a, b in a.tweets < b.tweets}),
-               let lastDayMin = lastDayCounts.max(by: {a, b in a.tweets > b.tweets}) {
-                result[1][0] = Int((lastDayMax.tweets - lastDayMin.tweets))}
-            
-        } catch let error as NSError {
-            print("count not fetched \(error), \(error.userInfo)")
-        }
-        
-        
-        return result
-    }
+//
+//
+//    /// <#Description#>
+//    /// - Parameters:
+//    ///   - user: <#user description#>
+//    ///   - updateNickName: <#updateNickName description#>
+//    func saveOrUpdateUserInfoToCoreData(user: UserInfo, updateNickName: Bool = false) {
+//
+//        var currentUser: TwitterUser
+//
+//        guard let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
+//              let sceneDelegate = windowsScenen.delegate as? SceneDelegate
+//        else {
+//            return
+//        }
+//        let viewContext = sceneDelegate.context
+//
+//        let userFetch: NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
+//        userFetch.predicate = NSPredicate(format: "%K == %@", #keyPath(TwitterUser.userIDString), user.id)
+//        userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.createdAt, ascending: true)]
+//
+//        do {
+//            var results = try viewContext.fetch(userFetch)
+//            ///由于重新安装软件时候CoreData还没来得及同步云端的保存的用户信息
+//            ///所以在第一次启动时候调用用户信息会保存一个全新的UserInfo到本地CoreData，应用启动会出现一个重复的用户。
+//            ///因此需要查询是按照时间排序，如果有重复，就仅保留第一个结果
+//
+//            if results.count > 0 {
+//                currentUser = results.removeFirst()
+//
+//                if !results.isEmpty {
+//                    results.forEach{viewContext.delete($0)}
+//                }
+//
+//
+//            } else {
+//                currentUser = TwitterUser(context: viewContext)
+//            }
+//
+//            currentUser.createdAt = Date()
+//
+//            currentUser.userIDString = user.id
+//            currentUser.name = user.name
+//            currentUser.screenName = user.screenName
+//
+//            ///如果是本地用户更新信息，则不需要改nickName
+//            ///如果需要更改nickName，则需要传入更改参数
+//            if updateNickName {
+//                currentUser.nickName = user.nickName}
+//
+//            currentUser.avatar = user.avatarUrlString
+//
+//            currentUser.following = Int32(user.following ?? 0)
+//            currentUser.followed = Int32(user.followed ?? 0)
+//            currentUser.isFollowing = user.isFollowing ?? true
+//
+//            ///如果是当前用户，则统计推文数量等动态信息
+//            ///如果是当前登陆用户则将isLoginUser和isLoacluser两项均设置成true
+//            ///否则要把isLoginUser设置成false，但是isLocalUser可以不用更改
+//            if self.isLoggedIn {
+//
+//                currentUser.isLocalUser = true
+//
+//                let count: Count = Count(context: viewContext)
+//                count.createdAt = Date()
+//                count.follower = Int32(user.followed ?? 0)
+//                count.following = Int32(user.following ?? 0)
+//                count.tweets = Int32(user.tweetsCount ?? 0)
+//
+//                currentUser.addToCount(count)
+//
+//            }
+//
+//            ///如果nickName是空，且不是本地用户，则从CoreData中删除该用户
+//            if user.nickName == "" && currentUser.isLocalUser == false {
+//                viewContext.delete(currentUser)
+//            }
+//
+//            try viewContext.save()
+//
+//        }catch {
+//            let nsError = error as NSError
+//            print(nsError.description)
+//            //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//        }
+//
+//    }
+//
+//    func updateCount(user: UserInfo) ->[[Int]] {
+//
+//        //参数说明：第一个数组代表follower，第二个代表tweets数量
+//        //每类有三个数是预留最近一天，最近一周？最近一月？，现在仅使用第一个
+//        var result: [[Int]] = [[0, 0, 0], [0, 0, 0]]
+//
+//        guard let windowsScenen = UIApplication.shared.connectedScenes.first as? UIWindowScene ,
+//              let sceneDelegate = windowsScenen.delegate as? SceneDelegate
+//        else {
+//            return result
+//        }
+//        let viewContext = sceneDelegate.context
+//
+//        let userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), user.id)
+//
+//        let fetchRequest: NSFetchRequest<Count> = Count.fetchRequest()
+//        fetchRequest.predicate = userPredicate
+//
+//        do {
+//            let counts = try viewContext.fetch(fetchRequest)
+//
+//            //            print(#line, counts.count)
+//
+//            let lastDayCounts = counts.filter{count in
+//                return abs(count.createdAt?.timeIntervalSinceNow ?? 1000000 ) < 60 * 60 * 24}
+//
+//            //            print(#line, lastDayCounts.count)
+//
+//            if let lastDayMax = lastDayCounts.max(by: {a, b in a.follower < b.follower}),
+//               let lastDayMin = lastDayCounts.max(by: {a, b in a.follower > b.follower}) {
+//                result[0][0] = Int((lastDayMax.follower - lastDayMin.follower))}
+//
+//            if let lastDayMax = lastDayCounts.max(by: {a, b in a.tweets < b.tweets}),
+//               let lastDayMin = lastDayCounts.max(by: {a, b in a.tweets > b.tweets}) {
+//                result[1][0] = Int((lastDayMax.tweets - lastDayMin.tweets))}
+//
+//        } catch let error as NSError {
+//            print("count not fetched \(error), \(error.userInfo)")
+//        }
+//
+//
+//        return result
+//    }
 }
 

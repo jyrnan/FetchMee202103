@@ -11,20 +11,21 @@ import Combine
 import CoreData
 
 struct ContentView: View {
-    @EnvironmentObject var loginUser: User
+    
     @ObservedObject var viewModel: ContentViewModel
     
     @EnvironmentObject var store: Store
+    var loginUser: UserInfo {store.appState.setting.loginUser ?? UserInfo()}
     
     var isLoggedIn:Bool {store.appState.setting.loginUser != nil}
 
     var body: some View {
         if isLoggedIn {
             HubView()
-                .accentColor(self.loginUser.setting.themeColor.color)
+                .accentColor(loginUser.setting.themeColor.color)
         } else {
-            AuthViewFromVC(loginUser: loginUser).ignoresSafeArea()
-                .accentColor(self.loginUser.setting.themeColor.color)
+            AuthViewFromVC().ignoresSafeArea()
+                .accentColor(loginUser.setting.themeColor.color)
         }
     }
 }

@@ -11,7 +11,9 @@ import Swifter
 
 struct TimelinesView: View {
     
-    var lists: [String: ListTag]
+    @EnvironmentObject var store: Store
+    
+    var lists: [String: ListTag] {store.appState.setting.lists}
     
     var body: some View {
         VStack {
@@ -43,6 +45,6 @@ struct TimelinesView: View {
 
 struct TimelinesView_Previews: PreviewProvider {
     static var previews: some View {
-        TimelinesView(lists: [:])
+        TimelinesView().environmentObject(Store())
     }
 }
