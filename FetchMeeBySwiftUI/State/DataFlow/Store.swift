@@ -80,16 +80,28 @@ class Store: ObservableObject {
         case .changeSetting(let setting):
             appState.setting.loginUser?.setting = setting
             
-        case let .updateTimeline(timelineType, updateMode):
-            var timeline: [String]
+        case .updateTimeline(let timelineType, let updateMode):
+            var timeline: AppState.TimelineData.Timeline!
             switch timelineType {
             case .home:
-                timeline = appState.timeline.home
+                timeline = appState.timelineData.home
             case .mention:
-                timeline = appState.timeline.mention
+                timeline = appState.timelineData.mention
             default: print("")
             }
-            appCommand = TimelineCommand(timeline: timeline, updateMode: updateMode)
+            appCommand = LoadTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
+        
+        case .updateTimelineDone(let timeline):
+            switch timeline.type {
+            case .home:
+                appState.timelineData.home = timeline
+            case .message:
+                appState.timelineData.mention = timeline
+            default:
+                print("")
+            }
+        
+        
         }
         
         return (appState, appCommand)

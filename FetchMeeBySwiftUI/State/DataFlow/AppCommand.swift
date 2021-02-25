@@ -79,7 +79,7 @@ struct UserRequstCommand: AppCommand {
             store.dipatch(.updateLoginAccount(loginUser: updatedUser))
             
             //Test
-            store.dipatch(.alertOn(text: "Updated user", isWarning: true))
+            store.dipatch(.alertOn(text: "Updated user", isWarning: false))
         }
         
         /// 获取用户List信息并更新
@@ -97,9 +97,14 @@ struct UserRequstCommand: AppCommand {
             
         }
         
+        func failureHandler(_ error: Error) ->() {
+            store.dipatch(.alertOn(text: error.localizedDescription, isWarning: true))
+        }
+        
         ///获取用户基本信息，并生成Bio
-        store.swifter.showUser(userTag, includeEntities: nil, success: userHandler(json:), failure: nil)
+        store.swifter.showUser(userTag, includeEntities: nil, success: userHandler(json:), failure: failureHandler(_:))
         store.swifter.getSubscribedLists(for: userTag, success:listHandler)
+        
     }
 }
 

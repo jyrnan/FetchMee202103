@@ -94,8 +94,8 @@ struct ToolsView: View {
                 .padding(.horizontal, 16)
             .frame(height: 42)
             .background(Color.accentColor.opacity(0.4))
-            .overlay(TopShadow(), alignment: .top)
-            .overlay(BottomShadow(), alignment: .bottom)
+//            .overlay(TopShadow(), alignment: .top)
+//            .overlay(BottomShadow(), alignment: .bottom)
     }
     .font(.body)
 }

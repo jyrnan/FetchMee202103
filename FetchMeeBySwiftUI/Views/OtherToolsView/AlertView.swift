@@ -30,9 +30,9 @@ struct AlertView: View {
                         .foregroundColor(.white)
                         .frame(height: 25, alignment: .center)
                         .onAppear {
-                            withAnimation(){self.offsetValue = offsetInScreen}
+                            withAnimation(.interpolatingSpring(stiffness: 70, damping: 7)){self.offsetValue = offsetInScreen}
                             delay(delay: 2) {
-                                withAnimation{self.offsetValue = -28
+                                withAnimation(.interpolatingSpring(stiffness: 70, damping: 7)){self.offsetValue = -28
                                 }
                             }
                             delay(delay: 3) {

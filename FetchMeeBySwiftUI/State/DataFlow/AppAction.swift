@@ -22,5 +22,6 @@ enum AppAction {
     case changeSetting(setting: UserSetting)
     
     
-    case updateTimeline(timeline: TimelineType, mode:TimelineCommand.UpdateMode)
+    case updateTimeline(timeline: TimelineType, mode:LoadTimelineCommand.UpdateMode)
+    case updateTimelineDone(timeline: AppState.TimelineData.Timeline)
 }

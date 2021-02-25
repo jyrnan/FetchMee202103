@@ -16,6 +16,8 @@ struct TimelineView: View {
     @EnvironmentObject var alerts: Alerts
     @EnvironmentObject var downloader: Downloader
     
+    @EnvironmentObject var store: Store //
+    
     @ObservedObject var timeline: Timeline
     
     @State var tweetText: String = ""

@@ -13,7 +13,7 @@ import SwiftUI
 
 struct AppState {
     var setting = Setting()
-    var timeline = Timeline()
+    var timelineData = TimelineData()
 }
 
 extension AppState {
@@ -43,10 +43,20 @@ extension AppState {
 }
 
 extension AppState {
-    struct Timeline {
-        var home: [String] = []
-        var mention: [String] = []
+    struct TimelineData {
+        struct Timeline {
+            var type: TimelineType = .home
+            
+            var tweetIDStrings: [String] = []
+            var newTweetNumber: Int = 0
+            var tweetIDStringOfRowToolsViewShowed: String?
+            
+            
+        }
         
+        var home:Timeline = Timeline(type: .home)
+        var mention:Timeline = Timeline(type: .mention)
+        var list: [Timeline] = []
     }
     
 }
