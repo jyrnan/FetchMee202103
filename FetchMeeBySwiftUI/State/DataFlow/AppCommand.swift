@@ -158,3 +158,14 @@ extension UserRequstCommand {
         return userInfo
     }
 }
+
+
+struct CreatListTimelineCommand: AppCommand {
+    var timelineData: AppState.TimelineData
+    
+    func execute(in store: Store) {
+        
+    }
+    
+    
+}

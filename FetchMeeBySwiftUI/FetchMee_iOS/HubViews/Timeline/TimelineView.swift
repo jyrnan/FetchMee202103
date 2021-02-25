@@ -51,7 +51,7 @@ struct TimelineView: View {
                 }
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
-                ForEach(self.timeline.tweetIDStrings, id: \.self) {tweetIDString in
+                ForEach(store.appState.timelineData.home.tweetIDStrings, id: \.self) {tweetIDString in
                     
                     TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
                         .onAppear{
@@ -71,7 +71,9 @@ struct TimelineView: View {
                     if !timeline.isDone {
                         ActivityIndicator(isAnimating: $timeline.isDone, style: .medium)
                     }
-                    Button(timeline.isDone ? "More Tweets..." : "Fetching...") {self.timeline.refreshFromBottom()}
+                    Button(timeline.isDone ? "More Tweets..." : "Fetching...") {self.timeline.refreshFromBottom()
+                        store.dipatch(.updateTimeline(timeline: .home, mode: .bottom))
+                    }
                         .font(.caption)
                         .foregroundColor(.gray)
                         .frame(height: 24)
@@ -123,6 +125,7 @@ extension TimelineView {
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
         self.timeline.refreshFromTop(fh: failureHandler(error:))
+        store.dipatch(.updateTimeline(timeline: .home, mode: .top))
     }
     
     func hideKeyboard() {

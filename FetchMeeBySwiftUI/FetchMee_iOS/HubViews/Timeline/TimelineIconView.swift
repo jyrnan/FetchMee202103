@@ -11,6 +11,8 @@ import Combine
 import Swifter
 
 struct TimelineIconView: View {
+    @EnvironmentObject var store: Store
+    
     @StateObject private var timeline: Timeline
     var listName: String?
     var listTag: ListTag?
