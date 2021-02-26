@@ -240,7 +240,9 @@ extension Timeline {
     }
     
     func makeTweetRowViewModel(tweetIDString: String, width: CGFloat) ->TweetRowViewModel {
-        let tweetRowViewModel = TweetRowViewModel(timeline: self, tweetIDString: tweetIDString, width: width)
+        let tweetRowViewModel = TweetRowViewModel(
+//            timeline: self,
+                                                  tweetIDString: tweetIDString, width: width)
         tweetRowViewModels[tweetIDString] = tweetRowViewModel
         return tweetRowViewModel
     }

@@ -32,7 +32,8 @@ struct TweetRow: View {
     
     
     private var expanded: Bool {
-            viewModel.tweetIDString == viewModel.timeline.tweetIDStringOfRowToolsViewShowed
+//            viewModel.tweetIDString == viewModel.timeline.tweetIDStringOfRowToolsViewShowed
+        false
     } //控制显示推文相关操作
     
 //    @Binding var expandingIDString: String?

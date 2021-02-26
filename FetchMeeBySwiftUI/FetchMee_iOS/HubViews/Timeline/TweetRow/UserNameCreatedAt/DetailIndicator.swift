@@ -32,9 +32,9 @@ struct DetailIndicator: View {
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
                 .onAppear{
                     ///该视图出现则减少新推文数量1，并设置成已经阅读变量标志，避免重复
-                    if isUnRead && (viewModel.timeline.newTweetNumber > 0) {
-                        viewModel.timeline.newTweetNumber -= 1
-                    }
+//                    if isUnRead && (viewModel.timeline.newTweetNumber > 0) {
+//                        viewModel.timeline.newTweetNumber -= 1
+//                    }
                     self.delay(delay: 3, closure: {
                         self.isUnRead = false
 
@@ -57,6 +57,8 @@ struct DetailIndicator: View {
 
 struct DetailIndicator_Previews: PreviewProvider {
     static var previews: some View {
-        DetailIndicator(viewModel: ToolsViewModel(timeline: Timeline(type: .home), tweetIDString: "0000"))
+        DetailIndicator(viewModel: ToolsViewModel(
+//                            timeline: Timeline(type: .home),
+                            tweetIDString: "0000"))
     }
 }

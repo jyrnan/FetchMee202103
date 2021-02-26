@@ -57,7 +57,9 @@ struct TimelineViewRedux: View {
                 
                 ForEach(store.appState.timelineData.home.tweetIDStrings, id: \.self) {tweetIDString in
                     
-                    TweetRow(viewModel: TweetRowViewModel(timeline: Timeline(type: timelineType), tweetIDString: tweetIDString, width: proxy.size.width))
+                    TweetRow(viewModel: TweetRowViewModel(
+//                                timeline: Timeline(type: timelineType),
+                                tweetIDString: tweetIDString, width: proxy.size.width))
                         .onAppear{
 //                            timeline.fetchMoreIfNeeded(tweetIDString: tweetIDString)
                             

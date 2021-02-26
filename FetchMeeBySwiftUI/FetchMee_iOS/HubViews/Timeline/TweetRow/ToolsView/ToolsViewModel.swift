@@ -12,7 +12,7 @@ import Combine
 
 class ToolsViewModel: ObservableObject {
     var status: JSON
-    var timeline: TimelineViewModel
+//    var timeline: TimelineViewModel
     var tweetIDString: String
     
     @Published var retweeted: Bool
@@ -21,9 +21,11 @@ class ToolsViewModel: ObservableObject {
     @Published var favorited: Bool
     @Published var favoritedCount: Int
     
-    init(timeline: TimelineViewModel, tweetIDString: String) {
+    init(
+//        timeline: TimelineViewModel,
+        tweetIDString: String) {
         self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
-         self.timeline = timeline
+//         self.timeline = timeline
         self.tweetIDString = tweetIDString
         
         self.retweeted = status["retweeted"].bool ?? false

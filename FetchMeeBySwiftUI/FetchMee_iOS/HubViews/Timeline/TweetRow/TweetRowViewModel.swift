@@ -42,8 +42,8 @@ class TweetRowViewModel: ObservableObject{
     let isQuotedTweetRowViewModel: Bool
 
     //MARK:- Methods
-    init(timeline:TimelineViewModel, tweetIDString: String, width: CGFloat, isQuoteded:Bool = false) {
-        self.timeline = timeline
+    init(tweetIDString: String, width: CGFloat, isQuoteded:Bool = false) {
+//          self.timeline = timeline
         self.tweetIDString = tweetIDString
         self.tweetRowViewWidth = width
         ///MVVM
@@ -164,7 +164,9 @@ class TweetRowViewModel: ObservableObject{
         
         StatusRepository.shared.status[quotedTweetIDString] = quotedStatus
         
-        return TweetRowViewModel(timeline: timeline, tweetIDString: quotedTweetIDString, width: tweetRowViewWidth - 16, isQuoteded: true )
+        return TweetRowViewModel(
+//            timeline: timeline,
+            tweetIDString: quotedTweetIDString, width: tweetRowViewWidth - 16, isQuoteded: true )
     }
     
     func makeQuotedTweetRowView() -> QuotedTweetRow? {
@@ -177,7 +179,9 @@ class TweetRowViewModel: ObservableObject{
     
     //MARK:-ToolsView
     func makeToolsViewModel() -> ToolsViewModel {
-        return ToolsViewModel(timeline: timeline, tweetIDString: tweetIDString)
+        return ToolsViewModel(
+//            timeline: timeline,
+            tweetIDString: tweetIDString)
     }
     
     func checkIsReplyToMe() -> Bool {
@@ -185,13 +189,13 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func toggleToolsView() {
-        if timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString {
-            timeline.tweetIDStringOfRowToolsViewShowed = nil
-        } else {
-            withAnimation{
-                timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
-            }
-            
-        }
+//        if timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString {
+//            timeline.tweetIDStringOfRowToolsViewShowed = nil
+//        } else {
+//            withAnimation{
+//                timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
+//            }
+//            
+//        }
     }
 }
