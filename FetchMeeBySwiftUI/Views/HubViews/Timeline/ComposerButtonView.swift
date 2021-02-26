@@ -18,7 +18,6 @@ struct ComposerButtonView: View {
             Spacer()
             NavigationLink(
                 destination: ComposerOfHubView(tweetText: self.$tweetText, isUsedAlone: true )) {
-//        Image(systemName: "message.circle.fill")
             Image(uiImage: UIImage(named: "Logo")!)
             .resizable()
             .aspectRatio(contentMode: .fill)

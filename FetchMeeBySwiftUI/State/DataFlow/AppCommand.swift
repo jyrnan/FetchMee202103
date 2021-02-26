@@ -95,7 +95,7 @@ struct UserRequstCommand: AppCommand {
                 newLists[id] = name
                 
                 let listTimeline = AppState.TimelineData.Timeline(type:.list(id: id, listName: name))
-                store.appState.timelineData.lists[name] = listTimeline
+                store.appState.timelineData.timelines[name] = listTimeline
             }
             
             ///比较新老lists名称数据，如果有不同则需要更新

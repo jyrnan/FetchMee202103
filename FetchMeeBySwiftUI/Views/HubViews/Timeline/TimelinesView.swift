@@ -32,7 +32,6 @@ struct TimelinesView: View {
                         TimelineIconViewRedux( timelineType: .list(id:id, listName: lists[id]! ))
                     }
                     
-//                    TimelineIconView(type: .message)
                     
                 }
                 .padding(.bottom, 8).padding(.leading, 16)

@@ -29,8 +29,15 @@ enum TimelineType: Equatable {
         case .home: return "Home"
         case .mention: return "Mention"
         case .favorite: return "Favorite"
-        case .list(let _, let name): return name
+        case .list( _, let name): return name
         default: return "Default"
+        }
+    }
+    
+    var isList: Bool {
+        switch self {
+        case .list: return true
+        default: return false
         }
     }
     

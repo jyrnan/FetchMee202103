@@ -51,20 +51,20 @@ struct TimelineView: View {
                 }
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
-                ForEach(store.appState.timelineData.home.tweetIDStrings, id: \.self) {tweetIDString in
-                    
-                    TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
-                        .onAppear{
-                            timeline.fetchMoreIfNeeded(tweetIDString: tweetIDString)
-                            
-                            ///如果是顶端推文显示，或者说回到顶端，那么则调用减少推文函数
-                            if timeline.tweetIDStrings.first == tweetIDString {
-                                timeline.reduceTweetsIfNeed()
-                            }
-                            
-                        }
-                    
-                }
+//                ForEach(store.appState.timelineData.home.tweetIDStrings, id: \.self) {tweetIDString in
+//                    
+//                    TweetRow(viewModel: timeline.getTweetViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
+//                        .onAppear{
+//                            timeline.fetchMoreIfNeeded(tweetIDString: tweetIDString)
+//                            
+//                            ///如果是顶端推文显示，或者说回到顶端，那么则调用减少推文函数
+//                            if timeline.tweetIDStrings.first == tweetIDString {
+//                                timeline.reduceTweetsIfNeed()
+//                            }
+//                            
+//                        }
+//                    
+//                }
                 
                 HStack {
                     Spacer()

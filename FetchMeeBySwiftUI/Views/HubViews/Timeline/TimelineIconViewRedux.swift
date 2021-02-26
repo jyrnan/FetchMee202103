@@ -15,17 +15,7 @@ struct TimelineIconViewRedux: View {
     
     var timelineType: TimelineType
     var timeline: AppState.TimelineData.Timeline
-    {
-//        switch timelineType {
-//        case .home:
-//            return store.appState.timelineData.home
-//        case .mention:
-//            return  store.appState.timelineData.mention
-//        default:
-//            return AppState.TimelineData.Timeline()
-//        }
-        store.getTimeline(timelineType: timelineType)
-    }
+    {store.getTimeline(timelineType: timelineType)}
     
     var body: some View {
         NavigationLink(destination:TimelineViewRedux(timelineType: timelineType)){
@@ -53,10 +43,10 @@ struct TimelineIconViewRedux: View {
                     
                     HStack {
                         Spacer()
-                        Text("Name")
+                        Text(timelineType.isList ? "List" : "")
                             .font(.caption2)
                             .bold()
-                            .foregroundColor(Color.gray)
+                            .foregroundColor(Color.init(.darkGray))
                             .padding([.leading, .trailing], 8)
                             .padding(.bottom, 0)
                     }
@@ -66,7 +56,7 @@ struct TimelineIconViewRedux: View {
                         Text(timeline.type.rawValue)
                             .font(.callout)
                             .bold()
-                            .foregroundColor(Color.init(.darkGray))
+                            .foregroundColor(Color.gray)
                             .padding(.trailing, 8)
                             .padding(.bottom, 8)
                     }

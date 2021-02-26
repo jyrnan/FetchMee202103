@@ -56,16 +56,6 @@ class Store: ObservableObject {
         var appState = state
         var appCommand: AppCommand?
         
-        func getTimeline(timelineType: TimelineType) -> AppState.TimelineData.Timeline {
-            switch timelineType {
-            case .home: return state.timelineData.home
-            case .mention: return state.timelineData.mention
-            case .favorite:return state.timelineData.favorite
-            case .list(let id, _):return state.timelineData.lists[id]!
-            default: return state.timelineData.mention
-            }
-        }
-        
         switch action {
         
         case .alertOn(let text, let isWarning):
@@ -97,36 +87,14 @@ class Store: ObservableObject {
             appState.setting.loginUser?.setting = setting
             
         case .fetchTimeline(let timelineType, let updateMode):
-            var timeline: AppState.TimelineData.Timeline {appState.timelineData.lists[timelineType.rawValue]!}
-//            switch timelineType {
-//            case .home:
-//                timeline = appState.timelineData.home
-//            case .mention:
-//                timeline = appState.timelineData.mention
-//            case .favorite:
-//                timeline = appState.timelineData.favorite
-//            case .list(let id, _):
-//                timeline = appState.timelineData.lists[id]
-//            default: print("")
-//            }
+            var timeline: AppState.TimelineData.Timeline {appState.timelineData.timelines[timelineType.rawValue]!}
+
             appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
         
         case .fetchTimelineDone(let timeline):
             appState.setting.isProcessingDone = true
-            appState.timelineData.lists[timeline.type.rawValue] = timeline
-//            switch timeline.type {
-//            case .home:
-//                appState.timelineData.home = timeline
-//            case .mention:
-//                appState.timelineData.mention = timeline
-//            case .favorite:
-//                appState.timelineData.favorite = timeline
-//            case .list(let id, _):
-//                appState.timelineData.lists[id] = timeline
-//            default:
-//                print("")
-//            }
-        
+            appState.timelineData.timelines[timeline.type.rawValue] = timeline
+     
         case .selectTweetRow(let tweetIDString):
             if appState.timelineData.tweetIDStringOfRowToolsViewShowed == tweetIDString {
                 appState.timelineData.tweetIDStringOfRowToolsViewShowed = nil
@@ -135,20 +103,14 @@ class Store: ObservableObject {
                 }
         
         case .updateNewTweetNumber(let timelineType, let numberOfReadTweet):
-            
-            appState.timelineData.lists[timelineType.rawValue]?.newTweetNumber -= numberOfReadTweet
-//            switch timelineType {
-//            case .home:
-//                appState.timelineData.home.newTweetNumber -= numberOfReadTweet
-//            case .mention:
-//                appState.timelineData.mention.newTweetNumber -= numberOfReadTweet
-//            case .favorite:
-//                appState.timelineData.favorite.newTweetNumber -= numberOfReadTweet
-//            case .list(let id, _):
-//                appState.timelineData.lists[id]!.newTweetNumber -= numberOfReadTweet
-//            default:
-//                print("")
-//            }
+            if let newTweetNumber = appState.timelineData.timelines[timelineType.rawValue]?.newTweetNumber,
+               newTweetNumber - numberOfReadTweet > 0 {
+                appState.timelineData.timelines[timelineType.rawValue]?.newTweetNumber = (newTweetNumber - numberOfReadTweet)
+            } else {
+                appState.timelineData.timelines[timelineType.rawValue]?.newTweetNumber = 0
+            }
+             
+
         }
         
         return (appState, appCommand)
@@ -158,19 +120,7 @@ class Store: ObservableObject {
 extension Store {
     
     func getTimeline(timelineType: TimelineType) -> AppState.TimelineData.Timeline {
-        return self.appState.timelineData.lists[timelineType.rawValue] ?? AppState.TimelineData.Timeline()
-//        switch timelineType {
-//        case .home:
-//            return self.appState.timelineData.home
-//        case .mention:
-//            return  self.appState.timelineData.mention
-//        case .favorite:
-//            return self.appState.timelineData.favorite
-//        case .list(let id, _):
-//            return self.appState.timelineData.lists[id] ?? AppState.TimelineData.Timeline()
-//        default:
-//            return AppState.TimelineData.Timeline()
-//    }
+        return self.appState.timelineData.timelines[timelineType.rawValue] ?? AppState.TimelineData.Timeline()
 }
     
 }

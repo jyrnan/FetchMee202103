@@ -9,6 +9,7 @@
 import SwiftUI
 import CoreData
 import Swifter
+import KingfisherSwiftUI
 
 struct AvatarView: View {
     @EnvironmentObject var alerts: Alerts
@@ -25,11 +26,15 @@ struct AvatarView: View {
     var width: CGFloat
     var height: CGFloat
     
+    
+    
     init(viewModel: AvatarViewModel, width:CGFloat = 64, height: CGFloat = 64) {
         self.viewModel = viewModel
         
         self.width = width
         self.height = height
+        
+       
     }
     
     var body: some View {
@@ -37,7 +42,14 @@ struct AvatarView: View {
             ZStack {
                 NavigationLink(destination: UserView(userIDString: viewModel.userIDString ?? "0000"),
                                isActive: $presentedUserInfo, label:{EmptyView()} ).disabled(true)
-                    AvatarImageView(image: viewModel.image)
+//                AvatarImageView(image: remoteImageFromUrl.image)
+            KFImage(URL(string: viewModel.user["profile_image_url_https"].string ?? ""))
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .clipShape(Circle())
+                .overlay(Circle()
+                 .stroke(Color.gray.opacity(0.3), lineWidth: 1))
+                .contentShape(Circle())
                         .frame(width: width, height: height, alignment: .center)
                         .onTapGesture(count: 2){
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()

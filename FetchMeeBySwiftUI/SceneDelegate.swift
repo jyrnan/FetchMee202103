@@ -30,9 +30,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ///注册一个后台执行刷新的任务
     var bgFetchTask: (@escaping () -> ()) -> () = {completeHandler in completeHandler()}
     
-    ///这个还真不知道有没有必要呢……
-    let injectionContainer = FetchMeeAppDependencyContainer()
-    
 //    var loingUser: User = User() //App登录使用的用户
     var alerts: Alerts = Alerts()
     var downloader = Downloader(configuation: URLSessionConfiguration.default)
@@ -49,7 +46,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // Create the SwiftUI view that provides the window contents.
 
-        let contentView = ContentView(viewModel: injectionContainer.contentViewModel).environment(\.managedObjectContext, context)
+        let contentView = ContentView()
         
         store.context = context
         
@@ -66,7 +63,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = UIHostingController(
                 rootView: contentView
                     .environmentObject(alerts)
-                    .environmentObject(store))
+                    .environmentObject(store)
+                    .environment(\.managedObjectContext, context))
             
             self.window = window
             window.makeKeyAndVisible()
