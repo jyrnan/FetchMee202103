@@ -88,8 +88,15 @@ struct UserRequstCommand: AppCommand {
         func listHandler(json: JSON) {
             let listsJson: [JSON] = json.array!
             
-            var newLists: [String : ListTag] = [:]
-            listsJson.forEach{newLists[$0["name"].string!] = ListTag.id($0["id_str"].string!)}
+            var newLists: [String : String] = [:]
+            listsJson.forEach{json in
+                let name = json["name"].string!
+                let id = json["id_str"].string!
+                newLists[id] = name
+                
+                let listTimeline = AppState.TimelineData.Timeline(type:.list(id: id, listName: name))
+                store.appState.timelineData.lists[id] = listTimeline
+            }
             
             ///比较新老lists名称数据，如果有不同则需要更新
             guard store.appState.setting.lists.keys.sorted() != newLists.keys.sorted() else {return}

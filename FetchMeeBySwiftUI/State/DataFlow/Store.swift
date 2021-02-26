@@ -95,6 +95,8 @@ class Store: ObservableObject {
                 timeline = appState.timelineData.mention
             case .favorite:
                 timeline = appState.timelineData.favorite
+            case .list(let id, _):
+                timeline = appState.timelineData.lists[id]
             default: print("")
             }
             appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
@@ -109,6 +111,8 @@ class Store: ObservableObject {
                 appState.timelineData.mention = timeline
             case .favorite:
                 appState.timelineData.favorite = timeline
+            case .list(let id, _):
+                appState.timelineData.lists[id] = timeline
             default:
                 print("")
             }
@@ -137,20 +141,11 @@ extension Store {
             return  self.appState.timelineData.mention
         case .favorite:
             return self.appState.timelineData.favorite
+        case .list(let id, _):
+            return self.appState.timelineData.lists[id] ?? AppState.TimelineData.Timeline()
         default:
             return AppState.TimelineData.Timeline()
     }
 }
-    func copyTimeline(timelineType: TimelineType) -> AppState.TimelineData.Timeline {
-        switch timelineType {
-        case .home:
-            return appState.timelineData.home
-        case .mention:
-            return  appState.timelineData.mention
-        case .favorite:
-            return appState.timelineData.favorite
-        default:
-            return AppState.TimelineData.Timeline()
-    }
-    }
+    
 }

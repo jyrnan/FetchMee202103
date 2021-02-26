@@ -13,7 +13,7 @@ struct TimelinesView: View {
     
     @EnvironmentObject var store: Store
     
-    var lists: [String: ListTag] {store.appState.setting.lists}
+    var lists: [String: String] {store.appState.setting.lists}
     
     var body: some View {
         VStack {
@@ -24,16 +24,12 @@ struct TimelinesView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-//                    TimelineIconView(type: .home)
-//                    TimelineIconView(type: .mention)
-//                    TimelineIconView(type: .favorite)
-                    
                     TimelineIconViewRedux(timelineType: .home)
                     TimelineIconViewRedux(timelineType: .mention)
                     TimelineIconViewRedux(timelineType: .favorite)
                 
-                    ForEach(lists.keys.sorted(), id: \.self) {listName in
-                        TimelineIconView(type: .list, listName: listName, listTag:lists[listName])
+                    ForEach(lists.keys.sorted(), id: \.self) {id in
+                        TimelineIconViewRedux( timelineType: .list(id:id, listName: lists[id]! ))
                     }
                     
 //                    TimelineIconView(type: .message)

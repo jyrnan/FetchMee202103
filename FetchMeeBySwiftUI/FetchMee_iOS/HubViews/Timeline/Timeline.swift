@@ -55,13 +55,13 @@ final class Timeline: TimelineViewModel, ObservableObject {
             self.saveMentionUserData()//初始化更新MentionUser排序
         }
         
-        if type != .list {
-            self.sinceIDString = userDefault.string(forKey: type.rawValue + "SinceIDString")
-        }
+//        if type != .list {
+//            self.sinceIDString = userDefault.string(forKey: type.rawValue + "SinceIDString")
+//        }
         
-        if tweetIDStrings.isEmpty && type != .list {
-//            refreshFromTop(count: 50)
-        }
+//        if tweetIDStrings.isEmpty && type != .list {
+////            refreshFromTop(count: 50)
+//        }
         
         registBGFetchTask()
         
@@ -185,10 +185,10 @@ final class Timeline: TimelineViewModel, ObservableObject {
         maxIDString = tweetIDStrings.last
         
         ///暂时不包含List类型
-        if type != .list {
-            userDefault.setValue(sinceIDString, forKey: type.rawValue + "SinceIDString") //存储的最新推文id
-            userDefault.setValue(maxIDString, forKey: type.rawValue + "MaxIDString")
-        }
+//        if type != .list {
+//            userDefault.setValue(sinceIDString, forKey: type.rawValue + "SinceIDString") //存储的最新推文id
+//            userDefault.setValue(maxIDString, forKey: type.rawValue + "MaxIDString")
+//        }
     }
 }
 

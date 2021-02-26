@@ -20,7 +20,7 @@ enum AppAction {
     case userRequest(user: UserInfo)
     case updateLoginAccount(loginUser: UserInfo?)
     
-    case updateList(lists: [String: ListTag])
+    case updateList(lists: [String: String])
     
     case changeSetting(setting: UserSetting)
     

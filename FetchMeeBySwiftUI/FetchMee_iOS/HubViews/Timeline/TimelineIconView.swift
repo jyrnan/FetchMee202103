@@ -22,8 +22,8 @@ struct TimelineIconView: View {
         self.listTag = listTag
         switch type {
         
-        case .list:
-            _timeline = StateObject(wrappedValue: Timeline(type: .list, listTag: listTag))
+//        case .list:
+//            _timeline = StateObject(wrappedValue: Timeline(type: .list, listTag: listTag))
         default:
             _timeline = StateObject(wrappedValue: Timeline(type: type))
             

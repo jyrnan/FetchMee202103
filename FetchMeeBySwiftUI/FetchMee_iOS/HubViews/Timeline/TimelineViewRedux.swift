@@ -15,10 +15,7 @@ struct TimelineViewRedux: View {
     @EnvironmentObject var store: Store
     
     var timelineType: TimelineType
-    var timeline: AppState.TimelineData.Timeline
-    {
-        store.getTimeline(timelineType: timelineType)
-    }
+    var timeline: AppState.TimelineData.Timeline { store.getTimeline(timelineType: timelineType)}
     
     @State var tweetText: String = ""
     @State var isShowFloatComposer:Bool = false

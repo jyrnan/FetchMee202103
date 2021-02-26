@@ -60,6 +60,11 @@ struct FetchTimelineCommand: AppCommand {
             
         case .favorite:
             swifter.getRecentlyFavoritedTweets(count: count, sinceID: sinceIDString, maxID: maxIDString, success: successHandeler, failure: failureHandler)
+            
+        case .list( let id, _):
+            let listTag = ListTag.id(id)
+            swifter.listTweets(for: listTag, sinceID: sinceIDString, maxID: maxIDString, count: count, includeEntities: nil, includeRTs: nil, tweetMode: .default, success: successHandeler, failure: failureHandler)
+            
         default: print("")
         
         }

@@ -27,7 +27,7 @@ struct UserView: View {
     
     init(userIDString: String, userScreenName: String? = nil) {
         self.userIDString = userIDString
-        _userTimeline = StateObject(wrappedValue: Timeline(type: .user))
+        _userTimeline = StateObject(wrappedValue: Timeline(type: .user(userID: userIDString)))
         _viewModel = StateObject(wrappedValue: UserViewModel(userIDString: userIDString))
         
         ///从CoreData里获取用户信息,但是不能立刻打印相应的内容，因为获取需要一定时间，是异步进行

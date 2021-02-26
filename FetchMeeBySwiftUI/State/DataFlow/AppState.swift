@@ -40,7 +40,7 @@ extension AppState {
         var loginRequesting = false
         var loginError: AppError?
         
-        var lists: [String: ListTag] = [:]
+        var lists: [String: String] = [:] //前面是ID，后面是name
     }
 }
 
@@ -58,7 +58,7 @@ extension AppState {
         var home:Timeline = Timeline(type: .home)
         var mention:Timeline = Timeline(type: .mention)
         var favorite: Timeline = Timeline(type: .favorite)
-        var list: [Timeline] = []
+        var lists: [String: Timeline] = [:] //key是id
         
         var tweetIDStringOfRowToolsViewShowed: String?
     }

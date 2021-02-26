@@ -8,19 +8,30 @@
 
 import Foundation
 import SwiftUI
+import Swifter
 
-enum TimelineType: String {
-    case home = "Home"
-    case mention = "Mention"
-    case list = "List"
-    case user
+enum TimelineType: Equatable {
+    case home
+    case mention
+    case list(id: String, listName: String)
+    case user(userID:String)
     case session
-    case message = "Message"
-    case favorite = "Favorite"
+    case message
+    case favorite
     
     struct UIData {
         let iconImageName : String
         let themeColor: Color
+    }
+    
+    var rawValue: String {
+        switch self {
+        case .home: return "Home"
+        case .mention: return "Mention"
+        case .favorite: return "Favaorite"
+        case .list(let _, let name): return name
+        default: return "Default"
+        }
     }
     
     var uiData: UIData {
