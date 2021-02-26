@@ -12,12 +12,10 @@ import SwiftUI
 
 class TweetRowViewModel: ObservableObject{
     //MARK:- Properties
-//    var tweetMedia: TweetMedia
     
     ///MVVM
     var status: JSON
 
-//    var timeline: TimelineViewModel
     var tweetIDString: String
     
     //传人的视窗宽度
@@ -37,13 +35,10 @@ class TweetRowViewModel: ObservableObject{
     var toolsView: ToolsView?
     var statusTextView: NSAttributedStringView?
     
-    var isReplyToMe: Bool!
-    
     let isQuotedTweetRowViewModel: Bool
 
     //MARK:- Methods
     init(tweetIDString: String, width: CGFloat, isQuoteded:Bool = false) {
-//          self.timeline = timeline
         self.tweetIDString = tweetIDString
         self.tweetRowViewWidth = width
         ///MVVM
@@ -53,11 +48,11 @@ class TweetRowViewModel: ObservableObject{
 
         makeViews()
         
-        print(#line, #file, "TweetRowViewModel inited")
+//        print(#line, #file, "TweetRowViewModel inited")
     }
     
     deinit {
-        print(#line, #file, "TweetRowViewModel deinited")
+//        print(#line, #file, "TweetRowViewModel deinited")
     }
     
     func makeViews() {
@@ -74,14 +69,11 @@ class TweetRowViewModel: ObservableObject{
         toolsView = ToolsView(viewModel: toolsVeiwModel)
         
         detailIndicator = makeDetailIndicatorView()
-        isReplyToMe = checkIsReplyToMe()
-        
     }
     
     func makeToolsViewOnly() {
         toolsView = ToolsView(viewModel: toolsVeiwModel)
     }
-    
     
     func makeRetweetMarkView() -> RetweetMarkView? {
         guard status["retweeted_status"]["id_str"].string != nil else {return nil }
@@ -165,7 +157,6 @@ class TweetRowViewModel: ObservableObject{
         StatusRepository.shared.status[quotedTweetIDString] = quotedStatus
         
         return TweetRowViewModel(
-//            timeline: timeline,
             tweetIDString: quotedTweetIDString, width: tweetRowViewWidth - 16, isQuoteded: true )
     }
     
@@ -180,22 +171,10 @@ class TweetRowViewModel: ObservableObject{
     //MARK:-ToolsView
     func makeToolsViewModel() -> ToolsViewModel {
         return ToolsViewModel(
-//            timeline: timeline,
             tweetIDString: tweetIDString)
     }
     
-    func checkIsReplyToMe() -> Bool {
-        return userDefault.object(forKey: "userIDString") as? String == status["in_reply_to_user_id_str"].string
-    }
-    
-    func toggleToolsView() {
-//        if timeline.tweetIDStringOfRowToolsViewShowed == tweetIDString {
-//            timeline.tweetIDStringOfRowToolsViewShowed = nil
-//        } else {
-//            withAnimation{
-//                timeline.tweetIDStringOfRowToolsViewShowed = tweetIDString
-//            }
-//            
-//        }
+    func checkIsReplyToMe(userID: String?) -> Bool {
+        return userID == status["in_reply_to_user_id_str"].string
     }
 }

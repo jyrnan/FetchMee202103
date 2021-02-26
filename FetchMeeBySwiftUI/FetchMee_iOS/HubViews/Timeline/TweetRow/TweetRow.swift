@@ -12,39 +12,26 @@ import AVKit
 
 struct TweetRow: View {
     //MARK:- Properties
-    @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var loginUser: User
+    @EnvironmentObject var store: Store
     
     @ObservedObject var viewModel: TweetRowViewModel
     
     var backgroundColor: some View {
         Color.init("BackGround")
-            .overlay(viewModel.isReplyToMe || expanded ? Color.accentColor.opacity(expanded ? 0.12 : 0.05) : Color.clear)
-            
+            .overlay(viewModel.checkIsReplyToMe(userID: store.appState.setting.loginUser?.id) ? Color.accentColor.opacity(expanded ? 0.12 : 0.05) : Color.clear)
     }
-    
-    
     
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     @State var playVideo: Bool = false //控制是否显示视频播放页面
     
-    
-    
-    private var expanded: Bool {
-//            viewModel.tweetIDString == viewModel.timeline.tweetIDStringOfRowToolsViewShowed
-        false
-    } //控制显示推文相关操作
-    
-//    @Binding var expandingIDString: String?
+    private var expanded: Bool {viewModel.tweetIDString == store.appState.timelineData.tweetIDStringOfRowToolsViewShowed} //控制显示推文相关操作
+
     
     @State var player: AVPlayer = AVPlayer()
     
     init(viewModel:TweetRowViewModel) {
         self.viewModel = viewModel
-        //        print(#line, #file, "tweetRowView inited")
-//        self.expanded = expanded
-//        self._expandingIDString = expandingIDString
     }
     
     var body: some View {
@@ -84,21 +71,11 @@ struct TweetRow: View {
                                 }.fixedSize()
                                 
                             }
-                            //                        .padding(.top, (viewModel.retweetMarkView != nil ? 0 : 0))///根据是否有Retweet提示控制用户名和Row上边的间隙
-                            
+                           
                             ///推文主界面
                             viewModel.statusTextView
                                 .onTapGesture {
-//                                    let tweetIDString = viewModel.tweetIDString
-//
-//                                    if expandingIDString == tweetIDString {
-//                                        expandingIDString = nil
-//                                    } else {
-//                                        expandingIDString = tweetIDString
-//                                    }
-//                                    withAnimation{
-                                        viewModel.toggleToolsView()
-//                                    }
+                                    withAnimation{store.dipatch(.selectTweetRow(tweetIDString: viewModel.tweetIDString))}
                                     
                                 }
                             
@@ -111,11 +88,9 @@ struct TweetRow: View {
                                 ///媒体视图上叠加一个播放按钮
                                 viewModel.playButtonView
                             }
-//                            .padding(.top, 4)
                             
                             ///如果包含引用推文，则显示引用推文内容
                             viewModel.quotedTweetRow
-//                                .padding(.top, 4)
                         }
                     }
                     .padding(.horizontal, 16)

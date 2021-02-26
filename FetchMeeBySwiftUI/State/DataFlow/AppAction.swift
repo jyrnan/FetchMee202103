@@ -13,6 +13,9 @@ enum AppAction {
     case alertOn(text: String, isWarning: Bool)
     case alertOff
     
+    case setProcessingBegin
+    case setProcessingDone
+    
     case login(presentingFrom: AuthViewController, loginUser: UserInfo?)
     case userRequest(user: UserInfo)
     case updateLoginAccount(loginUser: UserInfo?)
@@ -22,6 +25,8 @@ enum AppAction {
     case changeSetting(setting: UserSetting)
     
     
-    case updateTimeline(timeline: TimelineType, mode:LoadTimelineCommand.UpdateMode)
-    case updateTimelineDone(timeline: AppState.TimelineData.Timeline)
+    case fetchTimeline(timelineType: TimelineType, mode:FetchTimelineCommand.UpdateMode)
+    case fetchTimelineDone(timeline: AppState.TimelineData.Timeline)
+    
+    case selectTweetRow(tweetIDString: String)
 }

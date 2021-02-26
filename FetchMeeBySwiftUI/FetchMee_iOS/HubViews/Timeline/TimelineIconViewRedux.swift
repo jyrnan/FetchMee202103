@@ -16,29 +16,16 @@ struct TimelineIconViewRedux: View {
     var timelineType: TimelineType
     var timeline: AppState.TimelineData.Timeline
     {
-        switch timelineType {
-        case .home:
-            return store.appState.timelineData.home
-        case .mention:
-            return  store.appState.timelineData.mention
-        default:
-            return AppState.TimelineData.Timeline()
-        }
-    }
-    
-//    init(TimelineType: TimelineType) {
-//
-//        self.timelineType = TimelineType
-//
 //        switch timelineType {
 //        case .home:
-//            self.timeline = store.appState.timelineData.home
+//            return store.appState.timelineData.home
 //        case .mention:
-//            self.timeline = store.appState.timelineData.mention
+//            return  store.appState.timelineData.mention
 //        default:
-//            print("")
+//            return AppState.TimelineData.Timeline()
 //        }
-//    }
+        store.getTimeline(timelineType: timelineType)
+    }
     
     var body: some View {
         NavigationLink(destination:TimelineViewRedux(timelineType: timelineType)){
@@ -66,12 +53,12 @@ struct TimelineIconViewRedux: View {
                     
                     HStack {
                         Spacer()
-//                        Text(listName ?? "")
-//                            .font(.caption2)
-//                            .bold()
-//                            .foregroundColor(Color.gray)
-//                            .padding([.leading, .trailing], 8)
-//                            .padding(.bottom, 0)
+                        Text("Name")
+                            .font(.caption2)
+                            .bold()
+                            .foregroundColor(Color.gray)
+                            .padding([.leading, .trailing], 8)
+                            .padding(.bottom, 0)
                     }
                     
                     HStack {
@@ -86,9 +73,6 @@ struct TimelineIconViewRedux: View {
                 }
             }
             .frame(width: 92, height: 92, alignment: .center)
-//            .onTapGesture {
-//                store.dipatch(.updateTimeline(timeline: timelineType, mode: .top))
-//            }
         }
     }
 }

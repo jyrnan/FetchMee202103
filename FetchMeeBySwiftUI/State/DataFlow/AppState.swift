@@ -28,6 +28,8 @@ extension AppState {
         
         var alert = Alert()
         
+        var isProcessingDone: Bool = true
+        
         var isShowingPicture: Bool = false //是否浮动显示图片
         var presentedView: AnyView? //通过AnyView就可以实现任意View的传递了？！
         
@@ -49,14 +51,18 @@ extension AppState {
             
             var tweetIDStrings: [String] = []
             var newTweetNumber: Int = 0
-            var tweetIDStringOfRowToolsViewShowed: String?
             
             
         }
         
         var home:Timeline = Timeline(type: .home)
         var mention:Timeline = Timeline(type: .mention)
+        var favorite: Timeline = Timeline(type: .favorite)
         var list: [Timeline] = []
+        
+        var tweetIDStringOfRowToolsViewShowed: String?
     }
     
 }
+
+

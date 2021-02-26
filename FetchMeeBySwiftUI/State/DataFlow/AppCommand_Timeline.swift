@@ -9,7 +9,7 @@
 import Foundation
 import Swifter
 
-struct LoadTimelineCommand: AppCommand {
+struct FetchTimelineCommand: AppCommand {
     
     enum UpdateMode {
         case top
@@ -26,7 +26,8 @@ struct LoadTimelineCommand: AppCommand {
         
         var sinceIDString: String? {updateMode == .top ? timeline.tweetIDStrings.first : nil }
         var maxIDString: String? {updateMode == .bottom ? timeline.tweetIDStrings.last : nil}
-        let count: Int = 10
+        
+        let count: Int = 40
         
         func successHandeler(json: JSON) -> Void {
             var timelineWillUpdate = timeline
@@ -43,7 +44,7 @@ struct LoadTimelineCommand: AppCommand {
                 timelineWillUpdate.tweetIDStrings = updateTimelineBottom(tweetIDStrings: timeline.tweetIDStrings, with: newTweets)
             }
             
-            store.dipatch(.updateTimelineDone(timeline: timelineWillUpdate))
+            store.dipatch(.fetchTimelineDone(timeline: timelineWillUpdate))
         }
         
         func failureHandler(_ error: Error) -> Void {
@@ -54,6 +55,11 @@ struct LoadTimelineCommand: AppCommand {
         switch timeline.type {
         case .home:
             swifter.getHomeTimeline(count: count, sinceID: sinceIDString, maxID: maxIDString, success: successHandeler, failure: failureHandler)
+        case .mention:
+        swifter.getMentionsTimelineTweets(count: count, sinceID: sinceIDString, maxID: maxIDString, success: successHandeler, failure: failureHandler)
+            
+        case .favorite:
+            swifter.getRecentlyFavoritedTweets(count: count, sinceID: sinceIDString, maxID: maxIDString, success: successHandeler, failure: failureHandler)
         default: print("")
         
         }
@@ -63,7 +69,7 @@ struct LoadTimelineCommand: AppCommand {
     
 }
 
-extension LoadTimelineCommand {
+extension FetchTimelineCommand {
     
     func updateTimelineTop(tweetIDStrings: [String], with newTweets: [JSON]) -> [String] {
         var tweetIDStrings = tweetIDStrings
@@ -102,3 +108,6 @@ extension LoadTimelineCommand {
 //        addMentionToCount(mention: data)
     }
 }
+
+
+//MARK:-

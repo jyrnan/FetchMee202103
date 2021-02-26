@@ -24,11 +24,13 @@ struct TimelinesView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    TimelineIconView(type: .home)
-                    TimelineIconView(type: .mention)
-                    TimelineIconView(type: .favorite)
+//                    TimelineIconView(type: .home)
+//                    TimelineIconView(type: .mention)
+//                    TimelineIconView(type: .favorite)
                     
                     TimelineIconViewRedux(timelineType: .home)
+                    TimelineIconViewRedux(timelineType: .mention)
+                    TimelineIconViewRedux(timelineType: .favorite)
                 
                     ForEach(lists.keys.sorted(), id: \.self) {listName in
                         TimelineIconView(type: .list, listName: listName, listTag:lists[listName])

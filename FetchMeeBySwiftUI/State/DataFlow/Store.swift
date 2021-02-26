@@ -10,6 +10,7 @@ import Foundation
 import Combine
 import Swifter
 import CoreData
+import SwiftUI
 
 //Redux下，
 //Store可以有多个State，
@@ -65,6 +66,11 @@ class Store: ObservableObject {
         case .alertOff:
             appState.setting.alert.isPresentedAlert = false
             
+        case .setProcessingBegin:
+            appState.setting.isProcessingDone = false
+        case .setProcessingDone:
+            appState.setting.isProcessingDone = true
+            
         case .login(let authView, let loginUser):
             appCommand = LoginCommand(loginUser: loginUser, presentingFrom: authView)
             
@@ -80,30 +86,71 @@ class Store: ObservableObject {
         case .changeSetting(let setting):
             appState.setting.loginUser?.setting = setting
             
-        case .updateTimeline(let timelineType, let updateMode):
+        case .fetchTimeline(let timelineType, let updateMode):
             var timeline: AppState.TimelineData.Timeline!
             switch timelineType {
             case .home:
                 timeline = appState.timelineData.home
             case .mention:
                 timeline = appState.timelineData.mention
+            case .favorite:
+                timeline = appState.timelineData.favorite
             default: print("")
             }
-            appCommand = LoadTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
+            appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
         
-        case .updateTimelineDone(let timeline):
+        case .fetchTimelineDone(let timeline):
+            appState.setting.isProcessingDone = true
+            
             switch timeline.type {
             case .home:
                 appState.timelineData.home = timeline
-            case .message:
+            case .mention:
                 appState.timelineData.mention = timeline
+            case .favorite:
+                appState.timelineData.favorite = timeline
             default:
                 print("")
             }
         
+        case .selectTweetRow(let tweetIDString):
+            if appState.timelineData.tweetIDStringOfRowToolsViewShowed == tweetIDString {
+                appState.timelineData.tweetIDStringOfRowToolsViewShowed = nil
+                } else {
+                        appState.timelineData.tweetIDStringOfRowToolsViewShowed = tweetIDString
+                }
         
+       
         }
         
         return (appState, appCommand)
+    }
+}
+
+extension Store {
+    
+    func getTimeline(timelineType: TimelineType) -> AppState.TimelineData.Timeline {
+        switch timelineType {
+        case .home:
+            return self.appState.timelineData.home
+        case .mention:
+            return  self.appState.timelineData.mention
+        case .favorite:
+            return self.appState.timelineData.favorite
+        default:
+            return AppState.TimelineData.Timeline()
+    }
+}
+    func copyTimeline(timelineType: TimelineType) -> AppState.TimelineData.Timeline {
+        switch timelineType {
+        case .home:
+            return appState.timelineData.home
+        case .mention:
+            return  appState.timelineData.mention
+        case .favorite:
+            return appState.timelineData.favorite
+        default:
+            return AppState.TimelineData.Timeline()
+    }
     }
 }
