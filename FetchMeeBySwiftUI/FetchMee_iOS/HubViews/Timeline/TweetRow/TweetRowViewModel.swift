@@ -17,7 +17,7 @@ class TweetRowViewModel: ObservableObject{
     ///MVVM
     var status: JSON
 
-    var timeline: TimelineViewModel
+//    var timeline: TimelineViewModel
     var tweetIDString: String
     
     //传人的视窗宽度

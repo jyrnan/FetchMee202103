@@ -59,7 +59,9 @@ final class Timeline: TimelineViewModel, ObservableObject {
             self.sinceIDString = userDefault.string(forKey: type.rawValue + "SinceIDString")
         }
         
-        if tweetIDStrings.isEmpty && type != .list {refreshFromTop(count: 50)}
+        if tweetIDStrings.isEmpty && type != .list {
+//            refreshFromTop(count: 50)
+        }
         
         registBGFetchTask()
         

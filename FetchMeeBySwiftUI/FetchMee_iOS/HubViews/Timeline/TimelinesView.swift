@@ -28,6 +28,7 @@ struct TimelinesView: View {
                     TimelineIconView(type: .mention)
                     TimelineIconView(type: .favorite)
                     
+                    TimelineIconViewRedux(timelineType: .home)
                 
                     ForEach(lists.keys.sorted(), id: \.self) {listName in
                         TimelineIconView(type: .list, listName: listName, listTag:lists[listName])

@@ -47,7 +47,7 @@ struct LoadTimelineCommand: AppCommand {
         }
         
         func failureHandler(_ error: Error) -> Void {
-            
+            store.dipatch(.alertOn(text: error.localizedDescription, isWarning: true))
         }
         
         

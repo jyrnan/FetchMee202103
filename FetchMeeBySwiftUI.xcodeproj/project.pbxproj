@@ -94,6 +94,8 @@
 		D28F9E9925E4E37600B8EF40 /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9E9825E4E37600B8EF40 /* AppAction.swift */; };
 		D28F9E9B25E4E39200B8EF40 /* AppCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9E9A25E4E39200B8EF40 /* AppCommand.swift */; };
 		D28F9E9D25E4E39F00B8EF40 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9E9C25E4E39F00B8EF40 /* AppError.swift */; };
+		D28F9EA425E86F2600B8EF40 /* TimelineIconViewRedux.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9EA325E86F2600B8EF40 /* TimelineIconViewRedux.swift */; };
+		D28F9EA625E8764400B8EF40 /* TimelineViewRedux.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9EA525E8764400B8EF40 /* TimelineViewRedux.swift */; };
 		D2905076252C07360065EA83 /* Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2905075252C07360065EA83 /* Persistance.swift */; };
 		D2905079252C09360065EA83 /* FetchMee.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2905077252C09360065EA83 /* FetchMee.xcdatamodeld */; };
 		D290507C252C0C170065EA83 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D290507B252C0C170065EA83 /* CloudKit.framework */; };
@@ -237,6 +239,8 @@
 		D28F9E9825E4E37600B8EF40 /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
 		D28F9E9A25E4E39200B8EF40 /* AppCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommand.swift; sourceTree = "<group>"; };
 		D28F9E9C25E4E39F00B8EF40 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		D28F9EA325E86F2600B8EF40 /* TimelineIconViewRedux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineIconViewRedux.swift; sourceTree = "<group>"; };
+		D28F9EA525E8764400B8EF40 /* TimelineViewRedux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewRedux.swift; sourceTree = "<group>"; };
 		D2905075252C07360065EA83 /* Persistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistance.swift; sourceTree = "<group>"; };
 		D2905078252C09360065EA83 /* FetchMee.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FetchMee.xcdatamodel; sourceTree = "<group>"; };
 		D290507A252C0C110065EA83 /* FetchMee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FetchMee.entitlements; sourceTree = "<group>"; };
@@ -603,8 +607,10 @@
 			isa = PBXGroup;
 			children = (
 				D2DDFCC02532DE3300AE7E39 /* TimelineIconView.swift */,
+				D28F9EA325E86F2600B8EF40 /* TimelineIconViewRedux.swift */,
 				4BA6627525359FEC00DE8697 /* TimelinesView.swift */,
 				D27DCEBD24B96D5F00520BE3 /* TimelineView.swift */,
+				D28F9EA525E8764400B8EF40 /* TimelineViewRedux.swift */,
 				D7AC535C24B9E94300BCD71F /* Timeline.swift */,
 				D2318AB82574D86C00F55BDF /* TimelinesViewModel.swift */,
 				D2419C232577746700A9CF98 /* TimelineType.swift */,
@@ -838,6 +844,7 @@
 				D28F9E9925E4E37600B8EF40 /* AppAction.swift in Sources */,
 				4B5E607625353A7200E7A5F1 /* AvatarImageView.swift in Sources */,
 				D7AC536E24BB477300BCD71F /* DetailView.swift in Sources */,
+				D28F9EA625E8764400B8EF40 /* TimelineViewRedux.swift in Sources */,
 				D2318AA92571E40900F55BDF /* FavoriteStarMarkView.swift in Sources */,
 				D2419C212577666300A9CF98 /* UserRepository.swift in Sources */,
 				D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */,
@@ -848,6 +855,7 @@
 				D2B625282593347700720E92 /* HubViewModel.swift in Sources */,
 				D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,
+				D28F9EA425E86F2600B8EF40 /* TimelineIconViewRedux.swift in Sources */,
 				D2419C242577746700A9CF98 /* TimelineType.swift in Sources */,
 				D2DDFCBF2532D65100AE7E39 /* ToolBarView.swift in Sources */,
 				D28F9E9525E4E0DB00B8EF40 /* Store.swift in Sources */,
