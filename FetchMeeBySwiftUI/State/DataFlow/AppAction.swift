@@ -29,4 +29,6 @@ enum AppAction {
     case fetchTimelineDone(timeline: AppState.TimelineData.Timeline)
     
     case selectTweetRow(tweetIDString: String)
+    
+    case updateNewTweetNumber(timelineType: TimelineType, numberOfReadTweet: Int)
 }

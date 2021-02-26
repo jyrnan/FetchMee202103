@@ -61,6 +61,7 @@ extension AppState {
         var lists: [String: Timeline] = [:] //key是id
         
         var tweetIDStringOfRowToolsViewShowed: String?
+        
     }
     
 }

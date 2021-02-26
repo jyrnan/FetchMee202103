@@ -56,6 +56,16 @@ class Store: ObservableObject {
         var appState = state
         var appCommand: AppCommand?
         
+        func getTimeline(timelineType: TimelineType) -> AppState.TimelineData.Timeline {
+            switch timelineType {
+            case .home: return state.timelineData.home
+            case .mention: return state.timelineData.mention
+            case .favorite:return state.timelineData.favorite
+            case .list(let id, _):return state.timelineData.lists[id]!
+            default: return state.timelineData.mention
+            }
+        }
+        
         switch action {
         
         case .alertOn(let text, let isWarning):
@@ -124,7 +134,19 @@ class Store: ObservableObject {
                         appState.timelineData.tweetIDStringOfRowToolsViewShowed = tweetIDString
                 }
         
-       
+        case .updateNewTweetNumber(let timelineType, let numberOfReadTweet):
+            switch timelineType {
+            case .home:
+                appState.timelineData.home.newTweetNumber -= numberOfReadTweet
+            case .mention:
+                appState.timelineData.mention.newTweetNumber -= numberOfReadTweet
+            case .favorite:
+                appState.timelineData.favorite.newTweetNumber -= numberOfReadTweet
+            case .list(let id, _):
+                appState.timelineData.lists[id]!.newTweetNumber -= numberOfReadTweet
+            default:
+                print("")
+            }
         }
         
         return (appState, appCommand)

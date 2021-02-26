@@ -23,6 +23,8 @@ struct TimelineViewRedux: View {
     var listName: String? //如果是list类型则会传入listName
     @GestureState var dragAmount = CGSize.zero
     
+    @State var numberOfReadTweet: Int = 0
+    
     var body: some View {
         GeometryReader {proxy in
             List{
@@ -46,6 +48,9 @@ struct TimelineViewRedux: View {
                     TweetRow(viewModel: TweetRowViewModel(
                                 tweetIDString: tweetIDString, width: proxy.size.width))
                         .onAppear{
+                            
+                            numberOfReadTweet += 1
+                            
                             fetchMoreIfNeeded(tweetIDString: tweetIDString)
                             
                             ///如果是顶端推文显示，或者说回到顶端，那么则调用减少推文函数
@@ -90,6 +95,7 @@ struct TimelineViewRedux: View {
                 }
             }
             .onDisappear{
+                store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: numberOfReadTweet))
                 print(#line, #file, "timelineView disappeared")
             }
             
