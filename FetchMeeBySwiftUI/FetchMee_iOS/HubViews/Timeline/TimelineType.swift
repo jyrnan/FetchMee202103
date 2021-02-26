@@ -28,7 +28,7 @@ enum TimelineType: Equatable {
         switch self {
         case .home: return "Home"
         case .mention: return "Mention"
-        case .favorite: return "Favaorite"
+        case .favorite: return "Favorite"
         case .list(let _, let name): return name
         default: return "Default"
         }

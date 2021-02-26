@@ -58,7 +58,9 @@ extension AppState {
         var home:Timeline = Timeline(type: .home)
         var mention:Timeline = Timeline(type: .mention)
         var favorite: Timeline = Timeline(type: .favorite)
-        var lists: [String: Timeline] = [:] //key是id
+        var lists: [String: Timeline] = [TimelineType.home.rawValue:Timeline(type: .home),
+                                         TimelineType.mention.rawValue: Timeline(type: .mention),
+                                         TimelineType.favorite.rawValue: Timeline(type: .favorite)] //key是id
         
         var tweetIDStringOfRowToolsViewShowed: String?
         
