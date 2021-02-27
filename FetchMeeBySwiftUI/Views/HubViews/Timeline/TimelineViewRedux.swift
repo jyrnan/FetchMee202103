@@ -55,20 +55,16 @@ struct TimelineViewRedux: View {
                             
                             ///如果是顶端推文显示，或者说回到顶端，那么则调用减少推文函数
                             if timeline.tweetIDStrings.first == tweetIDString {
-//                                timeline.reduceTweetsIfNeed()
                             }
-                            
                         }
-                    
                 }
                 
                 HStack {
                     Spacer()
-//                    if !isProcessingDone {
-//                        ActivityIndicator(isAnimating: $isProcessingDone, style: .medium)
-//                    }
+                    if !isProcessingDone.wrappedValue {
+                        ActivityIndicator(isAnimating: isProcessingDone, style: .medium)
+                    }
                     Button(isProcessingDone.wrappedValue ? "More Tweets..." : "Fetching...") {
-//                        self.timeline.refreshFromBottom()
                         store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
                     }
                         .font(.caption)

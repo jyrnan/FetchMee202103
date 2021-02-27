@@ -13,7 +13,10 @@ class StatusTextViewModel: ObservableObject {
     var status: JSON
     var attributedText: NSMutableAttributedString!
     
-    var themeColor: UIColor { UIColor(ThemeColor(rawValue: (userDefault.object(forKey: "themeColor") as? String) ?? "blue")!.color)}
+    @FileStorage(directory: .documentDirectory, fileName: "user.json")
+    var loginUser: UserInfo?
+    
+    var themeColor: UIColor { UIColor((loginUser?.setting.themeColor.color)!)}
     //
     let alignMent: NSTextAlignment
     

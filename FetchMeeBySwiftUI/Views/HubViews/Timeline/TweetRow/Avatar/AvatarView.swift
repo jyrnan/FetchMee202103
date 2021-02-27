@@ -46,7 +46,6 @@ struct AvatarView: View {
                         .onTapGesture {
                             let user = UserInfo(id: userIDString)
                             store.dipatch(.userRequest(user: user, isLoginUser: false))
-//                            store.dipatch(.fetchTimeline(timelineType: .user(userID: userIDString), mode: .top))
                             presentedUserInfo = true
                         }
                         .alert(isPresented: $isShowAlert, content: {

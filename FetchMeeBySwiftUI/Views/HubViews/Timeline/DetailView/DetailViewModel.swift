@@ -9,7 +9,7 @@
 import UIKit
 import Swifter
 
-class DetailViewModel: TimelineViewModel, ObservableObject {
+class DetailViewModel: ObservableObject {
     @Published var tweetIDStrings: [String] = []
     @Published var isDone: Bool = false
     @Published var tweetIDStringOfRowToolsViewShowed: String? = nil

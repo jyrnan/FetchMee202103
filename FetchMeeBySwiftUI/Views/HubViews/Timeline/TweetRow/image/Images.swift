@@ -73,7 +73,6 @@ struct Images: View {
 
 
 struct Images_Previews: PreviewProvider {
-    static var timeline = Timeline(type: .home)
     static var tweetIDString = "0000"
     static var previews: some View {
         Images(imageUrlStrings: [])

@@ -21,15 +21,13 @@ import UIKit
 import CoreData
 
 struct ComposerOfHubView: View {
-    @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: User
     
     @EnvironmentObject var store: Store
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var draftsByCoreData: FetchedResults<TweetDraft>
     
-    lazy var predicate = NSPredicate(format: "%K == %@", #keyPath(TwitterUser.userIDString), fetchMee.info.id)
+    lazy var predicate = NSPredicate(format: "%K == %@", #keyPath(TwitterUser.userIDString), store.appState.setting.loginUser?.id as! CVarArg)
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
     
     @State var currentTweetDraft: TweetDraft? //用来接受从draft视图传递过来需要编辑的draft
@@ -349,7 +347,7 @@ extension ComposerOfHubView {
     func getCurrentUser() -> TwitterUser? {
         guard !twitterUsers.isEmpty else {return nil}
         
-        let userIDString = fetchMee.info.id
+        let userIDString = store.appState.setting.loginUser?.id
         let result = twitterUsers.filter{$0.userIDString == userIDString}
         return result.first
     }
@@ -370,7 +368,6 @@ extension ComposerOfHubView {
             } catch {
                 let nsError = error as NSError
                 print(nsError.description)
-//                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                 
             }
         }
@@ -386,7 +383,6 @@ extension ComposerOfHubView {
         } catch {
             let nsError = error as NSError
             print(nsError.description)
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
     

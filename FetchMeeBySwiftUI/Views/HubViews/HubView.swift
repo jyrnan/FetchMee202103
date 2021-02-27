@@ -16,12 +16,6 @@ import KingfisherSwiftUI
 
 struct HubView: View {
     
-    
-    
-    @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var loginUser: User
-    @EnvironmentObject var downloader: Downloader
-    
     @EnvironmentObject var store: Store
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -74,19 +68,19 @@ struct HubView: View {
         }
         .overlay(AlertView()) //所有条状通知在NavigationBar上出现
         .toast(isShowing: $store.appState.setting.isShowingPicture, presented: store.appState.setting.presentedView)
-        .overlaySheet(isPresented: $alerts.isShowingOverlaySheet){
-            ZStack{
-                VStack{
-                    ComposerOfHubView(
-                        tweetText: $tweetText, isUsedAlone: true)
-                        .frame(height: 240)
-                    Spacer()
-                }
-            }
-            .blurBackground(style: .systemChromeMaterial)
-            .cornerRadius(18)
-            .frame(height: 260)
-        }
+//        .overlaySheet(isPresented: $alerts.isShowingOverlaySheet){
+//            ZStack{
+//                VStack{
+//                    ComposerOfHubView(
+//                        tweetText: $tweetText, isUsedAlone: true)
+//                        .frame(height: 240)
+//                    Spacer()
+//                }
+//            }
+//            .blurBackground(style: .systemChromeMaterial)
+//            .cornerRadius(18)
+//            .frame(height: 260)
+//        }
         
     }
     
@@ -94,7 +88,6 @@ struct HubView: View {
         var themeColor: UIColor { UIColor(ThemeColor(rawValue: (userDefault.object(forKey: "themeColor") as? String) ?? "blue")!.color)}
         let transAppearance = UINavigationBarAppearance()
         transAppearance.configureWithOpaqueBackground()
-        //        transAppearance.backgroundColor = UIColor.clear
         transAppearance.backgroundImage = UIImage(named: "Logo")?.alpha(0.05).changeWithColor(color: themeColor)
         transAppearance.backgroundImageContentMode = .bottomRight
         transAppearance.shadowColor = .clear
@@ -118,17 +111,12 @@ extension HubView {
     
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
-        loginUser.getUserInfo()
-        self.alerts.setLogMessage(text:  "Started fetching new tweets...")
-        
+       
     }
     
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
-    
-    
-    
 }
 
 

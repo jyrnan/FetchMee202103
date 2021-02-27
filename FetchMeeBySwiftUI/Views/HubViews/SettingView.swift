@@ -70,14 +70,6 @@ struct SettingView: View {
             }
             
             Section(header:Text("")){
-//                HStack {
-//                    Spacer()
-//                    Button("Clear Cache") {
-//                        
-//                    }
-//                    Spacer()
-//                }
-                
                 HStack {
                     Spacer()
                     Button("Login out"){
@@ -136,7 +128,6 @@ extension SettingView {
 
 struct SettingView_Previews: PreviewProvider {
     static var user: User = User()
-//    static var timeline = Timeline(type: .user)
     static var previews: some View {
         NavigationView {
             SettingView().environmentObject(user)
@@ -144,18 +135,3 @@ struct SettingView_Previews: PreviewProvider {
     }
 }
 
-extension SettingView {
-    fileprivate func manualDelete() {
-//        let completeHandler  = {
-//            print(#line, #function, "Tweet deleted")
-//        }
-//        let lh: (String) -> () = {string in
-//            self.alerts.setLogMessage(text: string)
-//        }
-//        swifter.fastDeleteTweets(for: loginUser.info.id,
-//                                 keepRecent: loginUser.setting.isKeepRecentTweets,
-//                                 completeHandler: completeHandler,
-//                                 logHandler: lh)
-    }
-}
-///
