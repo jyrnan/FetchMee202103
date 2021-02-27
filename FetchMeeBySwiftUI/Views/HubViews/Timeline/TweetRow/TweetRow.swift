@@ -64,9 +64,11 @@ struct TweetRow: View {
                                 Spacer()
                                 ZStack{
                                     
-                                    NavigationLink(destination: DetailView(tweetIDString: viewModel.tweetIDString), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
+                                    NavigationLink(destination: DetailViewRedux(tweetIDString: viewModel.tweetIDString), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
                                     viewModel.detailIndicator
-                                        .onTapGesture {isShowDetail = true }
+                                        .onTapGesture {
+                                            store.dipatch(.fetchSession(tweetIDString: viewModel.tweetIDString))
+                                            isShowDetail = true }
                     
                                 }.fixedSize()
                                 

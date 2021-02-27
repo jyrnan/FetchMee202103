@@ -94,6 +94,16 @@ class Store: ObservableObject {
         case .fetchTimelineDone(let timeline):
             appState.setting.isProcessingDone = true
             appState.timelineData.timelines[timeline.type.rawValue] = timeline
+            
+        case .fetchSession(let tweetIDString):
+            appState.setting.isProcessingDone = false
+            ///先清空原有的缓存，再加入最初推文
+            appState.timelineData.timelines[TimelineType.session.rawValue]?.tweetIDStrings.removeAll()
+            appState.timelineData.timelines[TimelineType.session.rawValue]?.tweetIDStrings.append(tweetIDString)
+            appCommand = FetchSessionCommand(initialTweetIDString: tweetIDString)
+        case .fetchSessionDone(let timeline):
+            appState.setting.isProcessingDone = true
+            appState.timelineData.timelines[TimelineType.session.rawValue] = timeline
      
         case .selectTweetRow(let tweetIDString):
             if appState.timelineData.tweetIDStringOfRowToolsViewShowed == tweetIDString {

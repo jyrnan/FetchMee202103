@@ -56,7 +56,8 @@ extension AppState {
         
         var timelines: [String: Timeline] = [TimelineType.home.rawValue:Timeline(type: .home),
                                          TimelineType.mention.rawValue: Timeline(type: .mention),
-                                         TimelineType.favorite.rawValue: Timeline(type: .favorite)]
+                                         TimelineType.favorite.rawValue: Timeline(type: .favorite),
+                                         TimelineType.session.rawValue: Timeline(type: .session)]
         
         var tweetIDStringOfRowToolsViewShowed: String?
         

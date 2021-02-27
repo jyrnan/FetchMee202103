@@ -94,6 +94,7 @@
 		D28F9E9D25E4E39F00B8EF40 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9E9C25E4E39F00B8EF40 /* AppError.swift */; };
 		D28F9EA425E86F2600B8EF40 /* TimelineIconViewRedux.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9EA325E86F2600B8EF40 /* TimelineIconViewRedux.swift */; };
 		D28F9EA625E8764400B8EF40 /* TimelineViewRedux.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9EA525E8764400B8EF40 /* TimelineViewRedux.swift */; };
+		D28F9EA825E9E5D100B8EF40 /* DetailViewRedux.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9EA725E9E5D100B8EF40 /* DetailViewRedux.swift */; };
 		D2905076252C07360065EA83 /* Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2905075252C07360065EA83 /* Persistance.swift */; };
 		D2905079252C09360065EA83 /* FetchMee.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2905077252C09360065EA83 /* FetchMee.xcdatamodeld */; };
 		D290507C252C0C170065EA83 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D290507B252C0C170065EA83 /* CloudKit.framework */; };
@@ -234,6 +235,7 @@
 		D28F9E9C25E4E39F00B8EF40 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		D28F9EA325E86F2600B8EF40 /* TimelineIconViewRedux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineIconViewRedux.swift; sourceTree = "<group>"; };
 		D28F9EA525E8764400B8EF40 /* TimelineViewRedux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewRedux.swift; sourceTree = "<group>"; };
+		D28F9EA725E9E5D100B8EF40 /* DetailViewRedux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewRedux.swift; sourceTree = "<group>"; };
 		D2905075252C07360065EA83 /* Persistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistance.swift; sourceTree = "<group>"; };
 		D2905078252C09360065EA83 /* FetchMee.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FetchMee.xcdatamodel; sourceTree = "<group>"; };
 		D290507A252C0C110065EA83 /* FetchMee.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FetchMee.entitlements; sourceTree = "<group>"; };
@@ -344,7 +346,6 @@
 				D2B625272593347700720E92 /* HubViewModel.swift */,
 				D21F4C4E24DE73C6004B2C20 /* SettingView.swift */,
 				D2A4D27D25527A0800668650 /* Timeline */,
-				4B68D5A92539410800A17AED /* ToolBars */,
 			);
 			path = HubViews;
 			sourceTree = "<group>";
@@ -426,6 +427,7 @@
 			isa = PBXGroup;
 			children = (
 				D7AC536D24BB477300BCD71F /* DetailView.swift */,
+				D28F9EA725E9E5D100B8EF40 /* DetailViewRedux.swift */,
 				D20086EF2580DE6400A9D8C3 /* DetailInfoView.swift */,
 				D24E409E257B6F3B00401BBB /* DetailViewModel.swift */,
 			);
@@ -657,6 +659,7 @@
 			children = (
 				D286FFD624BC31F0005DBC39 /* UserView.swift */,
 				D2BB68FF257C849D003BDA13 /* UserViewModel.swift */,
+				4B68D5A92539410800A17AED /* ToolBars */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -888,6 +891,7 @@
 				D28F9E9725E4E0FD00B8EF40 /* AppState.swift in Sources */,
 				D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */,
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
+				D28F9EA825E9E5D100B8EF40 /* DetailViewRedux.swift in Sources */,
 				D2419C712579E43900A9CF98 /* AttributedTextView.swift in Sources */,
 				D20A35D325E68F870012CD82 /* FileStorage.swift in Sources */,
 				D28F9E9D25E4E39F00B8EF40 /* AppError.swift in Sources */,

@@ -22,7 +22,6 @@ class DetailViewModel: TimelineViewModel, ObservableObject {
     
     init(tweetIDString: String) {
         self.tweetIDString = tweetIDString
-//        tweetIDStringOfRowToolsViewShowed = tweetIDString
         
         getReplyDetail(for: tweetIDString)
     }
