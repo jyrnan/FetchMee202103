@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 import CoreData
+import KingfisherSwiftUI
 
 struct SettingView: View {
     
@@ -16,6 +17,7 @@ struct SettingView: View {
     
     @EnvironmentObject var store: Store
     
+    ///用来作为setting调整结果的零时存储
     @State var setting: UserSetting = UserSetting()
     
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
@@ -33,7 +35,7 @@ struct SettingView: View {
     
     var body: some View {
         Form {
-                Image(uiImage: UIImage(named: "bg")!)
+            KFImage(URL(string:store.appState.setting.loginUser?.bannerUrlString ?? ""))
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             .frame(height: 120)
@@ -105,18 +107,9 @@ struct SettingView: View {
 extension SettingView {
     
     func logOut() {
-//        loginUser.isShowUserInfo = false
-//        loginUser.info.id = "0000" //  设置成一个空的userInfo
-//        print(#line, self.loginUser.isShowUserInfo)
+
         delay(delay: 1, closure: {
             withAnimation {
-                
-//                userDefault.set(false, forKey: "isLoggedIn")
-//                userDefault.set(nil, forKey: "userIDString")
-//                userDefault.set(nil, forKey: "screenName")
-//                userDefault.set(nil, forKey: "mentionUserData")
-//                loginUser.isLoggedIn = false
-                
                 store.dipatch(.updateLoginAccount(loginUser: nil))
             }
         })

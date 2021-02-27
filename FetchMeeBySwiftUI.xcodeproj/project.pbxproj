@@ -328,7 +328,6 @@
 				D2A4D2802552AF9500668650 /* TestView.swift */,
 				D205246B24C18AC30046F1AB /* AlertView.swift */,
 				D262FDD924D2CEED00682B99 /* SafariView.swift */,
-				D21F4C4E24DE73C6004B2C20 /* SettingView.swift */,
 				D2C7248724E613A400804F18 /* RoundedCorners.swift */,
 				D2309F212547E09A00549E27 /* CustomTextEditor.swift */,
 				D2309F28254922B000549E27 /* Toast.swift */,
@@ -343,6 +342,7 @@
 			children = (
 				4BDB05D62531613B00CF71A1 /* HubView.swift */,
 				D2B625272593347700720E92 /* HubViewModel.swift */,
+				D21F4C4E24DE73C6004B2C20 /* SettingView.swift */,
 				D2A4D27D25527A0800668650 /* Timeline */,
 				4B68D5A92539410800A17AED /* ToolBars */,
 			);
