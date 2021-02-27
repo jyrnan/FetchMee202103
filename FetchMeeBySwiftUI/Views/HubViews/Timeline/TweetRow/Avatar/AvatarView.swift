@@ -12,6 +12,7 @@ import Swifter
 import KingfisherSwiftUI
 
 struct AvatarView: View {
+    @EnvironmentObject var store: Store
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
@@ -34,7 +35,7 @@ struct AvatarView: View {
     
     var body: some View {
             ZStack {
-                NavigationLink(destination: UserView(userIDString: userIDString),
+                NavigationLink(destination: UserViewRedux(userIDString: userIDString),
                                isActive: $presentedUserInfo, label:{EmptyView()} ).disabled(true)
                 AvatarImageView(imageUrl: user?["profile_image_url_https"].string )
                         .frame(width: width, height: height, alignment: .center)
@@ -43,6 +44,9 @@ struct AvatarView: View {
                             isShowAlert = true
                         }
                         .onTapGesture {
+                            let user = UserInfo(id: userIDString)
+                            store.dipatch(.userRequest(user: user, isLoginUser: false))
+//                            store.dipatch(.fetchTimeline(timelineType: .user(userID: userIDString), mode: .top))
                             presentedUserInfo = true
                         }
                         .alert(isPresented: $isShowAlert, content: {

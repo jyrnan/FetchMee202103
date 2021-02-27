@@ -74,12 +74,16 @@ class Store: ObservableObject {
         case .login(let authView, let loginUser):
             appCommand = LoginCommand(loginUser: loginUser, presentingFrom: authView)
             
-        case .userRequest(let user):
-            appCommand = UserRequstCommand(user: user)
+        case .userRequest(let user, let isLoginUser):
+            appState.timelineData.timelines[TimelineType.user(userID: "0000").rawValue] = AppState.TimelineData.Timeline(type:TimelineType.user(userID: user.id))
+            appCommand = UserRequstCommand(user: user, isLoginUser: isLoginUser)
             
         case .updateLoginAccount(let loginUser):
             appState.setting.loginUser = loginUser
             
+        case .updateRequestedUser(let requestedUser ):
+            appState.timelineData.requestedUser = requestedUser
+        
         case .updateList(let lists):
             appState.setting.lists = lists
             
@@ -90,7 +94,6 @@ class Store: ObservableObject {
             var timeline: AppState.TimelineData.Timeline {appState.timelineData.timelines[timelineType.rawValue]!}
 
             appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
-        
         case .fetchTimelineDone(let timeline):
             appState.setting.isProcessingDone = true
             appState.timelineData.timelines[timeline.type.rawValue] = timeline
@@ -119,9 +122,7 @@ class Store: ObservableObject {
             } else {
                 appState.timelineData.timelines[timelineType.rawValue]?.newTweetNumber = 0
             }
-             
-
-        }
+                    }
         
         return (appState, appCommand)
     }

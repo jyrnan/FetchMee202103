@@ -27,6 +27,7 @@
 		D20A35D125E5418E0012CD82 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20A35D025E5418E0012CD82 /* Helpers.swift */; };
 		D20A35D325E68F870012CD82 /* FileStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20A35D225E68F870012CD82 /* FileStorage.swift */; };
 		D20A35D525E68FFB0012CD82 /* AppCommand_Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20A35D425E68FFB0012CD82 /* AppCommand_Timeline.swift */; };
+		D20A35D725EA2A100012CD82 /* UserViewRedux.swift in Sources */ = {isa = PBXBuildFile; fileRef = D20A35D625EA2A100012CD82 /* UserViewRedux.swift */; };
 		D21C3304255A827C001CBBCD /* Counter+Calculate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C3303255A827C001CBBCD /* Counter+Calculate.swift */; };
 		D21C3306255A8356001CBBCD /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C3305255A8356001CBBCD /* FoundationExtensions.swift */; };
 		D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F4C4E24DE73C6004B2C20 /* SettingView.swift */; };
@@ -168,6 +169,7 @@
 		D20A35D025E5418E0012CD82 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		D20A35D225E68F870012CD82 /* FileStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileStorage.swift; sourceTree = "<group>"; };
 		D20A35D425E68FFB0012CD82 /* AppCommand_Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommand_Timeline.swift; sourceTree = "<group>"; };
+		D20A35D625EA2A100012CD82 /* UserViewRedux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewRedux.swift; sourceTree = "<group>"; };
 		D21C3303255A827C001CBBCD /* Counter+Calculate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Counter+Calculate.swift"; sourceTree = "<group>"; };
 		D21C3305255A8356001CBBCD /* FoundationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
 		D21F4C4E24DE73C6004B2C20 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
@@ -658,6 +660,7 @@
 			isa = PBXGroup;
 			children = (
 				D286FFD624BC31F0005DBC39 /* UserView.swift */,
+				D20A35D625EA2A100012CD82 /* UserViewRedux.swift */,
 				D2BB68FF257C849D003BDA13 /* UserViewModel.swift */,
 				4B68D5A92539410800A17AED /* ToolBars */,
 			);
@@ -853,6 +856,7 @@
 				4BDB05D72531613B00CF71A1 /* HubView.swift in Sources */,
 				D2D6744225C5028200348BB7 /* OverlaySheet.swift in Sources */,
 				D286FFD724BC31F0005DBC39 /* UserView.swift in Sources */,
+				D20A35D725EA2A100012CD82 /* UserViewRedux.swift in Sources */,
 				D2224F8A24BE7C0400AE2110 /* User.swift in Sources */,
 				4BA662742535923300DE8697 /* ToolBarsView.swift in Sources */,
 				D2A4D27F2552902F00668650 /* UIImage+alhpa.swift in Sources */,

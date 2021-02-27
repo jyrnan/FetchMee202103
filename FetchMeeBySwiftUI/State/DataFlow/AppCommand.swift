@@ -61,6 +61,7 @@ struct LoginCommand: AppCommand {
 //MARK:-获取用户信息
 struct UserRequstCommand: AppCommand {
     var user: UserInfo
+    var isLoginUser: Bool
     
     func execute(in store: Store) {
         let userTag: UserTag = UserTag.id(user.id)
@@ -76,10 +77,15 @@ struct UserRequstCommand: AppCommand {
             updatedUser = updateUser(update: updatedUser, from: store.context)
             
             ///信息更新完成，将user数据替换到相应位置
+            if isLoginUser {
             store.dipatch(.updateLoginAccount(loginUser: updatedUser))
             
             //Test
             store.dipatch(.alertOn(text: "Updated user", isWarning: false))
+            } else {
+                store.dipatch(.updateRequestedUser(requestedUser: updatedUser))
+                store.dipatch(.fetchTimeline(timelineType: .user(userID: user.id), mode: .top))
+            }
         }
         
         /// 获取用户List信息并更新
@@ -166,15 +172,4 @@ extension UserRequstCommand {
         
         return userInfo
     }
-}
-
-
-struct CreatListTimelineCommand: AppCommand {
-    var timelineData: AppState.TimelineData
-    
-    func execute(in store: Store) {
-        
-    }
-    
-    
 }

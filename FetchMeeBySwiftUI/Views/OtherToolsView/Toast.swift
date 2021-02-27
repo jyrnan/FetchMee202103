@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Toast<Presenting, Presented>: View where Presenting: View, Presented: View {
     
-    @EnvironmentObject var alerts: Alerts
+    @EnvironmentObject var store: Store
     
     /// The binding that decides the appropriate drawing in the body.
     @Binding var isShowing: Bool
@@ -45,7 +45,7 @@ struct Toast<Presenting, Presented>: View where Presenting: View, Presented: Vie
                     
                     //通过设置延时后设置需要显示的View为nil，可以保证下次显示的时候是初始设置。（为什么会这样还有点迷惑）
                     //延时的目的是保证缩放的动画完成
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {alerts.presentedView = nil})
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {store.appState.setting.presentedView = nil}) //????直接操作store
                     
                 }
             }

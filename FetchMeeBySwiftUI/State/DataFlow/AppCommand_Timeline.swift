@@ -55,11 +55,16 @@ struct FetchTimelineCommand: AppCommand {
         switch timeline.type {
         case .home:
             swifter.getHomeTimeline(count: count, sinceID: sinceIDString, maxID: maxIDString, success: successHandeler, failure: failureHandler)
+        
         case .mention:
         swifter.getMentionsTimelineTweets(count: count, sinceID: sinceIDString, maxID: maxIDString, success: successHandeler, failure: failureHandler)
             
         case .favorite:
             swifter.getRecentlyFavoritedTweets(count: count, sinceID: sinceIDString, maxID: maxIDString, success: successHandeler, failure: failureHandler)
+            
+        case .user(let userID) :
+            let userTag = UserTag.id(userID)
+            swifter.getTimeline(for: userTag, count: count, sinceID: sinceIDString, maxID: maxIDString, success: successHandeler, failure: failureHandler)
             
         case .list( let id, _):
             let listTag = ListTag.id(id)
