@@ -116,7 +116,7 @@ class StatusTextViewModel: ObservableObject {
         
         ///这里增加一个indice的判断，避免mention用户名出现在statusText的末位的情况
         ///否则会出现读取indice后一个字符时候出现越界情况
-        guard let statusText = status["text"].string, indice != statusText.count else {return false}
+        guard let statusText = status["text"].string, indice < statusText.count else {return false}
         
         let index = statusText.index(statusText.startIndex, offsetBy: indice + 1)
         return statusText[index] != "@"
