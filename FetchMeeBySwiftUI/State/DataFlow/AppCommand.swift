@@ -130,6 +130,8 @@ extension UserRequstCommand {
         
         var avatarUrl = json["profile_image_url_https"].string
         avatarUrl = avatarUrl?.replacingOccurrences(of: "_normal", with: "")
+        userInfo.avatarUrlString = avatarUrl
+        
         userInfo.bannerUrlString = json["profile_banner_url"].string
         
         var loc = json["location"].string ?? "Unknow"

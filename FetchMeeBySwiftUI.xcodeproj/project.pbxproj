@@ -105,7 +105,6 @@
 		D2A4D2812552AF9500668650 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4D2802552AF9500668650 /* TestView.swift */; };
 		D2ABAD1B256F9345009FDD94 /* ImageThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */; };
 		D2ABAD1D256F938E009FDD94 /* ImageThrumbViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1C256F938E009FDD94 /* ImageThrumbViewModel.swift */; };
-		D2ABAD202570D74B009FDD94 /* AvatarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1F2570D74B009FDD94 /* AvatarViewModel.swift */; };
 		D2AE50652553C6D500437337 /* MentionUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE50642553C6D500437337 /* MentionUser.swift */; };
 		D2AE506725564A2800437337 /* LogMessageSmallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE506625564A2800437337 /* LogMessageSmallView.swift */; };
 		D2B2560E24E38824009F982E /* videoJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2B2560D24E38824009F982E /* videoJson.txt */; };
@@ -247,7 +246,6 @@
 		D2A4D2802552AF9500668650 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThumbView.swift; sourceTree = "<group>"; };
 		D2ABAD1C256F938E009FDD94 /* ImageThrumbViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThrumbViewModel.swift; sourceTree = "<group>"; };
-		D2ABAD1F2570D74B009FDD94 /* AvatarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarViewModel.swift; sourceTree = "<group>"; };
 		D2AE50642553C6D500437337 /* MentionUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionUser.swift; sourceTree = "<group>"; };
 		D2AE506625564A2800437337 /* LogMessageSmallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogMessageSmallView.swift; sourceTree = "<group>"; };
 		D2B2560D24E38824009F982E /* videoJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = videoJson.txt; sourceTree = "<group>"; };
@@ -553,8 +551,8 @@
 		D28F9E9225E4E0AA00B8EF40 /* State */ = {
 			isa = PBXGroup;
 			children = (
-				D2419C222577685500A9CF98 /* Repositories */,
 				D28F9E9325E4E0C600B8EF40 /* DataFlow */,
+				D2419C222577685500A9CF98 /* Repositories */,
 				D20A35CD25E53C5C0012CD82 /* FileIO */,
 			);
 			path = State;
@@ -621,7 +619,6 @@
 			children = (
 				4B5E607525353A7200E7A5F1 /* AvatarImageView.swift */,
 				D2C4D40224D3D11100395660 /* AvatarView.swift */,
-				D2ABAD1F2570D74B009FDD94 /* AvatarViewModel.swift */,
 				D2318AA82571E40900F55BDF /* FavoriteStarMarkView.swift */,
 			);
 			path = Avatar;
@@ -879,7 +876,6 @@
 				D2C12CD5254A6A6B00D74778 /* UserInfo.swift in Sources */,
 				4BDB05D925316D5C00CF71A1 /* ComposerOfHubView.swift in Sources */,
 				D2946F2724CD6C8100F8A7C6 /* TweetTextView.swift in Sources */,
-				D2ABAD202570D74B009FDD94 /* AvatarViewModel.swift in Sources */,
 				D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */,
 				D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */,
 				D7AC536C24BAD91A00BCD71F /* Images.swift in Sources */,

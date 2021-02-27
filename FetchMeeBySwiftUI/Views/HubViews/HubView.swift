@@ -12,6 +12,7 @@ import BackgroundTasks
 import Swifter
 import CoreData
 import UIKit
+import KingfisherSwiftUI
 
 struct HubView: View {
     
@@ -68,7 +69,8 @@ struct HubView: View {
             })
             .navigationTitle("FetchMee")
             .navigationBarItems(trailing: NavigationLink(destination: SettingView(setting: store.appState.setting.loginUser?.setting ?? UserSetting())) {
-                                    AvatarImageView(image: UIImage()).frame(width: 36, height: 36, alignment: .center)})
+                                    AvatarImageView(imageUrl:store.appState.setting.loginUser?.avatarUrlString)
+                                        .frame(width: 36, height: 36, alignment: .center)})
         }
         .overlay(AlertView()) //所有条状通知在NavigationBar上出现
         .toast(isShowing: $store.appState.setting.isShowingPicture, presented: store.appState.setting.presentedView)

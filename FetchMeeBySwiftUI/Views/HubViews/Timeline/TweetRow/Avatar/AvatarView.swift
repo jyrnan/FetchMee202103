@@ -12,73 +12,58 @@ import Swifter
 import KingfisherSwiftUI
 
 struct AvatarView: View {
-    @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: User
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
     
-    
-    @ObservedObject var viewModel: AvatarViewModel
-   
     @State var presentedUserInfo: Bool = false
+    @State var isShowAlert: Bool = false
+    
+    var userIDString: String
     
     var width: CGFloat
     var height: CGFloat
     
+    var user: JSON? {UserRepository.shared.users[userIDString]}
     
-    
-    init(viewModel: AvatarViewModel, width:CGFloat = 64, height: CGFloat = 64) {
-        self.viewModel = viewModel
-        
+    init(userIDString: String, width:CGFloat = 64, height: CGFloat = 64) {
+        self.userIDString  = userIDString
         self.width = width
         self.height = height
-        
-       
     }
     
     var body: some View {
-//        GeometryReader {geometry in
             ZStack {
-                NavigationLink(destination: UserView(userIDString: viewModel.userIDString ?? "0000"),
+                NavigationLink(destination: UserView(userIDString: userIDString),
                                isActive: $presentedUserInfo, label:{EmptyView()} ).disabled(true)
-//                AvatarImageView(image: remoteImageFromUrl.image)
-            KFImage(URL(string: viewModel.user["profile_image_url_https"].string ?? ""))
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .clipShape(Circle())
-                .overlay(Circle()
-                 .stroke(Color.gray.opacity(0.3), lineWidth: 1))
-                .contentShape(Circle())
+                AvatarImageView(imageUrl: user?["profile_image_url_https"].string )
                         .frame(width: width, height: height, alignment: .center)
                         .onTapGesture(count: 2){
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                            viewModel.tickle()
+                            isShowAlert = true
                         }
                         .onTapGesture {
                             presentedUserInfo = true
                         }
-                        .alert(isPresented: $viewModel.isShowAlert, content: {
-                            Alert(title: Text("没拍到"), message: Text("可能\(viewModel.userName ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
+                        .alert(isPresented: $isShowAlert, content: {
+                            Alert(title: Text("没拍到"), message: Text("可能\(user?["name"].string ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
                         })
-//                }
                 ///显示头像补充图标
                 ///如果该用户nickName不为空，则显示星标
                 if checkFavoriteUser() {
                     FavoriteStarMarkView()
                 }
             }.frame(width: width, height: height, alignment: .center)
-//        }
     }
     
     func checkFavoriteUser() -> Bool {
-        return twitterUsers.map{$0.userIDString}.contains(viewModel.userIDString)
+        return twitterUsers.map{$0.userIDString}.contains(userIDString)
     }
 }
 
 struct AvatarView_Previews: PreviewProvider {
     static var previews: some View {
-        AvatarView(viewModel: AvatarViewModel(user: JSON.init("")))
+        AvatarView(userIDString: "")
     }
 }
 

@@ -7,18 +7,18 @@
 //
 
 import SwiftUI
+import KingfisherSwiftUI
 
 
 
 struct AvatarImageView: View {
     
-    var image: UIImage?
-    
-    
+    var imageUrl: String?
+    var placeHolder:Image = Image(systemName: "person")
     
     
     var body: some View {
-        Image(uiImage: image ?? UIImage(systemName: "person.circle.fill")!)
+        KFImage(URL(string: imageUrl ?? ""))
             .resizable()
             .aspectRatio(contentMode: .fill)
             .clipShape(Circle())
@@ -30,6 +30,6 @@ struct AvatarImageView: View {
 
 struct AvataImageView_Previews: PreviewProvider {
     static var previews: some View {
-        AvatarImageView(image: UIImage(systemName: "person.circle.fill"))
+        AvatarImageView(imageUrl: "")
     }
 }

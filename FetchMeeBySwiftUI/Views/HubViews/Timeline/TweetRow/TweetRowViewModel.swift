@@ -91,19 +91,10 @@ class TweetRowViewModel: ObservableObject{
     }
     
     //MARK:-AvatarView
-    func makeAvatarViewModel() -> AvatarViewModel {
-        var avatarViewModel: AvatarViewModel
-        
-        ///MVVM
-        let user = status["user"]
-        
-        avatarViewModel = AvatarViewModel(user: user)
-        return avatarViewModel
-    }
     
     func makeAvatarView() -> AvatarView {
-        let avatarViewModel: AvatarViewModel = makeAvatarViewModel()
-        return AvatarView(viewModel: avatarViewModel,
+        let userIDString = status["user"]["id_str"].string ?? "0000"
+        return AvatarView(userIDString: userIDString,
                           width: isQuotedTweetRowViewModel ? 18 :36,
                           height: isQuotedTweetRowViewModel ? 18 :36)
     }
@@ -155,6 +146,10 @@ class TweetRowViewModel: ObservableObject{
         let quotedStatus = status["quoted_status"]
         
         StatusRepository.shared.status[quotedTweetIDString] = quotedStatus
+        
+        ///需要把quotedStatus里面的user提取出来
+        let user = quotedStatus["user"]
+        UserRepository.shared.addUser(user)
         
         return TweetRowViewModel(
             tweetIDString: quotedTweetIDString, width: tweetRowViewWidth - 16, isQuoteded: true )
