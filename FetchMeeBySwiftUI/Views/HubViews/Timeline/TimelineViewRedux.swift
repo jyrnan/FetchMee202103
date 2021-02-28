@@ -63,7 +63,7 @@ struct TimelineViewRedux: View {
                             }
                         }
                     } else {
-                        ToolsView(viewModel: ToolsViewModel(tweetIDString: store.appState.timelineData.tweetIDStringOfRowToolsViewShowed!))
+                        ToolsView(viewModel: ToolsViewModel(tweetIDString: store.appState.timelineData.tweetIDStringOfRowToolsViewShowed!, store: store))
                             .listRowBackground(selectedBackgroudColor)
                     }
                     

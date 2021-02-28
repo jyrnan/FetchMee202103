@@ -32,7 +32,7 @@ struct Toast<Presenting, Presented>: View where Presenting: View, Presented: Vie
                     self.presented
                 }
                 
-                .scaleEffect(isShowing ? 1 : 0.01)
+                .scaleEffect(isShowing ? 1 : 0.01, anchor: .center)
                 
                 .frame(width: geometry.size.width,
                        height: geometry.size.height)

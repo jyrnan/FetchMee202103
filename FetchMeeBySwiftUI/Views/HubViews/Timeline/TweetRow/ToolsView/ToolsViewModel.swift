@@ -11,7 +11,7 @@ import Swifter
 import Combine
 
 class ToolsViewModel: ObservableObject {
-    var store: Store? = nil
+    var store: Store?
     var status: JSON
 //    var timeline: TimelineViewModel
     var tweetIDString: String
@@ -22,8 +22,8 @@ class ToolsViewModel: ObservableObject {
     @Published var favorited: Bool
     @Published var favoritedCount: Int
     
-    init(tweetIDString: String) {
-        
+    init(tweetIDString: String, store: Store? = nil) {
+        self.store = store
         self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
         self.tweetIDString = tweetIDString
         

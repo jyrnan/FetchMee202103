@@ -123,8 +123,9 @@ class Store: ObservableObject {
                 .forEach{timeline in
                     var timeline = timeline
                     let count = timeline.tweetIDStrings.count
-                    timeline.tweetIDStrings[(count - 20..<count)].forEach{StatusRepository.shared.status[$0] = nil}
-                    timeline.tweetIDStrings.removeLast(timeline.tweetIDStrings.count - 20)
+                    let keepTweetCount = 20
+//                    timeline.tweetIDStrings[(count - keepTweetCount..<count)].forEach{StatusRepository.shared.status[$0] = nil}
+                    timeline.tweetIDStrings.removeLast(count - keepTweetCount)
                     appState.timelineData.timelines[timeline.type.rawValue] = timeline
             }
      
