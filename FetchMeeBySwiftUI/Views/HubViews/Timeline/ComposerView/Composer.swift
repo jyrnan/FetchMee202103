@@ -50,7 +50,10 @@ struct Composer: View {
                 store.swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
                     self.tweetText = ""
                     store.dipatch(.alertOn(text: tweetIDString == nil ? "Tweet sent!" : "Reply sent", isWarning: false))
-                    
+                    if tweetIDString != nil {
+                        withAnimation{
+                        store.dipatch(.selectTweetRow(tweetIDString: tweetIDString!)) }
+                    }
                     isProcessingDone = true
                 })
                 self.hideKeyboard()

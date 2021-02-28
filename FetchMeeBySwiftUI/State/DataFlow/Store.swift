@@ -163,6 +163,15 @@ class Store: ObservableObject {
                         appCommand = SeletcTweetRowCommand(tweetIDString: tweetIDString)
                     }
                     }
+        case .deselectTweetRow:
+            appState.timelineData.tweetIDStringOfRowToolsViewShowed = nil
+            let timelines = appState.timelineData.timelines.filter{$1.tweetIDStrings.contains("toolsViewMark")}
+            if let key = timelines.keys.first, var timeline = timelines.values.first {
+               
+               if let index = (timeline.tweetIDStrings.firstIndex(of:  "toolsViewMark")) {
+                   timeline.tweetIDStrings.remove(at: index) }
+           
+               appState.timelineData.timelines[key] = timeline }
                
         case .updateNewTweetNumber(let timelineType, let numberOfReadTweet):
             if let newTweetNumber = appState.timelineData.timelines[timelineType.rawValue]?.newTweetNumber,
