@@ -18,14 +18,16 @@ struct TweetRow: View {
     
     var backgroundColor: some View {
         Color.init("BackGround")
-            .overlay(viewModel.checkIsReplyToMe(userID: store.appState.setting.loginUser?.id) ? Color.accentColor.opacity(expanded ? 0.12 : 0.05) : Color.clear)
+            .overlay(isSelected ? Color.accentColor.opacity(0.12) : (
+                        isReplyToMe ? Color.accentColor.opacity(0.05) : Color.clear))
     }
     
     @State var presentedUserInfo: Bool = false //控制显示用户信息页面
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     @State var playVideo: Bool = false //控制是否显示视频播放页面
     
-    private var expanded: Bool {viewModel.tweetIDString == store.appState.timelineData.tweetIDStringOfRowToolsViewShowed} //控制显示推文相关操作
+    private var isSelected: Bool {viewModel.tweetIDString == store.appState.timelineData.tweetIDStringOfRowToolsViewShowed} //控制显示推文相关操作
+    private var isReplyToMe: Bool {viewModel.checkIsReplyToMe(userID: store.appState.setting.loginUser?.id)}
 
     
     @State var player: AVPlayer = AVPlayer()
@@ -101,12 +103,12 @@ struct TweetRow: View {
                 }.animation(.none)
           
             
-            if expanded {
-                viewModel.toolsView
-            }
+//            if isSelected {
+//                viewModel.toolsView
+//            }
         }
         .listRowBackground(backgroundColor)
-        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+//        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         
     }
     

@@ -25,6 +25,11 @@ struct TimelineViewRedux: View {
     
     @State var numberOfReadTweet: Int = 0
     
+    var selectedBackgroudColor: some View  {
+        Color.init("BackGround")
+            .overlay(Color.accentColor.opacity(0.12))}
+    
+    
     var body: some View {
         GeometryReader {proxy in
             List{
@@ -44,7 +49,7 @@ struct TimelineViewRedux: View {
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
                 ForEach(timeline.tweetIDStrings, id: \.self) {tweetIDString in
-                    
+                    if tweetIDString != "toolsViewMark" {
                     TweetRow(viewModel: TweetRowViewModel(
                                 tweetIDString: tweetIDString, width: proxy.size.width))
                         .onAppear{
@@ -57,7 +62,13 @@ struct TimelineViewRedux: View {
                             if timeline.tweetIDStrings.first == tweetIDString {
                             }
                         }
+                    } else {
+                        ToolsView(viewModel: ToolsViewModel(tweetIDString: store.appState.timelineData.tweetIDStringOfRowToolsViewShowed!))
+                            .listRowBackground(selectedBackgroudColor)
+                    }
+                    
                 }
+                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
                 
                 HStack {
                     Spacer()
@@ -92,7 +103,6 @@ struct TimelineViewRedux: View {
             }
             .onDisappear{
                 store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: numberOfReadTweet))
-                print(#line, #file, "timelineView disappeared")
             }
             
         }

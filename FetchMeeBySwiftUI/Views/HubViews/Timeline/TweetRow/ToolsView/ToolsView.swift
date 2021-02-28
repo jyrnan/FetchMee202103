@@ -90,10 +90,11 @@ struct ToolsView: View {
                 .padding(.horizontal, 16)
             .frame(height: 42)
             .background(Color.accentColor.opacity(0.4))
-//            .overlay(TopShadow(), alignment: .top)
-//            .overlay(BottomShadow(), alignment: .bottom)
+
     }
     .font(.body)
+//        .listRowBackground(Color.init("BackGround"))
+//        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
 }
 }
 

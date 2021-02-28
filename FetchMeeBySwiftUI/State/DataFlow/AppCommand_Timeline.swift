@@ -8,6 +8,7 @@
 
 import Foundation
 import Swifter
+import SwiftUI
 
 struct FetchTimelineCommand: AppCommand {
     
@@ -166,5 +167,18 @@ struct FetchSessionCommand: AppCommand {
         getReplyDetail(for: initialTweetIDString)
         
     }
+    
+}
+
+struct SeletcTweetRowCommand: AppCommand {
+    let tweetIDString: String
+    func execute(in store: Store) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            withAnimation{
+            store.dipatch(.selectTweetRow(tweetIDString: tweetIDString))
+            }
+        }
+    }
+    
     
 }

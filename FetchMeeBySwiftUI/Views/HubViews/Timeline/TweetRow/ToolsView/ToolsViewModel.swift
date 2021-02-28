@@ -21,22 +21,17 @@ class ToolsViewModel: ObservableObject {
     @Published var favorited: Bool
     @Published var favoritedCount: Int
     
-    init(
-//        timeline: TimelineViewModel,
-        tweetIDString: String) {
+    init(tweetIDString: String) {
         self.status = StatusRepository.shared.status[tweetIDString] ?? JSON.init("")
-//         self.timeline = timeline
         self.tweetIDString = tweetIDString
         
         self.retweeted = status["retweeted"].bool ?? false
         self.retweetedCount = status["retweet_count"].integer ?? 0
         self.favorited = status["favorited"].bool ?? false
         self.favoritedCount = status["favorite_count"].integer ?? 0
-//        print(#line, #file, "inited")
     }
     
     deinit {
-//        print(#line, #file, "deinited")
     }
     
     func retweet() {
