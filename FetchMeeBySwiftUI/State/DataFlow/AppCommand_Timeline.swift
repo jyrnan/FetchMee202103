@@ -152,7 +152,7 @@ struct FetchSessionCommand: AppCommand {
                     if let status = StatusRepository.shared.status[in_reply_to_status_id_str] {
                         sh(json: status)
                     } else {
-                    swifter.getTweet(for: in_reply_to_status_id_str, success: sh, failure: failureHandler)
+                        store.swifter.getTweet(for: in_reply_to_status_id_str, success: sh, failure: failureHandler)
                     }
                     counter += 1
                 } else {
@@ -173,12 +173,26 @@ struct FetchSessionCommand: AppCommand {
 struct SeletcTweetRowCommand: AppCommand {
     let tweetIDString: String
     func execute(in store: Store) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             withAnimation{
             store.dipatch(.selectTweetRow(tweetIDString: tweetIDString))
             }
         }
     }
+}
+
+struct ClearPresentedView: AppCommand {
+    func execute(in store: Store) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            store.appState.setting.presentedView = nil
+        }
+    }
     
-    
+    struct clearTimelineData: AppCommand {
+        func execute(in store: Store) {
+            
+        }
+        
+        
+    }
 }

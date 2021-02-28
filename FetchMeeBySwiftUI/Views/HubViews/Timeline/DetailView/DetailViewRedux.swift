@@ -30,10 +30,12 @@ struct DetailViewRedux: View {
                         .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                     
                     ForEach(session.tweetIDStrings, id: \.self) {tweetIDString in
-                        
+                        if tweetIDString != "toolsViewMark"{
                         TweetRow(viewModel: TweetRowViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
+                        }
                     }
                     .listRowBackground(Color.init("BackGround"))
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                         
                     DetailInfoView(status: status )
                             .padding(.vertical,16)
@@ -59,6 +61,6 @@ struct DetailViewRedux: View {
 
 struct DetailViewRedux_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(tweetIDString: "0000")
+        DetailViewRedux(tweetIDString: "0000")
     }
 }

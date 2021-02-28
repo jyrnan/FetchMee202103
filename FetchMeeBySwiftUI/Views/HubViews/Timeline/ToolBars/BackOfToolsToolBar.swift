@@ -90,12 +90,3 @@ struct BackOfToolsToolBar_Previews: PreviewProvider {
     }
 }
 
-extension BackOfToolsToolBar {
-    
-    func getRateLimits() {
-        swifter.getRateLimits(for: ["statuses"], success: {
-            json in
-            print(json)
-        }, failure: nil)
-    }
-}

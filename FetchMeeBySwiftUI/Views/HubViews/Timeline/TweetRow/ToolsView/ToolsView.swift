@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ToolsView: View {
+    @EnvironmentObject var store: Store
     var tweetIDString: String {viewModel.status["id_str"].string ?? "0000"}
     
     @ObservedObject var viewModel: ToolsViewModel
@@ -32,7 +33,7 @@ struct ToolsView: View {
                     .frame(width: 18, height: 18, alignment: .center)
                     .onTapGesture {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                        swifter.destroyTweet(forID: tweetIDString,
+                        store.swifter.destroyTweet(forID: tweetIDString,
                                              success: { _ in
                         },
                                              failure: {_ in
@@ -93,8 +94,7 @@ struct ToolsView: View {
 
     }
     .font(.body)
-//        .listRowBackground(Color.init("BackGround"))
-//        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+
 }
 }
 

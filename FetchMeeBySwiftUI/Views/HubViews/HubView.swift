@@ -67,22 +67,8 @@ struct HubView: View {
                                         .frame(width: 36, height: 36, alignment: .center)})
         }
         .overlay(AlertView()) //所有条状通知在NavigationBar上出现
-        .toast(isShowing: $store.appState.setting.isShowingPicture, presented: store.appState.setting.presentedView)
-//        .overlaySheet(isPresented: $alerts.isShowingOverlaySheet){
-//            ZStack{
-//                VStack{
-//                    ComposerOfHubView(
-//                        tweetText: $tweetText, isUsedAlone: true)
-//                        .frame(height: 240)
-//                    Spacer()
-//                }
-//            }
-//            .blurBackground(style: .systemChromeMaterial)
-//            .cornerRadius(18)
-//            .frame(height: 260)
-//        }
-        
-    }
+        .toast(isShowing: $store.appState.setting.isShowImageViewer, presented: store.appState.setting.presentedView)
+  }
     
     fileprivate func setNavigationBar() {
         var themeColor: UIColor { UIColor(ThemeColor(rawValue: (userDefault.object(forKey: "themeColor") as? String) ?? "blue")!.color)}

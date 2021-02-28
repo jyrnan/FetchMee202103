@@ -73,7 +73,7 @@ extension Swifter {
                 return}
             
             let tweetWillDel = tweetsTobeDel.removeLast()
-            swifter.destroyTweet(forID: tweetWillDel, success: delSH(json:), failure: fh)
+            self.destroyTweet(forID: tweetWillDel, success: delSH(json:), failure: fh)
         }
         
         func delSH(json: JSON) -> Void {
@@ -88,7 +88,7 @@ extension Swifter {
             }
             
             let tweetWillDel = tweetsTobeDel.removeLast()
-            swifter.destroyTweet(forID: tweetWillDel, success: delSH(json:))
+            self.destroyTweet(forID: tweetWillDel, success: delSH(json:))
         }
         
         
@@ -252,7 +252,7 @@ extension Swifter {
             //调用checkIsDeleteFinished()检查是不是所有任务都完成，如果完成则调用completeHandler()
             for i in 0..<tweetsForDeletionIDStrings.count {
                 let idString = tweetsForDeletionIDStrings[i]
-                swifter.destroyTweet(forID: idString, success: { _ in
+                self.destroyTweet(forID: idString, success: { _ in
                     tweetsForDeletionIDStrings[i] = "success"
                     
                     //更新最后删推时间

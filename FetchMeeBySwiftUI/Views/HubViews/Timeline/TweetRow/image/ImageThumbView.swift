@@ -62,8 +62,13 @@ struct ImageThumb: View {
                         ///下载完成后调用imageViewer
                         DispatchQueue.main.async {
                             let imageViewer = ImageViewer(image: image)
-                            store.appState.setting.presentedView = AnyView(imageViewer)
-                            withAnimation{store.appState.setting.isShowingPicture = true}                                }
+                            
+//                            withAnimation{
+                                store.dipatch(.showImageViewer(view: AnyView(imageViewer)))
+                            
+//                        }
+                        
+                    }
                         self.isImageDownloaded = true}}
                 .onAppear{
                     remoteImageFromUrl.getImage()

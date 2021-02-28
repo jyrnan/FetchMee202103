@@ -199,6 +199,7 @@ struct UserViewRedux: View {
                         TweetRow(viewModel: TweetRowViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
                     }
                     .listRowBackground(Color.init("BackGround"))
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                     //下方载入更多按钮
                    
                     HStack {

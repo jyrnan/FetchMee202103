@@ -97,9 +97,9 @@ struct TimelineViewRedux: View {
             
             .navigationTitle(listName ?? timeline.type.rawValue)
             .onAppear {
-                if timeline.tweetIDStrings.isEmpty {
+//                if timeline.tweetIDStrings.isEmpty {
                     store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
-                }
+//                }
             }
             .onDisappear{
                 store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: numberOfReadTweet))

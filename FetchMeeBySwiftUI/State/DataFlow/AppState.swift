@@ -30,7 +30,7 @@ extension AppState {
         
         var isProcessingDone: Bool = true
         
-        var isShowingPicture: Bool = false //是否浮动显示图片
+        var isShowImageViewer: Bool = false //是否浮动显示图片
         var presentedView: AnyView? //通过AnyView就可以实现任意View的传递了？！
         
         ///User及login部分

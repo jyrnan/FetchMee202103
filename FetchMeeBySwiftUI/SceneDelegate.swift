@@ -15,8 +15,8 @@ import CoreData
 import BackgroundTasks
 
 //TODO: 取消这个swifter的全局变量？
-var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
-                               consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")
+//var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
+//                               consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")
 
 
 let userDefault = UserDefaults.init()
@@ -55,7 +55,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             if let loginUser = store.appState.setting.loginUser {
 
-                swifter = store.swifter //临时保证全局变量还能使用
+//                swifter = store.swifter //临时保证全局变量还能使用
 
                 store.dipatch(.userRequest(user: loginUser))
             }
@@ -103,6 +103,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        if let loginUser = store.appState.setting.loginUser {
+            store.dipatch(.userRequest(user: loginUser))
+            store.dipatch(.fetchTimeline(timelineType: .mention, mode: .top))
+        }
         
     }
     
@@ -118,8 +122,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         scheduledRefresh()
         scheduledProcess()
         
-        if let loginUser = store.appState.setting.loginUser { store.dipatch(.userRequest(user: loginUser))
-        }
+        store.dipatch(.clearTimelineData)
        
     }
     

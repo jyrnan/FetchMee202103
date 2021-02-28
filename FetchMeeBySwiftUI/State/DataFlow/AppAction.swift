@@ -8,6 +8,7 @@
 
 import Foundation
 import Swifter
+import SwiftUI
 
 enum AppAction {
     case alertOn(text: String, isWarning: Bool)
@@ -15,6 +16,9 @@ enum AppAction {
     
     case setProcessingBegin
     case setProcessingDone
+    
+    case showImageViewer(view: AnyView)
+    case closeImageViewer
     
     case login(presentingFrom: AuthViewController, loginUser: UserInfo?)
     case userRequest(user: UserInfo, isLoginUser:  Bool = true)
@@ -31,6 +35,8 @@ enum AppAction {
     
     case fetchSession(tweetIDString: String)
     case fetchSessionDone(timeline: AppState.TimelineData.Timeline )
+    
+    case clearTimelineData
     
     case selectTweetRow(tweetIDString: String)
     

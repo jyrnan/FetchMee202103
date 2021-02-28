@@ -29,23 +29,26 @@ struct Toast<Presenting, Presented>: View where Presenting: View, Presented: Vie
                     .blur(radius: self.isShowing ? 5 : 0)
                 
                 VStack(alignment: .center) {
-                    self.presented    
+                    self.presented
                 }
+                
                 .scaleEffect(isShowing ? 1 : 0.01)
+                
                 .frame(width: geometry.size.width,
                        height: geometry.size.height)
                 
                 .background(Color.black.opacity(0.8))
-                //                .transition(.slide)
+//                .transition(.slide)
                 .opacity(self.isShowing ? 1 : 0)
+                .animation(.linear)
                 .onTapGesture {
-                    withAnimation(Animation.linear){
-                        isShowing = false
-                    }
+//                    withAnimation(Animation.linear){
+                        store.dipatch(.closeImageViewer)
+//                    }
                     
                     //通过设置延时后设置需要显示的View为nil，可以保证下次显示的时候是初始设置。（为什么会这样还有点迷惑）
                     //延时的目的是保证缩放的动画完成
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {store.appState.setting.presentedView = nil}) //????直接操作store
+//                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {store.appState.setting.presentedView = nil}) //????直接操作store
                     
                 }
             }
@@ -64,6 +67,7 @@ extension View {
     
 }
 
+///暂时可能没用
 extension View {
     
     @ViewBuilder

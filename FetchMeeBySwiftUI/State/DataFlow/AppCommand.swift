@@ -37,6 +37,7 @@ struct LoginCommand: AppCommand {
         ///传入的lgoinUser有可能是已经保存好的登陆信息
         if loginUser == nil {
             let failureHandler: (Error) -> Void = { error in
+                store.dipatch(.alertOn(text: "Login failed", isWarning: true))
                 print(error.localizedDescription)
             }
             let url = URL(string: "fetchmee://success")!
@@ -69,10 +70,11 @@ struct UserRequstCommand: AppCommand {
         func userHandler(json: JSON) {
             UserRepository.shared.addUser(json)
             
+            if isLoginUser {
             TwitterUser.updateOrSaveToCoreData(from: json,
                                                in: store.context,
                                                isLocalUser: true)
-            
+            }
             var updatedUser = updateUser(update: user, with: json)
             updatedUser = updateUser(update: updatedUser, from: store.context)
             
@@ -81,7 +83,7 @@ struct UserRequstCommand: AppCommand {
             store.dipatch(.updateLoginAccount(loginUser: updatedUser))
             
             //Test
-            store.dipatch(.alertOn(text: "Updated user", isWarning: false))
+            store.dipatch(.alertOn(text: "Updated", isWarning: false))
             } else {
                 store.dipatch(.updateRequestedUser(requestedUser: updatedUser))
                 store.dipatch(.fetchTimeline(timelineType: .user(userID: user.id), mode: .top))
@@ -99,9 +101,6 @@ struct UserRequstCommand: AppCommand {
                 let name = json["name"].string!
                 let id = json["id_str"].string!
                 newLists[id] = name
-                
-                let listTimeline = AppState.TimelineData.Timeline(type:.list(id: id, listName: name))
-                store.appState.timelineData.timelines[name] = listTimeline
             }
             
             ///比较新老lists名称数据，如果有不同则需要更新

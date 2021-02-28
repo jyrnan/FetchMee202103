@@ -71,6 +71,14 @@ class Store: ObservableObject {
         case .setProcessingDone:
             appState.setting.isProcessingDone = true
             
+        case .showImageViewer(let view):
+            appState.setting.presentedView = view
+            appState.setting.isShowImageViewer = true
+        case .closeImageViewer:
+            appState.setting.isShowImageViewer = false
+            appCommand = ClearPresentedView()
+//            appState.setting.presentedView = nil
+            
         case .login(let authView, let loginUser):
             appCommand = LoginCommand(loginUser: loginUser, presentingFrom: authView)
             
@@ -86,13 +94,15 @@ class Store: ObservableObject {
         
         case .updateList(let lists):
             appState.setting.lists = lists
+            appState.setting.lists.forEach{(id, name) in
+                appState.timelineData.timelines[name] = AppState.TimelineData.Timeline(type:.list(id: id, listName: name))
+            }
             
         case .changeSetting(let setting):
             appState.setting.loginUser?.setting = setting
             
         case .fetchTimeline(let timelineType, let updateMode):
             var timeline: AppState.TimelineData.Timeline {appState.timelineData.timelines[timelineType.rawValue]!}
-
             appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
         case .fetchTimelineDone(let timeline):
             appState.setting.isProcessingDone = true
@@ -107,6 +117,16 @@ class Store: ObservableObject {
         case .fetchSessionDone(let timeline):
             appState.setting.isProcessingDone = true
             appState.timelineData.timelines[TimelineType.session.rawValue] = timeline
+            
+        case .clearTimelineData:
+            appState.timelineData.timelines.values.filter{$0.tweetIDStrings.count > 20}
+                .forEach{timeline in
+                    var timeline = timeline
+                    let count = timeline.tweetIDStrings.count
+                    timeline.tweetIDStrings[(count - 20..<count)].forEach{StatusRepository.shared.status[$0] = nil}
+                    timeline.tweetIDStrings.removeLast(timeline.tweetIDStrings.count - 20)
+                    appState.timelineData.timelines[timeline.type.rawValue] = timeline
+            }
      
         case .selectTweetRow(let tweetIDString):
             ///首先去掉Timeline里面的ToolsView的标识符
