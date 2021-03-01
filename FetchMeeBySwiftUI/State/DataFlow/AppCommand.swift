@@ -105,7 +105,7 @@ struct UserRequstCommand: AppCommand {
             }
             
             ///比较新老lists名称数据，如果有不同则需要更新
-            guard store.appState.setting.lists.keys.sorted() != newLists.keys.sorted() else {return}
+            guard store.appState.setting.lists.keys.sorted() != newLists.keys.sorted() && isLoginUser else {return}
             store.dipatch(.updateList(lists: newLists))
             
         }
