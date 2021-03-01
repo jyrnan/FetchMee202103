@@ -123,39 +123,7 @@ class Store: ObservableObject {
             
         case .selectTweetRow(let tweetIDString):
             appCommand = appState.timelineData.setSelectedRowIndex(tweetIDString: tweetIDString)
-//            ///首先去掉Timeline里面的ToolsView的标识符
-//            var withToolsViewMark: Bool = false
-//            let timelines = appState.timelineData.timelines.filter{$1.tweetIDStrings.contains("toolsViewMark")}
-//            if let key = timelines.keys.first,
-//               var timeline = timelines.values.first {
-//
-//                withToolsViewMark = true
-//
-//                if let index = (timeline.tweetIDStrings.firstIndex(of:  "toolsViewMark")) {
-//                    timeline.tweetIDStrings.remove(at: index) }
-//
-//                appState.timelineData.timelines[key] = timeline }
-//
-//            if appState.timelineData.tweetIDStringOfRowToolsViewShowed == tweetIDString {
-//                appState.timelineData.tweetIDStringOfRowToolsViewShowed = nil
-//
-//
-//            } else {
-//                if !withToolsViewMark {
-//                    appState.timelineData.tweetIDStringOfRowToolsViewShowed = tweetIDString
-//
-//                    let timelines = appState.timelineData.timelines.filter{$1.tweetIDStrings.contains(tweetIDString)}
-//                    let key = timelines.keys.first
-//                    var timeline = timelines.values.first
-//
-//                    if let index = (timeline?.tweetIDStrings.firstIndex(of: tweetIDString)) {
-//                        timeline?.tweetIDStrings.insert("toolsViewMark", at: index + 1)
-//
-//                        appState.timelineData.timelines[key!] = timeline}
-//                } else {
-//                    appCommand = SeletcTweetRowCommand(tweetIDString: tweetIDString)
-//                }
-//            }
+
         case .deselectTweetRow:
             appState.timelineData.tweetIDStringOfRowToolsViewShowed = nil
             let timelines = appState.timelineData.timelines.filter{$1.tweetIDStrings.contains("toolsViewMark")}
