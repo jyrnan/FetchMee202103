@@ -102,7 +102,7 @@ class Store: ObservableObject {
             appState.setting.loginUser?.setting = setting
             
         case .fetchTimeline(let timelineType, let updateMode):
-            var timeline: AppState.TimelineData.Timeline {appState.timelineData.timelines[timelineType.rawValue]!}
+            let timeline: AppState.TimelineData.Timeline = appState.timelineData.getTimeline(timelineType: timelineType)
             appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
         case .fetchTimelineDone(let timeline):
             appState.setting.isProcessingDone = true
@@ -136,11 +136,3 @@ class Store: ObservableObject {
         return (appState, appCommand)
     }
 }
-
-//extension Store {
-//    
-//    func getTimeline(timelineType: TimelineType) -> AppState.TimelineData.Timeline {
-//        return self.appState.timelineData.timelines[timelineType.rawValue] ?? AppState.TimelineData.Timeline()
-//    }
-//    
-//}
