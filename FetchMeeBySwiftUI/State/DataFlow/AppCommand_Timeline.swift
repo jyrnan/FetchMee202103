@@ -187,12 +187,4 @@ struct ClearPresentedView: AppCommand {
             store.appState.setting.presentedView = nil
         }
     }
-    
-    struct clearTimelineData: AppCommand {
-        func execute(in store: Store) {
-            
-        }
-        
-        
-    }
 }

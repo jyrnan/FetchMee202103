@@ -119,15 +119,7 @@ class Store: ObservableObject {
             appState.timelineData.timelines[TimelineType.session.rawValue] = timeline
             
         case .clearTimelineData:
-            appState.timelineData.timelines.values.filter{$0.tweetIDStrings.count > 20}
-                .forEach{timeline in
-                    var timeline = timeline
-                    let count = timeline.tweetIDStrings.count
-                    let keepTweetCount = 20
-//                    timeline.tweetIDStrings[(count - keepTweetCount..<count)].forEach{StatusRepository.shared.status[$0] = nil}
-                    timeline.tweetIDStrings.removeLast(count - keepTweetCount)
-                    appState.timelineData.timelines[timeline.type.rawValue] = timeline
-            }
+            appState.timelineData.clearTimelineData()
      
         case .selectTweetRow(let tweetIDString):
             ///首先去掉Timeline里面的ToolsView的标识符

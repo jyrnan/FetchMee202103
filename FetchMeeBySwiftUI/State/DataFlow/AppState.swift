@@ -66,4 +66,22 @@ extension AppState {
     
 }
 
+extension AppState.TimelineData {
+    
+    /// 用来清理timeline的数据，保持轻量化
+    mutating func clearTimelineData() {
+        self.timelines.values.filter{$0.tweetIDStrings.count > 20}
+            .forEach{timeline in
+                var timeline = timeline
+                let count = timeline.tweetIDStrings.count
+                let keepTweetCount = 20
+                timeline.tweetIDStrings.removeLast(count - keepTweetCount)
+                self.timelines[timeline.type.rawValue] = timeline
+        }
+    }
+    
+    mutating func setSelectedRowIndex(tweetIDString: String) {
+        
+    }
+}
 
