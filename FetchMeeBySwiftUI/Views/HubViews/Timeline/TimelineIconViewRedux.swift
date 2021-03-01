@@ -15,7 +15,7 @@ struct TimelineIconViewRedux: View {
     
     var timelineType: TimelineType
     var timeline: AppState.TimelineData.Timeline
-    {store.getTimeline(timelineType: timelineType)}
+    {store.appState.timelineData.getTimeline(timelineType: timelineType)}
     
     var body: some View {
         NavigationLink(destination:TimelineViewRedux(timelineType: timelineType)){

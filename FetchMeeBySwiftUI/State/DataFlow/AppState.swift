@@ -145,5 +145,13 @@ extension AppState.TimelineData {
             self.timelines[timelineType.rawValue]?.newTweetNumber = 0
         }
     }
+    
+    func getTimeline(timelineType: TimelineType) -> AppState.TimelineData.Timeline {
+        let key = timelineType.rawValue
+        guard let timeline = self.timelines[key] else {
+            return AppState.TimelineData.Timeline(type: timelineType)
+        }
+        return timeline
+    }
 }
 

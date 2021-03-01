@@ -137,10 +137,10 @@ class Store: ObservableObject {
     }
 }
 
-extension Store {
-    
-    func getTimeline(timelineType: TimelineType) -> AppState.TimelineData.Timeline {
-        return self.appState.timelineData.timelines[timelineType.rawValue] ?? AppState.TimelineData.Timeline()
-    }
-    
-}
+//extension Store {
+//    
+//    func getTimeline(timelineType: TimelineType) -> AppState.TimelineData.Timeline {
+//        return self.appState.timelineData.timelines[timelineType.rawValue] ?? AppState.TimelineData.Timeline()
+//    }
+//    
+//}
