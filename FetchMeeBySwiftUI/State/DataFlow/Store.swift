@@ -77,8 +77,8 @@ class Store: ObservableObject {
         case .closeImageViewer:
             appState.setting.isShowImageViewer = false
             appCommand = ClearPresentedView()
-//            appState.setting.presentedView = nil
-            
+        //            appState.setting.presentedView = nil
+        
         case .login(let authView, let loginUser):
             appCommand = LoginCommand(loginUser: loginUser, presentingFrom: authView)
             
@@ -91,7 +91,7 @@ class Store: ObservableObject {
             
         case .updateRequestedUser(let requestedUser ):
             appState.timelineData.requestedUser = requestedUser
-        
+            
         case .updateList(let lists):
             appState.setting.lists = lists
             appState.setting.lists.forEach{(id, name) in
@@ -120,51 +120,52 @@ class Store: ObservableObject {
             
         case .clearTimelineData:
             appState.timelineData.clearTimelineData()
-     
+            
         case .selectTweetRow(let tweetIDString):
-            ///首先去掉Timeline里面的ToolsView的标识符
-            var withToolsViewMark: Bool = false
-             let timelines = appState.timelineData.timelines.filter{$1.tweetIDStrings.contains("toolsViewMark")}
-             if let key = timelines.keys.first,
-                var timeline = timelines.values.first {
-                
-                withToolsViewMark = true
-                
-                if let index = (timeline.tweetIDStrings.firstIndex(of:  "toolsViewMark")) {
-                    timeline.tweetIDStrings.remove(at: index) }
-            
-                appState.timelineData.timelines[key] = timeline }
-            
-            if appState.timelineData.tweetIDStringOfRowToolsViewShowed == tweetIDString {
-                appState.timelineData.tweetIDStringOfRowToolsViewShowed = nil
-                
-                
-                } else {
-                    if !withToolsViewMark {
-                        appState.timelineData.tweetIDStringOfRowToolsViewShowed = tweetIDString
-                                        
-                    let timelines = appState.timelineData.timelines.filter{$1.tweetIDStrings.contains(tweetIDString)}
-                    let key = timelines.keys.first
-                    var timeline = timelines.values.first
-                    
-                    if let index = (timeline?.tweetIDStrings.firstIndex(of: tweetIDString)) {
-                    timeline?.tweetIDStrings.insert("toolsViewMark", at: index + 1)
-                    
-                        appState.timelineData.timelines[key!] = timeline}
-                    } else {
-                        appCommand = SeletcTweetRowCommand(tweetIDString: tweetIDString)
-                    }
-                    }
+            appCommand = appState.timelineData.setSelectedRowIndex(tweetIDString: tweetIDString)
+//            ///首先去掉Timeline里面的ToolsView的标识符
+//            var withToolsViewMark: Bool = false
+//            let timelines = appState.timelineData.timelines.filter{$1.tweetIDStrings.contains("toolsViewMark")}
+//            if let key = timelines.keys.first,
+//               var timeline = timelines.values.first {
+//
+//                withToolsViewMark = true
+//
+//                if let index = (timeline.tweetIDStrings.firstIndex(of:  "toolsViewMark")) {
+//                    timeline.tweetIDStrings.remove(at: index) }
+//
+//                appState.timelineData.timelines[key] = timeline }
+//
+//            if appState.timelineData.tweetIDStringOfRowToolsViewShowed == tweetIDString {
+//                appState.timelineData.tweetIDStringOfRowToolsViewShowed = nil
+//
+//
+//            } else {
+//                if !withToolsViewMark {
+//                    appState.timelineData.tweetIDStringOfRowToolsViewShowed = tweetIDString
+//
+//                    let timelines = appState.timelineData.timelines.filter{$1.tweetIDStrings.contains(tweetIDString)}
+//                    let key = timelines.keys.first
+//                    var timeline = timelines.values.first
+//
+//                    if let index = (timeline?.tweetIDStrings.firstIndex(of: tweetIDString)) {
+//                        timeline?.tweetIDStrings.insert("toolsViewMark", at: index + 1)
+//
+//                        appState.timelineData.timelines[key!] = timeline}
+//                } else {
+//                    appCommand = SeletcTweetRowCommand(tweetIDString: tweetIDString)
+//                }
+//            }
         case .deselectTweetRow:
             appState.timelineData.tweetIDStringOfRowToolsViewShowed = nil
             let timelines = appState.timelineData.timelines.filter{$1.tweetIDStrings.contains("toolsViewMark")}
             if let key = timelines.keys.first, var timeline = timelines.values.first {
-               
-               if let index = (timeline.tweetIDStrings.firstIndex(of:  "toolsViewMark")) {
-                   timeline.tweetIDStrings.remove(at: index) }
-           
-               appState.timelineData.timelines[key] = timeline }
-               
+                
+                if let index = (timeline.tweetIDStrings.firstIndex(of:  "toolsViewMark")) {
+                    timeline.tweetIDStrings.remove(at: index) }
+                
+                appState.timelineData.timelines[key] = timeline }
+            
         case .updateNewTweetNumber(let timelineType, let numberOfReadTweet):
             if let newTweetNumber = appState.timelineData.timelines[timelineType.rawValue]?.newTweetNumber,
                newTweetNumber - numberOfReadTweet > 0 {
@@ -172,7 +173,7 @@ class Store: ObservableObject {
             } else {
                 appState.timelineData.timelines[timelineType.rawValue]?.newTweetNumber = 0
             }
-                    }
+        }
         
         return (appState, appCommand)
     }
@@ -182,6 +183,6 @@ extension Store {
     
     func getTimeline(timelineType: TimelineType) -> AppState.TimelineData.Timeline {
         return self.appState.timelineData.timelines[timelineType.rawValue] ?? AppState.TimelineData.Timeline()
-}
+    }
     
 }

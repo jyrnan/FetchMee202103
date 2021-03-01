@@ -80,8 +80,50 @@ extension AppState.TimelineData {
         }
     }
     
-    mutating func setSelectedRowIndex(tweetIDString: String) {
+    mutating func setSelectedRowIndex(tweetIDString: String) -> AppCommand? {
         
+        if self.tweetIDStringOfRowToolsViewShowed != nil {
+            //如果选中推文的值本来就有有数值， 那首先清空timeline里面的toolViewMark标记
+            clearToolsViewMark()
+            
+            if self.tweetIDStringOfRowToolsViewShowed == tweetIDString {
+                //如果等于传入的tweetID，则直接设置成空
+                self.tweetIDStringOfRowToolsViewShowed = nil
+                return nil
+            } else {
+                //如果不等于传入的tweetID，则先设置成nil，再延迟设置成新的ID
+                self.tweetIDStringOfRowToolsViewShowed = nil
+                return SeletcTweetRowCommand(tweetIDString: tweetIDString)
+            }
+            
+        } else {
+            //如果选中推文的值本来是空， 就直接赋值
+            self.tweetIDStringOfRowToolsViewShowed = tweetIDString
+            setToolsViewMark(after: tweetIDString)
+            return nil
+        }
+    }
+    
+    mutating func clearToolsViewMark() {
+        let timelines = self.timelines.filter{$1.tweetIDStrings.contains("toolsViewMark")}
+        if let key = timelines.keys.first,
+           var timeline = timelines.values.first {
+           
+           if let index = (timeline.tweetIDStrings.firstIndex(of:  "toolsViewMark")) {
+               timeline.tweetIDStrings.remove(at: index) }
+       
+          self.timelines[key] = timeline }
+    }
+    
+    mutating func setToolsViewMark(after tweetIDString: String) {
+        let timelines = self.timelines.filter{$1.tweetIDStrings.contains(tweetIDString)}
+        let key = timelines.keys.first
+        var timeline = timelines.values.first
+        
+        if let index = (timeline?.tweetIDStrings.firstIndex(of: tweetIDString)) {
+        timeline?.tweetIDStrings.insert("toolsViewMark", at: index + 1)
+        
+            self.timelines[key!] = timeline}
     }
 }
 
