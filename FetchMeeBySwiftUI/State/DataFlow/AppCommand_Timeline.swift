@@ -126,7 +126,6 @@ extension FetchTimelineCommand {
 struct FetchSessionCommand: AppCommand {
     var initialTweetIDString: String
     
-    
     func execute(in store: Store) {
         var session = AppState.TimelineData.Timeline(type: .session)
         
@@ -170,7 +169,8 @@ struct FetchSessionCommand: AppCommand {
     
 }
 
-struct SeletcTweetRowCommand: AppCommand {
+/// 延时选择推文的执行命令
+struct DelayedSeletcTweetRowCommand: AppCommand {
     let tweetIDString: String
     func execute(in store: Store) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
@@ -181,6 +181,7 @@ struct SeletcTweetRowCommand: AppCommand {
     }
 }
 
+/// 设置要通过Toast来在最前面展示的View
 struct ClearPresentedView: AppCommand {
     func execute(in store: Store) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {

@@ -26,7 +26,7 @@ struct TweetRow: View {
     @State var isShowDetail: Bool = false //控制显示推文详情页面
     @State var playVideo: Bool = false //控制是否显示视频播放页面
     
-    private var isSelected: Bool {viewModel.tweetIDString == store.appState.timelineData.tweetIDStringOfRowToolsViewShowed} //控制显示推文相关操作
+    private var isSelected: Bool {viewModel.tweetIDString == store.appState.timelineData.selectedTweetID} //控制显示推文相关操作
     private var isReplyToMe: Bool {viewModel.checkIsReplyToMe(userID: store.appState.setting.loginUser?.id)}
 
     

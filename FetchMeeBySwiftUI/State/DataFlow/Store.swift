@@ -83,7 +83,7 @@ class Store: ObservableObject {
             appCommand = LoginCommand(loginUser: loginUser, presentingFrom: authView)
             
         case .userRequest(let user, let isLoginUser):
-            appState.timelineData.timelines[TimelineType.user(userID: "0000").rawValue] = AppState.TimelineData.Timeline(type:TimelineType.user(userID: user.id))
+            appState.timelineData.timelines[TimelineType.user(userID: user.id).rawValue] = AppState.TimelineData.Timeline(type:TimelineType.user(userID: user.id))
             appCommand = UserRequstCommand(user: user, isLoginUser: isLoginUser)
             
         case .updateLoginAccount(let loginUser):
@@ -125,22 +125,12 @@ class Store: ObservableObject {
             appCommand = appState.timelineData.setSelectedRowIndex(tweetIDString: tweetIDString)
 
         case .deselectTweetRow:
-            appState.timelineData.tweetIDStringOfRowToolsViewShowed = nil
-            let timelines = appState.timelineData.timelines.filter{$1.tweetIDStrings.contains("toolsViewMark")}
-            if let key = timelines.keys.first, var timeline = timelines.values.first {
-                
-                if let index = (timeline.tweetIDStrings.firstIndex(of:  "toolsViewMark")) {
-                    timeline.tweetIDStrings.remove(at: index) }
-                
-                appState.timelineData.timelines[key] = timeline }
+            appState.timelineData.selectedTweetID = nil
+            appState.timelineData.clearToolsViewMark()
             
         case .updateNewTweetNumber(let timelineType, let numberOfReadTweet):
-            if let newTweetNumber = appState.timelineData.timelines[timelineType.rawValue]?.newTweetNumber,
-               newTweetNumber - numberOfReadTweet > 0 {
-                appState.timelineData.timelines[timelineType.rawValue]?.newTweetNumber = (newTweetNumber - numberOfReadTweet)
-            } else {
-                appState.timelineData.timelines[timelineType.rawValue]?.newTweetNumber = 0
-            }
+            appState.timelineData.updateNewTweetNumber(timelineType: timelineType,
+                                                       numberOfReadTweet: numberOfReadTweet)
         }
         
         return (appState, appCommand)

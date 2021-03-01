@@ -16,13 +16,14 @@ protocol AppCommand {
 }
 
 struct LoginCommand: AppCommand {
-    var loginUser: UserInfo?
+    let loginUser: UserInfo?
     let presentingFrom: AuthViewController
     
     func execute(in store: Store) {
-        let store = store
         
-        func updateLoginUser(loginUser: UserInfo) {
+        /// 设置swifter的token信息，并获取loginUser的信息
+        /// - Parameter loginUser: 传入的已经含有token的用户信息
+        func setSwifterAndRequestLoginUser(loginUser: UserInfo) {
             guard let tokenKey = loginUser.tokenKey,
                   let tokenSecret = loginUser.tokenSecret else { return }
             
@@ -50,10 +51,10 @@ struct LoginCommand: AppCommand {
                                                                      tokenKey: token.key,
                                                                      tokenSecret: token.secret)
                                             
-                                            updateLoginUser(loginUser: loginUser)}},
+                                            setSwifterAndRequestLoginUser(loginUser: loginUser)}},
                                     failure: failureHandler)
         } else {
-            updateLoginUser(loginUser: loginUser!)
+            setSwifterAndRequestLoginUser(loginUser: loginUser!)
         }
     }
 }
@@ -61,29 +62,30 @@ struct LoginCommand: AppCommand {
 
 //MARK:-获取用户信息
 struct UserRequstCommand: AppCommand {
-    var user: UserInfo
-    var isLoginUser: Bool
+    let user: UserInfo
+    let isLoginUser: Bool
     
     func execute(in store: Store) {
+        var updatedUser = user
         let userTag: UserTag = UserTag.id(user.id)
         
+        /// 获取用户信息成功后调用处理用户信息的包
+        /// - Parameter json: 返回的用户信息原始数据
         func userHandler(json: JSON) {
             UserRepository.shared.addUser(json)
             
-            if isLoginUser {
-            TwitterUser.updateOrSaveToCoreData(from: json,
-                                               in: store.context,
-                                               isLocalUser: true)
-            }
-            var updatedUser = updateUser(update: user, with: json)
-            updatedUser = updateUser(update: updatedUser, from: store.context)
+            updateUser(update: &updatedUser, with: json)
+            updateUser(update: &updatedUser, from: store.context)
             
-            ///信息更新完成，将user数据替换到相应位置
+            ///信息更新完成，将user数据替换到相应位置并存储
             if isLoginUser {
-            store.dipatch(.updateLoginAccount(loginUser: updatedUser))
-            
-            //Test
-            store.dipatch(.alertOn(text: "Updated", isWarning: false))
+                store.dipatch(.updateLoginAccount(loginUser: updatedUser))
+                store.dipatch(.alertOn(text: "Updated", isWarning: false))
+                
+                ///如果是login用户，则将其信息存入到CoreData中备用
+                TwitterUser.updateOrSaveToCoreData(from: json,
+                                                   in: store.context,
+                                                   isLocalUser: true)
             } else {
                 store.dipatch(.updateRequestedUser(requestedUser: updatedUser))
                 store.dipatch(.fetchTimeline(timelineType: .user(userID: user.id), mode: .top))
@@ -95,7 +97,6 @@ struct UserRequstCommand: AppCommand {
         /// - Parameter json: 返回的包含list信息的结果
         func listHandler(json: JSON) {
             let listsJson: [JSON] = json.array!
-            
             var newLists: [String : String] = [:]
             listsJson.forEach{json in
                 let name = json["name"].string!
@@ -121,8 +122,14 @@ struct UserRequstCommand: AppCommand {
 }
 
 extension UserRequstCommand {
-    func updateUser(update userInfo:  UserInfo, with json: JSON) -> UserInfo {
-        var userInfo = userInfo
+    
+    /// User信息转换的接口程序
+    /// - Parameters:
+    ///   - userInfo: 输入的初始用户信息
+    ///   - json: 输入的用户原始数据
+    /// - Returns: 输出的用户信息
+    func updateUser(update userInfo: inout UserInfo, with json: JSON) {
+        //        var userInfo = userInfo
         
         ///userBio信息更新开始
         userInfo.id = json["id_str"].string!
@@ -159,16 +166,13 @@ extension UserRequstCommand {
         
         userInfo.tweetsCount = json["statuses_count"].integer!
         
-        return userInfo
     }
     
-    func updateUser(update userInfo: UserInfo, from context: NSManagedObjectContext) -> UserInfo {
+    func updateUser(update userInfo: inout UserInfo, from context: NSManagedObjectContext) {
         ///从CoreData读取信息计算24小时内新增fo数和推文数量
-        var userInfo = userInfo
         
         userInfo.lastDayAddedFollower = Count.updateCount(for: userInfo, in: context).followerOfLastDay
         userInfo.lastDayAddedTweets = Count.updateCount(for: userInfo, in: context).tweetsOfLastDay
         
-        return userInfo
     }
 }
