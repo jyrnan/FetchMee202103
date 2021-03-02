@@ -36,6 +36,11 @@ struct TweetCommand: AppCommand {
                     store.swifter.favoriteTweet(forID: tweetIDString,
                                                 success: {promise(.success($0))},
                                                 failure: {promise(.failure($0))})}.eraseToAnyPublisher()
+            case .unfavorite:
+                return Future<JSON, Error> {promise in
+                    store.swifter.unfavoriteTweet(forID: tweetIDString,
+                                                success: {promise(.success($0))},
+                                                failure: {promise(.failure($0))})}.eraseToAnyPublisher()
             default:
                 return Future<JSON, Error> {promise in
                     promise(.success(JSON.init("")))

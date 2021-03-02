@@ -71,7 +71,7 @@ struct ToolsView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 18, height: 18, alignment: .center)
                 .foregroundColor(favorited ? Color.red : Color.gray)
-                    .onTapGesture {store.dipatch(.tweetOperation(operation: .favorite, tweetIDString: tweetIDString))
+                    .onTapGesture {store.dipatch(.tweetOperation(operation: favorited ? .unfavorite : .favorite, tweetIDString: tweetIDString))
                     }
                 
                 if favoritedCount != 0 {
