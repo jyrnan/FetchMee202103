@@ -42,4 +42,6 @@ enum AppAction {
     case deselectTweetRow
     
     case updateNewTweetNumber(timelineType: TimelineType, numberOfReadTweet: Int)
+    
+    case tweetOperation(operation: TweetCommand.Operation, tweetIDString: String)
 }

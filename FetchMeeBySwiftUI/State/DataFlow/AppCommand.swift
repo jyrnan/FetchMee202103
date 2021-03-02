@@ -118,6 +118,21 @@ struct UserRequstCommand: AppCommand {
         store.swifter.showUser(userTag, includeEntities: nil, success: userHandler(json:), failure: failureHandler(_:))
         store.swifter.getSubscribedLists(for: userTag, success:listHandler)
         
+//        let token = SubscriptionToken()
+        
+//        Future<JSON, Error>{promise in
+//            store.swifter.getSubscribedLists(for: userTag,
+//                                             success: {promise(.success($0))},
+//                                             failure: {promise(.failure($0))})
+//        }
+//        .sink(receiveCompletion: {
+//            print(#line, "++++++++" , #function,$0)
+//        },
+//        receiveValue: {print(#line, "++++++++" , #function,$0)
+//            token.unseal()
+//        })
+//        .seal(in: token)
+        
     }
 }
 
@@ -174,5 +189,16 @@ extension UserRequstCommand {
         userInfo.lastDayAddedFollower = Count.updateCount(for: userInfo, in: context).followerOfLastDay
         userInfo.lastDayAddedTweets = Count.updateCount(for: userInfo, in: context).tweetsOfLastDay
         
+    }
+}
+
+class SubscriptionToken {
+    var cancellable: AnyCancellable?
+    func unseal() { cancellable = nil }
+}
+
+extension AnyCancellable {
+    func seal(in token: SubscriptionToken) {
+        token.cancellable = self
     }
 }

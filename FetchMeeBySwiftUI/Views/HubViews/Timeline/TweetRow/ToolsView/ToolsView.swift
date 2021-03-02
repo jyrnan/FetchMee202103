@@ -62,7 +62,8 @@ struct ToolsView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 18, height: 18, alignment: .center)
                 .foregroundColor(viewModel.favorited ? Color.red : Color.gray)
-                .onTapGesture {viewModel.favorite()}
+                    .onTapGesture {store.dipatch(.tweetOperation(operation: .favorite, tweetIDString: tweetIDString))
+                    }
                 
                 if viewModel.favoritedCount != 0 {
                 Text(String(viewModel.favoritedCount)).font(.subheadline) }

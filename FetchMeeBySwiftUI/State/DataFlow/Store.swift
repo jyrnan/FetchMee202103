@@ -131,6 +131,12 @@ class Store: ObservableObject {
         case .updateNewTweetNumber(let timelineType, let numberOfReadTweet):
             appState.timelineData.updateNewTweetNumber(timelineType: timelineType,
                                                        numberOfReadTweet: numberOfReadTweet)
+            
+        case .tweetOperation(let operatrion, let tweetIDString):
+            appCommand = TweetCommand(operation: operatrion, tweetIDString: tweetIDString)
+            
+            
+            
         }
         
         return (appState, appCommand)
