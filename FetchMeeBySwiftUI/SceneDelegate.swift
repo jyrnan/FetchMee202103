@@ -121,7 +121,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //加入定时程序
         scheduledRefresh()
         scheduledProcess()
-        
+        store.dipatch(.deselectTweetRow)
         store.dipatch(.clearTimelineData)
        
     }

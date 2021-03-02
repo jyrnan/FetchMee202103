@@ -51,7 +51,6 @@ extension AppState {
             
             var tweetIDStrings: [String] = []
             var newTweetNumber: Int = 0
-            
         }
         
         /// 所有timeline的数据
@@ -87,6 +86,8 @@ extension AppState.TimelineData {
     }
     
     /// 根据传入的推文ID设置相应的数据操作来标记被选择推文
+    /// 这里需要注意的是由于同一个推文可能出现在不同的timeline
+    /// 因此需要针对所有的timeline来添加或清除toolsViewMark
     /// - Parameter tweetIDString: 要选择推文的ID
     /// - Returns: 根据选择推文的不同情况来输出一个可能需要的后续处理的命令。
     mutating func setSelectedRowIndex(tweetIDString: String) -> AppCommand? {
@@ -113,26 +114,31 @@ extension AppState.TimelineData {
         }
     }
     
+    /// 针对所有的timeline清除toolsViewMark
     mutating func clearToolsViewMark() {
-        let timelines = self.timelines.filter{$1.tweetIDStrings.contains("toolsViewMark")}
-        if let key = timelines.keys.first,
-           var timeline = timelines.values.first {
-            
-            if let index = (timeline.tweetIDStrings.firstIndex(of:  "toolsViewMark")) {
-                timeline.tweetIDStrings.remove(at: index) }
-            
-            self.timelines[key] = timeline }
+        self.timelines.filter{$1.tweetIDStrings.contains("toolsViewMark")}
+            .forEach{key, timeline in
+                var timeline = timeline
+                if let index = (timeline.tweetIDStrings.firstIndex(of:  "toolsViewMark")) {
+                    timeline.tweetIDStrings.remove(at: index) }
+                
+                self.timelines[key] = timeline
+            }
     }
     
+    /// 在所有timeline的该ID后面添加toolsViewMark
+    /// - Parameter tweetIDString: 选中的推文ID
     mutating func setToolsViewMark(after tweetIDString: String) {
-        let timelines = self.timelines.filter{$1.tweetIDStrings.contains(tweetIDString)}
-        let key = timelines.keys.first
-        var timeline = timelines.values.first
-        
-        if let index = (timeline?.tweetIDStrings.firstIndex(of: tweetIDString)) {
-            timeline?.tweetIDStrings.insert("toolsViewMark", at: index + 1)
+        self.timelines.filter{$1.tweetIDStrings.contains(tweetIDString)}
+            .forEach{key, timeline in
+            var timeline = timeline
             
-            self.timelines[key!] = timeline}
+            if let index = (timeline.tweetIDStrings.firstIndex(of: tweetIDString)) {
+                timeline.tweetIDStrings.insert("toolsViewMark", at: index + 1)
+                
+                self.timelines[key] = timeline}
+        }
+        
     }
     
     /// 更新相应timeline的新推文数
