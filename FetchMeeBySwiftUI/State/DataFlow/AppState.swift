@@ -83,6 +83,15 @@ extension AppState.TimelineData {
                 timeline.tweetIDStrings.removeLast(count - keepTweetCount)
                 self.timelines[timeline.type.rawValue] = timeline
             }
+//        timelines.values.forEach{print(#line, $0.tweetIDStrings)}
+        let tweetIDStrings = Set(timelines.values.flatMap{$0.tweetIDStrings})
+        
+        ///
+        StatusRepository.shared.status.keys
+            .filter{!tweetIDStrings.contains($0)}
+            .forEach{StatusRepository.shared.status[$0] = nil}
+        
+        print(#line, #function, tweetIDStrings)
     }
     
     /// 根据传入的推文ID设置相应的数据操作来标记被选择推文
