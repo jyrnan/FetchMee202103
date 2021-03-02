@@ -57,6 +57,8 @@ class Store: ObservableObject {
         var appCommand: AppCommand?
         
         switch action {
+        case .update:
+            print("only update")
         
         case .alertOn(let text, let isWarning):
             appState.setting.alert.alertText = text

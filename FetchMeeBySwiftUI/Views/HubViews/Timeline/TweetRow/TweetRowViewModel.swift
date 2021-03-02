@@ -66,14 +66,14 @@ class TweetRowViewModel: ObservableObject{
         quotedTweetRow = makeQuotedTweetRowView()
         
         toolsVeiwModel = makeToolsViewModel()
-        toolsView = ToolsView(viewModel: toolsVeiwModel)
+        toolsView = ToolsView( tweetIDString: tweetIDString)
         
         detailIndicator = makeDetailIndicatorView()
     }
     
-    func makeToolsViewOnly() {
-        toolsView = ToolsView(viewModel: toolsVeiwModel)
-    }
+//    func makeToolsViewOnly() {
+//        toolsView = ToolsView(viewModel: toolsVeiwModel)
+//    }
     
     func makeRetweetMarkView() -> RetweetMarkView? {
         guard status["retweeted_status"]["id_str"].string != nil else {return nil }
@@ -107,7 +107,7 @@ class TweetRowViewModel: ObservableObject{
     }
     
     func makeDetailIndicatorView() -> DetailIndicator {
-        return DetailIndicator(viewModel: toolsVeiwModel)
+        return DetailIndicator(tweetIDString: tweetIDString)
     }
     
     func makeStatusTextView() -> NSAttributedStringView?{

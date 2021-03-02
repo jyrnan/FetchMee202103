@@ -11,6 +11,8 @@ import Swifter
 import SwiftUI
 
 enum AppAction {
+    case update
+    
     case alertOn(text: String, isWarning: Bool)
     case alertOff
     

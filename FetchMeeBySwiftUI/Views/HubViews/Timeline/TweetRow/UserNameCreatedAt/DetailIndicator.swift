@@ -7,11 +7,19 @@
 //
 
 import SwiftUI
+import Swifter
 
 struct DetailIndicator: View {
-//    var timeline: TimelineViewModel
-//     var tweetIDString: String
-    @ObservedObject var viewModel: ToolsViewModel
+    @EnvironmentObject var store: Store
+    var tweetIDString: String
+    
+    var status: JSON? {StatusRepository.shared.status[tweetIDString]}
+    
+    var retweeted: Bool { status?["retweeted"].bool ?? false }
+    var retweetedCount: Int {status?["favorite_count"].integer ?? 0 }
+    
+    var favorited: Bool { status?["favorited"].bool ?? false }
+    var favoritedCount: Int {status?["retweet_count"].integer ?? 0 }
     
     @State var isUnRead: Bool = true
     
@@ -19,11 +27,13 @@ struct DetailIndicator: View {
         HStack(spacing: 0){
             Spacer()
             Circle()
-                .fill(viewModel.retweeted ? Color.green : Color.gray)
+                .fill(retweeted ? Color.green : Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
             Circle()
-                .fill(viewModel.favorited ? Color.red : Color.gray)
+                .fill(
+                    favorited ? Color.red :
+                        Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
             Circle()
@@ -57,8 +67,6 @@ struct DetailIndicator: View {
 
 struct DetailIndicator_Previews: PreviewProvider {
     static var previews: some View {
-        DetailIndicator(viewModel: ToolsViewModel(
-//                            timeline: Timeline(type: .home),
-                            tweetIDString: "0000"))
+        DetailIndicator(tweetIDString: "0000")
     }
 }

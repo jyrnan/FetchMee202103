@@ -7,21 +7,30 @@
 //
 
 import SwiftUI
+import Swifter
 
 struct ToolsView: View {
     @EnvironmentObject var store: Store
-    var tweetIDString: String {viewModel.status["id_str"].string ?? "0000"}
+    var tweetIDString: String
     
-    @ObservedObject var viewModel: ToolsViewModel
+//    @ObservedObject var viewModel: ToolsViewModel
     
     @State var isShowSafari: Bool = false
     @State var url: URL = URL(string: "https://www.twitter.com")!
     
     @State var isAlertShowed: Bool = false
     
-    init(viewModel: ToolsViewModel) {
-        self.viewModel = viewModel
-    }
+    var status: JSON? {StatusRepository.shared.status[tweetIDString]}
+    
+    var retweeted: Bool { status?["retweeted"].bool ?? false }
+    var retweetedCount: Int {status?["retweet_count"].integer ?? 0 }
+    
+    var favorited: Bool { status?["favorited"].bool ?? false }
+    var favoritedCount: Int {status?["favorite_count"].integer ?? 0 }
+    
+//    init(viewModel: ToolsViewModel) {
+//        self.viewModel = viewModel
+//    }
     
     var body: some View {
         VStack {
@@ -46,27 +55,27 @@ struct ToolsView: View {
            
             Spacer()
             
-                Image(systemName: viewModel.retweeted ? "repeat.1" : "repeat")
+                Image(systemName: retweeted ? "repeat.1" : "repeat")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 18, height: 18, alignment: .center)
-                .foregroundColor(viewModel.retweeted == true ? Color.green : Color.gray)
-                .onTapGesture {viewModel.retweet()}
+                .foregroundColor(retweeted == true ? Color.green : Color.gray)
+                .onTapGesture { }
             
-            if viewModel.retweetedCount != 0 {
-                Text(String(viewModel.retweetedCount)).font(.subheadline) }
+            if retweetedCount != 0 {
+                Text(String(retweetedCount)).font(.subheadline) }
             Spacer()
             
-                Image(systemName: viewModel.favorited ? "heart.fill" : "heart")
+                Image(systemName: favorited ? "heart.fill" : "heart")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 18, height: 18, alignment: .center)
-                .foregroundColor(viewModel.favorited ? Color.red : Color.gray)
+                .foregroundColor(favorited ? Color.red : Color.gray)
                     .onTapGesture {store.dipatch(.tweetOperation(operation: .favorite, tweetIDString: tweetIDString))
                     }
                 
-                if viewModel.favoritedCount != 0 {
-                Text(String(viewModel.favoritedCount)).font(.subheadline) }
+                if favoritedCount != 0 {
+                Text(String(favoritedCount)).font(.subheadline) }
             Spacer()
             
             Image(systemName: "square.and.arrow.up")
@@ -74,7 +83,7 @@ struct ToolsView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 18, height: 18, alignment: .center)
                 .onTapGesture {
-                    if let screenName = viewModel.status["screen_name"].string {
+                    if let screenName = status?["screen_name"].string {
                         self.url = URL(string: "https://twitter.com/\(screenName)/status/\(tweetIDString)")!
                     }
                     print(#line, self.url)

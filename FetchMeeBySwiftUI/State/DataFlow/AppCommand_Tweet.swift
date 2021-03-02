@@ -35,19 +35,19 @@ struct TweetCommand: AppCommand {
                 return Future<JSON, Error> {promise in
                     store.swifter.favoriteTweet(forID: tweetIDString,
                                                 success: {promise(.success($0))},
-                                                failure: {promise(.failure($0))})}
+                                                failure: {promise(.failure($0))})}.eraseToAnyPublisher()
             default:
                 return Future<JSON, Error> {promise in
                     promise(.success(JSON.init("")))
                 }.eraseToAnyPublisher()
             }
             
-            private func TweetOperationPublisher(tweetIDString: String, operation: TweetCommand.Operation) -> AnyPublisher<JSON, Error> {
+            func TweetOperationPublisher(tweetIDString: String, operation: TweetCommand.Operation) -> AnyPublisher<JSON, Error> {
                 switch operation {
                 case .favorite:
-                    
+                    print("")
                 default:
-                    <#code#>
+                    print("")
                 }
             }
         }
@@ -64,7 +64,10 @@ struct TweetCommand: AppCommand {
         }
             token.unseal()
         },
-              receiveValue: {StatusRepository.shared.addStatus($0)})
+              receiveValue: {
+                StatusRepository.shared.addStatus($0)
+                store.dipatch(.update)
+              })
         .seal(in: token)
         
     }

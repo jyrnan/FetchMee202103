@@ -19,8 +19,8 @@ class ToolsViewModel: ObservableObject {
     @Published var retweeted: Bool
     @Published var retweetedCount: Int
     
-    @Published var favorited: Bool
-    @Published var favoritedCount: Int
+//    @Published var favorited: Bool
+//    @Published var favoritedCount: Int
     
     init(tweetIDString: String, store: Store? = nil) {
         self.store = store
@@ -29,8 +29,8 @@ class ToolsViewModel: ObservableObject {
         
         self.retweeted = status["retweeted"].bool ?? false
         self.retweetedCount = status["retweet_count"].integer ?? 0
-        self.favorited = status["favorited"].bool ?? false
-        self.favoritedCount = status["favorite_count"].integer ?? 0
+//        self.favorited = status["favorited"].bool ?? false
+//        self.favoritedCount = status["favorite_count"].integer ?? 0
     }
     
     deinit {
@@ -58,25 +58,25 @@ class ToolsViewModel: ObservableObject {
         }
     }
     
-    func favorite() {
-        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-        switch favorited {
-        case true:
-            store?.swifter.unfavoriteTweet(forID: tweetIDString, success: {json in
-                StatusRepository.shared.addStatus(json)
-                self.favorited = false
-                self.favoritedCount -= 1
-            })
-            
-        case false:
-            store?.swifter.favoriteTweet(forID: tweetIDString, success: {json in
-                StatusRepository.shared.addStatus(json)
-                self.favorited = true
-                self.favoritedCount += 1
-            })
-            
-        }
-    }
+//    func favorite() {
+//        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+//        switch favorited {
+//        case true:
+//            store?.swifter.unfavoriteTweet(forID: tweetIDString, success: {json in
+//                StatusRepository.shared.addStatus(json)
+//                self.favorited = false
+//                self.favoritedCount -= 1
+//            })
+//            
+//        case false:
+//            store?.swifter.favoriteTweet(forID: tweetIDString, success: {json in
+//                StatusRepository.shared.addStatus(json)
+//                self.favorited = true
+//                self.favoritedCount += 1
+//            })
+//            
+//        }
+//    }
     
     
 }
