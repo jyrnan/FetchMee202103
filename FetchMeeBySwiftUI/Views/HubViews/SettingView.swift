@@ -52,6 +52,7 @@ struct SettingView: View {
                 
                 Toggle("Iron Fans Rate", isOn: self.$setting.isIronFansShowed)
                 Toggle("Show Pictures", isOn: self.$setting.isMediaShowed)
+                Toggle("Auto Fetch More", isOn: self.$setting.isAutoFetchMoreTweet)
             }
             
             Section(header:Text("Other")){

@@ -56,7 +56,8 @@ struct TimelineViewRedux: View {
                             
                             numberOfReadTweet += 1
                             
-                            fetchMoreIfNeeded(tweetIDString: tweetIDString)
+                            if store.appState.setting.loginUser?.setting.isAutoFetchMoreTweet == true {
+                                fetchMoreIfNeeded(tweetIDString: tweetIDString) }
                             
                             ///如果是顶端推文显示，或者说回到顶端，那么则调用减少推文函数
                             if timeline.tweetIDStrings.first == tweetIDString {
