@@ -56,12 +56,12 @@ extension AppState {
         /// 所有timeline的数据
         var timelines: [String: Timeline] = [:]
         ///看起来压根不需要先给予初始值🤦‍♂️
-//            [
-//            TimelineType.home.rawValue:Timeline(type: .home),
-//            TimelineType.mention.rawValue: Timeline(type: .mention),
-//            TimelineType.favorite.rawValue: Timeline(type: .favorite),
-//            TimelineType.session.rawValue: Timeline(type: .session),
-//            TimelineType.user(userID: "0000").rawValue: Timeline(type: .user(userID: "0000"))]
+        //            [
+        //            TimelineType.home.rawValue:Timeline(type: .home),
+        //            TimelineType.mention.rawValue: Timeline(type: .mention),
+        //            TimelineType.favorite.rawValue: Timeline(type: .favorite),
+        //            TimelineType.session.rawValue: Timeline(type: .session),
+        //            TimelineType.user(userID: "0000").rawValue: Timeline(type: .user(userID: "0000"))]
         
         /// 选中的推文ID
         var selectedTweetID: String?
@@ -76,6 +76,7 @@ extension AppState.TimelineData {
     /// 用来清理timeline的数据，保持轻量化
     mutating func clearTimelineData() {
         let keepTweetCount = 20
+        
         self.timelines
             .filter{$0.value.tweetIDStrings.count > keepTweetCount}
             .forEach{self.timelines[$0]?.tweetIDStrings.removeLast($1.tweetIDStrings.count - keepTweetCount)}
@@ -122,29 +123,22 @@ extension AppState.TimelineData {
     
     /// 针对所有的timeline清除toolsViewMark
     mutating func clearToolsViewMark() {
-        self.timelines.filter{$1.tweetIDStrings.contains("toolsViewMark")}
-            .forEach{key, timeline in
-                var timeline = timeline
-                if let index = (timeline.tweetIDStrings.firstIndex(of:  "toolsViewMark")) {
-                    timeline.tweetIDStrings.remove(at: index) }
-                
-                self.timelines[key] = timeline
-            }
-    }
+        self.timelines
+            .filter{$1.tweetIDStrings.contains("toolsViewMark")}
+            .forEach{
+                let index = $1.tweetIDStrings.firstIndex(of:  "toolsViewMark")!
+                self.timelines[$0]?.tweetIDStrings.remove(at: index) }}
     
     /// 在所有timeline的该ID后面添加toolsViewMark
     /// - Parameter tweetIDString: 选中的推文ID
     mutating func setToolsViewMark(after tweetIDString: String) {
-        self.timelines.filter{$1.tweetIDStrings.contains(tweetIDString)}
-            .forEach{key, timeline in
-            var timeline = timeline
-            
-            if let index = (timeline.tweetIDStrings.firstIndex(of: tweetIDString)) {
-                timeline.tweetIDStrings.insert("toolsViewMark", at: index + 1)
-                
-                self.timelines[key] = timeline}
-        }
-        
+        self.timelines
+            .filter{$1.tweetIDStrings.contains(tweetIDString)}
+            .forEach{
+                //查找推文并添加标记
+                let index = ($1.tweetIDStrings.firstIndex(of: tweetIDString))!
+                self.timelines[$0]?.tweetIDStrings.insert("toolsViewMark", at: index + 1)
+            }
     }
     
     /// 更新相应timeline的新推文数

@@ -97,30 +97,10 @@ struct UserSetting: Codable {
     var themeColor: ThemeColor = ThemeColor.blue //缺省值是蓝色
     var isIronFansShowed: Bool = false
     var isMediaShowed: Bool = true //控制是否显示图片、视频
-    var isAutoFetchMoreTweet: Bool = false //控制是否自动载入更多推文
+    var isAutoFetchMoreTweet: Bool = true //控制是否自动载入更多推文
     var isDeleteTweets: Bool = false //控制是否删推
     var isKeepRecentTweets: Bool = true //控制是否保留最近推文
     
     var isFirsResponder: Bool = false //控制是否激活推文输入框，还没完全搞定，暂未使用
-    /**
-     存储用户的设置信息
-     */
-    func save() {
-        userDefault.setValue(self.themeColor.rawValue, forKey: "themeColor")
-        userDefault.setValue(self.isIronFansShowed, forKey: "isIronFansShowed")
-        userDefault.setValue(self.isMediaShowed, forKey: "isMediaShowed")
-        userDefault.setValue(self.isDeleteTweets, forKey: "isDeleteTweets")
-        userDefault.setValue(self.isKeepRecentTweets, forKey: "isKeepRecentTweets")
-        print(#line, "Settings saved!")
-    }
-    /**
-     读取用户存储的设置信息
-     */
-    mutating func load() {
-        self.themeColor = ThemeColor(rawValue: (userDefault.object(forKey: "themeColor") as? String) ?? "blue")!
-        self.isIronFansShowed = (userDefault.object(forKey: "isIronFansShowed") as? Bool) ?? true
-        self.isMediaShowed = (userDefault.object(forKey: "isMediaShowed") as? Bool) ?? true
-        self.isDeleteTweets = (userDefault.object(forKey: "isDeleteTweets") as? Bool) ?? false
-        self.isKeepRecentTweets = (userDefault.object(forKey: "isKeepRecentTweets") as? Bool) ?? false
-    }
+   
 }
