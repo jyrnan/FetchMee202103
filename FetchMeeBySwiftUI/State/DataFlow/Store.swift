@@ -136,9 +136,7 @@ class Store: ObservableObject {
             
         case .tweetOperation(let operatrion, let tweetIDString):
             appCommand = TweetCommand(operation: operatrion, tweetIDString: tweetIDString)
-            
-            
-            
+         
         }
         
         return (appState, appCommand)

@@ -39,6 +39,7 @@
 		D2309F29254922B000549E27 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2309F28254922B000549E27 /* Toast.swift */; };
 		D2318AA92571E40900F55BDF /* FavoriteStarMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2318AA82571E40900F55BDF /* FavoriteStarMarkView.swift */; };
 		D2318AB7257228CC00F55BDF /* TweetRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2318AB6257228CC00F55BDF /* TweetRowViewModel.swift */; };
+		D23F7DF525EF254200B5E5B0 /* RetweetAndFavorite in Resources */ = {isa = PBXBuildFile; fileRef = D23F7DF425EF254200B5E5B0 /* RetweetAndFavorite */; };
 		D2419C152577603C00A9CF98 /* list.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2419C0C2577603C00A9CF98 /* list.txt */; };
 		D2419C162577603C00A9CF98 /* MediaID.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2419C0D2577603C00A9CF98 /* MediaID.txt */; };
 		D2419C172577603C00A9CF98 /* BugWor.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2419C0E2577603C00A9CF98 /* BugWor.txt */; };
@@ -167,6 +168,7 @@
 		D2309F28254922B000549E27 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		D2318AA82571E40900F55BDF /* FavoriteStarMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStarMarkView.swift; sourceTree = "<group>"; };
 		D2318AB6257228CC00F55BDF /* TweetRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetRowViewModel.swift; sourceTree = "<group>"; };
+		D23F7DF425EF254200B5E5B0 /* RetweetAndFavorite */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetAndFavorite; sourceTree = "<group>"; };
 		D2419C0C2577603C00A9CF98 /* list.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = list.txt; sourceTree = "<group>"; };
 		D2419C0D2577603C00A9CF98 /* MediaID.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MediaID.txt; sourceTree = "<group>"; };
 		D2419C0E2577603C00A9CF98 /* BugWor.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BugWor.txt; sourceTree = "<group>"; };
@@ -403,6 +405,7 @@
 				D252548124D807F500D8B508 /* QuoteTweetJson.txt */,
 				D2B2560D24E38824009F982E /* videoJson.txt */,
 				4B6FE754253EE99500750AD6 /* RateLimit.txt */,
+				D23F7DF425EF254200B5E5B0 /* RetweetAndFavorite */,
 			);
 			path = reference;
 			sourceTree = "<group>";
@@ -707,6 +710,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2419C192577603C00A9CF98 /* SimpleTweet.txt in Resources */,
+				D23F7DF525EF254200B5E5B0 /* RetweetAndFavorite in Resources */,
 				D2419C1B2577603C00A9CF98 /* ReplyTweet.txt in Resources */,
 				D27DCEC624B96D6100520BE3 /* LaunchScreen.storyboard in Resources */,
 				D2419C1C2577603C00A9CF98 /* Retweet.txt in Resources */,

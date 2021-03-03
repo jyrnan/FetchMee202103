@@ -1,0 +1,669 @@
+[ACTION: tweetOperation(operation: FetchMee.TweetCommand.Operation.unRetweet, tweetIDString: "1366915903389003780")
+[COMMAND]: TweetCommand(operation: FetchMee.TweetCommand.Operation.unRetweet, tweetIDString: "1366915903389003780")
+{
+  "in_reply_to_screen_name" : null,
+  "is_quote_status" : false,
+  "retweet_count" : 4.0,
+  "id_str" : "1366915903389003780",
+  "possibly_sensitive" : false,
+  "truncated" : true,
+  "in_reply_to_status_id_str" : null,
+  "contributors" : null,
+  "id" : 1.3669159033890038e+18,
+  "created_at" : "Wed Mar 03 00:58:42 +0000 2021",
+  "geo" : null,
+  "source" : "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+  "in_reply_to_user_id" : null,
+  "lang" : "en",
+  "place" : null,
+  "favorite_count" : 4.0,
+  "retweeted" : true,
+  "favorited" : true,
+  "in_reply_to_status_id" : null,
+  "coordinates" : null,
+  "text" : "Twitter: 6-7pm\nOur #podcast special on the #TwoSessions: how the nexus of history, economy and politics affects Chi… https://t.co/OeeXjgrAJ0",
+  "in_reply_to_user_id_str" : null,
+  "entities" : {
+    "symbols" : [
+
+    ],
+    "hashtags" : [
+      {
+        "indices" : [
+          19.0,
+          27.0
+        ],
+        "text" : "podcast"
+      },
+      {
+        "text" : "TwoSessions",
+        "indices" : [
+          43.0,
+          55.0
+        ]
+      }
+    ],
+    "user_mentions" : [
+
+    ],
+    "urls" : [
+      {
+        "expanded_url" : "https://twitter.com/i/web/status/1366915903389003780",
+        "indices" : [
+          117.0,
+          140.0
+        ],
+        "display_url" : "twitter.com/i/web/status/1…",
+        "url" : "https://t.co/OeeXjgrAJ0"
+      }
+    ]
+  },
+  "user" : {
+    "is_translator" : false,
+    "has_extended_profile" : false,
+    "profile_link_color" : "006391",
+    "friends_count" : 307.0,
+    "profile_background_image_url_https" : "https://abs.twimg.com/images/themes/theme1/bg.png",
+    "is_translation_enabled" : false,
+    "contributors_enabled" : false,
+    "entities" : {
+      "description" : {
+        "urls" : [
+          {
+            "expanded_url" : "https://sc.mp/app_t",
+            "url" : "https://t.co/xpGpF2bwGO",
+            "display_url" : "sc.mp/app_t",
+            "indices" : [
+              116.0,
+              139.0
+            ]
+          }
+        ]
+      },
+      "url" : {
+        "urls" : [
+          {
+            "expanded_url" : "http://t.me/SCMP_News",
+            "url" : "https://t.co/hM64htVszk",
+            "display_url" : "t.me/SCMP_News",
+            "indices" : [
+              0.0,
+              23.0
+            ]
+          }
+        ]
+      }
+    },
+    "description" : "The South China Morning Post brings you news and analysis about Hong Kong, China and the rest of Asia. Get our app: https://t.co/xpGpF2bwGO",
+    "listed_count" : 7460.0,
+    "profile_sidebar_fill_color" : "E3E3E3",
+    "followers_count" : 796341.0,
+    "lang" : null,
+    "profile_image_url" : "http://pbs.twimg.com/profile_images/1062597520444932096/Ue20RVFo_normal.jpg",
+    "translator_type" : "none",
+    "following" : true,
+    "screen_name" : "SCMPNews",
+    "profile_image_url_https" : "https://pbs.twimg.com/profile_images/1062597520444932096/Ue20RVFo_normal.jpg",
+    "profile_background_tile" : false,
+    "url" : "https://t.co/hM64htVszk",
+    "profile_background_color" : "006391",
+    "created_at" : "Thu Mar 12 08:51:50 +0000 2009",
+    "profile_use_background_image" : false,
+    "id_str" : "23922797",
+    "profile_banner_url" : "https://pbs.twimg.com/profile_banners/23922797/1553562693",
+    "time_zone" : null,
+    "geo_enabled" : true,
+    "id" : 23922797.0,
+    "notifications" : false,
+    "default_profile_image" : false,
+    "verified" : true,
+    "follow_request_sent" : false,
+    "favourites_count" : 440.0,
+    "profile_text_color" : "333333",
+    "name" : "SCMP News",
+    "utc_offset" : null,
+    "protected" : false,
+    "location" : "Hong Kong",
+    "statuses_count" : 304803.0,
+    "profile_background_image_url" : "http://abs.twimg.com/images/themes/theme1/bg.png",
+    "profile_sidebar_border_color" : "FFFFFF",
+    "default_profile" : false
+  }
+}
+[ACTION: update
+only update
+[ACTION: tweetOperation(operation: FetchMee.TweetCommand.Operation.unfavorite, tweetIDString: "1366915903389003780")
+[COMMAND]: TweetCommand(operation: FetchMee.TweetCommand.Operation.unfavorite, tweetIDString: "1366915903389003780")
+{
+  "in_reply_to_user_id_str" : null,
+  "created_at" : "Wed Mar 03 00:58:42 +0000 2021",
+  "source" : "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+  "geo" : null,
+  "lang" : "en",
+  "in_reply_to_status_id_str" : null,
+  "contributors" : null,
+  "place" : null,
+  "favorite_count" : 3.0,
+  "text" : "Twitter: 6-7pm\nOur #podcast special on the #TwoSessions: how the nexus of history, economy and politics affects Chi… https://t.co/OeeXjgrAJ0",
+  "coordinates" : null,
+  "in_reply_to_status_id" : null,
+  "id_str" : "1366915903389003780",
+  "possibly_sensitive" : false,
+  "truncated" : true,
+  "entities" : {
+    "hashtags" : [
+      {
+        "indices" : [
+          19.0,
+          27.0
+        ],
+        "text" : "podcast"
+      },
+      {
+        "indices" : [
+          43.0,
+          55.0
+        ],
+        "text" : "TwoSessions"
+      }
+    ],
+    "urls" : [
+      {
+        "display_url" : "twitter.com/i/web/status/1…",
+        "expanded_url" : "https://twitter.com/i/web/status/1366915903389003780",
+        "url" : "https://t.co/OeeXjgrAJ0",
+        "indices" : [
+          117.0,
+          140.0
+        ]
+      }
+    ],
+    "symbols" : [
+
+    ],
+    "user_mentions" : [
+
+    ]
+  },
+  "user" : {
+    "notifications" : false,
+    "default_profile" : false,
+    "profile_sidebar_border_color" : "FFFFFF",
+    "profile_link_color" : "006391",
+    "name" : "SCMP News",
+    "time_zone" : null,
+    "protected" : false,
+    "description" : "The South China Morning Post brings you news and analysis about Hong Kong, China and the rest of Asia. Get our app: https://t.co/xpGpF2bwGO",
+    "listed_count" : 7460.0,
+    "profile_background_image_url" : "http://abs.twimg.com/images/themes/theme1/bg.png",
+    "translator_type" : "none",
+    "profile_background_tile" : false,
+    "id" : 23922797.0,
+    "profile_text_color" : "333333",
+    "friends_count" : 307.0,
+    "follow_request_sent" : false,
+    "contributors_enabled" : false,
+
+    "profile_banner_url" : "https://pbs.twimg.com/profile_banners/23922797/1553562693",
+    "favourites_count" : 440.0,
+    "screen_name" : "SCMPNews",
+    "following" : true,
+    "geo_enabled" : true,
+    "has_extended_profile" : false,
+    "statuses_count" : 304803.0,
+    "id_str" : "23922797",
+    "profile_background_color" : "006391",
+    "verified" : true,
+    "entities" : {
+      "description" : {
+        "urls" : [
+          {
+            "url" : "https://t.co/xpGpF2bwGO",
+            "indices" : [
+              116.0,
+              139.0
+            ],
+            "expanded_url" : "https://sc.mp/app_t",
+            "display_url" : "sc.mp/app_t"
+          }
+        ]
+      },
+      "url" : {
+        "urls" : [
+          {
+            "indices" : [
+              0.0,
+              23.0
+            ],
+            "url" : "https://t.co/hM64htVszk",
+            "expanded_url" : "http://t.me/SCMP_News",
+            "display_url" : "t.me/SCMP_News"
+          }
+        ]
+
+      }
+    },
+    "followers_count" : 796341.0,
+    "created_at" : "Thu Mar 12 08:51:50 +0000 2009",
+    "location" : "Hong Kong",
+    "profile_background_image_url_https" : "https://abs.twimg.com/images/themes/theme1/bg.png",
+    "profile_image_url" : "http://pbs.twimg.com/profile_images/1062597520444932096/Ue20RVFo_normal.jpg",
+    "default_profile_image" : false,
+    "utc_offset" : null,
+    "is_translation_enabled" : false,
+    "is_translator" : false,
+    "profile_use_background_image" : false,
+    "profile_image_url_https" : "https://pbs.twimg.com/profile_images/1062597520444932096/Ue20RVFo_normal.jpg",
+    "lang" : null,
+    "url" : "https://t.co/hM64htVszk",
+    "profile_sidebar_fill_color" : "E3E3E3"
+  },
+  "retweeted" : false,
+  "is_quote_status" : false,
+  "in_reply_to_user_id" : null,
+  "in_reply_to_screen_name" : null,
+  "id" : 1.3669159033890038e+18,
+  "retweet_count" : 3.0,
+  "favorited" : false
+}
+[ACTION: update
+only update
+[ACTION: tweetOperation(operation: FetchMee.TweetCommand.Operation.retweet, tweetIDString: "1366915903389003780")
+[COMMAND]: TweetCommand(operation: FetchMee.TweetCommand.Operation.retweet, tweetIDString: "1366915903389003780")
+{
+  "favorited" : false,
+  "coordinates" : null,
+  "created_at" : "Wed Mar 03 01:54:33 +0000 2021",
+  "retweet_count" : 4.0,
+  "contributors" : null,
+  "place" : null,
+  "favorite_count" : 0.0,
+  "user" : {
+    "profile_text_color" : "000000",
+    "created_at" : "Tue Jun 16 09:30:09 +0000 2009",
+    "profile_background_color" : "000000",
+    "id" : 47585796.0,
+    "screen_name" : "jyrnan",
+    "profile_use_background_image" : false,
+    "default_profile" : false,
+    "profile_link_color" : "1B95E0",
+    "translator_type" : "none",
+    "profile_image_url" : "http://pbs.twimg.com/profile_images/1288016934068314112/nfIRP0Ib_normal.jpg",
+    "followers_count" : 5882.0,
+    "geo_enabled" : true,
+    "friends_count" : 1233.0,
+    "profile_background_tile" : false,
+    "description" : "矮、胖、秃、穷滴打工人 / Apprentice to iOS programing / Telegram：https://t.co/YO6RlIUPoH",
+    "statuses_count" : 21354.0,
+    "verified" : false,
+    "profile_banner_url" : "https://pbs.twimg.com/profile_banners/47585796/1411817989",
+    "name" : "jyrnn™ Pro Max👨🏻‍💻 胖",
+    "profile_background_image_url_https" : "https://abs.twimg.com/images/themes/theme1/bg.png",
+    "contributors_enabled" : false,
+    "favourites_count" : 5127.0,
+    "profile_sidebar_border_color" : "000000",
+    "lang" : null,
+    "protected" : false,
+    "is_translation_enabled" : false,
+    "default_profile_image" : false,
+    "location" : "ÜT: 22.5390094,113.986897",
+    "notifications" : false,
+    "profile_sidebar_fill_color" : "000000",
+    "time_zone" : null,
+    "follow_request_sent" : false,
+    "has_extended_profile" : true,
+    "following" : false,
+    "is_translator" : false,
+    "url" : "https://t.co/YO6RlIUPoH",
+    "profile_background_image_url" : "http://abs.twimg.com/images/themes/theme1/bg.png",
+    "listed_count" : 58.0,
+    "profile_image_url_https" : "https://pbs.twimg.com/profile_images/1288016934068314112/nfIRP0Ib_normal.jpg",
+    "id_str" : "47585796",
+    "entities" : {
+      "url" : {
+        "urls" : [
+          {
+            "indices" : [
+              0.0,
+              23.0
+            ],
+            "expanded_url" : "https://t.me/jyrnan",
+            "display_url" : "t.me/jyrnan",
+            "url" : "https://t.co/YO6RlIUPoH"
+          }
+        ]
+      },
+      "description" : {
+        "urls" : [
+          {
+            "display_url" : "t.me/jyrnan",
+            "indices" : [
+              54.0,
+              77.0
+            ],
+            "expanded_url" : "https://t.me/jyrnan",
+            "url" : "https://t.co/YO6RlIUPoH"
+          }
+        ]
+      }
+    },
+    "utc_offset" : null
+  },
+  "in_reply_to_status_id_str" : null,
+  "source" : "<a href=\"http://jyrnan.wordpress.com\" rel=\"nofollow\">FetchMee</a>",
+  "id" : 1.3669299614880645e+18,
+  "in_reply_to_status_id" : null,
+  "in_reply_to_user_id_str" : null,
+  "text" : "RT @SCMPNews: Twitter: 6-7pm\nOur #podcast special on the #TwoSessions: how the nexus of history, economy and politics affects China's bigge…",
+  "retweeted" : true,
+  "in_reply_to_screen_name" : null,
+  "entities" : {
+    "hashtags" : [
+      {
+        "text" : "podcast",
+        "indices" : [
+          33.0,
+          41.0
+        ]
+      },
+      {
+        "indices" : [
+          57.0,
+          69.0
+        ],
+        "text" : "TwoSessions"
+      }
+    ],
+    "symbols" : [
+
+    ],
+    "urls" : [
+
+    ],
+    "user_mentions" : [
+      {
+        "screen_name" : "SCMPNews",
+        "id" : 23922797.0,
+        "name" : "SCMP News",
+        "id_str" : "23922797",
+        "indices" : [
+          3.0,
+          12.0
+        ]
+      }
+    ]
+  },
+  "truncated" : false,
+  "geo" : null,
+  "is_quote_status" : false,
+  "retweeted_status" : {
+    "in_reply_to_user_id" : null,
+    "in_reply_to_status_id" : null,
+    "lang" : "en",
+    "is_quote_status" : false,
+    "entities" : {
+      "hashtags" : [
+        {
+          "text" : "podcast",
+          "indices" : [
+            19.0,
+            27.0
+          ]
+        },
+        {
+          "text" : "TwoSessions",
+          "indices" : [
+            43.0,
+            55.0
+          ]
+        }
+      ],
+      "urls" : [
+        {
+          "url" : "https://t.co/OeeXjgrAJ0",
+          "indices" : [
+            117.0,
+            140.0
+          ],
+          "expanded_url" : "https://twitter.com/i/web/status/1366915903389003780",
+          "display_url" : "twitter.com/i/web/status/1…"
+        }
+      ],
+      "symbols" : [
+
+      ],
+      "user_mentions" : [
+
+      ]
+    },
+    "in_reply_to_user_id_str" : null,
+    "user" : {
+      "protected" : false,
+      "default_profile_image" : false,
+      "utc_offset" : null,
+      "default_profile" : false,
+      "profile_background_color" : "006391",
+      "profile_background_image_url_https" : "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "verified" : true,
+      "name" : "SCMP News",
+      "followers_count" : 796342.0,
+      "profile_image_url" : "http://pbs.twimg.com/profile_images/1062597520444932096/Ue20RVFo_normal.jpg",
+      "has_extended_profile" : false,
+      "is_translator" : false,
+      "created_at" : "Thu Mar 12 08:51:50 +0000 2009",
+      "profile_background_tile" : false,
+      "friends_count" : 307.0,
+      "notifications" : false,
+      "geo_enabled" : true,
+      "description" : "The South China Morning Post brings you news and analysis about Hong Kong, China and the rest of Asia. Get our app: https://t.co/xpGpF2bwGO",
+      "lang" : null,
+      "is_translation_enabled" : false,
+      "profile_use_background_image" : false,
+      "profile_sidebar_fill_color" : "E3E3E3",
+      "profile_background_image_url" : "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "following" : true,
+      "profile_banner_url" : "https://pbs.twimg.com/profile_banners/23922797/1553562693",
+      "profile_image_url_https" : "https://pbs.twimg.com/profile_images/1062597520444932096/Ue20RVFo_normal.jpg",
+      "favourites_count" : 440.0,
+      "follow_request_sent" : false,
+      "profile_text_color" : "333333",
+      "entities" : {
+        "url" : {
+          "urls" : [
+            {
+              "display_url" : "t.me/SCMP_News",
+              "url" : "https://t.co/hM64htVszk",
+              "indices" : [
+                0.0,
+                23.0
+              ],
+              "expanded_url" : "http://t.me/SCMP_News"
+            }
+          ]
+        },
+        "description" : {
+          "urls" : [
+            {
+              "indices" : [
+                116.0,
+                139.0
+              ],
+              "expanded_url" : "https://sc.mp/app_t",
+              "display_url" : "sc.mp/app_t",
+              "url" : "https://t.co/xpGpF2bwGO"
+            }
+          ]
+        }
+      },
+      "time_zone" : null,
+      "translator_type" : "none",
+      "location" : "Hong Kong",
+      "listed_count" : 7460.0,
+      "profile_sidebar_border_color" : "FFFFFF",
+      "profile_link_color" : "006391",
+      "screen_name" : "SCMPNews",
+      "id" : 23922797.0,
+      "id_str" : "23922797",
+      "contributors_enabled" : false,
+      "url" : "https://t.co/hM64htVszk",
+      "statuses_count" : 304803.0
+    },
+    "retweet_count" : 4.0,
+    "in_reply_to_screen_name" : null,
+    "created_at" : "Wed Mar 03 00:58:42 +0000 2021",
+    "place" : null,
+    "geo" : null,
+    "favorite_count" : 3.0,
+    "retweeted" : true,
+    "contributors" : null,
+    "possibly_sensitive" : false,
+    "id" : 1.3669159033890038e+18,
+    "source" : "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+    "in_reply_to_status_id_str" : null,
+    "favorited" : false,
+    "id_str" : "1366915903389003780",
+    "truncated" : true,
+    "text" : "Twitter: 6-7pm\nOur #podcast special on the #TwoSessions: how the nexus of history, economy and politics affects Chi… https://t.co/OeeXjgrAJ0",
+    "coordinates" : null
+  },
+  "in_reply_to_user_id" : null,
+  "id_str" : "1366929961488064515",
+  "lang" : "en"
+}
+[ACTION: update
+only update
+[ACTION: tweetOperation(operation: FetchMee.TweetCommand.Operation.favorite, tweetIDString: "1366915903389003780")
+[COMMAND]: TweetCommand(operation: FetchMee.TweetCommand.Operation.favorite, tweetIDString: "1366915903389003780")
+{
+  "favorited" : true,
+  "source" : "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+  "is_quote_status" : false,
+  "retweet_count" : 4.0,
+  "coordinates" : null,
+  "id_str" : "1366915903389003780",
+  "text" : "Twitter: 6-7pm\nOur #podcast special on the #TwoSessions: how the nexus of history, economy and politics affects Chi… https://t.co/OeeXjgrAJ0",
+  "id" : 1.3669159033890038e+18,
+  "in_reply_to_screen_name" : null,
+  "user" : {
+    "profile_background_color" : "006391",
+    "followers_count" : 796386.0,
+    "location" : "Hong Kong",
+    "description" : "The South China Morning Post brings you news and analysis about Hong Kong, China and the rest of Asia. Get our app: https://t.co/xpGpF2bwGO",
+    "is_translator" : false,
+    "id" : 23922797.0,
+    "friends_count" : 307.0,
+    "default_profile" : false,
+    "name" : "SCMP News",
+    "contributors_enabled" : false,
+    "utc_offset" : null,
+    "profile_background_image_url_https" : "https://abs.twimg.com/images/themes/theme1/bg.png",
+    "id_str" : "23922797",
+    "is_translation_enabled" : false,
+    "favourites_count" : 440.0,
+    "follow_request_sent" : false,
+    "profile_use_background_image" : false,
+    "profile_image_url_https" : "https://pbs.twimg.com/profile_images/1062597520444932096/Ue20RVFo_normal.jpg",
+    "profile_text_color" : "333333",
+    "profile_sidebar_border_color" : "FFFFFF",
+    "profile_link_color" : "006391",
+    "lang" : null,
+    "listed_count" : 7461.0,
+    "time_zone" : null,
+    "statuses_count" : 304803.0,
+    "profile_image_url" : "http://pbs.twimg.com/profile_images/1062597520444932096/Ue20RVFo_normal.jpg",
+    "verified" : true,
+    "protected" : false,
+    "url" : "https://t.co/hM64htVszk",
+    "profile_background_image_url" : "http://abs.twimg.com/images/themes/theme1/bg.png",
+    "profile_background_tile" : false,
+    "geo_enabled" : true,
+    "profile_sidebar_fill_color" : "E3E3E3",
+    "screen_name" : "SCMPNews",
+    "following" : true,
+    "has_extended_profile" : false,
+    "entities" : {
+      "description" : {
+        "urls" : [
+          {
+            "expanded_url" : "https://sc.mp/app_t",
+            "indices" : [
+              116.0,
+              139.0
+            ],
+            "url" : "https://t.co/xpGpF2bwGO",
+            "display_url" : "sc.mp/app_t"
+          }
+        ]
+      },
+      "url" : {
+        "urls" : [
+          {
+            "url" : "https://t.co/hM64htVszk",
+            "expanded_url" : "http://t.me/SCMP_News",
+            "display_url" : "t.me/SCMP_News",
+            "indices" : [
+              0.0,
+              23.0
+            ]
+          }
+        ]
+      }
+    },
+    "notifications" : false,
+    "default_profile_image" : false,
+    "translator_type" : "none",
+    "created_at" : "Thu Mar 12 08:51:50 +0000 2009",
+    "profile_banner_url" : "https://pbs.twimg.com/profile_banners/23922797/1553562693"
+  },
+  "favorite_count" : 4.0,
+  "truncated" : true,
+  "possibly_sensitive" : false,
+  "lang" : "en",
+  "in_reply_to_status_id" : null,
+  "entities" : {
+    "hashtags" : [
+      {
+        "text" : "podcast",
+        "indices" : [
+          19.0,
+          27.0
+        ]
+      },
+      {
+        "text" : "TwoSessions",
+        "indices" : [
+          43.0,
+          55.0
+        ]
+      }
+    ],
+    "symbols" : [
+
+    ],
+    "user_mentions" : [
+
+    ],
+    "urls" : [
+      {
+        "indices" : [
+          117.0,
+          140.0
+        ],
+        "display_url" : "twitter.com/i/web/status/1…",
+        "url" : "https://t.co/OeeXjgrAJ0",
+        "expanded_url" : "https://twitter.com/i/web/status/1366915903389003780"
+      }
+    ]
+  },
+  "geo" : null,
+  "retweeted" : true,
+  "in_reply_to_status_id_str" : null,
+  "in_reply_to_user_id" : null,
+  "created_at" : "Wed Mar 03 00:58:42 +0000 2021",
+  "in_reply_to_user_id_str" : null,
+  "place" : null,
+  "contributors" : null
+}
+[ACTION: update
+only update
+
