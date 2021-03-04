@@ -18,9 +18,9 @@ struct TimelineViewRedux: View {
     var timeline: AppState.TimelineData.Timeline { store.appState.timelineData.getTimeline(timelineType: timelineType)}
     
     @State var tweetText: String = ""
-    @State var isShowFloatComposer:Bool = false
+//    @State var isShowFloatComposer:Bool = false
     var isProcessingDone: Binding<Bool>  {$store.appState.setting.isProcessingDone}
-    var listName: String? //如果是list类型则会传入listName
+//    var listName: String? //如果是list类型则会传入listName
     @GestureState var dragAmount = CGSize.zero
     
     @State var numberOfReadTweet: Int = 0
@@ -34,12 +34,12 @@ struct TimelineViewRedux: View {
         GeometryReader {proxy in
             List{
                 
-                //Homeline部分章节
+//                Homeline部分章节
                 ZStack{
                     RoundedCorners(color: Color.init("BackGround"), tl: 24, tr: 24, bl: 0, br: 0)
                         .frame(height: 60)
                         .foregroundColor(Color.init("BackGround"))
-                    
+
                     PullToRefreshView(action: refreshAll, isDone: self.isProcessingDone) {
                         Composer(isProcessingDone: isProcessingDone)
                     }
@@ -53,15 +53,9 @@ struct TimelineViewRedux: View {
                     TweetRow(viewModel: TweetRowViewModel(
                                 tweetIDString: tweetIDString, width: proxy.size.width))
                         .onAppear{
-                            
                             numberOfReadTweet += 1
-                            
                             if store.appState.setting.loginUser?.setting.isAutoFetchMoreTweet == true {
                                 fetchMoreIfNeeded(tweetIDString: tweetIDString) }
-                            
-                            ///如果是顶端推文显示，或者说回到顶端，那么则调用减少推文函数
-                            if timeline.tweetIDStrings.first == tweetIDString {
-                            }
                         }
                     } else {
                         ToolsView(tweetIDString: store.appState.timelineData.selectedTweetID!)
@@ -96,11 +90,9 @@ struct TimelineViewRedux: View {
                         .onChanged({ value in
                             hideKeyboard()}))
             
-            .navigationTitle(listName ?? timeline.type.rawValue)
+            .navigationTitle(timeline.type.rawValue)
             .onAppear {
-//                if timeline.tweetIDStrings.isEmpty {
                     store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
-//                }
             }
             .onDisappear{
                 store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: numberOfReadTweet))
@@ -111,12 +103,6 @@ struct TimelineViewRedux: View {
 }
 
 extension TimelineViewRedux {
-    /**
-     处理出错的handler，可以传入到timeline里面执行。
-     */
-    func failureHandler(error: Error) -> Void {
-        print(#line, error.localizedDescription)
-    }
     
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
@@ -127,11 +113,7 @@ extension TimelineViewRedux {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
-    func delay(delay: Double, closure: @escaping () -> ()) {
-        let when = DispatchTime.now() + delay
-        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
-    }
-    
+   
     /// 如果推文属于timeline后端，则往下刷新推文。
     /// - Parameter tweetIDString: 执行此操作的推文ID
     func fetchMoreIfNeeded(tweetIDString: String) {

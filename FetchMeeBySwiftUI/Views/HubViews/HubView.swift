@@ -26,7 +26,7 @@ struct HubView: View {
     
     
     init() {
-        setNavigationBar()
+//        setNavigationBar()
     }
     
     var body: some View {

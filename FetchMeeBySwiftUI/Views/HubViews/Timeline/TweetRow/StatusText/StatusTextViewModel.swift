@@ -121,7 +121,8 @@ class StatusTextViewModel: ObservableObject {
         ///否则会出现读取indice后一个字符时候出现越界情况
         guard let statusText = status["text"].string, indice < statusText.count else {return false}
         
-        let index = statusText.index(statusText.startIndex, offsetBy: indice + 1)
+       let index = statusText.index(statusText.startIndex, offsetBy: indice + 1)
+        guard index < statusText.endIndex else {return false}
         return statusText[index] != "@"
     }
     
