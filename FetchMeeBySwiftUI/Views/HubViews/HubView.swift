@@ -82,15 +82,15 @@ struct HubView: View {
     }
 }
 
-struct HubView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        Group {
-            HubView().environmentObject(User())
-            HubView().environmentObject(User()).environment(\.colorScheme, .dark)
-        }
-    }
-}
+//struct HubView_Previews: PreviewProvider {
+//    
+//    static var previews: some View {
+////        Group {
+////            HubView().environmentObject(User())
+////            HubView().environmentObject(User()).environment(\.colorScheme, .dark)
+////        }
+//    }
+//}
 
 //MARK:-设置后台刷新的内容
 extension HubView {

@@ -12,7 +12,7 @@ import Combine
 
 struct BackOfToolsToolBar: View {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var loginUser: User
+//    @EnvironmentObject var loginUser: User
     
     var body: some View {
         LogMessageSmallView().padding(4)

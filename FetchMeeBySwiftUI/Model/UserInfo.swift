@@ -24,10 +24,7 @@ struct UserInfo: Identifiable, Codable {
     var tokenSecret: String?
     
     var avatarUrlString: String?
-//    var avatar: UIImage?
-    
     var bannerUrlString: String?
-//    var banner: UIImage?
     
     var bioText: String?
     var loc: String?
@@ -48,7 +45,7 @@ struct UserInfo: Identifiable, Codable {
     var lastDayAddedTweets: Int? //24小时内新增推数
     
     ///存储根据MentiUserinfo情况排序的UserIDString
-    var mentionUserData: [String:[String]]?
+    var mentionUsers: [MentionUser]?
 }
 
 enum ThemeColor: String, CaseIterable, Identifiable, Codable {
@@ -106,4 +103,14 @@ struct UserSetting: Codable {
     
     var isFirsResponder: Bool = false //控制是否激活推文输入框，还没完全搞定，暂未使用
    
+}
+
+extension UserInfo {
+    struct MentionUser: Codable, Equatable {
+       
+        let id: String
+        let avatarUrlString: String
+        var mentionsIDs: Set<String> = []
+        var count:Int {return self.mentionsIDs.count}
+    }
 }

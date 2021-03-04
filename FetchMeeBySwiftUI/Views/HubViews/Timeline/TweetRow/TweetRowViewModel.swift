@@ -31,7 +31,7 @@ class TweetRowViewModel: ObservableObject{
     var images: Images?
     var playButtonView: PlayButtonView?
     var quotedTweetRow: QuotedTweetRow?
-    var toolsVeiwModel: ToolsViewModel!
+//    var toolsVeiwModel: ToolsViewModel!
     var toolsView: ToolsView?
     var statusTextView: NSAttributedStringView?
     
@@ -47,14 +47,9 @@ class TweetRowViewModel: ObservableObject{
         self.isQuotedTweetRowViewModel = isQuoteded
 
         makeViews()
-        
-//        print(#line, #file, "TweetRowViewModel inited")
-    }
+            }
     
-    deinit {
-//        print(#line, #file, "TweetRowViewModel deinited")
-    }
-    
+  
     func makeViews() {
         retweetMarkView = makeRetweetMarkView()
         avatarView = makeAvatarView()
@@ -65,15 +60,11 @@ class TweetRowViewModel: ObservableObject{
         playButtonView = makePlayButtonView()
         quotedTweetRow = makeQuotedTweetRowView()
         
-        toolsVeiwModel = makeToolsViewModel()
         toolsView = ToolsView( tweetIDString: tweetIDString)
         
         detailIndicator = makeDetailIndicatorView()
     }
     
-//    func makeToolsViewOnly() {
-//        toolsView = ToolsView(viewModel: toolsVeiwModel)
-//    }
     
     func makeRetweetMarkView() -> RetweetMarkView? {
         guard status["retweeted_status"]["id_str"].string != nil else {return nil }
@@ -163,11 +154,6 @@ class TweetRowViewModel: ObservableObject{
         return quotedTweetRow
     }
     
-    //MARK:-ToolsView
-    func makeToolsViewModel() -> ToolsViewModel {
-        return ToolsViewModel(
-            tweetIDString: tweetIDString)
-    }
     
     func checkIsReplyToMe(userID: String?) -> Bool {
         return userID == status["in_reply_to_user_id_str"].string

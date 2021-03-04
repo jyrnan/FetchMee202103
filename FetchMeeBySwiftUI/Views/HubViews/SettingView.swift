@@ -128,10 +128,10 @@ extension SettingView {
 }
 
 struct SettingView_Previews: PreviewProvider {
-    static var user: User = User()
+//    static var user: User = User()
     static var previews: some View {
         NavigationView {
-            SettingView().environmentObject(user)
+            SettingView()
         }
     }
 }

@@ -51,7 +51,7 @@ enum ToolBarViewType: String {
 
 struct ToolBarView: View, Identifiable {
     @EnvironmentObject var alerts: Alerts
-    @EnvironmentObject var fetchMee: User
+//    @EnvironmentObject var fetchMee: User
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
@@ -150,21 +150,21 @@ struct ToolBarView: View, Identifiable {
 }
 
 
-struct ToolBarView_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack{
-        RoundedRectangle(cornerRadius: 16)
-            .foregroundColor(Color.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
-            BackOfToolsToolBar().environmentObject(User())
-        }.frame(height: 76).padding([.leading, .trailing], 16)
-        
-        ZStack{
-        RoundedRectangle(cornerRadius: 16)
-            .foregroundColor(Color.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
-            BackOfToolsToolBar().environmentObject(User())
-        }.frame(height: 76).padding([.leading, .trailing], 16)
-    }
-}
+//struct ToolBarView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ZStack{
+//        RoundedRectangle(cornerRadius: 16)
+//            .foregroundColor(Color.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
+//            BackOfToolsToolBar().environmentObject(User())
+//        }.frame(height: 76).padding([.leading, .trailing], 16)
+//        
+//        ZStack{
+//        RoundedRectangle(cornerRadius: 16)
+//            .foregroundColor(Color.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
+//            BackOfToolsToolBar().environmentObject(User())
+//        }.frame(height: 76).padding([.leading, .trailing], 16)
+//    }
+//}
 
 //MARK:- ToolBar背面
 

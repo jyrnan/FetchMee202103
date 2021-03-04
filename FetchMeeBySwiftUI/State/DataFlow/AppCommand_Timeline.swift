@@ -32,7 +32,7 @@ struct FetchTimelineCommand: AppCommand {
         
         func successHandeler(json: JSON) -> Void {
             var timelineWillUpdate = timeline
-            var mentionUserData: [String : [String]]? = store.appState.setting.loginUser?.mentionUserData ?? [:]
+            var mentionUserData: [UserInfo.MentionUser]? = store.appState.setting.loginUser?.mentionUsers ?? []
             
             guard let newTweets = json.array else {return}
             timelineWillUpdate.newTweetNumber += newTweets.count
@@ -78,12 +78,8 @@ struct FetchTimelineCommand: AppCommand {
             swifter.listTweets(for: listTag, sinceID: sinceIDString, maxID: maxIDString, count: count, includeEntities: nil, includeRTs: nil, tweetMode: .default, success: successHandeler, failure: failureHandler)
             
         default: print("")
-        
-        }
+                }
     }
-    
-    
-    
 }
 
 extension FetchTimelineCommand {
@@ -95,7 +91,6 @@ extension FetchTimelineCommand {
         let newTweetIDStrings = converJSON2TweetIDStrings(from: newTweets)
 
         tweetIDStrings = newTweetIDStrings + tweetIDStrings
-//        setSinceAndMaxID()
         return tweetIDStrings
     }
     
@@ -106,7 +101,6 @@ extension FetchTimelineCommand {
         let newTweetIDStrings = converJSON2TweetIDStrings(from: newTweets)
         
         tweetIDStrings = tweetIDStrings.dropLast() + newTweetIDStrings //需要丢掉原来最后一条推文，否则会重复
-//        setSinceAndMaxID()
         return tweetIDStrings
     }
     
@@ -121,28 +115,33 @@ extension FetchTimelineCommand {
     func addDataToRepository(_ data: JSON) {
         StatusRepository.shared.addStatus(data)
         UserRepository.shared.addUser(data["user"])
-        ///添加mention到mention用户信息中
-//        addMentionToCount(mention: data)
     }
     
     /// 收集Mention用户信息，包括用户ID和mention的ID
     /// - Parameter mention: Mention的data
-    func addMentionToCount(mention:JSON, to mentionUserData: inout [String:[String]]?) {
+    func addMentionToCount(mention:JSON, to mentionUserData: inout [UserInfo.MentionUser]?) {
         guard let userIDString = mention["user"]["id_str"].string else {return}
         let mentionIDString = mention["id_str"].string!
         let avatarUrlString = mention["user"]["profile_image_url_https"].string!
-        if mentionUserData?[userIDString] == nil {
+        
+        if let index = mentionUserData?.firstIndex(where: {$0.id == userIDString}) {
+            mentionUserData?[index].mentionsIDs.insert(mentionIDString)
             
-            ///把avatar地址加入到数组的第一个，供后续读取来获取avatar image
-            mentionUserData?[userIDString] = [avatarUrlString, mentionIDString]
+//        if mentionUserData?[userIDString] == nil {
+//
+//            ///把avatar地址加入到数组的第一个，供后续读取来获取avatar image
+//            mentionUserData?[userIDString] = [avatarUrlString, mentionIDString]
+//        } else {
+//            ///如果该用户存在，且该推文是该用户新回复，则将推文ID添加至尾端
+//            if mentionUserData?[userIDString]?.contains(mentionIDString ) == false {
+//                mentionUserData?[userIDString]?.append(mentionIDString)
+//            }
         } else {
-            ///如果该用户存在，且该推文是该用户新回复，则将推文ID添加至尾端
-            if mentionUserData?[userIDString]?.contains(mentionIDString ) == false {
-                mentionUserData?[userIDString]?.append(mentionIDString)
-            }
+            let mentionUser = UserInfo.MentionUser(id: userIDString,
+                                                   avatarUrlString: avatarUrlString,
+                                                   mentionsIDs: Set<String>(arrayLiteral: mentionIDString))
+            mentionUserData?.append(mentionUser)
         }
-        print(#line, #function, mentionUserData)
-
     }
 }
 

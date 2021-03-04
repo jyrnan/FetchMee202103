@@ -11,8 +11,7 @@ import CoreData
 
 struct ToolBarsView: View {
     @EnvironmentObject var store: Store
-    var user: User {let user =  User()
-        user.info = store.appState.setting.loginUser ?? UserInfo()
+    var user: UserInfo {let user = store.appState.setting.loginUser ?? UserInfo()
         return user
     }
     
@@ -20,7 +19,7 @@ struct ToolBarsView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Log.createdAt, ascending: true)]) var logs: FetchedResults<Log>
    
-    lazy var userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), user.info.id)
+    lazy var userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), user.id)
     
     //控制三个toolBar正面朝向
     @State var toolBarIsFaceUp1: Bool = true
@@ -35,9 +34,9 @@ struct ToolBarsView: View {
             }
             ToolBarView(isFaceUp: toolBarIsFaceUp1,
                         type: .friends,
-                        label1Value: user.info.followed,
-                        label2Value: user.info.following,
-                        label3Value: user.info.lastDayAddedFollower)
+                        label1Value: user.followed,
+                        label2Value: user.following,
+                        label3Value: user.lastDayAddedFollower)
                 .onTapGesture {
                     if !toolBarIsFaceUp1 {
                         toolBarIsFaceUp1.toggle()
@@ -49,9 +48,9 @@ struct ToolBarsView: View {
                 }
             
             ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
-                        label1Value: user.info.tweetsCount,
-                        label2Value: user.info.tweetsCount,
-                        label3Value: user.info.lastDayAddedTweets)
+                        label1Value: user.tweetsCount,
+                        label2Value: user.tweetsCount,
+                        label3Value: user.lastDayAddedTweets)
                 .onTapGesture {
                     if !toolBarIsFaceUp2 {
                         toolBarIsFaceUp2.toggle()
@@ -79,11 +78,6 @@ struct ToolBarsView: View {
     }
 }
 
-struct ToolBarsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ToolBarsView().environmentObject(User())
-    }
-}
 
 extension ToolBarsView {
     mutating func calFollower() ->[Int] {
