@@ -46,6 +46,9 @@ struct UserInfo: Identifiable, Codable {
     
     var lastDayAddedFollower: Int? //24小时内新增fo数
     var lastDayAddedTweets: Int? //24小时内新增推数
+    
+    ///存储根据MentiUserinfo情况排序的UserIDString
+    var mentionUserData: [String:[String]]?
 }
 
 enum ThemeColor: String, CaseIterable, Identifiable, Codable {

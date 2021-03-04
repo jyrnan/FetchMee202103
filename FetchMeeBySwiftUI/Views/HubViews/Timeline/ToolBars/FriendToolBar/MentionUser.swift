@@ -15,7 +15,7 @@ class MentionUserSortedViewModel: ObservableObject {
     //记录用户互动mention推文信息（推文ID）数量,
     ///纪录顺序[userName, screenName, avatarUrlString, tweetID...tweetID]
     ///这个数据会被保存到本地
-    var mentionUserData: [String:[String]]
+    var mentionUserData: [String:[String]] 
     
     @Published var mentionUserIDStringsSorted: [String] = []
     

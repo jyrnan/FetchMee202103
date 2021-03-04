@@ -55,18 +55,13 @@ extension AppState {
         
         /// 所有timeline的数据
         var timelines: [String: Timeline] = [:]
-        ///看起来压根不需要先给予初始值🤦‍♂️
-        //            [
-        //            TimelineType.home.rawValue:Timeline(type: .home),
-        //            TimelineType.mention.rawValue: Timeline(type: .mention),
-        //            TimelineType.favorite.rawValue: Timeline(type: .favorite),
-        //            TimelineType.session.rawValue: Timeline(type: .session),
-        //            TimelineType.user(userID: "0000").rawValue: Timeline(type: .user(userID: "0000"))]
+        
         
         /// 选中的推文ID
         var selectedTweetID: String?
         /// 待查看的用户信息
         var requestedUser: UserInfo = UserInfo()
+        
     }
     
 }

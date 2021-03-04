@@ -106,9 +106,10 @@ class Store: ObservableObject {
         case .fetchTimeline(let timelineType, let updateMode):
             let timeline: AppState.TimelineData.Timeline = appState.timelineData.getTimeline(timelineType: timelineType)
             appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
-        case .fetchTimelineDone(let timeline):
+        case .fetchTimelineDone(let timeline, let mentionUserData):
             appState.setting.isProcessingDone = true
             appState.timelineData.timelines[timeline.type.rawValue] = timeline
+            appState.setting.loginUser?.mentionUserData = mentionUserData
             
         case .fetchSession(let tweetIDString):
             appState.setting.isProcessingDone = false

@@ -11,6 +11,14 @@ import Combine
 import Swifter
 
 struct MentionUserSortedView: View {
+    @EnvironmentObject var store: Store
+    
+    var mentionUserIDStringsSorted: [String] {
+        let mentionUserInfoSorted = store.appState.setting.loginUser?.mentionUserData?
+            .sorted{$0.value.count > $1.value.count}
+            .map{$0.key}
+        return mentionUserInfoSorted ?? []
+    }
     
     @StateObject var mentionUsers = MentionUserSortedViewModel()
     
@@ -18,7 +26,7 @@ struct MentionUserSortedView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ///选取最多10个用户显示
-                ForEach(mentionUsers.mentionUserIDStringsSorted[0..<min(10, self.mentionUsers.mentionUserIDStringsSorted.count)], id: \.self) {userIDString in
+                ForEach(mentionUserIDStringsSorted[0..<min(10, mentionUserIDStringsSorted.count)], id: \.self) {userIDString in
                     AvatarView(userIDString: userIDString, width: 32, height: 32)
                 }
             }

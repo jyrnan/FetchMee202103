@@ -27,6 +27,8 @@ struct AvatarView: View {
     
     var user: JSON? {UserRepository.shared.users[userIDString]}
     
+    
+    
     init(userIDString: String, width:CGFloat = 64, height: CGFloat = 64) {
         self.userIDString  = userIDString
         self.width = width

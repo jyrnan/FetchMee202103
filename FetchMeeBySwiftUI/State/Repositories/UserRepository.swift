@@ -21,4 +21,8 @@ class UserRepository: ObservableObject {
             self.users[id] = user
         }
     }
+    
+    func getUser(userID: String, compeleteHandler: (JSON) -> Void) {
+        
+    }
 }
