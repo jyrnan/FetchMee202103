@@ -25,14 +25,20 @@ struct AvatarView: View {
     var width: CGFloat
     var height: CGFloat
     
-    var user: JSON? {UserRepository.shared.users[userIDString]}
+    @State var user: JSON?
+//    {UserRepository.shared.users[userIDString]}
     
+    func userHandler(user: JSON) {
+        self.user = user
+    }
     
     
     init(userIDString: String, width:CGFloat = 64, height: CGFloat = 64) {
+        
         self.userIDString  = userIDString
         self.width = width
         self.height = height
+        
     }
     
     var body: some View {
@@ -59,6 +65,9 @@ struct AvatarView: View {
                     FavoriteStarMarkView()
                 }
             }.frame(width: width, height: height, alignment: .center)
+            .onAppear{
+                UserRepository.shared.getUser(userID: userIDString, compeletHandler: self.userHandler(user: ))
+            }
     }
     
     func checkFavoriteUser() -> Bool {

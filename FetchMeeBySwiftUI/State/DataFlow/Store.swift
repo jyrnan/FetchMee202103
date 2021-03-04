@@ -52,6 +52,11 @@ class Store: ObservableObject {
         }
     }
     
+    init() {
+        StatusRepository.shared.swifter = swifter
+        UserRepository.shared.swifter = swifter
+    }
+    
     static func reduce(state: AppState, action: AppAction) -> (AppState, AppCommand?) {
         var appState = state
         var appCommand: AppCommand?
@@ -141,5 +146,16 @@ class Store: ObservableObject {
         }
         
         return (appState, appCommand)
+    }
+}
+
+extension Store {
+    func getUser(userID: String, compeletHandler: @escaping (JSON) -> Void) {
+        if let user = UserRepository.shared.users[userID] {
+            compeletHandler(user)
+        } else {
+            self.swifter.showUser(UserTag.id(userID),
+                                  success: compeletHandler)
+        }
     }
 }

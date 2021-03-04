@@ -10,6 +10,8 @@ import Foundation
 import Swifter
 
 class StatusRepository: ObservableObject {
+    weak var swifter: Swifter?
+    
     static var shared = StatusRepository()
     private init() {}
     

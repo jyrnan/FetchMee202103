@@ -10,6 +10,7 @@ import Foundation
 import Swifter
 
 class UserRepository: ObservableObject {
+    weak var swifter: Swifter?
     
     static var shared = UserRepository()
     private init() {}
@@ -22,7 +23,12 @@ class UserRepository: ObservableObject {
         }
     }
     
-    func getUser(userID: String, compeleteHandler: (JSON) -> Void) {
-        
+    func getUser(userID: String, compeletHandler: @escaping (JSON) -> Void) {
+        if let user = UserRepository.shared.users[userID] {
+            compeletHandler(user)
+        } else {
+            swifter?.showUser(UserTag.id(userID),
+                                  success: compeletHandler)
+        }
     }
 }
