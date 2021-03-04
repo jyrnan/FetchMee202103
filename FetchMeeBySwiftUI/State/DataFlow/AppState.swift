@@ -62,6 +62,7 @@ extension AppState {
         /// 待查看的用户信息
         var requestedUser: UserInfo = UserInfo()
         
+        var mentionUserData: [UserInfo.MentionUser]? = []
     }
     
 }

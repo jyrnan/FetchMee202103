@@ -14,7 +14,7 @@ struct MentionUserSortedView: View {
     @EnvironmentObject var store: Store
     
     var mentionUserIDStringsSorted: [String] {
-        let mentionUserInfoSorted = store.appState.setting.loginUser?.mentionUsers?
+        let mentionUserInfoSorted = store.appState.timelineData.mentionUserData?
             .sorted{$0.count > $1.count}
             .map{$0.id}
         return mentionUserInfoSorted ?? []

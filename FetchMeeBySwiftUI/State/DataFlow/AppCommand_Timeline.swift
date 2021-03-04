@@ -32,7 +32,8 @@ struct FetchTimelineCommand: AppCommand {
         
         func successHandeler(json: JSON) -> Void {
             var timelineWillUpdate = timeline
-            var mentionUserData: [UserInfo.MentionUser]? = store.appState.setting.loginUser?.mentionUsers ?? []
+            var mentionUserData: [UserInfo.MentionUser]?
+                = store.appState.timelineData.mentionUserData
             
             guard let newTweets = json.array else {return}
             timelineWillUpdate.newTweetNumber += newTweets.count
@@ -40,7 +41,8 @@ struct FetchTimelineCommand: AppCommand {
             newTweets.forEach{
                 addDataToRepository($0)
                 guard self.timelineType == .mention else {return}
-                addMentionToCount(mention: $0, to: &mentionUserData)
+                if store.appState.setting.loginUser?.setting.isIronFansShowed == true {
+                    addMentionToCount(mention: $0, to: &mentionUserData) }
             }
             
             

@@ -9,10 +9,14 @@
 import SwiftUI
 import Combine
 import AVKit
+import Swifter
 
 struct TweetRow: View {
     //MARK:- Properties
     @EnvironmentObject var store: Store
+    
+    var tweetIDString: String!
+    var status: JSON {StatusRepository.shared.status[tweetIDString] ?? JSON.init("")}
     
     @ObservedObject var viewModel: TweetRowViewModel
     
@@ -84,6 +88,7 @@ struct TweetRow: View {
                                 }
                             
                             ///如果媒体文件不为零，且用户设置显示媒体文件，则显示媒体文件视图。
+                            if store.appState.setting.loginUser?.setting.isMediaShowed == true {
                             ZStack {
                                 viewModel.images
                                     .cornerRadius(16)
@@ -92,7 +97,7 @@ struct TweetRow: View {
                                 ///媒体视图上叠加一个播放按钮
                                 viewModel.playButtonView
                             }
-                            
+                            }
                             ///如果包含引用推文，则显示引用推文内容
                             viewModel.quotedTweetRow
                         }
@@ -108,7 +113,6 @@ struct TweetRow: View {
 //            }
         }
         .listRowBackground(backgroundColor)
-//        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         
     }
     

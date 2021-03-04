@@ -18,9 +18,7 @@ struct TimelineViewRedux: View {
     var timeline: AppState.TimelineData.Timeline { store.appState.timelineData.getTimeline(timelineType: timelineType)}
     
     @State var tweetText: String = ""
-//    @State var isShowFloatComposer:Bool = false
     var isProcessingDone: Binding<Bool>  {$store.appState.setting.isProcessingDone}
-//    var listName: String? //如果是list类型则会传入listName
     @GestureState var dragAmount = CGSize.zero
     
     @State var numberOfReadTweet: Int = 0
@@ -50,6 +48,7 @@ struct TimelineViewRedux: View {
                 
                 ForEach(timeline.tweetIDStrings, id: \.self) {tweetIDString in
                     if tweetIDString != "toolsViewMark" {
+//                        Text(tweetIDString)
                     TweetRow(viewModel: TweetRowViewModel(
                                 tweetIDString: tweetIDString, width: proxy.size.width))
                         .onAppear{

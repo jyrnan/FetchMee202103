@@ -31,8 +31,6 @@ class TweetRowViewModel: ObservableObject{
     var images: Images?
     var playButtonView: PlayButtonView?
     var quotedTweetRow: QuotedTweetRow?
-//    var toolsVeiwModel: ToolsViewModel!
-    var toolsView: ToolsView?
     var statusTextView: NSAttributedStringView?
     
     let isQuotedTweetRowViewModel: Bool
@@ -54,14 +52,13 @@ class TweetRowViewModel: ObservableObject{
         retweetMarkView = makeRetweetMarkView()
         avatarView = makeAvatarView()
         userNameView = makeUserNameView()
-        
+//
         statusTextView = makeStatusTextView()
         images = makeImagesView()
         playButtonView = makePlayButtonView()
         quotedTweetRow = makeQuotedTweetRowView()
-        
-        toolsView = ToolsView( tweetIDString: tweetIDString)
-        
+
+
         detailIndicator = makeDetailIndicatorView()
     }
     
