@@ -27,17 +27,23 @@ extension AppState {
         }
         
         class TweetTextChecker {
-            @Published var tweetText = "input here"
+            @Published var tweetText = ""
             var autoMap: AnyPublisher<String, Never> {
                 $tweetText
-//                    .debounce(
-//                        for: .milliseconds(500),
-//                        scheduler: DispatchQueue.main
-//                    )
-//                    .removeDuplicates()
-//                    .map{text in
-//                        String(text.split(separator: " ").last ?? "")
-//                    }
+                    .debounce(
+                        for: .milliseconds(500),
+                        scheduler: DispatchQueue.main
+                    )
+                    .removeDuplicates()
+                    .map{text in
+                        let output = String(text.split(separator: " ").flatMap{$0.split(separator: "\n")}.last ?? "no")
+                        if output.starts(with: "@") || output.starts(with: "#") {
+                            return output
+                        } else {
+                            return "no"
+                        }
+                        
+                    }
                     .eraseToAnyPublisher()
             }
         }

@@ -46,4 +46,6 @@ enum AppAction {
     case updateNewTweetNumber(timelineType: TimelineType, numberOfReadTweet: Int)
     
     case tweetOperation(operation: TweetCommand.Operation, tweetIDString: String)
+    
+    case autoComplete(text: String)
 }

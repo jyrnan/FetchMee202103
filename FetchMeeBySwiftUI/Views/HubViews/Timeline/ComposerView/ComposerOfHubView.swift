@@ -47,6 +47,9 @@ struct ComposerOfHubView: View {
     
     @State var indicateText: String = "Tweet something below..."
     
+    @State var isShowAutoCompleteText: Bool = false
+    @State var autoCompleteText: String = ""
+    
     var body: some View {
         VStack{
             
@@ -54,7 +57,7 @@ struct ComposerOfHubView: View {
                 
                 HStack {
                     Text(indicateText).font(.caption)
-                        .foregroundColor(self.tweetText == "" ? .gray : .accentColor)
+                        .foregroundColor(self.tweetText == "" ? .accentColor : .clear)
                         .padding(.leading)
                     Spacer()
                     if self.isTweetSentDone {
@@ -64,10 +67,10 @@ struct ComposerOfHubView: View {
                     }
                 }
                 .padding(.top, 8)
-                .onReceive(store.appState.setting.checker.autoMap, perform: {indicateText = $0})
+                
                 
                 TextEditor(text: self.$tweetText)
-//                CustomTextEditor(text: self.$tweetText, isFirstResponder: user.myInfo.setting.isFirsResponder)
+                    //                CustomTextEditor(text: self.$tweetText, isFirstResponder: user.myInfo.setting.isFirsResponder)
                     .padding([.leading, .trailing, .bottom], 8)
             }
             .frame(minHeight: 50, idealHeight: 180, maxHeight: isUsedAlone ? 240 : .infinity, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
@@ -102,7 +105,7 @@ struct ComposerOfHubView: View {
                 Spacer()
                 //增加图片按钮
                 if self.isShowAddPic {
-//
+                    //
                     Button(action: {
                         withAnimation{
                             self.isShowPhotoPicker = true
@@ -113,28 +116,28 @@ struct ComposerOfHubView: View {
                             .font(.body)
                             .foregroundColor(.accentColor)
                             .padding(8)
-//                            .padding([.leading, .trailing], 8)
-                            })
-                        .sheet(isPresented: self.$isShowPhotoPicker, onDismiss: {
-                            if self.imageDatas.count == 4 { //选择图片视图消失后检查是否已经有四张选择，如果是则设置增加图片按钮不显示
-                                self.isShowAddPic = false
-                            }
-                            if self.imageDatas.last?.image == nil {
-                                self.imageDatas.removeLast() //如果选择图片的时候选择了取消，也就是最后一个图片数据依然是nil，则移除该数据
-                            }
-                        }) {
-                            PhotoPicker(imageData: self.$imageDatas[self.imageDatas.count - 1], isShowPhotoPicker: self.$isShowPhotoPicker)
+                        //                            .padding([.leading, .trailing], 8)
+                    })
+                    .sheet(isPresented: self.$isShowPhotoPicker, onDismiss: {
+                        if self.imageDatas.count == 4 { //选择图片视图消失后检查是否已经有四张选择，如果是则设置增加图片按钮不显示
+                            self.isShowAddPic = false
                         }
+                        if self.imageDatas.last?.image == nil {
+                            self.imageDatas.removeLast() //如果选择图片的时候选择了取消，也就是最后一个图片数据依然是nil，则移除该数据
+                        }
+                    }) {
+                        PhotoPicker(imageData: self.$imageDatas[self.imageDatas.count - 1], isShowPhotoPicker: self.$isShowPhotoPicker)
+                    }
                 }
                 
                 //载入草稿
                 NavigationLink(
                     destination: DraftsViewCoreData(currentTweetDraft: self.$currentTweetDraft, tweetText: self.$tweetText, replyIDString: self.$replyIDString),label: {
-                    Image(systemName: "tray.and.arrow.up")
-                        .font(.body)
-                        .foregroundColor(.accentColor)
-                        .padding(8)
-                        })
+                        Image(systemName: "tray.and.arrow.up")
+                            .font(.body)
+                            .foregroundColor(.accentColor)
+                            .padding(8)
+                    })
                 
                 //存储草稿按钮
                 Button(action: {
@@ -163,16 +166,27 @@ struct ComposerOfHubView: View {
                 })
                 .disabled(self.tweetText == "" && imageDatas.isEmpty) 
             }
-            
+            if isShowAutoCompleteText {
+                HStack {
+                    AutoCompleteVIew(autoCompletText: autoCompleteText)
+                }
+            }
             //如果单独使用则靠顶部
             if isUsedAlone {
                 Spacer()
             }
         }.padding(isUsedAlone ? 16 : 0)
-        
+        .onReceive(store.appState.setting.checker.autoMap, perform: {
+            if $0 != "no" {
+                autoCompleteText = $0
+                withAnimation{
+                    isShowAutoCompleteText = true}
+            } else {
+                withAnimation{
+                    isShowAutoCompleteText = false}}
+        })
     }
 }
-
 
 struct ComposerOfHubView_Previews: PreviewProvider {
     static var previews: some View {
@@ -233,7 +247,7 @@ extension ComposerOfHubView {
             if !self.mediaIDs.isEmpty {self.mediaIDs.removeAll()}
             
             guard count < tweetTexts.count else {
-               
+                
                 //如果是最后一条推文，则执行如下操作
                 self.tweetText = "" //发送成功后把推文文字重新设置成空的
                 self.replyIDString = nil //发送成功后把回复的推文对象设置成nil
@@ -243,8 +257,8 @@ extension ComposerOfHubView {
                 deleteDraft(draft: currentTweetDraft)
                 currentTweetDraft = nil
                 
-//                self.alerts.stripAlert.alertText = "Tweet sent!"
-//                self.alerts.stripAlert.isPresentedAlert = true
+                //                self.alerts.stripAlert.alertText = "Tweet sent!"
+                //                self.alerts.stripAlert.isPresentedAlert = true
                 
                 store.dipatch(.alertOn(text: "Tweet sent!", isWarning: false))
                 
@@ -295,19 +309,19 @@ extension ComposerOfHubView {
         
         //判断字符串中是否含有中文
         func isIncludeChineseIn(string: String) -> Bool {
-
+            
             for value in string {
                 
                 if ("\u{4E00}" <= value  && value <= "\u{9FA5}") {
                     return true
                 }
             }
-
+            
             return false
         }
         
         func splitStingToSubstrings(string: String) -> [Substring] {
-           
+            
             //按照主要标点符号的位置分开
             let strings: [String] = string.map{
                 if "，。！：；？……\n ".contains($0) {//定义主要标点符号

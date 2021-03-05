@@ -21,7 +21,7 @@ struct HubView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var logs: FetchedResults<Log>
     
-    @State var tweetText: String = ""
+    var tweetText: Binding<String> {$store.appState.setting.checker.tweetText}
     @State var isShowToast: Bool = true
     
     
@@ -36,7 +36,7 @@ struct HubView: View {
             ScrollView(.vertical, showsIndicators: false){
                 
                 VStack {
-                    ComposerOfHubView(tweetText: $tweetText)
+                    ComposerOfHubView(tweetText: tweetText)
                         .padding(.top, 16)
                         .padding([.leading, .trailing], 18)
                         .frame(minHeight: 120, idealHeight: UIScreen.main.bounds.height - 600, maxHeight: .infinity)
