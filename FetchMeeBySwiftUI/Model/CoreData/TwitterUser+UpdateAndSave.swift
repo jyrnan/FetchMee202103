@@ -13,8 +13,8 @@ import Combine
 
 
 extension TwitterUser {
- 
-    /// 保存或新建用户功能
+    
+    /// 更新或新建用户功能
     /// - Parameters:
     ///   - user: 用户基本信息
     ///   - viewContext: moc
@@ -22,9 +22,26 @@ extension TwitterUser {
     ///   - updateNickName: 是否需要更新当前用户的NickName
     /// - Returns: 返回当前用户
     @discardableResult
-    static func updateOrSaveToCoreData(from user: JSON, in viewContext: NSManagedObjectContext, isLocalUser: Bool = false, updateNickName: String? = nil) -> TwitterUser {
+    static func updateOrSaveToCoreData(from user: JSON,
+                                       in viewContext: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext ,
+                                       isLocalUser: Bool = false,
+                                       updateNickName: String? = nil) -> TwitterUser {
         
-       
+        func updateTwitterUser(_ currentUser: TwitterUser, with user:JSON) {
+            ///设置TwitterUser
+            currentUser.createdAt = Date()
+            
+            currentUser.userIDString = user["id_str"].string!
+            currentUser.name = user["name"].string!
+            currentUser.screenName = user["screen_name"].string!
+            
+            currentUser.avatar = user["profile_image_url_https"].string!
+            
+            currentUser.following = Int32(user["friends_count"].integer ?? 0)
+            currentUser.followed = Int32(user["followers_count"].integer ?? 0)
+            currentUser.isFollowing = user["following"].bool ?? true
+        }
+        
         var currentUser: TwitterUser
         
         let userFetch: NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
@@ -39,26 +56,19 @@ extension TwitterUser {
         
         if results.count > 0 {
             currentUser = results.removeFirst()
-            
             if !results.isEmpty { results.forEach{viewContext.delete($0)}}
-        } else {currentUser = TwitterUser(context: viewContext)}
+        } else {currentUser = TwitterUser(context: viewContext)
+        }
         
-        currentUser.createdAt = Date()
-        
-        currentUser.userIDString = user["id_str"].string!
-        currentUser.name = user["name"].string!
-        currentUser.screenName = user["screen_name"].string!
+        updateTwitterUser(currentUser, with: user)
+       
         
         ///如果是本地用户更新信息，则不需要改nickName
         ///如果需要更改nickName，则需要传入更改参数
         if let nickName = updateNickName {
-            currentUser.nickName = nickName}
-        
-        currentUser.avatar = user["profile_image_url_https"].string!
-        
-        currentUser.following = Int32(user["friends_count"].integer ?? 0)
-        currentUser.followed = Int32(user["followers_count"].integer ?? 0)
-        currentUser.isFollowing = user["following"].bool ?? true
+            currentUser.nickName = nickName
+            currentUser.isFavorite = true
+        }
         
         ///如果是当前用户，则统计推文数量等动态信息
         ///如果是当前登陆用户则将isLoginUser和isLoacluser两项均设置成true
@@ -81,16 +91,16 @@ extension TwitterUser {
         if updateNickName?.count == 0 && currentUser.isLocalUser == false {
             viewContext.delete(currentUser)
         }
+        
         do {
             try viewContext.save()
-            
         }catch {
             let nsError = error as NSError
             print(nsError.description)
-           
         }
-        
         
         return currentUser
     }
+    
+    
 }

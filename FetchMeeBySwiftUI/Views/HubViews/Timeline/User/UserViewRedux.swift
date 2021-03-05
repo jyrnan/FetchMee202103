@@ -40,6 +40,8 @@ struct UserViewRedux: View {
         userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.createdAt, ascending: true)]
         userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), userIDString)
         _twitterUsers = FetchRequest(fetchRequest: userFetch)
+        
+        
     }
     
     ///自定义返回按钮的范例
@@ -64,8 +66,7 @@ struct UserViewRedux: View {
             List {
                 ZStack{
                     VStack{
-                        KFImage(URL(string: user.bannerUrlString ?? "ok")!)
-                            
+                        KFImage(URL(string: user.bannerUrlString ?? "ok")!).placeholder{Image("bg")}
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(
@@ -222,9 +223,8 @@ struct UserViewRedux: View {
         
             .navigationTitle(user.name ?? "Name")
         .onAppear(){
-            if userTimeline.tweetIDStrings.isEmpty {
-//                userTimeline.refreshFromTop(for: userIDString)
-            }
+            let user = UserInfo(id: userIDString)
+            store.dipatch(.userRequest(user: user, isLoginUser: false))
         }
     }
 }

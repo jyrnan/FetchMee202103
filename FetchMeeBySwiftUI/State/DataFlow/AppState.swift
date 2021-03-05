@@ -26,6 +26,22 @@ extension AppState {
             var isWarning: Bool = false
         }
         
+        class TweetTextChecker {
+            @Published var tweetText = "input here"
+            var autoMap: AnyPublisher<String, Never> {
+                $tweetText
+//                    .debounce(
+//                        for: .milliseconds(500),
+//                        scheduler: DispatchQueue.main
+//                    )
+//                    .removeDuplicates()
+//                    .map{text in
+//                        String(text.split(separator: " ").last ?? "")
+//                    }
+                    .eraseToAnyPublisher()
+            }
+        }
+       
         var alert = Alert()
         
         var isProcessingDone: Bool = true
@@ -41,6 +57,8 @@ extension AppState {
         var loginError: AppError?
         
         var lists: [String: String] = [:] //前面是ID，后面是name
+        
+        var checker = TweetTextChecker()
     }
 }
 

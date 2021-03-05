@@ -8,13 +8,14 @@
 
 import SwiftUI
 import CoreData
+import Combine
 
 struct Composer: View {
     @EnvironmentObject var store: Store
     
     @Environment(\.managedObjectContext) var viewContext
     
-    @State var tweetText: String = ""
+    var tweetTextBinding: Binding<String> {$store.appState.setting.checker.tweetText}
     
     @State var isShowCMV: Bool = false  //是否显示详细新推文视图
     
@@ -26,13 +27,13 @@ struct Composer: View {
     
     var body: some View {
         HStack(alignment: .center) {
-            TextField(placeHolderText, text: $tweetText).font(.body)
+            TextField(placeHolderText, text: tweetTextBinding).font(.body)
             Spacer()
             ///显示详细发推视图或者菊花
             if isProcessingDone {
                 ZStack{
                 NavigationLink(
-                    destination: ComposerOfHubView(tweetText: self.$tweetText, replyIDString: self.tweetIDString, isUsedAlone: true ),
+                    destination: ComposerOfHubView(tweetText: tweetTextBinding, replyIDString: self.tweetIDString, isUsedAlone: true ),
                     isActive: $isShowCMV
                 ){EmptyView().disabled(true)}.opacity(0.1).disabled(true)
                     Text("more").font(.body).foregroundColor(.primary).opacity(0.7)
@@ -47,8 +48,8 @@ struct Composer: View {
             
             Button(action: {
                 isProcessingDone = false
-                store.swifter.postTweet(status: self.tweetText, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
-                    self.tweetText = ""
+                store.swifter.postTweet(status: tweetTextBinding.wrappedValue, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
+                    tweetTextBinding.wrappedValue = ""
                     store.dipatch(.alertOn(text: tweetIDString == nil ? "Tweet sent!" : "Reply sent", isWarning: false))
                     if tweetIDString != nil {
                         withAnimation{
@@ -60,8 +61,8 @@ struct Composer: View {
             },
             label: {
                 Image(systemName: "plus.message.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 20, height: 20, alignment: .center)
-                    .foregroundColor(self.tweetText == "" ? Color.primary.opacity(0.3) : Color.primary.opacity(0.8) )
-            }).disabled(tweetText == "").buttonStyle(PlainButtonStyle())
+                    .foregroundColor(tweetTextBinding.wrappedValue == "" ? Color.primary.opacity(0.3) : Color.primary.opacity(0.8) )
+            }).disabled(tweetTextBinding.wrappedValue == "").buttonStyle(PlainButtonStyle())
             
         }
     }

@@ -45,14 +45,16 @@ struct ComposerOfHubView: View {
     
     var isUsedAlone: Bool = false //用来区分这个推文发送视图是单独用还是在hubView使用
     
+    @State var indicateText: String = "Tweet something below..."
+    
     var body: some View {
         VStack{
             
             VStack {
                 
                 HStack {
-                    Text("Tweet something below...").font(.caption)
-                        .foregroundColor(self.tweetText == "" ? .gray : .clear)
+                    Text(indicateText).font(.caption)
+                        .foregroundColor(self.tweetText == "" ? .gray : .accentColor)
                         .padding(.leading)
                     Spacer()
                     if self.isTweetSentDone {
@@ -60,7 +62,9 @@ struct ComposerOfHubView: View {
                     } else {
                         ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium).padding(.trailing).frame(width: 12, height: 12, alignment: .center)
                     }
-                }.padding(.top, 8)
+                }
+                .padding(.top, 8)
+                .onReceive(store.appState.setting.checker.autoMap, perform: {indicateText = $0})
                 
                 TextEditor(text: self.$tweetText)
 //                CustomTextEditor(text: self.$tweetText, isFirstResponder: user.myInfo.setting.isFirsResponder)

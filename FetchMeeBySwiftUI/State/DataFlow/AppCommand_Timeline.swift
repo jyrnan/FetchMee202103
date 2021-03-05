@@ -41,8 +41,9 @@ struct FetchTimelineCommand: AppCommand {
             newTweets.forEach{
                 addDataToRepository($0)
                 guard self.timelineType == .mention else {return}
+                TwitterUser.updateOrSaveToCoreData(from: $0["user"])
                 if store.appState.setting.loginUser?.setting.isIronFansShowed == true {
-                    addMentionToCount(mention: $0, to: &mentionUserData) }
+                    countMentionUser(mention: $0, to: &mentionUserData) }
             }
             
             
@@ -121,23 +122,14 @@ extension FetchTimelineCommand {
     
     /// 收集Mention用户信息，包括用户ID和mention的ID
     /// - Parameter mention: Mention的data
-    func addMentionToCount(mention:JSON, to mentionUserData: inout [UserInfo.MentionUser]?) {
+    func countMentionUser(mention:JSON, to mentionUserData: inout [UserInfo.MentionUser]?) {
         guard let userIDString = mention["user"]["id_str"].string else {return}
         let mentionIDString = mention["id_str"].string!
         let avatarUrlString = mention["user"]["profile_image_url_https"].string!
         
         if let index = mentionUserData?.firstIndex(where: {$0.id == userIDString}) {
             mentionUserData?[index].mentionsIDs.insert(mentionIDString)
-            
-//        if mentionUserData?[userIDString] == nil {
-//
-//            ///把avatar地址加入到数组的第一个，供后续读取来获取avatar image
-//            mentionUserData?[userIDString] = [avatarUrlString, mentionIDString]
-//        } else {
-//            ///如果该用户存在，且该推文是该用户新回复，则将推文ID添加至尾端
-//            if mentionUserData?[userIDString]?.contains(mentionIDString ) == false {
-//                mentionUserData?[userIDString]?.append(mentionIDString)
-//            }
+
         } else {
             let mentionUser = UserInfo.MentionUser(id: userIDString,
                                                    avatarUrlString: avatarUrlString,

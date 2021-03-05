@@ -49,8 +49,6 @@ struct AvatarView: View {
                             isShowAlert = true
                         }
                         .onTapGesture {
-                            let user = UserInfo(id: userIDString)
-                            store.dipatch(.userRequest(user: user, isLoginUser: false))
                             presentedUserInfo = true
                         }
                         .alert(isPresented: $isShowAlert, content: {
@@ -58,14 +56,17 @@ struct AvatarView: View {
                         })
                 ///显示头像补充图标
                 ///如果该用户nickName不为空，则显示星标
-                if checkFavoriteUser() {
-                    FavoriteStarMarkView()
+                if checkMarkedUser() {
+                    FavoriteStarMarkView(isFavoriteUser: checkFavoriteUser())
                 }
             }.frame(width: width, height: height, alignment: .center)
                }
+    func checkMarkedUser() -> Bool {
+        return twitterUsers.map{$0.userIDString}.contains(userIDString)
+    }
     
     func checkFavoriteUser() -> Bool {
-        return twitterUsers.map{$0.userIDString}.contains(userIDString)
+        return twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName != nil
     }
 }
 
