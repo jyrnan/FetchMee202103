@@ -13,9 +13,6 @@ class StatusTextViewModel: ObservableObject {
     var status: JSON
     var attributedText: NSMutableAttributedString!
     
-//    @FileStorage(directory: .documentDirectory, fileName: "user.json")
-//    var loginUser: UserInfo?
-    
     var themeColor: UIColor = .gray
 //    { UIColor((loginUser?.setting.themeColor.color)!)}
     //

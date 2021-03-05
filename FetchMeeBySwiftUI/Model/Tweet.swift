@@ -11,7 +11,7 @@ import SwiftUI
 import Swifter
 import Combine
 
-struct TweetMedia: Identifiable {
+struct Tweet: Identifiable {
     var id: String
     
     var retweeted_by_IDString: String?  //存储retweet本推文的推文ID

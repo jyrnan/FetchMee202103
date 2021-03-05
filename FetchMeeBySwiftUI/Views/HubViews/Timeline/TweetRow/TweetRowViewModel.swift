@@ -11,6 +11,8 @@ import Swifter
 import SwiftUI
 
 class TweetRowViewModel: ObservableObject{
+    static var count: Int = 0
+    
     //MARK:- Properties
     
     ///MVVM
@@ -34,6 +36,11 @@ class TweetRowViewModel: ObservableObject{
     var statusTextView: NSAttributedStringView?
     
     let isQuotedTweetRowViewModel: Bool
+    
+    deinit {
+        Self.count -= 1
+//        print(#line, #function, "TweetRowViewModel deinited. \(Self.count) still left")
+    }
 
     //MARK:- Methods
     init(tweetIDString: String, width: CGFloat, isQuoteded:Bool = false) {
@@ -45,6 +52,8 @@ class TweetRowViewModel: ObservableObject{
         self.isQuotedTweetRowViewModel = isQuoteded
 
         makeViews()
+        
+        Self.count += 1
             }
     
   

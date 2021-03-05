@@ -14,11 +14,11 @@ import KingfisherSwiftUI
 struct AvatarImageView: View {
     
     var imageUrl: String?
-    var placeHolder:Image = Image(systemName: "person")
+    var placeHolder:Image = Image("defaultImage")
     
     
     var body: some View {
-        KFImage(URL(string: imageUrl ?? ""))
+        KFImage(URL(string: imageUrl ?? "")).placeholder{placeHolder}
             .resizable()
             .aspectRatio(contentMode: .fill)
             .clipShape(Circle())

@@ -25,27 +25,24 @@ struct AvatarView: View {
     var width: CGFloat
     var height: CGFloat
     
-    @State var user: JSON?
-//    {UserRepository.shared.users[userIDString]}
+    var user: JSON? {UserRepository.shared.users[userIDString]}
     
-    func userHandler(user: JSON) {
-        self.user = user
-    }
     
+    
+    var imageUrl:String? {user?["profile_image_url_https"].string}
     
     init(userIDString: String, width:CGFloat = 64, height: CGFloat = 64) {
-        
+
         self.userIDString  = userIDString
         self.width = width
         self.height = height
-        
-    }
+        }
     
     var body: some View {
             ZStack {
                 NavigationLink(destination: UserViewRedux(userIDString: userIDString),
                                isActive: $presentedUserInfo, label:{EmptyView()} ).disabled(true)
-                AvatarImageView(imageUrl: user?["profile_image_url_https"].string )
+                AvatarImageView(imageUrl: imageUrl )
                         .frame(width: width, height: height, alignment: .center)
                         .onTapGesture(count: 2){
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
@@ -65,10 +62,7 @@ struct AvatarView: View {
                     FavoriteStarMarkView()
                 }
             }.frame(width: width, height: height, alignment: .center)
-            .onAppear{
-                UserRepository.shared.getUser(userID: userIDString, compeletHandler: self.userHandler(user: ))
-            }
-    }
+               }
     
     func checkFavoriteUser() -> Bool {
         return twitterUsers.map{$0.userIDString}.contains(userIDString)
