@@ -20,15 +20,16 @@ struct AutoCompleteVIew: View {
             .map{$0.screenName!}
     }
     
-    var tags2: [String] {
-        Array((store.appState.timelineData.hashTags ?? [])!)
-            .filter{$0.starts(with: String(autoCompletText.dropFirst()))}
-            .map{"#" + $0}
+    var tags: [String] {
+        Array((store.appState.setting.tweetTags ?? [])!)
+            .sorted{$0.priority > $1.priority}
+            .filter{$0.text.starts(with: String(autoCompletText.dropFirst()))}
+            .map{"#" + $0.text}
     }
     
     
     var autoCompletText: String
-    var namesOrtags: [String] {autoCompletText.first == "@" ? screenNames : tags2}
+    var namesOrtags: [String] {autoCompletText.first == "@" ? screenNames : tags}
     
     var body: some View {
         ScrollView (.horizontal, showsIndicators: false){

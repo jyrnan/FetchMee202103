@@ -24,7 +24,7 @@ struct FetchTimelineCommand: AppCommand {
     
     func execute(in store: Store) {
         let swifter = store.swifter
-        var hashTagSet = store.appState.timelineData.hashTags ?? Set<String>()
+        var tweetTags = store.appState.setting.tweetTags ?? Set<AppState.Setting.TweetTag>()
 
         
         var sinceIDString: String? {updateMode == .top ? timeline.tweetIDStrings.first : nil }
@@ -42,7 +42,10 @@ struct FetchTimelineCommand: AppCommand {
             
             newTweets.forEach{
                 addDataToRepository($0)
-                saveHashTagToCoreData(status: $0, hashTagSet: &hashTagSet)
+                
+                let isPriority:Bool = ($0["user"]["id_str"].string == store.appState.setting.loginUser?.id)
+                saveTweetTag(status: $0,isPriority: isPriority, tweetTags: &tweetTags)
+                
                 guard self.timelineType == .mention else {return}
                 TwitterUser.updateOrSaveToCoreData(from: $0["user"])
                 if store.appState.setting.loginUser?.setting.isIronFansShowed == true {
@@ -57,7 +60,7 @@ struct FetchTimelineCommand: AppCommand {
                 timelineWillUpdate.tweetIDStrings = updateTimelineBottom(tweetIDStrings: timeline.tweetIDStrings, with: newTweets)
             }
             
-            store.dipatch(.fetchTimelineDone(timeline: timelineWillUpdate, mentionUserData: mentionUserData, hashTags: hashTagSet))
+            store.dipatch(.fetchTimelineDone(timeline: timelineWillUpdate, mentionUserData: mentionUserData, tweetTags: tweetTags))
         }
         
         func failureHandler(_ error: Error) -> Void {
@@ -143,11 +146,13 @@ extension FetchTimelineCommand {
     
     /// 保存推文中的tag到coredata
     /// - Parameter status: 推文JSON数据
-    func saveHashTagToCoreData(status:JSON, hashTagSet: inout Set<String>) {
-        guard let hashTags = status["entities"]["hashtags"].array, !hashTags.isEmpty else {return }
-        let _ = hashTags.forEach{
-            if let tag = $0["text"].string {
-                hashTagSet.insert(tag)
+    func saveTweetTag(status:JSON, isPriority: Bool, tweetTags: inout Set<AppState.Setting.TweetTag>) {
+        guard let tags = status["entities"]["hashtags"].array, !tags.isEmpty else {return }
+        let _ = tags.forEach{
+            
+            if let text = $0["text"].string {
+                let tweetTag = AppState.Setting.TweetTag(priority:isPriority ? 1 : 0, text: text)
+                tweetTags.insert(tweetTag)
             }
         }
     }

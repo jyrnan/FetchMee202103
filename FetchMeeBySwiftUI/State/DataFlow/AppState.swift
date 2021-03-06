@@ -47,6 +47,11 @@ extension AppState {
                     .eraseToAnyPublisher()
             }
         }
+        
+        struct TweetTag: Equatable,Hashable,Codable {
+            var priority: Int = 0
+            let text: String
+        }
        
         var alert = Alert()
         
@@ -65,6 +70,8 @@ extension AppState {
         var lists: [String: String] = [:] //前面是ID，后面是name
         
         var checker = TweetTextChecker()
+        @FileStorage(directory: .documentDirectory, fileName: "hashTags.json")
+        var tweetTags: Set<AppState.Setting.TweetTag>?
     }
 }
 
@@ -88,8 +95,7 @@ extension AppState {
         
         var mentionUserData: [UserInfo.MentionUser]? = []
         
-        @FileStorage(directory: .documentDirectory, fileName: "hashTags.json")
-        var hashTags: Set<String>?
+        
     }
     
 }
