@@ -33,7 +33,7 @@ enum AppAction {
     
     
     case fetchTimeline(timelineType: TimelineType, mode:FetchTimelineCommand.UpdateMode)
-    case fetchTimelineDone(timeline: AppState.TimelineData.Timeline, mentionUserData: [UserInfo.MentionUser]? = nil)
+    case fetchTimelineDone(timeline: AppState.TimelineData.Timeline, mentionUserData: [UserInfo.MentionUser]? = nil, hashTags: Set<String>)
     
     case fetchSession(tweetIDString: String)
     case fetchSessionDone(timeline: AppState.TimelineData.Timeline )

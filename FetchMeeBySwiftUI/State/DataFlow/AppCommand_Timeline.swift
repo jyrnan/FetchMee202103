@@ -24,6 +24,8 @@ struct FetchTimelineCommand: AppCommand {
     
     func execute(in store: Store) {
         let swifter = store.swifter
+        var hashTagSet = store.appState.timelineData.hashTags ?? Set<String>()
+
         
         var sinceIDString: String? {updateMode == .top ? timeline.tweetIDStrings.first : nil }
         var maxIDString: String? {updateMode == .bottom ? timeline.tweetIDStrings.last : nil}
@@ -40,6 +42,7 @@ struct FetchTimelineCommand: AppCommand {
             
             newTweets.forEach{
                 addDataToRepository($0)
+                saveHashTagToCoreData(status: $0, hashTagSet: &hashTagSet)
                 guard self.timelineType == .mention else {return}
                 TwitterUser.updateOrSaveToCoreData(from: $0["user"])
                 if store.appState.setting.loginUser?.setting.isIronFansShowed == true {
@@ -54,7 +57,7 @@ struct FetchTimelineCommand: AppCommand {
                 timelineWillUpdate.tweetIDStrings = updateTimelineBottom(tweetIDStrings: timeline.tweetIDStrings, with: newTweets)
             }
             
-            store.dipatch(.fetchTimelineDone(timeline: timelineWillUpdate, mentionUserData: mentionUserData))
+            store.dipatch(.fetchTimelineDone(timeline: timelineWillUpdate, mentionUserData: mentionUserData, hashTags: hashTagSet))
         }
         
         func failureHandler(_ error: Error) -> Void {
@@ -135,6 +138,17 @@ extension FetchTimelineCommand {
                                                    avatarUrlString: avatarUrlString,
                                                    mentionsIDs: Set<String>(arrayLiteral: mentionIDString))
             mentionUserData?.append(mentionUser)
+        }
+    }
+    
+    /// 保存推文中的tag到coredata
+    /// - Parameter status: 推文JSON数据
+    func saveHashTagToCoreData(status:JSON, hashTagSet: inout Set<String>) {
+        guard let hashTags = status["entities"]["hashtags"].array, !hashTags.isEmpty else {return }
+        let _ = hashTags.forEach{
+            if let tag = $0["text"].string {
+                hashTagSet.insert(tag)
+            }
         }
     }
 }

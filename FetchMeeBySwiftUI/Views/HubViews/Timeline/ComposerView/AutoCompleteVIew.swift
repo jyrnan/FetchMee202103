@@ -20,21 +20,27 @@ struct AutoCompleteVIew: View {
             .map{$0.screenName!}
     }
     
+    var tags2: [String] {
+        Array((store.appState.timelineData.hashTags ?? [])!)
+            .filter{$0.starts(with: String(autoCompletText.dropFirst()))}
+            .map{"#" + $0}
+    }
     
     
     var autoCompletText: String
+    var namesOrtags: [String] {autoCompletText.first == "@" ? screenNames : tags2}
     
     var body: some View {
         ScrollView (.horizontal, showsIndicators: false){
             HStack {
-                ForEach(screenNames, id: \.self) {screenName in
-                Text("@" + screenName).foregroundColor(.white)
+                ForEach(namesOrtags, id: \.self) {nameOrtag in
+                    Text(nameOrtag).foregroundColor(.white)
                     .font(.caption)
                     .padding(2)
                     .background(Color.accentColor)
                     .cornerRadius(8)
                     .onTapGesture {
-                        store.dipatch(.autoComplete(text: "@" + screenName))
+                        store.dipatch(.autoComplete(text: nameOrtag))
                     }
             }
             }

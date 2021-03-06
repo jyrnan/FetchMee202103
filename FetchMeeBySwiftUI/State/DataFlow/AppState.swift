@@ -87,6 +87,9 @@ extension AppState {
         var requestedUser: UserInfo = UserInfo()
         
         var mentionUserData: [UserInfo.MentionUser]? = []
+        
+        @FileStorage(directory: .documentDirectory, fileName: "hashTags.json")
+        var hashTags: Set<String>?
     }
     
 }
