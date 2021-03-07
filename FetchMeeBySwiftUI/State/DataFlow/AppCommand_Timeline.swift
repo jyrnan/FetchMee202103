@@ -148,9 +148,11 @@ extension FetchTimelineCommand {
     /// - Parameter status: 推文JSON数据
     func saveTweetTag(status:JSON, isPriority: Bool, tweetTags: inout Set<AppState.Setting.TweetTag>) {
         guard let tags = status["entities"]["hashtags"].array, !tags.isEmpty else {return }
-        let _ = tags.forEach{
-            
-            if let text = $0["text"].string {
+        let tweetTagTexts = tweetTags.map{$0.text}
+        let _ = tags.forEach{tagJSON in
+            if let text = tagJSON["text"].string {
+                guard !tweetTagTexts.contains(text) else {return}
+           
                 let tweetTag = AppState.Setting.TweetTag(priority:isPriority ? 1 : 0, text: text)
                 tweetTags.insert(tweetTag)
             }

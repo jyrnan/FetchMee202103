@@ -17,7 +17,7 @@ struct AutoCompleteVIew: View {
     
     var screenNames: [String] {
         twitterUsers.filter{($0.screenName?.starts(with: String(autoCompletText.dropFirst())))!}
-            .map{$0.screenName!}
+            .map{"@" + $0.screenName!}
     }
     
     var tags: [String] {
