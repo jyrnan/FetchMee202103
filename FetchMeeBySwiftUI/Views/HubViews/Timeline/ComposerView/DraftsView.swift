@@ -33,7 +33,7 @@ struct DraftsViewCoreData: View {
                             self.presentationMode.wrappedValue.dismiss()
                         })
                     
-                    Text(draft.user?.name ?? "NoName")
+//                    Text(draft.user?.name ?? "NoName").frame(width: 100)
                 }
             }.onDelete(perform: { indexSet in
                 deleteDrafts(offsets: indexSet)

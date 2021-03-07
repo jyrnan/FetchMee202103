@@ -26,9 +26,9 @@ struct UserMarkManageView: View {
                 NavigationLink(
                     destination: UserViewRedux(userIDString: user.userIDString!)) {
                 HStack {
-                    Text(user.nickName ?? "").frame(width: 100, alignment: .leading)
-                    Text(user.name ?? "Name").bold().frame(width: 120, alignment: .leading)
-                    Text(user.userIDString ?? "0123456789").lineLimit(1).frame(alignment: .leading).foregroundColor(.gray)
+                    Text(user.nickName ?? "").frame(width: 80, alignment: .leading)
+                    Text(user.name ?? "Name").bold().lineLimit(1).frame(width: 120, alignment: .leading)
+                    Text("@" + (user.screenName ?? "screenName")).lineLimit(1).frame(alignment: .leading).foregroundColor(.gray)
                         .onTapGesture {
                             let user = UserInfo(id: user.userIDString!)
                             store.dipatch(.userRequest(user: user, isLoginUser: false))

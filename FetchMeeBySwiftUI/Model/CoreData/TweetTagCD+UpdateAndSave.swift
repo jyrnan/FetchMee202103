@@ -22,7 +22,8 @@ extension TweetTagCD {
             tag = TweetTagCD(context: viewContext)
         }
         
-//        let tag = TweetTagCD(context: viewContext)
+        tag.id = UUID()
+        tag.createdAt = Date()
         tag.text = text
         tag.priority += Int16(priority)
         

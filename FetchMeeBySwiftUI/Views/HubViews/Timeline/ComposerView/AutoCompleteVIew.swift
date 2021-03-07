@@ -14,7 +14,8 @@ struct AutoCompleteVIew: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetTagCD.priority, ascending: false)]) var tweetTags: FetchedResults<TweetTagCD>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetTagCD.priority, ascending: false),
+                                    NSSortDescriptor(keyPath: \TweetTagCD.createdAt, ascending: false)]) var tweetTags: FetchedResults<TweetTagCD>
     
     var screenNames: [String] {
         twitterUsers.filter{($0.screenName?.starts(with: String(autoCompletText.dropFirst())))!}
@@ -47,6 +48,9 @@ struct AutoCompleteVIew: View {
                     .cornerRadius(8)
                     .onTapGesture {
                         store.dipatch(.autoComplete(text: nameOrtag))
+                        guard nameOrtag.starts(with: "#") else {return}
+                        let tagText = String(nameOrtag.dropFirst())
+                        TweetTagCD.saveTag(text: tagText, priority: 1)
                     }
             }
             }

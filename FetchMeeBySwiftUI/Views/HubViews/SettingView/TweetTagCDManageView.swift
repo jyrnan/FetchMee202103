@@ -13,13 +13,19 @@ struct TweetTagCDManageView: View {
     @EnvironmentObject var store: Store
     
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetTagCD.priority, ascending: false)]) var tweetTags: FetchedResults<TweetTagCD>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetTagCD.priority, ascending: false),
+                                    NSSortDescriptor(keyPath: \TweetTagCD.createdAt, ascending: false)]) var tweetTags: FetchedResults<TweetTagCD>
     
     var body: some View {
         List{
             ForEach(tweetTags, id: \.self) {tag in
+                HStack{
                 Text(tag.text ?? "")
-            }
+                    Spacer()
+                    Text(String(tag.priority))
+                }
+            }.onDelete(perform: { indexSet in
+                        deleteTags(offsets: indexSet)})
         }
         .navigationTitle("TweetTags")
         .navigationBarItems(trailing: Button(action: {deleteAll()}, label: {Text("Clear")}))
@@ -43,4 +49,16 @@ extension TweetTagCDManageView {
             print(nsError.description)
     }
 }
+    
+    private func deleteTags(offsets: IndexSet) {
+        offsets.map{ tweetTags[$0]}.forEach(viewContext.delete)
+        
+        do {
+            try viewContext.save()
+        }catch {
+            let nsError = error as NSError
+            print(nsError.description)
+//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
 }

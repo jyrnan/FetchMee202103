@@ -34,16 +34,18 @@ extension AppState {
                         for: .milliseconds(500),
                         scheduler: DispatchQueue.main
                     )
-                    .removeDuplicates()
-                    .map{text in
-                        let output = String(text.split(separator: " ").flatMap{$0.split(separator: "\n")}.last ?? "no")
-                        if output.starts(with: "@") || output.starts(with: "#") {
-                            return output
-                        } else {
+                    
+                    .compactMap{text in
+                        if text == "" || text.last == " " || text.last == "\n"{
                             return "no"
-                        }
-                        
-                    }
+                        } else if let output = text.split(separator: " ").flatMap({$0.split(separator: "\n")}).last,
+                                  (output.starts(with: "@") || output.starts(with: "#"))
+                              { return String(output)
+                              }else {
+                                return nil
+                            }
+                                            }
+                    .removeDuplicates()
                     .eraseToAnyPublisher()
             }
         }
