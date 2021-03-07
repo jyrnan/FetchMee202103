@@ -78,13 +78,13 @@ struct SettingView: View {
             Section(header:Text("")){
                 HStack {
                     Spacer()
-                    Button("Login out"){
+                    Button("Sign Out"){
                         self.isPresentedAlert = true
                     }
                     .font(.headline)
                     .foregroundColor(.white)
                     .alert(isPresented: self.$isPresentedAlert) {
-                        Alert(title: Text("Login Out?"), message: nil, primaryButton: .default(Text("Logout"), action: {self.logOut()}), secondaryButton: .cancel())}
+                        Alert(title: Text("Sign Out?"), message: nil, primaryButton: .default(Text("Sign Out"), action: {self.logOut()}), secondaryButton: .cancel())}
                     Spacer()
                 }.listRowBackground(Color.accentColor)
                 HStack {

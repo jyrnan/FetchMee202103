@@ -21,7 +21,8 @@ struct TweetTagCDManageView: View {
                 Text(tag.text ?? "")
             }
         }
-        
+        .navigationTitle("TweetTags")
+        .navigationBarItems(trailing: Button(action: {deleteAll()}, label: {Text("Clear")}))
     }
 }
 
@@ -29,4 +30,17 @@ struct TweetTagCDManageView_Previews: PreviewProvider {
     static var previews: some View {
         TweetTagCDManageView()
     }
+}
+
+extension TweetTagCDManageView {
+    private func deleteAll() {
+        tweetTags.forEach{viewContext.delete($0)}
+        
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            print(nsError.description)
+    }
+}
 }

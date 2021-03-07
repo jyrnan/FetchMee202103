@@ -70,7 +70,7 @@ extension AppState {
         var lists: [String: String] = [:] //前面是ID，后面是name
         
         var checker = TweetTextChecker()
-        @FileStorage(directory: .documentDirectory, fileName: "hashTags.json")
+//        @FileStorage(directory: .documentDirectory, fileName: "hashTags.json")
         var tweetTags: Set<AppState.Setting.TweetTag>?
     }
 }

@@ -14,22 +14,27 @@ struct AutoCompleteVIew: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetTagCD.priority, ascending: false)]) var tweetTags: FetchedResults<TweetTagCD>
     
     var screenNames: [String] {
         twitterUsers.filter{($0.screenName?.starts(with: String(autoCompletText.dropFirst())))!}
             .map{"@" + $0.screenName!}
     }
     
-    var tags: [String] {
-        Array((store.appState.setting.tweetTags ?? [])!)
-            .sorted{$0.priority > $1.priority}
-            .filter{$0.text.starts(with: String(autoCompletText.dropFirst()))}
-            .map{"#" + $0.text}
+//    var tags: [String] {
+//        Array((store.appState.setting.tweetTags ?? [])!)
+//            .sorted{$0.priority > $1.priority}
+//            .filter{$0.text.starts(with: String(autoCompletText.dropFirst()))}
+//            .map{"#" + $0.text}
+//    }
+    
+    var tagsCD: [String] {
+        tweetTags.filter{($0.text?.starts(with: String(autoCompletText.dropFirst())))!}
+            .map{"#" + $0.text!}
     }
     
-    
     var autoCompletText: String
-    var namesOrtags: [String] {autoCompletText.first == "@" ? screenNames : tags}
+    var namesOrtags: [String] {autoCompletText.first == "@" ? screenNames : tagsCD}
     
     var body: some View {
         ScrollView (.horizontal, showsIndicators: false){

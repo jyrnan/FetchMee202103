@@ -35,14 +35,22 @@ struct TimelineViewRedux: View {
 //                Homeline部分章节
                 ZStack{
                     RoundedCorners(color: Color.init("BackGround"), tl: 24, tr: 24, bl: 0, br: 0)
-                        .frame(height: 60)
+                        .frame(height: 44)
                         .foregroundColor(Color.init("BackGround"))
 
                     PullToRefreshView(action: refreshAll, isDone: self.isProcessingDone) {
-                        Composer(isProcessingDone: isProcessingDone)
+//                        Composer(isProcessingDone: isProcessingDone)
+                       Spacer()
                     }
                     .frame(height: 36)
                     .padding(.horizontal, 16)
+                    
+                    HStack {
+                    Spacer()
+                        if !store.appState.setting.isProcessingDone {
+                            ActivityIndicator(isAnimating: $store.appState.setting.isProcessingDone, style: .medium).frame(width: 12, height: 12, alignment: .center).padding(.trailing, 16)
+                        }
+                    }
                 }
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 

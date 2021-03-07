@@ -12,7 +12,17 @@ import CoreData
 extension TweetTagCD {
     static func saveTag(text: String, priority: Int, to viewContext: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext) {
         
-        let tag = TweetTagCD()
+        let tagFetch: NSFetchRequest<TweetTagCD> = TweetTagCD.fetchRequest()
+        tagFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TweetTagCD.text), text)
+        var tag: TweetTagCD
+        
+        if let result = try? viewContext.fetch(tagFetch).first {
+            tag = result
+        } else {
+            tag = TweetTagCD(context: viewContext)
+        }
+        
+//        let tag = TweetTagCD(context: viewContext)
         tag.text = text
         tag.priority += Int16(priority)
         

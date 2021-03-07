@@ -277,7 +277,6 @@
 				D27744E4253B14DD0062B25C /* BackOfTweetsToolBar.swift */,
 				4B68D5A7253940FC00A17AED /* BackOfToolsToolBar.swift */,
 				D2D5A937257E2BDE000A9C8B /* FriendToolBar */,
-				4B68D5A52539131800A17AED /* LogMessageView.swift */,
 				D2AE506625564A2800437337 /* LogMessageSmallView.swift */,
 			);
 			path = ToolBars;
@@ -603,6 +602,7 @@
 				D21F4C4E24DE73C6004B2C20 /* SettingView.swift */,
 				D2BC206A25F4AC6B007882CA /* TweetTagCDManageView.swift */,
 				4B3AD79E253965DB00194B2C /* UserMarkManageView.swift */,
+				4B68D5A52539131800A17AED /* LogMessageView.swift */,
 			);
 			path = SettingView;
 			sourceTree = "<group>";
