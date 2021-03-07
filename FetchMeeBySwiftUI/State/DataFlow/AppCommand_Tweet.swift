@@ -102,3 +102,16 @@ extension Swifter {
         }
     }
 }
+
+
+struct SaveTagCommand: AppCommand {
+    func execute(in store: Store) {
+        let tags = store.appState.setting.tweetTags
+        
+        tags?.forEach{
+            TweetTagCD.saveTag(text: $0.text, priority: $0.priority, to: store.context)
+        }
+    }
+    
+    
+}

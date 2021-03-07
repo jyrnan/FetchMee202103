@@ -68,6 +68,11 @@ struct SettingView: View {
                                              icon:{Image(systemName: "info.circle.fill")
                                                 .foregroundColor(.accentColor)
                                              })})
+                NavigationLink(destination: TweetTagCDManageView(),
+                               label: {Label(title: {Text("Tweet Tags")},
+                                             icon:{Image(systemName: "number.circle.fill")
+                                                .foregroundColor(.accentColor)
+                                             })})
             }
             
             Section(header:Text("")){

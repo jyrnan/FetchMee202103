@@ -102,6 +102,8 @@
 		D2B2560E24E38824009F982E /* videoJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2B2560D24E38824009F982E /* videoJson.txt */; };
 		D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B2560F24E39020009F982E /* VideoPlayView.swift */; };
 		D2BC206625F26A1E007882CA /* AutoCompleteVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BC206525F26A1E007882CA /* AutoCompleteVIew.swift */; };
+		D2BC206825F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BC206725F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift */; };
+		D2BC206B25F4AC6B007882CA /* TweetTagCDManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BC206A25F4AC6B007882CA /* TweetTagCDManageView.swift */; };
 		D2C12CD5254A6A6B00D74778 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C12CD4254A6A6B00D74778 /* UserInfo.swift */; };
 		D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C45BAB24C6D31B007D67B6 /* ContentView.swift */; };
 		D2C4D40324D3D11100395660 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C4D40224D3D11100395660 /* AvatarView.swift */; };
@@ -231,6 +233,8 @@
 		D2B2560D24E38824009F982E /* videoJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = videoJson.txt; sourceTree = "<group>"; };
 		D2B2560F24E39020009F982E /* VideoPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayView.swift; sourceTree = "<group>"; };
 		D2BC206525F26A1E007882CA /* AutoCompleteVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCompleteVIew.swift; sourceTree = "<group>"; };
+		D2BC206725F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTagCD+UpdateAndSave.swift"; sourceTree = "<group>"; };
+		D2BC206A25F4AC6B007882CA /* TweetTagCDManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTagCDManageView.swift; sourceTree = "<group>"; };
 		D2C12CD4254A6A6B00D74778 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		D2C45BAB24C6D31B007D67B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D2C4D40224D3D11100395660 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
@@ -275,7 +279,6 @@
 				D2D5A937257E2BDE000A9C8B /* FriendToolBar */,
 				4B68D5A52539131800A17AED /* LogMessageView.swift */,
 				D2AE506625564A2800437337 /* LogMessageSmallView.swift */,
-				4B3AD79E253965DB00194B2C /* UserMarkManageView.swift */,
 			);
 			path = ToolBars;
 			sourceTree = "<group>";
@@ -316,7 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				4BDB05D62531613B00CF71A1 /* HubView.swift */,
-				D21F4C4E24DE73C6004B2C20 /* SettingView.swift */,
+				D2BC206925F4AC26007882CA /* SettingView */,
 				D2A4D27D25527A0800668650 /* Timeline */,
 			);
 			path = HubViews;
@@ -346,6 +349,7 @@
 				D2905077252C09360065EA83 /* FetchMee.xcdatamodeld */,
 				D286EC31255A2BD500C98195 /* TwitterUser+UpdateAndSave.swift */,
 				D21C3303255A827C001CBBCD /* Counter+Calculate.swift */,
+				D2BC206725F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -593,6 +597,16 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		D2BC206925F4AC26007882CA /* SettingView */ = {
+			isa = PBXGroup;
+			children = (
+				D21F4C4E24DE73C6004B2C20 /* SettingView.swift */,
+				D2BC206A25F4AC6B007882CA /* TweetTagCDManageView.swift */,
+				4B3AD79E253965DB00194B2C /* UserMarkManageView.swift */,
+			);
+			path = SettingView;
+			sourceTree = "<group>";
+		};
 		D2D4879025734C0D005EE4A7 /* PlayButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -750,6 +764,7 @@
 				D2BC206625F26A1E007882CA /* AutoCompleteVIew.swift in Sources */,
 				D2318AA92571E40900F55BDF /* FavoriteStarMarkView.swift in Sources */,
 				D2419C212577666300A9CF98 /* UserRepository.swift in Sources */,
+				D2BC206B25F4AC6B007882CA /* TweetTagCDManageView.swift in Sources */,
 				D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */,
 				D2D4879225734C60005EE4A7 /* PlayButtonViewModel.swift in Sources */,
 				D21C3306255A8356001CBBCD /* FoundationExtensions.swift in Sources */,
@@ -768,6 +783,7 @@
 				D205247424C199500046F1AB /* AlertsModel.swift in Sources */,
 				4BA0161E253AEACB003D1475 /* CountView.swift in Sources */,
 				4B2C746524FA05310052F356 /* DownLoader.swift in Sources */,
+				D2BC206825F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift in Sources */,
 				D282BCA52589902400877B26 /* ComposerButtonView.swift in Sources */,
 				D257D7E9258B30E700DB7F05 /* UIImage+changeColor.swift in Sources */,
 				D730997F24ED6A5F00B57837 /* DraftsView.swift in Sources */,

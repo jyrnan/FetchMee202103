@@ -116,6 +116,7 @@ class Store: ObservableObject {
             appState.timelineData.timelines[timeline.type.rawValue] = timeline
             appState.timelineData.mentionUserData = mentionUserData
             appState.setting.tweetTags = tweetTags
+            appCommand = SaveTagCommand()
             
         case .fetchSession(let tweetIDString):
             appState.setting.isProcessingDone = false
