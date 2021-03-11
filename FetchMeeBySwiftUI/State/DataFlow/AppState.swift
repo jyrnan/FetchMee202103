@@ -72,8 +72,8 @@ extension AppState {
         var lists: [String: String] = [:] //前面是ID，后面是name
         
         var checker = TweetTextChecker()
-//        @FileStorage(directory: .documentDirectory, fileName: "hashTags.json")
-        var tweetTags: Set<AppState.Setting.TweetTag>?
+        
+        var tweetTags: Set<AppState.Setting.TweetTag> = []
     }
 }
 
@@ -95,7 +95,7 @@ extension AppState {
         /// 待查看的用户信息
         var requestedUser: UserInfo = UserInfo()
         
-        var mentionUserData: [UserInfo.MentionUser]? = []
+        var mentionUserData: [UserInfo.MentionUser] = []
         
         
     }

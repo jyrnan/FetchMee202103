@@ -24,7 +24,7 @@ struct FetchTimelineCommand: AppCommand {
     
     func execute(in store: Store) {
         let swifter = store.swifter
-        var tweetTags = store.appState.setting.tweetTags ?? Set<AppState.Setting.TweetTag>()
+        var tweetTags = store.appState.setting.tweetTags
 
         
         var sinceIDString: String? {updateMode == .top ? timeline.tweetIDStrings.first : nil }
@@ -34,7 +34,7 @@ struct FetchTimelineCommand: AppCommand {
         
         func successHandeler(json: JSON) -> Void {
             var timelineWillUpdate = timeline
-            var mentionUserData: [UserInfo.MentionUser]?
+            var mentionUserData: [UserInfo.MentionUser]
                 = store.appState.timelineData.mentionUserData
             
             guard let newTweets = json.array else {return}
@@ -128,19 +128,19 @@ extension FetchTimelineCommand {
     
     /// 收集Mention用户信息，包括用户ID和mention的ID
     /// - Parameter mention: Mention的data
-    func countMentionUser(mention:JSON, to mentionUserData: inout [UserInfo.MentionUser]?) {
+    func countMentionUser(mention:JSON, to mentionUserData: inout [UserInfo.MentionUser]) {
         guard let userIDString = mention["user"]["id_str"].string else {return}
         let mentionIDString = mention["id_str"].string!
         let avatarUrlString = mention["user"]["profile_image_url_https"].string!
         
-        if let index = mentionUserData?.firstIndex(where: {$0.id == userIDString}) {
-            mentionUserData?[index].mentionsIDs.insert(mentionIDString)
+        if let index = mentionUserData.firstIndex(where: {$0.id == userIDString}) {
+            mentionUserData[index].mentionsIDs.insert(mentionIDString)
 
         } else {
             let mentionUser = UserInfo.MentionUser(id: userIDString,
                                                    avatarUrlString: avatarUrlString,
                                                    mentionsIDs: Set<String>(arrayLiteral: mentionIDString))
-            mentionUserData?.append(mentionUser)
+            mentionUserData.append(mentionUser)
         }
     }
     

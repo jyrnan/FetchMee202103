@@ -73,7 +73,8 @@ class RemoteImageFromUrl: ObservableObject {
         guard let url = URL(string: imageUrl) else { return}
         let fileName = url.lastPathComponent ///获取下载文件名用于本地存储
        
-        let cachelUrl = cfh.getPath()
+        let cachelUrl = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+//            cfh.getPath()
         let filePath = cachelUrl.appendingPathComponent(fileName, isDirectory: false)
         
         ///先尝试获取本地缓存文件

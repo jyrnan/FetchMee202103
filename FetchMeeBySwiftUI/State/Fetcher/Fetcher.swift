@@ -68,7 +68,8 @@ struct FetcherSw: Fetcher {
             
         }
         
-        func errorHandler(error: Error) -> AppError {return AppError.netwokingFailed(error)}
+        func errorHandler(error: Error) -> AppError {
+            return AppError.netwokingFailed(error)}
         
         let publisher = sessionOperatePublisher(updateMode: updateMode, timeline: timeline)
             .map(JSONHandler(json:))
