@@ -194,3 +194,18 @@ extension AppState.TimelineData {
     }
 }
 
+extension AppState.TimelineData.Timeline {
+    mutating func updateTweetIDStrings(updateMode: UpdateMode, with newIDStrings: [String]) {
+        switch updateMode {
+        case .top:
+            self.tweetIDStrings = newIDStrings + self.tweetIDStrings
+        case .bottom:
+            if self.tweetIDStrings.last == newIDStrings.first {
+                self.tweetIDStrings = self.tweetIDStrings.dropLast() + newIDStrings
+            } else {
+                self.tweetIDStrings = self.tweetIDStrings + newIDStrings
+            }
+            
+        }
+    }
+}

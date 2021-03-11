@@ -62,6 +62,7 @@
 		D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2632D64251EEFF50023C417 /* FaceDetect.swift */; };
 		D266226B258CE81100FF5F6E /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = D266226A258CE81100FF5F6E /* KingfisherSwiftUI */; };
 		D266226D258D781A00FF5F6E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D266226C258D781A00FF5F6E /* Kingfisher */; };
+		D266729125F9ACCC0044DBBA /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D266729025F9ACCC0044DBBA /* Fetcher.swift */; };
 		D26A8B09256284C8003BFEE6 /* CountDiagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26A8B08256284C8003BFEE6 /* CountDiagramView.swift */; };
 		D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */; };
 		D270E87D24C01C9100BBD3FE /* ToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87C24C01C9100BBD3FE /* ToolsView.swift */; };
@@ -190,6 +191,7 @@
 		D262FDD924D2CEED00682B99 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionUserSortedView.swift; sourceTree = "<group>"; };
 		D2632D64251EEFF50023C417 /* FaceDetect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetect.swift; sourceTree = "<group>"; };
+		D266729025F9ACCC0044DBBA /* Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetcher.swift; sourceTree = "<group>"; };
 		D26A8B08256284C8003BFEE6 /* CountDiagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDiagramView.swift; sourceTree = "<group>"; };
 		D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedTimeView.swift; sourceTree = "<group>"; };
 		D270E87C24C01C9100BBD3FE /* ToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsView.swift; sourceTree = "<group>"; };
@@ -327,8 +329,18 @@
 		D20A35CA25E53C2D0012CD82 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */,
+				4B2C746424FA05310052F356 /* DownLoader.swift */,
+				D2794F32251F1DE200824E6D /* SaliencyDetection.swift */,
+				D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */,
+				D257D7E8258B30E700DB7F05 /* UIImage+changeColor.swift */,
+				D21C3305255A8356001CBBCD /* FoundationExtensions.swift */,
+				D2632D64251EEFF50023C417 /* FaceDetect.swift */,
+				D205247524C290F10046F1AB /* PullRefresh.swift */,
 				D20A35CB25E53C4E0012CD82 /* FileHelper.swift */,
 				D20A35D025E5418E0012CD82 /* Helpers.swift */,
+				D707B6EC24C4040F0023F243 /* KeyboardHide.swift */,
+				D290E6E524CD1ED100662FAF /* KeyBoard Notification.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -410,6 +422,14 @@
 			path = reference;
 			sourceTree = "<group>";
 		};
+		D266728F25F9ABA50044DBBA /* Fetcher */ = {
+			isa = PBXGroup;
+			children = (
+				D266729025F9ACCC0044DBBA /* Fetcher.swift */,
+			);
+			path = Fetcher;
+			sourceTree = "<group>";
+		};
 		D27DCEAD24B96D5F00520BE3 = {
 			isa = PBXGroup;
 			children = (
@@ -461,16 +481,6 @@
 				D27DCF3A24B98F9900520BE3 /* Tweet.swift */,
 				D2C12CD4254A6A6B00D74778 /* UserInfo.swift */,
 				D205247324C199500046F1AB /* AlertsModel.swift */,
-				D205247524C290F10046F1AB /* PullRefresh.swift */,
-				D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */,
-				D707B6EC24C4040F0023F243 /* KeyboardHide.swift */,
-				D290E6E524CD1ED100662FAF /* KeyBoard Notification.swift */,
-				4B2C746424FA05310052F356 /* DownLoader.swift */,
-				D2632D64251EEFF50023C417 /* FaceDetect.swift */,
-				D2794F32251F1DE200824E6D /* SaliencyDetection.swift */,
-				D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */,
-				D257D7E8258B30E700DB7F05 /* UIImage+changeColor.swift */,
-				D21C3305255A8356001CBBCD /* FoundationExtensions.swift */,
 				D21C3302255A824A001CBBCD /* CoreData */,
 			);
 			path = Model;
@@ -508,6 +518,7 @@
 			children = (
 				D28F9E9325E4E0C600B8EF40 /* DataFlow */,
 				D2419C222577685500A9CF98 /* Repositories */,
+				D266728F25F9ABA50044DBBA /* Fetcher */,
 				D20A35CD25E53C5C0012CD82 /* FileIO */,
 			);
 			path = State;
@@ -790,6 +801,7 @@
 				D2AE50652553C6D500437337 /* MentionUser.swift in Sources */,
 				D2D4878F25734B0A005EE4A7 /* PlayButtonView.swift in Sources */,
 				D255E24025EE1F440053CDE4 /* AppCommand_Tweet.swift in Sources */,
+				D266729125F9ACCC0044DBBA /* Fetcher.swift in Sources */,
 				4BDB05D72531613B00CF71A1 /* HubView.swift in Sources */,
 				D2D6744225C5028200348BB7 /* OverlaySheet.swift in Sources */,
 				D20A35D725EA2A100012CD82 /* UserViewRedux.swift in Sources */,

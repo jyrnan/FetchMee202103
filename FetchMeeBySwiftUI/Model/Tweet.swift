@@ -58,12 +58,12 @@ struct Tweet: Identifiable {
     }
 }
 
-class CacheFileHandler : NSObject {
-    let fm = FileManager.default
-    func getPath() -> URL {
-        var docsurl : [URL]
-        docsurl = fm.urls(for: .cachesDirectory, in: .userDomainMask)
-        return docsurl[0]
-    }
-}
+//class CacheFileHandler : NSObject {
+//    let fm = FileManager.default
+//    func getPath() -> URL {
+//        var docsurl : [URL]
+//        docsurl = fm.urls(for: .cachesDirectory, in: .userDomainMask)
+//        return docsurl[0]
+//    }
+//}
 

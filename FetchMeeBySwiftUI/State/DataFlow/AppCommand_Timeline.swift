@@ -43,9 +43,7 @@ struct FetchTimelineCommand: AppCommand {
             newTweets.forEach{
                 addDataToRepository($0)
                 
-//                let isPriority:Bool = ($0["user"]["id_str"].string == store.appState.setting.loginUser?.id)
                 saveTweetTag(status: $0,
-//                             isPriority: isPriority,
                              tweetTags: &tweetTags)
                 
                 guard self.timelineType == .mention else {return}

@@ -31,7 +31,7 @@ struct AlertView: View {
                     Spacer()
                     
                     Text(alertText)
-                        .foregroundColor(.white)
+                        .foregroundColor(.white).font(.callout)
                         .frame(height: 25, alignment: .center)
                         .onAppear {
                             withAnimation(.interpolatingSpring(stiffness: 70, damping: 7)){self.offsetValue = offsetInScreen}
