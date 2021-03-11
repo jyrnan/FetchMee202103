@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct AlertView: View {
-    @EnvironmentObject var alerts: Alerts
+//    @EnvironmentObject var alerts: Alerts
     
     @EnvironmentObject var store: Store
     
@@ -25,7 +25,11 @@ struct AlertView: View {
         VStack(spacing: 0){
             if isPresentedAlert {
                 HStack(spacing: 0){
+                    Image(systemName: isWarning ? "xmark.circle.fill" : "checkmark.circle.fill")
+                        .foregroundColor(isWarning ? .red : .green)
+                        .font(.title3)
                     Spacer()
+                    
                     Text(alertText)
                         .foregroundColor(.white)
                         .frame(height: 25, alignment: .center)
@@ -36,7 +40,6 @@ struct AlertView: View {
                                 }
                             }
                             delay(delay: 3) {
-//                                alerts.stripAlert.isPresentedAlert = false
                                 store.dipatch(.alertOff)
                             }
                         }
@@ -45,7 +48,7 @@ struct AlertView: View {
                 }
                 .frame(width: 150)
                 
-                .background(isWarning ? Color.red : Color.accentColor .opacity(0.8))
+                .background(Color.init("BackGroundLight"))
                 .cornerRadius(12)
                 .shadow(radius: 3 )
                 .offset(y: self.offsetValue)
@@ -63,7 +66,8 @@ struct AlertView: View {
 }
 
 struct AlertView_Previews: PreviewProvider {
+    static var store: Store = Store()
     static var previews: some View {
-        AlertView().environmentObject(Alerts())
+        AlertView().environmentObject(store)
     }
 }

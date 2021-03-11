@@ -22,12 +22,6 @@ struct AutoCompleteVIew: View {
             .map{"@" + $0.screenName!}
     }
     
-//    var tags: [String] {
-//        Array((store.appState.setting.tweetTags ?? [])!)
-//            .sorted{$0.priority > $1.priority}
-//            .filter{$0.text.starts(with: String(autoCompletText.dropFirst()))}
-//            .map{"#" + $0.text}
-//    }
     
     var tagsCD: [String] {
         tweetTags.filter{($0.text?.starts(with: String(autoCompletText.dropFirst())))!}
