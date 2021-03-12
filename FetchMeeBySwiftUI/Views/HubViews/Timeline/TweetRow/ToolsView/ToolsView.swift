@@ -41,7 +41,7 @@ struct ToolsView: View {
                     .onTapGesture {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         if isMyTweet {
-                            store.dipatch(.tweetOperation(operation: .delete, tweetIDString: tweetIDString))
+                            store.dipatch(.tweetOperation(operation: .delete(id: tweetIDString)))
                         } else {
                             isAlertShowed = true
                         }
@@ -59,7 +59,7 @@ struct ToolsView: View {
                     .foregroundColor(retweeted == true ? Color.green : Color.gray)
                     .onTapGesture {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                        store.dipatch(.tweetOperation(operation: retweeted ? .unRetweet : .retweet, tweetIDString: tweetIDString))
+                        store.dipatch(.tweetOperation(operation: retweeted ? .unRetweet(id: tweetIDString) : .retweet(id: tweetIDString)))
                     }
                 
                 if retweetedCount != 0 {
@@ -73,7 +73,7 @@ struct ToolsView: View {
                     .foregroundColor(favorited ? Color.red : Color.gray)
                     .onTapGesture {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                        store.dipatch(.tweetOperation(operation: favorited ? .unfavorite : .favorite, tweetIDString: tweetIDString))
+                        store.dipatch(.tweetOperation(operation: favorited ? .unfavorite(id: tweetIDString) : .favorite(id: tweetIDString)))
                     }
                 
                 if favoritedCount != 0 {

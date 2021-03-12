@@ -18,148 +18,30 @@ struct FetchTimelineCommand: AppCommand {
     }
     
     var timeline: AppState.TimelineData.Timeline
-    
     var timelineType: TimelineType
     var updateMode: UpdateMode
     
     func execute(in store: Store) {
-        let swifter = store.swifter
-        var tweetTags = store.appState.setting.tweetTags
+        let token = SubscriptionToken()
+        let tweetTags = store.appState.setting.tweetTags
+        let mentionUserData = store.appState.timelineData.mentionUserData
+        
+        FetcherSw.provider = store.swifter
+        let fecher = FetcherSw()
 
-        
-        var sinceIDString: String? {updateMode == .top ? timeline.tweetIDStrings.first : nil }
-        var maxIDString: String? {updateMode == .bottom ? timeline.tweetIDStrings.last : nil}
-        
-        let count: Int = 40
-        
-        func successHandeler(json: JSON) -> Void {
-            var timelineWillUpdate = timeline
-            var mentionUserData: [UserInfo.MentionUser]
-                = store.appState.timelineData.mentionUserData
-            
-            guard let newTweets = json.array else {return}
-            timelineWillUpdate.newTweetNumber += newTweets.count
-            
-            newTweets.forEach{
-                addDataToRepository($0)
-                
-                saveTweetTag(status: $0,
-                             tweetTags: &tweetTags)
-                
-                guard self.timelineType == .mention else {return}
-                TwitterUser.updateOrSaveToCoreData(from: $0["user"])
-                if store.appState.setting.loginUser?.setting.isIronFansShowed == true {
-                    countMentionUser(mention: $0, to: &mentionUserData) }
-            }
-            
-            
-            switch updateMode {
-            case .top:
-                timelineWillUpdate.tweetIDStrings = updateTimelineTop(tweetIDStrings: timeline.tweetIDStrings, with: newTweets)
-            case .bottom:
-                timelineWillUpdate.tweetIDStrings = updateTimelineBottom(tweetIDStrings: timeline.tweetIDStrings, with: newTweets)
-            }
-            
-            store.dipatch(.fetchTimelineDone(timeline: timelineWillUpdate, mentionUserData: mentionUserData, tweetTags: tweetTags))
-        }
-        
-        func failureHandler(_ error: Error) -> Void {
-            store.dipatch(.alertOn(text: error.localizedDescription, isWarning: true))
-        }
-        
-        
-        switch timeline.type {
-        case .home:
-            swifter.getHomeTimeline(count: count, sinceID: sinceIDString, maxID: maxIDString, success: successHandeler, failure: failureHandler)
-        
-        case .mention:
-        swifter.getMentionsTimelineTweets(count: count, sinceID: sinceIDString, maxID: maxIDString, success: successHandeler, failure: failureHandler)
-            
-        case .favorite:
-            swifter.getRecentlyFavoritedTweets(count: count, sinceID: sinceIDString, maxID: maxIDString, success: successHandeler, failure: failureHandler)
-            
-        case .user(let userID) :
-            let userTag = UserTag.id(userID)
-            swifter.getTimeline(for: userTag, count: count, sinceID: sinceIDString, maxID: maxIDString, success: successHandeler, failure: failureHandler)
-            
-        case .list( let id, _):
-            let listTag = ListTag.id(id)
-            swifter.listTweets(for: listTag, sinceID: sinceIDString, maxID: maxIDString, count: count, includeEntities: nil, includeRTs: nil, tweetMode: .default, success: successHandeler, failure: failureHandler)
-            
-        default: print("")
+        fecher.makeSessionUpdataPublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData, tweetTags: tweetTags)
+            .sink(receiveCompletion: {complete in
+                if case .failure(let error) = complete {
+                    store.dipatch(.alertOn(text: error.localizedDescription, isWarning: true))
                 }
-    }
-}
-
-extension FetchTimelineCommand {
-    
-    func updateTimelineTop(tweetIDStrings: [String], with newTweets: [JSON]) -> [String] {
-        var tweetIDStrings = tweetIDStrings
-        
-        guard !newTweets.isEmpty else {return tweetIDStrings}
-        let newTweetIDStrings = converJSON2TweetIDStrings(from: newTweets)
-
-        tweetIDStrings = newTweetIDStrings + tweetIDStrings
-        return tweetIDStrings
-    }
-    
-    func updateTimelineBottom(tweetIDStrings: [String], with newTweets: [JSON]) -> [String] {
-        var tweetIDStrings = tweetIDStrings
-        
-        guard !newTweets.isEmpty else {return tweetIDStrings}
-        let newTweetIDStrings = converJSON2TweetIDStrings(from: newTweets)
-        
-        tweetIDStrings = tweetIDStrings.dropLast() + newTweetIDStrings //需要丢掉原来最后一条推文，否则会重复
-        return tweetIDStrings
-    }
-    
-    /// 产生推文ID的序列
-    /// - Parameter newTweets: 获取的推文数据
-    /// - Returns: 提取的推文ID序列
-    func converJSON2TweetIDStrings(from newTweets: [JSON]) -> [String] {
-        return newTweets.map{$0["id_str"].string!}
-    }
-    
-    ///把推文数据添加到Repository里面，
-    func addDataToRepository(_ data: JSON) {
-        StatusRepository.shared.addStatus(data)
-        UserRepository.shared.addUser(data["user"])
-    }
-    
-    /// 收集Mention用户信息，包括用户ID和mention的ID
-    /// - Parameter mention: Mention的data
-    func countMentionUser(mention:JSON, to mentionUserData: inout [UserInfo.MentionUser]) {
-        guard let userIDString = mention["user"]["id_str"].string else {return}
-        let mentionIDString = mention["id_str"].string!
-        let avatarUrlString = mention["user"]["profile_image_url_https"].string!
-        
-        if let index = mentionUserData.firstIndex(where: {$0.id == userIDString}) {
-            mentionUserData[index].mentionsIDs.insert(mentionIDString)
-
-        } else {
-            let mentionUser = UserInfo.MentionUser(id: userIDString,
-                                                   avatarUrlString: avatarUrlString,
-                                                   mentionsIDs: Set<String>(arrayLiteral: mentionIDString))
-            mentionUserData.append(mentionUser)
-        }
-    }
-    
-    /// 保存推文中的tag到coredata
-    /// - Parameter status: 推文JSON数据
-    func saveTweetTag(status:JSON, tweetTags: inout Set<AppState.Setting.TweetTag>) {
-        guard let tags = status["entities"]["hashtags"].array,
-              !tags.isEmpty else {return }
-        let tweetTagTexts = tweetTags.map{$0.text}
-        let _ = tags.forEach{tagJSON in
-            if let text = tagJSON["text"].string {
-                guard !tweetTagTexts.contains(text) else {return}
-           
-                let tweetTag = AppState.Setting.TweetTag(priority: 0,
-                                                         text: text)
-                tweetTags.insert(tweetTag)
-                print(#line, #function, tweetTag)
-            }
-        }
+                token.unseal()
+            },
+            receiveValue: {
+                print(#line, #function, $0)
+                store.dipatch(.fetchTimelineDone(timeline: $0.0, mentionUserData: $0.1, tweetTags: $0.2))
+                
+            })
+            .seal(in: token)
     }
 }
 

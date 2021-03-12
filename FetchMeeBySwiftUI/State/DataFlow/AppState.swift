@@ -195,7 +195,7 @@ extension AppState.TimelineData {
 }
 
 extension AppState.TimelineData.Timeline {
-    mutating func updateTweetIDStrings(updateMode: UpdateMode, with newIDStrings: [String]) {
+    mutating func updateTweetIDStrings(updateMode: FetchTimelineCommand.UpdateMode, with newIDStrings: [String]) {
         switch updateMode {
         case .top:
             self.tweetIDStrings = newIDStrings + self.tweetIDStrings

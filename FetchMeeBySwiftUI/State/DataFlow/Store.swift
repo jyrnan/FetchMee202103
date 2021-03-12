@@ -109,6 +109,7 @@ class Store: ObservableObject {
             appState.setting.loginUser?.setting = setting
             
         case .fetchTimeline(let timelineType, let updateMode):
+            appState.setting.isProcessingDone = false
             let timeline: AppState.TimelineData.Timeline = appState.timelineData.getTimeline(timelineType: timelineType)
             appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
         case .fetchTimelineDone(let timeline, let mentionUserData, let tweetTags):
@@ -116,7 +117,7 @@ class Store: ObservableObject {
             appState.timelineData.timelines[timeline.type.rawValue] = timeline
             appState.timelineData.mentionUserData = mentionUserData
             appState.setting.tweetTags = tweetTags
-            appCommand = SaveTagCommand()
+            appCommand = SaveTagToCoreDataCommand()
             
         case .fetchSession(let tweetIDString):
             appState.setting.isProcessingDone = false
@@ -142,8 +143,8 @@ class Store: ObservableObject {
             appState.timelineData.updateNewTweetNumber(timelineType: timelineType,
                                                        numberOfReadTweet: numberOfReadTweet)
             
-        case .tweetOperation(let operatrion, let tweetIDString):
-            appCommand = TweetCommand(operation: operatrion, tweetIDString: tweetIDString)
+        case .tweetOperation(let operatrion):
+            appCommand = TweetCommand(operation: operatrion)
          
         case .autoComplete(let text):
             var tweetText = state.setting.checker.tweetText
