@@ -23,13 +23,12 @@ struct FetchTimelineCommand: AppCommand {
     
     func execute(in store: Store) {
         let token = SubscriptionToken()
-        let tweetTags = store.appState.setting.tweetTags
         let mentionUserData = store.appState.timelineData.mentionUserData
         
         FetcherSw.provider = store.swifter
         let fecher = FetcherSw()
 
-        fecher.makeSessionUpdataPublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData, tweetTags: tweetTags)
+        fecher.makeSessionUpdataPublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData)
             .sink(receiveCompletion: {complete in
                 if case .failure(let error) = complete {
                     store.dipatch(.alertOn(text: error.localizedDescription, isWarning: true))
@@ -38,7 +37,7 @@ struct FetchTimelineCommand: AppCommand {
             },
             receiveValue: {
                 print(#line, #function, $0)
-                store.dipatch(.fetchTimelineDone(timeline: $0.0, mentionUserData: $0.1, tweetTags: $0.2))
+                store.dipatch(.fetchTimelineDone(timeline: $0.0, mentionUserData: $0.1))
                 
             })
             .seal(in: token)

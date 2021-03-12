@@ -84,7 +84,6 @@ class Store: ObservableObject {
         case .closeImageViewer:
             appState.setting.isShowImageViewer = false
             appCommand = ClearPresentedView()
-        //            appState.setting.presentedView = nil
         
         case .login(let authView, let loginUser):
             appCommand = LoginCommand(loginUser: loginUser, presentingFrom: authView)
@@ -112,12 +111,11 @@ class Store: ObservableObject {
             appState.setting.isProcessingDone = false
             let timeline: AppState.TimelineData.Timeline = appState.timelineData.getTimeline(timelineType: timelineType)
             appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
-        case .fetchTimelineDone(let timeline, let mentionUserData, let tweetTags):
+        case .fetchTimelineDone(let timeline, let mentionUserData):
             appState.setting.isProcessingDone = true
             appState.timelineData.timelines[timeline.type.rawValue] = timeline
             appState.timelineData.mentionUserData = mentionUserData
-            appState.setting.tweetTags = tweetTags
-            appCommand = SaveTagToCoreDataCommand()
+            
             
         case .fetchSession(let tweetIDString):
             appState.setting.isProcessingDone = false

@@ -17,7 +17,7 @@ struct MentionUserSortedView: View {
         let mentionUserInfoSorted = store.appState.timelineData.mentionUserData
             .sorted{$0.count > $1.count}
             .map{$0.id}
-        return mentionUserInfoSorted ?? []
+        return mentionUserInfoSorted
     }
     
     @StateObject var mentionUsers = MentionUserSortedViewModel()

@@ -45,16 +45,3 @@ struct TweetCommand: AppCommand {
             .seal(in: token)
     }
 }
-
-/// 用来把推文浏览过程中收集到的tag保存到CoreData中
-struct SaveTagToCoreDataCommand: AppCommand {
-    func execute(in store: Store) {
-        let tags = store.appState.setting.tweetTags
-        
-        tags.forEach{
-            TweetTagCD.saveTag(text: $0.text, priority: $0.priority, to: store.context)
-        }
-    }
-    
-    
-}

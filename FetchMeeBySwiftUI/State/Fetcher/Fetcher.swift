@@ -13,7 +13,6 @@ import CoreData
 
 protocol Fetcher {
     typealias Timeline = AppState.TimelineData.Timeline
-    typealias TweetTags = Set<AppState.Setting.TweetTag>
     typealias MentionUserData = [UserInfo.MentionUser]
     typealias TweetIDStrings = [String]
     
@@ -21,7 +20,7 @@ protocol Fetcher {
     
 }
 
-/// <#Description#>
+/// 基于Swifter的API中间件
 struct FetcherSw: Fetcher {
     ///每次刷新的推文数量
     var count: Int = 40
@@ -38,28 +37,29 @@ struct FetcherSw: Fetcher {
     /// - Returns: 一个包含更新timeline， 交互用户排序信息和推文标签数据的Publisher
     func makeSessionUpdataPublisher(updateMode: FetchTimelineCommand.UpdateMode,
                         timeline: Timeline,
-                        mentionUserData: MentionUserData,
-                        tweetTags: TweetTags
-    ) -> AnyPublisher<(Timeline,MentionUserData, TweetTags), AppError> {
+                        mentionUserData: MentionUserData) -> AnyPublisher<(Timeline, MentionUserData), AppError> {
         
-        func JSONHandler(json: JSON) -> (Timeline,MentionUserData, TweetTags)  {
+        /// 将JSON格式的数据转换成Timeline数据
+        /// 并且提取回复用户数据和Tag数据保存
+        /// - Parameter json: JSON格式数据
+        /// - Returns: 返回Timeline和Mention用户数据打包作为Publisher的数据
+        func JSONHandler(json: JSON) -> (Timeline,MentionUserData)  {
             var timelineWillUpdate = timeline
-            var tweetTags:Set<AppState.Setting.TweetTag> = tweetTags
             var mentionUserData: [UserInfo.MentionUser] = mentionUserData
             
-            guard let newTweets = json.array else {return (timelineWillUpdate, mentionUserData,tweetTags)}
+            guard let newTweets = json.array else {return (timelineWillUpdate, mentionUserData)}
             timelineWillUpdate.newTweetNumber += newTweets.count
             timelineWillUpdate.updateTweetIDStrings(updateMode: updateMode, with: converJSON2TweetIDStrings(from: newTweets))
             
             newTweets.forEach{
                 addDataToRepository($0)
-                saveTweetTag(status: $0, tweetTags: &tweetTags)
+                saveTweetTagToCoreData(status: $0)
                 guard timeline.type == .mention else {return}
                 TwitterUser.updateOrSaveToCoreData(from: $0["user"])
                 storeMentionUserData(mention: $0, to: &mentionUserData)
             }
             
-            return (timelineWillUpdate, mentionUserData, tweetTags)
+            return (timelineWillUpdate, mentionUserData)
                     }
         
         func errorHandler(error: Error) -> AppError {
@@ -113,16 +113,11 @@ struct FetcherSw: Fetcher {
     
     /// 保存推文中的tag到coredata
     /// - Parameter status: 推文JSON数据
-    func saveTweetTag(status:JSON, tweetTags: inout TweetTags) {
+    func saveTweetTagToCoreData(status:JSON) {
         guard let tags = status["entities"]["hashtags"].array, !tags.isEmpty else {return }
-        let tweetTagTexts = tweetTags.map{$0.text}
         let _ = tags.forEach{tagJSON in
             if let text = tagJSON["text"].string {
-                guard !tweetTagTexts.contains(text) else {return}
-                
-                let tweetTag = AppState.Setting.TweetTag(priority: 0,
-                                                         text: text)
-                tweetTags.insert(tweetTag)
+                TweetTagCD.saveTag(text: text, priority: 0)
             }
         }
     }

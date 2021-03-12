@@ -73,7 +73,7 @@ extension AppState {
         
         var checker = TweetTextChecker()
         
-        var tweetTags: Set<AppState.Setting.TweetTag> = []
+//        var tweetTags: Set<AppState.Setting.TweetTag> = []
     }
 }
 
