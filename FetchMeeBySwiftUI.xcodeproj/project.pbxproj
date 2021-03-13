@@ -31,6 +31,7 @@
 		D21C3306255A8356001CBBCD /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C3305255A8356001CBBCD /* FoundationExtensions.swift */; };
 		D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F4C4E24DE73C6004B2C20 /* SettingView.swift */; };
 		D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */; };
+		D228E06125FCF5A10063E0EB /* BookmarkedStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */; };
 		D2291B5225C7835100EDB259 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2291B5125C7835100EDB259 /* BlurView.swift */; };
 		D2309F222547E09A00549E27 /* CustomTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2309F212547E09A00549E27 /* CustomTextEditor.swift */; };
 		D2309F29254922B000549E27 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2309F28254922B000549E27 /* Toast.swift */; };
@@ -162,6 +163,7 @@
 		D21C3305255A8356001CBBCD /* FoundationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
 		D21F4C4E24DE73C6004B2C20 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swifter+DeleteTweets.swift"; sourceTree = "<group>"; };
+		D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedStatusView.swift; sourceTree = "<group>"; };
 		D2291B5125C7835100EDB259 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		D2309F212547E09A00549E27 /* CustomTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEditor.swift; sourceTree = "<group>"; };
 		D2309F28254922B000549E27 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
@@ -614,6 +616,7 @@
 				D2BC206A25F4AC6B007882CA /* TweetTagCDManageView.swift */,
 				4B3AD79E253965DB00194B2C /* UserMarkManageView.swift */,
 				4B68D5A52539131800A17AED /* LogMessageView.swift */,
+				D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */,
 			);
 			path = SettingView;
 			sourceTree = "<group>";
@@ -814,6 +817,7 @@
 				D2309F222547E09A00549E27 /* CustomTextEditor.swift in Sources */,
 				D2419C1F2577659F00A9CF98 /* StatusRepositoryInRam.swift in Sources */,
 				D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */,
+				D228E06125FCF5A10063E0EB /* BookmarkedStatusView.swift in Sources */,
 				D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */,
 				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,
 				D2905076252C07360065EA83 /* Persistance.swift in Sources */,

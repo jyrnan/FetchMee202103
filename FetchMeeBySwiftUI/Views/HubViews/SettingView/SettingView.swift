@@ -73,6 +73,12 @@ struct SettingView: View {
                                              icon:{Image(systemName: "number.circle.fill")
                                                 .foregroundColor(.accentColor)
                                              })})
+                
+                NavigationLink(destination: BookmarkedStatusView(),
+                               label: {Label(title: {Text("Bookmarked Tweets")},
+                                             icon:{Image(systemName: "bookmark.circle.fill")
+                                                .foregroundColor(.accentColor)
+                                             })})
             }
             
             Section(header:Text("")){

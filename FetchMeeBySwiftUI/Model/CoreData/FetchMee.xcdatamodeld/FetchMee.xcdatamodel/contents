@@ -20,7 +20,7 @@
         <attribute name="nickName" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Status_CD" representedClassName=".Status_CD" syncable="YES" codeGenerationType="class">
-        <attribute name="attribute" optional="YES" attributeType="String"/>
+        <attribute name="attribute1" optional="YES" attributeType="Transformable"/>
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="favorite_count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="favorited" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -32,6 +32,7 @@
         <attribute name="retweet_count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="retweeted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="source" optional="YES" attributeType="String"/>
+        <attribute name="text" optional="YES" attributeType="String"/>
         <relationship name="quoted_status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Status_CD" inverseName="quoted_status" inverseEntity="Status_CD"/>
         <relationship name="retweeted_status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Status_CD" inverseName="retweeted_status" inverseEntity="Status_CD"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TwitterUser" inverseName="status" inverseEntity="TwitterUser"/>
@@ -74,7 +75,7 @@
         <element name="Count" positionX="79.246826171875" positionY="-276.2636413574219" width="128" height="104"/>
         <element name="Log" positionX="-63" positionY="-27" width="128" height="89"/>
         <element name="NickName" positionX="-57.08056640625" positionY="171.7831420898438" width="128" height="89"/>
-        <element name="Status_CD" positionX="319.7457275390625" positionY="-105.8453979492188" width="128" height="254"/>
+        <element name="Status_CD" positionX="319.7457275390625" positionY="-105.8453979492188" width="128" height="269"/>
         <element name="TweetDraft" positionX="-102.9840087890625" positionY="-217.8199462890625" width="136.1802368164062" height="104"/>
         <element name="TweetTagCD" positionX="18" positionY="-117" width="128" height="89"/>
         <element name="TwitterUser" positionX="159.8822021484375" positionY="-101.7318725585938" width="128" height="299"/>

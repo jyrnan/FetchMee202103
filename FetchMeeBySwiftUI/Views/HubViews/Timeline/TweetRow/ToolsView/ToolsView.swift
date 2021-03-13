@@ -34,7 +34,7 @@ struct ToolsView: View {
         VStack {
             HStack{
                 
-                Image(systemName: "trash")
+                Image(systemName: isMyTweet ? "trash" : "bookmark")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 18, height: 18, alignment: .center)
@@ -43,7 +43,9 @@ struct ToolsView: View {
                         if isMyTweet {
                             store.dipatch(.tweetOperation(operation: .delete(id: tweetIDString)))
                         } else {
-                            isAlertShowed = true
+//                            isAlertShowed = true
+                            Status_CD.JSON_Save(from: status!)
+                            store.dipatch(.alertOn(text: "Bookmarked!", isWarning: false))
                         }
                     }
                     .alert(isPresented: self.$isAlertShowed, content: {

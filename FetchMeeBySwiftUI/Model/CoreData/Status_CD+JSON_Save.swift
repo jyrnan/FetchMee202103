@@ -11,9 +11,9 @@ import CoreData
 import Swifter
 
 extension Status_CD {
-    static func JSON_Save(from status: JSON) {
+    static func JSON_Save(from json: JSON) {
         let viewContext = PersistenceContainer.shared.container.viewContext
-        let id = status["id_str"].string!
+        let id = json["id_str"].string!
         var status: Status_CD
             
         let statusFetch: NSFetchRequest<Status_CD> = Status_CD.fetchRequest()
@@ -26,6 +26,14 @@ extension Status_CD {
                 status = Status_CD(context: viewContext)
             }
         
+        status.id_str = json["id_str"].string
+        status.text = json["text"].string
         
+        do {
+            try viewContext.save()
+        }catch {
+            let nsError = error as NSError
+            print(nsError.description)
+        }
     }
 }
