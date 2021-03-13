@@ -19,12 +19,12 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nickName" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="Status_CD" representedClassName=".Status_CD" syncable="YES">
+    <entity name="Status_CD" representedClassName=".Status_CD" syncable="YES" codeGenerationType="class">
         <attribute name="attribute" optional="YES" attributeType="String"/>
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="favorite_count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="favorited" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="id_str" optional="YES" attributeType="String"/>
         <attribute name="in_reply_to_screen_name" optional="YES" attributeType="String"/>
         <attribute name="in_reply_to_status_id_str" optional="YES" attributeType="String"/>
         <attribute name="in_reply_to_user_id_str" optional="YES" attributeType="String"/>
@@ -32,9 +32,9 @@
         <attribute name="retweet_count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="retweeted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="source" optional="YES" attributeType="String"/>
-        <relationship name="quoted_status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Status_CD"/>
-        <relationship name="retweeted_status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Status_CD"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TwitterUser"/>
+        <relationship name="quoted_status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Status_CD" inverseName="quoted_status" inverseEntity="Status_CD"/>
+        <relationship name="retweeted_status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Status_CD" inverseName="retweeted_status" inverseEntity="Status_CD"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TwitterUser" inverseName="status" inverseEntity="TwitterUser"/>
     </entity>
     <entity name="TweetDraft" representedClassName=".TweetDraft" syncable="YES" codeGenerationType="class">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -67,15 +67,16 @@
         <relationship name="count" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Count" inverseName="countToUser" inverseEntity="Count"/>
         <relationship name="draft" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetDraft" inverseName="user" inverseEntity="TweetDraft"/>
         <relationship name="log" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Log" inverseName="user" inverseEntity="Log"/>
+        <relationship name="status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Status_CD" inverseName="user" inverseEntity="Status_CD"/>
     </entity>
     <fetchRequest name="FetchRequest" entity="Count" predicateString="TRUEPREDICATE"/>
     <elements>
         <element name="Count" positionX="79.246826171875" positionY="-276.2636413574219" width="128" height="104"/>
         <element name="Log" positionX="-63" positionY="-27" width="128" height="89"/>
         <element name="NickName" positionX="-57.08056640625" positionY="171.7831420898438" width="128" height="89"/>
-        <element name="Status_CD" positionX="319.7457275390625" positionY="-105.8453979492188" width="128" height="28"/>
+        <element name="Status_CD" positionX="319.7457275390625" positionY="-105.8453979492188" width="128" height="254"/>
         <element name="TweetDraft" positionX="-102.9840087890625" positionY="-217.8199462890625" width="136.1802368164062" height="104"/>
         <element name="TweetTagCD" positionX="18" positionY="-117" width="128" height="89"/>
-        <element name="TwitterUser" positionX="159.8822021484375" positionY="-101.7318725585938" width="128" height="284"/>
+        <element name="TwitterUser" positionX="159.8822021484375" positionY="-101.7318725585938" width="128" height="299"/>
     </elements>
 </model>
