@@ -9,6 +9,7 @@
 
 import SwiftUI
 import CoreData
+import KingfisherSwiftUI
 
 struct BookmarkedStatusView: View {
     @EnvironmentObject var store: Store
@@ -24,6 +25,9 @@ struct BookmarkedStatusView: View {
                 Text(status.text ?? "")
                     Spacer()
                     Text(String(status.id_str!))
+                    ForEach(status.images ?? [], id: \.self) {url in
+                        KFImage(URL(string: url)).resizable().aspectRatio(contentMode: .fit)
+                    }
                 }
             }.onDelete(perform: { indexSet in
                         deleteTags(offsets: indexSet)})

@@ -20,11 +20,11 @@
         <attribute name="nickName" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Status_CD" representedClassName=".Status_CD" syncable="YES" codeGenerationType="class">
-        <attribute name="attribute1" optional="YES" attributeType="Transformable"/>
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="favorite_count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="favorited" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id_str" optional="YES" attributeType="String"/>
+        <attribute name="images" optional="YES" attributeType="Transformable" customClassName="[String]"/>
         <attribute name="in_reply_to_screen_name" optional="YES" attributeType="String"/>
         <attribute name="in_reply_to_status_id_str" optional="YES" attributeType="String"/>
         <attribute name="in_reply_to_user_id_str" optional="YES" attributeType="String"/>
