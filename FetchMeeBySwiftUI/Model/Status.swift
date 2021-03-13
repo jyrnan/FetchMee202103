@@ -11,28 +11,20 @@ import SwiftUI
 import Swifter
 import Combine
 
-struct Tweet: Identifiable {
+struct Status: Identifiable {
     var id: String
-    
-    var retweeted_by_IDString: String?  //存储retweet本推文的推文ID
-    var retweeted_by_UserIDString: String? //存储retweet本推文的用户ID
-    var retweeted_by_UserName: String? //存储retweet本推文的用户名
-    
+   
     var userName: String?
     var screenName: String?
-    var userIDString: String?
+    var userID: String?
     
-    var avatarUrlString: String?
-    var avatar: UIImage? = UIImage(systemName: "person.fill")
+    var avatarUrl: String?
     
     var replyUsers: [String] = []
-    var tweetText: [String] = []
-    var created: String?
+    var text: String?
+    var createdAt: Date?
     
-    var urlStrings: [String]? //图片的url
-    var images: [UIImage] = [] //下载的UIImage
-    var imagesSelected: [Bool] = [] //标记图片是否被选择
-    var isPortraitImage: Bool = false //标记推文是否含有人物图像
+    var imageUrls: [String]? //图片的url
     
     var mediaType: String?
     var mediaUrlString: String? //视频网址
@@ -46,11 +38,9 @@ struct Tweet: Identifiable {
     var in_reply_to_user_id_str : String?
     var in_reply_to_status_id_str: String?
     var replyText: String?
-    
-    var isToolsViewShowed: Bool = false //控制是否显示row里面的ToolsView
-    
     var quoted_status_id_str: String? //引用推文的ID
     
+    var isPortraitImage: Bool = false //标记推文是否含有人物图像
     var rowIsViewed: Bool = false //用来标记推文是否出现在屏幕上被展现?
 
     init(id: String) {
