@@ -29,7 +29,7 @@ struct AvatarView: View {
     
     
     
-    var imageUrl:String? {user?["profile_image_url_https"].string}
+    var imageUrl:String? {user?["profile_image_url_https"].string ?? twitterUsers.filter{$0.userIDString == userIDString}.first?.avatar}
     
     init(userIDString: String, width:CGFloat = 64, height: CGFloat = 64) {
 

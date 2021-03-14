@@ -65,7 +65,7 @@ struct TimelineViewRedux: View {
                                 fetchMoreIfNeeded(tweetIDString: tweetIDString) }
                         }
                     } else {
-                        ToolsView(tweetIDString: store.appState.timelineData.selectedTweetID!)
+                        ToolsView(tweetIDString: store.appState.timelineData.selectedTweetID ?? "")
                             .listRowBackground(selectedBackgroudColor)
                     }
                     

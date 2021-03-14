@@ -29,8 +29,12 @@ extension Status_CD {
         status.id_str = json["id_str"].string
         status.text = json["text"].string
         
+        let user = TwitterUser.updateOrSaveToCoreData(from: json["user"])
+        
+        status.user = user
+        
         if let medias = json["extended_entities"]["media"].array{
-            status.images = medias.map{$0["media_url_https"].string!
+            status.imageUrls = medias.map{$0["media_url_https"].string!
         }
         }
         do {

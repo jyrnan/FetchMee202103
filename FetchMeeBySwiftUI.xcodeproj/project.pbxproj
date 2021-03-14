@@ -32,6 +32,7 @@
 		D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F4C4E24DE73C6004B2C20 /* SettingView.swift */; };
 		D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */; };
 		D228E06125FCF5A10063E0EB /* BookmarkedStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */; };
+		D228E06325FD9A900063E0EB /* StatusRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D228E06225FD9A900063E0EB /* StatusRow.swift */; };
 		D2291B5225C7835100EDB259 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2291B5125C7835100EDB259 /* BlurView.swift */; };
 		D2309F222547E09A00549E27 /* CustomTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2309F212547E09A00549E27 /* CustomTextEditor.swift */; };
 		D2309F29254922B000549E27 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2309F28254922B000549E27 /* Toast.swift */; };
@@ -164,6 +165,7 @@
 		D21F4C4E24DE73C6004B2C20 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swifter+DeleteTweets.swift"; sourceTree = "<group>"; };
 		D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedStatusView.swift; sourceTree = "<group>"; };
+		D228E06225FD9A900063E0EB /* StatusRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusRow.swift; sourceTree = "<group>"; };
 		D2291B5125C7835100EDB259 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		D2309F212547E09A00549E27 /* CustomTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEditor.swift; sourceTree = "<group>"; };
 		D2309F28254922B000549E27 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 				D27DCF8B24B9A56100520BE3 /* TweetRow.swift */,
 				D2318AB6257228CC00F55BDF /* TweetRowViewModel.swift */,
 				D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */,
+				D228E06225FD9A900063E0EB /* StatusRow.swift */,
 				D2D48793257386A0005EE4A7 /* RetweetMark */,
 				D2ABAD1E2570A7C4009FDD94 /* Avatar */,
 				D2BB68F7257BC3F9003BDA13 /* UserNameCreatedAt */,
@@ -783,6 +786,7 @@
 				D21C3306255A8356001CBBCD /* FoundationExtensions.swift in Sources */,
 				D205247624C290F10046F1AB /* PullRefresh.swift in Sources */,
 				D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */,
+				D228E06325FD9A900063E0EB /* StatusRow.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,
 				D28F9EA425E86F2600B8EF40 /* TimelineIconViewRedux.swift in Sources */,
 				D2419C242577746700A9CF98 /* TimelineType.swift in Sources */,

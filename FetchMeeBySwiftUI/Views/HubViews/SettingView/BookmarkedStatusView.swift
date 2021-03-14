@@ -21,27 +21,21 @@ struct BookmarkedStatusView: View {
     var body: some View {
         List{
             ForEach(statuses, id: \.self) {status in
-                HStack{
-                Text(status.text ?? "")
-                    Spacer()
-                    Text(String(status.id_str!))
-                    ForEach(status.images ?? [], id: \.self) {url in
-                        KFImage(URL(string: url)).resizable().aspectRatio(contentMode: .fit)
-                    }
-                }
-            }.onDelete(perform: { indexSet in
+                StatusRow(status: status)
+            }
+            .onDelete(perform: { indexSet in
                         deleteTags(offsets: indexSet)})
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
         }
-        .navigationTitle("TweetTags")
+        .navigationTitle("Bookmarks")
         .navigationBarItems(trailing: Button(action: {deleteAll()}, label: {Text("Clear")}))
+        .onAppear(perform: {
+            UITableView.appearance().separatorColor = .clear
+        })
     }
+    
 }
 
-struct BookmarkedStatusView_Previews: PreviewProvider {
-    static var previews: some View {
-        TweetTagCDManageView()
-    }
-}
 
 extension BookmarkedStatusView {
     private func deleteAll() {
@@ -52,8 +46,8 @@ extension BookmarkedStatusView {
         } catch {
             let nsError = error as NSError
             print(nsError.description)
+        }
     }
-}
     
     private func deleteTags(offsets: IndexSet) {
         offsets.map{ statuses[$0]}.forEach(viewContext.delete)
@@ -63,7 +57,6 @@ extension BookmarkedStatusView {
         }catch {
             let nsError = error as NSError
             print(nsError.description)
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
 }
