@@ -68,7 +68,7 @@
         <relationship name="count" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Count" inverseName="countToUser" inverseEntity="Count"/>
         <relationship name="draft" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetDraft" inverseName="user" inverseEntity="TweetDraft"/>
         <relationship name="log" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Log" inverseName="user" inverseEntity="Log"/>
-        <relationship name="status" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Status_CD" inverseName="user" inverseEntity="Status_CD"/>
+        <relationship name="status" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Status_CD" inverseName="user" inverseEntity="Status_CD"/>
     </entity>
     <fetchRequest name="FetchRequest" entity="Count" predicateString="TRUEPREDICATE"/>
     <elements>

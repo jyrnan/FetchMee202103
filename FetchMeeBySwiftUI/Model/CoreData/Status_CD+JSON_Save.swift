@@ -11,7 +11,16 @@ import CoreData
 import Swifter
 
 extension Status_CD {
-    static func JSON_Save(from json: JSON) {
+    static func JSON_Save(from json: JSON) -> Status_CD {
+        
+        func stringToDate(from createdAt: String?) -> Date {
+            guard let timeString = createdAt else {return Date()}
+        let timeFormat = DateFormatter()
+        timeFormat.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
+            guard let date = timeFormat.date(from: timeString) else {return Date()}
+        return date
+    }
+        
         let viewContext = PersistenceContainer.shared.container.viewContext
         let id = json["id_str"].string!
         var status: Status_CD
@@ -29,6 +38,8 @@ extension Status_CD {
         status.id_str = json["id_str"].string
         status.text = json["text"].string
         
+        status.created_at = stringToDate(from: json["created_at"].string)
+        
         let user = TwitterUser.updateOrSaveToCoreData(from: json["user"])
         
         status.user = user
@@ -43,5 +54,10 @@ extension Status_CD {
             let nsError = error as NSError
             print(nsError.description)
         }
+        
+     return status
     }
+    
+    
+
 }

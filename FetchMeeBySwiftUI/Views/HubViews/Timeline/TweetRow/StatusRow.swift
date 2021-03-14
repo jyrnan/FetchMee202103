@@ -25,7 +25,7 @@ struct StatusRow: View {
         HStack{
         UserNameView(userName: status.user?.name ?? "Name",
                      screenName: status.user?.screenName ?? "screenName")
-        CreatedTimeView(createdTime: "now")
+            CreatedTimeView(created_at: status.created_at)
             Spacer()
         }
     }
@@ -35,7 +35,7 @@ struct StatusRow: View {
     }
     
     var text: some View {
-        Text(status.text ?? "CoreData: CloudKit: CoreData+CloudKit: -[NSCloudKitMirroringDelegate checkAndExecuteNextRequest]_block_invoke(2468): <NSCloudKitMirroringDelegate: 0x280198ea0>: No more requests to execute")
+        Text(status.text ?? "Text")
     }
     var body: some View {
         VStack{
@@ -52,9 +52,11 @@ struct StatusRow: View {
                 .clipped()
             }
         }
-        .background(Color.init("BackGround"))
+        .background(Color.init("BackGroundLight"))
         .cornerRadius(16, antialiased: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
-        .padding()
+        .onTapGesture {
+            print(status.user)
+        }
         
     }
     

@@ -54,6 +54,10 @@ struct FetcherSw: Fetcher {
             newTweets.forEach{
                 addDataToRepository($0)
                 saveTweetTagToCoreData(status: $0)
+                
+                ///TODO：测速吃
+                Status_CD.JSON_Save(from: $0)
+               
                 guard timeline.type == .mention else {return}
                 TwitterUser.updateOrSaveToCoreData(from: $0["user"])
                 storeMentionUserData(mention: $0, to: &mentionUserData)

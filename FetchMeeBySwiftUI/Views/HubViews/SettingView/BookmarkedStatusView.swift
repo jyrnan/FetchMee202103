@@ -16,22 +16,24 @@ struct BookmarkedStatusView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Status_CD.id_str, ascending: false),
-                                    NSSortDescriptor(keyPath: \Status_CD.text, ascending: false)]) var statuses: FetchedResults<Status_CD>
+                                    NSSortDescriptor(keyPath: \Status_CD.created_at, ascending: false)]) var statuses: FetchedResults<Status_CD>
     
     var body: some View {
         List{
             ForEach(statuses, id: \.self) {status in
                 StatusRow(status: status)
+                    .padding(.vertical, 4)
+                    .padding(.horizontal, 16)
             }
             .onDelete(perform: { indexSet in
                         deleteTags(offsets: indexSet)})
             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
         }
-        .navigationTitle("Bookmarks")
-        .navigationBarItems(trailing: Button(action: {deleteAll()}, label: {Text("Clear")}))
         .onAppear(perform: {
             UITableView.appearance().separatorColor = .clear
         })
+        .navigationTitle("Bookmarks")
+        .navigationBarItems(trailing: Button(action: {deleteAll()}, label: {Text("Clear")}))
     }
     
 }

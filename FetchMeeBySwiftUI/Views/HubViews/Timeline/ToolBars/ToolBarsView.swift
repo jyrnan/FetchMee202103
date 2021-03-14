@@ -18,8 +18,18 @@ struct ToolBarsView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Log.createdAt, ascending: true)]) var logs: FetchedResults<Log>
+    
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Status_CD.id_str, ascending: false),
+                                    NSSortDescriptor(keyPath: \Status_CD.text, ascending: false)]) var statuses: FetchedResults<Status_CD>
    
     lazy var userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), user.id)
+    
+    var statusOfLoginuser: Status_CD? {
+        statuses.filter{$0.user?.userIDString == user.id}.first
+    }
+    var statusOfBookmarked: Status_CD? {
+        statuses.filter{$0.user?.userIDString != user.id}.first
+    }
     
     //控制三个toolBar正面朝向
     @State var toolBarIsFaceUp1: Bool = true
@@ -74,6 +84,12 @@ struct ToolBarsView: View {
                         toolBarIsFaceUp2 = true
                     }
                 }
+            if statusOfLoginuser != nil {
+                StatusRow(status: statusOfLoginuser!)
+            }
+            
+            if statusOfBookmarked != nil {
+                StatusRow(status: statusOfBookmarked!)}
         }
     }
 }

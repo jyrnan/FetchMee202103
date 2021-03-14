@@ -241,6 +241,12 @@ extension ComposerOfHubView {
         /// 定义successHandler，如果前一条发送成功，则在前一条基础上回复推文
         func sh(json: JSON) -> (){
             
+            ///- Todo：- 所有的发布的内容保存一份
+            if replyIDString == nil || count > 1 {
+                Status_CD.JSON_Save(from: json)
+            }
+            
+            
             //获取前一条发送成功推文的ID作为回复的对象
             self.replyIDString = json["id_str"].string
             
@@ -320,6 +326,8 @@ extension ComposerOfHubView {
             
             return false
         }
+        
+    
         
         func splitStingToSubstrings(string: String) -> [Substring] {
             
