@@ -12,6 +12,9 @@ import Swifter
 
 struct DetailViewRedux: View {
     @EnvironmentObject var store: Store
+    
+    ///创建一个简单表示法
+    var setting: UserSetting {store.appState.setting.loginUser?.setting ?? UserSetting()}
     var tweetIDString: String //传入DetailView的初始推文
     
     var session: AppState.TimelineData.Timeline {store.appState.timelineData.getTimeline(timelineType: .session)}
@@ -30,8 +33,22 @@ struct DetailViewRedux: View {
                         .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                     
                     ForEach(session.tweetIDStrings, id: \.self) {tweetIDString in
-                        if tweetIDString != "toolsViewMark"{
-                        TweetRow(viewModel: TweetRowViewModel(tweetIDString: tweetIDString, width: proxy.size.width))
+                        if tweetIDString != "toolsViewMark" {
+                            VStack(spacing: 0){
+                            StatusJsonRow(tweetID: tweetIDString, width: proxy.size.width - 2 * setting.uiStyle.insetH)
+                                .background(setting.uiStyle.backGround)
+                                .cornerRadius(setting.uiStyle.radius, antialiased: true)
+                                .overlay(RoundedRectangle(cornerRadius: setting.uiStyle.radius)
+                                .stroke(setting.uiStyle.backGround, lineWidth: 1))
+                                .padding(.horizontal, setting.uiStyle.insetH)
+                                .padding(.vertical, setting.uiStyle.insetV)
+                                ///下面这个background可以遮蔽List的分割线
+                                .background(Color.init("BackGround"))
+                                
+                            if setting.uiStyle == .plain {
+                                Divider().padding(0)
+                            }
+                            }
                         }
                     }
                     .listRowBackground(Color.init("BackGround"))
