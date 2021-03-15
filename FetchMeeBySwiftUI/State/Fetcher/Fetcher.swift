@@ -55,6 +55,10 @@ struct FetcherSw: Fetcher {
                 addDataToRepository($0)
                 saveTweetTagToCoreData(status: $0)
                 
+                if $0["quoted_status_id_str"].string != nil{
+                    addDataToRepository($0["quoted_status"])
+                }
+                
 //                ///TODO：测速吃
 //                Status_CD.JSON_Save(from: $0)
                

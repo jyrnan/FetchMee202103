@@ -11,7 +11,7 @@ import KingfisherSwiftUI
 import CoreData
 import Swifter
 
-struct StatusJsonRow: View {
+struct QuotedStatusJsonRow: View {
     @EnvironmentObject var store: Store
     ///创建一个简单表示法
     var setting: UserSetting {store.appState.setting.loginUser?.setting ?? UserSetting()}
@@ -22,20 +22,16 @@ struct StatusJsonRow: View {
     
     var status: JSON {StatusRepository.shared.status[tweetID] ?? JSON.init("")}
     
-    var quotedStausID: String? {status["quoted_status_id_str"].string }
+//    var quotedStausID: String? {status["quoted_status_id_str"].string }
     
     @State var isShowDetail: Bool = false
     
     var avatar: some View {
-        VStack(alignment: .leading){
-            AvatarView(userIDString: status["user"]["id_str"].string ?? "", width: 36, height: 36)
-            Spacer()
-        }
-        .frame(width:setting.uiStyle.avatarWidth )
+                   AvatarView(userIDString: status["user"]["id_str"].string ?? "", width: 18, height: 18)
     }
     
     var nameAndcreated: some View {
-        HStack{ name; careated; Spacer(); detailIndicator }
+        HStack{avatar; name; careated; Spacer(); detailIndicator }
     }
     
     var name: some View {
@@ -65,33 +61,27 @@ struct StatusJsonRow: View {
     
     
     var body: some View {
-        VStack(alignment: .leading){
-            HStack {
-                avatar
+        
+        VStack(alignment: .leading, spacing: 0){
+               
                 VStack(alignment: .leading){
                     nameAndcreated
-                    text
-                    
-                    if quotedStausID != nil {
-                       QuotedStatusJsonRow(tweetID: quotedStausID!, width: width - 76)
-                    }
+                    text.font(.callout)
                 }
-                
-            }.padding()
-            
+                .padding(4)
             if let imageUrls = getImagesUrls(status: status) {
                 Images(imageUrlStrings: imageUrls)
                     .frame(width: width )
-                    
                     .clipped()
             }
+        }
+                .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1))
             
-        }
-        .onTapGesture {
-            withAnimation{
-                store.dipatch(.selectTweetRow(tweetIDString: tweetID))
-            }
-        }
+            
+        
+        
     }
     
     func getImagesUrls(status: JSON) -> [String]? {

@@ -112,6 +112,7 @@
 		D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C45BAB24C6D31B007D67B6 /* ContentView.swift */; };
 		D2C4D40324D3D11100395660 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C4D40224D3D11100395660 /* AvatarView.swift */; };
 		D2C7248824E613A500804F18 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C7248724E613A400804F18 /* RoundedCorners.swift */; };
+		D2C8107925FF9AC9001C6546 /* QuotedStatusJsonRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C8107825FF9AC9001C6546 /* QuotedStatusJsonRow.swift */; };
 		D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D4878C257272D6005EE4A7 /* RetweetMarkView.swift */; };
 		D2D4878F25734B0A005EE4A7 /* PlayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D4878E25734B0A005EE4A7 /* PlayButtonView.swift */; };
 		D2D4879225734C60005EE4A7 /* PlayButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D4879125734C60005EE4A7 /* PlayButtonViewModel.swift */; };
@@ -247,6 +248,7 @@
 		D2C45BAB24C6D31B007D67B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D2C4D40224D3D11100395660 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		D2C7248724E613A400804F18 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
+		D2C8107825FF9AC9001C6546 /* QuotedStatusJsonRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotedStatusJsonRow.swift; sourceTree = "<group>"; };
 		D2D4878C257272D6005EE4A7 /* RetweetMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetweetMarkView.swift; sourceTree = "<group>"; };
 		D2D4878E25734B0A005EE4A7 /* PlayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButtonView.swift; sourceTree = "<group>"; };
 		D2D4879125734C60005EE4A7 /* PlayButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButtonViewModel.swift; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */,
 				D228E06225FD9A900063E0EB /* StatusRow.swift */,
 				D25D9AE325FF0EEE0038A6B1 /* StatusJsonRow.swift */,
+				D2C8107825FF9AC9001C6546 /* QuotedStatusJsonRow.swift */,
 				D2D48793257386A0005EE4A7 /* RetweetMark */,
 				D2ABAD1E2570A7C4009FDD94 /* Avatar */,
 				D2BB68F7257BC3F9003BDA13 /* UserNameCreatedAt */,
@@ -789,6 +792,7 @@
 				D21C3306255A8356001CBBCD /* FoundationExtensions.swift in Sources */,
 				D205247624C290F10046F1AB /* PullRefresh.swift in Sources */,
 				D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */,
+				D2C8107925FF9AC9001C6546 /* QuotedStatusJsonRow.swift in Sources */,
 				D228E06325FD9A900063E0EB /* StatusRow.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,
 				D28F9EA425E86F2600B8EF40 /* TimelineIconViewRedux.swift in Sources */,
