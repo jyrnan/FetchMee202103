@@ -32,21 +32,21 @@ struct TimelineViewRedux: View {
         GeometryReader {proxy in
             List{
                 
-//                Homeline部分章节
+                //                Homeline部分章节
                 ZStack{
                     RoundedCorners(color: Color.init("BackGround"), tl: 24, tr: 24, bl: 0, br: 0)
                         .frame(height: 44)
                         .foregroundColor(Color.init("BackGround"))
-
+                    
                     PullToRefreshView(action: refreshAll, isDone: self.isProcessingDone) {
-//                        Composer(isProcessingDone: isProcessingDone)
-                       Spacer()
+                        //                        Composer(isProcessingDone: isProcessingDone)
+                        Spacer()
                     }
                     .frame(height: 36)
                     .padding(.horizontal, 16)
                     
                     HStack {
-                    Spacer()
+                        Spacer()
                         if !store.appState.setting.isProcessingDone {
                             ActivityIndicator(isAnimating: $store.appState.setting.isProcessingDone, style: .medium).frame(width: 12, height: 12, alignment: .center).padding(.trailing, 16)
                         }
@@ -56,21 +56,27 @@ struct TimelineViewRedux: View {
                 
                 ForEach(timeline.tweetIDStrings, id: \.self) {tweetIDString in
                     if tweetIDString != "toolsViewMark" {
-//                        Text(tweetIDString)
-                    TweetRow(viewModel: TweetRowViewModel(
-                                tweetIDString: tweetIDString, width: proxy.size.width))
-                        .onAppear{
-                            numberOfReadTweet += 1
-                            if store.appState.setting.loginUser?.setting.isAutoFetchMoreTweet == true {
-                                fetchMoreIfNeeded(tweetIDString: tweetIDString) }
-                        }
+                        StatusJsonRow(tweetID: tweetIDString, width: proxy.size.width)
+                            //                        Text(tweetIDString)
+                            //                    TweetRow(viewModel: TweetRowViewModel(
+                            //                                tweetIDString: tweetIDString, width: proxy.size.width))
+                            .onAppear{
+                                numberOfReadTweet += 1
+                                if store.appState.setting.loginUser?.setting.isAutoFetchMoreTweet == true {
+                                    fetchMoreIfNeeded(tweetIDString: tweetIDString) }
+                            }
                     } else {
                         ToolsView(tweetIDString: store.appState.timelineData.selectedTweetID ?? "")
-                            .listRowBackground(selectedBackgroudColor)
+//                            .listRowBackground(selectedBackgroudColor)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
                     }
                     
                 }
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.init("BackGround"))
+                //                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
                 
                 HStack {
                     Spacer()
@@ -80,9 +86,9 @@ struct TimelineViewRedux: View {
                     Button(isProcessingDone.wrappedValue ? "More Tweets..." : "Fetching...") {
                         store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
                     }
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                        .frame(height: 24)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .frame(height: 24)
                     Spacer()
                 }
                 .listRowBackground(Color.init("BackGround"))
@@ -95,11 +101,11 @@ struct TimelineViewRedux: View {
             }
             .gesture(DragGesture()
                         .onChanged({ value in
-                            hideKeyboard()}))
+                                    hideKeyboard()}))
             
             .navigationTitle(timeline.type.rawValue)
             .onAppear {
-                    store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
+                store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
             }
             .onDisappear{
                 store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: numberOfReadTweet))
@@ -120,7 +126,7 @@ extension TimelineViewRedux {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
-   
+    
     /// 如果推文属于timeline后端，则往下刷新推文。
     /// - Parameter tweetIDString: 执行此操作的推文ID
     func fetchMoreIfNeeded(tweetIDString: String) {

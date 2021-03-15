@@ -58,6 +58,7 @@
 		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
 		D255E24025EE1F440053CDE4 /* AppCommand_Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D255E23F25EE1F440053CDE4 /* AppCommand_Tweet.swift */; };
 		D257D7E9258B30E700DB7F05 /* UIImage+changeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D257D7E8258B30E700DB7F05 /* UIImage+changeColor.swift */; };
+		D25D9AE425FF0EEE0038A6B1 /* StatusJsonRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D25D9AE325FF0EEE0038A6B1 /* StatusJsonRow.swift */; };
 		D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDD924D2CEED00682B99 /* SafariView.swift */; };
 		D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */; };
 		D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2632D64251EEFF50023C417 /* FaceDetect.swift */; };
@@ -191,6 +192,7 @@
 		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
 		D255E23F25EE1F440053CDE4 /* AppCommand_Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommand_Tweet.swift; sourceTree = "<group>"; };
 		D257D7E8258B30E700DB7F05 /* UIImage+changeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+changeColor.swift"; sourceTree = "<group>"; };
+		D25D9AE325FF0EEE0038A6B1 /* StatusJsonRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusJsonRow.swift; sourceTree = "<group>"; };
 		D262FDD924D2CEED00682B99 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionUserSortedView.swift; sourceTree = "<group>"; };
 		D2632D64251EEFF50023C417 /* FaceDetect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetect.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				D2318AB6257228CC00F55BDF /* TweetRowViewModel.swift */,
 				D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */,
 				D228E06225FD9A900063E0EB /* StatusRow.swift */,
+				D25D9AE325FF0EEE0038A6B1 /* StatusJsonRow.swift */,
 				D2D48793257386A0005EE4A7 /* RetweetMark */,
 				D2ABAD1E2570A7C4009FDD94 /* Avatar */,
 				D2BB68F7257BC3F9003BDA13 /* UserNameCreatedAt */,
@@ -789,6 +792,7 @@
 				D228E06325FD9A900063E0EB /* StatusRow.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,
 				D28F9EA425E86F2600B8EF40 /* TimelineIconViewRedux.swift in Sources */,
+				D25D9AE425FF0EEE0038A6B1 /* StatusJsonRow.swift in Sources */,
 				D2419C242577746700A9CF98 /* TimelineType.swift in Sources */,
 				D2DDFCBF2532D65100AE7E39 /* ToolBarView.swift in Sources */,
 				D28F9E9525E4E0DB00B8EF40 /* Store.swift in Sources */,
