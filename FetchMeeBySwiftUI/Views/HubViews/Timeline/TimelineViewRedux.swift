@@ -14,6 +14,9 @@ import UIKit
 struct TimelineViewRedux: View {
     @EnvironmentObject var store: Store
     
+    ///创建一个简单表示法
+    var setting: UserSetting {store.appState.setting.loginUser?.setting ?? UserSetting()}
+    
     var timelineType: TimelineType
     var timeline: AppState.TimelineData.Timeline { store.appState.timelineData.getTimeline(timelineType: timelineType)}
     
@@ -56,27 +59,35 @@ struct TimelineViewRedux: View {
                 
                 ForEach(timeline.tweetIDStrings, id: \.self) {tweetIDString in
                     if tweetIDString != "toolsViewMark" {
-                        StatusJsonRow(tweetID: tweetIDString, width: proxy.size.width)
-                            //                        Text(tweetIDString)
-                            //                    TweetRow(viewModel: TweetRowViewModel(
-                            //                                tweetIDString: tweetIDString, width: proxy.size.width))
+                        VStack(spacing: 0){
+                        StatusJsonRow(tweetID: tweetIDString, width: proxy.size.width - 2 * setting.uiStyle.insetH)
+                            .background(setting.uiStyle.backGround)
+                            .cornerRadius(setting.uiStyle.radius, antialiased: true)
+                            .overlay(RoundedRectangle(cornerRadius: setting.uiStyle.radius)
+                            .stroke(setting.uiStyle.backGround, lineWidth: 1))
+                            .padding(.horizontal, setting.uiStyle.insetH)
+                            .padding(.vertical, setting.uiStyle.insetV)
+                            ///下面这个background可以遮蔽List的分割线
+                            .background(Color.init("BackGround"))
                             .onAppear{
                                 numberOfReadTweet += 1
                                 if store.appState.setting.loginUser?.setting.isAutoFetchMoreTweet == true {
                                     fetchMoreIfNeeded(tweetIDString: tweetIDString) }
                             }
+                        if setting.uiStyle == .plain {
+                            Divider().padding(0)
+                        }
+                        }
                     } else {
                         ToolsView(tweetIDString: store.appState.timelineData.selectedTweetID ?? "")
 //                            .listRowBackground(selectedBackgroudColor)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
+                            .padding(.horizontal, setting.uiStyle.insetH)
+                            .padding(.vertical,setting.uiStyle.insetV)
+                            .background(Color.init("BackGround"))
                     }
                     
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                .listRowInsets(EdgeInsets())
-                .listRowBackground(Color.init("BackGround"))
-                //                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
+                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
                 
                 HStack {
                     Spacer()

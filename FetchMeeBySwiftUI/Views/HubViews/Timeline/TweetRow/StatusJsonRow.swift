@@ -13,6 +13,8 @@ import Swifter
 
 struct StatusJsonRow: View {
     @EnvironmentObject var store: Store
+    ///创建一个简单表示法
+    var setting: UserSetting {store.appState.setting.loginUser?.setting ?? UserSetting()}
     
     var tweetID: String
     ///约束图片的显示宽度
@@ -21,65 +23,66 @@ struct StatusJsonRow: View {
     
     var status: JSON {StatusRepository.shared.status[tweetID] ?? JSON.init("")}
     @State var isShowDetail: Bool = false
+    
     var avatar: some View {
         VStack(alignment: .leading){
             AvatarView(userIDString: status["user"]["id_str"].string ?? "", width: 36, height: 36)
             Spacer()
         }
+        .frame(width:setting.uiStyle.avatarWidth )
     }
     
     var nameAndcreated: some View {
-        HStack{
+        HStack{ name; careated; Spacer(); detailIndicator }
+    }
+    
+    var name: some View {
         UserNameView(userName: status["user"]["name"].string ?? "Name",
                      screenName: status["user"]["screen_name"].string ?? "screenName")
-            CreatedTimeView(createdTime: status["created_at"].string ?? "now")
-            Spacer()
-            ZStack{
-                
-                NavigationLink(destination: DetailViewRedux(tweetIDString: tweetID), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
-                DetailIndicator(tweetIDString: tweetID)
-                    .onTapGesture {
-                        store.dipatch(.fetchSession(tweetIDString: tweetID))
-                        isShowDetail = true }
-
-            }.fixedSize()
-        }
+    }
+    
+    var detailIndicator: some View {
+        ZStack{
+            
+            NavigationLink(destination: DetailViewRedux(tweetIDString: tweetID), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
+            DetailIndicator(tweetIDString: tweetID)
+                .onTapGesture {
+                    store.dipatch(.fetchSession(tweetIDString: tweetID))
+                    isShowDetail = true }
+            
+        }.fixedSize()
     }
     
     var careated: some View {
-        CreatedTimeView(createdTime: "now")
+        CreatedTimeView(createdTime: status["created_at"].string ?? "now")
     }
     
     var text: some View {
         Text(status["text"].string ?? "Text")
     }
+    
+    
     var body: some View {
-        VStack{
+        VStack(alignment: .leading){
             HStack {
                 avatar
                 VStack(alignment: .leading){
                     nameAndcreated
                     text
-                        .onTapGesture {
-                            withAnimation{store.dipatch(.selectTweetRow(tweetIDString: status["id_str"].string ?? ""))}
-                            
-                        }
                 }
                 
             }.padding()
             if let imageUrls = getImagesUrls(status: status) {
-            Images(imageUrlStrings: imageUrls)
-                .frame(width: width - 2 * 16)
-                .clipped()
+                Images(imageUrlStrings: imageUrls)
+                    .frame(width: width )
+                    .clipped()
             }
         }
-        .background(Color.init("BackGroundLight"))
-        .cornerRadius(16, antialiased: true)
-        
-        .overlay(RoundedRectangle(cornerRadius: 16)
-         .stroke(Color.init("BackGroundLight"), lineWidth: 1))
-        .padding(.horizontal, 16)
-        .padding(.vertical, 4)
+        .onTapGesture {
+            withAnimation{
+                store.dipatch(.selectTweetRow(tweetIDString: tweetID))
+            }
+        }
     }
     
     func getImagesUrls(status: JSON) -> [String]? {

@@ -50,6 +50,13 @@ struct SettingView: View {
                     }
                 })
                 
+                Picker("Favorit UIStyle", selection: $setting.uiStyle, content: {
+                    ForEach(UIStyle.allCases){style in
+                        Text(style.rawValue.capitalized).tag(style)
+                    }
+                })
+                
+                
                 Toggle("Iron Fans Rate", isOn: self.$setting.isIronFansShowed)
                 Toggle("Show Pictures", isOn: self.$setting.isMediaShowed)
                 Toggle("Auto Fetch More", isOn: self.$setting.isAutoFetchMoreTweet)

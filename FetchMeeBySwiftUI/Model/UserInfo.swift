@@ -92,9 +92,45 @@ enum ThemeColor: String, CaseIterable, Identifiable, Codable {
     }
 }
 
+enum UIStyle: String, CaseIterable, Identifiable, Codable {
+   
+    case card
+    case plain
+    
+    var id:String {self.rawValue}
+    var radius: CGFloat {
+        switch self {
+        case .card: return 16
+        case .plain: return 0
+        }
+    }
+    var insetH: CGFloat {
+        switch self {
+        case .card: return 16
+        case .plain: return 0
+        }
+    }
+    var insetV: CGFloat {
+        switch self {
+        case .card: return 4
+        case .plain: return 0
+        }
+    }
+    var backGround: Color {
+        switch self {
+        case .card: return Color.init("BackGroundLight")
+        case .plain: return Color.init("BackGround")
+        }
+    }
+    var avatarWidth: CGFloat { 36 }
+    
+}
+
+
 struct UserSetting: Codable {
     
     var themeColor: ThemeColor = ThemeColor.blue //缺省值是蓝色
+    var uiStyle: UIStyle = .card //卡片式样
     var isIronFansShowed: Bool = false
     var isMediaShowed: Bool = true //控制是否显示图片、视频
     var isAutoFetchMoreTweet: Bool = true //控制是否自动载入更多推文

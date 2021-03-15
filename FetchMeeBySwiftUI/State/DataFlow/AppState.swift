@@ -26,6 +26,7 @@ extension AppState {
             var isWarning: Bool = false
         }
         
+        ///产生一个Publisher，用来检测输入文字是否含有#或@
         class TweetTextChecker {
             @Published var tweetText = ""
             var autoMap: AnyPublisher<String, Never> {
@@ -73,7 +74,6 @@ extension AppState {
         
         var checker = TweetTextChecker()
         
-//        var tweetTags: Set<AppState.Setting.TweetTag> = []
     }
 }
 
@@ -209,3 +209,6 @@ extension AppState.TimelineData.Timeline {
         }
     }
 }
+
+
+    
