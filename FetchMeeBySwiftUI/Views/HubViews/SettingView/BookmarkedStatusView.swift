@@ -59,7 +59,7 @@ extension BookmarkedStatusView {
     }
     
     private func deleteTags(offsets: IndexSet) {
-        offsets.map{ statuses[$0]}.forEach(viewContext.delete)
+        offsets.map{ filterStatus[$0]}.forEach(viewContext.delete)
         
         do {
             try viewContext.save()
