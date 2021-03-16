@@ -59,7 +59,12 @@ struct FetcherSw: Fetcher {
                     addDataToRepository($0["quoted_status"])
                 }
                 if $0["retweeted_status"]["id_str"].string != nil {
-                    addDataToRepository($0["retweeted_status"])
+                    let retweeted_status = $0["retweeted_status"]
+                    addDataToRepository(retweeted_status)
+                    ///如果retweet推文内含有引用推文，则把该推文也保存
+                    if retweeted_status["quoted_status_id_str"].string != nil {
+                        addDataToRepository(retweeted_status["quoted_status"])
+                    }
                 }
                 
 //                ///TODO：测速吃
