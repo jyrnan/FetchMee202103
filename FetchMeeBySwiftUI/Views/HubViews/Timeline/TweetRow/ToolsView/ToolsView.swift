@@ -44,7 +44,7 @@ struct ToolsView: View {
                             store.dipatch(.tweetOperation(operation: .delete(id: tweetIDString)))
                         } else {
 //                            isAlertShowed = true
-                            Status_CD.JSON_Save(from: status!)
+                            let _ = Status_CD.JSON_Save(from: status!)
                             store.dipatch(.alertOn(text: "Bookmarked!", isWarning: false))
                         }
                     }

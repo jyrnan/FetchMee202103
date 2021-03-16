@@ -48,7 +48,7 @@ struct StatusRow: View {
                 
             }.padding()
             if status.imageUrls != nil {
-            Images(imageUrlStrings: status.imageUrls!)
+                Images(imageUrlStrings: status.imageUrls!)
                 .clipped()
             }
         }

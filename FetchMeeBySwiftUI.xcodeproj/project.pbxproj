@@ -366,12 +366,12 @@
 		D21C3302255A824A001CBBCD /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				D2A972F125FCC97D005F06A5 /* Status_CD+JSON_Save.swift */,
 				D2905075252C07360065EA83 /* Persistance.swift */,
 				D2905077252C09360065EA83 /* FetchMee.xcdatamodeld */,
 				D286EC31255A2BD500C98195 /* TwitterUser+UpdateAndSave.swift */,
 				D21C3303255A827C001CBBCD /* Counter+Calculate.swift */,
 				D2BC206725F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift */,
+				D2A972F125FCC97D005F06A5 /* Status_CD+JSON_Save.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -1000,7 +1000,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 66;
+				CURRENT_PROJECT_VERSION = 67;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -1025,7 +1025,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 66;
+				CURRENT_PROJECT_VERSION = 67;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;

@@ -28,7 +28,7 @@ struct ComposerOfHubView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var draftsByCoreData: FetchedResults<TweetDraft>
     
-    lazy var predicate = NSPredicate(format: "%K == %@", #keyPath(TwitterUser.userIDString), store.appState.setting.loginUser?.id as! CVarArg)
+    lazy var predicate = NSPredicate(format: "%K == %@", #keyPath(TwitterUser.userIDString), store.appState.setting.loginUser?.id ?? "")
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
     
     @State var currentTweetDraft: TweetDraft? //用来接受从draft视图传递过来需要编辑的draft
@@ -242,7 +242,7 @@ extension ComposerOfHubView {
             
             ///- Todo：- 所有的发布的内容保存一份
             if replyIDString == nil || count > 1 {
-                Status_CD.JSON_Save(from: json)
+                let _ = Status_CD.JSON_Save(from: json)
             }
             
             
