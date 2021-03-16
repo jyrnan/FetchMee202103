@@ -22,7 +22,8 @@ struct StatusJsonRow: View {
     
     var status: JSON {StatusRepository.shared.status[tweetID] ?? JSON.init("")}
     
-    var quotedStausID: String? {status["quoted_status_id_str"].string }
+    var quotedStatusID: String? {status["quoted_status_id_str"].string }
+    var retweetStatusID: String? {status["retweeted_status"]["id_str"].string}
     
     @State var isShowDetail: Bool = false
     
@@ -63,17 +64,22 @@ struct StatusJsonRow: View {
         Text(status["text"].string ?? "Text")
     }
     
+    var retweeted: some View {
+        Text("")
+    }
+    
     
     var body: some View {
         VStack(alignment: .leading){
+            if retweetStatusID == nil {
             HStack {
                 avatar
                 VStack(alignment: .leading){
                     nameAndcreated
                     text
                     
-                    if quotedStausID != nil {
-                       QuotedStatusJsonRow(tweetID: quotedStausID!, width: width - 76)
+                    if quotedStatusID != nil {
+                       QuotedStatusJsonRow(tweetID: quotedStatusID!, width: width - 76)
                     }
                 }
                 
@@ -85,7 +91,11 @@ struct StatusJsonRow: View {
                     
                     .clipped()
             }
-            
+            } else {
+                RetweetMarkView(userIDString: tweetID, userName: status["user"]["name"].string)
+                    .padding(.top, 8).padding(.bottom, -16)
+                StatusJsonRow(tweetID: retweetStatusID!, width: width)
+            }
         }
         .onTapGesture {
             withAnimation{

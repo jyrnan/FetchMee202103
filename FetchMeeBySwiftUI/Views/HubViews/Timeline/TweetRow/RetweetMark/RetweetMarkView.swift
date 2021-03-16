@@ -25,11 +25,11 @@ struct RetweetMarkView: View {
             Text( "\(userName ?? "userName")  retweeted")
                 .font(.subheadline).lineLimit(2)
                 .foregroundColor(.gray)
-                .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                    self.presentedUserInfo = true
-                })
+//                .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+//                    self.presentedUserInfo = true
+//                })
             Spacer()
-        }.offset(x: 44).padding(.top, 0).padding(.bottom, 0)
+        }.offset(x: 40).padding(.top, 0).padding(.bottom, 0)
     }
 }
 

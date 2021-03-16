@@ -22,7 +22,7 @@ struct QuotedStatusJsonRow: View {
     
     var status: JSON {StatusRepository.shared.status[tweetID] ?? JSON.init("")}
     
-//    var quotedStausID: String? {status["quoted_status_id_str"].string }
+//    var quotedStatusID: String? {status["quoted_status_id_str"].string }
     
     @State var isShowDetail: Bool = false
     

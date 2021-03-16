@@ -58,6 +58,9 @@ struct FetcherSw: Fetcher {
                 if $0["quoted_status_id_str"].string != nil{
                     addDataToRepository($0["quoted_status"])
                 }
+                if $0["retweeted_status"]["id_str"].string != nil {
+                    addDataToRepository($0["retweeted_status"])
+                }
                 
 //                ///TODO：测速吃
 //                Status_CD.JSON_Save(from: $0)
