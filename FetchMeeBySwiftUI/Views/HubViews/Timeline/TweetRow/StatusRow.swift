@@ -54,9 +54,10 @@ struct StatusRow: View {
         }
         .background(Color.init("BackGroundLight"))
         .cornerRadius(16, antialiased: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
-        .onTapGesture {
-            print(status.user)
-        }
+        .foregroundColor(Color.init(.label))
+//        .onTapGesture {
+//            print(status.user)
+//        }
         
     }
     

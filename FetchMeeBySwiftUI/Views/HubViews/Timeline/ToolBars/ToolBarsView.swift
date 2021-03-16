@@ -85,11 +85,17 @@ struct ToolBarsView: View {
                     }
                 }
             if statusOfLoginuser != nil {
-                StatusRow(status: statusOfLoginuser!)
+                NavigationLink(destination: BookmarkedStatusView(userID: store.appState.setting.loginUser?.id),
+                               label: {
+                                StatusRow(status: statusOfLoginuser!)})
             }
             
             if statusOfBookmarked != nil {
-                StatusRow(status: statusOfBookmarked!)}
+                NavigationLink(destination: BookmarkedStatusView(),
+                               label: {
+                                StatusRow(status: statusOfBookmarked!)})
+                
+            }
         }
     }
 }
