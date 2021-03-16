@@ -39,7 +39,7 @@ struct HubView: View {
                     ComposerOfHubView(tweetText: tweetText)
                         .padding(.top, 16)
                         .padding([.leading, .trailing], 18)
-                        .frame(minHeight: 120, idealHeight: UIScreen.main.bounds.height - 600, maxHeight: .infinity)
+                        .frame(minHeight: 120, maxHeight: 240)
                     
                     Divider()
                     TimelinesView()
@@ -82,15 +82,7 @@ struct HubView: View {
     }
 }
 
-//struct HubView_Previews: PreviewProvider {
-//    
-//    static var previews: some View {
-////        Group {
-////            HubView().environmentObject(User())
-////            HubView().environmentObject(User()).environment(\.colorScheme, .dark)
-////        }
-//    }
-//}
+
 
 //MARK:-设置后台刷新的内容
 extension HubView {
