@@ -83,8 +83,10 @@ struct FetchSessionCommand: AppCommand {
                 }
             }
             
-            let status = StatusRepository.shared.status[initialTweetIDString]! //必定是有这个status返回的
-            sh(json: status)
+            if let status = StatusRepository.shared.status[initialTweetIDString] {
+                sh(json: status) } else {
+                    store.swifter.getTweet(for: initialTweetIDString, success: sh, failure: failureHandler)
+                }
         }
         
         getReplyDetail(for: initialTweetIDString)
