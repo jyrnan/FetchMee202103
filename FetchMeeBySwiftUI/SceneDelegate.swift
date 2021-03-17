@@ -256,7 +256,7 @@ extension SceneDelegate {
         
         //实际操作部分，但如果操作内容为空则写入log并结束
         Count.cleanCountData(success: successHandler, before: 7.0, context: context)
-        store.dipatch(.clearTimelineData) 
+        
     }
 }
 

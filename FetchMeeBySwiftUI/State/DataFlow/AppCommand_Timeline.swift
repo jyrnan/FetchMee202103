@@ -28,7 +28,7 @@ struct FetchTimelineCommand: AppCommand {
         
         FetcherSwifter.provider = store.swifter
         let fecher = FetcherSwifter(repository: store.repository, loginUserID: loginUserID)
-
+        
         fecher.makeSessionUpdataPublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData)
             .sink(receiveCompletion: {complete in
                 if case .failure(let error) = complete {
@@ -64,47 +64,55 @@ struct FetchSessionCommand: AppCommand {
                 store.dipatch(.fetchSessionDone(timeline: session))
             }
             
-            func getLocalStatus(id: String) {
-                print(#line, #function, id)
-                session.tweetIDStrings.insert(id, at: 0)
-                print(#line, #function, session)
-                //如果本地找到这个ID的status
+            func getStatus(id: String) {
+                
+                //如果status能直接从repository获取，则直接获取
                 if let status = store.repository.status[id] {
-//                    counter += 1
-                    if let in_reply_to_status_id_str = status.in_reply_to_status_id_str {
-                        getLocalStatus(id: in_reply_to_status_id_str) }
+                
+                    //直接获取status后，查看是否需要进一步获取后续status
+                    if let nextID = status.in_reply_to_status_id_str {
+                        
+                        session.tweetIDStrings.insert(nextID, at: 0)
+                        getStatus(id: nextID)
+                    }
+                    //没有后续回复数据，所以结束
                     else {
                         finalReloadView()
                     }
-                }else
-                {
-                    store.swifter.getTweet(for: id, success: sh, failure: failureHandler) }
+                }
+                //不能直接获取status， 所以从网咯获取
+                else {
+                    counter += 1
+                    
+                    store.swifter.getTweet(for: id, success: sh, failure: failureHandler)
+                    
+                }
             }
             
             func sh(json: JSON) -> () {
                 let status:JSON = json
-                guard let newTweetIDString = status["id_str"].string else {return}
                 
                 store.repository.addStatus(data: status)
                 store.repository.addUser(data: status["user"])
-            
-                session.tweetIDStrings.insert(newTweetIDString, at: 0)
+                
+                
                 if let nextID = status["in_reply_to_status_id_str"].string, counter < 8 {
-                    ///如果推文已经下过在推文仓库可以获取，则直接获取，否则从网络获取
+                    //如果推文还有回复的ID，并且网络总获取次数小于8
+                    //则继续从网咯获取
+                    //先加入ID再获取Status
+                    session.tweetIDStrings.insert(nextID, at: 0)
                     counter += 1
-                        store.swifter.getTweet(for: nextID, success: sh, failure: failureHandler)
-                   
+                    store.swifter.getTweet(for: nextID, success: sh, failure: failureHandler)
+                    
                     
                 } else {
                     finalReloadView()
                 }
             }
+            //先加入ID再获取Status
+            session.tweetIDStrings.insert(initialTweetIDString, at: 0)
+            getStatus(id: initialTweetIDString)
             
-            if let status = store.repository.status[initialTweetIDString], let nextID = status.in_reply_to_status_id_str {
-                getLocalStatus(id: nextID)
-                 } else {
-                    store.swifter.getTweet(for: initialTweetIDString, success: sh, failure: failureHandler)
-                }
         }
         
         getReplyDetail(for: initialTweetIDString)
@@ -119,7 +127,7 @@ struct DelayedSeletcTweetRowCommand: AppCommand {
     func execute(in store: Store) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             withAnimation{
-            store.dipatch(.selectTweetRow(tweetIDString: tweetIDString))
+                store.dipatch(.selectTweetRow(tweetIDString: tweetIDString))
             }
         }
     }
