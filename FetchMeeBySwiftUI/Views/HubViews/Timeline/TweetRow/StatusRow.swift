@@ -43,7 +43,7 @@ struct StatusRow: View {
                 avatar
                 VStack(alignment: .leading){
                     nameAndcreated
-                    text
+                    text.padding(.top, 4)
                 }
                 
             }.padding()

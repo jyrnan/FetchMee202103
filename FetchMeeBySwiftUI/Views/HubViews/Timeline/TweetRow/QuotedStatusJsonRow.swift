@@ -57,6 +57,7 @@ struct QuotedStatusJsonRow: View {
     
     var text: some View {
         Text(status["text"].string ?? "Text")
+        
     }
     
     

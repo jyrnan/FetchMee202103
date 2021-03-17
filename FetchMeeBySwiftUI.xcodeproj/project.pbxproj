@@ -293,9 +293,7 @@
 		4B7130AD253574A500CE0082 /* TweetRow */ = {
 			isa = PBXGroup;
 			children = (
-				D27DCF8B24B9A56100520BE3 /* TweetRow.swift */,
-				D2318AB6257228CC00F55BDF /* TweetRowViewModel.swift */,
-				D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */,
+				D268246926019DB5004CAB1A /* Old */,
 				D228E06225FD9A900063E0EB /* StatusRow.swift */,
 				D25D9AE325FF0EEE0038A6B1 /* StatusJsonRow.swift */,
 				D2C8107825FF9AC9001C6546 /* QuotedStatusJsonRow.swift */,
@@ -436,6 +434,16 @@
 				D266729025F9ACCC0044DBBA /* Fetcher.swift */,
 			);
 			path = Fetcher;
+			sourceTree = "<group>";
+		};
+		D268246926019DB5004CAB1A /* Old */ = {
+			isa = PBXGroup;
+			children = (
+				D27DCF8B24B9A56100520BE3 /* TweetRow.swift */,
+				D2318AB6257228CC00F55BDF /* TweetRowViewModel.swift */,
+				D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */,
+			);
+			path = Old;
 			sourceTree = "<group>";
 		};
 		D27DCEAD24B96D5F00520BE3 = {

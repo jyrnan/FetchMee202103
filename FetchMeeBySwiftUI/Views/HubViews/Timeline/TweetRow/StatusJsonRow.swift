@@ -17,8 +17,13 @@ struct StatusJsonRow: View {
     var setting: UserSetting {store.appState.setting.loginUser?.setting ?? UserSetting()}
     
     var tweetID: String
-    ///约束图片的显示宽度
+    
+    ///约束图片的显示宽度，
+    ///目前传入的宽度是屏幕宽度减去两侧空余
     var width: CGFloat
+    
+    //avatar区域的宽度
+    var avatarColumWidth: CGFloat = 80
     
     var status: JSON {store.repository.status[tweetID] ?? JSON.init("")}
     
@@ -61,7 +66,9 @@ struct StatusJsonRow: View {
     }
     
     var text: some View {
-        Text(status["text"].string ?? "Text")
+//        Text(status["text"].string ?? "Text")
+        NSAttributedStringView(viewModel: StatusTextViewModel(status: status),
+                               width: width - avatarColumWidth)
     }
     
     var retweeted: some View {

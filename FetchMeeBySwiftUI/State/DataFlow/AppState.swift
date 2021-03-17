@@ -112,10 +112,11 @@ extension AppState.TimelineData {
             .filter{$0.value.tweetIDStrings.count > keepTweetCount}
             .forEach{self.timelines[$0]?.tweetIDStrings.removeLast($1.tweetIDStrings.count - keepTweetCount)}
         
-        ///获取所有的tweetID集合用于后续判断
+        //获取所有的tweetID集合用于后续判断
+        //TODO: 需要增加保留推文中的引用，retweet推文的ID
         let tweetIDStrings = Set(timelines.values.flatMap{$0.tweetIDStrings})
         
-        ///
+        //
 //        StatusRepository.shared.status.keys
 //            .filter{!tweetIDStrings.contains($0)}
 //            .forEach{Repository.shared.status[$0] = nil}

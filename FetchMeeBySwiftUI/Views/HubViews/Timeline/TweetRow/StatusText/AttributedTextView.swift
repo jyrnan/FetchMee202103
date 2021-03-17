@@ -35,11 +35,9 @@ struct NSAttributedStringView: View {
         let height = attributedText.height(containerWidth: width)
         return NativeTextView(attributedText: attributedText, isShowUserView: $isShowUserView, url: $url, action: urlAction(url:))
             .frame(width: width, height: height)
-//            .background(Color.init("BackGround"))
         
     }
     
-    ///
     func urlAction(url: URL) -> (){
         self.url = url
         if url.absoluteString.starts(with: "http") {

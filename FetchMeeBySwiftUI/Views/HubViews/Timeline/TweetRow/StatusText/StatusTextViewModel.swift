@@ -34,7 +34,6 @@ class StatusTextViewModel: ObservableObject {
         var attributedString = NSMutableAttributedString(string: string)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
-//        paragraphStyle.paragraphSpacing = 8
         paragraphStyle.alignment = alignMent
         let range = NSMakeRange(0, (string as NSString).length)
         attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
