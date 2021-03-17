@@ -158,11 +158,11 @@ class Store: ObservableObject {
 
 extension Store {
     func getUser(userID: String, compeletHandler: @escaping (JSON) -> Void) {
-        if let user = repository.users[userID] {
-            compeletHandler(user)
-        } else {
+//        if let user = repository.users[userID] {
+//            compeletHandler(user)
+//        } else {
             self.swifter.showUser(UserTag.id(userID),
                                   success: compeletHandler)
-        }
+//        }
     }
 }

@@ -25,11 +25,11 @@ struct AvatarView: View {
     var width: CGFloat
     var height: CGFloat
     
-    var user: JSON? {store.repository.users[userIDString]}
+    var user: UserInfo? {store.repository.users[userIDString]}
     
     
     
-    var imageUrl:String? {user?["profile_image_url_https"].string ?? twitterUsers.filter{$0.userIDString == userIDString}.first?.avatar}
+    var imageUrl:String? {user?.avatarUrlString ?? twitterUsers.filter{$0.userIDString == userIDString}.first?.avatar}
     
     init(userIDString: String, width:CGFloat = 64, height: CGFloat = 64) {
 
@@ -52,7 +52,7 @@ struct AvatarView: View {
                             presentedUserInfo = true
                         }
                         .alert(isPresented: $isShowAlert, content: {
-                            Alert(title: Text("没拍到"), message: Text("可能\(user?["name"].string ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
+                            Alert(title: Text("没拍到"), message: Text("可能\(user?.name ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
                         })
                 ///显示头像补充图标
                 ///如果该用户nickName不为空，则显示星标

@@ -12,8 +12,8 @@ import Swifter
 import CoreData
 
 protocol Fetcher {
-    associatedtype Status
-    associatedtype User
+//    associatedtype Status
+//    associatedtype User
     
     typealias Timeline = AppState.TimelineData.Timeline
     typealias MentionUserData = [UserInfo.MentionUser]
