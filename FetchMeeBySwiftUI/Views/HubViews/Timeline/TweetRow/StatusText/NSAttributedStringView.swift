@@ -14,7 +14,7 @@ import SafariServices
 struct NSAttributedStringView: View {
     @Environment(\.openURL) var openURL
     
-    var viewModel :StatusTextViewModel
+    var attributedText: NSMutableAttributedString
     var width: CGFloat
     
     @State var isShowUserView: Bool = false
@@ -27,7 +27,7 @@ struct NSAttributedStringView: View {
                 EmptyView()
                 .sheet(isPresented: $isShowSafariView) {SafariView(url: $url)}.disabled(true)
             }.disabled(true).opacity(0.1)
-        self.makeNativeTextView(width: width,attributedText: viewModel.attributedText)
+        self.makeNativeTextView(width: width,attributedText: attributedText)
         }
     }
     

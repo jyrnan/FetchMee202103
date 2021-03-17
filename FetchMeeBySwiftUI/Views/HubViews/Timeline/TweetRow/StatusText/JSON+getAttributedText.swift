@@ -9,23 +9,15 @@
 import UIKit
 import Swifter
 
-class StatusTextViewModel: ObservableObject {
-    var status: JSON
-    var attributedText: NSMutableAttributedString!
-    
-    var themeColor: UIColor = .gray
-//    { UIColor((loginUser?.setting.themeColor.color)!)}
-    //
-    let alignMent: NSTextAlignment
-    
-    init(status: JSON, alignment: NSTextAlignment = .left) {
-        self.status = status
-        self.alignMent = alignment
-        attributedText = setAttributedText()
-    }
+extension JSON  {
+    func getAttributedText(alignment: NSTextAlignment = .left) -> NSMutableAttributedString {
+    let themeColor: UIColor = .gray
+
+    let alignment: NSTextAlignment = .left
     
     func setAttributedText() -> NSMutableAttributedString{
-        let text = (status["text"].string ??  status["description"].string) ?? "Nothing"
+        
+        let text = (self["text"].string ??  self["description"].string) ?? "Nothing"
         let attributedText = attributedString(for: text)
         return attributedText as! NSMutableAttributedString
     }
@@ -34,15 +26,15 @@ class StatusTextViewModel: ObservableObject {
         var attributedString = NSMutableAttributedString(string: string)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
-        paragraphStyle.alignment = alignMent
+        paragraphStyle.alignment = alignment
         let range = NSMakeRange(0, (string as NSString).length)
         attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .body), range: range)
         attributedString.addAttribute(.foregroundColor, value: UIColor.label, range: range)
         attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
         
-        attributedString = setHashTagAttribute(status: status, attributedString: attributedString)
-        attributedString = setLinkAttribute(status: status, attributedString: attributedString)
-        attributedString = setMentionAttribute(status: status, attributedString: attributedString)
+        attributedString = setHashTagAttribute(status: self, attributedString: attributedString)
+        attributedString = setLinkAttribute(status: self, attributedString: attributedString)
+        attributedString = setMentionAttribute(status: self, attributedString: attributedString)
         
         return attributedString
     }
@@ -137,6 +129,9 @@ class StatusTextViewModel: ObservableObject {
         attributedString.insert(replyingToprefix, at: 0)
         
         return attributedString
+    }
+        
+        return setAttributedText()
     }
 }
 

@@ -176,7 +176,7 @@ struct UserViewRedux: View {
                     }.padding()
                     
                     ///用户Bio信息
-                    NSAttributedStringView(viewModel: StatusTextViewModel(status: userJSON, alignment: .center), width: 300).padding([.top], 16)
+                    NSAttributedStringView(attributedText: userJSON.getAttributedText(alignment: .center) , width: 300).padding([.top], 16)
                     
                     ///用户位置信息
                     HStack() {

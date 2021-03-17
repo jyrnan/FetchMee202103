@@ -67,7 +67,7 @@ struct StatusJsonRow: View {
     
     var text: some View {
 //        Text(status["text"].string ?? "Text")
-        NSAttributedStringView(viewModel: StatusTextViewModel(status: status),
+        NSAttributedStringView(attributedText: status.getAttributedText(),
                                width: width - avatarColumWidth)
     }
     

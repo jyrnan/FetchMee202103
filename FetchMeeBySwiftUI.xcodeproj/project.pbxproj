@@ -49,8 +49,8 @@
 		D2419C1C2577603C00A9CF98 /* Retweet.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2419C132577603C00A9CF98 /* Retweet.txt */; };
 		D2419C1D2577603C00A9CF98 /* followers in Resources */ = {isa = PBXBuildFile; fileRef = D2419C142577603C00A9CF98 /* followers */; };
 		D2419C242577746700A9CF98 /* TimelineType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C232577746700A9CF98 /* TimelineType.swift */; };
-		D2419C712579E43900A9CF98 /* AttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C702579E43900A9CF98 /* AttributedTextView.swift */; };
-		D2419C732579F39700A9CF98 /* StatusTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C722579F39700A9CF98 /* StatusTextViewModel.swift */; };
+		D2419C712579E43900A9CF98 /* NSAttributedStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C702579E43900A9CF98 /* NSAttributedStringView.swift */; };
+		D2419C732579F39700A9CF98 /* JSON+getAttributedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C722579F39700A9CF98 /* JSON+getAttributedText.swift */; };
 		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
 		D252548024D804AB00D8B508 /* WebLinkAndImageJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkAndImageJson.txt */; };
 		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
@@ -183,8 +183,8 @@
 		D2419C132577603C00A9CF98 /* Retweet.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Retweet.txt; sourceTree = "<group>"; };
 		D2419C142577603C00A9CF98 /* followers */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = followers; sourceTree = "<group>"; };
 		D2419C232577746700A9CF98 /* TimelineType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineType.swift; sourceTree = "<group>"; };
-		D2419C702579E43900A9CF98 /* AttributedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextView.swift; sourceTree = "<group>"; };
-		D2419C722579F39700A9CF98 /* StatusTextViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTextViewModel.swift; sourceTree = "<group>"; };
+		D2419C702579E43900A9CF98 /* NSAttributedStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringView.swift; sourceTree = "<group>"; };
+		D2419C722579F39700A9CF98 /* JSON+getAttributedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+getAttributedText.swift"; sourceTree = "<group>"; };
 		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
 		D252547F24D804AB00D8B508 /* WebLinkAndImageJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkAndImageJson.txt; sourceTree = "<group>"; };
 		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
@@ -391,8 +391,8 @@
 		D2419C6F2579E3D600A9CF98 /* StatusText */ = {
 			isa = PBXGroup;
 			children = (
-				D2419C702579E43900A9CF98 /* AttributedTextView.swift */,
-				D2419C722579F39700A9CF98 /* StatusTextViewModel.swift */,
+				D2419C702579E43900A9CF98 /* NSAttributedStringView.swift */,
+				D2419C722579F39700A9CF98 /* JSON+getAttributedText.swift */,
 			);
 			path = StatusText;
 			sourceTree = "<group>";
@@ -780,7 +780,7 @@
 				D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */,
 				D27744E3253B149B0062B25C /* BackOfFriendToolBar.swift in Sources */,
 				D27744E5253B14DD0062B25C /* BackOfTweetsToolBar.swift in Sources */,
-				D2419C732579F39700A9CF98 /* StatusTextViewModel.swift in Sources */,
+				D2419C732579F39700A9CF98 /* JSON+getAttributedText.swift in Sources */,
 				D2ABAD1B256F9345009FDD94 /* ImageThumbView.swift in Sources */,
 				D2ABAD1D256F938E009FDD94 /* ImageThrumbViewModel.swift in Sources */,
 				D21C3304255A827C001CBBCD /* Counter+Calculate.swift in Sources */,
@@ -856,7 +856,7 @@
 				D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */,
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
 				D28F9EA825E9E5D100B8EF40 /* DetailViewRedux.swift in Sources */,
-				D2419C712579E43900A9CF98 /* AttributedTextView.swift in Sources */,
+				D2419C712579E43900A9CF98 /* NSAttributedStringView.swift in Sources */,
 				D20A35D925EA6BC00012CD82 /* TimelinesView.swift in Sources */,
 				D20A35D325E68F870012CD82 /* FileStorage.swift in Sources */,
 				D28F9E9D25E4E39F00B8EF40 /* AppError.swift in Sources */,
