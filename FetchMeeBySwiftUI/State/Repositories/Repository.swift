@@ -75,7 +75,7 @@ extension Repository {
         status.retweeted = json["retweeted"].bool!
         status.retweet_count = json["retweet_count"].integer
         
-        status.retweeted_status_id_str = json["quoted_status"]["id_str"].string
+        status.retweeted_status_id_str = json["retweeted_status"]["id_str"].string
         status.quoted_status_id_str = json["quoted_status_id_str"].string //引用推文的ID
 
         status.in_reply_to_user_id_str = json["in_reply_to_user_id_str"].string
