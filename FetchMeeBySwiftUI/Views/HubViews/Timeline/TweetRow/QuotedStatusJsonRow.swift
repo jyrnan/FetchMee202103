@@ -20,14 +20,14 @@ struct QuotedStatusJsonRow: View {
     ///约束图片的显示宽度
     var width: CGFloat
     
-    var status: JSON {store.repository.status[tweetID] ?? JSON.init("")}
+    var status: Status {store.repository.status[tweetID] ?? Status()}
     
 //    var quotedStatusID: String? {status["quoted_status_id_str"].string }
     
     @State var isShowDetail: Bool = false
     
     var avatar: some View {
-                   AvatarView(userIDString: status["user"]["id_str"].string ?? "", width: 18, height: 18)
+        AvatarView(userIDString: status.user?.id ?? "", width: 18, height: 18)
     }
     
     var nameAndcreated: some View {
@@ -35,8 +35,8 @@ struct QuotedStatusJsonRow: View {
     }
     
     var name: some View {
-        UserNameView(userName: status["user"]["name"].string ?? "Name",
-                     screenName: status["user"]["screen_name"].string ?? "screenName")
+        UserNameView(userName: status.user?.name ?? "Name",
+                     screenName: status.user?.screenName ?? "screenName")
     }
     
     var detailIndicator: some View {
@@ -52,11 +52,11 @@ struct QuotedStatusJsonRow: View {
     }
     
     var careated: some View {
-        CreatedTimeView(createdTime: status["created_at"].string ?? "now")
+        CreatedTimeView(created_at: status.createdAt ?? Date())
     }
     
     var text: some View {
-        Text(status["text"].string ?? "Text")
+        Text(status.text ?? "Text")
         
     }
     
@@ -70,7 +70,7 @@ struct QuotedStatusJsonRow: View {
                     text.font(.callout)
                 }
                 .padding(4)
-            if let imageUrls = getImagesUrls(status: status) {
+            if let imageUrls = status.imageUrls {
                 Images(imageUrlStrings: imageUrls)
                     .frame(width: width )
                     .clipped()

@@ -22,7 +22,7 @@ extension TwitterUser {
     ///   - updateNickName: 是否需要更新当前用户的NickName
     /// - Returns: 返回当前用户
     @discardableResult
-    static func updateOrSaveToCoreData(from user: JSON,
+    static func updateOrSaveToCoreData(from user: JSON?, id: String? = "0000",
                                        in viewContext: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext ,
                                        isLocalUser: Bool = false,
                                        updateNickName: String? = nil) -> TwitterUser {
@@ -44,8 +44,10 @@ extension TwitterUser {
         
         var currentUser: TwitterUser
         
+        let id = user?["id_str"].string ?? id!
+        
         let userFetch: NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
-        userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), user["id_str"].string!)
+        userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), id)
         userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.createdAt, ascending: true)]
         
         var results = (try? viewContext.fetch(userFetch)) ?? []
@@ -60,8 +62,9 @@ extension TwitterUser {
         } else {currentUser = TwitterUser(context: viewContext)
         }
         
+        if let user = user {
         updateTwitterUser(currentUser, with: user)
-       
+        }
         
         ///如果是本地用户更新信息，则不需要改nickName
         ///如果需要更改nickName，则需要传入更改参数
@@ -79,9 +82,9 @@ extension TwitterUser {
             
             let count: Count = Count(context: viewContext)
             count.createdAt = Date()
-            count.follower = Int32(user["followers_count"].integer ?? 0)
-            count.following = Int32(user["friends_count"].integer ?? 0)
-            count.tweets = Int32(user["statuses_count"].integer ?? 0)
+            count.follower = Int32(user?["followers_count"].integer ?? 0)
+            count.following = Int32(user?["friends_count"].integer ?? 0)
+            count.tweets = Int32(user?["statuses_count"].integer ?? 0)
             
             currentUser.addToCount(count)
             print(#line, "add user count info")

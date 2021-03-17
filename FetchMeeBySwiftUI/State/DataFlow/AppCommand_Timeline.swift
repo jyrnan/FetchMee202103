@@ -24,9 +24,10 @@ struct FetchTimelineCommand: AppCommand {
     func execute(in store: Store) {
         let token = SubscriptionToken()
         let mentionUserData = store.appState.timelineData.mentionUserData
+        let loginUserID = store.appState.setting.loginUser?.id
         
         FetcherSwifter.provider = store.swifter
-        let fecher = FetcherSwifter(repository: store.repository)
+        let fecher = FetcherSwifter(repository: store.repository, loginUserID: loginUserID)
 
         fecher.makeSessionUpdataPublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData)
             .sink(receiveCompletion: {complete in

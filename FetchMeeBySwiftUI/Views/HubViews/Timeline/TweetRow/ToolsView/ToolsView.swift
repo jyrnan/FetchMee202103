@@ -20,15 +20,15 @@ struct ToolsView: View {
     
     @State var isAlertShowed: Bool = false
     
-    var status: JSON? {store.repository.status[tweetIDString]}
+    var status: Status? {store.repository.status[tweetIDString]}
     
-    var retweeted: Bool { status?["retweeted"].bool ?? false }
-    var retweetedCount: Int {status?["retweet_count"].integer ?? 0 }
+    var retweeted: Bool { status?.retweeted ?? false }
+    var retweetedCount: Int {status?.retweet_count ?? 0 }
     
-    var favorited: Bool { status?["favorited"].bool ?? false }
-    var favoritedCount: Int {status?["favorite_count"].integer ?? 0 }
+    var favorited: Bool { status?.favorited ?? false }
+    var favoritedCount: Int {status?.favorite_count ?? 0 }
     
-    var isMyTweet: Bool {status?["user"]["id_str"].string == store.appState.setting.loginUser?.id}
+    var isMyTweet: Bool {status?.user?.id == store.appState.setting.loginUser?.id}
     
     var body: some View {
         VStack {
@@ -44,7 +44,7 @@ struct ToolsView: View {
                             store.dipatch(.tweetOperation(operation: .delete(id: tweetIDString)))
                         } else {
 //                            isAlertShowed = true
-                            let _ = Status_CD.JSON_Save(from: status!)
+//                            let _ = Status_CD.JSON_Save(from: status!)
                             store.dipatch(.alertOn(text: "Bookmarked!", isWarning: false))
                         }
                     }
@@ -87,7 +87,7 @@ struct ToolsView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 18, height: 18, alignment: .center)
                     .onTapGesture {
-                        if let screenName = status?["screen_name"].string {
+                        if let screenName = status?.user?.screenName {
                             self.url = URL(string: "https://twitter.com/\(screenName)/status/\(tweetIDString)")!
                         }
                         print(#line, self.url)

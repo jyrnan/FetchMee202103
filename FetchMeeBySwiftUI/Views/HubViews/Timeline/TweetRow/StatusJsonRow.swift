@@ -25,16 +25,16 @@ struct StatusJsonRow: View {
     //avatar区域的宽度
     var avatarColumWidth: CGFloat = 80
     
-    var status: JSON {store.repository.status[tweetID] ?? JSON.init("")}
+    var status: Status {store.repository.status[tweetID] ?? Status(id: "0000")}
     
-    var quotedStatusID: String? {status["quoted_status_id_str"].string }
-    var retweetStatusID: String? {status["retweeted_status"]["id_str"].string}
+    var quotedStatusID: String? {status.quoted_status_id_str }
+    var retweetStatusID: String? {status.retweeted_status_id_str}
     
     @State var isShowDetail: Bool = false
     
     var avatar: some View {
         VStack(alignment: .leading){
-            AvatarView(userIDString: status["user"]["id_str"].string ?? "", width: 36, height: 36)
+            AvatarView(userIDString: status.user?.id ?? "", width: 36, height: 36)
             Spacer()
         }
         .frame(width:setting.uiStyle.avatarWidth )
@@ -45,8 +45,8 @@ struct StatusJsonRow: View {
     }
     
     var name: some View {
-        UserNameView(userName: status["user"]["name"].string ?? "Name",
-                     screenName: status["user"]["screen_name"].string ?? "screenName")
+        UserNameView(userName: status.user?.name ?? "Name",
+                     screenName: status.user?.screenName ?? "screenName")
     }
     
     var detailIndicator: some View {
@@ -62,13 +62,13 @@ struct StatusJsonRow: View {
     }
     
     var careated: some View {
-        CreatedTimeView(createdTime: status["created_at"].string ?? "now")
+        CreatedTimeView(created_at: status.createdAt ?? Date())
     }
     
     var text: some View {
-//        Text(status["text"].string ?? "Text")
-        NSAttributedStringView(attributedText: status.getAttributedText(),
-                               width: width - avatarColumWidth)
+        Text(status.text ?? "Text")
+//        NSAttributedStringView(attributedText: status.getAttributedText(),
+//                               width: width - avatarColumWidth)
     }
     
     var retweeted: some View {
@@ -92,14 +92,14 @@ struct StatusJsonRow: View {
                 
             }.padding()
             
-            if let imageUrls = getImagesUrls(status: status) {
+                if let imageUrls = status.imageUrls {
                 Images(imageUrlStrings: imageUrls)
                     .frame(width: width )
                     
                     .clipped()
             }
             } else {
-                RetweetMarkView(userIDString: tweetID, userName: status["user"]["name"].string)
+                RetweetMarkView(userIDString: tweetID, userName: status.user?.name)
                     .padding(.top, 8).padding(.bottom, -16)
                 StatusJsonRow(tweetID: retweetStatusID!, width: width)
             }

@@ -23,8 +23,8 @@ struct UserViewRedux: View {
     @FetchRequest var twitterUsers: FetchedResults<TwitterUser>
     
     var userTimeline: AppState.TimelineData.Timeline {store.appState.timelineData.timelines[TimelineType.user(userID: userIDString).rawValue]!}
-    var userJSON: JSON {store.repository.users[userIDString] ?? JSON.init("")}
-    var user: UserInfo {store.appState.timelineData.requestedUser}
+    var user: UserInfo {store.repository.users[userIDString] ?? UserInfo()}
+    var requestedUser: UserInfo {store.appState.timelineData.requestedUser}
     
     var userIDString: String //传入需查看的用户信息的ID
     
@@ -69,7 +69,7 @@ struct UserViewRedux: View {
             List {
                 ZStack{
                     VStack{
-                        KFImage(URL(string: user.bannerUrlString ?? "ok")!).placeholder{Image("bg")}
+                        KFImage(URL(string: requestedUser.bannerUrlString ?? "ok")!).placeholder{Image("bg")}
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(
@@ -81,7 +81,7 @@ struct UserViewRedux: View {
                         Rectangle().frame(height: 65).foregroundColor(Color.init("BackGround"))
                     }
                     ///个人信息大头像
-                    KFImage(URL(string: user.avatarUrlString ?? "ok")!)
+                    KFImage(URL(string: requestedUser.avatarUrlString ?? "ok")!)
                         .placeholder{Image(systemName: "person.circle")}
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -104,7 +104,7 @@ struct UserViewRedux: View {
                     VStack(alignment: .center) {
                         HStack {
                             Spacer()
-                            Text(user.name ?? "Name").font(.body).bold().onTapGesture {
+                            Text(requestedUser.name ?? "Name").font(.body).bold().onTapGesture {
                             }
                             if !isNickNameInputShow {
                                 Text(twitterUsers.first?.nickName != nil ? "(\(twitterUsers.first!.nickName!))" : "" ).font(.body)
@@ -119,7 +119,7 @@ struct UserViewRedux: View {
                                         .frame(width: 100)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                     
-                                    Button(action: {TwitterUser.updateOrSaveToCoreData(from: userJSON, in: viewContext,isLocalUser: false, updateNickName: nickNameText)
+                                    Button(action: {TwitterUser.updateOrSaveToCoreData(from: nil, id: user.id, in: viewContext,isLocalUser: false, updateNickName: nickNameText)
                                         
                                         withAnimation{isNickNameInputShow = false}
                                     }){
@@ -137,7 +137,7 @@ struct UserViewRedux: View {
                             
                             Spacer()
                         }
-                        Text(user.screenName ?? "ScreenName")
+                        Text(requestedUser.screenName ?? "ScreenName")
                             .font(.callout).foregroundColor(.gray)
                     }
                     .padding(.top, 0)
@@ -145,8 +145,8 @@ struct UserViewRedux: View {
                     ///信封，铃铛和follow按钮
                     HStack{
                         
-                        Image(systemName: (user.notifications == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
-                            .foregroundColor(user.notifications == true ? .white : .accentColor)
+                        Image(systemName: (requestedUser.notifications == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
+                            .foregroundColor(requestedUser.notifications == true ? .white : .accentColor)
                         //
                         if "follow" == "follow" {
                             Text("Following")
@@ -176,21 +176,22 @@ struct UserViewRedux: View {
                     }.padding()
                     
                     ///用户Bio信息
-                    NSAttributedStringView(attributedText: userJSON.getAttributedText(alignment: .center) , width: 300).padding([.top], 16)
+//                    NSAttributedStringView(attributedText: user.getAttributedText(alignment: .center) , width: 300).padding([.top], 16)
+                    Text(user.description ?? "")
                     
                     ///用户位置信息
                     HStack() {
                         Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
-                        Text(userJSON["location"].string ?? "Unknow").font(.caption).foregroundColor(.gray)
+                        Text(user.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
                         Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
-                        Text( updateTime(createdTime: userJSON["created_at"].string) ).font(.caption).foregroundColor(.gray)
+                        Text( updateTime(createdTime: user.createdAt) ).font(.caption).foregroundColor(.gray)
                     }.padding(0)
                     
                     ///用户following信息
                     HStack {
-                        Text(String(userJSON["friends_count"].integer ?? 0)).font(.callout)
+                        Text(String(user.following ?? 0)).font(.callout)
                         Text("Following").font(.callout).foregroundColor(.gray)
-                        Text(String(userJSON["followers_count"].integer ?? 0)).font(.callout).padding(.leading, 16)
+                        Text(String(user.followed ?? 0)).font(.callout).padding(.leading, 16)
                         Text("Followers").font(.callout).foregroundColor(.gray)
                     }.padding(.bottom, 16)
                 }
@@ -240,7 +241,7 @@ struct UserViewRedux: View {
             }
         }
         
-            .navigationTitle(user.name ?? "Name")
+            .navigationTitle(requestedUser.name ?? "Name")
         .onAppear(){
             let user = UserInfo(id: userIDString)
             store.dipatch(.userRequest(user: user, isLoginUser: false))

@@ -22,8 +22,8 @@ protocol Fetcher {
     
     var repository: Repository {get set}
     
-    mutating func addStatus(status: Status) -> Void
-    mutating func addUser(status: User) -> Void
+//    mutating func addStatus(status: Status) -> Void
+//    mutating func addUser(status: User) -> Void
    
 }
 
@@ -31,12 +31,14 @@ protocol Fetcher {
 
 /// 基于Swifter的API中间件
 struct FetcherSwifter: Fetcher {
-    ///每次刷新的推文数量
+    
+    //每次刷新的推文数量
     var count: Int = 40
     
     static var provider: Swifter!
     
     var repository: Repository
+    var loginUserID: String?
     
     /// 在推文基本操作的Publisher基础上，生成一个基于刷新模式的Publisher，
     /// - 提示： 这个Pulisher可以作为业务模块的调用
@@ -65,21 +67,10 @@ struct FetcherSwifter: Fetcher {
             newTweets.forEach{
                 addDataToRepository($0)
                 saveTweetTagToCoreData(status: $0)
-                
-//                if $0["quoted_status_id_str"].string != nil{
-//                    addDataToRepository($0["quoted_status"])
-//                }
-//                if $0["retweeted_status"]["id_str"].string != nil {
-//                    let retweeted_status = $0["retweeted_status"]
-//                    addDataToRepository(retweeted_status)
-//                    ///如果retweet推文内含有引用推文，则把该推文也保存
-//                    if retweeted_status["quoted_status_id_str"].string != nil {
-//                        addDataToRepository(retweeted_status["quoted_status"])
-//                    }
-//                }
-                
-//                ///TODO：测速吃
-//                Status_CD.JSON_Save(from: $0)
+
+                //检测如果是自己发送的原创推文，则保存到本地
+                if $0["user"]["id_str"].string == loginUserID, $0["in_reply_to_user_id_str"].string == nil {
+                   let _ = Status_CD.JSON_Save(from: $0) }
                
                 guard timeline.type == .mention else {return}
                 TwitterUser.updateOrSaveToCoreData(from: $0["user"])
@@ -165,19 +156,19 @@ struct FetcherSwifter: Fetcher {
 }
 
 
-extension FetcherSwifter {
-    mutating func addStatus(status: JSON) {
-        if let id = status["id_str"].string {
-            repository.status[id] = status
-        }
-    }
-    
-    mutating func addUser(status: JSON) {
-        if let id = status["id_str"].string {
-            repository.users[id] = status
-        }
-    }
-}
+//extension FetcherSwifter {
+//    mutating func addStatus(status: JSON) {
+//        if let id = status["id_str"].string {
+//            repository.status[id] = status
+//        }
+//    }
+//
+//    mutating func addUser(status: JSON) {
+//        if let id = status["id_str"].string {
+//            repository.users[id] = status
+//        }
+//    }
+//}
 
 extension FetcherSwifter {
     //MARK:- Publisher生成

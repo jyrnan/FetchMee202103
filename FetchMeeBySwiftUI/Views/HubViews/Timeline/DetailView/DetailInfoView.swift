@@ -10,17 +10,15 @@ import SwiftUI
 import Swifter
 
 struct DetailInfoView: View {
-    let status: JSON
+    let status: Status
     
-    var created_at:String {updateTime(createdTime: status["created_at"].string)}
-    var source: String {String((status["source"].string?.split(separator: ">").last?.dropLast(3)) ?? "unknow")}
+    var created_at:String {updateTime(createdTime: status.createdAt)}
+    var source: String {String((status.source?.split(separator: ">").last?.dropLast(3)) ?? "unknow")}
     
-    var retweet_count: String {String(status["retweet_count"].integer ?? 0)}
-    var favorite_count: String {String(status["favorite_count"].integer ?? 0)}
+    var retweet_count: String {String(status.retweet_count ?? 0)}
+    var favorite_count: String {String(status.favorite_count ?? 0)}
     
-    init(status: JSON) {
-        self.status = status
-    }
+    
     
     var body: some View {
         GeometryReader {proxy in
@@ -56,22 +54,17 @@ struct DetailInfoView: View {
         }
     }
     
-    func updateTime(createdTime: String?) -> String {
+    func updateTime(createdTime: Date?) -> String {
         guard createdTime != nil else {
             return "N/A"
         }
-        var result : String = "N/A"
-        let timeString = createdTime!
-        let timeFormat = DateFormatter()
-        timeFormat.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
-        if let date = timeFormat.date(from: timeString) {
+        
             let df = DateFormatter()
             df.dateStyle = .short
             df.timeStyle = .short
             
-            result = df.string(from: date)  + " · "
-            
-        }
+            let result = df.string(from: createdTime!)  + " · "
+          
         return result
     }
     
@@ -79,6 +72,6 @@ struct DetailInfoView: View {
 
 struct DetailInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailInfoView(status: JSON.init(""))
+        DetailInfoView(status: Status())
     }
 }
