@@ -13,7 +13,7 @@ struct DetailIndicator: View {
     @EnvironmentObject var store: Store
     var tweetIDString: String
     
-    var status: JSON? {StatusRepository.shared.status[tweetIDString]}
+    var status: JSON? {store.repository.status[tweetIDString]}
     
     var retweeted: Bool { status?["retweeted"].bool ?? false }
     var retweetedCount: Int {status?["favorite_count"].integer ?? 0 }

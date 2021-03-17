@@ -48,8 +48,6 @@
 		D2419C1B2577603C00A9CF98 /* ReplyTweet.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2419C122577603C00A9CF98 /* ReplyTweet.txt */; };
 		D2419C1C2577603C00A9CF98 /* Retweet.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2419C132577603C00A9CF98 /* Retweet.txt */; };
 		D2419C1D2577603C00A9CF98 /* followers in Resources */ = {isa = PBXBuildFile; fileRef = D2419C142577603C00A9CF98 /* followers */; };
-		D2419C1F2577659F00A9CF98 /* StatusRepositoryInRam.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C1E2577659F00A9CF98 /* StatusRepositoryInRam.swift */; };
-		D2419C212577666300A9CF98 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C202577666300A9CF98 /* UserRepository.swift */; };
 		D2419C242577746700A9CF98 /* TimelineType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C232577746700A9CF98 /* TimelineType.swift */; };
 		D2419C712579E43900A9CF98 /* AttributedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C702579E43900A9CF98 /* AttributedTextView.swift */; };
 		D2419C732579F39700A9CF98 /* StatusTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C722579F39700A9CF98 /* StatusTextViewModel.swift */; };
@@ -65,6 +63,7 @@
 		D266226B258CE81100FF5F6E /* KingfisherSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = D266226A258CE81100FF5F6E /* KingfisherSwiftUI */; };
 		D266226D258D781A00FF5F6E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D266226C258D781A00FF5F6E /* Kingfisher */; };
 		D266729125F9ACCC0044DBBA /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D266729025F9ACCC0044DBBA /* Fetcher.swift */; };
+		D26824682601871C004CAB1A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26824672601871C004CAB1A /* Repository.swift */; };
 		D26A8B09256284C8003BFEE6 /* CountDiagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26A8B08256284C8003BFEE6 /* CountDiagramView.swift */; };
 		D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */; };
 		D270E87D24C01C9100BBD3FE /* ToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D270E87C24C01C9100BBD3FE /* ToolsView.swift */; };
@@ -183,8 +182,6 @@
 		D2419C122577603C00A9CF98 /* ReplyTweet.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReplyTweet.txt; sourceTree = "<group>"; };
 		D2419C132577603C00A9CF98 /* Retweet.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Retweet.txt; sourceTree = "<group>"; };
 		D2419C142577603C00A9CF98 /* followers */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = followers; sourceTree = "<group>"; };
-		D2419C1E2577659F00A9CF98 /* StatusRepositoryInRam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusRepositoryInRam.swift; sourceTree = "<group>"; };
-		D2419C202577666300A9CF98 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		D2419C232577746700A9CF98 /* TimelineType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineType.swift; sourceTree = "<group>"; };
 		D2419C702579E43900A9CF98 /* AttributedTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextView.swift; sourceTree = "<group>"; };
 		D2419C722579F39700A9CF98 /* StatusTextViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTextViewModel.swift; sourceTree = "<group>"; };
@@ -198,6 +195,7 @@
 		D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionUserSortedView.swift; sourceTree = "<group>"; };
 		D2632D64251EEFF50023C417 /* FaceDetect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetect.swift; sourceTree = "<group>"; };
 		D266729025F9ACCC0044DBBA /* Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetcher.swift; sourceTree = "<group>"; };
+		D26824672601871C004CAB1A /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		D26A8B08256284C8003BFEE6 /* CountDiagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDiagramView.swift; sourceTree = "<group>"; };
 		D270E87524BFCDBA00BBD3FE /* CreatedTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedTimeView.swift; sourceTree = "<group>"; };
 		D270E87C24C01C9100BBD3FE /* ToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolsView.swift; sourceTree = "<group>"; };
@@ -387,8 +385,7 @@
 		D2419C222577685500A9CF98 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				D2419C1E2577659F00A9CF98 /* StatusRepositoryInRam.swift */,
-				D2419C202577666300A9CF98 /* UserRepository.swift */,
+				D26824672601871C004CAB1A /* Repository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -785,7 +782,6 @@
 				D28F9EA625E8764400B8EF40 /* TimelineViewRedux.swift in Sources */,
 				D2BC206625F26A1E007882CA /* AutoCompleteVIew.swift in Sources */,
 				D2318AA92571E40900F55BDF /* FavoriteStarMarkView.swift in Sources */,
-				D2419C212577666300A9CF98 /* UserRepository.swift in Sources */,
 				D2BC206B25F4AC6B007882CA /* TweetTagCDManageView.swift in Sources */,
 				D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */,
 				D2D4879225734C60005EE4A7 /* PlayButtonViewModel.swift in Sources */,
@@ -827,7 +823,6 @@
 				4B3AD79F253965DB00194B2C /* UserMarkManageView.swift in Sources */,
 				D20086F02580DE6400A9D8C3 /* DetailInfoView.swift in Sources */,
 				D2309F222547E09A00549E27 /* CustomTextEditor.swift in Sources */,
-				D2419C1F2577659F00A9CF98 /* StatusRepositoryInRam.swift in Sources */,
 				D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */,
 				D228E06125FCF5A10063E0EB /* BookmarkedStatusView.swift in Sources */,
 				D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */,
@@ -860,6 +855,7 @@
 				D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */,
 				D286EC32255A2BD600C98195 /* TwitterUser+UpdateAndSave.swift in Sources */,
 				D27DCF3B24B98F9900520BE3 /* Status.swift in Sources */,
+				D26824682601871C004CAB1A /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

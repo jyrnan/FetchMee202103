@@ -37,6 +37,8 @@ class Store: ObservableObject {
     
     private var disposeBag = Set<AnyCancellable>()
     
+    var repository: Repository = Repository.shared
+    
     func dipatch(_ action: AppAction) {
         #if DEBUG
         print("[ACTION: \(action)")
@@ -53,8 +55,8 @@ class Store: ObservableObject {
     }
     
     init() {
-        StatusRepository.shared.swifter = swifter
-        UserRepository.shared.swifter = swifter
+//        StatusRepository.shared.swifter = swifter
+//        UserRepository.shared.swifter = swifter
     }
     
     static func reduce(state: AppState, action: AppAction) -> (AppState, AppCommand?) {
@@ -156,7 +158,7 @@ class Store: ObservableObject {
 
 extension Store {
     func getUser(userID: String, compeletHandler: @escaping (JSON) -> Void) {
-        if let user = UserRepository.shared.users[userID] {
+        if let user = repository.users[userID] {
             compeletHandler(user)
         } else {
             self.swifter.showUser(UserTag.id(userID),

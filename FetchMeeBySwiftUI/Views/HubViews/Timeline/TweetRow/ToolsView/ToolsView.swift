@@ -20,7 +20,7 @@ struct ToolsView: View {
     
     @State var isAlertShowed: Bool = false
     
-    var status: JSON? {StatusRepository.shared.status[tweetIDString]}
+    var status: JSON? {store.repository.status[tweetIDString]}
     
     var retweeted: Bool { status?["retweeted"].bool ?? false }
     var retweetedCount: Int {status?["retweet_count"].integer ?? 0 }

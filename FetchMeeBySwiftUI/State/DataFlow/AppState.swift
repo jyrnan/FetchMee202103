@@ -116,9 +116,9 @@ extension AppState.TimelineData {
         let tweetIDStrings = Set(timelines.values.flatMap{$0.tweetIDStrings})
         
         ///
-        StatusRepository.shared.status.keys
-            .filter{!tweetIDStrings.contains($0)}
-            .forEach{StatusRepository.shared.status[$0] = nil}
+//        StatusRepository.shared.status.keys
+//            .filter{!tweetIDStrings.contains($0)}
+//            .forEach{Repository.shared.status[$0] = nil}
         
         print(#line, #function, tweetIDStrings)
     }

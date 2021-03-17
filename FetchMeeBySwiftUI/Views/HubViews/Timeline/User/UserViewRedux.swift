@@ -23,7 +23,7 @@ struct UserViewRedux: View {
     @FetchRequest var twitterUsers: FetchedResults<TwitterUser>
     
     var userTimeline: AppState.TimelineData.Timeline {store.appState.timelineData.timelines[TimelineType.user(userID: userIDString).rawValue]!}
-    var userJSON: JSON {UserRepository.shared.users[userIDString] ?? JSON.init("")}
+    var userJSON: JSON {store.repository.users[userIDString] ?? JSON.init("")}
     var user: UserInfo {store.appState.timelineData.requestedUser}
     
     var userIDString: String //传入需查看的用户信息的ID

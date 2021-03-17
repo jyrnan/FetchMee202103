@@ -12,20 +12,31 @@ import Swifter
 import CoreData
 
 protocol Fetcher {
+    associatedtype Status
+    associatedtype User
+    
     typealias Timeline = AppState.TimelineData.Timeline
     typealias MentionUserData = [UserInfo.MentionUser]
     typealias TweetIDStrings = [String]
     
-    //    func updateTimeline(updateMode: UpdateMode, timeline: Timeline ) -> AnyPublisher<Timeline, AppError>
     
+    var repository: Repository {get set}
+    
+    mutating func addStatus(status: Status) -> Void
+    mutating func addUser(status: User) -> Void
+   
 }
 
+
+
 /// 基于Swifter的API中间件
-struct FetcherSw: Fetcher {
+struct FetcherSwifter: Fetcher {
     ///每次刷新的推文数量
     var count: Int = 40
     
     static var provider: Swifter!
+    
+    var repository: Repository
     
     /// 在推文基本操作的Publisher基础上，生成一个基于刷新模式的Publisher，
     /// - 提示： 这个Pulisher可以作为业务模块的调用
@@ -55,17 +66,17 @@ struct FetcherSw: Fetcher {
                 addDataToRepository($0)
                 saveTweetTagToCoreData(status: $0)
                 
-                if $0["quoted_status_id_str"].string != nil{
-                    addDataToRepository($0["quoted_status"])
-                }
-                if $0["retweeted_status"]["id_str"].string != nil {
-                    let retweeted_status = $0["retweeted_status"]
-                    addDataToRepository(retweeted_status)
-                    ///如果retweet推文内含有引用推文，则把该推文也保存
-                    if retweeted_status["quoted_status_id_str"].string != nil {
-                        addDataToRepository(retweeted_status["quoted_status"])
-                    }
-                }
+//                if $0["quoted_status_id_str"].string != nil{
+//                    addDataToRepository($0["quoted_status"])
+//                }
+//                if $0["retweeted_status"]["id_str"].string != nil {
+//                    let retweeted_status = $0["retweeted_status"]
+//                    addDataToRepository(retweeted_status)
+//                    ///如果retweet推文内含有引用推文，则把该推文也保存
+//                    if retweeted_status["quoted_status_id_str"].string != nil {
+//                        addDataToRepository(retweeted_status["quoted_status"])
+//                    }
+//                }
                 
 //                ///TODO：测速吃
 //                Status_CD.JSON_Save(from: $0)
@@ -103,8 +114,21 @@ struct FetcherSw: Fetcher {
     
     ///把推文数据添加到Repository里面，
     func addDataToRepository(_ data: JSON) {
-        StatusRepository.shared.addStatus(data)
-        UserRepository.shared.addUser(data["user"])
+        repository.addStatus(data: data)
+        repository.addUser(data: data["user"])
+        
+        if data["quoted_status_id_str"].string != nil{
+            addDataToRepository(data["quoted_status"])
+        }
+        
+        if data["retweeted_status"]["id_str"].string != nil {
+            let retweeted_status = data["retweeted_status"]
+            addDataToRepository(retweeted_status)
+            ///如果retweet推文内含有引用推文，则把该推文也保存
+            if retweeted_status["quoted_status_id_str"].string != nil {
+                addDataToRepository(retweeted_status["quoted_status"])
+            }
+        }
     }
     
     
@@ -137,7 +161,25 @@ struct FetcherSw: Fetcher {
             }
         }
     }
+   
+}
+
+
+extension FetcherSwifter {
+    mutating func addStatus(status: JSON) {
+        if let id = status["id_str"].string {
+            repository.status[id] = status
+        }
+    }
     
+    mutating func addUser(status: JSON) {
+        if let id = status["id_str"].string {
+            repository.users[id] = status
+        }
+    }
+}
+
+extension FetcherSwifter {
     //MARK:- Publisher生成
     func makeSessionOperatePublisher(updateMode: FetchTimelineCommand.UpdateMode, timeline: Timeline) -> Future<JSON, Error> {
         var sinceIDString: String? {updateMode == .top ? timeline.tweetIDStrings.first : nil }
@@ -148,7 +190,7 @@ struct FetcherSw: Fetcher {
         switch timeline.type {
         case .home:
             return Future<JSON, Error> {promise in
-                FetcherSw.provider.getHomeTimeline(count: count,
+                FetcherSwifter.provider.getHomeTimeline(count: count,
                                                    sinceID: sinceIDString,
                                                    maxID: maxIDString,
                                                    success:{promise(.success($0))
@@ -157,7 +199,7 @@ struct FetcherSw: Fetcher {
                                                    })}
         case .mention:
             return Future<JSON, Error> {promise in
-                FetcherSw.provider.getMentionsTimelineTweets(count: count,
+                FetcherSwifter.provider.getMentionsTimelineTweets(count: count,
                                                              sinceID: sinceIDString,
                                                              maxID: maxIDString,
                                                              success:{promise(.success($0))
@@ -167,7 +209,7 @@ struct FetcherSw: Fetcher {
             
         case .favorite:
             return Future<JSON, Error> {promise in
-                FetcherSw.provider.getRecentlyFavoritedTweets(count: count,
+                FetcherSwifter.provider.getRecentlyFavoritedTweets(count: count,
                                                               sinceID: sinceIDString,
                                                               maxID: maxIDString,
                                                               success:{promise(.success($0))
@@ -178,7 +220,7 @@ struct FetcherSw: Fetcher {
         case .user(let userID):
             let userTag = UserTag.id(userID)
             return Future<JSON, Error> {promise in
-                FetcherSw.provider.getTimeline(for: userTag,
+                FetcherSwifter.provider.getTimeline(for: userTag,
                                                count: count,
                                                sinceID: sinceIDString,
                                                maxID: maxIDString,
@@ -190,7 +232,7 @@ struct FetcherSw: Fetcher {
         case .list( let id, _):
             let listTag = ListTag.id(id)
             return Future<JSON, Error> {promise in
-                FetcherSw.provider.listTweets(for: listTag,
+                FetcherSwifter.provider.listTweets(for: listTag,
                                               sinceID: sinceIDString,
                                               maxID: maxIDString,
                                               count: count,
@@ -213,14 +255,14 @@ struct FetcherSw: Fetcher {
         switch operation {
         case .favorite(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSw.provider.favoriteTweet(forID: ID,
+                FetcherSwifter.provider.favoriteTweet(forID: ID,
                                                  success: {promise(.success($0))},
                                                  failure: {promise(.failure($0))})}
                 .receive(on: DispatchQueue.main)
                 .eraseToAnyPublisher()
         case .unfavorite(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSw.provider.unfavoriteTweet(forID: ID,
+                FetcherSwifter.provider.unfavoriteTweet(forID: ID,
                                                    success: {promise(.success($0))},
                                                    failure: {promise(.failure($0))})}
                 .receive(on: DispatchQueue.main)
@@ -229,7 +271,7 @@ struct FetcherSw: Fetcher {
             
         case .retweet(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSw.provider.retweetTweet(forID: ID,
+                FetcherSwifter.provider.retweetTweet(forID: ID,
                                                 ///由于Retweet返回的是一个新推文，并把原推文嵌入在里面，所以返回嵌入推文用了更新界面
                                                 success: {promise(.success($0["retweeted_status"]))},
                                                 failure: {promise(.failure($0))})}
@@ -237,12 +279,12 @@ struct FetcherSw: Fetcher {
                 .eraseToAnyPublisher()
         case .unRetweet(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSw.provider.unretweetTweet(forID: ID,
+                FetcherSwifter.provider.unretweetTweet(forID: ID,
                                                   success: {
                                                     ///由于unRetweet返回的是该推文原来的数据，所以不会导致界面更新
                                                     ///因此需要在此基础上增加一个再次获取该推文的操作，并返回更新后的推文数据
                                                     let tweetIDString = $0["id_str"].string!
-                                                    FetcherSw.provider.getTweet(for: tweetIDString, success: {promise(.success($0))})
+                                                    FetcherSwifter.provider.getTweet(for: tweetIDString, success: {promise(.success($0))})
                                                   },
                                                   failure: {promise(.failure($0))})}
                 .receive(on: DispatchQueue.main)
@@ -250,20 +292,18 @@ struct FetcherSw: Fetcher {
             
         case .quote(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSw.provider.unfavoriteTweet(forID: ID,
+                FetcherSwifter.provider.unfavoriteTweet(forID: ID,
                                                    success: {promise(.success($0))},
                                                    failure: {promise(.failure($0))})}
                 .receive(on: DispatchQueue.main)
                 .eraseToAnyPublisher()
         case .delete(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSw.provider.destroyTweet(forID: ID,
+                FetcherSwifter.provider.destroyTweet(forID: ID,
                                                 success: {promise(.success($0))},
                                                 failure: {promise(.failure($0))})}
                 .receive(on: DispatchQueue.main)
                 .eraseToAnyPublisher()
         }
     }
-    
-    
 }

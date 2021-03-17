@@ -28,8 +28,8 @@ struct TweetCommand: AppCommand {
     func execute(in store: Store) {
         let token = SubscriptionToken()
         
-        FetcherSw.provider = store.swifter
-        let fecher = FetcherSw()
+        FetcherSwifter.provider = store.swifter
+        let fecher = FetcherSwifter(repository: store.repository)
                 
         fecher.makeTweetOperatePublisher(operation: operation)
             .sink(receiveCompletion: {complete in
@@ -39,7 +39,7 @@ struct TweetCommand: AppCommand {
                     token.unseal()},
                   receiveValue: {
                     
-                    StatusRepository.shared.addStatus($0)
+                    fecher.repository.addStatus(data: $0)
                     store.dipatch(.update)
                   })
             .seal(in: token)

@@ -72,7 +72,7 @@ struct UserRequstCommand: AppCommand {
         /// 获取用户信息成功后调用处理用户信息的包
         /// - Parameter json: 返回的用户信息原始数据
         func userHandler(json: JSON) {
-            UserRepository.shared.addUser(json)
+            store.repository.addUser(data: json)
             
             updateUser(update: &updatedUser, with: json)
             updateUser(update: &updatedUser, from: store.context)

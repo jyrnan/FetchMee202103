@@ -39,7 +39,7 @@ struct StatusRow: View {
     }
     var body: some View {
         VStack{
-            HStack {
+            HStack(alignment: .top) {
                 avatar
                 VStack(alignment: .leading){
                     nameAndcreated

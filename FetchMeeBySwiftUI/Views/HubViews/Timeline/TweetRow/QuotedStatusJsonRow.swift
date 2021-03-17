@@ -20,7 +20,7 @@ struct QuotedStatusJsonRow: View {
     ///约束图片的显示宽度
     var width: CGFloat
     
-    var status: JSON {StatusRepository.shared.status[tweetID] ?? JSON.init("")}
+    var status: JSON {store.repository.status[tweetID] ?? JSON.init("")}
     
 //    var quotedStatusID: String? {status["quoted_status_id_str"].string }
     

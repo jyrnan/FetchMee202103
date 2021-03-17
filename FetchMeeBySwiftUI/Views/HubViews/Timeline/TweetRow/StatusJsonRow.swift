@@ -20,7 +20,7 @@ struct StatusJsonRow: View {
     ///约束图片的显示宽度
     var width: CGFloat
     
-    var status: JSON {StatusRepository.shared.status[tweetID] ?? JSON.init("")}
+    var status: JSON {store.repository.status[tweetID] ?? JSON.init("")}
     
     var quotedStatusID: String? {status["quoted_status_id_str"].string }
     var retweetStatusID: String? {status["retweeted_status"]["id_str"].string}
@@ -72,7 +72,7 @@ struct StatusJsonRow: View {
     var body: some View {
         VStack(alignment: .leading){
             if retweetStatusID == nil {
-            HStack {
+                HStack(alignment: .top) {
                 avatar
                 VStack(alignment: .leading){
                     nameAndcreated

@@ -25,7 +25,7 @@ struct AvatarView: View {
     var width: CGFloat
     var height: CGFloat
     
-    var user: JSON? {UserRepository.shared.users[userIDString]}
+    var user: JSON? {store.repository.users[userIDString]}
     
     
     

@@ -18,7 +18,7 @@ struct DetailViewRedux: View {
     var tweetIDString: String //传入DetailView的初始推文
     
     var session: AppState.TimelineData.Timeline {store.appState.timelineData.getTimeline(timelineType: .session)}
-    var status: JSON {StatusRepository.shared.status[tweetIDString] ?? JSON.init("")}
+    var status: JSON {store.repository.status[tweetIDString] ?? JSON.init("")}
     
     @State var firstTimeRun: Bool = true //检测用于运行一次
     
