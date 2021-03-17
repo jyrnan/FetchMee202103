@@ -24,6 +24,7 @@
         <attribute name="favorite_count" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="favorited" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id_str" optional="YES" attributeType="String"/>
+        <attribute name="imageUrls" optional="YES" attributeType="String"/>
         <attribute name="in_reply_to_screen_name" optional="YES" attributeType="String"/>
         <attribute name="in_reply_to_status_id_str" optional="YES" attributeType="String"/>
         <attribute name="in_reply_to_user_id_str" optional="YES" attributeType="String"/>
@@ -74,7 +75,7 @@
         <element name="Count" positionX="79.246826171875" positionY="-276.2636413574219" width="128" height="104"/>
         <element name="Log" positionX="-63" positionY="-27" width="128" height="89"/>
         <element name="NickName" positionX="-57.08056640625" positionY="171.7831420898438" width="128" height="89"/>
-        <element name="Status_CD" positionX="319.7457275390625" positionY="-105.8453979492188" width="128" height="254"/>
+        <element name="Status_CD" positionX="319.7457275390625" positionY="-105.8453979492188" width="128" height="269"/>
         <element name="TweetDraft" positionX="-102.9840087890625" positionY="-217.8199462890625" width="136.1802368164062" height="104"/>
         <element name="TweetTagCD" positionX="18" positionY="-117" width="128" height="89"/>
         <element name="TwitterUser" positionX="159.8822021484375" positionY="-101.7318725585938" width="128" height="299"/>

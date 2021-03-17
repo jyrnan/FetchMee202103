@@ -47,10 +47,10 @@ struct StatusRow: View {
                 }
                 
             }.padding()
-//            if status.imageUrls != nil {
-//                Images(imageUrlStrings: status.imageUrls!)
-//                .clipped()
-//            }
+            if status.imageUrls != nil {
+                Images(imageUrlStrings: (status.imageUrls?.split(separator: " ").map{String($0)})!)
+                .clipped()
+            }
         }
         .background(Color.init("BackGroundLight"))
         .cornerRadius(16, antialiased: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)

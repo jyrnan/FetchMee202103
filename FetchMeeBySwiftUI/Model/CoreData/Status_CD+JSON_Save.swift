@@ -44,10 +44,10 @@ extension Status_CD {
         
         status.user = user
         
-//        if let medias = json["extended_entities"]["media"].array{
-//            status.imageUrls = medias.map{$0["media_url_https"].string!
-//            }
-//        }
+        if let medias = json["extended_entities"]["media"].array{
+            status.imageUrls = medias.map{$0["media_url_https"].string!}.joined(separator: " ")
+        }
+        
         do {
             try viewContext.save()
         }catch {
