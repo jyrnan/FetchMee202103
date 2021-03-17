@@ -25,7 +25,7 @@ struct StatusJsonRow: View {
     //avatar区域的宽度
     var avatarColumWidth: CGFloat = 80
     
-    var status: Status {store.repository.status[tweetID] ?? Status(id: "0000")}
+    var status: Status {store.repository.status[tweetID] ?? Status()}
     
     var quotedStatusID: String? {status.quoted_status_id_str }
     var retweetStatusID: String? {status.retweeted_status_id_str}
