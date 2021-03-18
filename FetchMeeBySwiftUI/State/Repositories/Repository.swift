@@ -62,6 +62,7 @@ extension Repository {
         status.user = convertToUser(from: json["user"])
         
         status.text = json["text"].string
+        status.attributedText = json.getAttributedText()
         status.createdAt = convertToDate(from: json["created_at"].string)
         
         status.imageUrls = getImageUrls(from: json) //图片的url

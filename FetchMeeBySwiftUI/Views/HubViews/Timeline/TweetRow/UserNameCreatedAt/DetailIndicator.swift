@@ -40,16 +40,16 @@ struct DetailIndicator: View {
                 .fill(isUnRead ? Color.blue : Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
-                .onAppear{
-                    ///该视图出现则减少新推文数量1，并设置成已经阅读变量标志，避免重复
-//                    if isUnRead && (viewModel.timeline.newTweetNumber > 0) {
-//                        viewModel.timeline.newTweetNumber -= 1
-//                    }
-                    self.delay(delay: 3, closure: {
-                        self.isUnRead = false
-
-                    })
-                }
+//                .onAppear{
+//                    ///该视图出现则减少新推文数量1，并设置成已经阅读变量标志，避免重复
+////                    if isUnRead && (viewModel.timeline.newTweetNumber > 0) {
+////                        viewModel.timeline.newTweetNumber -= 1
+////                    }
+//                    self.delay(delay: 3, closure: {
+//                        self.isUnRead = false
+//
+//                    })
+//                }
 
             Spacer()
         }

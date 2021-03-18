@@ -102,10 +102,7 @@ struct NativeTextView: UIViewRepresentable {
         }
         
         func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-            
-            print(#line, #file, "clicked.", characterRange, URL, interaction)
-
-                action(URL)
+            action(URL)
             return false
         }
         

@@ -87,13 +87,13 @@ struct ToolBarsView: View {
             if statusOfLoginuser != nil {
                 NavigationLink(destination: BookmarkedStatusView(userID: store.appState.setting.loginUser?.id),
                                label: {
-                                StatusRow(status: statusOfLoginuser!)})
+                                Status_CDRow(status: statusOfLoginuser!)})
             }
             
             if statusOfBookmarked != nil {
                 NavigationLink(destination: BookmarkedStatusView(),
                                label: {
-                                StatusRow(status: statusOfBookmarked!)})
+                                Status_CDRow(status: statusOfBookmarked!)})
                 
             }
         }

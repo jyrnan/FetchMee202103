@@ -35,7 +35,7 @@ struct DetailViewRedux: View {
                     ForEach(session.tweetIDStrings, id: \.self) {tweetIDString in
                         if tweetIDString != "toolsViewMark" {
                             VStack(spacing: 0){
-                            StatusJsonRow(tweetID: tweetIDString, width: proxy.size.width - 2 * setting.uiStyle.insetH)
+                                StatusRow(tweetID: tweetIDString, width: proxy.size.width - 2 * setting.uiStyle.insetH, rowType: .session)
                                 .background(setting.uiStyle.backGround)
                                 .cornerRadius(setting.uiStyle.radius, antialiased: true)
                                 .overlay(RoundedRectangle(cornerRadius: setting.uiStyle.radius)

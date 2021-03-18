@@ -28,7 +28,7 @@ struct BookmarkedStatusView: View {
     var body: some View {
         List{
             ForEach(filterStatus, id: \.self) {status in
-                StatusRow(status: status)
+                Status_CDRow(status: status)
                     .padding(.vertical, 4)
                     .padding(.horizontal, 16)
             }
