@@ -33,7 +33,7 @@ protocol Fetcher {
 struct FetcherSwifter: Fetcher {
     
     //每次刷新的推文数量
-    var count: Int = 40
+    var count: Int = 90
     
     static var provider: Swifter!
     

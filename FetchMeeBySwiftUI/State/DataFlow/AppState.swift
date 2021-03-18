@@ -32,7 +32,7 @@ extension AppState {
             var autoMap: AnyPublisher<String, Never> {
                 $tweetText
                     .debounce(
-                        for: .milliseconds(500),
+                        for: .milliseconds(1000),
                         scheduler: DispatchQueue.main
                     )
                     
@@ -106,7 +106,7 @@ extension AppState.TimelineData {
     
     /// 用来清理timeline的数据，保持轻量化
     mutating func clearTimelineData() {
-        let keepTweetCount = 20
+        let keepTweetCount = 30
         
         self.timelines
             .filter{$0.value.tweetIDStrings.count > keepTweetCount}

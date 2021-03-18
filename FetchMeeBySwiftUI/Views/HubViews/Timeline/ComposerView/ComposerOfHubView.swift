@@ -157,7 +157,7 @@ struct ComposerOfHubView: View {
                     self.postMedia()
                 }, label: {
                     Text("Send")
-                        .font(.body).bold()
+                        .font(.callout).bold()
                         .foregroundColor(.white)
                         .padding(4)
                         .padding([.leading, .trailing], 8)

@@ -55,9 +55,6 @@ struct Status_CDRow: View {
         .background(Color.init("BackGroundLight"))
         .cornerRadius(16, antialiased: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
         .foregroundColor(Color.init(.label))
-//        .onTapGesture {
-//            print(status.user)
-//        }
         
     }
     
