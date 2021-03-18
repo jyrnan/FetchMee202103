@@ -38,6 +38,7 @@ struct Status_CDRow: View {
         Text(status.text ?? "Text")
     }
     var body: some View {
+        
         VStack{
             HStack(alignment: .top) {
                 avatar
@@ -49,6 +50,7 @@ struct Status_CDRow: View {
             }.padding()
             if status.imageUrls != nil {
                 Images(imageUrlStrings: (status.imageUrls?.split(separator: " ").map{String($0)})!)
+                    
                 .clipped()
             }
         }

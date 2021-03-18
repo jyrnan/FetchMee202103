@@ -109,7 +109,7 @@ struct StatusRow: View {
             
                 if let imageUrls = status.imageUrls {
                 Images(imageUrlStrings: imageUrls)
-                    .frame(width: width )
+                    .frame(width: width, height:width * 9 / 21 )
                     
                     .clipped()
             }
