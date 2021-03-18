@@ -21,7 +21,7 @@ struct DetailIndicator: View {
     var favorited: Bool { status?.favorited ?? false }
     var favoritedCount: Int {status?.favorite_count ?? 0 }
     
-    @State var isUnRead: Bool = true
+    var isMentioned: Bool  {store.repository.status[tweetIDString]?.in_reply_to_user_id_str == store.appState.setting.loginUser?.id}
     
     var body: some View {
         HStack(spacing: 0){
@@ -37,19 +37,9 @@ struct DetailIndicator: View {
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
             Circle()
-                .fill(isUnRead ? Color.blue : Color.gray)
+                .fill(isMentioned ? Color.accentColor : Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
-//                .onAppear{
-//                    ///该视图出现则减少新推文数量1，并设置成已经阅读变量标志，避免重复
-////                    if isUnRead && (viewModel.timeline.newTweetNumber > 0) {
-////                        viewModel.timeline.newTweetNumber -= 1
-////                    }
-//                    self.delay(delay: 3, closure: {
-//                        self.isUnRead = false
-//
-//                    })
-//                }
 
             Spacer()
         }
