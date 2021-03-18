@@ -13,6 +13,7 @@ import CoreData
 struct Status_CDRow: View {
     
     var status: Status_CD
+    var width: CGFloat
     
     var avatar: some View {
         VStack(alignment: .leading){
@@ -35,7 +36,7 @@ struct Status_CDRow: View {
     }
     
     var text: some View {
-        Text(status.text ?? "Text")
+        Text(status.text ?? "Text").fixedSize(horizontal: false, vertical: true)
     }
     var body: some View {
         
@@ -50,7 +51,7 @@ struct Status_CDRow: View {
             }.padding()
             if status.imageUrls != nil {
                 Images(imageUrlStrings: (status.imageUrls?.split(separator: " ").map{String($0)})!)
-                    
+                    .frame(width: width)
                 .clipped()
             }
         }
@@ -63,9 +64,9 @@ struct Status_CDRow: View {
 }
 
 
-struct StatusRow_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        Status_CDRow(status: Status_CD(context: PersistenceContainer.shared.container.viewContext))
-    }
-}
+//struct StatusRow_Previews: PreviewProvider {
+//    
+//    static var previews: some View {
+//        Status_CDRow(status: Status_CD(context: PersistenceContainer.shared.container.viewContext))
+//    }
+//}

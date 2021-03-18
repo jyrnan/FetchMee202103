@@ -25,44 +25,47 @@ struct HubView: View {
     @State var isShowToast: Bool = true
     
     var body: some View {
-        
-        NavigationView {
-            
-            ScrollView(.vertical, showsIndicators: false){
+        GeometryReader{proxy in
+            NavigationView {
                 
-                VStack {
-                    ComposerOfHubView(tweetText: tweetText)
-                        .padding(.top, 16)
-                        .padding([.leading, .trailing], 18)
-                        .frame(minHeight: 120, maxHeight: 220)
+                ScrollView(.vertical, showsIndicators: false){
                     
-                    Divider()
-                    TimelinesView()
-                    
-                    ToolBarsView()
-                        .padding([.leading, .trailing], 16)
-                    
-                    Spacer()
-                    
-                    HStack {
+                    VStack {
+                        ComposerOfHubView(tweetText: tweetText)
+                            .padding(.top, 16)
+                            .padding([.leading, .trailing], 18)
+                            .frame(minHeight: 120, idealHeight: 180, maxHeight: 240)
+                        
+                        Divider()
+                        TimelinesView()
+                        
+                        ToolBarsView(width: proxy.size.width)
+                            .padding([.leading, .trailing], 16)
+                        
                         Spacer()
-                        Button(action: {}){Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)}
-                        Spacer()
-                    }.padding(.top, 30).padding()
+                        
+//                        HStack {
+//                            Spacer()
+//                            Button(action: {}){Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)}
+//                            Spacer()
+//                        }.padding(.top, 30).padding()
+                        
+                    }
+                    .background(Color.init("BackGround")).cornerRadius(24)
                     
-                }.background(Color.init("BackGround")).cornerRadius(24)
-                
+                }
+                .onTapGesture(count: 1, perform: {
+                    self.hideKeyboard()
+                })
+                .navigationTitle("FetchMee")
+                .navigationBarItems(trailing: NavigationLink(destination: SettingView(setting: store.appState.setting.loginUser?.setting ?? UserSetting())) {
+                                        AvatarImageView(imageUrl:store.appState.setting.loginUser?.avatarUrlString)
+                                            .frame(width: 36, height: 36, alignment: .center)})
             }
-            .onTapGesture(count: 1, perform: {
-                self.hideKeyboard()
-            })
-            .navigationTitle("FetchMee")
-            .navigationBarItems(trailing: NavigationLink(destination: SettingView(setting: store.appState.setting.loginUser?.setting ?? UserSetting())) {
-                                    AvatarImageView(imageUrl:store.appState.setting.loginUser?.avatarUrlString)
-                                        .frame(width: 36, height: 36, alignment: .center)})
+            .overlay(AlertView()) //所有条状通知在NavigationBar上出现
+            .toast(isShowing: $store.appState.setting.isShowImageViewer, presented: store.appState.setting.presentedView)
         }
-        .overlay(AlertView()) //所有条状通知在NavigationBar上出现
-        .toast(isShowing: $store.appState.setting.isShowImageViewer, presented: store.appState.setting.presentedView)
+        
   }
   
 }

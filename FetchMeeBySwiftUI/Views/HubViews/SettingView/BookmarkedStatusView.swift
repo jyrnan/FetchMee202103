@@ -26,21 +26,25 @@ struct BookmarkedStatusView: View {
     var filterStatus: [Status_CD] {userID == nil ? statuses.filter{$0.user?.userIDString != store.appState.setting.loginUser?.id} : statuses.filter{$0.user?.userIDString == userID}}
     
     var body: some View {
-        List{
-            ForEach(filterStatus, id: \.self) {status in
-                Status_CDRow(status: status)
-                    .padding(.vertical, 4)
-                    .padding(.horizontal, 16)
+        GeometryReader { proxy in
+            List{
+                ForEach(filterStatus, id: \.self) {status in
+                    Status_CDRow(status: status, width: proxy.size.width - 32)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 16)
+                        
+                }
+                .onDelete(perform: { indexSet in
+                            deleteTags(offsets: indexSet)})
+                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
             }
-            .onDelete(perform: { indexSet in
-                        deleteTags(offsets: indexSet)})
-            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
+            .onAppear(perform: {
+                UITableView.appearance().separatorColor = .clear
+            })
+            .navigationTitle("Bookmarks")
+            .navigationBarItems(trailing: Button(action: {deleteAll()}, label: {Text("Clear")}))
         }
-        .onAppear(perform: {
-            UITableView.appearance().separatorColor = .clear
-        })
-        .navigationTitle("Bookmarks")
-        .navigationBarItems(trailing: Button(action: {deleteAll()}, label: {Text("Clear")}))
+        
     }
     
 }

@@ -11,6 +11,10 @@ import CoreData
 
 struct ToolBarsView: View {
     @EnvironmentObject var store: Store
+    
+    ///创建一个简单表示法
+    var setting: UserSetting {store.appState.setting.loginUser?.setting ?? UserSetting()}
+    
     var user: UserInfo {let user = store.appState.setting.loginUser ?? UserInfo()
         return user
     }
@@ -36,7 +40,10 @@ struct ToolBarsView: View {
     @State var toolBarIsFaceUp2: Bool = true
     @State var toolBarIsFaceUp3: Bool = true
     
+    var width: CGFloat
+    
     var body: some View {
+        
         VStack {
             HStack {
                 Text("Tools").font(.caption).bold().foregroundColor(Color.gray)
@@ -56,7 +63,7 @@ struct ToolBarsView: View {
                         toolBarIsFaceUp3 = true
                     }
                 }
-            
+
             ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
                         label1Value: user.tweetsCount,
                         label2Value: user.tweetsCount,
@@ -70,7 +77,7 @@ struct ToolBarsView: View {
                         toolBarIsFaceUp3 = true
                     }
                 }
-            
+
             ToolBarView(isFaceUp: toolBarIsFaceUp3, type: .tools,
                         label1Value: drafts.count,
                         label2Value: logs.count,
@@ -84,18 +91,33 @@ struct ToolBarsView: View {
                         toolBarIsFaceUp2 = true
                     }
                 }
-            if statusOfLoginuser != nil {
-                NavigationLink(destination: BookmarkedStatusView(userID: store.appState.setting.loginUser?.id),
-                               label: {
-                                Status_CDRow(status: statusOfLoginuser!)})
-            }
+
             
-            if statusOfBookmarked != nil {
-                NavigationLink(destination: BookmarkedStatusView(),
-                               label: {
-                                Status_CDRow(status: statusOfBookmarked!)})
-                
-            }
+
+                        if statusOfLoginuser != nil {
+            
+                            NavigationLink(destination: BookmarkedStatusView(userID: store.appState.setting.loginUser?.id),
+                                           label: {
+                                            Status_CDRow(status: statusOfLoginuser!, width: width - 2 * setting.uiStyle.insetH)
+                                                
+            
+                                           })
+            
+                        }
+                        if statusOfBookmarked != nil {
+                            NavigationLink(destination: BookmarkedStatusView(),
+                                           label: {
+                                            Status_CDRow(status: statusOfBookmarked!, width: width - 2 * setting.uiStyle.insetH)})
+            
+                        }
+            
+            Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray).padding(.top, 30).padding()
+            HStack {
+//                Spacer()
+//                Button(action: {}){Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)}
+//                Spacer()
+            }.padding(.top, 30).padding()
+          
         }
     }
 }
