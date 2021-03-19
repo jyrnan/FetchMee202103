@@ -51,7 +51,7 @@ struct Status_CDRow: View {
             }.padding()
             if status.imageUrls != nil {
                 Images(imageUrlStrings: (status.imageUrls?.split(separator: " ").map{String($0)})!)
-                    .frame(width: width)
+                    .frame(width: width, height: width * 9 / 21)
                 .clipped()
             }
         }

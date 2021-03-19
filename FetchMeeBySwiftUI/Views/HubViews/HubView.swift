@@ -42,13 +42,13 @@ struct HubView: View {
                         ToolBarsView(width: proxy.size.width)
                             .padding([.leading, .trailing], 16)
                         
-                        Spacer()
+                        Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)
                         
-//                        HStack {
-//                            Spacer()
-//                            Button(action: {}){Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)}
-//                            Spacer()
-//                        }.padding(.top, 30).padding()
+                        HStack(alignment: .top, spacing: 0 ) {
+                            //不得已办法，增加一个固定高度HStack，来撑高外围的VStack，这样让ToolBarsView能够显示全面。
+                        }
+                        .frame(height: 80)
+
                         
                     }
                     .background(Color.init("BackGround")).cornerRadius(24)

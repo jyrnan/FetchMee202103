@@ -111,12 +111,12 @@ struct ToolBarsView: View {
             
                         }
             
-            Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray).padding(.top, 30).padding()
-            HStack {
+//            Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray).padding(.top, 30).padding()
+//            HStack {
 //                Spacer()
 //                Button(action: {}){Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)}
 //                Spacer()
-            }.padding(.top, 30).padding()
+//            }.padding(.top, 30).padding()
           
         }
     }
