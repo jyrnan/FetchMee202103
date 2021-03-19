@@ -13,16 +13,22 @@ import Combine
 struct BackOfTweetsToolBar: View {
     
     @EnvironmentObject var store: Store
-
+    
     @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
         VStack {
             HStack{
-                CountDiagramView(userInfo: store.appState.setting.loginUser!, context: viewContext)
+                CountDiagramView(type: .follower)
+                Spacer()
+                CountDiagramView(type: .tweet)
             }
+            .padding()
+            .frame(height: 76)
+            .background(Color.blue)
+            .cornerRadius(16)
         }
-        .padding([.leading, .trailing], 12)
+        
     }
 }
 struct BackOfTweetsToolBar_Previews: PreviewProvider {
