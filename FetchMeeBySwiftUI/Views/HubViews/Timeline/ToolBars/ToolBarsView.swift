@@ -69,6 +69,8 @@ struct ToolBarsView: View {
                         label2Value: user.tweetsCount,
                         label3Value: user.lastDayAddedTweets)
                 .onTapGesture {
+                    
+                    
                     if !toolBarIsFaceUp2 {
                         toolBarIsFaceUp2.toggle()
                     } else {

@@ -16,17 +16,22 @@ struct BackOfTweetsToolBar: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     
+    @State var counts: (followers: [Int], tweets: [Int]) = ([], [])
+    
     var body: some View {
         VStack {
             HStack{
-                CountDiagramView(type: .follower)
+                CountDiagramView(type: .follower, counts: counts.followers.reversed())
                 Spacer()
-                CountDiagramView(type: .tweet)
+                CountDiagramView(type: .tweet, counts: counts.tweets.reversed())
             }
             .padding()
             .frame(height: 76)
             .background(Color.blue)
             .cornerRadius(16)
+        }
+        .onAppear{
+            counts = Count.updateCount(for: store.appState.setting.loginUser ?? UserInfo())
         }
         
     }

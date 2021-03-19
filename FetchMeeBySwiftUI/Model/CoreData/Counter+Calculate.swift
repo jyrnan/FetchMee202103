@@ -30,24 +30,27 @@ extension Count {
         var tweets: Int = 0
         
         let daysAgo = Date().addingTimeInterval(-60 * 60 * 24 * days)
+        let daysMinusOne = Date().addingTimeInterval(-60 * 60 * 24 * (days - 1))
         
-        let lastDayCounts = counts?.filter{$0.createdAt! > daysAgo}
+        let lastDayCounts = counts?.filter{daysMinusOne > $0.createdAt! && $0.createdAt! > daysAgo}
         
         if let max = lastDayCounts?.max(by: {a, b in a.follower < b.follower}),
            let min = lastDayCounts?.min(by: {a, b in a.follower < b.follower}) {
-            followers = Int((max.follower - min.follower) / Int32(days))}
+            followers = Int((max.follower - min.follower) )}
         
         if let max = lastDayCounts?.max(by: {a, b in a.tweets < b.tweets}),
            let min = lastDayCounts?.min(by: {a, b in a.tweets < b.tweets}) {
-            tweets = Int((max.tweets - min.tweets) / Int32(days))}
+            tweets = Int((max.tweets - min.tweets))}
         
         return (followers, tweets)
     }
     
-    static func updateCount(for user: UserInfo, in viewContext: NSManagedObjectContext) -> CountValue {
+    static func updateCount(for user: UserInfo, in viewContext: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext) -> (followers:[Int], tweets: [Int]) {
         //参数说明：第一个数组代表follower，第二个代表tweets数量
         //每类有三个数是预留最近一天，最近一周？最近一月？，现在仅使用第一个
-        var countValue = CountValue()
+//        var countValue = CountValue()
+        var followers: [Int] = []
+        var tweets: [Int] = []
         
         let userPredictate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), user.id)
         let countRequest:NSFetchRequest<Count> = Count.fetchRequest()
@@ -55,19 +58,25 @@ extension Count {
         
         let counts = try? viewContext.fetch(countRequest)
         
+        let _ = (1...28).map{day in
+            let count = valueCalculate(counts, for: Double(day))
+            followers.append(count.0)
+            tweets.append(count.1)
+        }
         
-        countValue.followerOfLastDay = valueCalculate(counts, for: 1.0).0
-        countValue.tweetsOfLastDay = valueCalculate(counts, for: 1.0).1
+//        countValue.followerOfLastDay = valueCalculate(counts, for: 1.0).0
+//        countValue.tweetsOfLastDay = valueCalculate(counts, for: 1.0).1
+//
+//        countValue.followerOfLastThreeDays = valueCalculate(counts, for: 3.0).0
+//        countValue.tweetsOfLastThreeDays = valueCalculate(counts, for: 3.0).1
+//
+//        countValue.followerOfLastSevenDays = valueCalculate(counts, for: 7.0).0
+//        countValue.tweetsOfLastSevenDays = valueCalculate(counts, for: 7.0).1
         
-        countValue.followerOfLastThreeDays = valueCalculate(counts, for: 3.0).0
-        countValue.tweetsOfLastThreeDays = valueCalculate(counts, for: 3.0).1
         
-        countValue.followerOfLastSevenDays = valueCalculate(counts, for: 7.0).0
-        countValue.tweetsOfLastSevenDays = valueCalculate(counts, for: 7.0).1
+        print((followers:followers, tweets: tweets))
+        return (followers:followers, tweets: tweets)
         
-        
-        
-        return countValue
     }
     
     static func cleanCountData(success: () -> (), before days: Double, context: NSManagedObjectContext) {

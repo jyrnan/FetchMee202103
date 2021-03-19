@@ -186,8 +186,8 @@ extension UserRequstCommand {
     func updateUser(update userInfo: inout UserInfo, from context: NSManagedObjectContext) {
         ///从CoreData读取信息计算24小时内新增fo数和推文数量
         
-        userInfo.lastDayAddedFollower = Count.updateCount(for: userInfo, in: context).followerOfLastDay
-        userInfo.lastDayAddedTweets = Count.updateCount(for: userInfo, in: context).tweetsOfLastDay
+        userInfo.lastDayAddedFollower = Count.updateCount(for: userInfo).0.first
+        userInfo.lastDayAddedTweets = Count.updateCount(for: userInfo).1.first
         
     }
 }

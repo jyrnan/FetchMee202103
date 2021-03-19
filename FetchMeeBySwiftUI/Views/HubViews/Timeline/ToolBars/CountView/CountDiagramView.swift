@@ -19,13 +19,21 @@ struct CountDiagramView: View {
     //        _countValue = State(wrappedValue: Count.updateCount(for: userInfo, in: viewContext))
     //    }
     var type: CountDiagramView.CountDiagramType
+    var counts: [Int]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0){
-            Text(type.rawValue).font(.caption2).foregroundColor(.white).padding(0)
+            HStack{
+                Text(type.rawValue).font(.caption).foregroundColor(.white).padding(0)
+            Spacer()
+                Text("Max: \(counts.max() ?? 100)").font(.caption).foregroundColor(.init("BackGroundLight")).padding(0)
+            }
             HStack(spacing: 0) {
-                ForEach(0..<20) {number in
-                    CountDiagramRectangle(number: number, colors: type.colors).padding(0)
+                ForEach(counts, id: \.self) {count in
+                    CountDiagramRectangle(count: count == 0 ? 1 : count,
+                        maxCount: counts.max() ?? 100,
+                        number: count,
+                        colors: type.colors).padding(0)
                 }
                 
             }
@@ -42,7 +50,6 @@ struct CountDiagramRectangle: View {
     var number: Int
     
     var colors:[Color] = [.red, .orange]
-    
     
     var fill: LinearGradient { LinearGradient(gradient: Gradient(colors: colors), startPoint: .center , endPoint: .bottom)}
     
@@ -69,7 +76,7 @@ struct CountDiagramRectangle: View {
 
 struct CountDiagramView_Previews: PreviewProvider {
     static var previews: some View {
-        CountDiagramView(type: .follower).frame(height: 76)
+        CountDiagramView(type: .follower, counts: []).frame(height: 76)
     }
 }
 
