@@ -56,7 +56,7 @@ struct QuotedStatusJsonRow: View {
     }
     
     var text: some View {
-        Text(status.text ?? "Text")
+        Text(status.text ?? "Text").fixedSize(horizontal: false, vertical: true)
         
     }
     

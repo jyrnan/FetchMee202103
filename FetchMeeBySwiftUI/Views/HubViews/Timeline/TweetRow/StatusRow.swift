@@ -75,21 +75,15 @@ struct StatusRow: View {
     var text: some View {
         return { () -> AnyView in
             switch rowType {
-            case .timeline: return AnyView(Text(status.text ?? "Text"))
+            case .timeline: return AnyView(Text(status.text ?? "Text").fixedSize(horizontal: false, vertical: true))
             case .session: return  AnyView(NSAttributedStringView(attributedText: status.attributedText!, width: width - avatarColumWidth))
             }
         }()
-      
-        
-        
-//        NSAttributedStringView(attributedText: status.attributedText!,
-//                               width: width - avatarColumWidth)
-    }
+      }
     
     var retweeted: some View {
         Text("")
     }
-    
     
     var body: some View {
         VStack(alignment: .leading){
