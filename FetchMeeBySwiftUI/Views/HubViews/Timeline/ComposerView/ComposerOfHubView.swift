@@ -177,7 +177,7 @@ struct ComposerOfHubView: View {
             }
         }.padding(isUsedAlone ? 16 : 0)
         .onReceive(store.appState.setting.checker.autoMap, perform: {
-            if $0 != "no" {
+            if $0 != "noTag" {
                 autoCompleteText = $0
                 withAnimation{
                     isShowAutoCompleteText = true}

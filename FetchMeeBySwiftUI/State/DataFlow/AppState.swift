@@ -37,14 +37,13 @@ extension AppState {
                     )
                     
                     .compactMap{text in
-                        if text == "" || text.last == " " || text.last == "\n"{
-                            return "no"
-                        } else if let output = text.split(separator: " ").flatMap({$0.split(separator: "\n")}).last,
-                                  (output.starts(with: "@") || output.starts(with: "#"))
-                              { return String(output)
-                              }else {
-                                return nil
-                            }
+                        guard text != "" else {return "noTag"}
+                        guard text.last != " " else {return "noTag"}
+                        guard text.last != "\n" else {return "noTag"}
+                        if let output = text.split(separator: " ").flatMap({$0.split(separator: "\n")}).last,
+                                                          (output.starts(with: "@") || output.starts(with: "#"))
+                        { return String(output)}
+                        return "noTag"
                                             }
                     .removeDuplicates()
                     .eraseToAnyPublisher()
