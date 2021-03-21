@@ -40,7 +40,7 @@ extension AppState {
                         guard text != "" else {return "noTag"}
                         guard text.last != " " else {return "noTag"}
                         guard text.last != "\n" else {return "noTag"}
-                        if let output = text.split(separator: " ").flatMap({$0.split(separator: "\n")}).last,
+                        if let output = text.split(whereSeparator: {$0 == " " || $0 == "\n"}).last,
                                                           (output.starts(with: "@") || output.starts(with: "#"))
                         { return String(output)}
                         return "noTag"
