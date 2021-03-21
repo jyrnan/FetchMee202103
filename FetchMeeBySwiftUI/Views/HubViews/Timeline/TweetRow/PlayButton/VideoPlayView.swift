@@ -18,6 +18,12 @@ struct VideoPlayView: View {
     var body: some View {
         ZStack{
             VideoPlayer(player: AVPlayer(url: URL(string: url)!))
+                .gesture(DragGesture()
+                            .onChanged{value in
+                                if value.translation.height > 70 {
+                                    presentationMode.wrappedValue.dismiss()
+                                }
+                                                })
             VStack{
                 HStack{
                     Image(systemName: "xmark.circle.fill")

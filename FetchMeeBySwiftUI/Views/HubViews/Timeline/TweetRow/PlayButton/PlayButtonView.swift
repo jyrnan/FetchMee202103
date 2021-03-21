@@ -19,7 +19,8 @@ struct PlayButtonView: View {
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: 48, height: 48, alignment: .center)
-            .foregroundColor(.white).opacity(0.7)
+            .foregroundColor(.gray)
+            .background(Circle().foregroundColor(.white))
             .contextMenu(menuItems: /*@START_MENU_TOKEN@*/{
                 ForEach(viewModel.contextMenuButtons) {
                     button in
