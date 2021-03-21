@@ -21,7 +21,7 @@ struct DetailIndicator: View {
     var favorited: Bool { status?.favorited ?? false }
     var favoritedCount: Int {status?.favorite_count ?? 0 }
     
-    var isMentioned: Bool  {store.repository.status[tweetIDString]?.in_reply_to_user_id_str == store.appState.setting.loginUser?.id}
+    var isMentioned: Bool  {status?.isMentioned ?? false}
     
     var body: some View {
         HStack(spacing: 0){

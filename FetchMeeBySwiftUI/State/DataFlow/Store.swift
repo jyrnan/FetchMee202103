@@ -37,7 +37,7 @@ class Store: ObservableObject {
     
     private var disposeBag = Set<AnyCancellable>()
     
-    var repository: Repository = Repository.shared
+    var repository: Repository
     
     func dipatch(_ action: AppAction) {
         #if DEBUG
@@ -55,6 +55,8 @@ class Store: ObservableObject {
     }
     
     init() {
+        self.repository = Repository()
+        self.repository.store = self
 //        StatusRepository.shared.swifter = swifter
 //        UserRepository.shared.swifter = swifter
     }

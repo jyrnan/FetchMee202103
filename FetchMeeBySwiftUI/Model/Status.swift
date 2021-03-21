@@ -14,12 +14,7 @@ import Combine
 struct Status: Identifiable {
     var id: String
     var user: UserInfo?
-    
-//    var userID: String?
-//
-//    var avatarUrl: String?
-    
-//    var replyUsers: [String] = []
+
     var text: String?
     var attributedText: NSMutableAttributedString?
     var createdAt: Date?
@@ -48,7 +43,7 @@ struct Status: Identifiable {
     var isPortraitImage: Bool = false //标记推文是否含有人物图像
     var rowIsViewed: Bool = false //用来标记推文是否出现在屏幕上被展现?
     
-    
+    var isMentioned: Bool = false
     
 
     init(id: String = UUID().uuidString) {

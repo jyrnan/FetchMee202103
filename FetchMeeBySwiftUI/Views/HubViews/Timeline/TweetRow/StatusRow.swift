@@ -120,10 +120,10 @@ struct StatusRow: View {
         }
     }
     
-    func getImagesUrls(status: JSON) -> [String]? {
-        guard let medias = status["extended_entities"]["media"].array else {return nil}
-        let imageUrls = medias.map{$0["media_url_https"].string!}
-        return imageUrls
-    }
+//    func getImagesUrls(status: JSON) -> [String]? {
+//        guard let medias = status["extended_entities"]["media"].array else {return nil}
+//        let imageUrls = medias.map{$0["media_url_https"].string!}
+//        return imageUrls
+//    }
     
 }

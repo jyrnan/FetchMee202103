@@ -24,7 +24,7 @@ struct AutoCompleteVIew: View {
     
     
     var tagsCD: [String] {
-        tweetTags.filter{($0.text?.starts(with: String(autoCompletText.dropFirst())))!}
+        tweetTags.filter{($0.text?.hasPrefix(String(autoCompletText.dropFirst())))!}
             .map{"#" + $0.text!}
     }
     

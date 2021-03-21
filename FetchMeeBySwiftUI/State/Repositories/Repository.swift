@@ -11,8 +11,10 @@ import Swifter
 
 class Repository  {
     
-    static var shared = Repository()
-    private init() {}
+//    static var shared = Repository()
+//    private init() {}
+    
+    weak var store: Store?
     
     var status: [String: Status] = [:]
     var users: [String: UserInfo] = [:]
@@ -84,6 +86,8 @@ extension Repository {
         
         status.source = json["source"].string
         
+        status.isMentioned = checkIsMentioned(from: json)
+        
         return status
   }
     
@@ -101,5 +105,9 @@ extension Repository {
         
         return medias.map{$0["media_url_https"].string!
     }
+    }
+    
+    func checkIsMentioned(from json: JSON) -> Bool {
+        return json["in_reply_to_user_id_str"].string == store?.appState.setting.loginUser?.id
     }
 }
