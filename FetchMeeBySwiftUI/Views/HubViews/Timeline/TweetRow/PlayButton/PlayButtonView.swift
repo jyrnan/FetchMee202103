@@ -13,7 +13,6 @@ struct PlayButtonView: View {
     var viewModel: PlayButtonViewModel
    
     @State var playVideo: Bool = false
-    @State var player: AVPlayer = AVPlayer()
     
     var body: some View {
         Image(systemName: "play.circle.fill")
@@ -33,24 +32,12 @@ struct PlayButtonView: View {
             }/*@END_MENU_TOKEN@*/)
             .onTapGesture(count: 1, perform: {
 
-                if self.playVideo {
-                    self.player = AVPlayer()
-                    self.playVideo = false
-                } else {
-                    if let url = viewModel.mediaUrlString {
-                        self.player = AVPlayer(url: URL(string: url)!)
-//                        viewModel.playVideo()
+                    if let _ = viewModel.mediaUrlString {
                         self.playVideo = true
                     }
-                }
             })
-            .fullScreenCover(isPresented: self.$playVideo, onDismiss: {
-                self.player = AVPlayer()
-//                viewModel.stopPlayVideo()
-                
-            }, content: {
-//                PlayerContainerView(player: self.player)
-                VideoPlayView(player: player) //用官方的播放器了
+            .fullScreenCover(isPresented: self.$playVideo,  content: {
+                VideoPlayView(url: viewModel.mediaUrlString!) //用官方的播放器了
             })
     }
 }

@@ -10,50 +10,14 @@ import SwiftUI
 import AVKit
 import MobileCoreServices
 
-//struct PlayerView: UIViewRepresentable {
-//    var url: String?
-//  func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<PlayerView>) {
-//    (uiView as? PlayerUIView)?.updatePlayer(player: player)
-//  }
-//  func makeUIView(context: Context) -> UIView {
-//    return PlayerUIView(frame: .zero, url: self.url)
-//  }
-//}
-//
-//class PlayerUIView: UIView {
-//  private let playerLayer = AVPlayerLayer()
-//    init(frame: CGRect, url: String?) {
-//        super.init(frame: frame)
-//
-//    let url = URL(string: url!)!
-//    let player = AVPlayer(url: url)
-//    player.play()
-//
-//    playerLayer.player = player
-//    layer.addSublayer(playerLayer)
-//  }
-//  required init?(coder: NSCoder) {
-//   fatalError("init(coder:) has not been implemented")
-//  }
-//
-//  override func layoutSubviews() {
-//    super.layoutSubviews()
-//    playerLayer.frame = bounds
-//  }
-//
-//    func updatePlayer(player: AVPlayer) {
-//        self.playerLayer.player = player
-//    }
-//}
-
 ///官方iOS14支持播放器
 struct VideoPlayView: View {
     @Environment(\.presentationMode) var presentationMode
-    let player: AVPlayer
+    let url:String
     
     var body: some View {
         ZStack{
-            VideoPlayer(player: player)
+            VideoPlayer(player: AVPlayer(url: URL(string: url)!))
             VStack{
                 HStack{
                     Image(systemName: "xmark.circle.fill")
@@ -70,143 +34,6 @@ struct VideoPlayView: View {
                 }
                 Spacer()
             }
-        }
-    }
-}
-
-struct videoPlayView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlayerContainerView(player: AVPlayer())
-    }
-}
-
-///利用普通代码
-struct PlayerView: UIViewRepresentable {
-    let player: AVPlayer
-    func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<PlayerView>) {
-        (uiView as? PlayerUIView)?.updatePlayer(player: player)
-    }
-    
-    func makeUIView(context: Context) -> UIView {
-        return PlayerUIView(player: player)
-    }
-}
-
-class PlayerUIView: UIView {
-    private let playerLayer = AVPlayerLayer()
-    init(player: AVPlayer) {
-        super.init(frame: .zero)
-        player.play()
-        
-        playerLayer.player = player
-        layer.addSublayer(playerLayer)
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        playerLayer.frame = bounds
-    }
-    
-    func updatePlayer(player: AVPlayer) {
-        self.playerLayer.player = player
-    }
-}
-
-struct PlayerContainerView : View {
-    @Environment(\.presentationMode) var presentationMode
-    
-    @State var seekPos = 0.0
-    @State var showController: Bool = false {
-        didSet {
-            delay(delay: 4, closure: {
-                    if self.showController == true {
-                        withAnimation {self.showController = false}}})
-        }
-    }
-    
-    private let player: AVPlayer
-    init(player: AVPlayer) {
-        self.player = player
-    }
-    var body: some View {
-        ZStack {
-            PlayerView(player: player)
-            VStack {
-                Spacer()
-                if self.showController {
-                    PlayerControlsView(player: player)
-                }
-            }
-            
-        }.onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-            self.showController = true
-        })
-    }
-    func delay(delay: Double, closure: @escaping () -> ()) {
-        let when = DispatchTime.now() + delay
-        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
-    }
-}
-
-struct PlayerControlsView : View {
-    @Environment(\.presentationMode) var presentationMode
-    @State var playerPaused = true
-    @State var seekPos = 0.0
-    let player: AVPlayer
-    var body: some View {
-        
-        ZStack {
-            RoundedRectangle(cornerSize: CGSize(width: 16, height: 16)  )
-                .fill(Color.gray).opacity(0.2)
-                .padding()
-                .frame(height: 140)
-            
-            VStack {
-                HStack {
-                    Spacer()
-                    Image(systemName: playerPaused ? "play.circle" : "pause.circle")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width:48, height: 48)
-                        .padding(.leading, 70)
-                        .padding(.trailing, 20)
-                        .foregroundColor(.white)
-                        .onTapGesture {
-                            self.playerPaused.toggle()
-                            if self.playerPaused {
-                                self.player.pause()
-                            }
-                            else {
-                                self.player.play()
-                            }
-                        }
-                    
-                    Spacer()
-                    Image(systemName: "xmark.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width:24, height: 24)
-                        .padding(0)
-                        .padding(.trailing, 24)
-                        .foregroundColor(.white)
-                        .offset(y: -12)
-                        .onTapGesture {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                }
-                Slider(value: $seekPos, in: 0...1, onEditingChanged: { _ in
-                    guard let item = self.player.currentItem else {
-                        return
-                    }
-                    
-                    let targetTime = self.seekPos * item.duration.seconds
-                    self.player.seek(to: CMTime(seconds: targetTime, preferredTimescale: 600))
-                })
-                .padding([.leading, .trailing], 40)
-            }
-            
         }
     }
 }
