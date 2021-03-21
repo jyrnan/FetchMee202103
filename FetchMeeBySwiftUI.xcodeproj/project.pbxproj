@@ -100,7 +100,6 @@
 		D2A972F225FCC97D005F06A5 /* Status_CD+JSON_Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A972F125FCC97D005F06A5 /* Status_CD+JSON_Save.swift */; };
 		D2ABAD1B256F9345009FDD94 /* ImageThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */; };
 		D2ABAD1D256F938E009FDD94 /* ImageThrumbViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1C256F938E009FDD94 /* ImageThrumbViewModel.swift */; };
-		D2AE50652553C6D500437337 /* MentionUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE50642553C6D500437337 /* MentionUser.swift */; };
 		D2AE506725564A2800437337 /* LogMessageSmallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE506625564A2800437337 /* LogMessageSmallView.swift */; };
 		D2B2560E24E38824009F982E /* videoJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2B2560D24E38824009F982E /* videoJson.txt */; };
 		D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B2560F24E39020009F982E /* VideoPlayView.swift */; };
@@ -235,7 +234,6 @@
 		D2A972F125FCC97D005F06A5 /* Status_CD+JSON_Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Status_CD+JSON_Save.swift"; sourceTree = "<group>"; };
 		D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThumbView.swift; sourceTree = "<group>"; };
 		D2ABAD1C256F938E009FDD94 /* ImageThrumbViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThrumbViewModel.swift; sourceTree = "<group>"; };
-		D2AE50642553C6D500437337 /* MentionUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionUser.swift; sourceTree = "<group>"; };
 		D2AE506625564A2800437337 /* LogMessageSmallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogMessageSmallView.swift; sourceTree = "<group>"; };
 		D2B2560D24E38824009F982E /* videoJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = videoJson.txt; sourceTree = "<group>"; };
 		D2B2560F24E39020009F982E /* VideoPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayView.swift; sourceTree = "<group>"; };
@@ -658,7 +656,6 @@
 			children = (
 				D27744E2253B149B0062B25C /* BackOfFriendToolBar.swift */,
 				D262FDDB24D3C5D900682B99 /* MentionUserSortedView.swift */,
-				D2AE50642553C6D500437337 /* MentionUser.swift */,
 			);
 			path = FriendToolBar;
 			sourceTree = "<group>";
@@ -817,7 +814,6 @@
 				D257D7E9258B30E700DB7F05 /* UIImage+changeColor.swift in Sources */,
 				D730997F24ED6A5F00B57837 /* DraftsView.swift in Sources */,
 				D2A972F225FCC97D005F06A5 /* Status_CD+JSON_Save.swift in Sources */,
-				D2AE50652553C6D500437337 /* MentionUser.swift in Sources */,
 				D2D4878F25734B0A005EE4A7 /* PlayButtonView.swift in Sources */,
 				D255E24025EE1F440053CDE4 /* AppCommand_Tweet.swift in Sources */,
 				D266729125F9ACCC0044DBBA /* Fetcher.swift in Sources */,

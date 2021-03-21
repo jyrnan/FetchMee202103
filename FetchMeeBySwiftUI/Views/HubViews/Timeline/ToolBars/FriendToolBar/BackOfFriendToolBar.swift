@@ -11,7 +11,6 @@ import Swifter
 import Combine
 
 struct BackOfFriendToolBar: View {
-//@EnvironmentObject var fetchMee: User
     var body: some View {
         VStack{
             HStack {MentionUserSortedView()}

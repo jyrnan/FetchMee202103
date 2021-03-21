@@ -14,14 +14,6 @@ import Combine
 import CoreData
 import BackgroundTasks
 
-//TODO: 取消这个swifter的全局变量？
-//var swifter: Swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
-//                               consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")
-
-
-let userDefault = UserDefaults.init()
-//let cfh = CacheFileHandler() //设置下载文件的缓存位置
-let session = URLSession.shared
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     

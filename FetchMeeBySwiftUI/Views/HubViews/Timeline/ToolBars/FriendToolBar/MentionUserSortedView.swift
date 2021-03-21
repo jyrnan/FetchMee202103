@@ -20,7 +20,6 @@ struct MentionUserSortedView: View {
         return mentionUserInfoSorted
     }
     
-    @StateObject var mentionUsers = MentionUserSortedViewModel()
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -36,6 +35,6 @@ struct MentionUserSortedView: View {
 
 struct MentionUserSortedView_Previews: PreviewProvider {
     static var previews: some View {
-        MentionUserSortedView(mentionUsers: MentionUserSortedViewModel())
+        MentionUserSortedView()
     }
 }
