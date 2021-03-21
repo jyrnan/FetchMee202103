@@ -62,6 +62,7 @@ struct VideoPlayView: View {
                         .frame(width:24, height: 24)
                         .foregroundColor(.gray).opacity(0.4)
                         .padding()
+                        .contentShape(Circle())
                         .onTapGesture {
                             presentationMode.wrappedValue.dismiss()
                         }

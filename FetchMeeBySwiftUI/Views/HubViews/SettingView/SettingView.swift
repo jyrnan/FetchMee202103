@@ -13,7 +13,6 @@ import KingfisherSwiftUI
 
 struct SettingView: View {
     
-    @EnvironmentObject var alerts: Alerts
     
     @EnvironmentObject var store: Store
     

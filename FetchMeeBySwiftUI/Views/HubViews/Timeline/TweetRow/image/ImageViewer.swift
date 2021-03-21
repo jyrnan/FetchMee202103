@@ -30,7 +30,6 @@ struct ImageViewer: View {
                         .scaledToFit()
                         .offset(x: self.currentOffset.width, y: self.currentOffset.height)
                         .scaleEffect(max(self.currentScale, 1.0), anchor: .center)
-//                        .scaleEffect(max(self.currentScale, 1.0), anchor: UnitPoint(x: self.pointTapped.x / geometry.frame(in: .global).maxX, y: self.pointTapped.y / geometry.frame(in: .global).maxY)) // the second question
                         .gesture(TapGesture(count: 2)
                                     .onEnded{
                                         if self.currentScale == 3 {

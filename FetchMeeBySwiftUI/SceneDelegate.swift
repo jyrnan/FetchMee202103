@@ -19,11 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
-    ///注册一个后台执行刷新的任务
+    //注册一个后台执行刷新的任务
     var bgFetchTask: (@escaping () -> ()) -> () = {completeHandler in completeHandler()}
     
 //    var loingUser: User = User() //App登录使用的用户
-    var alerts: Alerts = Alerts()
+//    var alerts: Alerts = Alerts()
     var downloader = Downloader(configuation: URLSessionConfiguration.default)
     
     var store: Store = Store()
@@ -54,7 +54,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             window.rootViewController = UIHostingController(
                 rootView: contentView
-                    .environmentObject(alerts)
+//                    .environmentObject(alerts)
                     .environmentObject(store)
                     .environment(\.managedObjectContext, context))
             
@@ -158,10 +158,7 @@ extension SceneDelegate {
         
         do {
             try BGTaskScheduler.shared.submit(request)
-            
-            let taskSetText = "BGAPPRefreshTaskRequest set."
-            self.alerts.setLogMessage(text: "\(self.timeStamp) \(taskSetText)")
-            
+   
             
         } catch {
             print("Could not schedule app refresh: \(error)")
@@ -174,10 +171,7 @@ extension SceneDelegate {
         
         do {
             try BGTaskScheduler.shared.submit(request)
-            
-            let taskSetText = "BGAProcessingTaskRequest set."
-            self.alerts.setLogMessage(text: "\(self.timeStamp) \(taskSetText)")
-            
+  
             
         } catch {
             print("Could not schedule database cleaning: \(error)")
@@ -191,7 +185,6 @@ extension SceneDelegate {
         task.expirationHandler = {
             let expirationText = "BGAPPRefreshTask unexpectedly exit."
             
-            self.alerts.setLogMessage(text: "\(self.timeStamp) \(expirationText)")
             self.saveOrUpdateLog(text: expirationText)
         }
         
@@ -199,7 +192,6 @@ extension SceneDelegate {
         let completeHandler: () -> () = {
             
             let successText = "BGAPPRefreshTask completed."
-            self.alerts.setLogMessage(text: "\(self.timeStamp) \(successText)")
             self.saveOrUpdateLog(text: successText)
             
             task.setTaskCompleted(success: true)
@@ -207,7 +199,6 @@ extension SceneDelegate {
         
         //logHandler用来传入到其他函数中接受记录并输出信息到CoreData中
         let _: (String) -> () = {logText in
-            self.alerts.setLogMessage(text: logText)
             self.saveOrUpdateLog(text: logText)
         }
         

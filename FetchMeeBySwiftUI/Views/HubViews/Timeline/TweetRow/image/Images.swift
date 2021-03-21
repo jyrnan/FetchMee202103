@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct Images: View {
-    @EnvironmentObject var alerts: Alerts
 
     var imageUrlStrings: [String]
     

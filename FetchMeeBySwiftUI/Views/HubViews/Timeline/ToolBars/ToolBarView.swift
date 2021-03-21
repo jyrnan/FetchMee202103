@@ -50,8 +50,6 @@ enum ToolBarViewType: String {
 
 
 struct ToolBarView: View, Identifiable {
-    @EnvironmentObject var alerts: Alerts
-//    @EnvironmentObject var fetchMee: User
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>

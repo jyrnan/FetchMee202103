@@ -102,10 +102,14 @@ struct StatusRow: View {
             }.padding()
             
                 if let imageUrls = status.imageUrls {
+                    ZStack{
                 Images(imageUrlStrings: imageUrls)
                     .frame(width: width, height:width * 9 / 21 )
-                    
                     .clipped()
+                        if status.mediaType == "video" || status.mediaType == "animated_gif" {
+                            PlayButtonView(viewModel: PlayButtonViewModel(url: status.mediaUrlString))
+                        }
+                    }
             }
             } else {
                 RetweetMarkView(userIDString: tweetID, userName: status.user?.name)
