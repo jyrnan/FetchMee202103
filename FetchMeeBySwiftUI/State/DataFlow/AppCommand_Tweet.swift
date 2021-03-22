@@ -10,6 +10,7 @@ import Foundation
 import Swifter
 import Combine
 import UIKit
+import SwiftUI
 
 struct TweetCommand: AppCommand {
     
@@ -40,7 +41,18 @@ struct TweetCommand: AppCommand {
                   receiveValue: {
                     
                     fecher.repository.addStatus(data: $0)
-                    store.dipatch(.update)
+                    
+                    if case let .delete(id) = operation {
+                        //如果是删除推文的操作，则需要在完成服务器端操作后执行本地推文数据的删除
+                        //需要同时删除推文ID和ToolsView
+                        withAnimation{
+                        store.appState.timelineData.deleteFromTimelines(of: "toolsViewMark")
+                        store.appState.timelineData.deleteFromTimelines(of: id)}
+                    } else {
+                        //其他的操作需要刷新界面来显示数据更新
+                        store.dipatch(.update)
+                    }
+                    
                   })
             .seal(in: token)
     }

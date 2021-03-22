@@ -132,7 +132,7 @@ extension AppState.TimelineData {
         
         if self.selectedTweetID != nil {
             //如果选中推文的值本来就有有数值， 那首先清空timeline里面的toolViewMark标记
-            clearToolsViewMark()
+            deleteFromTimelines(of: "toolsViewMark")
             
             if self.selectedTweetID == tweetIDString {
                 //如果等于传入的tweetID，则直接设置成空
@@ -152,12 +152,12 @@ extension AppState.TimelineData {
         }
     }
     
-    /// 针对所有的timeline清除toolsViewMark
-    mutating func clearToolsViewMark() {
+    /// 针对所有的timeline清除某推文id
+    mutating func deleteFromTimelines(of id: String) {
         self.timelines
-            .filter{$1.tweetIDStrings.contains("toolsViewMark")}
+            .filter{$1.tweetIDStrings.contains(id)}
             .forEach{
-                let index = $1.tweetIDStrings.firstIndex(of:  "toolsViewMark")!
+                let index = $1.tweetIDStrings.firstIndex(of:  id)!
                 self.timelines[$0]?.tweetIDStrings.remove(at: index) }}
     
     /// 在所有timeline的该ID后面添加toolsViewMark
