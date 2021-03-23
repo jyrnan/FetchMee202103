@@ -176,7 +176,7 @@ struct ComposerOfHubView: View {
                 Spacer()
             }
         }.padding(isUsedAlone ? 16 : 0)
-        .onReceive(store.appState.setting.checker.autoMap, perform: {
+        .onReceive(store.appState.setting.tweetInput.autoMapPublisher, perform: {
             if $0 != "noTag" {
                 autoCompleteText = $0
                 withAnimation{

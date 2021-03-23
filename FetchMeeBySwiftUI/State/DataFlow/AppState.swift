@@ -29,10 +29,10 @@ extension AppState {
         ///产生一个Publisher，用来检测输入文字是否含有#或@
         class TweetTextChecker {
             @Published var tweetText = ""
-            var autoMap: AnyPublisher<String, Never> {
+            var autoMapPublisher: AnyPublisher<String, Never> {
                 $tweetText
                     .debounce(
-                        for: .milliseconds(1000),
+                        for: .milliseconds(500),
                         scheduler: DispatchQueue.main
                     )
                     
@@ -71,7 +71,7 @@ extension AppState {
         
         var lists: [String: String] = [:] //前面是ID，后面是name
         
-        var checker = TweetTextChecker()
+        var tweetInput = TweetTextChecker()
         
     }
 }

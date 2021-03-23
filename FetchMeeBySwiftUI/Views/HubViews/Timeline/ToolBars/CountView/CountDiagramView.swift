@@ -11,13 +11,6 @@ import CoreData
 
 struct CountDiagramView: View {
     
-    //    @State var countValue: CountValue
-    
-    //    init(userInfo: UserInfo, context: NSManagedObjectContext) {
-    //        self.userInfo = userInfo
-    //        self.viewContext = context
-    //        _countValue = State(wrappedValue: Count.updateCount(for: userInfo, in: viewContext))
-    //    }
     var type: CountDiagramView.CountDiagramType
     var counts: [Int]
     
@@ -26,10 +19,12 @@ struct CountDiagramView: View {
             HStack{
                 Text(type.rawValue).font(.caption).foregroundColor(.white).padding(0)
             Spacer()
-                Text("Max: \(counts.max() ?? 100)").font(.caption).foregroundColor(.init("BackGroundLight")).padding(0)
+                Text("Max: \(counts.max() ?? 100)").font(.caption).foregroundColor(.init(UIColor.darkGray)).padding(0)
             }
             HStack(spacing: 0) {
                 ForEach(counts, id: \.self) {count in
+                    //如果当日熟知为零，则设置成1，
+                    //以保证当日柱状图有一点高度
                     CountDiagramRectangle(count: count == 0 ? 1 : count,
                         maxCount: counts.max() ?? 100,
                         number: count,

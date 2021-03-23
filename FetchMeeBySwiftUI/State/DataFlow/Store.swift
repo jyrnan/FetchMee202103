@@ -149,9 +149,9 @@ class Store: ObservableObject {
             appCommand = TweetCommand(operation: operatrion)
          
         case .autoComplete(let text):
-            var tweetText = state.setting.checker.tweetText
+            var tweetText = state.setting.tweetInput.tweetText
             tweetText = tweetText.split(separator: " ").dropLast().joined(separator: " ") + " " + text + " "
-            appState.setting.checker.tweetText = tweetText
+            appState.setting.tweetInput.tweetText = tweetText
         }
         
         return (appState, appCommand)

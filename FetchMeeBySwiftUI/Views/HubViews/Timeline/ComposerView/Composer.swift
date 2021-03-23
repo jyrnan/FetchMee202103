@@ -15,7 +15,7 @@ struct Composer: View {
     
     @Environment(\.managedObjectContext) var viewContext
     
-    var tweetTextBinding: Binding<String> {$store.appState.setting.checker.tweetText}
+    var tweetTextBinding: Binding<String> {$store.appState.setting.tweetInput.tweetText}
     
     @State var isShowCMV: Bool = false  //是否显示详细新推文视图
     

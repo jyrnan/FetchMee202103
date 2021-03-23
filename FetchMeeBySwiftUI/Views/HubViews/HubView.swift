@@ -21,7 +21,7 @@ struct HubView: View {
 //    @Environment(\.managedObjectContext) private var viewContext
 //    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var logs: FetchedResults<Log>
     
-    var tweetText: Binding<String> {$store.appState.setting.checker.tweetText}
+    var tweetText: Binding<String> {$store.appState.setting.tweetInput.tweetText}
     @State var isShowToast: Bool = true
     
     var body: some View {
