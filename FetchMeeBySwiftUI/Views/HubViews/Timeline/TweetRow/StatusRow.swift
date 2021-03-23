@@ -32,7 +32,7 @@ struct StatusRow: View {
     //avatar区域的宽度
     var avatarColumWidth: CGFloat = 80
     
-    var status: Status {store.repository.status[tweetID] ?? Status()}
+    var status: Status {store.repository.getStatus(byID: tweetID)}
     
     var quotedStatusID: String? {status.quoted_status_id_str }
     var retweetStatusID: String? {status.retweeted_status_id_str}

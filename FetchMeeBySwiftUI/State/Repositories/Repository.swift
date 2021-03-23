@@ -10,10 +10,7 @@ import Foundation
 import Swifter
 
 class Repository  {
-    
-//    static var shared = Repository()
-//    private init() {}
-    
+ 
     weak var store: Store?
     
     var status: [String: Status] = [:]
@@ -29,6 +26,14 @@ class Repository  {
         if let id = data["id_str"].string {
             users[id] = convertToUser(from: data)
         }
+    }
+    
+    func getStatus(byID id: String) -> Status {
+        if let status = self.status[id] {
+            return status
+        }
+//        store?.dipatch(.tweetOperation(operation: .fetchTweet(id: id)))
+        return Status()
     }
 }
 

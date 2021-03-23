@@ -244,6 +244,14 @@ extension FetcherSwifter {
         
         
         switch operation {
+        case .fetchTweet(let ID):
+            return Future<JSON, Error> {promise in
+                FetcherSwifter.provider.lookupTweets(for: [ID],
+                                                 success: {promise(.success($0))},
+                                                 failure: {promise(.failure($0))})}
+                .receive(on: DispatchQueue.main)
+                .eraseToAnyPublisher()
+        
         case .favorite(let ID):
             return Future<JSON, Error> {promise in
                 FetcherSwifter.provider.favoriteTweet(forID: ID,

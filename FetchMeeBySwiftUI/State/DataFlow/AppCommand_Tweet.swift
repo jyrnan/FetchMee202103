@@ -16,6 +16,7 @@ struct TweetCommand: AppCommand {
     
     
     enum TweetOperation {
+        case fetchTweet(id: String)
         case favorite(id: String)
         case unfavorite(id: String)
         case retweet(id: String)
@@ -41,6 +42,7 @@ struct TweetCommand: AppCommand {
                   receiveValue: {
                     
                     fecher.repository.addStatus(data: $0)
+                    print(#line,#file,$0)
                     
                     if case let .delete(id) = operation {
                         //如果是删除推文的操作，则需要在完成服务器端操作后执行本地推文数据的删除
