@@ -166,9 +166,9 @@ struct ComposerOfHubView: View {
                 })
                 .disabled(self.tweetText == "" && imageDatas.isEmpty) 
             }
-            if isShowAutoCompleteText {
+            if store.appState.setting.autoCompleteText != "noTag" {
                 HStack {
-                    AutoCompleteVIew(autoCompletText: autoCompleteText)
+                    AutoCompleteVIew(autoCompletText: store.appState.setting.autoCompleteText)
                 }
             }
             //如果单独使用则靠顶部
@@ -176,15 +176,16 @@ struct ComposerOfHubView: View {
                 Spacer()
             }
         }.padding(isUsedAlone ? 16 : 0)
-        .onReceive(store.appState.setting.tweetInput.autoMapPublisher, perform: {
-            if $0 != "noTag" {
-                autoCompleteText = $0
-                withAnimation{
-                    isShowAutoCompleteText = true}
-            } else {
-                withAnimation{
-                    isShowAutoCompleteText = false}}
-        })
+//        .onReceive(store.appState.setting.tweetInput.autoMapPublisher, perform: {text in
+//            print(#line, #file, "sent a text \(text)")
+//            if $0 != "noTag" {
+//                autoCompleteText = $0
+//                withAnimation{
+//                    isShowAutoCompleteText = true}
+//            } else {
+//                withAnimation{
+//                    isShowAutoCompleteText = false}}
+//        })
     }
 }
 

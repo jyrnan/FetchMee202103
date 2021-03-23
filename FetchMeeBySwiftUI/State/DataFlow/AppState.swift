@@ -33,9 +33,9 @@ extension AppState {
                 $tweetText
                     .debounce(
                         for: .milliseconds(500),
-                        scheduler: DispatchQueue.main
+                        scheduler: DispatchQueue.global()
                     )
-                    
+
                     .compactMap{text in
                         guard text != "" else {return "noTag"}
                         guard text.last != " " else {return "noTag"}
@@ -46,6 +46,7 @@ extension AppState {
                         return "noTag"
                                             }
                     .removeDuplicates()
+                    .receive(on: DispatchQueue.main)
                     .eraseToAnyPublisher()
             }
         }
@@ -72,6 +73,7 @@ extension AppState {
         var lists: [String: String] = [:] //前面是ID，后面是name
         
         var tweetInput = TweetTextChecker()
+        var autoCompleteText: String = "noTag"
         
     }
 }

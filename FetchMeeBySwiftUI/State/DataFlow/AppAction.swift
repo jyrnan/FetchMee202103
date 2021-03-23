@@ -19,6 +19,8 @@ enum AppAction {
     case setProcessingBegin
     case setProcessingDone
     
+    case sendAutoCompleteText(text: String)
+    
     case showImageViewer(view: AnyView)
     case closeImageViewer
     

@@ -39,6 +39,14 @@ class Store: ObservableObject {
     
     var repository: Repository
     
+    
+    func addObserver() {
+        self.appState.setting.tweetInput.autoMapPublisher.sink{text in
+            withAnimation{
+                self.dipatch(.sendAutoCompleteText(text: text))}
+        }.store(in: &disposeBag)
+    }
+    
     func dipatch(_ action: AppAction) {
         #if DEBUG
         print("[ACTION: \(action)")
@@ -57,8 +65,7 @@ class Store: ObservableObject {
     init() {
         self.repository = Repository()
         self.repository.store = self
-//        StatusRepository.shared.swifter = swifter
-//        UserRepository.shared.swifter = swifter
+        addObserver()
     }
     
     static func reduce(state: AppState, action: AppAction) -> (AppState, AppCommand?) {
@@ -81,6 +88,9 @@ class Store: ObservableObject {
             appState.setting.isProcessingDone = false
         case .setProcessingDone:
             appState.setting.isProcessingDone = true
+            
+        case .sendAutoCompleteText(let text):
+            appState.setting.autoCompleteText = text
             
         case .showImageViewer(let view):
             appState.setting.presentedView = view
