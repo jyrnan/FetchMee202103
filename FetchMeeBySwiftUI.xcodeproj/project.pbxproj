@@ -77,6 +77,7 @@
 		D27DCEC624B96D6100520BE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEC424B96D6100520BE3 /* LaunchScreen.storyboard */; };
 		D27DCF3B24B98F9900520BE3 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF3A24B98F9900520BE3 /* Status.swift */; };
 		D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF8B24B9A56100520BE3 /* TweetRow.swift */; };
+		D27FBA42260F5EC100F7067B /* JSONAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FBA41260F5EC100F7067B /* JSONAdapter.swift */; };
 		D282BCA52589902400877B26 /* ComposerButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282BCA42589902400877B26 /* ComposerButtonView.swift */; };
 		D286BE4A2566460600DCEA1E /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286BE492566460600DCEA1E /* AuthViewController.swift */; };
 		D286BE782566610C00DCEA1E /* AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D286BE772566610C00DCEA1E /* AuthViewController.xib */; };
@@ -209,6 +210,7 @@
 		D27DCEC724B96D6100520BE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D27DCF3A24B98F9900520BE3 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		D27DCF8B24B9A56100520BE3 /* TweetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetRow.swift; sourceTree = "<group>"; };
+		D27FBA41260F5EC100F7067B /* JSONAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONAdapter.swift; sourceTree = "<group>"; };
 		D282BCA42589902400877B26 /* ComposerButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerButtonView.swift; sourceTree = "<group>"; };
 		D286BE492566460600DCEA1E /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		D286BE772566610C00DCEA1E /* AuthViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthViewController.xib; sourceTree = "<group>"; };
@@ -428,6 +430,7 @@
 			isa = PBXGroup;
 			children = (
 				D266729025F9ACCC0044DBBA /* Fetcher.swift */,
+				D27FBA41260F5EC100F7067B /* JSONAdapter.swift */,
 			);
 			path = Fetcher;
 			sourceTree = "<group>";
@@ -792,6 +795,7 @@
 				D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */,
 				D2C8107925FF9AC9001C6546 /* QuotedStatusJsonRow.swift in Sources */,
 				D228E06325FD9A900063E0EB /* Status_CDRow.swift in Sources */,
+				D27FBA42260F5EC100F7067B /* JSONAdapter.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,
 				D28F9EA425E86F2600B8EF40 /* TimelineIconViewRedux.swift in Sources */,
 				D25D9AE425FF0EEE0038A6B1 /* StatusRow.swift in Sources */,

@@ -67,7 +67,7 @@ struct FetchSessionCommand: AppCommand {
             func getStatus(id: String) {
                 
                 //如果status能直接从repository获取，则直接获取
-                if let status = store.repository.status[id] {
+                if let status = store.repository.statuses[id] {
                 
                     //直接获取status后，查看是否需要进一步获取后续status
                     if let nextID = status.in_reply_to_status_id_str {

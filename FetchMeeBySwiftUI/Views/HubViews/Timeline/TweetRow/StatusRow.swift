@@ -117,7 +117,7 @@ struct StatusRow: View {
                 StatusRow(tweetID: retweetStatusID!, width: width)
             }
         }
-        .background(status.isMentioned == true ? Color.accentColor.opacity(0.15) : Color.clear)
+        .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id ? Color.accentColor.opacity(0.15) : Color.clear)
         .onTapGesture {
             withAnimation{
                 store.dipatch(.selectTweetRow(tweetIDString: tweetID))
