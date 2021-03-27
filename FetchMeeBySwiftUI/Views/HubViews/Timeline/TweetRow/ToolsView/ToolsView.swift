@@ -45,7 +45,7 @@ struct ToolsView: View {
                         } else {
 //                            isAlertShowed = true
 //                            let _ = Status_CD.JSON_Save(from: status!)
-                            store.swifter.getTweet(for: tweetIDString, success: {json in
+                            store.fetcher.swifter.getTweet(for: tweetIDString, success: {json in
                                 let _ = Status_CD.JSON_Save(from: json)
                                 store.dipatch(.alertOn(text: "Bookmarked!", isWarning: false))
                             })

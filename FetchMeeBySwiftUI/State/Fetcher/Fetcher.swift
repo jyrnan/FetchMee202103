@@ -12,33 +12,33 @@ import Swifter
 import CoreData
 
 protocol Fetcher {
-//    associatedtype Status
-//    associatedtype User
-    
-    typealias Timeline = AppState.TimelineData.Timeline
+     typealias Timeline = AppState.TimelineData.Timeline
     typealias MentionUserData = [UserInfo.MentionUser]
     typealias TweetIDStrings = [String]
-    
-    
-    var repository: Repository {get set}
-    
-//    mutating func addStatus(status: Status) -> Void
-//    mutating func addUser(status: User) -> Void
-   
-}
-
-
+  }
 
 /// 基于Swifter的API中间件
 struct FetcherSwifter: Fetcher {
+    unowned var store: Store?
     
+//    var repository: Repository {store?.repository ?? Repository()}
     //每次刷新的推文数量
+    
+    var swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
+                           consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")
     var count: Int = 90
+    var loginUserID: String? {store?.appState.setting.loginUser?.id}
     
-    static var provider: Swifter!
+    /// 用来设置登录后服务提供者新的状态
+    mutating func setLogined() {
+        if let loginUser = store?.appState.setting.loginUser {
+            swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
+                           consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
+                           oauthToken: loginUser.tokenKey!,
+                           oauthTokenSecret: loginUser.tokenSecret!)
+        }
+    }
     
-    var repository: Repository
-    var loginUserID: String?
     
     /// 在推文基本操作的Publisher基础上，生成一个基于刷新模式的Publisher，
     /// - 提示： 这个Pulisher可以作为业务模块的调用
@@ -93,8 +93,7 @@ struct FetcherSwifter: Fetcher {
     
     //MARK:- 单条推文数据处理部分
     //包括生产tweetiIDStrings，添加推文数据到Repository，生产Tag，MentionUserData
-    
-    
+        
     /// 产生推文ID的序列
     /// - Parameter newTweets: 获取的推文数据
     /// - Returns: 提取的推文ID序列
@@ -105,8 +104,8 @@ struct FetcherSwifter: Fetcher {
     
     ///把推文数据添加到Repository里面，
     func addDataToRepository(_ data: JSON) {
-        repository.addStatus(data: data)
-        repository.addUser(data: data["user"])
+        store?.repository.addStatus(data: data)
+        store?.repository.addUser(data: data["user"])
         
         if data["quoted_status_id_str"].string != nil{
             addDataToRepository(data["quoted_status"])
@@ -155,33 +154,16 @@ struct FetcherSwifter: Fetcher {
    
 }
 
-
-//extension FetcherSwifter {
-//    mutating func addStatus(status: JSON) {
-//        if let id = status["id_str"].string {
-//            repository.status[id] = status
-//        }
-//    }
-//
-//    mutating func addUser(status: JSON) {
-//        if let id = status["id_str"].string {
-//            repository.users[id] = status
-//        }
-//    }
-//}
-
 extension FetcherSwifter {
     //MARK:- Publisher生成
     func makeSessionOperatePublisher(updateMode: FetchTimelineCommand.UpdateMode, timeline: Timeline) -> Future<JSON, Error> {
         var sinceIDString: String? {updateMode == .top ? timeline.tweetIDStrings.first : nil }
         var maxIDString: String? {updateMode == .bottom ? timeline.tweetIDStrings.last : nil}
-        
-        print(#line, #function)
-        
+       
         switch timeline.type {
         case .home:
             return Future<JSON, Error> {promise in
-                FetcherSwifter.provider.getHomeTimeline(count: count,
+                swifter.getHomeTimeline(count: count,
                                                    sinceID: sinceIDString,
                                                    maxID: maxIDString,
                                                    success:{promise(.success($0))
@@ -190,7 +172,7 @@ extension FetcherSwifter {
                                                    })}
         case .mention:
             return Future<JSON, Error> {promise in
-                FetcherSwifter.provider.getMentionsTimelineTweets(count: count,
+                swifter.getMentionsTimelineTweets(count: count,
                                                              sinceID: sinceIDString,
                                                              maxID: maxIDString,
                                                              success:{promise(.success($0))
@@ -200,7 +182,7 @@ extension FetcherSwifter {
             
         case .favorite:
             return Future<JSON, Error> {promise in
-                FetcherSwifter.provider.getRecentlyFavoritedTweets(count: count,
+                swifter.getRecentlyFavoritedTweets(count: count,
                                                               sinceID: sinceIDString,
                                                               maxID: maxIDString,
                                                               success:{promise(.success($0))
@@ -211,7 +193,7 @@ extension FetcherSwifter {
         case .user(let userID):
             let userTag = UserTag.id(userID)
             return Future<JSON, Error> {promise in
-                FetcherSwifter.provider.getTimeline(for: userTag,
+                swifter.getTimeline(for: userTag,
                                                count: count,
                                                sinceID: sinceIDString,
                                                maxID: maxIDString,
@@ -223,7 +205,7 @@ extension FetcherSwifter {
         case .list( let id, _):
             let listTag = ListTag.id(id)
             return Future<JSON, Error> {promise in
-                FetcherSwifter.provider.listTweets(for: listTag,
+                swifter.listTweets(for: listTag,
                                               sinceID: sinceIDString,
                                               maxID: maxIDString,
                                               count: count,
@@ -246,7 +228,7 @@ extension FetcherSwifter {
         switch operation {
         case .fetchTweet(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSwifter.provider.lookupTweets(for: [ID],
+                swifter.lookupTweets(for: [ID],
                                                  success: {promise(.success($0))},
                                                  failure: {promise(.failure($0))})}
                 .receive(on: DispatchQueue.main)
@@ -254,14 +236,14 @@ extension FetcherSwifter {
         
         case .favorite(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSwifter.provider.favoriteTweet(forID: ID,
+                swifter.favoriteTweet(forID: ID,
                                                  success: {promise(.success($0))},
                                                  failure: {promise(.failure($0))})}
                 .receive(on: DispatchQueue.main)
                 .eraseToAnyPublisher()
         case .unfavorite(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSwifter.provider.unfavoriteTweet(forID: ID,
+                swifter.unfavoriteTweet(forID: ID,
                                                    success: {promise(.success($0))},
                                                    failure: {promise(.failure($0))})}
                 .receive(on: DispatchQueue.main)
@@ -270,7 +252,7 @@ extension FetcherSwifter {
             
         case .retweet(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSwifter.provider.retweetTweet(forID: ID,
+                swifter.retweetTweet(forID: ID,
                                                 ///由于Retweet返回的是一个新推文，并把原推文嵌入在里面，所以返回嵌入推文用了更新界面
                                                 success: {promise(.success($0["retweeted_status"]))},
                                                 failure: {promise(.failure($0))})}
@@ -278,12 +260,12 @@ extension FetcherSwifter {
                 .eraseToAnyPublisher()
         case .unRetweet(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSwifter.provider.unretweetTweet(forID: ID,
+                swifter.unretweetTweet(forID: ID,
                                                   success: {
                                                     ///由于unRetweet返回的是该推文原来的数据，所以不会导致界面更新
                                                     ///因此需要在此基础上增加一个再次获取该推文的操作，并返回更新后的推文数据
                                                     let tweetIDString = $0["id_str"].string!
-                                                    FetcherSwifter.provider.getTweet(for: tweetIDString, success: {promise(.success($0))})
+                                                    swifter.getTweet(for: tweetIDString, success: {promise(.success($0))})
                                                   },
                                                   failure: {promise(.failure($0))})}
                 .receive(on: DispatchQueue.main)
@@ -291,14 +273,14 @@ extension FetcherSwifter {
             
         case .quote(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSwifter.provider.unfavoriteTweet(forID: ID,
+                swifter.unfavoriteTweet(forID: ID,
                                                    success: {promise(.success($0))},
                                                    failure: {promise(.failure($0))})}
                 .receive(on: DispatchQueue.main)
                 .eraseToAnyPublisher()
         case .delete(let ID):
             return Future<JSON, Error> {promise in
-                FetcherSwifter.provider.destroyTweet(forID: ID,
+                swifter.destroyTweet(forID: ID,
                                                 success: {promise(.success($0))},
                                                 failure: {promise(.failure($0))})}
                 .receive(on: DispatchQueue.main)

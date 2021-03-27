@@ -24,13 +24,14 @@ struct LoginCommand: AppCommand {
         /// 设置swifter的token信息，并获取loginUser的信息
         /// - Parameter loginUser: 传入的已经含有token的用户信息
         func setSwifterAndRequestLoginUser(loginUser: UserInfo) {
-            guard let tokenKey = loginUser.tokenKey,
-                  let tokenSecret = loginUser.tokenSecret else { return }
+//            guard let tokenKey = loginUser.tokenKey,
+//                  let tokenSecret = loginUser.tokenSecret else { return }
             
-            store.swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
-                                    consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
-                                    oauthToken: tokenKey,
-                                    oauthTokenSecret: tokenSecret)
+//            store.swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
+//                                    consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
+//                                    oauthToken: tokenKey,
+//                                    oauthTokenSecret: tokenSecret)
+            store.fetcher.setLogined()
             
             store.dipatch(.userRequest(user: loginUser))
         }
@@ -39,10 +40,9 @@ struct LoginCommand: AppCommand {
         if loginUser == nil {
             let failureHandler: (Error) -> Void = { error in
                 store.dipatch(.alertOn(text: "Login failed", isWarning: true))
-                print(error.localizedDescription)
             }
             let url = URL(string: "fetchmee://success")!
-            store.swifter.authorize(withCallback: url,
+            store.fetcher.swifter.authorize(withCallback: url,
                                     presentingFrom:presentingFrom,
                                     success: {token, response in
                                         if let token = token {
@@ -115,23 +115,8 @@ struct UserRequstCommand: AppCommand {
         }
         
         ///获取用户基本信息，并生成Bio
-        store.swifter.showUser(userTag, includeEntities: nil, success: userHandler(json:), failure: failureHandler(_:))
-        store.swifter.getSubscribedLists(for: userTag, success:listHandler)
-        
-//        let token = SubscriptionToken()
-        
-//        Future<JSON, Error>{promise in
-//            store.swifter.getSubscribedLists(for: userTag,
-//                                             success: {promise(.success($0))},
-//                                             failure: {promise(.failure($0))})
-//        }
-//        .sink(receiveCompletion: {
-//            print(#line, "++++++++" , #function,$0)
-//        },
-//        receiveValue: {print(#line, "++++++++" , #function,$0)
-//            token.unseal()
-//        })
-//        .seal(in: token)
+        store.fetcher.swifter.showUser(userTag, includeEntities: nil, success: userHandler(json:), failure: failureHandler(_:))
+        store.fetcher.swifter.getSubscribedLists(for: userTag, success:listHandler)
         
     }
 }

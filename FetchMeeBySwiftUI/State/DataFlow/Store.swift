@@ -22,29 +22,26 @@ import SwiftUI
 class Store: ObservableObject {
     @Published var appState = AppState()
     
-    lazy var swifter: Swifter = {
-        if let loginUser = appState.setting.loginUser {
-            return Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
-                           consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
-                           oauthToken: loginUser.tokenKey!,
-                           oauthTokenSecret: loginUser.tokenSecret!)
-            
-        } else {
-            return Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
-                           consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")}}()
-    
+    var repository = Repository()
+    var fetcher = FetcherSwifter()
+  
     var context: NSManagedObjectContext!
     
     private var disposeBag = Set<AnyCancellable>()
-    
-    var repository: Repository
-    
     
     func addObserver() {
         self.appState.setting.tweetInput.autoMapPublisher.sink{text in
             withAnimation{
                 self.dipatch(.sendAutoCompleteText(text: text))}
         }.store(in: &disposeBag)
+    }
+    
+    init() {
+        self.repository.store = self
+        self.fetcher.store = self
+        fetcher.setLogined()
+        
+        addObserver()
     }
     
     func dipatch(_ action: AppAction) {
@@ -60,12 +57,6 @@ class Store: ObservableObject {
             #endif
             command.execute(in: self)
         }
-    }
-    
-    init() {
-        self.repository = Repository()
-        self.repository.store = self
-        addObserver()
     }
     
     static func reduce(state: AppState, action: AppAction) -> (AppState, AppCommand?) {
@@ -170,11 +161,7 @@ class Store: ObservableObject {
 
 extension Store {
     func getUser(userID: String, compeletHandler: @escaping (JSON) -> Void) {
-//        if let user = repository.users[userID] {
-//            compeletHandler(user)
-//        } else {
-            self.swifter.showUser(UserTag.id(userID),
+        self.fetcher.swifter.showUser(UserTag.id(userID),
                                   success: compeletHandler)
-//        }
     }
 }

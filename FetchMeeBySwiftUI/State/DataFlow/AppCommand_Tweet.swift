@@ -30,10 +30,10 @@ struct TweetCommand: AppCommand {
     func execute(in store: Store) {
         let token = SubscriptionToken()
         
-        FetcherSwifter.provider = store.swifter
-        let fecher = FetcherSwifter(repository: store.repository)
+//        FetcherSwifter.swifter = store.swifter
+//        let fecher = FetcherSwifter(repository: store.repository)
                 
-        fecher.makeTweetOperatePublisher(operation: operation)
+        store.fetcher.makeTweetOperatePublisher(operation: operation)
             .sink(receiveCompletion: {complete in
                     if case .failure(let error) = complete {
                         store.dipatch(.alertOn(text: error.localizedDescription, isWarning: true))
@@ -41,7 +41,7 @@ struct TweetCommand: AppCommand {
                     token.unseal()},
                   receiveValue: {
                     
-                    fecher.repository.addStatus(data: $0)
+                    store.repository.addStatus(data: $0)
                     print(#line,#file,$0)
                     
                     if case let .delete(id) = operation {

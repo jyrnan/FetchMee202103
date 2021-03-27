@@ -26,10 +26,10 @@ struct FetchTimelineCommand: AppCommand {
         let mentionUserData = store.appState.timelineData.mentionUserData
         let loginUserID = store.appState.setting.loginUser?.id
         
-        FetcherSwifter.provider = store.swifter
-        let fecher = FetcherSwifter(repository: store.repository, loginUserID: loginUserID)
+//        FetcherSwifter.swifter = store.swifter
+//        let fecher = FetcherSwifter(repository: store.repository, loginUserID: loginUserID)
         
-        fecher.makeSessionUpdataPublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData)
+        store.fetcher.makeSessionUpdataPublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData)
             .sink(receiveCompletion: {complete in
                 if case .failure(let error) = complete {
                     store.dipatch(.alertOn(text: error.localizedDescription, isWarning: true))
@@ -84,7 +84,7 @@ struct FetchSessionCommand: AppCommand {
                 else {
                     counter += 1
                     
-                    store.swifter.getTweet(for: id, success: sh, failure: failureHandler)
+                    store.fetcher.swifter.getTweet(for: id, success: sh, failure: failureHandler)
                     
                 }
             }
@@ -102,7 +102,7 @@ struct FetchSessionCommand: AppCommand {
                     //先加入ID再获取Status
                     session.tweetIDStrings.insert(nextID, at: 0)
                     counter += 1
-                    store.swifter.getTweet(for: nextID, success: sh, failure: failureHandler)
+                    store.fetcher.swifter.getTweet(for: nextID, success: sh, failure: failureHandler)
                     
                     
                 } else {

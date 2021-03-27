@@ -18,43 +18,24 @@ import BackgroundTasks
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    
-    //注册一个后台执行刷新的任务
-    var bgFetchTask: (@escaping () -> ()) -> () = {completeHandler in completeHandler()}
-    
-//    var loingUser: User = User() //App登录使用的用户
-//    var alerts: Alerts = Alerts()
-    var downloader = Downloader(configuation: URLSessionConfiguration.default)
-    
+ 
     var store: Store = Store()
-    
     let context = PersistenceContainer.shared.container.viewContext
-    
-    
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        
-        // Create the SwiftUI view that provides the window contents.
 
-        let contentView = ContentView()
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
+        let contentView = ContentView()
         store.context = context
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
             if let loginUser = store.appState.setting.loginUser {
-
-//                swifter = store.swifter //临时保证全局变量还能使用
-
                 store.dipatch(.userRequest(user: loginUser))
             }
             
             window.rootViewController = UIHostingController(
                 rootView: contentView
-//                    .environmentObject(alerts)
                     .environmentObject(store)
                     .environment(\.managedObjectContext, context))
             
@@ -213,9 +194,6 @@ extension SceneDelegate {
         guard store.appState.setting.loginUser != nil else { return }
         
         saveOrUpdateLog(text: "Started background fetch.")
-        
-        bgFetchTask(completeHandler)
-        
         
     }
     

@@ -50,7 +50,7 @@ class AuthViewController: UIViewController, SFSafariViewControllerDelegate {
         guard let tokenKey = store.appState.setting.loginUser?.tokenKey,
               let tokenSecret = store.appState.setting.loginUser?.tokenSecret else { return }
         
-        store.swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
+        store.fetcher.swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
                           consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
                           oauthToken: tokenKey,
                           oauthTokenSecret: tokenSecret)

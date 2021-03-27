@@ -48,7 +48,7 @@ struct Composer: View {
             
             Button(action: {
                 isProcessingDone = false
-                store.swifter.postTweet(status: tweetTextBinding.wrappedValue, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
+                store.fetcher.swifter.postTweet(status: tweetTextBinding.wrappedValue, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
                     tweetTextBinding.wrappedValue = ""
                     store.dipatch(.alertOn(text: tweetIDString == nil ? "Tweet sent!" : "Reply sent", isWarning: false))
                     if tweetIDString != nil {

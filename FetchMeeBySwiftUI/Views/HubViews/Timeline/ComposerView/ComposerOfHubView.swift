@@ -23,7 +23,7 @@ import CoreData
 struct ComposerOfHubView: View {
     
     @EnvironmentObject var store: Store
-    var swifter: Swifter {store.swifter}
+    var swifter: Swifter {store.fetcher.swifter}
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var draftsByCoreData: FetchedResults<TweetDraft>
