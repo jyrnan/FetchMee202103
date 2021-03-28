@@ -16,7 +16,6 @@ struct JSONAdapter {
     ///   - json: 输入的用户原始数据
     /// - Returns: 输出的用户信息
     func convertAndUpdateUser(update userInfo: inout UserInfo, with json: JSON) {
-        //        var userInfo = userInfo
         
         ///userBio信息更新开始
         userInfo.id = json["id_str"].string!

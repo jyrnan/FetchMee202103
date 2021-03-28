@@ -68,8 +68,8 @@ extension UserMarkManageView {
     }
     
     private func deleteAll() {
-        twitterUsers.forEach{viewContext.delete($0)}
-        
+//        twitterUsers.forEach{viewContext.delete($0)}
+        twitterUsers.filter{$0.isLocalUser == false}.forEach{viewContext.delete($0)}
         do {
             try viewContext.save()
         } catch {

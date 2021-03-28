@@ -66,6 +66,14 @@ extension TwitterUser {
         updateTwitterUser(currentUser, with: user)
         }
         
+        ///新建非登录本地用户
+        if id == "0000" {
+            currentUser.userIDString = "0000"
+            currentUser.name = "FetcheMee"
+            currentUser.screenName = "FetchMeeApp"
+            currentUser.isLocalUser = true
+        }
+        
         ///如果是本地用户更新信息，则不需要改nickName
         ///如果需要更改nickName，则需要传入更改参数
         if let nickName = updateNickName {

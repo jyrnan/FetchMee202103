@@ -35,7 +35,7 @@ struct Status_Draft: View {
     }
     
     var text: some View {
-        Text(draft?.text ?? "First draft").fixedSize(horizontal: false, vertical: true)
+        Text(draft?.text ?? "First draft").lineLimit(8).fixedSize(horizontal: false, vertical: true)
     }
     var body: some View {
         

@@ -136,28 +136,3 @@ struct ToolBarsView: View {
         }
     }
 
-
-
-extension ToolBarsView {
-    mutating func calFollower() ->[Int] {
-        var result: [Int] = [0, 0, 0]
-        
-        let fetchRequest: NSFetchRequest<Count> = Count.fetchRequest()
-        fetchRequest.predicate = userPredicate
-        do {
-            let counts = try viewContext.fetch(fetchRequest)
-            
-            let lastDayCounts = counts.filter{count in
-                return abs(count.createdAt?.timeIntervalSinceNow ?? 1000000 ) < 60 * 60 * 24}
-            
-            let lastDayMax = lastDayCounts.max {a, b in a.follower < b.follower}
-            let lastDayMin = lastDayCounts.max {a, b in a.follower > b.follower}
-            result[0] = Int((lastDayMax!.follower - lastDayMin!.follower))
-            
-        } catch let error as NSError {
-            print("count not fetched \(error), \(error.userInfo)")
-        }
-        
-        return result
-    }
-}

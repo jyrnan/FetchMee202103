@@ -29,7 +29,9 @@ struct ContentView: View {
                 Text("Not sign in now")
                     .foregroundColor(.gray)
                     .onTapGesture {
-                        store.dipatch(.updateLoginAccount(loginUser: UserInfo()))
+                        store.dipatch(.updateLoginAccount(loginUser: UserInfo(name: "FetchMee", screenName: "FetcheMeeApp")))
+                        //新建非登录的本地用户
+                        TwitterUser.updateOrSaveToCoreData(from: nil)
                     }
                     .frame(width: 200, height: 400, alignment: .bottom)
             }

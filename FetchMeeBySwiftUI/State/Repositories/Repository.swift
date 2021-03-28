@@ -34,7 +34,6 @@ class Repository  {
         if let status = self.statuses[id] {
             return status
         }
-//        store?.dipatch(.tweetOperation(operation: .fetchTweet(id: id)))
         return Status()
     }
 }
