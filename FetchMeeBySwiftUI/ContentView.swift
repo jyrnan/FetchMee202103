@@ -12,26 +12,34 @@ import CoreData
 
 struct ContentView: View {
     
-    
-    
     @EnvironmentObject var store: Store
-    var loginUser: UserInfo {store.appState.setting.loginUser ?? UserInfo()}
+    var loginUser: UserInfo? {store.appState.setting.loginUser}
     
     var isLoggedIn:Bool {store.appState.setting.loginUser != nil}
 
     var body: some View {
         if isLoggedIn {
             HubView()
-                .accentColor(loginUser.setting.themeColor.color)
+                .accentColor(loginUser?.setting.themeColor.color)
         } else {
+            ZStack{
+                
             AuthViewFromVC().ignoresSafeArea()
-                .accentColor(loginUser.setting.themeColor.color)
+                .accentColor(loginUser?.setting.themeColor.color)
+                Text("Not sign in now")
+                    .foregroundColor(.gray)
+                    .onTapGesture {
+                        store.dipatch(.updateLoginAccount(loginUser: UserInfo()))
+                    }
+                    .frame(width: 200, height: 400, alignment: .bottom)
+            }
+            
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(Store())
     }
 }

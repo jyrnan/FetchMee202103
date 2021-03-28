@@ -28,11 +28,12 @@ struct FetcherSwifter: Fetcher {
     
     /// 用来设置登录后服务提供者新的状态
     mutating func setLogined() {
-        if let loginUser = store?.appState.setting.loginUser {
+        if let tokenKey = store?.appState.setting.loginUser?.tokenKey,
+           let tokenSecret = store?.appState.setting.loginUser?.tokenSecret {
             swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
                            consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
-                           oauthToken: loginUser.tokenKey!,
-                           oauthTokenSecret: loginUser.tokenSecret!)
+                           oauthToken: tokenKey,
+                           oauthTokenSecret: tokenSecret)
         }
     }
     

@@ -16,6 +16,10 @@ struct SettingView: View {
     
     @EnvironmentObject var store: Store
     
+    @Environment(\.presentationMode) var presentationMode
+    
+    var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
+    
     ///用来作为setting调整结果的零时存储
     @State var setting: UserSetting = UserSetting()
     
@@ -90,8 +94,14 @@ struct SettingView: View {
             Section(header:Text("")){
                 HStack {
                     Spacer()
-                    Button("Sign Out"){
-                        self.isPresentedAlert = true
+                    Button(isLogined ? "Sign Out" : "Sign In"){
+                        if isLogined {
+                            self.isPresentedAlert = true
+                            
+                        } else {
+                            logOut()
+                        }
+                        
                     }
                     .font(.headline)
                     .foregroundColor(.white)
@@ -117,6 +127,7 @@ struct SettingView: View {
 extension SettingView {
     
     func logOut() {
+        presentationMode.wrappedValue.dismiss()
 
         delay(delay: 1, closure: {
             withAnimation {

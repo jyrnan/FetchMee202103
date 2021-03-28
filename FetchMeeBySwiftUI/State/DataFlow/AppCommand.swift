@@ -24,15 +24,8 @@ struct LoginCommand: AppCommand {
         /// 设置swifter的token信息，并获取loginUser的信息
         /// - Parameter loginUser: 传入的已经含有token的用户信息
         func setSwifterAndRequestLoginUser(loginUser: UserInfo) {
-//            guard let tokenKey = loginUser.tokenKey,
-//                  let tokenSecret = loginUser.tokenSecret else { return }
-            
-//            store.swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
-//                                    consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
-//                                    oauthToken: tokenKey,
-//                                    oauthTokenSecret: tokenSecret)
+
             store.fetcher.setLogined()
-            
             store.dipatch(.userRequest(user: loginUser))
         }
         

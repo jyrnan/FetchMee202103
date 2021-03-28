@@ -14,7 +14,7 @@ import KingfisherSwiftUI
 struct AvatarImageView: View {
     
     var imageUrl: String?
-    var placeHolder:Image = Image("defaultImage")
+    var placeHolder:Image = Image("LogoWhite").resizable()
     
     
     var body: some View {

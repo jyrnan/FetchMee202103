@@ -14,7 +14,7 @@ struct DraftsViewCoreData: View {
     @Environment(\.presentationMode) var presentationMode
     
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: false)]) var drafts: FetchedResults<TweetDraft>
     
     
     @Binding var currentTweetDraft: TweetDraft?
@@ -22,10 +22,11 @@ struct DraftsViewCoreData: View {
     @Binding var replyIDString: String?
     
     var body: some View {
+        GeometryReader { proxy in
         List {
             ForEach(drafts) { draft in
-                HStack{
-                    Text(draft.text ?? "pay")
+               
+                Status_Draft(draft: draft, width: proxy.size.width)
                         .onTapGesture(count: 1, perform: {
                             currentTweetDraft = draft as TweetDraft
                             tweetText = draft.text ?? ""
@@ -34,12 +35,13 @@ struct DraftsViewCoreData: View {
                         })
                     
 //                    Text(draft.user?.name ?? "NoName").frame(width: 100)
-                }
+                
             }.onDelete(perform: { indexSet in
                 deleteDrafts(offsets: indexSet)
             })
             
         }.navigationTitle("Drafts")
+        }
     }
 }
 

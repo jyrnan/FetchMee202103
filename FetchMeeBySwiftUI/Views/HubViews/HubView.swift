@@ -17,12 +17,11 @@ import KingfisherSwiftUI
 struct HubView: View {
     
     @EnvironmentObject var store: Store
-    
-//    @Environment(\.managedObjectContext) private var viewContext
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var logs: FetchedResults<Log>
-    
+  
     var tweetText: Binding<String> {$store.appState.setting.tweetInput.tweetText}
     @State var isShowToast: Bool = true
+    
+    var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
     
     var body: some View {
         GeometryReader{proxy in
@@ -34,13 +33,25 @@ struct HubView: View {
                         ComposerOfHubView(tweetText: tweetText)
                             .padding(.top, 16)
                             .padding([.leading, .trailing], 18)
-                            .frame(minHeight: 120, idealHeight: 180, maxHeight: 240)
+                            .frame(minHeight: 120, idealHeight: 240, maxHeight: 240)
                         
                         Divider()
-                        TimelinesView()
-                        
+                        if isLogined {
+                            TimelinesView()
+                        }
                         ToolBarsView(width: proxy.size.width)
                             .padding([.leading, .trailing], 16)
+                        
+                        
+                        if !isLogined {
+                        Button(action: {
+                            withAnimation {
+                                store.dipatch(.updateLoginAccount(loginUser: nil))
+                            }
+                        }, label: {Text("Sign in with Twitter")
+                            .foregroundColor(.accentColor)})
+                        .padding()
+                        }
                         
                         Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)
                         

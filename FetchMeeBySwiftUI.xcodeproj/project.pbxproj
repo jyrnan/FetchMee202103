@@ -78,6 +78,8 @@
 		D27DCF3B24B98F9900520BE3 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF3A24B98F9900520BE3 /* Status.swift */; };
 		D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF8B24B9A56100520BE3 /* TweetRow.swift */; };
 		D27FBA42260F5EC100F7067B /* JSONAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FBA41260F5EC100F7067B /* JSONAdapter.swift */; };
+		D27FBA4426101D7D00F7067B /* AuthViewFromVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FBA4326101D7D00F7067B /* AuthViewFromVC.swift */; };
+		D27FBA4726105BB700F7067B /* Status_Draft.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FBA4626105BB700F7067B /* Status_Draft.swift */; };
 		D282BCA52589902400877B26 /* ComposerButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282BCA42589902400877B26 /* ComposerButtonView.swift */; };
 		D286BE4A2566460600DCEA1E /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286BE492566460600DCEA1E /* AuthViewController.swift */; };
 		D286BE782566610C00DCEA1E /* AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D286BE772566610C00DCEA1E /* AuthViewController.xib */; };
@@ -211,6 +213,8 @@
 		D27DCF3A24B98F9900520BE3 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		D27DCF8B24B9A56100520BE3 /* TweetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetRow.swift; sourceTree = "<group>"; };
 		D27FBA41260F5EC100F7067B /* JSONAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONAdapter.swift; sourceTree = "<group>"; };
+		D27FBA4326101D7D00F7067B /* AuthViewFromVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewFromVC.swift; sourceTree = "<group>"; };
+		D27FBA4626105BB700F7067B /* Status_Draft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status_Draft.swift; sourceTree = "<group>"; };
 		D282BCA42589902400877B26 /* ComposerButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerButtonView.swift; sourceTree = "<group>"; };
 		D286BE492566460600DCEA1E /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		D286BE772566610C00DCEA1E /* AuthViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthViewController.xib; sourceTree = "<group>"; };
@@ -277,11 +281,11 @@
 		4B68D5A92539410800A17AED /* ToolBars */ = {
 			isa = PBXGroup;
 			children = (
-				D2DF0CE42562B6450058305A /* CountView */,
 				4BA662732535923300DE8697 /* ToolBarsView.swift */,
 				D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */,
 				D27744E4253B14DD0062B25C /* BackOfTweetsToolBar.swift */,
 				4B68D5A7253940FC00A17AED /* BackOfToolsToolBar.swift */,
+				D2DF0CE42562B6450058305A /* CountView */,
 				D2D5A937257E2BDE000A9C8B /* FriendToolBar */,
 				D2AE506625564A2800437337 /* LogMessageSmallView.swift */,
 			);
@@ -293,6 +297,7 @@
 			children = (
 				D268246926019DB5004CAB1A /* Old */,
 				D228E06225FD9A900063E0EB /* Status_CDRow.swift */,
+				D27FBA4626105BB700F7067B /* Status_Draft.swift */,
 				D25D9AE325FF0EEE0038A6B1 /* StatusRow.swift */,
 				D2C8107825FF9AC9001C6546 /* QuotedStatusJsonRow.swift */,
 				D2D48793257386A0005EE4A7 /* RetweetMark */,
@@ -518,9 +523,17 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		D27FBA452610459A00F7067B /* BookMark */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BookMark;
+			sourceTree = "<group>";
+		};
 		D286BE79256666BA00DCEA1E /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				D27FBA4326101D7D00F7067B /* AuthViewFromVC.swift */,
 				D286BE492566460600DCEA1E /* AuthViewController.swift */,
 				D286BE772566610C00DCEA1E /* AuthViewController.xib */,
 			);
@@ -577,6 +590,7 @@
 				D24E409D257B6F2800401BBB /* DetailView */,
 				D297390324D150B300917A97 /* ComposerView */,
 				4B68D5A92539410800A17AED /* ToolBars */,
+				D27FBA452610459A00F7067B /* BookMark */,
 				D2BB68FE257C8483003BDA13 /* User */,
 			);
 			path = Timeline;
@@ -831,6 +845,7 @@
 				D228E06125FCF5A10063E0EB /* BookmarkedStatusView.swift in Sources */,
 				D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */,
 				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,
+				D27FBA4726105BB700F7067B /* Status_Draft.swift in Sources */,
 				D2905076252C07360065EA83 /* Persistance.swift in Sources */,
 				D297390024D1182600917A97 /* PhotoPickerView.swift in Sources */,
 				4B68D5A8253940FC00A17AED /* BackOfToolsToolBar.swift in Sources */,
@@ -850,6 +865,7 @@
 				D28F9E9B25E4E39200B8EF40 /* AppCommand.swift in Sources */,
 				D28F9E9725E4E0FD00B8EF40 /* AppState.swift in Sources */,
 				D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */,
+				D27FBA4426101D7D00F7067B /* AuthViewFromVC.swift in Sources */,
 				D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */,
 				D28F9EA825E9E5D100B8EF40 /* DetailViewRedux.swift in Sources */,
 				D2419C712579E43900A9CF98 /* NSAttributedStringView.swift in Sources */,

@@ -11,7 +11,9 @@ import CoreData
 import Swifter
 
 extension Status_CD {
-    static func JSON_Save(from json: JSON) -> Status_CD {
+    static func JSON_Save(from json: JSON,
+                          isBookmarked: Bool = false,
+                          isDraft: Bool = false) -> Status_CD {
         
         func stringToDate(from createdAt: String?) -> Date {
             guard let timeString = createdAt else {return Date()}
@@ -47,6 +49,9 @@ extension Status_CD {
         if let medias = json["extended_entities"]["media"].array{
             status.imageUrls = medias.map{$0["media_url_https"].string!}.joined(separator: " ")
         }
+        
+        status.isBookmarked = isBookmarked
+        status.isDraft = isDraft
         
         do {
             try viewContext.save()

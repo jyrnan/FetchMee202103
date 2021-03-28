@@ -19,20 +19,28 @@ struct ToolBarsView: View {
         return user
     }
     
+    var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
+    
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var drafts: FetchedResults<TweetDraft>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: false)]) var drafts: FetchedResults<TweetDraft>
+    
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Log.createdAt, ascending: true)]) var logs: FetchedResults<Log>
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Status_CD.id_str, ascending: false),
-                                    NSSortDescriptor(keyPath: \Status_CD.text, ascending: false)]) var statuses: FetchedResults<Status_CD>
-   
+                                    NSSortDescriptor(keyPath: \Status_CD.created_at, ascending: false)]) var statuses: FetchedResults<Status_CD>
+    
+    
+    
     lazy var userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), user.id)
     
     var statusOfLoginuser: Status_CD? {
         statuses.filter{$0.user?.userIDString == user.id}.first
     }
     var statusOfBookmarked: Status_CD? {
-        statuses.filter{$0.user?.userIDString != user.id}.first
+        statuses.filter{$0.isBookmarked == true}.first
+    }
+    var statusOfDraft: TweetDraft? {
+        drafts.first
     }
     
     //控制三个toolBar正面朝向
@@ -49,6 +57,9 @@ struct ToolBarsView: View {
                 Text("Tools").font(.caption).bold().foregroundColor(Color.gray)
                 Spacer()
             }
+           
+            if isLogined {
+            
             ToolBarView(isFaceUp: toolBarIsFaceUp1,
                         type: .friends,
                         label1Value: user.followed,
@@ -63,14 +74,12 @@ struct ToolBarsView: View {
                         toolBarIsFaceUp3 = true
                     }
                 }
-
+            
             ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
                         label1Value: user.tweetsCount,
                         label2Value: user.tweetsCount,
                         label3Value: user.lastDayAddedTweets)
                 .onTapGesture {
-                    
-                    
                     if !toolBarIsFaceUp2 {
                         toolBarIsFaceUp2.toggle()
                     } else {
@@ -79,7 +88,7 @@ struct ToolBarsView: View {
                         toolBarIsFaceUp3 = true
                     }
                 }
-
+            
             ToolBarView(isFaceUp: toolBarIsFaceUp3, type: .tools,
                         label1Value: drafts.count,
                         label2Value: logs.count,
@@ -93,36 +102,40 @@ struct ToolBarsView: View {
                         toolBarIsFaceUp2 = true
                     }
                 }
-
             
-
-                        if statusOfLoginuser != nil {
             
-                            NavigationLink(destination: BookmarkedStatusView(userID: store.appState.setting.loginUser?.id),
-                                           label: {
-                                            Status_CDRow(status: statusOfLoginuser!, width: width - 2 * setting.uiStyle.insetH)
-                                                
             
-                                           })
+            if statusOfLoginuser != nil {
+                
+                NavigationLink(destination: BookmarkedStatusView(userID: store.appState.setting.loginUser?.id),
+                               label: {
+                                Status_CDRow(status: statusOfLoginuser!, width: width - 2 * setting.uiStyle.insetH)
+                                
+                                
+                               })
+                
+            }
+            if statusOfBookmarked != nil {
+                NavigationLink(destination: BookmarkedStatusView(),
+                               label: {
+                                Status_CDRow(status: statusOfBookmarked!, width: width - 2 * setting.uiStyle.insetH)})
+                
+            }
+            }
             
-                        }
-                        if statusOfBookmarked != nil {
-                            NavigationLink(destination: BookmarkedStatusView(),
-                                           label: {
-                                            Status_CDRow(status: statusOfBookmarked!, width: width - 2 * setting.uiStyle.insetH)})
+            if isLogined && drafts.first != nil {
+                Status_Draft(draft: drafts.first, width: width - 2 * setting.uiStyle.insetH)
+            }
+            else {
+                ForEach(drafts) {draft in
+                    Status_Draft(draft: draft, width: width - 2 * setting.uiStyle.insetH)}
+                }
+                                
+            }
             
-                        }
-            
-//            Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray).padding(.top, 30).padding()
-//            HStack {
-//                Spacer()
-//                Button(action: {}){Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)}
-//                Spacer()
-//            }.padding(.top, 30).padding()
-          
         }
     }
-}
+
 
 
 extension ToolBarsView {
@@ -143,8 +156,8 @@ extension ToolBarsView {
             
         } catch let error as NSError {
             print("count not fetched \(error), \(error.userInfo)")
-          }
-
+        }
+        
         return result
     }
 }

@@ -1,32 +1,31 @@
 //
-//  StatusRow.swift
+//  draft_Draft.swift
 //  FetchMee
 //
-//  Created by jyrnan on 2021/3/14.
+//  Created by jyrnan on 2021/3/28.
 //  Copyright © 2021 jyrnan. All rights reserved.
 //
 
 import SwiftUI
-import KingfisherSwiftUI
-import CoreData
 
-struct Status_CDRow: View {
+struct Status_Draft: View {
+
     
-    var status: Status_CD
+    var draft: TweetDraft?
     var width: CGFloat
     
     var avatar: some View {
         VStack(alignment: .leading){
-            AvatarView(userIDString: status.user?.userIDString ?? "", width: 36, height: 36)
+            AvatarView(userIDString: draft?.user?.userIDString ?? "", width: 36, height: 36)
             Spacer()
         }
     }
     
     var nameAndcreated: some View {
         HStack{
-        UserNameView(userName: status.user?.name ?? "Name",
-                     screenName: status.user?.screenName ?? "screenName")
-            CreatedTimeView(created_at: status.created_at)
+            UserNameView(userName: draft?.user?.name ?? "Name",
+                     screenName: draft?.user?.screenName ?? "screenName")
+            CreatedTimeView(created_at: draft?.createdAt ?? Date())
             Spacer()
         }
     }
@@ -36,7 +35,7 @@ struct Status_CDRow: View {
     }
     
     var text: some View {
-        Text(status.text ?? "Text").fixedSize(horizontal: false, vertical: true)
+        Text(draft?.text ?? "First draft").fixedSize(horizontal: false, vertical: true)
     }
     var body: some View {
         
@@ -49,11 +48,11 @@ struct Status_CDRow: View {
                 }
                 
             }.padding()
-            if status.imageUrls != nil {
-                Images(imageUrlStrings: (status.imageUrls?.split(separator: " ").map{String($0)})!)
-                    .frame(width: width, height: width * 9 / 21)
-                .clipped()
-            }
+//            if draft.imageUrls != nil {
+//                Images(imageUrlStrings: (draft.imageUrls?.split(separator: " ").map{String($0)})!)
+//                    .frame(width: width, height: width * 9 / 21)
+//                .clipped()
+//            }
         }
         .background(Color.init("BackGroundLight"))
         .cornerRadius(16, antialiased: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
