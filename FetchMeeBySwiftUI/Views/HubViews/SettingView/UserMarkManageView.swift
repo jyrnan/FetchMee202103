@@ -11,9 +11,7 @@ import Combine
 import CoreData
 
 struct UserMarkManageView: View {
-    @EnvironmentObject var store: Store
-//    @EnvironmentObject var fetchMee: User
-    
+    @EnvironmentObject var store: Store    
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.nickName, ascending: false)]) var twitterUsers: FetchedResults<TwitterUser>
@@ -30,8 +28,6 @@ struct UserMarkManageView: View {
                     Text(user.name ?? "Name").bold().lineLimit(1).frame(width: 120, alignment: .leading)
                     Text("@" + (user.screenName ?? "screenName")).lineLimit(1).frame(alignment: .leading).foregroundColor(.gray)
                         .onTapGesture {
-//                            let user = UserInfo(id: user.userIDString ?? "0000")
-//                            store.dipatch(.userRequest(user: user))
                             presentedUserInfo = true
                         }
                 }
@@ -41,6 +37,7 @@ struct UserMarkManageView: View {
             .onDelete(perform: { indexSet in
                 deleteUser(offsets: indexSet)
             })
+            
         }
         .navigationTitle("UserMark")
         .navigationBarTitleDisplayMode(.inline)

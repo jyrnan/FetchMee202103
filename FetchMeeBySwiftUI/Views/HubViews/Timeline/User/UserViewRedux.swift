@@ -23,6 +23,7 @@ struct UserViewRedux: View {
     @FetchRequest var twitterUsers: FetchedResults<TwitterUser>
     
     var userTimeline: AppState.TimelineData.Timeline {store.appState.timelineData.timelines[TimelineType.user(userID: userIDString).rawValue]!}
+    
     var requestedUser: UserInfo {store.appState.timelineData.requestedUser}
     
     var userIDString: String //传入需查看的用户信息的ID
@@ -68,7 +69,7 @@ struct UserViewRedux: View {
             List {
                 ZStack{
                     VStack{
-                        KFImage(URL(string: requestedUser.bannerUrlString ?? "ok")!).placeholder{Image("bg")}
+                        KFImage(URL(string: requestedUser.bannerUrlString ?? "ok")!).placeholder{Image("bg").resizable()}
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(
@@ -81,7 +82,7 @@ struct UserViewRedux: View {
                     }
                     ///个人信息大头像
                     KFImage(URL(string: requestedUser.avatarUrlString ?? "ok")!)
-                        .placeholder{Image(systemName: "person.circle")}
+                        .placeholder{Image("LogoWhite").resizable()}
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 80, height: 80)
@@ -118,7 +119,7 @@ struct UserViewRedux: View {
                                         .frame(width: 100)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                     
-                                    Button(action: {TwitterUser.updateOrSaveToCoreData(from: nil, id: userIDString, in: viewContext,isLocalUser: false, updateNickName: nickNameText)
+                                    Button(action: {TwitterUser.updateOrSaveToCoreData(from: nil, id: userIDString, in: viewContext, updateNickName: nickNameText)
                                         
                                         withAnimation{isNickNameInputShow = false}
                                     }){
@@ -241,7 +242,7 @@ struct UserViewRedux: View {
             .navigationTitle(requestedUser.name ?? "Name")
         .onAppear(){
             let user = UserInfo(id: userIDString)
-//            var isLoginUser:Bool {userIDString == store.appState.setting.loginUser?.id}
+            store.dipatch(.updateRequestedUser(requestedUser: user))
             store.dipatch(.userRequest(user: user, isLoginUser: nil))
         }
     }

@@ -90,17 +90,14 @@ extension AppState {
         /// 所有timeline的数据
         var timelines: [String: Timeline] = [:]
         
-        
         /// 选中的推文ID
         var selectedTweetID: String?
+        
         /// 待查看的用户信息
         var requestedUser: UserInfo = UserInfo()
         
         var mentionUserData: [UserInfo.MentionUser] = []
-        
-        
     }
-    
 }
 
 extension AppState.TimelineData {
@@ -116,11 +113,6 @@ extension AppState.TimelineData {
         //获取所有的tweetID集合用于后续判断
         //TODO: 需要增加保留推文中的引用，retweet推文的ID
         let tweetIDStrings = Set(timelines.values.flatMap{$0.tweetIDStrings})
-        
-        //
-//        StatusRepository.shared.status.keys
-//            .filter{!tweetIDStrings.contains($0)}
-//            .forEach{Repository.shared.status[$0] = nil}
         
         print(#line, #function, tweetIDStrings)
     }

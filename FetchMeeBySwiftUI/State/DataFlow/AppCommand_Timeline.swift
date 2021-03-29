@@ -24,10 +24,7 @@ struct FetchTimelineCommand: AppCommand {
     func execute(in store: Store) {
         let token = SubscriptionToken()
         let mentionUserData = store.appState.timelineData.mentionUserData
-        let loginUserID = store.appState.setting.loginUser?.id
-        
-//        FetcherSwifter.swifter = store.swifter
-//        let fecher = FetcherSwifter(repository: store.repository, loginUserID: loginUserID)
+//        let loginUserID = store.appState.setting.loginUser?.id
         
         store.fetcher.makeSessionUpdataPublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData)
             .sink(receiveCompletion: {complete in
@@ -37,9 +34,7 @@ struct FetchTimelineCommand: AppCommand {
                 token.unseal()
             },
             receiveValue: {
-                print(#line, #function, $0)
                 store.dipatch(.fetchTimelineDone(timeline: $0.0, mentionUserData: $0.1))
-                
             })
             .seal(in: token)
     }
@@ -83,9 +78,7 @@ struct FetchSessionCommand: AppCommand {
                 //不能直接获取status， 所以从网咯获取
                 else {
                     counter += 1
-                    
                     store.fetcher.swifter.getTweet(for: id, success: sh, failure: failureHandler)
-                    
                 }
             }
             

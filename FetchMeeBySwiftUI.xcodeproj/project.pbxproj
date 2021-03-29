@@ -643,6 +643,7 @@
 				4B3AD79E253965DB00194B2C /* UserMarkManageView.swift */,
 				4B68D5A52539131800A17AED /* LogMessageView.swift */,
 				D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */,
+				4BA0161D253AEACB003D1475 /* CountView.swift */,
 			);
 			path = SettingView;
 			sourceTree = "<group>";
@@ -678,7 +679,6 @@
 			isa = PBXGroup;
 			children = (
 				D26A8B08256284C8003BFEE6 /* CountDiagramView.swift */,
-				4BA0161D253AEACB003D1475 /* CountView.swift */,
 			);
 			path = CountView;
 			sourceTree = "<group>";

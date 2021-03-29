@@ -43,7 +43,6 @@ struct CountView: View {
             }.font(.caption2).frame(height: 18).background(Color.gray)
             
         List {
-//            LazyVStack{
             ForEach(counts, id: \.self) { count in
                 HStack {
                     Text(format.string(from: count.createdAt ?? Date())).frame(alignment: .leading)
@@ -60,7 +59,6 @@ struct CountView: View {
             }.onDelete(perform: { indexSet in
                         deleteCounts(offsets: indexSet)
                     })
-//            }
         }
         .navigationBarTitle("Logs", displayMode: .inline)
         .navigationBarTitleDisplayMode(.inline)
@@ -93,7 +91,6 @@ extension CountView {
         } catch {
             let nsError = error as NSError
             print(nsError.description)
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
     
@@ -106,7 +103,6 @@ extension CountView {
         } catch {
             let nsError = error as NSError
             print(nsError.description)
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
 }
