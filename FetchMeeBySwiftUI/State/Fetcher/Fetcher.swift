@@ -84,7 +84,7 @@ struct FetcherSwifter: Fetcher {
         let publisher = makeSessionOperatePublisher(updateMode: updateMode, timeline: timeline)
             .map(JSONHandler(json:))
             .mapError(errorHandler(error:))
-            .receive(on: DispatchQueue.main)
+//            .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
         return publisher
     }

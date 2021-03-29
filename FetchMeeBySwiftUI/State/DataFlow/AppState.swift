@@ -35,7 +35,7 @@ extension AppState {
                         for: .milliseconds(500),
                         scheduler: DispatchQueue.global()
                     )
-
+                    .receive(on: DispatchQueue.global())
                     .compactMap{text in
                         guard text != "" else {return "noTag"}
                         guard text.last != " " else {return "noTag"}
