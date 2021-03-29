@@ -24,13 +24,13 @@ struct UserMarkManageView: View {
         List {
             ForEach(twitterUsers, id: \.self) { user in
                 NavigationLink(
-                    destination: UserViewRedux(userIDString: user.userIDString!)) {
+                    destination: UserViewRedux(userIDString: user.userIDString ?? "0000")) {
                 HStack {
                     Text(user.nickName ?? "").frame(width: 80, alignment: .leading)
                     Text(user.name ?? "Name").bold().lineLimit(1).frame(width: 120, alignment: .leading)
                     Text("@" + (user.screenName ?? "screenName")).lineLimit(1).frame(alignment: .leading).foregroundColor(.gray)
                         .onTapGesture {
-                            let user = UserInfo(id: user.userIDString!)
+                            let user = UserInfo(id: user.userIDString ?? "0000")
                             store.dipatch(.userRequest(user: user, isLoginUser: false))
                             presentedUserInfo = true
                         }
@@ -68,8 +68,7 @@ extension UserMarkManageView {
     }
     
     private func deleteAll() {
-//        twitterUsers.forEach{viewContext.delete($0)}
-        twitterUsers.filter{$0.isLocalUser == false}.forEach{viewContext.delete($0)}
+        twitterUsers.filter{!$0.isLocalUser && !$0.isFavorite && !$0.isForBookmarked}.forEach{viewContext.delete($0)}
         do {
             try viewContext.save()
         } catch {

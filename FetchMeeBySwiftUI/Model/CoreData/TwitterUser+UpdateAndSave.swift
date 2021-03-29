@@ -22,9 +22,10 @@ extension TwitterUser {
     ///   - updateNickName: 是否需要更新当前用户的NickName
     /// - Returns: 返回当前用户
     @discardableResult
-    static func updateOrSaveToCoreData(from user: JSON?, id: String? = "0000",
+    static func updateOrSaveToCoreData(from userJSON: JSON?, id: String? = "0000",
                                        in viewContext: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext ,
-                                       isLocalUser: Bool = false,
+                                       isLocalUser: Bool? = nil,
+                                       isForBookmarked: Bool? = nil,
                                        updateNickName: String? = nil) -> TwitterUser {
         
         func updateTwitterUser(_ currentUser: TwitterUser, with user:JSON) {
@@ -44,7 +45,7 @@ extension TwitterUser {
         
         var currentUser: TwitterUser
         
-        let id = user?["id_str"].string ?? id!
+        let id = userJSON?["id_str"].string ?? id!
         
         let userFetch: NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
         userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), id)
@@ -62,16 +63,17 @@ extension TwitterUser {
         } else {currentUser = TwitterUser(context: viewContext)
         }
         
-        if let user = user {
+        if let user = userJSON {
         updateTwitterUser(currentUser, with: user)
         }
         
         ///新建非登录本地用户
         if id == "0000" {
             currentUser.userIDString = "0000"
-            currentUser.name = "FetcheMee"
+            currentUser.name = "FetchMee"
             currentUser.screenName = "FetchMeeApp"
             currentUser.isLocalUser = true
+            currentUser.nickName = "Local User"
         }
         
         ///如果是本地用户更新信息，则不需要改nickName
@@ -84,19 +86,21 @@ extension TwitterUser {
         ///如果是当前用户，则统计推文数量等动态信息
         ///如果是当前登陆用户则将isLoginUser和isLoacluser两项均设置成true
         ///否则要把isLoginUser设置成false，但是isLocalUser可以不用更改
-        if isLocalUser {
+        if let isLocalUser = isLocalUser {
             
-            currentUser.isLocalUser = true
+            currentUser.isLocalUser = isLocalUser
             
             let count: Count = Count(context: viewContext)
             count.createdAt = Date()
-            count.follower = Int32(user?["followers_count"].integer ?? 0)
-            count.following = Int32(user?["friends_count"].integer ?? 0)
-            count.tweets = Int32(user?["statuses_count"].integer ?? 0)
+            count.follower = Int32(userJSON?["followers_count"].integer ?? 0)
+            count.following = Int32(userJSON?["friends_count"].integer ?? 0)
+            count.tweets = Int32(userJSON?["statuses_count"].integer ?? 0)
             
             currentUser.addToCount(count)
             print(#line, "add user count info")
         }
+        if let isForBookmarked = isForBookmarked {
+            currentUser.isForBookmarked = isForBookmarked }
         
         ///如果nickName是空，且不是本地用户，则从CoreData中删除该用户
         if updateNickName?.count == 0 && currentUser.isLocalUser == false {

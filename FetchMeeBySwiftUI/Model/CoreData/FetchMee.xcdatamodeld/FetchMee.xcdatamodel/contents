@@ -59,6 +59,7 @@
         <attribute name="following" optional="YES" attributeType="Integer 32" usesScalarValueType="YES"/>
         <attribute name="isFavorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isFollowing" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isForBookmarked" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isLocalUser" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isLoginUser" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -80,6 +81,6 @@
         <element name="Status_CD" positionX="319.7457275390625" positionY="-105.8453979492188" width="128" height="299"/>
         <element name="TweetDraft" positionX="-102.9840087890625" positionY="-217.8199462890625" width="136.1802368164062" height="104"/>
         <element name="TweetTagCD" positionX="18" positionY="-117" width="128" height="89"/>
-        <element name="TwitterUser" positionX="159.8822021484375" positionY="-101.7318725585938" width="128" height="299"/>
+        <element name="TwitterUser" positionX="159.8822021484375" positionY="-101.7318725585938" width="128" height="314"/>
     </elements>
 </model>

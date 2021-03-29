@@ -12,7 +12,7 @@ import Swifter
 
 extension Status_CD {
     static func JSON_Save(from json: JSON,
-                          isBookmarked: Bool = false,
+                          isBookmarked: Bool? = nil,
                           isDraft: Bool = false) -> Status_CD {
         
         func stringToDate(from createdAt: String?) -> Date {
@@ -42,15 +42,16 @@ extension Status_CD {
         
         status.created_at = stringToDate(from: json["created_at"].string)
         
-        let user = TwitterUser.updateOrSaveToCoreData(from: json["user"])
+        let user = TwitterUser.updateOrSaveToCoreData(from: json["user"], isForBookmarked: isBookmarked)
         
         status.user = user
         
         if let medias = json["extended_entities"]["media"].array{
             status.imageUrls = medias.map{$0["media_url_https"].string!}.joined(separator: " ")
         }
-        
-        status.isBookmarked = isBookmarked
+        if let isBookmarked = isBookmarked {
+            status.isBookmarked = isBookmarked
+        }
         status.isDraft = isDraft
         
         do {

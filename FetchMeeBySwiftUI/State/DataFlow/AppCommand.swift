@@ -80,6 +80,10 @@ struct UserRequstCommand: AppCommand {
                                                    in: store.context,
                                                    isLocalUser: true)
             } else {
+                ///如果不是login用户，则也将其信息存入到CoreData中备用，但是不设置成localUser
+                TwitterUser.updateOrSaveToCoreData(from: json,
+                                                   in: store.context,
+                                                   isLocalUser: false)
                 store.dipatch(.updateRequestedUser(requestedUser: updatedUser))
                 store.dipatch(.fetchTimeline(timelineType: .user(userID: user.id), mode: .top))
             }

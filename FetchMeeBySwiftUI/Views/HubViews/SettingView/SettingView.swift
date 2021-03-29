@@ -38,7 +38,7 @@ struct SettingView: View {
     
     var body: some View {
         Form {
-            KFImage(URL(string:store.appState.setting.loginUser?.bannerUrlString ?? ""))
+            KFImage(URL(string:store.appState.setting.loginUser?.bannerUrlString ?? "")).placeholder{Image("bg").resizable()}
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             .frame(height: 120)
