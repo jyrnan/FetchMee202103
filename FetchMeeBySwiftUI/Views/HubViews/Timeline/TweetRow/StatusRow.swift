@@ -107,7 +107,7 @@ struct StatusRow: View {
                     .frame(width: width, height:width * 9 / 21 )
                     .clipped()
                         if status.mediaType == "video" || status.mediaType == "animated_gif" {
-                            PlayButtonView(viewModel: PlayButtonViewModel(url: status.mediaUrlString))
+                            PlayButtonView(url: status.mediaUrlString!)
                         }
                     }
             }
