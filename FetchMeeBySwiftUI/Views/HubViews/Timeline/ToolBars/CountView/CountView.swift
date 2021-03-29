@@ -100,6 +100,7 @@ extension CountView {
     func deleteAll() {
         counts.forEach{viewContext.delete($0)}
         
+        
         do {
             try viewContext.save()
         } catch {

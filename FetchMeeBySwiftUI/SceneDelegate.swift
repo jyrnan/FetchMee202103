@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             
             if let loginUser = store.appState.setting.loginUser {
-                store.dipatch(.userRequest(user: loginUser))
+                store.dipatch(.userRequest(user: loginUser, isLoginUser: true))
             }
             
             window.rootViewController = UIHostingController(
@@ -78,7 +78,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to undo the changes made on entering the background.
         if let loginUser = store.appState.setting.loginUser,
            loginUser.tokenKey != nil {
-            store.dipatch(.userRequest(user: loginUser))
+            store.dipatch(.userRequest(user: loginUser, isLoginUser: true))
             store.dipatch(.fetchTimeline(timelineType: .mention, mode: .top))
         }
         

@@ -46,6 +46,8 @@ struct UserInfo: Identifiable, Codable {
     
     ///存储根据MentiUserinfo情况排序的UserIDString
     var mentionUsers: [MentionUser]?
+    
+    var isLoginUser: Bool?
 }
 
 enum ThemeColor: String, CaseIterable, Identifiable, Codable {

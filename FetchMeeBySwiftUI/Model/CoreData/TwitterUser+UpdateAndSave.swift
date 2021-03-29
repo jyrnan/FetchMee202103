@@ -25,6 +25,7 @@ extension TwitterUser {
     static func updateOrSaveToCoreData(from userJSON: JSON?, id: String? = "0000",
                                        in viewContext: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext ,
                                        isLocalUser: Bool? = nil,
+                                       isLoginUser: Bool? = nil,
                                        isForBookmarked: Bool? = nil,
                                        updateNickName: String? = nil) -> TwitterUser {
         
@@ -87,8 +88,11 @@ extension TwitterUser {
         ///如果是当前登陆用户则将isLoginUser和isLoacluser两项均设置成true
         ///否则要把isLoginUser设置成false，但是isLocalUser可以不用更改
         if let isLocalUser = isLocalUser {
-            
             currentUser.isLocalUser = isLocalUser
+        }
+        
+        if let isLoginUser = isLoginUser {
+            currentUser.isLoginUser = isLoginUser
             
             let count: Count = Count(context: viewContext)
             count.createdAt = Date()
@@ -99,6 +103,8 @@ extension TwitterUser {
             currentUser.addToCount(count)
             print(#line, "add user count info")
         }
+        
+        
         if let isForBookmarked = isForBookmarked {
             currentUser.isForBookmarked = isForBookmarked }
         

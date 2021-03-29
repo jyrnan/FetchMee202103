@@ -26,7 +26,7 @@ struct LoginCommand: AppCommand {
         func setSwifterAndRequestLoginUser(loginUser: UserInfo) {
 
             store.fetcher.setLogined()
-            store.dipatch(.userRequest(user: loginUser))
+            store.dipatch(.userRequest(user: loginUser, isLoginUser: true))
         }
         
         ///传入的lgoinUser有可能是已经保存好的登陆信息
@@ -56,11 +56,12 @@ struct LoginCommand: AppCommand {
 //MARK:-获取用户信息
 struct UserRequstCommand: AppCommand {
     let user: UserInfo
-    let isLoginUser: Bool
+    let isLoginUser: Bool?
     
     func execute(in store: Store) {
         var updatedUser = user
         let userTag: UserTag = UserTag.id(user.id)
+//        var isLoginUser: Bool {store.appState.setting.loginUser?.id == user.id}
         
         /// 获取用户信息成功后调用处理用户信息的包
         /// - Parameter json: 返回的用户信息原始数据
@@ -71,19 +72,20 @@ struct UserRequstCommand: AppCommand {
             updateUser(update: &updatedUser, from: store.context)
             
             ///信息更新完成，将user数据替换到相应位置并存储
-            if isLoginUser {
+            if isLoginUser == true {
                 store.dipatch(.updateLoginAccount(loginUser: updatedUser))
                 store.dipatch(.alertOn(text: "Updated", isWarning: false))
                 
-                ///如果是login用户，则将其信息存入到CoreData中备用
+                ///如果是login用户，则将其信息存入到CoreData中备用，并将
                 TwitterUser.updateOrSaveToCoreData(from: json,
                                                    in: store.context,
-                                                   isLocalUser: true)
+                                                   isLoginUser: isLoginUser)
             } else {
-                ///如果不是login用户，则也将其信息存入到CoreData中备用，但是不设置成localUser
+                ///如果不是login用户，则也将其信息存入到CoreData中备用，但是不修改isLocalUser的属性
                 TwitterUser.updateOrSaveToCoreData(from: json,
                                                    in: store.context,
-                                                   isLocalUser: false)
+                                                   isLoginUser: isLoginUser
+                                                   )
                 store.dipatch(.updateRequestedUser(requestedUser: updatedUser))
                 store.dipatch(.fetchTimeline(timelineType: .user(userID: user.id), mode: .top))
             }
@@ -102,7 +104,7 @@ struct UserRequstCommand: AppCommand {
             }
             
             ///比较新老lists名称数据，如果有不同则需要更新
-            guard store.appState.setting.lists.keys.sorted() != newLists.keys.sorted() && isLoginUser else {return}
+            guard store.appState.setting.lists.keys.sorted() != newLists.keys.sorted() && isLoginUser == true else {return}
             store.dipatch(.updateList(lists: newLists))
             
         }

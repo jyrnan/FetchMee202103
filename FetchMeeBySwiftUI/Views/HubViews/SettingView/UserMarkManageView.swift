@@ -30,8 +30,8 @@ struct UserMarkManageView: View {
                     Text(user.name ?? "Name").bold().lineLimit(1).frame(width: 120, alignment: .leading)
                     Text("@" + (user.screenName ?? "screenName")).lineLimit(1).frame(alignment: .leading).foregroundColor(.gray)
                         .onTapGesture {
-                            let user = UserInfo(id: user.userIDString ?? "0000")
-                            store.dipatch(.userRequest(user: user, isLoginUser: false))
+//                            let user = UserInfo(id: user.userIDString ?? "0000")
+//                            store.dipatch(.userRequest(user: user))
                             presentedUserInfo = true
                         }
                 }

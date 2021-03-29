@@ -23,7 +23,6 @@ struct UserViewRedux: View {
     @FetchRequest var twitterUsers: FetchedResults<TwitterUser>
     
     var userTimeline: AppState.TimelineData.Timeline {store.appState.timelineData.timelines[TimelineType.user(userID: userIDString).rawValue]!}
-    var user: UserInfo {store.repository.users[userIDString] ?? UserInfo()}
     var requestedUser: UserInfo {store.appState.timelineData.requestedUser}
     
     var userIDString: String //传入需查看的用户信息的ID
@@ -119,7 +118,7 @@ struct UserViewRedux: View {
                                         .frame(width: 100)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                     
-                                    Button(action: {TwitterUser.updateOrSaveToCoreData(from: nil, id: user.id, in: viewContext,isLocalUser: false, updateNickName: nickNameText)
+                                    Button(action: {TwitterUser.updateOrSaveToCoreData(from: nil, id: userIDString, in: viewContext,isLocalUser: false, updateNickName: nickNameText)
                                         
                                         withAnimation{isNickNameInputShow = false}
                                     }){
@@ -148,7 +147,7 @@ struct UserViewRedux: View {
                         Image(systemName: (requestedUser.notifications == true ? "bell.fill.circle" : "bell.circle")).font(.title2)
                             .foregroundColor(requestedUser.notifications == true ? .white : .accentColor)
                         //
-                        if "follow" == "follow" {
+                        if requestedUser.isFollowing == true {
                             Text("Following")
                                 .font(.callout).bold()
                                 .frame(width: 84, height: 24, alignment: .center)
@@ -156,7 +155,6 @@ struct UserViewRedux: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(12)
                                 .onTapGesture(count: 1, perform: {
-//                                    viewModel.unfollow(userIDString: userIDString)
                                 })
                         } else {
                             Text("Follow")
@@ -166,7 +164,6 @@ struct UserViewRedux: View {
                                 .foregroundColor(.accentColor)
                                 .cornerRadius(12)
                                 .onTapGesture(count: 1, perform: {
-//                                    viewModel.follow(userIDString: userIDString)
                                 })
                         }
                         
@@ -177,21 +174,21 @@ struct UserViewRedux: View {
                     
                     ///用户Bio信息
 //                    NSAttributedStringView(attributedText: user.getAttributedText(alignment: .center) , width: 300).padding([.top], 16)
-                    Text(user.description ?? "")
+                    Text(requestedUser.description ?? "")
                     
                     ///用户位置信息
                     HStack() {
                         Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
-                        Text(user.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
+                        Text(requestedUser.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
                         Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
-                        Text( updateTime(createdTime: user.createdAt) ).font(.caption).foregroundColor(.gray)
+                        Text( updateTime(createdTime: requestedUser.createdAt) ).font(.caption).foregroundColor(.gray)
                     }.padding(0)
                     
                     ///用户following信息
                     HStack {
-                        Text(String(user.following ?? 0)).font(.callout)
+                        Text(String(requestedUser.following ?? 0)).font(.callout)
                         Text("Following").font(.callout).foregroundColor(.gray)
-                        Text(String(user.followed ?? 0)).font(.callout).padding(.leading, 16)
+                        Text(String(requestedUser.followed ?? 0)).font(.callout).padding(.leading, 16)
                         Text("Followers").font(.callout).foregroundColor(.gray)
                     }.padding(.bottom, 16)
                 }
@@ -244,7 +241,8 @@ struct UserViewRedux: View {
             .navigationTitle(requestedUser.name ?? "Name")
         .onAppear(){
             let user = UserInfo(id: userIDString)
-            store.dipatch(.userRequest(user: user, isLoginUser: false))
+//            var isLoginUser:Bool {userIDString == store.appState.setting.loginUser?.id}
+            store.dipatch(.userRequest(user: user, isLoginUser: nil))
         }
     }
 }

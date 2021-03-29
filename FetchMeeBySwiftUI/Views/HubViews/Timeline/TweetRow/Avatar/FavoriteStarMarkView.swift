@@ -12,7 +12,7 @@ struct FavoriteStarMarkView: View {
     var isFavoriteUser: Bool = false
     var body: some View {
         GeometryReader { geometry in
-            Image(systemName: "star.circle.fill")
+            Image(systemName: isFavoriteUser ? "star.circle.fill" : "bookmark.circle.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: geometry.size.width * 0.3 , height: geometry.size.height * 0.3, alignment: .center)
