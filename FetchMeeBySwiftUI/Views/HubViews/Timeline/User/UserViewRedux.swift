@@ -10,7 +10,7 @@ import Foundation
 
 import SwiftUI
 import CoreData
-import KingfisherSwiftUI
+import Kingfisher
 import Swifter
 
 struct UserViewRedux: View {

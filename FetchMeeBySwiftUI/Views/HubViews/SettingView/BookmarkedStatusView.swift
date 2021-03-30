@@ -9,7 +9,7 @@
 
 import SwiftUI
 import CoreData
-import KingfisherSwiftUI
+import Kingfisher
 
 struct BookmarkedStatusView: View {
     @EnvironmentObject var store: Store

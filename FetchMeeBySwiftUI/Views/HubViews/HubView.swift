@@ -12,7 +12,7 @@ import BackgroundTasks
 import Swifter
 import CoreData
 import UIKit
-import KingfisherSwiftUI
+import Kingfisher
 
 struct HubView: View {
     

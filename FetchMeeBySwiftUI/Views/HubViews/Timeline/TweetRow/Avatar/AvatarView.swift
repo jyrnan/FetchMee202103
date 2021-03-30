@@ -9,7 +9,7 @@
 import SwiftUI
 import CoreData
 import Swifter
-import KingfisherSwiftUI
+import Kingfisher
 
 struct AvatarView: View {
     @EnvironmentObject var store: Store
