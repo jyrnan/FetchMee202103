@@ -64,6 +64,9 @@ extension Status_CD {
      return status
     }
     
-    
+    func getImageUrls() -> [String]? {
+        guard let imageUrls = self.imageUrls else {return nil}
+        return imageUrls.split(separator: " ").map{String($0)}
+    }
 
 }

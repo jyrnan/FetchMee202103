@@ -18,7 +18,6 @@ struct FavoriteStarMarkView: View {
                 .frame(width: geometry.size.width * 0.3 , height: geometry.size.height * 0.3, alignment: .center)
                 .foregroundColor(isFavoriteUser ? .accentColor : .gray)
                 .background(Circle().foregroundColor(.white).scaleEffect(0.9))
-
                 .offset(x: geometry.size.width * 0.7, y: geometry.size.height * 0.7)
         }
     }

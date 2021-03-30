@@ -171,13 +171,13 @@ extension SceneDelegate {
         }
         
         //成功处理回调通知,因为是作为在Swifter的successHanler来调用，所以如下格式
-        let completeHandler: () -> () = {
-            
-            let successText = "BGAPPRefreshTask completed."
-            self.saveOrUpdateLog(text: successText)
-            
-            task.setTaskCompleted(success: true)
-        }
+//        let completeHandler: () -> () = {
+//            
+//            let successText = "BGAPPRefreshTask completed."
+//            self.saveOrUpdateLog(text: successText)
+//            
+//            task.setTaskCompleted(success: true)
+//        }
         
         //logHandler用来传入到其他函数中接受记录并输出信息到CoreData中
         let _: (String) -> () = {logText in

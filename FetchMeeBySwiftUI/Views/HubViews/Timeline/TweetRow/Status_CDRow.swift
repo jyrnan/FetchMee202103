@@ -14,6 +14,7 @@ struct Status_CDRow: View {
     
     var status: Status_CD
     var width: CGFloat
+    var imageUrls:[String]? {status.getImageUrls()}
     
     var avatar: some View {
         VStack(alignment: .leading){
@@ -49,8 +50,9 @@ struct Status_CDRow: View {
                 }
                 
             }.padding()
-            if status.imageUrls != nil {
-                Images(imageUrlStrings: (status.imageUrls?.split(separator: " ").map{String($0)})!)
+            
+            if imageUrls != nil {
+                Images(imageUrlStrings: imageUrls!)
                     .frame(width: width, height: width * 9 / 21)
                 .clipped()
             }
@@ -60,5 +62,6 @@ struct Status_CDRow: View {
         .foregroundColor(Color.init(.label))
         
     }
+    
     
 }
