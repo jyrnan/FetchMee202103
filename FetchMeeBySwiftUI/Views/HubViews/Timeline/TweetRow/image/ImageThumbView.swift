@@ -27,6 +27,7 @@ struct ImageThumb: View {
     
     var imageUrl: String
     @StateObject var remoteImageFromUrl: RemoteImageFromUrl
+    @State var image: UIImage = UIImage(named: "defaultImage")!
     
     var width: CGFloat
     var height: CGFloat
@@ -47,9 +48,9 @@ struct ImageThumb: View {
     var body: some View {
         ZStack(alignment: .center) {
             
-            Image(uiImage: remoteImageFromUrl.image)
-
-
+//            Image(uiImage: remoteImageFromUrl.image)
+//            Image(uiImage: image)
+            KFImage(URL(string: imageUrl + ":small")!).placeholder{Image("defaultImage").resizable()}
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: width, height: height, alignment: .center) //直接按照传入的大小进行图片调整。
@@ -71,7 +72,12 @@ struct ImageThumb: View {
                     }
                         self.isImageDownloaded = true}}
                 .onAppear{
-                    remoteImageFromUrl.getImage()
+//                    remoteImageFromUrl.getImage()
+//                    RemoteImageFromUrl.imageDownloaderWithClosure(imageUrl: imageUrl, sh: {image in
+//                        DispatchQueue.main.async {
+//                            self.image = image
+//                        }
+//                    })
                 }
             
             ActivityIndicator(isAnimating: self.$isImageDownloaded, style: .medium)

@@ -14,7 +14,13 @@ struct Status_CDRow: View {
     
     var status: Status_CD
     var width: CGFloat
-    var imageUrls:[String]? {status.getImageUrls()}
+    var imageUrls:[String]?
+    
+    init(status: Status_CD, width: CGFloat){
+        self.status = status
+        self.width = width
+        self.imageUrls = status.getImageUrls()
+    }
     
     var avatar: some View {
         VStack(alignment: .leading){
@@ -62,6 +68,8 @@ struct Status_CDRow: View {
         .foregroundColor(Color.init(.label))
         
     }
+    
+    
     
     
 }
