@@ -69,7 +69,13 @@ struct CountView: View {
 extension CountView {
     
     private func deleteCounts(offsets: IndexSet) {
-        offsets.map{ counts[$0]}.forEach(viewContext.delete)
+//        offsets.map{ counts[$0]}.forEach(viewContext.delete)
+        counts.forEach{
+            let user = counts.last?.countToUser
+            if $0.countToUser == nil {
+                $0.countToUser = user
+            }}
+        
         
         do {
             try viewContext.save()

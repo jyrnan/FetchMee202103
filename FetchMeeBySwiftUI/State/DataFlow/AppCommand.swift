@@ -105,7 +105,6 @@ struct UserRequstCommand: AppCommand {
             ///比较新老lists名称数据，如果有不同则需要更新
             guard store.appState.setting.lists.keys.sorted() != newLists.keys.sorted() && isLoginUser == true else {return}
             store.dipatch(.updateList(lists: newLists))
-            
         }
         
         func failureHandler(_ error: Error) ->() {
@@ -115,7 +114,6 @@ struct UserRequstCommand: AppCommand {
         ///获取用户基本信息，并生成Bio
         store.fetcher.swifter.showUser(userTag, includeEntities: nil, success: userHandler(json:), failure: failureHandler(_:))
         store.fetcher.swifter.getSubscribedLists(for: userTag, success:listHandler)
-        
     }
 }
 

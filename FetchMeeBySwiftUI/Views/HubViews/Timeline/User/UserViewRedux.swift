@@ -22,7 +22,7 @@ struct UserViewRedux: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest var twitterUsers: FetchedResults<TwitterUser>
     
-    var userTimeline: AppState.TimelineData.Timeline {store.appState.timelineData.timelines[TimelineType.user(userID: userIDString).rawValue]!}
+    var userTimeline: AppState.TimelineData.Timeline {store.appState.timelineData.timelines[TimelineType.user(userID: userIDString).rawValue] ?? AppState.TimelineData.Timeline()}
     
     var requestedUser: UserInfo {store.appState.timelineData.requestedUser}
     
@@ -69,7 +69,8 @@ struct UserViewRedux: View {
             List {
                 ZStack{
                     VStack{
-                        KFImage(URL(string: requestedUser.bannerUrlString ?? "ok")!).placeholder{Image("bg").resizable()}
+                        KFImage(URL(string: requestedUser.bannerUrlString ?? "ok")!)
+                            .placeholder{Image("bg").resizable()}
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(

@@ -35,14 +35,13 @@ struct TimelineViewRedux: View {
         GeometryReader {proxy in
             List{
                 
-                //                Homeline部分章节
+                //Homeline部分章节
                 ZStack{
                     RoundedCorners(color: Color.init("BackGround"), tl: 24, tr: 24, bl: 0, br: 0)
                         .frame(height: 44)
                         .foregroundColor(Color.init("BackGround"))
                     
                     PullToRefreshView(action: refreshAll, isDone: self.isProcessingDone) {
-                        //                        Composer(isProcessingDone: isProcessingDone)
                         Spacer()
                     }
                     .frame(height: 36)

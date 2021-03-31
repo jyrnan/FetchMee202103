@@ -14,7 +14,10 @@ struct UserMarkManageView: View {
     @EnvironmentObject var store: Store    
     @Environment(\.managedObjectContext) private var viewContext
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.nickName, ascending: false)]) var twitterUsers: FetchedResults<TwitterUser>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.isLoginUser, ascending: false),
+                                    NSSortDescriptor(keyPath: \TwitterUser.isLocalUser, ascending: false),
+                                    NSSortDescriptor(keyPath: \TwitterUser.isFavorite, ascending: false),
+                                    NSSortDescriptor(keyPath: \TwitterUser.updateTime, ascending: false)]) var twitterUsers: FetchedResults<TwitterUser>
     
     @State var presentedUserInfo: Bool = false
     
@@ -26,11 +29,11 @@ struct UserMarkManageView: View {
                 HStack {
                     Text(user.nickName ?? "").frame(width: 80, alignment: .leading)
                     Text(user.name ?? "Name").bold().lineLimit(1).frame(width: 120, alignment: .leading)
-                    Text("@" + (user.screenName ?? "screenName")).lineLimit(1).frame(alignment: .leading).foregroundColor(.gray)
+                    Text("@" + (user.updateTime?.description ?? "N/A")).lineLimit(2).frame(alignment: .leading).foregroundColor(.gray)
                         .onTapGesture {
                             presentedUserInfo = true
                         }
-                }
+                }.foregroundColor(user.isLoginUser ? .red : (user.isLocalUser ? .green : .gray))
                 
                 }
             }
@@ -55,7 +58,6 @@ extension UserMarkManageView {
     
     private func deleteUser(offsets: IndexSet) {
         offsets.map{ twitterUsers[$0]}.forEach(viewContext.delete)
-        
         do {
             try viewContext.save()
         }catch {
@@ -65,7 +67,7 @@ extension UserMarkManageView {
     }
     
     private func deleteAll() {
-        twitterUsers.filter{!$0.isLocalUser && !$0.isFavorite && !$0.isForBookmarked}.forEach{viewContext.delete($0)}
+        twitterUsers.filter{!$0.isLocalUser && !$0.isFavorite && !$0.isForBookmarked && !$0.isLoginUser}.forEach{viewContext.delete($0)}
         do {
             try viewContext.save()
         } catch {

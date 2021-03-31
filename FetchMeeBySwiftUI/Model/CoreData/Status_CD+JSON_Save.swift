@@ -42,7 +42,7 @@ extension Status_CD {
         
         status.created_at = stringToDate(from: json["created_at"].string)
         
-        let user = TwitterUser.updateOrSaveToCoreData(from: json["user"], isForBookmarked: isBookmarked)
+        let user = TwitterUser.updateOrSaveToCoreData(from: json["user"], isForBookmarkedUser: isBookmarked)
         
         status.user = user
         

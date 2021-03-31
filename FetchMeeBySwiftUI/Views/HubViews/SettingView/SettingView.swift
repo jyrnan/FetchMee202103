@@ -21,7 +21,7 @@ struct SettingView: View {
     var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
     
     ///用来作为setting调整结果的零时存储
-    @State var setting: UserSetting = UserSetting()
+    @State var setting: UserSetting
     
     @State var isPresentedAlert: Bool = false //显示确认退出alertView
     
@@ -34,15 +34,14 @@ struct SettingView: View {
     
     let manualDeleteWarningMessage: String = "Selecting Manual Delete will immediately delete up to 300 sauces at once. Due to api limits, the app will automatically calculate the maximum number of tweets that can be deleted and delete them. If you need to keep your recent tweets, make sure the Keep Recent switch is on."
     
-    @State var isShowManualDeleteAlert: Bool = false
-    
     var body: some View {
         Form {
-            KFImage(URL(string:store.appState.setting.loginUser?.bannerUrlString ?? "")).placeholder{Image("bg").resizable()}
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            .frame(height: 120)
-            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+            KFImage(URL(string:store.appState.setting.loginUser?.bannerUrlString ?? ""))
+                .placeholder{Image("bg").resizable()}
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 120)
+                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
             
             Section(header: Text("Visual"),
                     footer: Text("You can swith this function off to get a simper UI and better performance")) {
@@ -118,7 +117,7 @@ struct SettingView: View {
         }
         .onDisappear{store.dipatch(.changeSetting(setting: setting))}
         .navigationTitle("Setting")
-//        .navigationBarTitleDisplayMode(.inline)
+        //        .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems( trailing: AvatarImageView(imageUrl: store.appState.setting.loginUser?.avatarUrlString)
                                 .frame(width: 36, height: 36, alignment: .center))
     }
@@ -128,7 +127,7 @@ extension SettingView {
     
     func logOut() {
         presentationMode.wrappedValue.dismiss()
-
+        
         delay(delay: 1, closure: {
             withAnimation {
                 store.dipatch(.updateLoginAccount(loginUser: nil))
@@ -156,10 +155,10 @@ extension SettingView {
 }
 
 struct SettingView_Previews: PreviewProvider {
-//    static var user: User = User()
+    //    static var user: User = User()
     static var previews: some View {
         NavigationView {
-            SettingView()
+            SettingView(setting: UserSetting())
         }
     }
 }

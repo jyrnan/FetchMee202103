@@ -22,16 +22,17 @@ extension TwitterUser {
     ///   - updateNickName: 是否需要更新当前用户的NickName
     /// - Returns: 返回当前用户
     @discardableResult
-    static func updateOrSaveToCoreData(from userJSON: JSON?, id: String? = "0000",
+    static func updateOrSaveToCoreData(from userJSON: JSON? = nil,
+                                       id: String? = "0000",
                                        in viewContext: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext ,
                                        isLocalUser: Bool? = nil,
                                        isLoginUser: Bool? = nil,
-                                       isForBookmarked: Bool? = nil,
+                                       isForBookmarkedUser: Bool? = nil,
                                        updateNickName: String? = nil) -> TwitterUser {
         
         func updateTwitterUser(_ currentUser: TwitterUser, with user:JSON) {
             ///设置TwitterUser
-            currentUser.createdAt = Date()
+            currentUser.createdAt = JSONAdapter().convertToDate(from: user["created_at"].string)
             
             currentUser.userIDString = user["id_str"].string!
             currentUser.name = user["name"].string!
@@ -44,32 +45,39 @@ extension TwitterUser {
             currentUser.isFollowing = user["following"].bool ?? true
         }
         
-        var currentUser: TwitterUser
-        
-        let id = userJSON?["id_str"].string ?? id!
-        
-        let userFetch: NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
-        userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), id)
-        userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.createdAt, ascending: true)]
-        
-        var results = (try? viewContext.fetch(userFetch)) ?? []
-        ///由于重新安装软件时候CoreData还没来得及同步云端的保存的用户信息
-        ///所以在第一次启动时候调用用户信息会保存一个全新的UserInfo到本地CoreData，应用启动会出现一个重复的用户。
-        ///因此需要查询是按照时间排序，如果有重复，就仅保留第一个结果
-        ///TODO:可以通过一个数据库数据合并的功能来实现排除重复
-        
-        if results.count > 0 {
-            currentUser = results.removeFirst()
-            if !results.isEmpty { results.forEach{viewContext.delete($0)}}
-        } else {currentUser = TwitterUser(context: viewContext)
+        /// 根据情况查找或新建TwitterUser
+        /// - Returns: 返回一个现有或者新建的TwitterUser
+        func creatTwitterUser() -> TwitterUser {
+            let userID = userJSON?["id_str"].string ?? id!
+            let userFetch: NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
+            userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), userID)
+            userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.updateTime, ascending: true)]
+            
+            var results = (try? viewContext.fetch(userFetch)) ?? []
+            ///由于重新安装软件时候CoreData还没来得及同步云端的保存的用户信息
+            ///所以在第一次启动时候调用用户信息会保存一个全新的UserInfo到本地CoreData，应用启动会出现一个重复的用户。
+            ///因此需要查询是按照时间排序，如果有重复，就仅保留第一个结果
+            ///TODO:可以通过一个数据库数据合并的功能来实现排除重复
+            
+            guard results.count > 0 else {
+                //如果没有查找到现成User，则新建一个，并设置创建时间
+                let newUser = TwitterUser(context: viewContext)
+                newUser.updateTime = Date()
+                return newUser }
+            
+                let oldUser = results.removeFirst()
+                if !results.isEmpty { results.forEach{viewContext.delete($0)}}
+                return oldUser
         }
         
+        let currentUser: TwitterUser = creatTwitterUser()
+
         if let user = userJSON {
         updateTwitterUser(currentUser, with: user)
         }
         
         ///新建非登录本地用户
-        if id == "0000" {
+        if currentUser.userIDString == "0000" {
             currentUser.userIDString = "0000"
             currentUser.name = "FetchMee"
             currentUser.screenName = "FetchMeeApp"
@@ -101,16 +109,19 @@ extension TwitterUser {
             count.tweets = Int32(userJSON?["statuses_count"].integer ?? 0)
             
             currentUser.addToCount(count)
-            print(#line, "add user count info")
         }
         
         
-        if let isForBookmarked = isForBookmarked {
+        if let isForBookmarked = isForBookmarkedUser {
             currentUser.isForBookmarked = isForBookmarked }
         
         ///如果nickName是空，且不是本地用户，则从CoreData中删除该用户
         if updateNickName?.count == 0 && currentUser.isLocalUser == false {
             viewContext.delete(currentUser)
+        }
+        
+        if currentUser.updateTime == nil {
+            currentUser.updateTime = Date()
         }
         
         do {

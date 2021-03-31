@@ -110,6 +110,7 @@ class Store: ObservableObject {
             }
             
         case .changeSetting(let setting):
+            
             appState.setting.loginUser?.setting = setting
             
         case .fetchTimeline(let timelineType, let updateMode):
