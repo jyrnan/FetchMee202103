@@ -281,11 +281,9 @@
 			children = (
 				4BA662732535923300DE8697 /* ToolBarsView.swift */,
 				D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */,
-				D27744E4253B14DD0062B25C /* BackOfTweetsToolBar.swift */,
-				4B68D5A7253940FC00A17AED /* BackOfToolsToolBar.swift */,
-				D2DF0CE42562B6450058305A /* CountView */,
 				D2D5A937257E2BDE000A9C8B /* FriendToolBar */,
-				D2AE506625564A2800437337 /* LogMessageSmallView.swift */,
+				D2DF0CE42562B6450058305A /* TweetToolBar */,
+				D22EF6112613F67900ABC8DF /* ToolsToolBar */,
 			);
 			path = ToolBars;
 			sourceTree = "<group>";
@@ -393,6 +391,15 @@
 				4BA0161D253AEACB003D1475 /* CountView.swift */,
 			);
 			path = otherSubViews;
+			sourceTree = "<group>";
+		};
+		D22EF6112613F67900ABC8DF /* ToolsToolBar */ = {
+			isa = PBXGroup;
+			children = (
+				4B68D5A7253940FC00A17AED /* BackOfToolsToolBar.swift */,
+				D2AE506625564A2800437337 /* LogMessageSmallView.swift */,
+			);
+			path = ToolsToolBar;
 			sourceTree = "<group>";
 		};
 		D2419C222577685500A9CF98 /* Repositories */ = {
@@ -681,12 +688,13 @@
 			path = FriendToolBar;
 			sourceTree = "<group>";
 		};
-		D2DF0CE42562B6450058305A /* CountView */ = {
+		D2DF0CE42562B6450058305A /* TweetToolBar */ = {
 			isa = PBXGroup;
 			children = (
+				D27744E4253B14DD0062B25C /* BackOfTweetsToolBar.swift */,
 				D26A8B08256284C8003BFEE6 /* CountDiagramView.swift */,
 			);
-			path = CountView;
+			path = TweetToolBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

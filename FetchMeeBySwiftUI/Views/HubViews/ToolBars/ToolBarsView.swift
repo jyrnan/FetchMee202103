@@ -27,8 +27,13 @@ struct ToolBarsView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Log.createdAt, ascending: true)]) var logs: FetchedResults<Log>
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Status_CD.id_str, ascending: false),
-                                    NSSortDescriptor(keyPath: \Status_CD.created_at, ascending: false)]) var statuses: FetchedResults<Status_CD>
+                                    NSSortDescriptor(keyPath: \Status_CD.created_at, ascending: false)])
+    var statuses: FetchedResults<Status_CD>
     
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Status_CD.id_str, ascending: false),
+                                     NSSortDescriptor(keyPath: \Status_CD.created_at, ascending: false)],
+    predicate: NSPredicate(format: "%K == %d", #keyPath(Status_CD.isBookmarked), true)
+    ) var bookmarkedStatuses: FetchedResults<Status_CD>
     
     
     lazy var userPredicate: NSPredicate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), user.id)
@@ -57,70 +62,71 @@ struct ToolBarsView: View {
                 Text("Tools").font(.caption).bold().foregroundColor(Color.gray)
                 Spacer()
             }
-           
+            
             if isLogined {
-            
-            ToolBarView(isFaceUp: toolBarIsFaceUp1,
-                        type: .friends,
-                        label1Value: user.followed,
-                        label2Value: user.following,
-                        label3Value: user.lastDayAddedFollower)
-                .onTapGesture {
-                    if !toolBarIsFaceUp1 {
-                        toolBarIsFaceUp1.toggle()
-                    } else {
-                        toolBarIsFaceUp1.toggle()
-                        toolBarIsFaceUp2 = true
-                        toolBarIsFaceUp3 = true
-                    }
-                }
-            
-            ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
-                        label1Value: user.tweetsCount,
-                        label2Value: user.tweetsCount,
-                        label3Value: user.lastDayAddedTweets)
-                .onTapGesture {
-                    if !toolBarIsFaceUp2 {
-                        toolBarIsFaceUp2.toggle()
-                    } else {
-                        toolBarIsFaceUp2.toggle()
-                        toolBarIsFaceUp1 = true
-                        toolBarIsFaceUp3 = true
-                    }
-                }
-            
-            ToolBarView(isFaceUp: toolBarIsFaceUp3, type: .tools,
-                        label1Value: drafts.count,
-                        label2Value: logs.count,
-                        label3Value: logs.count)
-                .onTapGesture {
-                    if !toolBarIsFaceUp3 {
-                        toolBarIsFaceUp3.toggle()
-                    } else {
-                        toolBarIsFaceUp3.toggle()
-                        toolBarIsFaceUp1 = true
-                        toolBarIsFaceUp2 = true
-                    }
-                }
-            
-            
-            
-            if statusOfLoginuser != nil {
                 
-                NavigationLink(destination: BookmarkedStatusView(userID: store.appState.setting.loginUser?.id),
-                               label: {
-                                Status_CDRow(status: statusOfLoginuser!, width: width - 2 * setting.uiStyle.insetH)
-                                
-                                
-                               })
+                ToolBarView(isFaceUp: toolBarIsFaceUp1,
+                            type: .friends,
+                            label1Value: user.followed,
+                            label2Value: user.following,
+                            label3Value: user.lastDayAddedFollower)
+                    .onTapGesture {
+                        if !toolBarIsFaceUp1 {
+                            toolBarIsFaceUp1.toggle()
+                        } else {
+                            toolBarIsFaceUp1.toggle()
+                            toolBarIsFaceUp2 = true
+                            toolBarIsFaceUp3 = true
+                        }
+                    }
                 
-            }
-            if statusOfBookmarked != nil {
-                NavigationLink(destination: BookmarkedStatusView(),
-                               label: {
-                                Status_CDRow(status: statusOfBookmarked!, width: width - 2 * setting.uiStyle.insetH)})
+                ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
+                            label1Value: user.tweetsCount,
+                            label2Value: user.tweetsCount,
+                            label3Value: user.lastDayAddedTweets)
+                    .onTapGesture {
+                        if !toolBarIsFaceUp2 {
+                            toolBarIsFaceUp2.toggle()
+                        } else {
+                            toolBarIsFaceUp2.toggle()
+                            toolBarIsFaceUp1 = true
+                            toolBarIsFaceUp3 = true
+                        }
+                    }
                 
-            }
+                ToolBarView(isFaceUp: toolBarIsFaceUp3, type: .tools,
+                            label1Value: drafts.count,
+                            label2Value: logs.count,
+                            label3Value: logs.count)
+                    .onTapGesture {
+                        if !toolBarIsFaceUp3 {
+                            toolBarIsFaceUp3.toggle()
+                        } else {
+                            toolBarIsFaceUp3.toggle()
+                            toolBarIsFaceUp1 = true
+                            toolBarIsFaceUp2 = true
+                        }
+                    }
+                
+                
+                
+                if statusOfLoginuser != nil {
+                    
+                    NavigationLink(destination: BookmarkedStatusView(userID: store.appState.setting.loginUser?.id),
+                                   label: {
+                                    Status_CDRow(status: statusOfLoginuser!, width: width - 2 * setting.uiStyle.insetH)
+                                    
+                                    
+                                   })
+                    
+                }
+                if !bookmarkedStatuses.isEmpty {
+                    NavigationLink(destination: BookmarkedStatusView(),
+                                   label: {
+                                   
+                                    Status_CDRow(status: bookmarkedStatuses.first!, width: width - 2 * setting.uiStyle.insetH)
+                                    })
+                }
             }
             
             if isLogined && drafts.first != nil {
@@ -129,10 +135,10 @@ struct ToolBarsView: View {
             else {
                 ForEach(drafts) {draft in
                     Status_Draft(draft: draft, width: width - 2 * setting.uiStyle.insetH)}
-                }
-                                
             }
             
         }
+        
     }
+}
 
