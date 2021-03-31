@@ -12,8 +12,6 @@ struct Images: View {
 
     var imageUrlStrings: [String]
     
-    @State var presentedImageViewer: Bool = false
-    
     var body: some View {
         return containedView()
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0,  maxHeight:.infinity , alignment: .topLeading)

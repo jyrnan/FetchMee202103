@@ -328,7 +328,9 @@
 			children = (
 				4BDB05D62531613B00CF71A1 /* HubView.swift */,
 				D2BC206925F4AC26007882CA /* SettingView */,
+				D297390324D150B300917A97 /* ComposerView */,
 				D2A4D27D25527A0800668650 /* Timeline */,
+				4B68D5A92539410800A17AED /* ToolBars */,
 			);
 			path = HubViews;
 			sourceTree = "<group>";
@@ -379,6 +381,18 @@
 				D270E87C24C01C9100BBD3FE /* ToolsView.swift */,
 			);
 			path = ToolsView;
+			sourceTree = "<group>";
+		};
+		D22EF6102613F52B00ABC8DF /* otherSubViews */ = {
+			isa = PBXGroup;
+			children = (
+				D2BC206A25F4AC6B007882CA /* TweetTagCDManageView.swift */,
+				4B3AD79E253965DB00194B2C /* UserMarkManageView.swift */,
+				4B68D5A52539131800A17AED /* LogMessageView.swift */,
+				D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */,
+				4BA0161D253AEACB003D1475 /* CountView.swift */,
+			);
+			path = otherSubViews;
 			sourceTree = "<group>";
 		};
 		D2419C222577685500A9CF98 /* Repositories */ = {
@@ -586,8 +600,6 @@
 				D282BCA42589902400877B26 /* ComposerButtonView.swift */,
 				4B7130AD253574A500CE0082 /* TweetRow */,
 				D24E409D257B6F2800401BBB /* DetailView */,
-				D297390324D150B300917A97 /* ComposerView */,
-				4B68D5A92539410800A17AED /* ToolBars */,
 				D27FBA452610459A00F7067B /* BookMark */,
 				D2BB68FE257C8483003BDA13 /* User */,
 			);
@@ -637,11 +649,7 @@
 			isa = PBXGroup;
 			children = (
 				D21F4C4E24DE73C6004B2C20 /* SettingView.swift */,
-				D2BC206A25F4AC6B007882CA /* TweetTagCDManageView.swift */,
-				4B3AD79E253965DB00194B2C /* UserMarkManageView.swift */,
-				4B68D5A52539131800A17AED /* LogMessageView.swift */,
-				D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */,
-				4BA0161D253AEACB003D1475 /* CountView.swift */,
+				D22EF6102613F52B00ABC8DF /* otherSubViews */,
 			);
 			path = SettingView;
 			sourceTree = "<group>";
@@ -1013,7 +1021,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 68;
+				CURRENT_PROJECT_VERSION = 69;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -1038,7 +1046,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 68;
+				CURRENT_PROJECT_VERSION = 69;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;

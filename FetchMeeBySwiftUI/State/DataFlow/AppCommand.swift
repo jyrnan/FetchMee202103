@@ -61,7 +61,6 @@ struct UserRequstCommand: AppCommand {
     func execute(in store: Store) {
         var updatedUser = user
         let userTag: UserTag = UserTag.id(user.id)
-//        var isLoginUser: Bool {store.appState.setting.loginUser?.id == user.id}
         
         /// 获取用户信息成功后调用处理用户信息的包
         /// - Parameter json: 返回的用户信息原始数据
