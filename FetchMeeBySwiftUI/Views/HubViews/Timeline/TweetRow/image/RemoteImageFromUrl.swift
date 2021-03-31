@@ -20,7 +20,7 @@ class RemoteImageFromUrl: ObservableObject {
     
    //MARK:-Fucntions
     
-    init(imageUrl: String, imageType: ImageType = .thrumb) {
+    init(imageUrl: String, imageType: ImageType = .original) {
         self.imageUrl = imageUrl
         self.imageType = imageType
         

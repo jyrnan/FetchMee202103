@@ -34,6 +34,7 @@
 		D228E06325FD9A900063E0EB /* Status_CDRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D228E06225FD9A900063E0EB /* Status_CDRow.swift */; };
 		D2291B5225C7835100EDB259 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2291B5125C7835100EDB259 /* BlurView.swift */; };
 		D22EF60F2613684100ABC8DF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D22EF60E2613684100ABC8DF /* Kingfisher */; };
+		D22EF6172614738800ABC8DF /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22EF6162614738800ABC8DF /* RemoteImage.swift */; };
 		D2309F222547E09A00549E27 /* CustomTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2309F212547E09A00549E27 /* CustomTextEditor.swift */; };
 		D2309F29254922B000549E27 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2309F28254922B000549E27 /* Toast.swift */; };
 		D2318AA92571E40900F55BDF /* FavoriteStarMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2318AA82571E40900F55BDF /* FavoriteStarMarkView.swift */; };
@@ -99,7 +100,7 @@
 		D2A4D27F2552902F00668650 /* UIImage+alhpa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */; };
 		D2A972F225FCC97D005F06A5 /* Status_CD+JSON_Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A972F125FCC97D005F06A5 /* Status_CD+JSON_Save.swift */; };
 		D2ABAD1B256F9345009FDD94 /* ImageThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */; };
-		D2ABAD1D256F938E009FDD94 /* ImageThrumbViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1C256F938E009FDD94 /* ImageThrumbViewModel.swift */; };
+		D2ABAD1D256F938E009FDD94 /* RemoteImageFromUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1C256F938E009FDD94 /* RemoteImageFromUrl.swift */; };
 		D2AE506725564A2800437337 /* LogMessageSmallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE506625564A2800437337 /* LogMessageSmallView.swift */; };
 		D2B2560E24E38824009F982E /* videoJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2B2560D24E38824009F982E /* videoJson.txt */; };
 		D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B2560F24E39020009F982E /* VideoPlayView.swift */; };
@@ -166,6 +167,7 @@
 		D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedStatusView.swift; sourceTree = "<group>"; };
 		D228E06225FD9A900063E0EB /* Status_CDRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status_CDRow.swift; sourceTree = "<group>"; };
 		D2291B5125C7835100EDB259 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		D22EF6162614738800ABC8DF /* RemoteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
 		D2309F212547E09A00549E27 /* CustomTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEditor.swift; sourceTree = "<group>"; };
 		D2309F28254922B000549E27 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		D2318AA82571E40900F55BDF /* FavoriteStarMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStarMarkView.swift; sourceTree = "<group>"; };
@@ -234,7 +236,7 @@
 		D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+alhpa.swift"; sourceTree = "<group>"; };
 		D2A972F125FCC97D005F06A5 /* Status_CD+JSON_Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Status_CD+JSON_Save.swift"; sourceTree = "<group>"; };
 		D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThumbView.swift; sourceTree = "<group>"; };
-		D2ABAD1C256F938E009FDD94 /* ImageThrumbViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThrumbViewModel.swift; sourceTree = "<group>"; };
+		D2ABAD1C256F938E009FDD94 /* RemoteImageFromUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageFromUrl.swift; sourceTree = "<group>"; };
 		D2AE506625564A2800437337 /* LogMessageSmallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogMessageSmallView.swift; sourceTree = "<group>"; };
 		D2B2560D24E38824009F982E /* videoJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = videoJson.txt; sourceTree = "<group>"; };
 		D2B2560F24E39020009F982E /* VideoPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayView.swift; sourceTree = "<group>"; };
@@ -607,7 +609,8 @@
 			children = (
 				D7AC536B24BAD91A00BCD71F /* Images.swift */,
 				D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */,
-				D2ABAD1C256F938E009FDD94 /* ImageThrumbViewModel.swift */,
+				D2ABAD1C256F938E009FDD94 /* RemoteImageFromUrl.swift */,
+				D22EF6162614738800ABC8DF /* RemoteImage.swift */,
 				D7AC536F24BB4AB200BCD71F /* ImageViewer.swift */,
 			);
 			path = image;
@@ -795,7 +798,7 @@
 				D27744E5253B14DD0062B25C /* BackOfTweetsToolBar.swift in Sources */,
 				D2419C732579F39700A9CF98 /* JSON+getAttributedText.swift in Sources */,
 				D2ABAD1B256F9345009FDD94 /* ImageThumbView.swift in Sources */,
-				D2ABAD1D256F938E009FDD94 /* ImageThrumbViewModel.swift in Sources */,
+				D2ABAD1D256F938E009FDD94 /* RemoteImageFromUrl.swift in Sources */,
 				D21C3304255A827C001CBBCD /* Counter+Calculate.swift in Sources */,
 				D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */,
 				D28F9E9925E4E37600B8EF40 /* AppAction.swift in Sources */,
@@ -863,6 +866,7 @@
 				D7AC536C24BAD91A00BCD71F /* Images.swift in Sources */,
 				D286BE4A2566460600DCEA1E /* AuthViewController.swift in Sources */,
 				D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */,
+				D22EF6172614738800ABC8DF /* RemoteImage.swift in Sources */,
 				D28F9E9B25E4E39200B8EF40 /* AppCommand.swift in Sources */,
 				D28F9E9725E4E0FD00B8EF40 /* AppState.swift in Sources */,
 				D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */,

@@ -114,6 +114,8 @@ struct TimelineViewRedux: View {
                                     hideKeyboard()}))
             
             .navigationTitle(timeline.type.rawValue)
+            .navigationBarItems( trailing: AvatarImageView(imageUrl: store.appState.setting.loginUser?.avatarUrlString)
+                                    .frame(width: 36, height: 36, alignment: .center))
             .onAppear {
                 store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
             }

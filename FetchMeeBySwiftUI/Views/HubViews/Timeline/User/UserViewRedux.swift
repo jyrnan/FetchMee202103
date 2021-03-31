@@ -69,15 +69,16 @@ struct UserViewRedux: View {
             List {
                 ZStack{
                     VStack{
+//                        RemoteImage(imageUrl: requestedUser.bannerUrlString ?? "")
                         KFImage(URL(string: requestedUser.bannerUrlString ?? "ok")!)
                             .placeholder{Image("bg").resizable()}
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(
-                            width:  UIScreen.main.bounds.width,
-                            height:150)
-                        .cornerRadius(24)
-                        .overlay(LinearGradient.init(gradient: Gradient(colors: [Color.init("BackGround"), Color.clear]), startPoint: .init(x: 0.5, y: 0.9), endPoint: .init(x: 0.5, y: 0.4)))
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(
+                                width:  UIScreen.main.bounds.width,
+                                height:150)
+                            .cornerRadius(24)
+                            .overlay(LinearGradient.init(gradient: Gradient(colors: [Color.init("BackGround"), Color.clear]), startPoint: .init(x: 0.5, y: 0.9), endPoint: .init(x: 0.5, y: 0.4)))
                         
                         Rectangle().frame(height: 65).foregroundColor(Color.init("BackGround"))
                     }
@@ -175,7 +176,7 @@ struct UserViewRedux: View {
                     }.padding()
                     
                     ///用户Bio信息
-//                    NSAttributedStringView(attributedText: user.getAttributedText(alignment: .center) , width: 300).padding([.top], 16)
+                    //                    NSAttributedStringView(attributedText: user.getAttributedText(alignment: .center) , width: 300).padding([.top], 16)
                     Text(requestedUser.description ?? "")
                     
                     ///用户位置信息
@@ -196,43 +197,43 @@ struct UserViewRedux: View {
                 }
                 .listRowBackground(Color.init("BackGround"))
                 
-   //MARK:-用户推文部分
-                    ForEach(userTimeline.tweetIDStrings, id: \.self) {
-                        tweetIDString in
-                        if tweetIDString != "toolsViewMark" {
-                            VStack(spacing: 0){
+                //MARK:-用户推文部分
+                ForEach(userTimeline.tweetIDStrings, id: \.self) {
+                    tweetIDString in
+                    if tweetIDString != "toolsViewMark" {
+                        VStack(spacing: 0){
                             StatusRow(tweetID: tweetIDString, width: proxy.size.width - 2 * setting.uiStyle.insetH)
                                 .background(setting.uiStyle.backGround)
                                 .cornerRadius(setting.uiStyle.radius, antialiased: true)
                                 .overlay(RoundedRectangle(cornerRadius: setting.uiStyle.radius)
-                                .stroke(setting.uiStyle.backGround, lineWidth: 1))
+                                            .stroke(setting.uiStyle.backGround, lineWidth: 1))
                                 .padding(.horizontal, setting.uiStyle.insetH)
                                 .padding(.vertical, setting.uiStyle.insetV)
                                 ///下面这个background可以遮蔽List的分割线
                                 .background(Color.init("BackGround"))
-                                
+                            
                             if setting.uiStyle == .plain {
                                 Divider().padding(0)
                             }
-                            }
                         }
-                        
                     }
-                    .listRowBackground(Color.init("BackGround"))
-                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    //下方载入更多按钮
-                   
-                    HStack {
-                        Spacer()
-                        Button("More Tweets...") {
-                            store.dipatch(.fetchTimeline(timelineType: .user(userID: userIDString), mode: .bottom))
-                        }
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                            .padding()
-                        Spacer()
+                    
+                }
+                .listRowBackground(Color.init("BackGround"))
+                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                //下方载入更多按钮
+                
+                HStack {
+                    Spacer()
+                    Button("More Tweets...") {
+                        store.dipatch(.fetchTimeline(timelineType: .user(userID: userIDString), mode: .bottom))
                     }
-                    .listRowBackground(Color.init("BackGround"))
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .padding()
+                    Spacer()
+                }
+                .listRowBackground(Color.init("BackGround"))
                 
                 RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
                     .frame(height: 42)
@@ -240,7 +241,7 @@ struct UserViewRedux: View {
             }
         }
         
-            .navigationTitle(requestedUser.name ?? "Name")
+        .navigationTitle(requestedUser.name ?? "Name")
         .onAppear(){
             let user = UserInfo(id: userIDString)
             store.dipatch(.updateRequestedUser(requestedUser: user))

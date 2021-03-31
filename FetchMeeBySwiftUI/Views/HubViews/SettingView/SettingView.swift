@@ -36,7 +36,7 @@ struct SettingView: View {
     
     var body: some View {
         Form {
-            KFImage(URL(string:store.appState.setting.loginUser?.bannerUrlString ?? ""))
+            KFImage(URL(string:(store.appState.setting.loginUser?.bannerUrlString)!))
                 .placeholder{Image("bg").resizable()}
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -45,27 +45,27 @@ struct SettingView: View {
             
             Section(header: Text("Visual"),
                     footer: Text("You can swith this function off to get a simper UI and better performance")) {
-                
+
                 Picker("Favorit Theme Color", selection: $setting.themeColor, content: {
                     ForEach(ThemeColor.allCases){themeColor in
                         Text(themeColor.rawValue.capitalized).foregroundColor(themeColor.color).tag(themeColor)
                     }
                 })
-                
+
                 Picker("Favorit UIStyle", selection: $setting.uiStyle, content: {
                     ForEach(UIStyle.allCases){style in
                         Text(style.rawValue.capitalized).tag(style)
                     }
                 })
-                
-                
+
+
                 Toggle("Iron Fans Rate", isOn: self.$setting.isIronFansShowed)
                 Toggle("Show Pictures", isOn: self.$setting.isMediaShowed)
                 Toggle("Auto Fetch More", isOn: self.$setting.isAutoFetchMoreTweet)
             }
-            
+
             Section(header:Text("Other")){
-                
+
                 NavigationLink(destination: UserMarkManageView(),
                                label: {Label(title: {Text("Favorite User")},
                                              icon:{Image(systemName: "star.circle.fill").foregroundColor(.accentColor)})})
@@ -82,25 +82,25 @@ struct SettingView: View {
                                              icon:{Image(systemName: "number.circle.fill")
                                                 .foregroundColor(.accentColor)
                                              })})
-                
+
                 NavigationLink(destination: BookmarkedStatusView(),
                                label: {Label(title: {Text("Bookmarked Tweets")},
                                              icon:{Image(systemName: "bookmark.circle.fill")
                                                 .foregroundColor(.accentColor)
                                              })})
             }
-            
+
             Section(header:Text("")){
                 HStack {
                     Spacer()
                     Button(isLogined ? "Sign Out" : "Sign In"){
                         if isLogined {
                             self.isPresentedAlert = true
-                            
+
                         } else {
                             logOut()
                         }
-                        
+
                     }
                     .font(.headline)
                     .foregroundColor(.white)
@@ -117,7 +117,6 @@ struct SettingView: View {
         }
         .onDisappear{store.dipatch(.changeSetting(setting: setting))}
         .navigationTitle("Setting")
-        //        .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems( trailing: AvatarImageView(imageUrl: store.appState.setting.loginUser?.avatarUrlString)
                                 .frame(width: 36, height: 36, alignment: .center))
     }
