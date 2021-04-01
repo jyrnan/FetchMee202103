@@ -12,36 +12,28 @@ import CoreData
 import Kingfisher
 
 struct SettingView: View {
-    
-    
     @EnvironmentObject var store: Store
-    
     @Environment(\.presentationMode) var presentationMode
-    
     var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
     
-    ///用来作为setting调整结果的零时存储
+    //用来作为setting调整结果的零时存储
     @State var setting: UserSetting
-    
-    @State var isPresentedAlert: Bool = false //显示确认退出alertView
-    
-    
-    @Environment(\.managedObjectContext) private var viewContext
-    
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Log.createdAt, ascending: true)]) var logs: FetchedResults<Log>
+    //显示确认退出alertView
+    @State var isPresentedAlert: Bool = false
     
     let footerMessage: String = "Switching on Auto Delete tweets will automatically delete them in the background. Due to api restrictions, approximately 80 tweets are deleted per hour. Please keep the application background refresh open. \nIf you need to keep your recent tweets, make sure the Keep Recent switch on. \nPress Delete Tweets Now will immediately delete up to 300 sauces at once. "
     
     let manualDeleteWarningMessage: String = "Selecting Manual Delete will immediately delete up to 300 sauces at once. Due to api limits, the app will automatically calculate the maximum number of tweets that can be deleted and delete them. If you need to keep your recent tweets, make sure the Keep Recent switch is on."
     
     var body: some View {
+        
         Form {
-            KFImage(URL(string:(store.appState.setting.loginUser?.bannerUrlString)!))
-                .placeholder{Image("bg").resizable()}
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(height: 120)
-                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+//            KFImage(URL(string:(store.appState.setting.loginUser?.bannerUrlString)!))
+//                .placeholder{Image("bg").resizable()}
+//                .resizable()
+//                .aspectRatio(contentMode: .fill)
+//                .frame(height: 120)
+//                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
             
             Section(header: Text("Visual"),
                     footer: Text("You can swith this function off to get a simper UI and better performance")) {
@@ -115,6 +107,7 @@ struct SettingView: View {
                 }
             }
         }
+        
         .onDisappear{store.dipatch(.changeSetting(setting: setting))}
         .navigationTitle("Setting")
         .navigationBarItems( trailing: AvatarImageView(imageUrl: store.appState.setting.loginUser?.avatarUrlString)
@@ -140,18 +133,6 @@ extension SettingView {
     }
 }
 
-extension SettingView {
-    func deleteAllLogs() {
-        logs.forEach{viewContext.delete($0)}
-        
-        do {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            print(nsError.description)
-        }
-    }
-}
 
 struct SettingView_Previews: PreviewProvider {
     //    static var user: User = User()

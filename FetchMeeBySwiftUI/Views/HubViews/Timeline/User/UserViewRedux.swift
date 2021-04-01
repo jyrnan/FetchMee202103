@@ -22,7 +22,9 @@ struct UserViewRedux: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest var twitterUsers: FetchedResults<TwitterUser>
     
-    var userTimeline: AppState.TimelineData.Timeline {store.appState.timelineData.timelines[TimelineType.user(userID: userIDString).rawValue] ?? AppState.TimelineData.Timeline()}
+    var userTimeline: AppState.TimelineData.Timeline {
+        store.appState.timelineData.timelines[TimelineType.user(userID: userIDString).rawValue] ??
+        AppState.TimelineData.Timeline(type:.user(userID: userIDString))}
     
     var requestedUser: UserInfo {store.appState.timelineData.requestedUser}
     
@@ -244,8 +246,10 @@ struct UserViewRedux: View {
         .navigationTitle(requestedUser.name ?? "Name")
         .onAppear(){
             let user = UserInfo(id: userIDString)
-            store.dipatch(.updateRequestedUser(requestedUser: user))
-            store.dipatch(.userRequest(user: user, isLoginUser: nil))
+//            store.dipatch(.updateRequestedUser(requestedUser: user))
+//            store.dipatch(.userRequest(user: user, isLoginUser: nil))
+            store.dipatch(.fetchTimeline(timelineType: .user(userID: userIDString), mode: .top))
+            print(#line, #file, userIDString)
         }
     }
 }

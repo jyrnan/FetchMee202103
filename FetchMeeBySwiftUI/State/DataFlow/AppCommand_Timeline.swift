@@ -24,7 +24,6 @@ struct FetchTimelineCommand: AppCommand {
     func execute(in store: Store) {
         let token = SubscriptionToken()
         let mentionUserData = store.appState.timelineData.mentionUserData
-//        let loginUserID = store.appState.setting.loginUser?.id
         
         store.fetcher.makeSessionUpdataPublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData)
             .sink(receiveCompletion: {complete in

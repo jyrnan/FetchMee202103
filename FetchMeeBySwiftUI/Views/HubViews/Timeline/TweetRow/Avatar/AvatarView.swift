@@ -49,6 +49,9 @@ struct AvatarView: View {
                             isShowAlert = true
                         }
                         .onTapGesture {
+                            if let requestUser = user {
+                                store.dipatch(.updateRequestedUser(requestedUser: requestUser))
+                            }
                             presentedUserInfo = true
                         }
                         .alert(isPresented: $isShowAlert, content: {
