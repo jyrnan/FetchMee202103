@@ -16,6 +16,7 @@ struct AvatarView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
+//    var twitterUsers: [TwitterUser] = []
     
     @State var presentedUserInfo: Bool = false
     @State var isShowAlert: Bool = false
@@ -40,13 +41,16 @@ struct AvatarView: View {
     
     var body: some View {
             ZStack {
-                NavigationLink(destination: UserViewRedux(userIDString: userIDString),
+                NavigationLink(destination: UserView(userIDString: userIDString),
                                isActive: $presentedUserInfo, label:{EmptyView()} ).disabled(true)
                 AvatarImageView(imageUrl: imageUrl )
                         .frame(width: width, height: height, alignment: .center)
                         .onTapGesture(count: 2){
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                            isShowAlert = true
+//                            isShowAlert = true
+                            store.repository.users[userIDString]?.isLoginUser.toggle()
+                            store.dipatch(.update)
+                            store.dipatch(.hubStatusRequest)
                         }
                         .onTapGesture {
                             if let requestUser = user {
@@ -59,8 +63,11 @@ struct AvatarView: View {
                         })
                 ///显示头像补充图标
                 ///如果该用户nickName不为空，则显示星标
-                if checkMarkedUser() {
-                    FavoriteStarMarkView(isFavoriteUser: checkFavoriteUser())
+//                if checkMarkedUser() {
+//                    FavoriteStarMarkView(isFavoriteUser: checkFavoriteUser())
+//                }
+                if user?.isLoginUser == true {
+                    FavoriteStarMarkView(isFavoriteUser: true)
                 }
             }.frame(width: width, height: height, alignment: .center)
                }

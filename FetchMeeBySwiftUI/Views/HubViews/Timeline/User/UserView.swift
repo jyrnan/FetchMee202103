@@ -1,5 +1,5 @@
 //
-//  UserViewRedux.swift
+//  UserView.swift
 //  FetchMee
 //
 //  Created by jyrnan on 2021/2/27.
@@ -13,7 +13,7 @@ import CoreData
 import Kingfisher
 import Swifter
 
-struct UserViewRedux: View {
+struct UserView: View {
     @EnvironmentObject var store:Store
     
     ///创建一个简单表示法
@@ -256,7 +256,7 @@ struct UserViewRedux: View {
 
 
 
-extension UserViewRedux {
+extension UserView {
     func configureBackground() {
         let barAppearance = UINavigationBarAppearance()
         barAppearance.backgroundColor = UIColor.red

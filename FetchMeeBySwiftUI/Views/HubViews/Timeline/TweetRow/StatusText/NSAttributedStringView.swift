@@ -23,7 +23,7 @@ struct NSAttributedStringView: View {
     
     var body: some View {
         ZStack{
-            NavigationLink(destination: UserViewRedux(userIDString: url.absoluteString), isActive: $isShowUserView) {
+            NavigationLink(destination: UserView(userIDString: url.absoluteString), isActive: $isShowUserView) {
                 EmptyView()
                 .sheet(isPresented: $isShowSafariView) {SafariView(url: $url)}.disabled(true)
             }.disabled(true).opacity(0.1)

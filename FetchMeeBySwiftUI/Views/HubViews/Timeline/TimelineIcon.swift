@@ -1,5 +1,5 @@
 //
-//  TimelineIconViewRedux.swift
+//  TimelineIcon.swift
 //  FetchMee
 //
 //  Created by jyrnan on 2021/2/26.
@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 import Swifter
 
-struct TimelineIconViewRedux: View {
+struct TimelineIcon: View {
     @EnvironmentObject var store: Store
     
     var timelineType: TimelineType
@@ -18,7 +18,7 @@ struct TimelineIconViewRedux: View {
     {store.appState.timelineData.getTimeline(timelineType: timelineType)}
     
     var body: some View {
-        NavigationLink(destination:TimelineViewRedux(timelineType: timelineType)){
+        NavigationLink(destination:TimelineView(timelineType: timelineType)){
             ZStack{
                 RoundedRectangle(cornerRadius: 18)
                     .frame(width: 92, height: 92, alignment: .center)

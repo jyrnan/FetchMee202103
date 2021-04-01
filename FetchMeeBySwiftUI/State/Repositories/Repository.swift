@@ -27,6 +27,8 @@ class Repository  {
         guard let id = data["id_str"].string else {return}
         var user = users[id] ?? UserInfo()
             adapter.convertAndUpdateUser(update: &user, with: data)
+        
+            user.isLoginUser = store?.appState.setting.loginUser?.id == id
             users[id] = user
     }
     

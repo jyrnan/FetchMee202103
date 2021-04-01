@@ -50,4 +50,7 @@ enum AppAction {
     case tweetOperation(operation: TweetCommand.TweetOperation)
     
     case autoComplete(text: String)
+    
+    case hubStatusRequest
+    case updateHubStatus(hubStatus: AppState.TimelineData.HubStatus)
 }

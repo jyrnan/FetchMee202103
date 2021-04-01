@@ -86,7 +86,7 @@ struct UserRequstCommand: AppCommand {
                                                    isLoginUser: isLoginUser
                                                    )
                 store.dipatch(.updateRequestedUser(requestedUser: updatedUser))
-                store.dipatch(.fetchTimeline(timelineType: .user(userID: user.id), mode: .top))
+//                store.dipatch(.fetchTimeline(timelineType: .user(userID: user.id), mode: .top))
             }
         }
         

@@ -1,5 +1,5 @@
 //
-//  TimelineViewRedux.swift
+//  TimelineView.swift
 //  FetchMee
 //
 //  Created by jyrnan on 2021/2/26.
@@ -11,7 +11,7 @@ import Swifter
 import Combine
 import UIKit
 
-struct TimelineViewRedux: View {
+struct TimelineView: View {
     @EnvironmentObject var store: Store
     
     ///创建一个简单表示法
@@ -114,8 +114,6 @@ struct TimelineViewRedux: View {
                                     hideKeyboard()}))
             
             .navigationTitle(timeline.type.rawValue)
-            .navigationBarItems( trailing: AvatarImageView(imageUrl: store.appState.setting.loginUser?.avatarUrlString)
-                                    .frame(width: 36, height: 36, alignment: .center))
             .onAppear {
                 store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
             }
@@ -127,7 +125,7 @@ struct TimelineViewRedux: View {
     }
 }
 
-extension TimelineViewRedux {
+extension TimelineView {
     
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示

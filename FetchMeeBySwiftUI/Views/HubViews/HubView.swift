@@ -33,7 +33,7 @@ struct HubView: View {
                         ComposerOfHubView(tweetText: tweetText)
                             .padding(.top, 16)
                             .padding([.leading, .trailing], 18)
-                            .frame(minHeight: 120, idealHeight: 240, maxHeight: 240)
+                            .frame(minHeight: 180, idealHeight: 240, maxHeight: 240)
                         
                         Divider()
                         if isLogined {
@@ -42,6 +42,8 @@ struct HubView: View {
                         ToolBarsView(width: proxy.size.width)
                             .padding([.leading, .trailing], 16)
                         
+                        StatusView(width: proxy.size.width)
+                            .padding([.leading, .trailing], 16)
                         
                         if !isLogined {
                         Button(action: {
@@ -54,11 +56,12 @@ struct HubView: View {
                         }
                         
                         Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)
+                            .padding()
                         
-                        HStack(alignment: .top, spacing: 0 ) {
-                            //不得已办法，增加一个固定高度HStack，来撑高外围的VStack，这样让ToolBarsView能够显示全面。
-                        }
-                        .frame(height: 80)
+//                        HStack(alignment: .top, spacing: 0 ) {
+//                            //不得已办法，增加一个固定高度HStack，来撑高外围的VStack，这样让ToolBarsView能够显示全面。
+//                        }
+//                        .frame(height: 80)
 
                         
                     }

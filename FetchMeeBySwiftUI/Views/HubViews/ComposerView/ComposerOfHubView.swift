@@ -244,6 +244,8 @@ extension ComposerOfHubView {
             ///- Todo：- 所有的发布的内容保存一份
             if replyIDString == nil || count > 1 {
                 let _ = Status_CD.JSON_Save(from: json)
+                // 更新hub界面的status状态
+                store.dipatch(.hubStatusRequest)
             }
             
             

@@ -49,6 +49,8 @@ extension Status_CD {
         if let medias = json["extended_entities"]["media"].array{
             status.imageUrls = medias.map{$0["media_url_https"].string!}.joined(separator: " ")
         }
+        
+        
         if let isBookmarked = isBookmarked {
             status.isBookmarked = isBookmarked
         }

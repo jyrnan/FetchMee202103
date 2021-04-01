@@ -45,9 +45,12 @@ struct UserInfo: Identifiable, Codable {
     var lastDayAddedTweets: Int? //24小时内新增推数
     
     ///存储根据MentiUserinfo情况排序的UserIDString
-    var mentionUsers: [MentionUser]?
+//    var mentionUsers: [MentionUser]?
     
-    var isLoginUser: Bool?
+    var isLoginUser = false
+    var isLocalUser = false
+    var isFavoriteUser = false
+    var isBookmarkedUser = false
 }
 
 enum ThemeColor: String, CaseIterable, Identifiable, Codable {

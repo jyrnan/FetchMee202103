@@ -18,13 +18,13 @@ struct AutoCompleteVIew: View {
                                     NSSortDescriptor(keyPath: \TweetTagCD.createdAt, ascending: false)]) var tweetTags: FetchedResults<TweetTagCD>
     
     var screenNames: [String] {
-        twitterUsers.filter{($0.screenName?.starts(with: String(autoCompletText.dropFirst())))!}
+        twitterUsers.filter{($0.screenName?.starts(with: String(autoCompletText.dropFirst()))) == true}
             .map{"@" + $0.screenName!}
     }
     
     
     var tagsCD: [String] {
-        tweetTags.filter{($0.text?.hasPrefix(String(autoCompletText.dropFirst())))!}
+        tweetTags.filter{($0.text?.hasPrefix(String(autoCompletText.dropFirst()))) == true}
             .map{"#" + $0.text!}
     }
     

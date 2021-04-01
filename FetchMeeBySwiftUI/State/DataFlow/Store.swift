@@ -99,9 +99,11 @@ class Store: ObservableObject {
             
         case .updateLoginAccount(let loginUser):
             appState.setting.loginUser = loginUser
+            appCommand = AppCommand_HubStatusRequest()
             
         case .updateRequestedUser(let requestedUser ):
             appState.timelineData.requestedUser = requestedUser
+            
             
         case .updateList(let lists):
             appState.setting.lists = lists
@@ -154,8 +156,15 @@ class Store: ObservableObject {
             var tweetText = state.setting.tweetInput.tweetText
             tweetText = tweetText.split(separator: " ").dropLast().joined(separator: " ") + " " + text + " "
             appState.setting.tweetInput.tweetText = tweetText
+            
+            
+        case .hubStatusRequest:
+            appCommand = AppCommand_HubStatusRequest()
+            
+        case .updateHubStatus(let hubStatus):
+            appState.timelineData.hubStatus = hubStatus
+
         }
-        
         return (appState, appCommand)
     }
 }
