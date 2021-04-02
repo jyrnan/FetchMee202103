@@ -28,7 +28,7 @@ struct StatusView: View {
             
             NavigationLink(destination: BookmarkedStatusView(userID: store.appState.setting.loginUser?.id),
                            label: {
-                            Status_CDRow(status: store.appState.timelineData.hubStatus.myLatestStatus!, width: width - 2 * setting.uiStyle.insetH)
+                            Status_CDRow(status: store.appState.timelineData.hubStatus.myLatestStatus!, width: width - 2 * 16)
                             
                             
                            })
@@ -38,13 +38,13 @@ struct StatusView: View {
             NavigationLink(destination: BookmarkedStatusView(),
                            label: {
                            
-                            Status_CDRow(status: store.appState.timelineData.hubStatus.bookmarkedStatus!, width: width - 2 * setting.uiStyle.insetH)
+                            Status_CDRow(status: store.appState.timelineData.hubStatus.bookmarkedStatus!, width: width - 2 * 16)
                             })
         }
     
     
         if isLogined && store.appState.timelineData.hubStatus.myLatestDraft != nil {
-        Status_Draft(draft: store.appState.timelineData.hubStatus.myLatestDraft, width: width - 2 * setting.uiStyle.insetH)
+        Status_Draft(draft: store.appState.timelineData.hubStatus.myLatestDraft, width: width - 2 * 16)
     }
 //    else {
 //        ForEach(drafts) {draft in

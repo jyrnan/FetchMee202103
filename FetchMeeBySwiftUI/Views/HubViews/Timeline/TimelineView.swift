@@ -118,7 +118,7 @@ struct TimelineView: View {
                 store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
             }
             .onDisappear{
-//                store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: numberOfReadTweet))
+                store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: numberOfReadTweet))
             }
             
         }
