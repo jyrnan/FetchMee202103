@@ -23,26 +23,26 @@ struct UserInfo: Identifiable, Codable {
     var tokenKey: String?
     var tokenSecret: String?
     
-    var avatarUrlString: String?
-    var bannerUrlString: String?
+    var avatarUrlString: String = ""
+    var bannerUrlString: String = ""
     
     var bioText: String?
     var loc: String?
     var url: String?
     
-    var isFollowing: Bool?
-    var isFollowed: Bool?
-    var following: Int?
-    var followed: Int?
+    var isFollowing: Bool = false
+    var isFollowed: Bool = false
+    var following: Int = 0
+    var followed: Int = 0
     
-    var notifications: Bool?
+    var notifications: Bool = false
     
-    var tweetsCount: Int?
+    var tweetsCount: Int = 0
    
     var setting: UserSetting = UserSetting()
     
-    var lastDayAddedFollower: Int? //24小时内新增fo数
-    var lastDayAddedTweets: Int? //24小时内新增推数
+    var lastDayAddedFollower: Int = 0 //24小时内新增fo数
+    var lastDayAddedTweets: Int = 0 //24小时内新增推数
     
     ///存储根据MentiUserinfo情况排序的UserIDString
 //    var mentionUsers: [MentionUser]?

@@ -65,7 +65,6 @@ extension Count {
         }
     
         
-        print((followers:followers, tweets: tweets))
         return (followers:followers, tweets: tweets)
         
     }

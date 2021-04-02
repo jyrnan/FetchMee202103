@@ -21,28 +21,6 @@ struct StatusView: View {
     
     var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
     
-//    @Environment(\.managedObjectContext) private var viewContext
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: false)]) var drafts: FetchedResults<TweetDraft>
-//    
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Status_CD.id_str, ascending: false),
-//                                    NSSortDescriptor(keyPath: \Status_CD.created_at, ascending: false)])
-//    var statuses: FetchedResults<Status_CD>
-//    
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Status_CD.id_str, ascending: false),
-//                                     NSSortDescriptor(keyPath: \Status_CD.created_at, ascending: false)],
-//    predicate: NSPredicate(format: "%K == %d", #keyPath(Status_CD.isBookmarked), true)
-//    ) var bookmarkedStatuses: FetchedResults<Status_CD>
-//    
-//    var statusOfLoginuser: Status_CD? {
-//        statuses.filter{$0.user?.userIDString == user.id}.first
-//    }
-//    var statusOfBookmarked: Status_CD? {
-//        statuses.filter{$0.isBookmarked == true}.first
-//    }
-//    var statusOfDraft: TweetDraft? {
-//        drafts.first
-//    }
-    
     var width: CGFloat
     
     var body: some View {

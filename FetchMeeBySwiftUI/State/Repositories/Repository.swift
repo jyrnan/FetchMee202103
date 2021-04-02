@@ -38,6 +38,13 @@ class Repository  {
         }
         return Status()
     }
+    
+    func getUser(byID id: String) -> UserInfo {
+        if let user = self.users[id] {
+            return user
+        }
+        return UserInfo()
+    }
 }
 
 

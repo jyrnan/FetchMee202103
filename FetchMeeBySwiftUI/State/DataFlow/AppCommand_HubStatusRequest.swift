@@ -16,6 +16,7 @@ struct AppCommand_HubStatusRequest: AppCommand {
         var hubStatus: AppState.TimelineData.HubStatus = (nil, nil, nil)
         guard let viewContext = store.context else {return}
         
+        //设置排序和筛选选项
         let statusSortDescriptors = [NSSortDescriptor(keyPath: \Status_CD.created_at, ascending: false)]
         let draftsSortDescriptors = [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: false)]
         let myStatusPredicate = NSPredicate(format: "%K == %@", #keyPath(Status_CD.user.userIDString), store.appState.setting.loginUser?.id ?? "0000")

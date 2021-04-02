@@ -19,7 +19,7 @@ struct RemoteImage: View {
             }
 
     var body: some View {
-        Image(uiImage: fetcher.image)
+        Image(uiImage: fetcher.image).resizable()
             .onAppear{fetcher.getImage()}
             
     }

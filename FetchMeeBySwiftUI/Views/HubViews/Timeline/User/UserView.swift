@@ -26,7 +26,7 @@ struct UserView: View {
         store.appState.timelineData.timelines[TimelineType.user(userID: userIDString).rawValue] ??
         AppState.TimelineData.Timeline(type:.user(userID: userIDString))}
     
-    var requestedUser: UserInfo {store.appState.timelineData.requestedUser}
+    var requestedUser: UserInfo { store.repository.getUser(byID: userIDString )}
     
     var userIDString: String //传入需查看的用户信息的ID
     
@@ -45,34 +45,18 @@ struct UserView: View {
         userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.createdAt, ascending: true)]
         userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), userIDString)
         _twitterUsers = FetchRequest(fetchRequest: userFetch)
-        
-        
     }
     
     ///自定义返回按钮的范例
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
-    var btnBack : some View { Button(action: {
-        self.presentationMode.wrappedValue.dismiss()
-    }) {
-        HStack {
-            Image(systemName: "arrow.backward") // set image here
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .font(.body)
-                .foregroundColor(.accentColor)
-        }
-    }
-    }
-    
     
     var body: some View {
         GeometryReader{proxy in
             List {
                 ZStack{
                     VStack{
-//                        RemoteImage(imageUrl: requestedUser.bannerUrlString ?? "")
-                        KFImage(URL(string: requestedUser.bannerUrlString ?? "ok")!)
+//                        RemoteImage(imageUrl: requestedUser.bannerUrlString)
+                        KFImage(URL(string: requestedUser.bannerUrlString ))
                             .placeholder{Image("bg").resizable()}
                             .resizable()
                             .aspectRatio(contentMode: .fill)
@@ -85,7 +69,8 @@ struct UserView: View {
                         Rectangle().frame(height: 65).foregroundColor(Color.init("BackGround"))
                     }
                     ///个人信息大头像
-                    KFImage(URL(string: requestedUser.avatarUrlString ?? "ok")!)
+                    KFImage(URL(string: requestedUser.avatarUrlString))
+//                    KFImage(source: Source.network(ImageResource(downloadURL: (URL(string: requestedUser.avatarUrlString) ?? URL(string:"http://www.twitter.com")!))))
                         .placeholder{Image("LogoWhite").resizable()}
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -94,8 +79,7 @@ struct UserView: View {
                         .clipShape(Circle())
                         .overlay(Circle().stroke(Color.gray.opacity(0.6), lineWidth: 3))
                         .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                            
-                            
+                           print("")
                         })
                         .offset(x: 0, y: 65)
                     
@@ -191,9 +175,9 @@ struct UserView: View {
                     
                     ///用户following信息
                     HStack {
-                        Text(String(requestedUser.following ?? 0)).font(.callout)
+                        Text(String(requestedUser.following )).font(.callout)
                         Text("Following").font(.callout).foregroundColor(.gray)
-                        Text(String(requestedUser.followed ?? 0)).font(.callout).padding(.leading, 16)
+                        Text(String(requestedUser.followed )).font(.callout).padding(.leading, 16)
                         Text("Followers").font(.callout).foregroundColor(.gray)
                     }.padding(.bottom, 16)
                 }
@@ -242,28 +226,16 @@ struct UserView: View {
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
             }
         }
-        
-        .navigationTitle(requestedUser.name ?? "Name")
-        .onAppear(){
-            let user = UserInfo(id: userIDString)
-//            store.dipatch(.updateRequestedUser(requestedUser: user))
-//            store.dipatch(.userRequest(user: user, isLoginUser: nil))
+        .onAppear{
             store.dipatch(.fetchTimeline(timelineType: .user(userID: userIDString), mode: .top))
-            print(#line, #file, userIDString)
         }
+        .navigationTitle(requestedUser.name ?? "Name")
     }
 }
 
 
 
 extension UserView {
-    func configureBackground() {
-        let barAppearance = UINavigationBarAppearance()
-        barAppearance.backgroundColor = UIColor.red
-        UINavigationBar.appearance().standardAppearance = barAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
-        print(#line, "NavigationBar changed.")
-    }
     
     func updateTime(createdTime: String?) -> String {
         guard createdTime != nil else {

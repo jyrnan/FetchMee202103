@@ -25,20 +25,20 @@ struct JSONAdapter {
         userInfo.createdAt = json["created_at"].string //加入日期
         
         userInfo.avatarUrlString = json["profile_image_url_https"].string?
-            .replacingOccurrences(of: "_normal", with: "")
-        userInfo.bannerUrlString = json["profile_banner_url"].string
+            .replacingOccurrences(of: "_normal", with: "") ?? ""
+        userInfo.bannerUrlString = json["profile_banner_url"].string ?? ""
        
         userInfo.loc = json["location"].string
         userInfo.url = json["url"].string
         
-        userInfo.following = json["friends_count"].integer
-        userInfo.followed = json["followers_count"].integer
-        userInfo.isFollowing = json["following"].bool
-        userInfo.isFollowed = json["follow_request_sent"].bool
+        userInfo.following = json["friends_count"].integer!
+        userInfo.followed = json["followers_count"].integer!
+        userInfo.isFollowing = json["following"].bool!
+        userInfo.isFollowed = json["follow_request_sent"].bool!
         
-        userInfo.notifications = json["notifications"].bool
+        userInfo.notifications = json["notifications"].bool!
         
-        userInfo.tweetsCount = json["statuses_count"].integer
+        userInfo.tweetsCount = json["statuses_count"].integer!
 
     }
     

@@ -27,7 +27,7 @@ enum AppAction {
     case login(presentingFrom: AuthViewController, loginUser: UserInfo?)
     case userRequest(user: UserInfo, isLoginUser: Bool?)
     case updateLoginAccount(loginUser: UserInfo?)
-    case updateRequestedUser(requestedUser: UserInfo)
+//    case updateRequestedUser(requestedUser: UserInfo)
     
     case updateList(lists: [String: String])
     

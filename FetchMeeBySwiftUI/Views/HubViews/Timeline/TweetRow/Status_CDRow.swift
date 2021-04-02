@@ -14,13 +14,6 @@ struct Status_CDRow: View {
     
     var status: Status_CD
     var width: CGFloat
-    var imageUrls:[String]?
-    
-    init(status: Status_CD, width: CGFloat){
-        self.status = status
-        self.width = width
-        self.imageUrls = status.getImageUrls()
-    }
     
     var avatar: some View {
         VStack(alignment: .leading){
@@ -45,6 +38,8 @@ struct Status_CDRow: View {
     var text: some View {
         Text(status.text ?? "Text").fixedSize(horizontal: false, vertical: true)
     }
+    
+    
     var body: some View {
         
         VStack{
@@ -57,8 +52,8 @@ struct Status_CDRow: View {
                 
             }.padding()
             
-            if imageUrls != nil {
-                Images(imageUrlStrings: imageUrls!)
+            if status.imageUrls != nil {
+                Images(imageUrlStrings: status.getImageUrls()!)
                     .frame(width: width, height: width * 9 / 21)
                 .clipped()
             }

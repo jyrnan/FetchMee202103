@@ -101,9 +101,9 @@ class Store: ObservableObject {
             appState.setting.loginUser = loginUser
             appCommand = AppCommand_HubStatusRequest()
             
-        case .updateRequestedUser(let requestedUser ):
-            appState.timelineData.requestedUser = requestedUser
-            
+//        case .updateRequestedUser(let requestedUser ):
+//            appState.timelineData.requestedUser = requestedUser
+//            
             
         case .updateList(let lists):
             appState.setting.lists = lists

@@ -16,7 +16,6 @@ struct AvatarView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
-//    var twitterUsers: [TwitterUser] = []
     
     @State var presentedUserInfo: Bool = false
     @State var isShowAlert: Bool = false
@@ -47,15 +46,11 @@ struct AvatarView: View {
                         .frame(width: width, height: height, alignment: .center)
                         .onTapGesture(count: 2){
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-//                            isShowAlert = true
                             store.repository.users[userIDString]?.isLoginUser.toggle()
                             store.dipatch(.update)
                             store.dipatch(.hubStatusRequest)
                         }
                         .onTapGesture {
-                            if let requestUser = user {
-                                store.dipatch(.updateRequestedUser(requestedUser: requestUser))
-                            }
                             presentedUserInfo = true
                         }
                         .alert(isPresented: $isShowAlert, content: {
