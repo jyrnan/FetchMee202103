@@ -85,7 +85,7 @@ struct FetchSessionCommand: AppCommand {
                 let status:JSON = json
                 
                 store.repository.addStatus(data: status)
-                store.repository.addUser(data: status["user"])
+                let _ = store.repository.addUser(data: status["user"])
                 
                 
                 if let nextID = status["in_reply_to_status_id_str"].string, counter < 8 {

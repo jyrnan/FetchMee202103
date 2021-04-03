@@ -41,8 +41,8 @@ struct User: Identifiable, Codable {
    
 //    var setting: UserSetting = UserSetting()
     
-    var lastDayAddedFollower: Int = 0 //24小时内新增fo数
-    var lastDayAddedTweets: Int = 0 //24小时内新增推数
+    var followersAddedOnLastDay: Int = 0 //24小时内新增fo数
+    var tweetsPostedOnLastDay: Int = 0 //24小时内新增推数
     
     var isLoginUser = false
     var isLocalUser = false

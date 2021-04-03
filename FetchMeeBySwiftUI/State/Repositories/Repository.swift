@@ -37,6 +37,12 @@ class Repository  {
         }
     }
     
+    /// 将获取的用户数据保存到CoreData中，并在保存完成后，转换成user格式
+    /// - Parameters:
+    ///   - data: 传入的用户数据
+    ///   - isLoginUser: 标记是否是登陆用户
+    ///   - token: 登陆用户的token信息
+    /// - Returns: User格式的用户
     func addUser(data: JSON, isLoginUser: Bool? = nil, token: (String?, String?)? = nil) -> User {
         guard let id = data["id_str"].string else {return User()}
         //TODO：更新最新的用户follow和推文数量信息

@@ -58,11 +58,12 @@
         <attribute name="bioText" optional="YES" attributeType="String"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" defaultDateTimeInterval="639115860" usesScalarValueType="NO"/>
         <attribute name="followed" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="followersAddedOnLastDay" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="following" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="isFavorite" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isBookmarkedUser" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isFavoriteUser" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isFollowed" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isFollowing" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="isForBookmarked" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isLocalUser" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isLoginUser" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="loc" optional="YES" attributeType="String"/>
@@ -73,6 +74,7 @@
         <attribute name="tokenKey" optional="YES" attributeType="String"/>
         <attribute name="tokenSecret" optional="YES" attributeType="String"/>
         <attribute name="tweets" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="tweetsPostedOnLastDay" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="updateTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="url" optional="YES" attributeType="String"/>
         <attribute name="userIDString" optional="YES" attributeType="String"/>
@@ -89,6 +91,6 @@
         <element name="StatusCD" positionX="319.7457275390625" positionY="-105.8453979492188" width="128" height="299"/>
         <element name="TweetDraft" positionX="-102.9840087890625" positionY="-217.8199462890625" width="136.1802368164062" height="104"/>
         <element name="TweetTagCD" positionX="18" positionY="-117" width="128" height="89"/>
-        <element name="UserCD" positionX="159.8822021484375" positionY="-101.7318725585938" width="128" height="434"/>
+        <element name="UserCD" positionX="159.8822021484375" positionY="-101.7318725585938" width="128" height="464"/>
     </elements>
 </model>

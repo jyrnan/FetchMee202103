@@ -103,7 +103,7 @@ struct FetcherSwifter: Fetcher {
     ///把推文数据添加到Repository里面，
     func addDataToRepository(_ data: JSON) {
         store?.repository.addStatus(data: data)
-        store?.repository.addUser(data: data["user"])
+        let _ = store?.repository.addUser(data: data["user"])
         
         if data["quoted_status_id_str"].string != nil{
             addDataToRepository(data["quoted_status"])

@@ -45,7 +45,7 @@ extension StatusCD {
         
         status.created_at = stringToDate(from: json["created_at"].string)
         
-        let user = UserCD.updateOrSaveToCoreData(from: json["user"], isForBookmarkedUser: isBookmarked)
+        let user = UserCD.updateOrSaveToCoreData(from: json["user"], isBookmarkedUser: isBookmarked)
         
         status.user = user
         

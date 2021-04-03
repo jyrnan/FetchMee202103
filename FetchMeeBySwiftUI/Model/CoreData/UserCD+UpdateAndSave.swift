@@ -28,7 +28,8 @@ extension UserCD {
                                        isLocalUser: Bool? = nil,
                                        isLoginUser: Bool? = nil,
                                        token: (String?, String?)? = nil,
-                                       isForBookmarkedUser: Bool? = nil,
+                                       isFavoriteUser: Bool? = nil,
+                                       isBookmarkedUser: Bool? = nil,
                                        updateNickName: String? = nil) -> UserCD {
         
 //        func updateUserCD(_ userCD: UserCD, with data:JSON) {
@@ -92,7 +93,7 @@ extension UserCD {
         ///如果需要更改nickName，则需要传入更改参数
         if let nickName = updateNickName {
             currentUser.nickName = nickName
-            currentUser.isFavorite = true
+            currentUser.isFavoriteUser = true
         }
         
         ///如果是当前用户，则统计推文数量等动态信息
@@ -120,8 +121,12 @@ extension UserCD {
         }
         
         
-        if let isForBookmarked = isForBookmarkedUser {
-            currentUser.isForBookmarked = isForBookmarked }
+        if let isBookmarkedUser = isBookmarkedUser {
+            currentUser.isBookmarkedUser = isBookmarkedUser }
+        
+        if let isFavoriteUser = isFavoriteUser {
+            currentUser.isFavoriteUser = isFavoriteUser
+        }
         
         ///如果nickName是空，且不是本地用户，则从CoreData中删除该用户
         if updateNickName?.count == 0 && currentUser.isLocalUser == false {
@@ -169,7 +174,13 @@ extension UserCD {
         
         user.tweetsCount = Int(self.tweets)
         
+        user.followersAddedOnLastDay = Int(self.followersAddedOnLastDay)
+        user.tweetsPostedOnLastDay = Int(self.tweetsPostedOnLastDay)
         
+        user.isLoginUser = self.isLoginUser
+        user.isLocalUser = self.isLocalUser
+        user.isFavoriteUser = self.isFavoriteUser
+        user.isBookmarkedUser = self.isBookmarkedUser
         
         return user
 

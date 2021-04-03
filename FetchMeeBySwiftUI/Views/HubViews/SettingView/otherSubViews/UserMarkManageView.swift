@@ -16,7 +16,7 @@ struct UserMarkManageView: View {
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.isLoginUser, ascending: false),
                                     NSSortDescriptor(keyPath: \UserCD.isLocalUser, ascending: false),
-                                    NSSortDescriptor(keyPath: \UserCD.isFavorite, ascending: false),
+                                    NSSortDescriptor(keyPath: \UserCD.isFavoriteUser, ascending: false),
                                     NSSortDescriptor(keyPath: \UserCD.updateTime, ascending: false)]) var userCDs: FetchedResults<UserCD>
     
     @State var presentedUserInfo: Bool = false
@@ -67,7 +67,7 @@ extension UserMarkManageView {
     }
     
     private func deleteAll() {
-        userCDs.filter{!$0.isLocalUser && !$0.isFavorite && !$0.isForBookmarked && !$0.isLoginUser}.forEach{viewContext.delete($0)}
+        userCDs.filter{!$0.isLocalUser && !$0.isFavoriteUser && !$0.isBookmarkedUser && !$0.isLoginUser}.forEach{viewContext.delete($0)}
         do {
             try viewContext.save()
         } catch {

@@ -46,7 +46,7 @@ struct ToolBarsView: View {
                             type: .friends,
                             label1Value: user.followed,
                             label2Value: user.following,
-                            label3Value: user.lastDayAddedFollower)
+                            label3Value: user.followersAddedOnLastDay)
                     .onTapGesture {
                         if !toolBarIsFaceUp1 {
                             toolBarIsFaceUp1.toggle()
@@ -60,7 +60,7 @@ struct ToolBarsView: View {
                 ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
                             label1Value: user.tweetsCount,
                             label2Value: user.tweetsCount,
-                            label3Value: user.lastDayAddedTweets)
+                            label3Value: user.tweetsPostedOnLastDay)
                     .onTapGesture {
                         if !toolBarIsFaceUp2 {
                             toolBarIsFaceUp2.toggle()
