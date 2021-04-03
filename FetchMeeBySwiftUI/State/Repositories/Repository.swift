@@ -11,7 +11,7 @@ import Swifter
 import CoreData
 
 class Repository  {
- 
+    
     weak var store: Store?
     let adapter = Adapter()
     
@@ -33,21 +33,21 @@ class Repository  {
     
     func addStatus(data: JSON) {
         if let id = data["id_str"].string {
-          statuses[id] = adapter.convertToStatus(from: data)
+            statuses[id] = adapter.convertToStatus(from: data)
         }
     }
     
-    func addUser(data: JSON, isLoginUser: Bool? = nil) {
-        guard let id = data["id_str"].string else {return}
-        
+    func addUser(data: JSON, isLoginUser: Bool? = nil, token: (String?, String?)? = nil) -> User {
+        guard let id = data["id_str"].string else {return User()}
+        //TODO：更新最新的用户follow和推文数量信息
         //利用数据来更新userCD
         let userCD = UserCD.updateOrSaveToCoreData(from: data,
                                                    dataHandler: adapter.updateUserCD(_:with:),
-                                           isLoginUser: isLoginUser)
-//        //从userCD转换成user
-//        let user = adapter.convertUserCDToUser(userCD: userCD)
-        
-        users[id] = userCD.convertToUser()
+                                                   isLoginUser: isLoginUser,
+                                                   token: token)
+        let user = userCD.convertToUser()
+        users[id] = user
+        return user
     }
     
     func getStatus(byID id: String) -> Status {

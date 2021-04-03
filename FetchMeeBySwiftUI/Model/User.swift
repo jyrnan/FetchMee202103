@@ -39,13 +39,10 @@ struct User: Identifiable, Codable {
     
     var tweetsCount: Int = 0
    
-    var setting: UserSetting = UserSetting()
+//    var setting: UserSetting = UserSetting()
     
     var lastDayAddedFollower: Int = 0 //24小时内新增fo数
     var lastDayAddedTweets: Int = 0 //24小时内新增推数
-    
-    ///存储根据MentiUserinfo情况排序的UserIDString
-//    var mentionUsers: [MentionUser]?
     
     var isLoginUser = false
     var isLocalUser = false

@@ -17,7 +17,7 @@ struct UserView: View {
     @EnvironmentObject var store:Store
     
     ///创建一个简单表示法
-    var setting: UserSetting {store.appState.setting.loginUser?.setting ?? UserSetting()}
+    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest var twitterUsers: FetchedResults<UserCD>

@@ -15,6 +15,10 @@ protocol AppCommand {
     func execute(in store: Store)
 }
 
+extension AppCommand {
+    
+}
+
 struct LoginCommand: AppCommand {
     let loginUser: User?
     let presentingFrom: AuthViewController
@@ -24,7 +28,7 @@ struct LoginCommand: AppCommand {
         /// 设置swifter的token信息，并获取loginUser的信息
         /// - Parameter loginUser: 传入的已经含有token的用户信息
         func setSwifterAndRequestLoginUser(loginUser: User) {
-
+            
             store.fetcher.setLogined()
             store.dipatch(.userRequest(user: loginUser, isLoginUser: true))
         }
@@ -36,16 +40,16 @@ struct LoginCommand: AppCommand {
             }
             let url = URL(string: "fetchmee://success")!
             store.fetcher.swifter.authorize(withCallback: url,
-                                    presentingFrom:presentingFrom,
-                                    success: {token, response in
-                                        if let token = token {
-                                            let loginUser = User(id: token.userID!,
-                                                                 screenName: token.screenName!,
-                                                                     tokenKey: token.key,
-                                                                     tokenSecret: token.secret)
-                                            
-                                            setSwifterAndRequestLoginUser(loginUser: loginUser)}},
-                                    failure: failureHandler)
+                                            presentingFrom:presentingFrom,
+                                            success: {token, response in
+                                                if let token = token {
+                                                    let loginUser = User(id: token.userID!,
+                                                                         screenName: token.screenName!,
+                                                                         tokenKey: token.key,
+                                                                         tokenSecret: token.secret)
+                                                    
+                                                    setSwifterAndRequestLoginUser(loginUser: loginUser)}},
+                                            failure: failureHandler)
         } else {
             setSwifterAndRequestLoginUser(loginUser: loginUser!)
         }
@@ -59,35 +63,41 @@ struct UserRequstCommand: AppCommand {
     let isLoginUser: Bool?
     
     func execute(in store: Store) {
-        var updatedUser = user
         let userTag: UserTag = UserTag.id(user.id)
         
         /// 获取用户信息成功后调用处理用户信息的包
         /// - Parameter json: 返回的用户信息原始数据
         func userHandler(json: JSON) {
-            //保存用户信息到repository
-            store.repository.addUser(data: json)
-            //更新内存中用户的信息，以备保存到coreData中
-//            store.repository.adapter.convertAndUpdateUser(update: &updatedUser, with: json)
             
-            ///信息更新完成，将user数据替换到相应位置并存储
+            
+            //信息更新完成，将user数据替换到相应位置并存储
             if isLoginUser == true {
-                //更新最新的用户follow和推文数量信息
-                updateUser(update: &updatedUser, from: store.context)
-                store.dipatch(.updateLoginAccount(loginUser: updatedUser))
+                //保存用户数据到repository,并返回生成的user
+                let token = (user.tokenKey, user.tokenSecret) //如果是loginUser，必然有token
+                let user = store.repository.addUser(data: json, isLoginUser: isLoginUser, token: token)
                 
-                //如果是login用户，则将其信息存入到CoreData中备用，并将isLoginUser设置成true
-                UserCD.updateOrSaveToCoreData(from: json,
-                                                   
-                                                   isLoginUser: isLoginUser)
+                store.dipatch(.updateLoginAccount(loginUser: user))
+                
             } else {
-                //如果不是login用户，则也将其信息存入到CoreData中备用，但是不修改isLocalUser的属性
-                UserCD.updateOrSaveToCoreData(from: json,
-                                                   
-                                                   isLoginUser: isLoginUser
-                                                   )
+                let _ = store.repository.addUser(data: json)
+                
             }
         }
+        //TODO：错误处理方式
+        func failureHandler(_ error: Error) ->() {
+            store.dipatch(.alertOn(text: error.localizedDescription, isWarning: true))
+        }
+        
+        ///获取用户基本信息，并生成Bio
+        store.fetcher.swifter.showUser(userTag, includeEntities: nil, success: userHandler(json:), failure: failureHandler(_:))
+        
+    }
+}
+
+/// 获取login用户的list信息
+struct FetchListCommand: AppCommand {
+    let user: User
+    func execute(in store: Store) {
         
         /// 获取用户List信息并更新
         /// 目前是将List数据直接存储在appState 中
@@ -102,27 +112,21 @@ struct UserRequstCommand: AppCommand {
             }
             
             ///比较新老lists名称数据，如果有不同并且市LoginUser则需要更新
-            guard store.appState.setting.lists.keys.sorted() != newLists.keys.sorted() && isLoginUser == true else {return}
+            guard store.appState.setting.lists.keys.sorted() != newLists.keys.sorted() else {return}
             store.dipatch(.updateList(lists: newLists))
         }
         
-        func failureHandler(_ error: Error) ->() {
-            store.dipatch(.alertOn(text: error.localizedDescription, isWarning: true))
-        }
-        
-        ///获取用户基本信息，并生成Bio
-        store.fetcher.swifter.showUser(userTag, includeEntities: nil, success: userHandler(json:), failure: failureHandler(_:))
-        store.fetcher.swifter.getSubscribedLists(for: userTag, success:listHandler)
+        store.fetcher.swifter.getSubscribedLists(for: UserTag.id(user.id), success:listHandler)
     }
 }
 
 extension UserRequstCommand {
     
-    func updateUser(update userInfo: inout User, from context: NSManagedObjectContext) {
+    func updateUser(update user: inout User, from context: NSManagedObjectContext) {
         ///从CoreData读取信息计算24小时内新增fo数和推文数量
         
-        userInfo.lastDayAddedFollower = Count.updateCount(for: userInfo).0.first ?? 0
-        userInfo.lastDayAddedTweets = Count.updateCount(for: userInfo).1.first ?? 0
+        user.lastDayAddedFollower = Count.updateCount(for: user).0.first ?? 0
+        user.lastDayAddedTweets = Count.updateCount(for: user).1.first ?? 0
         
     }
 }

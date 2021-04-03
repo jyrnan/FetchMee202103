@@ -14,7 +14,7 @@ struct DetailViewRedux: View {
     @EnvironmentObject var store: Store
     
     ///创建一个简单表示法
-    var setting: UserSetting {store.appState.setting.loginUser?.setting ?? UserSetting()}
+    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
     var tweetIDString: String //传入DetailView的初始推文
     
     var session: AppState.TimelineData.Timeline {store.appState.timelineData.getTimeline(timelineType: .session)}

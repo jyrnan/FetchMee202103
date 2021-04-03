@@ -67,6 +67,9 @@ extension AppState {
         @FileStorage(directory: .documentDirectory, fileName: "user.json")
         var loginUser: User?
         
+        @FileStorage(directory: .documentDirectory, fileName: "userSetting.json")
+        var userSetting: UserSetting?
+        
         var loginRequesting = false
         var loginError: AppError?
         
@@ -74,6 +77,7 @@ extension AppState {
         
         var tweetInput = TweetTextChecker()
         var autoCompleteText: String = "noTag"
+        
         
     }
 }

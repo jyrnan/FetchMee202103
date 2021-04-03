@@ -109,7 +109,7 @@ struct ToolsView: View {
                 .padding(.horizontal, 16)
                 .frame(height: 42)
                 .background(Color.accentColor.opacity(0.4))
-                .cornerRadius(store.appState.setting.loginUser?.setting.uiStyle.radius ?? 0)
+                .cornerRadius(store.appState.setting.userSetting?.uiStyle.radius ?? 0)
             
         }
         .font(.body)

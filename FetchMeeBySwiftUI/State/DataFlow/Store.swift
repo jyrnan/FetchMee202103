@@ -99,21 +99,22 @@ class Store: ObservableObject {
             
         case .updateLoginAccount(let loginUser):
             appState.setting.loginUser = loginUser
-            appCommand = AppCommand_HubStatusRequest()
+            guard  let user = loginUser else { return (appState, appCommand) }
+            appCommand = FetchListCommand(user: user)
             
-//        case .updateRequestedUser(let requestedUser ):
-//            appState.timelineData.requestedUser = requestedUser
-//            
+        case .fetchList(let user):
+            appCommand = FetchListCommand(user: user)
             
         case .updateList(let lists):
             appState.setting.lists = lists
             appState.setting.lists.forEach{(id, name) in
                 appState.timelineData.timelines[name] = AppState.TimelineData.Timeline(type:.list(id: id, listName: name))
             }
+            appCommand = AppCommand_HubStatusRequest() //?
             
         case .changeSetting(let setting):
             
-            appState.setting.loginUser?.setting = setting
+            appState.setting.userSetting = setting
             
         case .fetchTimeline(let timelineType, let updateMode):
             appState.setting.isProcessingDone = false

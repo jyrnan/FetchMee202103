@@ -27,6 +27,7 @@ extension UserCD {
                                        id: String? = "0000",
                                        isLocalUser: Bool? = nil,
                                        isLoginUser: Bool? = nil,
+                                       token: (String?, String?)? = nil,
                                        isForBookmarkedUser: Bool? = nil,
                                        updateNickName: String? = nil) -> UserCD {
         
@@ -113,6 +114,11 @@ extension UserCD {
             currentUser.addToCount(count)
         }
         
+        if let token = token {
+            currentUser.tokenKey = token.0
+            currentUser.tokenSecret = token.1
+        }
+        
         
         if let isForBookmarked = isForBookmarkedUser {
             currentUser.isForBookmarked = isForBookmarked }
@@ -144,6 +150,9 @@ extension UserCD {
         user.screenName = self.screenName!
         user.createdAt = self.createdAt!
         
+        user.tokenKey = self.tokenKey
+        user.tokenSecret = self.tokenSecret
+        
         user.avatarUrlString = self.avatarUrlString!
         user.bannerUrlString = self.bannerUrlString ?? ""
         
@@ -159,6 +168,8 @@ extension UserCD {
         user.notifications = false
         
         user.tweetsCount = Int(self.tweets)
+        
+        
         
         return user
 

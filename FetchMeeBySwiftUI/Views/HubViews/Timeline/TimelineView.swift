@@ -15,7 +15,7 @@ struct TimelineView: View {
     @EnvironmentObject var store: Store
     
     ///创建一个简单表示法
-    var setting: UserSetting {store.appState.setting.loginUser?.setting ?? UserSetting()}
+    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
     
     var timelineType: TimelineType
     var timeline: AppState.TimelineData.Timeline { store.appState.timelineData.getTimeline(timelineType: timelineType)}
@@ -70,7 +70,7 @@ struct TimelineView: View {
                             .background(Color.init("BackGround"))
                             .onAppear{
                                 numberOfReadTweet += 1
-                                if store.appState.setting.loginUser?.setting.isAutoFetchMoreTweet == true {
+                                if store.appState.setting.userSetting?.isAutoFetchMoreTweet == true {
                                     fetchMoreIfNeeded(tweetIDString: tweetIDString) }
                             }
                         if setting.uiStyle == .plain {

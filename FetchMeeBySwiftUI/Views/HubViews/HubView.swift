@@ -66,7 +66,7 @@ struct HubView: View {
                     self.hideKeyboard()
                 })
                 .navigationTitle("FetchMee")
-                .navigationBarItems(trailing: NavigationLink(destination: SettingView(setting: store.appState.setting.loginUser?.setting ?? UserSetting())) {
+                .navigationBarItems(trailing: NavigationLink(destination: SettingView(setting: store.appState.setting.userSetting ?? UserSetting())) {
                                         AvatarImageView(imageUrl:store.appState.setting.loginUser?.avatarUrlString)
                                             .frame(width: 36, height: 36, alignment: .center)})
             }

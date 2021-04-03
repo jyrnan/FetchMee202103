@@ -70,6 +70,8 @@
         <attribute name="nickName" optional="YES" attributeType="String"/>
         <attribute name="notification" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="screenName" optional="YES" attributeType="String"/>
+        <attribute name="tokenKey" optional="YES" attributeType="String"/>
+        <attribute name="tokenSecret" optional="YES" attributeType="String"/>
         <attribute name="tweets" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="updateTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="url" optional="YES" attributeType="String"/>
@@ -87,6 +89,6 @@
         <element name="StatusCD" positionX="319.7457275390625" positionY="-105.8453979492188" width="128" height="299"/>
         <element name="TweetDraft" positionX="-102.9840087890625" positionY="-217.8199462890625" width="136.1802368164062" height="104"/>
         <element name="TweetTagCD" positionX="18" positionY="-117" width="128" height="89"/>
-        <element name="UserCD" positionX="159.8822021484375" positionY="-101.7318725585938" width="128" height="404"/>
+        <element name="UserCD" positionX="159.8822021484375" positionY="-101.7318725585938" width="128" height="434"/>
     </elements>
 </model>

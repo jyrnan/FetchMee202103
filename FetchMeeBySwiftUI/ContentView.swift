@@ -20,12 +20,12 @@ struct ContentView: View {
     var body: some View {
         if isLoggedIn {
             HubView()
-                .accentColor(loginUser?.setting.themeColor.color)
+                .accentColor(store.appState.setting.userSetting?.themeColor.color)
         } else {
             ZStack{
                 
             AuthViewFromVC().ignoresSafeArea()
-                .accentColor(loginUser?.setting.themeColor.color)
+                .accentColor(store.appState.setting.userSetting?.themeColor.color)
                 Text("Not sign in now")
                     .foregroundColor(.gray)
                     .onTapGesture {
