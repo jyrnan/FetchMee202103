@@ -15,7 +15,7 @@ struct AvatarView: View {
     @EnvironmentObject var store: Store
     
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.userIDString, ascending: true)]) var twitterUsers: FetchedResults<TwitterUser>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.userIDString, ascending: true)]) var userCDs: FetchedResults<UserCD>
     
     @State var presentedUserInfo: Bool = false
     @State var isShowAlert: Bool = false
@@ -25,11 +25,11 @@ struct AvatarView: View {
     var width: CGFloat
     var height: CGFloat
     
-    var user: UserInfo? {store.repository.users[userIDString]}
+    var user: User? {store.repository.users[userIDString]}
     
     
     
-    var imageUrl:String? {user?.avatarUrlString ?? twitterUsers.filter{$0.userIDString == userIDString}.first?.avatar}
+    var imageUrl:String? {user?.avatarUrlString ?? userCDs.filter{$0.userIDString == userIDString}.first?.avatarUrlString}
     
     init(userIDString: String, width:CGFloat = 64, height: CGFloat = 64) {
 
@@ -46,7 +46,7 @@ struct AvatarView: View {
                         .frame(width: width, height: height, alignment: .center)
                         .onTapGesture(count: 2){
                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                            store.repository.users[userIDString]?.isLoginUser.toggle()
+                            store.repository.users[userIDString]?.isFavoriteUser.toggle()
                             store.dipatch(.update)
                             store.dipatch(.hubStatusRequest)
                         }
@@ -58,20 +58,17 @@ struct AvatarView: View {
                         })
                 ///显示头像补充图标
                 ///如果该用户nickName不为空，则显示星标
-//                if checkMarkedUser() {
-//                    FavoriteStarMarkView(isFavoriteUser: checkFavoriteUser())
-//                }
-                if user?.isLoginUser == true {
-                    FavoriteStarMarkView(isFavoriteUser: true)
+                if user?.isLoginUser == true || user?.isFavoriteUser == true {
+                    FavoriteStarMarkView(user: user!)
                 }
             }.frame(width: width, height: height, alignment: .center)
                }
     func checkMarkedUser() -> Bool {
-        return twitterUsers.map{$0.userIDString}.contains(userIDString)
+        return userCDs.map{$0.userIDString}.contains(userIDString)
     }
     
     func checkFavoriteUser() -> Bool {
-        return twitterUsers.filter{$0.userIDString == userIDString}.first?.nickName != nil
+        return userCDs.filter{$0.userIDString == userIDString}.first?.nickName != nil
     }
 }
 

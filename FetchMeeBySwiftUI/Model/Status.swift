@@ -12,12 +12,12 @@ import Swifter
 import Combine
 
 struct Status: Identifiable {
-    var id: String
-    var user: UserInfo?
+    var id: String = UUID().uuidString
+    var user: User?
 
-    var text: String?
+    var text: String = ""
     var attributedText: NSMutableAttributedString?
-    var createdAt: Date?
+    var createdAt: Date = Date()
     
     var imageUrls: [String]? //图片的url
     
@@ -25,10 +25,10 @@ struct Status: Identifiable {
     var mediaUrlString: String? //视频网址
     
     var favorited: Bool = false
-    var favorite_count: Int?
+    var favorite_count: Int = 0
     
     var retweeted: Bool = false
-    var retweet_count: Int?
+    var retweet_count: Int = 0
     
     var retweeted_status_id_str: String?
     var quoted_status_id_str: String? //引用推文的ID
@@ -37,7 +37,7 @@ struct Status: Identifiable {
     var in_reply_to_user_id_str : String?
     var in_reply_to_status_id_str: String?
     
-    var source: String?
+    var source: String = "N/A"
     
     
     var isPortraitImage: Bool = false //标记推文是否含有人物图像
@@ -45,10 +45,6 @@ struct Status: Identifiable {
     
     var isMentioned: Bool = false
     
-
-    init(id: String = UUID().uuidString) {
-        self.id = id
-    }
 }
 
 

@@ -65,7 +65,7 @@ extension AppState {
         
         ///User及login部分
         @FileStorage(directory: .documentDirectory, fileName: "user.json")
-        var loginUser: UserInfo?
+        var loginUser: User?
         
         var loginRequesting = false
         var loginError: AppError?
@@ -80,7 +80,7 @@ extension AppState {
 
 extension AppState {
     struct TimelineData {
-        typealias HubStatus = (myLatestStatus:Status_CD?, bookmarkedStatus: Status_CD?, myLatestDraft:TweetDraft?)
+        typealias HubStatus = (myLatestStatus:StatusCD?, bookmarkedStatus: StatusCD?, myLatestDraft:TweetDraft?)
         struct Timeline {
             var type: TimelineType = .home
             
@@ -95,9 +95,9 @@ extension AppState {
         var selectedTweetID: String?
         
         /// 待查看的用户信息
-        var requestedUser: UserInfo = UserInfo()
+        var requestedUser: User = User()
         
-        var mentionUserData: [UserInfo.MentionUser] = []
+        var mentionUserData: [User.MentionUser] = []
         
         var hubStatus:HubStatus = (nil, nil, nil)
     }

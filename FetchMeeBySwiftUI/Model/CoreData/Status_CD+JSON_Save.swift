@@ -1,5 +1,5 @@
 //
-//  Status_CD+JSON_Save.swift
+//  StatusCD+JSON_Save.swift
 //  FetchMee
 //
 //  Created by jyrnan on 2021/3/13.
@@ -10,10 +10,10 @@ import Foundation
 import CoreData
 import Swifter
 
-extension Status_CD {
+extension StatusCD {
     static func JSON_Save(from json: JSON,
                           isBookmarked: Bool? = nil,
-                          isDraft: Bool = false) -> Status_CD {
+                          isDraft: Bool = false) -> StatusCD {
         
         func stringToDate(from createdAt: String?) -> Date {
             guard let timeString = createdAt else {return Date()}
@@ -25,16 +25,19 @@ extension Status_CD {
         
         let viewContext = PersistenceContainer.shared.container.viewContext
         let id = json["id_str"].string!
-        var status: Status_CD
+        var status: StatusCD
+        
             
-        let statusFetch: NSFetchRequest<Status_CD> = Status_CD.fetchRequest()
-        statusFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(Status_CD.id_str), id)
+        let statusFetch: NSFetchRequest<StatusCD
+        > = StatusCD
+        .fetchRequest()
+        statusFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(StatusCD.id_str), id)
             
             
             if let result = try? viewContext.fetch(statusFetch).first {
                 status = result
             } else {
-                status = Status_CD(context: viewContext)
+                status = StatusCD(context: viewContext)
             }
         
         status.id_str = json["id_str"].string
@@ -42,7 +45,7 @@ extension Status_CD {
         
         status.created_at = stringToDate(from: json["created_at"].string)
         
-        let user = TwitterUser.updateOrSaveToCoreData(from: json["user"], isForBookmarkedUser: isBookmarked)
+        let user = UserCD.updateOrSaveToCoreData(from: json["user"], isForBookmarkedUser: isBookmarked)
         
         status.user = user
         

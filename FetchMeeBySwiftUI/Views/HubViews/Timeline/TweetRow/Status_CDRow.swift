@@ -12,7 +12,7 @@ import CoreData
 
 struct Status_CDRow: View {
     
-    var status: Status_CD
+    var status: StatusCD
     var width: CGFloat
     
     var avatar: some View {

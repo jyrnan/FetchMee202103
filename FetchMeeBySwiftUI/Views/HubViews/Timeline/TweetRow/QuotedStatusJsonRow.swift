@@ -52,11 +52,11 @@ struct QuotedStatusJsonRow: View {
     }
     
     var careated: some View {
-        CreatedTimeView(created_at: status.createdAt ?? Date())
+        CreatedTimeView(created_at: status.createdAt )
     }
     
     var text: some View {
-        Text(status.text ?? "Text").fixedSize(horizontal: false, vertical: true)
+        Text(status.text ).fixedSize(horizontal: false, vertical: true)
         
     }
     

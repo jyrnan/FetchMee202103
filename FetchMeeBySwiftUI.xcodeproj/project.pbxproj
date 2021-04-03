@@ -78,13 +78,13 @@
 		D27DCEC624B96D6100520BE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEC424B96D6100520BE3 /* LaunchScreen.storyboard */; };
 		D27DCF3B24B98F9900520BE3 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF3A24B98F9900520BE3 /* Status.swift */; };
 		D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCF8B24B9A56100520BE3 /* TweetRow.swift */; };
-		D27FBA42260F5EC100F7067B /* JSONAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FBA41260F5EC100F7067B /* JSONAdapter.swift */; };
+		D27FBA42260F5EC100F7067B /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FBA41260F5EC100F7067B /* Adapter.swift */; };
 		D27FBA4426101D7D00F7067B /* AuthViewFromVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FBA4326101D7D00F7067B /* AuthViewFromVC.swift */; };
 		D27FBA4726105BB700F7067B /* Status_Draft.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27FBA4626105BB700F7067B /* Status_Draft.swift */; };
 		D282BCA52589902400877B26 /* ComposerButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282BCA42589902400877B26 /* ComposerButtonView.swift */; };
 		D286BE4A2566460600DCEA1E /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286BE492566460600DCEA1E /* AuthViewController.swift */; };
 		D286BE782566610C00DCEA1E /* AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D286BE772566610C00DCEA1E /* AuthViewController.xib */; };
-		D286EC32255A2BD600C98195 /* TwitterUser+UpdateAndSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286EC31255A2BD500C98195 /* TwitterUser+UpdateAndSave.swift */; };
+		D286EC32255A2BD600C98195 /* UserCD+UpdateAndSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286EC31255A2BD500C98195 /* UserCD+UpdateAndSave.swift */; };
 		D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFCF24BC29BF005DBC39 /* Composer.swift */; };
 		D28F9E9525E4E0DB00B8EF40 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9E9425E4E0DB00B8EF40 /* Store.swift */; };
 		D28F9E9725E4E0FD00B8EF40 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9E9625E4E0FD00B8EF40 /* AppState.swift */; };
@@ -109,7 +109,7 @@
 		D2BC206625F26A1E007882CA /* AutoCompleteVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BC206525F26A1E007882CA /* AutoCompleteVIew.swift */; };
 		D2BC206825F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BC206725F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift */; };
 		D2BC206B25F4AC6B007882CA /* TweetTagCDManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BC206A25F4AC6B007882CA /* TweetTagCDManageView.swift */; };
-		D2C12CD5254A6A6B00D74778 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C12CD4254A6A6B00D74778 /* UserInfo.swift */; };
+		D2C12CD5254A6A6B00D74778 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C12CD4254A6A6B00D74778 /* User.swift */; };
 		D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C45BAB24C6D31B007D67B6 /* ContentView.swift */; };
 		D2C4D40324D3D11100395660 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C4D40224D3D11100395660 /* AvatarView.swift */; };
 		D2C7248824E613A500804F18 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C7248724E613A400804F18 /* RoundedCorners.swift */; };
@@ -215,13 +215,13 @@
 		D27DCEC724B96D6100520BE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D27DCF3A24B98F9900520BE3 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		D27DCF8B24B9A56100520BE3 /* TweetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetRow.swift; sourceTree = "<group>"; };
-		D27FBA41260F5EC100F7067B /* JSONAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONAdapter.swift; sourceTree = "<group>"; };
+		D27FBA41260F5EC100F7067B /* Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adapter.swift; sourceTree = "<group>"; };
 		D27FBA4326101D7D00F7067B /* AuthViewFromVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewFromVC.swift; sourceTree = "<group>"; };
 		D27FBA4626105BB700F7067B /* Status_Draft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status_Draft.swift; sourceTree = "<group>"; };
 		D282BCA42589902400877B26 /* ComposerButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerButtonView.swift; sourceTree = "<group>"; };
 		D286BE492566460600DCEA1E /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		D286BE772566610C00DCEA1E /* AuthViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthViewController.xib; sourceTree = "<group>"; };
-		D286EC31255A2BD500C98195 /* TwitterUser+UpdateAndSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TwitterUser+UpdateAndSave.swift"; sourceTree = "<group>"; };
+		D286EC31255A2BD500C98195 /* UserCD+UpdateAndSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserCD+UpdateAndSave.swift"; sourceTree = "<group>"; };
 		D286FFCF24BC29BF005DBC39 /* Composer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Composer.swift; sourceTree = "<group>"; };
 		D28F9E9425E4E0DB00B8EF40 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		D28F9E9625E4E0FD00B8EF40 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; wrapsLines = 1; };
@@ -247,7 +247,7 @@
 		D2BC206525F26A1E007882CA /* AutoCompleteVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCompleteVIew.swift; sourceTree = "<group>"; };
 		D2BC206725F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTagCD+UpdateAndSave.swift"; sourceTree = "<group>"; };
 		D2BC206A25F4AC6B007882CA /* TweetTagCDManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTagCDManageView.swift; sourceTree = "<group>"; };
-		D2C12CD4254A6A6B00D74778 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		D2C12CD4254A6A6B00D74778 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D2C45BAB24C6D31B007D67B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D2C4D40224D3D11100395660 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		D2C7248724E613A400804F18 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
@@ -370,7 +370,7 @@
 			children = (
 				D2905075252C07360065EA83 /* Persistance.swift */,
 				D2905077252C09360065EA83 /* FetchMee.xcdatamodeld */,
-				D286EC31255A2BD500C98195 /* TwitterUser+UpdateAndSave.swift */,
+				D286EC31255A2BD500C98195 /* UserCD+UpdateAndSave.swift */,
 				D21C3303255A827C001CBBCD /* Counter+Calculate.swift */,
 				D2BC206725F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift */,
 				D2A972F125FCC97D005F06A5 /* Status_CD+JSON_Save.swift */,
@@ -467,7 +467,7 @@
 			isa = PBXGroup;
 			children = (
 				D266729025F9ACCC0044DBBA /* Fetcher.swift */,
-				D27FBA41260F5EC100F7067B /* JSONAdapter.swift */,
+				D27FBA41260F5EC100F7067B /* Adapter.swift */,
 			);
 			path = Fetcher;
 			sourceTree = "<group>";
@@ -531,7 +531,7 @@
 			isa = PBXGroup;
 			children = (
 				D27DCF3A24B98F9900520BE3 /* Status.swift */,
-				D2C12CD4254A6A6B00D74778 /* UserInfo.swift */,
+				D2C12CD4254A6A6B00D74778 /* User.swift */,
 				D21C3302255A824A001CBBCD /* CoreData */,
 			);
 			path = Model;
@@ -828,7 +828,7 @@
 				D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */,
 				D2C8107925FF9AC9001C6546 /* QuotedStatusJsonRow.swift in Sources */,
 				D228E06325FD9A900063E0EB /* Status_CDRow.swift in Sources */,
-				D27FBA42260F5EC100F7067B /* JSONAdapter.swift in Sources */,
+				D27FBA42260F5EC100F7067B /* Adapter.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,
 				D28F9EA425E86F2600B8EF40 /* TimelineIcon.swift in Sources */,
 				D25D9AE425FF0EEE0038A6B1 /* StatusRow.swift in Sources */,
@@ -874,7 +874,7 @@
 				D2794F33251F1DE200824E6D /* SaliencyDetection.swift in Sources */,
 				D2EFF67B2573E2A600E016C1 /* UserNameView.swift in Sources */,
 				D20A35D525E68FFB0012CD82 /* AppCommand_Timeline.swift in Sources */,
-				D2C12CD5254A6A6B00D74778 /* UserInfo.swift in Sources */,
+				D2C12CD5254A6A6B00D74778 /* User.swift in Sources */,
 				4BDB05D925316D5C00CF71A1 /* ComposerOfHubView.swift in Sources */,
 				D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */,
 				D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */,
@@ -894,7 +894,7 @@
 				D20A35D325E68F870012CD82 /* FileStorage.swift in Sources */,
 				D28F9E9D25E4E39F00B8EF40 /* AppError.swift in Sources */,
 				D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */,
-				D286EC32255A2BD600C98195 /* TwitterUser+UpdateAndSave.swift in Sources */,
+				D286EC32255A2BD600C98195 /* UserCD+UpdateAndSave.swift in Sources */,
 				D27DCF3B24B98F9900520BE3 /* Status.swift in Sources */,
 				D26824682601871C004CAB1A /* Repository.swift in Sources */,
 			);

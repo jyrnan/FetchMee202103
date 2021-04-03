@@ -12,7 +12,7 @@ import Swifter
 import Combine
 
 
-extension TwitterUser {
+extension UserCD {
     
     /// 更新或新建用户功能
     /// - Parameters:
@@ -23,35 +23,36 @@ extension TwitterUser {
     /// - Returns: 返回当前用户
     @discardableResult
     static func updateOrSaveToCoreData(from userJSON: JSON? = nil,
+                                       dataHandler: ((UserCD, JSON) -> Void)? = nil,
                                        id: String? = "0000",
-                                       in viewContext: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext ,
                                        isLocalUser: Bool? = nil,
                                        isLoginUser: Bool? = nil,
                                        isForBookmarkedUser: Bool? = nil,
-                                       updateNickName: String? = nil) -> TwitterUser {
+                                       updateNickName: String? = nil) -> UserCD {
         
-        func updateTwitterUser(_ currentUser: TwitterUser, with user:JSON) {
-            ///设置TwitterUser
-            currentUser.createdAt = JSONAdapter().convertToDate(from: user["created_at"].string)
-            
-            currentUser.userIDString = user["id_str"].string!
-            currentUser.name = user["name"].string!
-            currentUser.screenName = user["screen_name"].string!
-            
-            currentUser.avatar = user["profile_image_url_https"].string!
-            
-            currentUser.following = Int32(user["friends_count"].integer ?? 0)
-            currentUser.followed = Int32(user["followers_count"].integer ?? 0)
-            currentUser.isFollowing = user["following"].bool ?? true
-        }
+//        func updateUserCD(_ userCD: UserCD, with data:JSON) {
+//            ///设置TwitterUser
+//            userCD.createdAt = Adapter().convertToDate(from: data["created_at"].string)
+//
+//            userCD.userIDString = data["id_str"].string!
+//            userCD.name = data["name"].string!
+//            userCD.screenName = data["screen_name"].string!
+//
+//            userCD.avatarUrlString = data["profile_image_url_https"].string!
+//            userCD.bannerUrlString = data["profile_banner_url"].string ?? ""
+//
+//            userCD.following = Int32(data["friends_count"].integer ?? 0)
+//            userCD.followed = Int32(data["followers_count"].integer ?? 0)
+//            userCD.isFollowing = data["following"].bool ?? true
+//        }
         
         /// 根据情况查找或新建TwitterUser
         /// - Returns: 返回一个现有或者新建的TwitterUser
-        func creatTwitterUser() -> TwitterUser {
+        func creatUserCD() -> UserCD {
             let userID = userJSON?["id_str"].string ?? id!
-            let userFetch: NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
-            userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), userID)
-            userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.updateTime, ascending: true)]
+            let userFetch: NSFetchRequest<UserCD> = UserCD.fetchRequest()
+            userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(UserCD.userIDString), userID)
+            userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \UserCD.updateTime, ascending: true)]
             
             var results = (try? viewContext.fetch(userFetch)) ?? []
             ///由于重新安装软件时候CoreData还没来得及同步云端的保存的用户信息
@@ -61,7 +62,7 @@ extension TwitterUser {
             
             guard results.count > 0 else {
                 //如果没有查找到现成User，则新建一个，并设置创建时间
-                let newUser = TwitterUser(context: viewContext)
+                let newUser = UserCD(context: viewContext)
                 newUser.updateTime = Date()
                 return newUser }
             
@@ -70,10 +71,11 @@ extension TwitterUser {
                 return oldUser
         }
         
-        let currentUser: TwitterUser = creatTwitterUser()
+        let viewContext = PersistenceContainer.shared.container.viewContext
+        let currentUser: UserCD = creatUserCD()
 
-        if let user = userJSON {
-        updateTwitterUser(currentUser, with: user)
+        if let data = userJSON, let handler = dataHandler {
+            handler(currentUser, data)
         }
         
         ///新建非登录本地用户
@@ -134,5 +136,33 @@ extension TwitterUser {
         return currentUser
     }
     
+    func convertToUser() -> User {
+        var user = User()
+        
+        user.id = self.userIDString!
+        user.name = self.name!
+        user.screenName = self.screenName!
+        user.createdAt = self.createdAt!
+        
+        user.avatarUrlString = self.avatarUrlString!
+        user.bannerUrlString = self.bannerUrlString ?? ""
+        
+        user.bioText = self.bioText ?? ""
+        user.loc = self.loc
+        user.url = self.url
+        
+        user.following = Int(self.following)
+        user.followed = Int(self.followed)
+        user.isFollowing = self.isFollowing
+        user.isFollowed = self.isFollowed
+        
+        user.notifications = false
+        
+        user.tweetsCount = Int(self.tweets)
+        
+        return user
+
+    }
     
 }
+

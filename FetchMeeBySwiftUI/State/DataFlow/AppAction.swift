@@ -24,9 +24,9 @@ enum AppAction {
     case showImageViewer(view: AnyView)
     case closeImageViewer
     
-    case login(presentingFrom: AuthViewController, loginUser: UserInfo?)
-    case userRequest(user: UserInfo, isLoginUser: Bool?)
-    case updateLoginAccount(loginUser: UserInfo?)
+    case login(presentingFrom: AuthViewController, loginUser: User?)
+    case userRequest(user: User, isLoginUser: Bool?)
+    case updateLoginAccount(loginUser: User?)
 //    case updateRequestedUser(requestedUser: UserInfo)
     
     case updateList(lists: [String: String])
@@ -35,7 +35,7 @@ enum AppAction {
     
     
     case fetchTimeline(timelineType: TimelineType, mode:FetchTimelineCommand.UpdateMode)
-    case fetchTimelineDone(timeline: AppState.TimelineData.Timeline, mentionUserData: [UserInfo.MentionUser])
+    case fetchTimelineDone(timeline: AppState.TimelineData.Timeline, mentionUserData: [User.MentionUser])
     
     case fetchSession(tweetIDString: String)
     case fetchSessionDone(timeline: AppState.TimelineData.Timeline )

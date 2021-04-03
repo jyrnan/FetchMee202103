@@ -17,19 +17,19 @@ struct AppCommand_HubStatusRequest: AppCommand {
         guard let viewContext = store.context else {return}
         
         //设置排序和筛选选项
-        let statusSortDescriptors = [NSSortDescriptor(keyPath: \Status_CD.created_at, ascending: false)]
+        let statusSortDescriptors = [NSSortDescriptor(keyPath: \StatusCD.created_at, ascending: false)]
         let draftsSortDescriptors = [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: false)]
-        let myStatusPredicate = NSPredicate(format: "%K == %@", #keyPath(Status_CD.user.userIDString), store.appState.setting.loginUser?.id ?? "0000")
-        let bookmarkedStatusPredicate = NSPredicate(format: "%K == %d", #keyPath(Status_CD.isBookmarked), true)
+        let myStatusPredicate = NSPredicate(format: "%K == %@", #keyPath(StatusCD.user.userIDString), store.appState.setting.loginUser?.id ?? "0000")
+        let bookmarkedStatusPredicate = NSPredicate(format: "%K == %d", #keyPath(StatusCD.isBookmarked), true)
         
-        let myStatusRequest:NSFetchRequest<Status_CD> = NSFetchRequest(entityName: "Status_CD")
+        let myStatusRequest:NSFetchRequest<StatusCD> = NSFetchRequest(entityName: "StatusCD")
         myStatusRequest.sortDescriptors = statusSortDescriptors
         myStatusRequest.predicate = myStatusPredicate
         if let myStatuses = try? viewContext.fetch(myStatusRequest) {
             hubStatus.myLatestStatus = myStatuses.first
         }
         
-        let bookmarkedStatusRequest:NSFetchRequest<Status_CD> = NSFetchRequest(entityName: "Status_CD")
+        let bookmarkedStatusRequest:NSFetchRequest<StatusCD> = NSFetchRequest(entityName: "StatusCD")
         bookmarkedStatusRequest.sortDescriptors = statusSortDescriptors
         bookmarkedStatusRequest.predicate = bookmarkedStatusPredicate
         if let bookmarkedStatuses = try? viewContext.fetch(bookmarkedStatusRequest) {

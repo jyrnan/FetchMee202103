@@ -16,14 +16,14 @@ protocol AppCommand {
 }
 
 struct LoginCommand: AppCommand {
-    let loginUser: UserInfo?
+    let loginUser: User?
     let presentingFrom: AuthViewController
     
     func execute(in store: Store) {
         
         /// 设置swifter的token信息，并获取loginUser的信息
         /// - Parameter loginUser: 传入的已经含有token的用户信息
-        func setSwifterAndRequestLoginUser(loginUser: UserInfo) {
+        func setSwifterAndRequestLoginUser(loginUser: User) {
 
             store.fetcher.setLogined()
             store.dipatch(.userRequest(user: loginUser, isLoginUser: true))
@@ -39,8 +39,8 @@ struct LoginCommand: AppCommand {
                                     presentingFrom:presentingFrom,
                                     success: {token, response in
                                         if let token = token {
-                                            let loginUser = UserInfo(id: token.userID!,
-                                                                     screenName: token.screenName,
+                                            let loginUser = User(id: token.userID!,
+                                                                 screenName: token.screenName!,
                                                                      tokenKey: token.key,
                                                                      tokenSecret: token.secret)
                                             
@@ -55,7 +55,7 @@ struct LoginCommand: AppCommand {
 
 //MARK:-获取用户信息
 struct UserRequstCommand: AppCommand {
-    let user: UserInfo
+    let user: User
     let isLoginUser: Bool?
     
     func execute(in store: Store) {
@@ -68,27 +68,24 @@ struct UserRequstCommand: AppCommand {
             //保存用户信息到repository
             store.repository.addUser(data: json)
             //更新内存中用户的信息，以备保存到coreData中
-            store.repository.adapter.convertAndUpdateUser(update: &updatedUser, with: json)
+//            store.repository.adapter.convertAndUpdateUser(update: &updatedUser, with: json)
             
             ///信息更新完成，将user数据替换到相应位置并存储
             if isLoginUser == true {
                 //更新最新的用户follow和推文数量信息
                 updateUser(update: &updatedUser, from: store.context)
                 store.dipatch(.updateLoginAccount(loginUser: updatedUser))
-//                store.dipatch(.alertOn(text: "Updated", isWarning: false))
                 
                 //如果是login用户，则将其信息存入到CoreData中备用，并将isLoginUser设置成true
-                TwitterUser.updateOrSaveToCoreData(from: json,
-                                                   in: store.context,
+                UserCD.updateOrSaveToCoreData(from: json,
+                                                   
                                                    isLoginUser: isLoginUser)
             } else {
                 //如果不是login用户，则也将其信息存入到CoreData中备用，但是不修改isLocalUser的属性
-                TwitterUser.updateOrSaveToCoreData(from: json,
-                                                   in: store.context,
+                UserCD.updateOrSaveToCoreData(from: json,
+                                                   
                                                    isLoginUser: isLoginUser
                                                    )
-//                store.dipatch(.updateRequestedUser(requestedUser: updatedUser))
-//                store.dipatch(.fetchTimeline(timelineType: .user(userID: user.id), mode: .top))
             }
         }
         
@@ -121,7 +118,7 @@ struct UserRequstCommand: AppCommand {
 
 extension UserRequstCommand {
     
-    func updateUser(update userInfo: inout UserInfo, from context: NSManagedObjectContext) {
+    func updateUser(update userInfo: inout User, from context: NSManagedObjectContext) {
         ///从CoreData读取信息计算24小时内新增fo数和推文数量
         
         userInfo.lastDayAddedFollower = Count.updateCount(for: userInfo).0.first ?? 0

@@ -15,7 +15,7 @@ struct ToolBarsView: View {
     ///创建一个简单表示法
     var setting: UserSetting {store.appState.setting.loginUser?.setting ?? UserSetting()}
     
-    var user: UserInfo {store.appState.setting.loginUser ?? UserInfo()}
+    var user: User {store.appState.setting.loginUser ?? User()}
     
     var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
     

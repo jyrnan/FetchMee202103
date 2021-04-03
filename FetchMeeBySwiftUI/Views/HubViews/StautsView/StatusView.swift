@@ -15,7 +15,7 @@ struct StatusView: View {
     ///创建一个简单表示法
     var setting: UserSetting {store.appState.setting.loginUser?.setting ?? UserSetting()}
     
-    var user: UserInfo {let user = store.appState.setting.loginUser ?? UserInfo()
+    var user: User {let user = store.appState.setting.loginUser ?? User()
         return user
     }
     

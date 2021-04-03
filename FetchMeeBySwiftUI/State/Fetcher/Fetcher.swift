@@ -13,7 +13,7 @@ import CoreData
 
 protocol Fetcher {
      typealias Timeline = AppState.TimelineData.Timeline
-    typealias MentionUserData = [UserInfo.MentionUser]
+    typealias MentionUserData = [User.MentionUser]
     typealias TweetIDStrings = [String]
   }
 
@@ -56,7 +56,7 @@ struct FetcherSwifter: Fetcher {
         /// - Returns: 返回Timeline和Mention用户数据打包作为Publisher的数据
         func JSONHandler(json: JSON) -> (Timeline,MentionUserData)  {
             var timelineWillUpdate = timeline
-            var mentionUserData: [UserInfo.MentionUser] = mentionUserData
+            var mentionUserData: [User.MentionUser] = mentionUserData
             
             guard let newTweets = json.array else {return (timelineWillUpdate, mentionUserData)}
             timelineWillUpdate.newTweetNumber += newTweets.count
@@ -68,10 +68,10 @@ struct FetcherSwifter: Fetcher {
 
                 //检测如果是自己发送的原创推文，则保存到本地
                 if $0["user"]["id_str"].string == loginUserID, $0["in_reply_to_user_id_str"].string == nil {
-                   let _ = Status_CD.JSON_Save(from: $0) }
+                   let _ = StatusCD.JSON_Save(from: $0) }
                
                 guard timeline.type == .mention else {return}
-                TwitterUser.updateOrSaveToCoreData(from: $0["user"])
+                UserCD.updateOrSaveToCoreData(from: $0["user"])
                 storeMentionUserData(mention: $0, to: &mentionUserData)
             }
             
@@ -122,7 +122,7 @@ struct FetcherSwifter: Fetcher {
     
     /// 收集Mention用户信息，包括用户ID和mention的ID
     /// - Parameter mention: Mention的data
-    func storeMentionUserData(mention:JSON, to mentionUserData: inout [UserInfo.MentionUser]) {
+    func storeMentionUserData(mention:JSON, to mentionUserData: inout [User.MentionUser]) {
         guard let userIDString = mention["user"]["id_str"].string else {return}
         let mentionIDString = mention["id_str"].string!
         let avatarUrlString = mention["user"]["profile_image_url_https"].string!
@@ -131,7 +131,7 @@ struct FetcherSwifter: Fetcher {
             mentionUserData[index].mentionsIDs.insert(mentionIDString)
             
         } else {
-            let mentionUser = UserInfo.MentionUser(id: userIDString,
+            let mentionUser = User.MentionUser(id: userIDString,
                                                    avatarUrlString: avatarUrlString,
                                                    mentionsIDs: Set<String>(arrayLiteral: mentionIDString))
             mentionUserData.append(mentionUser)

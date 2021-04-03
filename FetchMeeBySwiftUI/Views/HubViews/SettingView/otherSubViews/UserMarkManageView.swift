@@ -14,16 +14,16 @@ struct UserMarkManageView: View {
     @EnvironmentObject var store: Store    
     @Environment(\.managedObjectContext) private var viewContext
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TwitterUser.isLoginUser, ascending: false),
-                                    NSSortDescriptor(keyPath: \TwitterUser.isLocalUser, ascending: false),
-                                    NSSortDescriptor(keyPath: \TwitterUser.isFavorite, ascending: false),
-                                    NSSortDescriptor(keyPath: \TwitterUser.updateTime, ascending: false)]) var twitterUsers: FetchedResults<TwitterUser>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.isLoginUser, ascending: false),
+                                    NSSortDescriptor(keyPath: \UserCD.isLocalUser, ascending: false),
+                                    NSSortDescriptor(keyPath: \UserCD.isFavorite, ascending: false),
+                                    NSSortDescriptor(keyPath: \UserCD.updateTime, ascending: false)]) var userCDs: FetchedResults<UserCD>
     
     @State var presentedUserInfo: Bool = false
     
     var body: some View {
         List {
-            ForEach(twitterUsers, id: \.self) { user in
+            ForEach(userCDs, id: \.self) { user in
                 NavigationLink(
                     destination: UserView(userIDString: user.userIDString ?? "0000")) {
                 HStack {
@@ -57,7 +57,7 @@ struct UserMarkManageView_Previews: PreviewProvider {
 extension UserMarkManageView {
     
     private func deleteUser(offsets: IndexSet) {
-        offsets.map{ twitterUsers[$0]}.forEach(viewContext.delete)
+        offsets.map{ userCDs[$0]}.forEach(viewContext.delete)
         do {
             try viewContext.save()
         }catch {
@@ -67,7 +67,7 @@ extension UserMarkManageView {
     }
     
     private func deleteAll() {
-        twitterUsers.filter{!$0.isLocalUser && !$0.isFavorite && !$0.isForBookmarked && !$0.isLoginUser}.forEach{viewContext.delete($0)}
+        userCDs.filter{!$0.isLocalUser && !$0.isFavorite && !$0.isForBookmarked && !$0.isLoginUser}.forEach{viewContext.delete($0)}
         do {
             try viewContext.save()
         } catch {

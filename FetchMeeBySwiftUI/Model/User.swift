@@ -12,13 +12,13 @@ import Combine
 import CoreData
 
 
-struct UserInfo: Identifiable, Codable {
+struct User: Identifiable, Codable {
     var id: String = "0000" //设置成默认ID是“0000”，所以在进行用户信息更新之前需要设置该ID的值
-    var name:String?
-    var screenName: String?
+    var name:String = "Name"
+    var screenName: String = "ScreenName"
     var nickName: String?
-    var description: String?
-    var createdAt: String?
+    var description: String = ""
+    var createdAt: Date = Date()
     
     var tokenKey: String?
     var tokenSecret: String?
@@ -26,7 +26,7 @@ struct UserInfo: Identifiable, Codable {
     var avatarUrlString: String = ""
     var bannerUrlString: String = ""
     
-    var bioText: String?
+    var bioText: String = ""
     var loc: String?
     var url: String?
     
@@ -146,7 +146,7 @@ struct UserSetting: Codable {
    
 }
 
-extension UserInfo {
+extension User {
     struct MentionUser: Codable, Equatable {
        
         let id: String

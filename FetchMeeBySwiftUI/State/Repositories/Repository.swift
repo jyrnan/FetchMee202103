@@ -8,14 +8,28 @@
 
 import Foundation
 import Swifter
+import CoreData
 
 class Repository  {
  
     weak var store: Store?
-    let adapter = JSONAdapter()
+    let adapter = Adapter()
     
     var statuses: [String: Status] = [:]
-    var users: [String: UserInfo] = [:]
+    var users: [String: User] = [:]
+    
+    var bookmarkedStatusCD: [StatusCD] {
+        guard let viewContext = store?.context else {return []}
+        let statusSortDescriptors = [NSSortDescriptor(keyPath: \StatusCD.created_at, ascending: false)]
+        let bookmarkedStatusPredicate = NSPredicate(format: "%K == %d", #keyPath(StatusCD.isBookmarked), true)
+        
+        let bookmarkedStatusRequest:NSFetchRequest<StatusCD> = NSFetchRequest(entityName: "StatusCD")
+        bookmarkedStatusRequest.sortDescriptors = statusSortDescriptors
+        bookmarkedStatusRequest.predicate = bookmarkedStatusPredicate
+        
+        guard let bookmarkedStatuses = try? viewContext.fetch(bookmarkedStatusRequest) else {return []}
+        return bookmarkedStatuses
+    }
     
     func addStatus(data: JSON) {
         if let id = data["id_str"].string {
@@ -23,13 +37,17 @@ class Repository  {
         }
     }
     
-    func addUser(data: JSON) {
+    func addUser(data: JSON, isLoginUser: Bool? = nil) {
         guard let id = data["id_str"].string else {return}
-        var user = users[id] ?? UserInfo()
-            adapter.convertAndUpdateUser(update: &user, with: data)
         
-            user.isLoginUser = store?.appState.setting.loginUser?.id == id
-            users[id] = user
+        //利用数据来更新userCD
+        let userCD = UserCD.updateOrSaveToCoreData(from: data,
+                                                   dataHandler: adapter.updateUserCD(_:with:),
+                                           isLoginUser: isLoginUser)
+//        //从userCD转换成user
+//        let user = adapter.convertUserCDToUser(userCD: userCD)
+        
+        users[id] = userCD.convertToUser()
     }
     
     func getStatus(byID id: String) -> Status {
@@ -39,11 +57,11 @@ class Repository  {
         return Status()
     }
     
-    func getUser(byID id: String) -> UserInfo {
+    func getUser(byID id: String) -> User {
         if let user = self.users[id] {
             return user
         }
-        return UserInfo()
+        return User()
     }
 }
 

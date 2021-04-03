@@ -69,13 +69,13 @@ struct StatusRow: View {
     }
     
     var careated: some View {
-        CreatedTimeView(created_at: status.createdAt ?? Date())
+        CreatedTimeView(created_at: status.createdAt )
     }
     
     var text: some View {
         return { () -> AnyView in
             switch rowType {
-            case .timeline: return AnyView(Text(status.text ?? "Text").fixedSize(horizontal: false, vertical: true))
+            case .timeline: return AnyView(Text(status.text ).fixedSize(horizontal: false, vertical: true))
             case .session: return  AnyView(NSAttributedStringView(attributedText: status.attributedText!, width: width - avatarColumWidth))
             }
         }()

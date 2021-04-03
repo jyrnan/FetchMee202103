@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct FavoriteStarMarkView: View {
-    var isFavoriteUser: Bool = false
+    var user: User
     var body: some View {
         GeometryReader { geometry in
-            Image(systemName: isFavoriteUser ? "star.circle.fill" : "bookmark.circle.fill")
+            Image(systemName: user.isLoginUser ? "star.circle.fill" : "bookmark.circle.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: geometry.size.width * 0.3 , height: geometry.size.height * 0.3, alignment: .center)
-                .foregroundColor(isFavoriteUser ? .accentColor : .gray)
+                .foregroundColor(user.isLoginUser ? .accentColor : .gray)
                 .background(Circle().foregroundColor(.white).scaleEffect(0.9))
                 .offset(x: geometry.size.width * 0.7, y: geometry.size.height * 0.7)
         }
@@ -25,7 +25,7 @@ struct FavoriteStarMarkView: View {
 
 struct FavoriteStarMarkView_Previews: PreviewProvider {
     static var previews: some View {
-        FavoriteStarMarkView()
+        FavoriteStarMarkView(user: User())
             .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: .center)
             .background(Circle())
     }

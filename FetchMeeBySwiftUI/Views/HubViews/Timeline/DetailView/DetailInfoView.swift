@@ -13,10 +13,10 @@ struct DetailInfoView: View {
     let status: Status
     
     var created_at:String {updateTime(createdTime: status.createdAt)}
-    var source: String {String((status.source?.split(separator: ">").last?.dropLast(3)) ?? "unknow")}
+    var source: String {String((status.source.split(separator: ">").last?.dropLast(3)) ?? "unknow")}
     
-    var retweet_count: String {String(status.retweet_count ?? 0)}
-    var favorite_count: String {String(status.favorite_count ?? 0)}
+    var retweet_count: String {String(status.retweet_count )}
+    var favorite_count: String {String(status.favorite_count )}
     
     
     

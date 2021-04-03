@@ -20,13 +20,13 @@ struct UserView: View {
     var setting: UserSetting {store.appState.setting.loginUser?.setting ?? UserSetting()}
     
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest var twitterUsers: FetchedResults<TwitterUser>
+    @FetchRequest var twitterUsers: FetchedResults<UserCD>
     
     var userTimeline: AppState.TimelineData.Timeline {
         store.appState.timelineData.timelines[TimelineType.user(userID: userIDString).rawValue] ??
         AppState.TimelineData.Timeline(type:.user(userID: userIDString))}
     
-    var requestedUser: UserInfo { store.repository.getUser(byID: userIDString )}
+    var requestedUser: User { store.repository.getUser(byID: userIDString )}
     
     var userIDString: String //传入需查看的用户信息的ID
     
@@ -41,9 +41,9 @@ struct UserView: View {
         ///从CoreData里获取用户信息,但是不能立刻打印相应的内容，因为获取需要一定时间，是异步进行
         ///所以此时打印twitterUser的信息是没有的，但是在后续的代码中则可以看到其实已经获取到了相应值
         ///这样做法可以简化CoreData获取的结果，后续代码更加简洁
-        let userFetch:NSFetchRequest<TwitterUser> = TwitterUser.fetchRequest()
-        userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \TwitterUser.createdAt, ascending: true)]
-        userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(TwitterUser.userIDString), userIDString)
+        let userFetch:NSFetchRequest<UserCD> = UserCD.fetchRequest()
+        userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \UserCD.createdAt, ascending: true)]
+        userFetch.predicate = NSPredicate(format: "%K = %@", #keyPath(UserCD.userIDString), userIDString)
         _twitterUsers = FetchRequest(fetchRequest: userFetch)
     }
     
@@ -92,7 +92,7 @@ struct UserView: View {
                     VStack(alignment: .center) {
                         HStack {
                             Spacer()
-                            Text(requestedUser.name ?? "Name").font(.body).bold().onTapGesture {
+                            Text(requestedUser.name ).font(.body).bold().onTapGesture {
                             }
                             if !isNickNameInputShow {
                                 Text(twitterUsers.first?.nickName != nil ? "(\(twitterUsers.first!.nickName!))" : "" ).font(.body)
@@ -107,7 +107,7 @@ struct UserView: View {
                                         .frame(width: 100)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                     
-                                    Button(action: {TwitterUser.updateOrSaveToCoreData(from: nil, id: userIDString, in: viewContext, updateNickName: nickNameText)
+                                    Button(action: {UserCD.updateOrSaveToCoreData(from: nil, id: userIDString,  updateNickName: nickNameText)
                                         
                                         withAnimation{isNickNameInputShow = false}
                                     }){
@@ -125,7 +125,7 @@ struct UserView: View {
                             
                             Spacer()
                         }
-                        Text(requestedUser.screenName ?? "ScreenName")
+                        Text(requestedUser.screenName )
                             .font(.callout).foregroundColor(.gray)
                     }
                     .padding(.top, 0)
@@ -163,14 +163,14 @@ struct UserView: View {
                     
                     ///用户Bio信息
                     //                    NSAttributedStringView(attributedText: user.getAttributedText(alignment: .center) , width: 300).padding([.top], 16)
-                    Text(requestedUser.description ?? "")
+                    Text(requestedUser.description )
                     
                     ///用户位置信息
                     HStack() {
                         Image(systemName: "location.circle").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray)
                         Text(requestedUser.loc ?? "Unknow").font(.caption).foregroundColor(.gray)
                         Image(systemName: "calendar").resizable().aspectRatio(contentMode: .fill).frame(width: 12, height: 12, alignment: .center).foregroundColor(.gray).padding(.leading, 16)
-                        Text( updateTime(createdTime: requestedUser.createdAt) ).font(.caption).foregroundColor(.gray)
+                        Text( requestedUser.createdAt.description ).font(.caption).foregroundColor(.gray)
                     }.padding(0)
                     
                     ///用户following信息
@@ -229,7 +229,7 @@ struct UserView: View {
         .onAppear{
             store.dipatch(.fetchTimeline(timelineType: .user(userID: userIDString), mode: .top))
         }
-        .navigationTitle(requestedUser.name ?? "Name")
+        .navigationTitle(requestedUser.name )
     }
 }
 

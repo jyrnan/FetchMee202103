@@ -17,13 +17,13 @@ struct BookmarkedStatusView: View {
     var userID: String?
     
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Status_CD.id_str, ascending: false),
-                                    NSSortDescriptor(keyPath: \Status_CD.created_at, ascending: false)]) var statuses: FetchedResults<Status_CD>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \StatusCD.id_str, ascending: false),
+                                    NSSortDescriptor(keyPath: \StatusCD.created_at, ascending: false)]) var statuses: FetchedResults<StatusCD>
     
     ///用来筛选保存在CoreData推文，
     ///如果传入具体的userID，则返回该ID的推文
     ///如果没有具体的user ID，则返回所有非本人的推文，也就是收藏的推文
-    var filterStatus: [Status_CD] {userID == nil ? statuses.filter{$0.user?.userIDString != store.appState.setting.loginUser?.id} : statuses.filter{$0.user?.userIDString == userID}}
+    var filterStatus: [StatusCD] {userID == nil ? statuses.filter{$0.user?.userIDString != store.appState.setting.loginUser?.id} : statuses.filter{$0.user?.userIDString == userID}}
     
     var body: some View {
         GeometryReader { proxy in

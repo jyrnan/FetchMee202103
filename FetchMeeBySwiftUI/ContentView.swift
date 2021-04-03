@@ -13,7 +13,7 @@ import CoreData
 struct ContentView: View {
     
     @EnvironmentObject var store: Store
-    var loginUser: UserInfo? {store.appState.setting.loginUser}
+    var loginUser: User? {store.appState.setting.loginUser}
     
     var isLoggedIn:Bool {store.appState.setting.loginUser != nil}
 
@@ -29,9 +29,9 @@ struct ContentView: View {
                 Text("Not sign in now")
                     .foregroundColor(.gray)
                     .onTapGesture {
-                        store.dipatch(.updateLoginAccount(loginUser: UserInfo(name: "FetchMee", screenName: "FetcheMeeApp")))
+                        store.dipatch(.updateLoginAccount(loginUser: User(name: "FetchMee", screenName: "FetcheMeeApp")))
                         //新建非登录的本地用户
-                        TwitterUser.updateOrSaveToCoreData(from: nil)
+                        UserCD.updateOrSaveToCoreData(from: nil)
                     }
                     .frame(width: 200, height: 400, alignment: .bottom)
             }
