@@ -85,6 +85,7 @@ extension AppState {
 extension AppState {
     struct TimelineData {
         typealias HubStatus = (myLatestStatus:StatusCD?, bookmarkedStatus: StatusCD?, myLatestDraft:TweetDraft?)
+        
         struct Timeline {
             var type: TimelineType = .home
             

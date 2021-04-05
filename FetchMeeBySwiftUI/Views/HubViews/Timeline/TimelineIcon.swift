@@ -16,10 +16,12 @@ struct TimelineIcon: View {
     var timelineType: TimelineType
     var timeline: AppState.TimelineData.Timeline
     {store.appState.timelineData.getTimeline(timelineType: timelineType)}
+    @State var showTimeline: Bool = false
     
     var body: some View {
-        NavigationLink(destination:TimelineView(timelineType: timelineType)){
-            ZStack{
+        ZStack{
+            NavigationLink(destination:TimelineView(timelineType: timelineType), isActive: $showTimeline, label:{EmptyView()} ).disabled(true)
+            
                 RoundedRectangle(cornerRadius: 18)
                     .frame(width: 92, height: 92, alignment: .center)
                     .foregroundColor(timeline.newTweetNumber == 0 ? Color.init("BackGroundLight") : timeline.type.uiData.themeColor)
@@ -63,6 +65,10 @@ struct TimelineIcon: View {
                 }
             }
             .frame(width: 92, height: 92, alignment: .center)
+        .onTapGesture {
+            store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
+            showTimeline = true
+        }
         }
     }
-}
+

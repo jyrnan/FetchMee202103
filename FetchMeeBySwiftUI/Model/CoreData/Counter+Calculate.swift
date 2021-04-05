@@ -45,14 +45,14 @@ extension Count {
         return (followers, tweets)
     }
     
-    static func updateCount(for user: User, in viewContext: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext) -> (followers:[Int], tweets: [Int]) {
+    static func updateCount(for userID: String, in viewContext: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext) -> (followers:[Int], tweets: [Int]) {
         //参数说明：第一个数组代表follower，第二个代表tweets数量
         //每类有三个数是预留最近一天，最近一周？最近一月？，现在仅使用第一个
 //        var countValue = CountValue()
         var followers: [Int] = []
         var tweets: [Int] = []
         
-        let userPredictate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), user.id)
+        let userPredictate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), userID)
         let countRequest:NSFetchRequest<Count> = Count.fetchRequest()
         countRequest.predicate = userPredictate
         

@@ -41,7 +41,7 @@ struct Status: Identifiable {
     
     
     var isPortraitImage: Bool = false //标记推文是否含有人物图像
-    var rowIsViewed: Bool = false //用来标记推文是否出现在屏幕上被展现?
+    var isRead: Bool = false //用来标记推文是否出现在屏幕上被展现?
     
     var isMentioned: Bool = false
     

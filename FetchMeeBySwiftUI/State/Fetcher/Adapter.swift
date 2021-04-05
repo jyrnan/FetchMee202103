@@ -15,60 +15,60 @@ struct Adapter {
     ///   - user: 输入的初始用户信息
     ///   - json: 输入的用户原始数据
     /// - Returns: 输出的用户信息
-    func convertAndUpdateUser(update user: inout User, with data: JSON) {
-        
-        ///userBio信息更新开始
-        user.id = data["id_str"].string!
-        user.name = data["name"].string!
-        user.screenName = data["screen_name"].string!
-        user.description = data["description"].string ?? ""
-        user.createdAt = convertToDate(from:data["created_at"].string) ?? Date() //加入日期
-        
-        user.avatarUrlString = data["profile_image_url_https"].string?
-            .replacingOccurrences(of: "_normal", with: "") ?? ""
-        user.bannerUrlString = data["profile_banner_url"].string ?? ""
-       
-        user.loc = data["location"].string
-        user.url = data["url"].string
-        
-        user.following = data["friends_count"].integer!
-        user.followed = data["followers_count"].integer!
-        user.isFollowing = data["following"].bool!
-        user.isFollowed = data["follow_request_sent"].bool!
-        
-        user.notifications = data["notifications"].bool!
-        
-        user.tweetsCount = data["statuses_count"].integer!
-
-    }
-    
-    func convertUserCDToUser(userCD: UserCD) -> User {
-        var user = User()
-        
-        user.id = userCD.userIDString!
-        user.name = userCD.name!
-        user.screenName = userCD.screenName!
-        user.createdAt = userCD.createdAt!
-        
-        user.avatarUrlString = userCD.avatarUrlString!
-        user.bannerUrlString = userCD.bannerUrlString ?? ""
-        
-        user.bioText = userCD.bioText ?? ""
-        user.loc = userCD.loc
-        user.url = userCD.url
-        
-        user.following = Int(userCD.following)
-        user.followed = Int(userCD.followed)
-        user.isFollowing = userCD.isFollowing
-        user.isFollowed = userCD.isFollowed
-        
-        user.notifications = false
-        
-        user.tweetsCount = Int(userCD.tweets)
-        
-        return user
-
-    }
+//    func convertAndUpdateUser(update user: inout User, with data: JSON) {
+//
+//        ///userBio信息更新开始
+//        user.id = data["id_str"].string!
+//        user.name = data["name"].string!
+//        user.screenName = data["screen_name"].string!
+//        user.description = data["description"].string ?? ""
+//        user.createdAt = convertToDate(from:data["created_at"].string) ?? Date() //加入日期
+//
+//        user.avatarUrlString = data["profile_image_url_https"].string?
+//            .replacingOccurrences(of: "_normal", with: "") ?? ""
+//        user.bannerUrlString = data["profile_banner_url"].string ?? ""
+//
+//        user.loc = data["location"].string
+//        user.url = data["url"].string
+//
+//        user.following = data["friends_count"].integer!
+//        user.followed = data["followers_count"].integer!
+//        user.isFollowing = data["following"].bool!
+//        user.isFollowed = data["follow_request_sent"].bool!
+//
+//        user.notifications = data["notifications"].bool!
+//
+//        user.tweets = data["statuses_count"].integer!
+//
+//    }
+//
+//    func convertUserCDToUser(userCD: UserCD) -> User {
+//        var user = User()
+//
+//        user.id = userCD.userIDString!
+//        user.name = userCD.name!
+//        user.screenName = userCD.screenName!
+//        user.createdAt = userCD.createdAt!
+//
+//        user.avatarUrlString = userCD.avatarUrlString!
+//        user.bannerUrlString = userCD.bannerUrlString ?? ""
+//
+//        user.bioText = userCD.bioText ?? ""
+//        user.loc = userCD.loc
+//        user.url = userCD.url
+//
+//        user.following = Int(userCD.following)
+//        user.followed = Int(userCD.followed)
+//        user.isFollowing = userCD.isFollowing
+//        user.isFollowed = userCD.isFollowed
+//
+//        user.notifications = false
+//
+//        user.tweets = Int(userCD.tweets)
+//
+//        return user
+//
+//    }
     
     
     /// 利用（获取的）数据来更新CoreData的用户数据
@@ -94,6 +94,9 @@ struct Adapter {
         userCD.followed = Int32(data["followers_count"].integer ?? 0)
         userCD.isFollowing = data["following"].bool ?? false
         userCD.isFollowed = data["follow_request_sent"].bool ?? false
+        
+        userCD.notification = data["notifications"].bool!
+        userCD.tweets = Int32(data["statuses_count"].integer ?? 0)
     }
     
    
@@ -101,9 +104,10 @@ struct Adapter {
     func convertToStatus(from json: JSON) -> Status {
         var status = Status(id: json["id_str"].string!)
         
-        var user = User()
-        convertAndUpdateUser(update: &user, with: json["user"])
-        status.user = user
+//        var user = User()
+//        convertAndUpdateUser(update: &user, with: json["user"])
+        status.user = UserCD.updateOrSaveToCoreData(from: json["user"], dataHandler: updateUserCD(_:with:)).convertToUser()
+        
         
         status.text = json["text"].string ?? ""
         status.attributedText = json.getAttributedText()

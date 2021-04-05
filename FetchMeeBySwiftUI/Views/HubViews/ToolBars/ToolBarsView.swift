@@ -58,8 +58,8 @@ struct ToolBarsView: View {
                     }
                 
                 ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
-                            label1Value: user.tweetsCount,
-                            label2Value: user.tweetsCount,
+                            label1Value: user.tweets,
+                            label2Value: user.tweets,
                             label3Value: user.tweetsPostedOnLastDay)
                     .onTapGesture {
                         if !toolBarIsFaceUp2 {

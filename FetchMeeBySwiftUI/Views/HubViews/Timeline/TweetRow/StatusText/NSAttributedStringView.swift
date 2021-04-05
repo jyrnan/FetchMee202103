@@ -23,10 +23,10 @@ struct NSAttributedStringView: View {
     
     var body: some View {
         ZStack{
-            NavigationLink(destination: UserView(userIDString: url.absoluteString), isActive: $isShowUserView) {
-                EmptyView()
-                .sheet(isPresented: $isShowSafariView) {SafariView(url: $url)}.disabled(true)
-            }.disabled(true).opacity(0.1)
+//            NavigationLink(destination: UserView(userIDString: url.absoluteString), isActive: $isShowUserView) {
+//                EmptyView()
+//                .sheet(isPresented: $isShowSafariView) {SafariView(url: $url)}.disabled(true)
+//            }.disabled(true).opacity(0.1)
         self.makeNativeTextView(width: width,attributedText: attributedText)
         }
     }

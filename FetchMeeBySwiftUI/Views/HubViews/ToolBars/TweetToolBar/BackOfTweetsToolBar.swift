@@ -31,7 +31,7 @@ struct BackOfTweetsToolBar: View {
             .cornerRadius(16)
         }
         .onAppear{
-            counts = Count.updateCount(for: store.appState.setting.loginUser ?? User())
+            counts = Count.updateCount(for: store.appState.setting.loginUser?.id ?? "0000")
         }
         
     }

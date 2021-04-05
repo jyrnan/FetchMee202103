@@ -32,21 +32,7 @@ extension UserCD {
                                        isBookmarkedUser: Bool? = nil,
                                        updateNickName: String? = nil) -> UserCD {
         
-//        func updateUserCD(_ userCD: UserCD, with data:JSON) {
-//            ///设置TwitterUser
-//            userCD.createdAt = Adapter().convertToDate(from: data["created_at"].string)
-//
-//            userCD.userIDString = data["id_str"].string!
-//            userCD.name = data["name"].string!
-//            userCD.screenName = data["screen_name"].string!
-//
-//            userCD.avatarUrlString = data["profile_image_url_https"].string!
-//            userCD.bannerUrlString = data["profile_banner_url"].string ?? ""
-//
-//            userCD.following = Int32(data["friends_count"].integer ?? 0)
-//            userCD.followed = Int32(data["followers_count"].integer ?? 0)
-//            userCD.isFollowing = data["following"].bool ?? true
-//        }
+
         
         /// 根据情况查找或新建TwitterUser
         /// - Returns: 返回一个现有或者新建的TwitterUser
@@ -105,6 +91,11 @@ extension UserCD {
         
         if let isLoginUser = isLoginUser {
             currentUser.isLoginUser = isLoginUser
+        }
+        
+        if currentUser.isLoginUser {
+            currentUser.followersAddedOnLastDay = Int32(Count.updateCount(for:  currentUser.userIDString! ).0.first ?? 0)
+            currentUser.tweetsPostedOnLastDay = Int32(Count.updateCount(for:  currentUser.userIDString!).1.first ?? 0)
             
             let count: Count = Count(context: viewContext)
             count.createdAt = Date()
@@ -130,7 +121,9 @@ extension UserCD {
         
         ///如果nickName是空，且不是本地用户，则从CoreData中删除该用户
         if updateNickName?.count == 0 && currentUser.isLocalUser == false {
-            viewContext.delete(currentUser)
+//            viewContext.delete(currentUser)
+            currentUser.isFavoriteUser = false
+            currentUser.nickName = nil
         }
         
         if currentUser.updateTime == nil {
@@ -153,6 +146,7 @@ extension UserCD {
         user.id = self.userIDString!
         user.name = self.name!
         user.screenName = self.screenName!
+        user.nickName = self.nickName
         user.createdAt = self.createdAt!
         
         user.tokenKey = self.tokenKey
@@ -170,9 +164,9 @@ extension UserCD {
         user.isFollowing = self.isFollowing
         user.isFollowed = self.isFollowed
         
-        user.notifications = false
+        user.notifications = self.notification
         
-        user.tweetsCount = Int(self.tweets)
+        user.tweets = Int(self.tweets)
         
         user.followersAddedOnLastDay = Int(self.followersAddedOnLastDay)
         user.tweetsPostedOnLastDay = Int(self.tweetsPostedOnLastDay)

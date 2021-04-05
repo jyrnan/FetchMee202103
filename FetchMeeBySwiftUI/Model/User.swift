@@ -37,10 +37,8 @@ struct User: Identifiable, Codable {
     
     var notifications: Bool = false
     
-    var tweetsCount: Int = 0
-   
-//    var setting: UserSetting = UserSetting()
-    
+    var tweets: Int = 0
+       
     var followersAddedOnLastDay: Int = 0 //24小时内新增fo数
     var tweetsPostedOnLastDay: Int = 0 //24小时内新增推数
     

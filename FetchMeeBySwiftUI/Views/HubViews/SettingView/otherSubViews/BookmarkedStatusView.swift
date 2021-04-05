@@ -10,6 +10,7 @@
 import SwiftUI
 import CoreData
 import Kingfisher
+import Combine
 
 struct BookmarkedStatusView: View {
     @EnvironmentObject var store: Store
@@ -38,9 +39,6 @@ struct BookmarkedStatusView: View {
                             deleteTags(offsets: indexSet)})
                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
             }
-            .onAppear(perform: {
-                UITableView.appearance().separatorColor = .clear
-            })
             .navigationTitle("Bookmarks")
             .navigationBarItems(trailing: Button(action: {deleteAll()}, label: {Text("Clear")}))
         }

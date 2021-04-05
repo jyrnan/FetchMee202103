@@ -23,9 +23,6 @@ class RemoteImageFromUrl: ObservableObject {
     init(imageUrl: String, imageType: ImageType = .original) {
         self.imageUrl = imageUrl
         self.imageType = imageType
-        
-//        getImage()  //改成视图出现后再调用获取图片的方法
-        
     }
     
     func getImage() {
@@ -74,14 +71,11 @@ class RemoteImageFromUrl: ObservableObject {
         let fileName = url.lastPathComponent ///获取下载文件名用于本地存储
        
         let cachelUrl = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-//            cfh.getPath()
         let filePath = cachelUrl.appendingPathComponent(fileName, isDirectory: false)
         
         ///先尝试获取本地缓存文件
         if let data = try? Data(contentsOf: filePath), let image = UIImage(data: data) {
-            
             sh(image)
-           
             
         } else {
             let task = URLSession.shared.downloadTask(with: url) {

@@ -22,7 +22,7 @@ struct DetailIndicator: View {
     var favoritedCount: Int {status?.favorite_count ?? 0 }
     
     var isMentioned: Bool  {status?.isMentioned ?? false}
-    
+    var isRead: Bool {status?.isRead ?? false}
     var body: some View {
         HStack(spacing: 0){
             Spacer()
@@ -37,7 +37,7 @@ struct DetailIndicator: View {
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
             Circle()
-                .fill(isMentioned ? Color.accentColor : Color.gray)
+                .fill( isRead ? Color.accentColor : Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
 

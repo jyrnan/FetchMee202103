@@ -69,7 +69,12 @@ struct TimelineView: View {
                             ///下面这个background可以遮蔽List的分割线
                             .background(Color.init("BackGround"))
                             .onAppear{
-                                numberOfReadTweet += 1
+                                if numberOfReadTweet > 15 {
+                                    store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: 15))
+                                    numberOfReadTweet = 0
+                                } else {
+                                    numberOfReadTweet += 1 }
+                                
                                 if store.appState.setting.userSetting?.isAutoFetchMoreTweet == true {
                                     fetchMoreIfNeeded(tweetIDString: tweetIDString) }
                             }
@@ -79,7 +84,6 @@ struct TimelineView: View {
                         }
                     } else {
                         ToolsView(tweetIDString: store.appState.timelineData.selectedTweetID ?? "")
-//                            .listRowBackground(selectedBackgroudColor)
                             .padding(.horizontal, setting.uiStyle.insetH)
                             .padding(.vertical,setting.uiStyle.insetV)
                             .background(Color.init("BackGround"))
@@ -115,10 +119,12 @@ struct TimelineView: View {
             
             .navigationTitle(timeline.type.rawValue)
             .onAppear {
-                store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
+//                store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
+               
+                
             }
             .onDisappear{
-                store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: numberOfReadTweet))
+//                store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: numberOfReadTweet))
             }
             
         }

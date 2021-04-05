@@ -55,7 +55,7 @@ class Repository  {
         users[id] = user
         return user
     }
-    
+    //MARK:-
     func getStatus(byID id: String) -> Status {
         if let status = self.statuses[id] {
             return status

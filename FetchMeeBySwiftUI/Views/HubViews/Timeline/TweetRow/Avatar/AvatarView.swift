@@ -26,8 +26,7 @@ struct AvatarView: View {
     var height: CGFloat
     
     var user: User? {store.repository.users[userIDString]}
-    
-    
+    @State var requestUser = User()
     
     var imageUrl:String? {user?.avatarUrlString ?? userCDs.filter{$0.userIDString == userIDString}.first?.avatarUrlString}
     
@@ -40,7 +39,7 @@ struct AvatarView: View {
     
     var body: some View {
             ZStack {
-                NavigationLink(destination: UserView(userIDString: userIDString),
+                NavigationLink(destination: UserView(user: requestUser),
                                isActive: $presentedUserInfo, label:{EmptyView()} ).disabled(true)
                 AvatarImageView(imageUrl: imageUrl )
                         .frame(width: width, height: height, alignment: .center)
@@ -51,7 +50,15 @@ struct AvatarView: View {
                             store.dipatch(.hubStatusRequest)
                         }
                         .onTapGesture {
-                            presentedUserInfo = true
+                            if let user = store.repository.users[userIDString] {
+                                requestUser = user
+                                print(#line, #file, user.bannerUrlString)
+                                presentedUserInfo = true
+                                   
+                            store.dipatch(.fetchTimeline(timelineType: .user(userID: userIDString), mode: .top))
+                                    
+                            }
+                            
                         }
                         .alert(isPresented: $isShowAlert, content: {
                             Alert(title: Text("没拍到"), message: Text("可能\(user?.name ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))

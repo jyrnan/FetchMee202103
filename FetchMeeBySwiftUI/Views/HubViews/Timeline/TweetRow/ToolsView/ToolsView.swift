@@ -48,6 +48,7 @@ struct ToolsView: View {
                             store.fetcher.swifter.getTweet(for: tweetIDString, success: {json in
                                 let _ = StatusCD.JSON_Save(from: json, isBookmarked: true)
                                 store.dipatch(.alertOn(text: "Bookmarked!", isWarning: false))
+                                store.dipatch(.hubStatusRequest)
                             })
                             
                         }

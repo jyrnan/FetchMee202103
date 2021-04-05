@@ -25,7 +25,7 @@ struct UserMarkManageView: View {
         List {
             ForEach(userCDs, id: \.self) { user in
                 NavigationLink(
-                    destination: UserView(userIDString: user.userIDString ?? "0000")) {
+                    destination: UserView(user: User())) {
                 HStack {
                     Text(user.nickName ?? "").frame(width: 80, alignment: .leading)
                     Text(user.name ?? "Name").bold().lineLimit(1).frame(width: 120, alignment: .leading)
