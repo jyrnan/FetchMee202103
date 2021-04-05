@@ -88,9 +88,9 @@ extension AppState {
         
         struct Timeline {
             var type: TimelineType = .home
-            
-            var tweetIDStrings: [String] = []
             var newTweetNumber: Int = 0
+            var tweetIDStrings: [String] = []
+            var status: [Status] = []
         }
         
         /// 所有timeline的数据

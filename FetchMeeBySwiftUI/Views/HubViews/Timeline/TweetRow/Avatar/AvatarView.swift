@@ -63,6 +63,10 @@ struct AvatarView: View {
                         .alert(isPresented: $isShowAlert, content: {
                             Alert(title: Text("没拍到"), message: Text("可能\(user?.name ?? "该用户")不想让你拍"), dismissButton: .cancel(Text("下次吧")))
                         })
+//                    .sheet(isPresented: $presentedUserInfo, content: {UserView(user: requestUser)
+//                        .environmentObject(store)
+//                        .environment(\.managedObjectContext, viewContext)
+//                    })
                 ///显示头像补充图标
                 ///如果该用户nickName不为空，则显示星标
                 if user?.isLoginUser == true || user?.isFavoriteUser == true {

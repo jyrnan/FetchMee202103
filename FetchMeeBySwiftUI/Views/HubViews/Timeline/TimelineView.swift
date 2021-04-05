@@ -24,8 +24,6 @@ struct TimelineView: View {
     var isProcessingDone: Binding<Bool>  {$store.appState.setting.isProcessingDone}
     @GestureState var dragAmount = CGSize.zero
     
-    @State var numberOfReadTweet: Int = 0
-    
     var selectedBackgroudColor: some View  {
         Color.init("BackGround")
             .overlay(Color.accentColor.opacity(0.12))}
@@ -50,7 +48,7 @@ struct TimelineView: View {
                     HStack {
                         Spacer()
                         if !store.appState.setting.isProcessingDone {
-                            ActivityIndicator(isAnimating: $store.appState.setting.isProcessingDone, style: .medium).frame(width: 12, height: 12, alignment: .center).padding(.trailing, 16)
+                            ActivityIndicator(isAnimating: isProcessingDone, style: .medium).frame(width: 12, height: 12, alignment: .center).padding(.trailing, 16)
                         }
                     }
                 }
@@ -69,15 +67,9 @@ struct TimelineView: View {
                             ///下面这个background可以遮蔽List的分割线
                             .background(Color.init("BackGround"))
                             .onAppear{
-                                if numberOfReadTweet > 15 {
-                                    store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: 15))
-                                    numberOfReadTweet = 0
-                                } else {
-                                    numberOfReadTweet += 1 }
-                                
-                                if store.appState.setting.userSetting?.isAutoFetchMoreTweet == true {
-                                    fetchMoreIfNeeded(tweetIDString: tweetIDString) }
+                                checkNeededActions(tweetIDString: tweetIDString)
                             }
+                            
                         if setting.uiStyle == .plain {
                             Divider().padding(0)
                         }
@@ -106,26 +98,14 @@ struct TimelineView: View {
                     Spacer()
                 }
                 .listRowBackground(Color.init("BackGround"))
-                
-                
+
                 RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
                     .frame(height: 42)
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                
             }
             .gesture(DragGesture()
-                        .onChanged({ value in
-                                    hideKeyboard()}))
-            
+                        .onChanged({ value in hideKeyboard()}))
             .navigationTitle(timeline.type.rawValue)
-            .onAppear {
-//                store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
-               
-                
-            }
-            .onDisappear{
-//                store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: numberOfReadTweet))
-            }
             
         }
     }
@@ -141,15 +121,19 @@ extension TimelineView {
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
-    
-    
-    /// 如果推文属于timeline后端，则往下刷新推文。
+   
+    /// 判断该推文出现的时候需要采取的操作
+    /// 可能包括刷新最新推文数量和获取新的推文
     /// - Parameter tweetIDString: 执行此操作的推文ID
-    func fetchMoreIfNeeded(tweetIDString: String) {
-        ///需要往下刷新推文的推文位置，是从后倒数
-        let shouldFetchIndex = 5
-        guard timeline.tweetIDStrings.count > shouldFetchIndex else {return}
-        let index = timeline.tweetIDStrings.count - shouldFetchIndex
+    func checkNeededActions(tweetIDString: String) {
+        guard timeline.tweetIDStrings.count > 10 else {return}
+        //如果是第十条推文，则更新新推文数量，减少100条新推文（相当于设置新推文数量为0）
+        let indexOfUpdateNewTweetNumber = min(timeline.newTweetNumber, 10)
+        if timeline.tweetIDStrings[indexOfUpdateNewTweetNumber] == tweetIDString {
+            store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: 100))
+        }
+        //如果推文是倒数第5条，则获取更早之前的推文
+        let index = timeline.tweetIDStrings.count - 5
         if timeline.tweetIDStrings[index] == tweetIDString {
             store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
         }

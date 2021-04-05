@@ -12,6 +12,7 @@ import SafariServices
 
 
 struct NSAttributedStringView: View {
+    @EnvironmentObject var store: Store
     @Environment(\.openURL) var openURL
     
     var attributedText: NSMutableAttributedString
@@ -23,11 +24,12 @@ struct NSAttributedStringView: View {
     
     var body: some View {
         ZStack{
-//            NavigationLink(destination: UserView(userIDString: url.absoluteString), isActive: $isShowUserView) {
-//                EmptyView()
-//                .sheet(isPresented: $isShowSafariView) {SafariView(url: $url)}.disabled(true)
-//            }.disabled(true).opacity(0.1)
+            NavigationLink(destination: UserView( user: store.repository.getUser(byID: url.absoluteString)), isActive: $isShowUserView) {
+                EmptyView()
+                    .sheet(isPresented: $isShowSafariView) {SafariView(url: $url)}.disabled(true)
+            }.disabled(true).opacity(0.1)
         self.makeNativeTextView(width: width,attributedText: attributedText)
+            
         }
     }
     

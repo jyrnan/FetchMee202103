@@ -23,10 +23,10 @@ struct ImageThumb: View {
     
     var body: some View {
         ZStack(alignment: .center) {
-//            KFImage(URL(string:imageUrl + ":small")!)
-//            .placeholder{Image("defaultImage").resizable()}
-//            .resizable()
-            RemoteImage(imageUrl: imageUrl)
+            KFImage(URL(string:imageUrl + ":small")!)
+            .placeholder{Image("defaultImage").resizable()}
+                .resizable()
+//            RemoteImage(imageUrl: imageUrl)
             .aspectRatio(contentMode: .fill)
             .frame(width: width, height: height, alignment: .center) //直接按照传入的大小进行图片调整。
             .clipped()

@@ -75,6 +75,9 @@ struct FetcherSwifter: Fetcher {
                 storeMentionUserData(mention: $0, to: &mentionUserData)
             }
             
+            //TODO:
+            timelineWillUpdate.status = timelineWillUpdate.tweetIDStrings.map{store!.repository.getStatus(byID: $0)}
+            
             return (timelineWillUpdate, mentionUserData)
                     }
         
