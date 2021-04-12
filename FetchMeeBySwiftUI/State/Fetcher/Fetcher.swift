@@ -76,7 +76,7 @@ struct FetcherSwifter: Fetcher {
             }
             
             //TODO:
-            timelineWillUpdate.status = timelineWillUpdate.tweetIDStrings.map{store!.repository.getStatus(byID: $0)}
+//            timelineWillUpdate.status = timelineWillUpdate.tweetIDStrings.map{store!.repository.getStatus(byID: $0)}
             
             return (timelineWillUpdate, mentionUserData)
                     }

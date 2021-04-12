@@ -39,8 +39,8 @@ struct LoginCommand: AppCommand {
                 store.dipatch(.alertOn(text: "Login failed", isWarning: true))
             }
             let url = URL(string: "fetchmee://success")!
-            store.fetcher.swifter.authorize(withCallback: url,
-                                            presentingFrom:presentingFrom,
+            store.fetcher.swifter.authorize(withProvider: presentingFrom,
+                                            callbackURL: url,
                                             success: {token, response in
                                                 if let token = token {
                                                     let loginUser = User(id: token.userID!,

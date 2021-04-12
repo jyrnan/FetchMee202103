@@ -13,12 +13,13 @@ struct AutoCompleteVIew: View {
     @EnvironmentObject var store: Store
     
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.userIDString, ascending: true)]) var twitterUsers: FetchedResults<UserCD>
+    
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.userIDString, ascending: true)]) var userCDs: FetchedResults<UserCD>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetTagCD.priority, ascending: false),
                                     NSSortDescriptor(keyPath: \TweetTagCD.createdAt, ascending: false)]) var tweetTags: FetchedResults<TweetTagCD>
     
     var screenNames: [String] {
-        twitterUsers.filter{($0.screenName?.starts(with: String(autoCompletText.dropFirst()))) == true}
+        userCDs.filter{($0.screenName?.starts(with: String(autoCompletText.dropFirst()))) == true}
             .map{"@" + $0.screenName!}
     }
     
@@ -29,7 +30,10 @@ struct AutoCompleteVIew: View {
     }
     
     var autoCompletText: String
-    var namesOrtags: [String] {autoCompletText.first == "@" ? screenNames : tagsCD}
+    var namesOrtags: [String] {
+//        print(#line, #file, "Ruinning autoCompleteText")
+        return autoCompletText.first == "@" ? screenNames : tagsCD
+    }
     
     var body: some View {
         ScrollView (.horizontal, showsIndicators: false){

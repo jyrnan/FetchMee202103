@@ -11,38 +11,26 @@ import UIKit
 import SafariServices
 import Swifter
 import SwiftUI
+import AuthenticationServices
 
 class AuthViewController: UIViewController, SFSafariViewControllerDelegate {
     
     var store: Store!
-    
-    let alertTitle = "\"FetchMee\" Wants to Use \"Twitter.com\" to Sign In"
-    let alertMessage = "This allows the app and website to share information about you"
-    
+
     @IBAction func login(_ sender: Any) {
-        presentAlert()
+        self.store.dipatch(.login(presentingFrom: self, loginUser: nil))
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
-    
-    func presentAlert() {
-        let alert = UIAlertController(title: alertTitle,
-                                      message: alertTitle,
-                                      preferredStyle: .alert)
-        alert.addAction(
-            UIAlertAction(title: NSLocalizedString("Continue", comment: "Default action"),
-                          style: .default,
-                          handler: { _ in
-                            self.store.dipatch(.login(presentingFrom: self, loginUser: nil))}))
-        alert.addAction(
-            UIAlertAction(title: "Cancel",
-                          style: .cancel,
-                          handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
+}
 
- 
+// This is need for ASWebAuthenticationSession
+@available(iOS 13.0, *)
+extension AuthViewController: ASWebAuthenticationPresentationContextProviding {
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        return self.view.window!
+    }
 }

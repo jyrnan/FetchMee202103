@@ -110,8 +110,8 @@ struct SettingView: View {
         
         .onDisappear{store.dipatch(.changeSetting(setting: setting))}
         .navigationTitle("Setting")
-        .navigationBarItems( trailing: AvatarImageView(imageUrl: store.appState.setting.loginUser?.avatarUrlString)
-                                .frame(width: 36, height: 36, alignment: .center))
+//        .navigationBarItems( trailing: AvatarImageView(imageUrl: store.appState.setting.loginUser?.avatarUrlString)
+//                                .frame(width: 36, height: 36, alignment: .center))
     }
 }
 

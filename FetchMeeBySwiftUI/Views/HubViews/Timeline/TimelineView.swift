@@ -128,9 +128,10 @@ extension TimelineView {
     func checkNeededActions(tweetIDString: String) {
         guard timeline.tweetIDStrings.count > 10 else {return}
         //如果是第十条推文，则更新新推文数量，减少100条新推文（相当于设置新推文数量为0）
-        let indexOfUpdateNewTweetNumber = min(timeline.newTweetNumber, 10)
-        if timeline.tweetIDStrings[indexOfUpdateNewTweetNumber] == tweetIDString {
-            store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: 100))
+        let indexOfUpdateNewTweetNumber = 10
+        if timeline.tweetIDStrings[indexOfUpdateNewTweetNumber] == tweetIDString,
+           timeline.newTweetNumber != 0 {
+            store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: 1000))
         }
         //如果推文是倒数第5条，则获取更早之前的推文
         let index = timeline.tweetIDStrings.count - 5

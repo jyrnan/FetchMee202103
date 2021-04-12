@@ -62,9 +62,11 @@ struct HubView: View {
                     .background(Color.init("BackGround")).cornerRadius(24)
                     
                 }
+                
                 .onTapGesture(count: 1, perform: {
                     self.hideKeyboard()
                 })
+                
                 .navigationTitle("FetchMee")
                 .navigationBarItems(trailing: NavigationLink(destination: SettingView(setting: store.appState.setting.userSetting ?? UserSetting())) {
                                         AvatarImageView(imageUrl:store.appState.setting.loginUser?.avatarUrlString)
@@ -73,7 +75,8 @@ struct HubView: View {
             .overlay(AlertView()) //所有条状通知在NavigationBar上出现
             .toast(isShowing: $store.appState.setting.isShowImageViewer, presented: store.appState.setting.presentedView)
         }
-        
+        .gesture(DragGesture()
+                    .onChanged({ value in hideKeyboard()}))
   }
   
 }
