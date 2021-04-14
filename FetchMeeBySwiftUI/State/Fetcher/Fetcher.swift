@@ -106,7 +106,12 @@ struct FetcherSwifter: Fetcher {
     ///把推文数据添加到Repository里面，
     func addDataToRepository(_ data: JSON) {
         store?.repository.addStatus(data: data)
-        let _ = store?.repository.addUser(data: data["user"])
+        
+        //如果推文是回复login用户的，则需要把该推文用户设置成isFavoriteUser
+        if data["in_reply_to_user_id_str"].string == loginUserID {
+            let _ = store?.repository.addUser(data: data["user"], isFavoriteUser: true)
+        } else {
+            let _ = store?.repository.addUser(data: data["user"])}
         
         if data["quoted_status_id_str"].string != nil{
             addDataToRepository(data["quoted_status"])

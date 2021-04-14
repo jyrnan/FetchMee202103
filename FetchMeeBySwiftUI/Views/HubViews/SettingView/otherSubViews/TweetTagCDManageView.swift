@@ -40,7 +40,7 @@ struct TweetTagCDManageView_Previews: PreviewProvider {
 
 extension TweetTagCDManageView {
     private func deleteAll() {
-        tweetTags.forEach{viewContext.delete($0)}
+        tweetTags.filter{$0.priority == 0}.forEach{viewContext.delete($0)}
         
         do {
             try viewContext.save()

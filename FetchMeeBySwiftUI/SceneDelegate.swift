@@ -87,20 +87,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-        
-        //保存用户设置
-//        loingUser.setting.save()
+        // to restore the scene back to its current state
         
         //加入定时程序
         scheduledRefresh()
         scheduledProcess()
-        store.dipatch(.deselectTweetRow)
-        store.dipatch(.clearTimelineData) //暂时取消
-       
+        
+        //清理工作
+        store.dipatch(.backgroundClear)
     }
-    
-    
 }
 
 

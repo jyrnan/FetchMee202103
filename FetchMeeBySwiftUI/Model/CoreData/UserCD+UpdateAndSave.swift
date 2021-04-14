@@ -180,5 +180,23 @@ extension UserCD {
 
     }
     
+    static func deleteNotFavoriteUser() {
+        let viewContext = PersistenceContainer.shared.container.viewContext
+        let userFetch:NSFetchRequest<UserCD> = UserCD.fetchRequest()
+        userFetch.sortDescriptors = [NSSortDescriptor(keyPath: \UserCD.isLoginUser, ascending: false),
+                                     NSSortDescriptor(keyPath: \UserCD.isLocalUser, ascending: false),
+                                     NSSortDescriptor(keyPath: \UserCD.isFavoriteUser, ascending: false),
+                                     NSSortDescriptor(keyPath: \UserCD.isBookmarkedUser, ascending: false),
+                                     NSSortDescriptor(keyPath: \UserCD.updateTime, ascending: true)]
+        let userCDs = try? viewContext.fetch(userFetch)
+        
+        userCDs?.filter{!$0.isLocalUser && !$0.isFavoriteUser && !$0.isBookmarkedUser && !$0.isLoginUser}.forEach{viewContext.delete($0)}
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            print(nsError.description)
+        }
+    }
 }
 

@@ -53,4 +53,6 @@ enum AppAction {
     
     case hubStatusRequest
     case updateHubStatus(hubStatus: AppState.TimelineData.HubStatus)
+    
+    case backgroundClear
 }

@@ -17,7 +17,8 @@ struct UserMarkManageView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \UserCD.isLoginUser, ascending: false),
                                     NSSortDescriptor(keyPath: \UserCD.isLocalUser, ascending: false),
                                     NSSortDescriptor(keyPath: \UserCD.isFavoriteUser, ascending: false),
-                                    NSSortDescriptor(keyPath: \UserCD.updateTime, ascending: false)]) var userCDs: FetchedResults<UserCD>
+                                    NSSortDescriptor(keyPath: \UserCD.isBookmarkedUser, ascending: false),
+                                    NSSortDescriptor(keyPath: \UserCD.updateTime, ascending: true)]) var userCDs: FetchedResults<UserCD>
     
     @State var presentedUserInfo: Bool = false
     
@@ -26,15 +27,15 @@ struct UserMarkManageView: View {
             ForEach(userCDs, id: \.self) { user in
                 NavigationLink(
                     destination: UserView(user: User())) {
-                HStack {
-                    Text(user.nickName ?? "").frame(width: 80, alignment: .leading)
-                    Text(user.name ?? "Name").bold().lineLimit(1).frame(width: 120, alignment: .leading)
-                    Text("@" + (user.updateTime?.description ?? "N/A")).lineLimit(2).frame(alignment: .leading).foregroundColor(.gray)
-                        .onTapGesture {
-                            presentedUserInfo = true
-                        }
-                }.foregroundColor(user.isLoginUser ? .red : (user.isLocalUser ? .green : .gray))
-                
+                    HStack {
+                        Text(user.nickName ?? "").frame(width: 80, alignment: .leading)
+                        Text(user.name ?? "Name").bold().lineLimit(1).frame(width: 120, alignment: .leading)
+                        Text("@" + (user.updateTime?.description ?? "N/A")).lineLimit(2).frame(alignment: .leading).foregroundColor(.gray)
+                            .onTapGesture {
+                                presentedUserInfo = true
+                            }
+                    }.foregroundColor(user.isLoginUser ? .red : (user.isLocalUser ? .green : (user.isFavoriteUser ? .blue : (user.isBookmarkedUser ? .orange : .gray))))
+                    
                 }
             }
             .onDelete(perform: { indexSet in
@@ -73,6 +74,6 @@ extension UserMarkManageView {
         } catch {
             let nsError = error as NSError
             print(nsError.description)
+        }
     }
-}
 }

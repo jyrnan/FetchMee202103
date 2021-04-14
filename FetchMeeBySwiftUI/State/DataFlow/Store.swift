@@ -164,6 +164,9 @@ class Store: ObservableObject {
             
         case .updateHubStatus(let hubStatus):
             appState.timelineData.hubStatus = hubStatus
+            
+        case .backgroundClear:
+            appCommand = AppCommand_BGClearTask()
 
         }
         return (appState, appCommand)

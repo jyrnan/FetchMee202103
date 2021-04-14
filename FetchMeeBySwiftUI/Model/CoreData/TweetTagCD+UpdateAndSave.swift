@@ -34,4 +34,21 @@ extension TweetTagCD {
             print(nsError.description)
         }
     }
+    
+    static func deleteUnusedTag() {
+        let viewContext = PersistenceContainer.shared.container.viewContext
+        
+        let tagFetch: NSFetchRequest<TweetTagCD> = TweetTagCD.fetchRequest()
+        
+        if let result = try? viewContext.fetch(tagFetch) {
+            result.filter{$0.priority == 0}.forEach{viewContext.delete($0)}
+        }
+        
+        do {
+            try viewContext.save()
+        }catch {
+            let nsError = error as NSError
+            print(nsError.description)
+        }
+    }
 }

@@ -29,6 +29,7 @@
 		D21C3304255A827C001CBBCD /* Counter+Calculate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C3303255A827C001CBBCD /* Counter+Calculate.swift */; };
 		D21C3306255A8356001CBBCD /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C3305255A8356001CBBCD /* FoundationExtensions.swift */; };
 		D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F4C4E24DE73C6004B2C20 /* SettingView.swift */; };
+		D221FEE22626DA4B009F00FC /* AppCommand_BGClearTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D221FEE12626DA4B009F00FC /* AppCommand_BGClearTask.swift */; };
 		D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */; };
 		D228E06125FCF5A10063E0EB /* BookmarkedStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */; };
 		D228E06325FD9A900063E0EB /* Status_CDRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D228E06225FD9A900063E0EB /* Status_CDRow.swift */; };
@@ -167,6 +168,7 @@
 		D21C3303255A827C001CBBCD /* Counter+Calculate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Counter+Calculate.swift"; sourceTree = "<group>"; };
 		D21C3305255A8356001CBBCD /* FoundationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
 		D21F4C4E24DE73C6004B2C20 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		D221FEE12626DA4B009F00FC /* AppCommand_BGClearTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommand_BGClearTask.swift; sourceTree = "<group>"; };
 		D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swifter+DeleteTweets.swift"; sourceTree = "<group>"; };
 		D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedStatusView.swift; sourceTree = "<group>"; };
 		D228E06225FD9A900063E0EB /* Status_CDRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status_CDRow.swift; sourceTree = "<group>"; };
@@ -590,6 +592,7 @@
 				D20A35D425E68FFB0012CD82 /* AppCommand_Timeline.swift */,
 				D255E23F25EE1F440053CDE4 /* AppCommand_Tweet.swift */,
 				D22F0D442615EDA5007F931E /* AppCommand_HubStatusRequest.swift */,
+				D221FEE12626DA4B009F00FC /* AppCommand_BGClearTask.swift */,
 				D28F9E9C25E4E39F00B8EF40 /* AppError.swift */,
 			);
 			path = DataFlow;
@@ -890,6 +893,7 @@
 				D286BE4A2566460600DCEA1E /* AuthViewController.swift in Sources */,
 				D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */,
 				D22F0D452615EDA5007F931E /* AppCommand_HubStatusRequest.swift in Sources */,
+				D221FEE22626DA4B009F00FC /* AppCommand_BGClearTask.swift in Sources */,
 				D22EF6172614738800ABC8DF /* RemoteImage.swift in Sources */,
 				D28F9E9B25E4E39200B8EF40 /* AppCommand.swift in Sources */,
 				D28F9E9725E4E0FD00B8EF40 /* AppState.swift in Sources */,

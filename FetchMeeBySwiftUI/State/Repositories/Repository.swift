@@ -43,17 +43,19 @@ class Repository  {
     ///   - isLoginUser: 标记是否是登陆用户
     ///   - token: 登陆用户的token信息
     /// - Returns: User格式的用户
-    func addUser(data: JSON, isLoginUser: Bool? = nil, token: (String?, String?)? = nil) -> User {
+    func addUser(data: JSON, isLoginUser: Bool? = nil, token: (String?, String?)? = nil, isFavoriteUser: Bool? = nil) -> User {
         guard let id = data["id_str"].string else {return User()}
         //TODO：更新最新的用户follow和推文数量信息
         //利用数据来更新userCD
         let userCD = UserCD.updateOrSaveToCoreData(from: data,
                                                    dataHandler: adapter.updateUserCD(_:with:),
                                                    isLoginUser: isLoginUser,
-                                                   token: token)
+                                                   token: token,
+                                                   isFavoriteUser: isFavoriteUser)
         let user = userCD.convertToUser()
         users[id] = user
         return user
+        
     }
     //MARK:-
     func getStatus(byID id: String) -> Status {
