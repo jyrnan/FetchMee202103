@@ -123,6 +123,11 @@ class Store: ObservableObject {
         case .fetchTimelineDone(let timeline, let mentionUserData):
             appState.setting.isProcessingDone = true
             appState.timelineData.timelines[timeline.type.rawValue] = timeline
+            //需要更新最新的Mention推文ID备用
+            if timeline.type == .mention, timeline.tweetIDStrings.first != nil {
+                appState.timelineData.latestMentionID = timeline.tweetIDStrings.first
+//                assert(timeline.tweetIDStrings.first != nil)
+            }
             appState.timelineData.mentionUserData = mentionUserData
             
             

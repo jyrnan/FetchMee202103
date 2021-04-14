@@ -59,7 +59,13 @@ struct FetcherSwifter: Fetcher {
             var mentionUserData: [User.MentionUser] = mentionUserData
             
             guard let newTweets = json.array else {return (timelineWillUpdate, mentionUserData)}
+            
             timelineWillUpdate.newTweetNumber += newTweets.count
+            //TODO: mention新推文的计算方式
+            if timelineWillUpdate.type == .mention {
+//                updateMentionTimelineNewTweetsNumber(&timelineWillUpdate)
+            }
+            
             timelineWillUpdate.updateTweetIDStrings(updateMode: updateMode, with: converJSON2TweetIDStrings(from: newTweets))
             
             newTweets.forEach{
@@ -74,12 +80,17 @@ struct FetcherSwifter: Fetcher {
                 UserCD.updateOrSaveToCoreData(from: $0["user"])
                 storeMentionUserData(mention: $0, to: &mentionUserData)
             }
-            
-            //TODO:
-//            timelineWillUpdate.status = timelineWillUpdate.tweetIDStrings.map{store!.repository.getStatus(byID: $0)}
-            
+                
             return (timelineWillUpdate, mentionUserData)
-                    }
+            
+        }
+        
+        func updateMentionTimelineNewTweetsNumber(_ mention: inout AppState.TimelineData.Timeline) {
+            guard let latestMentionID = store?.appState.timelineData.latestMentionID else {return }
+            guard mention.tweetIDStrings.contains(latestMentionID) else {return}
+            mention.newTweetNumber = mention.tweetIDStrings.firstIndex(of: latestMentionID) ?? 0
+            print(#line, #file, #function)
+        }
         
         func errorHandler(error: Error) -> AppError {
             return AppError.netwokingFailed(error)}
@@ -163,7 +174,13 @@ struct FetcherSwifter: Fetcher {
 extension FetcherSwifter {
     //MARK:- Publisher生成
     func makeSessionOperatePublisher(updateMode: FetchTimelineCommand.UpdateMode, timeline: Timeline) -> Future<JSON, Error> {
-        var sinceIDString: String? {updateMode == .top ? timeline.tweetIDStrings.first : nil }
+        var sinceIDString: String? {
+            if timeline.type == .mention, updateMode == .top {
+                return store?.appState.timelineData.latestMentionID
+            } else {
+                return updateMode == .top ? timeline.tweetIDStrings.first : nil
+            }
+        }
         var maxIDString: String? {updateMode == .bottom ? timeline.tweetIDStrings.last : nil}
        
         switch timeline.type {

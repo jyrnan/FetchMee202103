@@ -96,6 +96,10 @@ extension AppState {
         /// 所有timeline的数据
         var timelines: [String: Timeline] = [:]
         
+        ///persistant最新回复推文的id
+        @FileStorage(directory: .documentDirectory, fileName: "latestMentionID.json")
+        var latestMentionID: String?
+        
         /// 选中的推文ID
         var selectedTweetID: String?
         
