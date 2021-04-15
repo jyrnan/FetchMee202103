@@ -59,12 +59,9 @@ struct FetcherSwifter: Fetcher {
             var mentionUserData: [User.MentionUser] = mentionUserData
             
             guard let newTweets = json.array else {return (timelineWillUpdate, mentionUserData)}
-            
-            timelineWillUpdate.newTweetNumber += newTweets.count
-            //TODO: mention新推文的计算方式
-            if timelineWillUpdate.type == .mention {
-//                updateMentionTimelineNewTweetsNumber(&timelineWillUpdate)
-            }
+            //只有更新“较新”推文的时候，才有必要更新新推文数量
+            if updateMode == .top {
+                timelineWillUpdate.newTweetNumber += newTweets.count}
             
             timelineWillUpdate.updateTweetIDStrings(updateMode: updateMode, with: converJSON2TweetIDStrings(from: newTweets))
             
@@ -83,13 +80,6 @@ struct FetcherSwifter: Fetcher {
                 
             return (timelineWillUpdate, mentionUserData)
             
-        }
-        
-        func updateMentionTimelineNewTweetsNumber(_ mention: inout AppState.TimelineData.Timeline) {
-            guard let latestMentionID = store?.appState.timelineData.latestMentionID else {return }
-            guard mention.tweetIDStrings.contains(latestMentionID) else {return}
-            mention.newTweetNumber = mention.tweetIDStrings.firstIndex(of: latestMentionID) ?? 0
-            print(#line, #file, #function)
         }
         
         func errorHandler(error: Error) -> AppError {
@@ -160,6 +150,7 @@ struct FetcherSwifter: Fetcher {
     
     /// 保存推文中的tag到coredata
     /// - Parameter status: 推文JSON数据
+    
     func saveTweetTagToCoreData(status:JSON) {
         guard let tags = status["entities"]["hashtags"].array, !tags.isEmpty else {return }
         let _ = tags.forEach{tagJSON in
@@ -175,6 +166,8 @@ extension FetcherSwifter {
     //MARK:- Publisher生成
     func makeSessionOperatePublisher(updateMode: FetchTimelineCommand.UpdateMode, timeline: Timeline) -> Future<JSON, Error> {
         var sinceIDString: String? {
+            //因为需要保存最近一条Mention推文信息，所以对于更新mention时候，sinceID会读取保存的值
+            //TODO:这个保存的id可以进一步拓展到其他session，例如favorite，但是Home其实没有必要
             if timeline.type == .mention, updateMode == .top {
                 return store?.appState.timelineData.latestMentionID
             } else {

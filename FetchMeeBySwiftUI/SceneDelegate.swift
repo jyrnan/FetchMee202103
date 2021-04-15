@@ -188,11 +188,8 @@ extension SceneDelegate {
         
         //实际操作部分，执行真正的操作
         guard store.appState.setting.loginUser != nil else { return }
-        
         saveOrUpdateLog(text: "Started background fetch.")
-        
     }
-    
     
     func handleProcess(task: BGProcessingTask) {
         scheduledProcess()
