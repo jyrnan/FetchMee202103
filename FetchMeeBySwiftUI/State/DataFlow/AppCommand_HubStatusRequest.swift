@@ -14,7 +14,7 @@ struct AppCommand_HubStatusRequest: AppCommand {
     
     func execute(in store: Store) {
         var hubStatus: AppState.TimelineData.HubStatus = (nil, nil, nil)
-        guard let viewContext = store.context else {return}
+        let viewContext = store.context
         
         //设置排序和筛选选项
         let statusSortDescriptors = [NSSortDescriptor(keyPath: \StatusCD.created_at, ascending: false)]

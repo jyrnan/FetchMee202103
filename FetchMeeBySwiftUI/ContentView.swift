@@ -13,7 +13,7 @@ import CoreData
 struct ContentView: View {
     
     @EnvironmentObject var store: Store
-    var loginUser: User? {store.appState.setting.loginUser}
+//    var loginUser: User? {store.appState.setting.loginUser}
     
     var isLoggedIn:Bool {store.appState.setting.loginUser != nil}
 

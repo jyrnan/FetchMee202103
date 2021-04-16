@@ -74,8 +74,6 @@
 		D27744E3253B149B0062B25C /* BackOfFriendToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27744E2253B149B0062B25C /* BackOfFriendToolBar.swift */; };
 		D27744E5253B14DD0062B25C /* BackOfTweetsToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27744E4253B14DD0062B25C /* BackOfTweetsToolBar.swift */; };
 		D2794F33251F1DE200824E6D /* SaliencyDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2794F32251F1DE200824E6D /* SaliencyDetection.swift */; };
-		D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */; };
-		D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */; };
 		D27DCEC024B96D6100520BE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEBF24B96D6100520BE3 /* Assets.xcassets */; };
 		D27DCEC324B96D6100520BE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEC224B96D6100520BE3 /* Preview Assets.xcassets */; };
 		D27DCEC624B96D6100520BE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D27DCEC424B96D6100520BE3 /* LaunchScreen.storyboard */; };
@@ -122,6 +120,8 @@
 		D2E4D75324D851EA00D68A09 /* QuotedTweetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */; };
 		D2EFF67B2573E2A600E016C1 /* UserNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EFF67A2573E2A600E016C1 /* UserNameView.swift */; };
 		D2F74E54262918A5005EA902 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F74E53262918A5005EA902 /* AuthView.swift */; };
+		D2F74F0026296FC7005EA902 /* AuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F74EFF26296FC7005EA902 /* AuthProvider.swift */; };
+		D2F74F0226298A95005EA902 /* FetchMeeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F74F0126298A95005EA902 /* FetchMeeApp.swift */; };
 		D2FE6E15250DE11400314966 /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = D2FE6E14250DE11400314966 /* Swifter */; };
 		D707B6ED24C4040F0023F243 /* KeyboardHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = D707B6EC24C4040F0023F243 /* KeyboardHide.swift */; };
 		D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D707B6EE24C44CE10023F243 /* DetailIndicator.swift */; };
@@ -261,6 +261,8 @@
 		D2E4D75224D851EA00D68A09 /* QuotedTweetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotedTweetRow.swift; sourceTree = "<group>"; };
 		D2EFF67A2573E2A600E016C1 /* UserNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameView.swift; sourceTree = "<group>"; };
 		D2F74E53262918A5005EA902 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		D2F74EFF26296FC7005EA902 /* AuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProvider.swift; sourceTree = "<group>"; };
+		D2F74F0126298A95005EA902 /* FetchMeeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchMeeApp.swift; sourceTree = "<group>"; };
 		D707B6EC24C4040F0023F243 /* KeyboardHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHide.swift; sourceTree = "<group>"; };
 		D707B6EE24C44CE10023F243 /* DetailIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailIndicator.swift; sourceTree = "<group>"; };
 		D730997E24ED6A5F00B57837 /* DraftsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraftsView.swift; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 		D27DCEB824B96D5F00520BE3 /* FetchMeeBySwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				D2F74F0126298A95005EA902 /* FetchMeeApp.swift */,
 				D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */,
 				D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */,
 				D2C45BAB24C6D31B007D67B6 /* ContentView.swift */,
@@ -561,6 +564,7 @@
 			isa = PBXGroup;
 			children = (
 				D2F74E53262918A5005EA902 /* AuthView.swift */,
+				D2F74EFF26296FC7005EA902 /* AuthProvider.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -831,9 +835,11 @@
 				D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */,
 				D2C8107925FF9AC9001C6546 /* QuotedStatusJsonRow.swift in Sources */,
 				D22B83662619C93D00B6A748 /* UserInfo.swift in Sources */,
+				D2F74F0226298A95005EA902 /* FetchMeeApp.swift in Sources */,
 				D228E06325FD9A900063E0EB /* Status_CDRow.swift in Sources */,
 				D27FBA42260F5EC100F7067B /* Adapter.swift in Sources */,
 				D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */,
+				D2F74F0026296FC7005EA902 /* AuthProvider.swift in Sources */,
 				D28F9EA425E86F2600B8EF40 /* TimelineIcon.swift in Sources */,
 				D25D9AE425FF0EEE0038A6B1 /* StatusRow.swift in Sources */,
 				D2419C242577746700A9CF98 /* TimelineType.swift in Sources */,
@@ -867,7 +873,6 @@
 				D707B6EF24C44CE20023F243 /* DetailIndicator.swift in Sources */,
 				D228E06125FCF5A10063E0EB /* BookmarkedStatusView.swift in Sources */,
 				D262FDDA24D2CEED00682B99 /* SafariView.swift in Sources */,
-				D27DCEBA24B96D5F00520BE3 /* AppDelegate.swift in Sources */,
 				D27FBA4726105BB700F7067B /* Status_Draft.swift in Sources */,
 				D22F0D612619A10F007F931E /* UserTimeline.swift in Sources */,
 				D2905076252C07360065EA83 /* Persistance.swift in Sources */,
@@ -881,7 +886,6 @@
 				D20A35D525E68FFB0012CD82 /* AppCommand_Timeline.swift in Sources */,
 				D2C12CD5254A6A6B00D74778 /* User.swift in Sources */,
 				4BDB05D925316D5C00CF71A1 /* ComposerOfHubView.swift in Sources */,
-				D27DCEBC24B96D5F00520BE3 /* SceneDelegate.swift in Sources */,
 				D27DCF8C24B9A56100520BE3 /* TweetRow.swift in Sources */,
 				D7AC536C24BAD91A00BCD71F /* Images.swift in Sources */,
 				D262FDDC24D3C5D900682B99 /* MentionUserSortedView.swift in Sources */,

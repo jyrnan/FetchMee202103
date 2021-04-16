@@ -15,6 +15,7 @@ class Repository  {
     weak var store: Store?
     let adapter = Adapter()
     
+    
     var statuses: [String: Status] = [:]
     var users: [String: User] = [:]
     
@@ -30,6 +31,7 @@ class Repository  {
         guard let bookmarkedStatuses = try? viewContext.fetch(bookmarkedStatusRequest) else {return []}
         return bookmarkedStatuses
     }
+    
     
     func addStatus(data: JSON) {
         if let id = data["id_str"].string {

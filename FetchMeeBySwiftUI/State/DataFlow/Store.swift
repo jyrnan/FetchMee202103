@@ -26,9 +26,9 @@ class Store: ObservableObject {
     var repository = Repository()
     var fetcher = FetcherSwifter()
   
-    var context: NSManagedObjectContext!
+    var context: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext
     
-    var provider:ASWebAuthenticationPresentationContextProviding?
+    var provider:ASWebAuthenticationPresentationContextProviding = AuthProvider()
     
     private var disposeBag = Set<AnyCancellable>()
     

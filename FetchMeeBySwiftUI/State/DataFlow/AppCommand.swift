@@ -24,7 +24,7 @@ struct LoginCommand: AppCommand {
     let loginUser: User?
     
     func execute(in store: Store) {
-        let provider: ASWebAuthenticationPresentationContextProviding = store.provider!
+        let provider: ASWebAuthenticationPresentationContextProviding = store.provider
         
         /// 设置swifter的token信息，并获取loginUser的信息
         /// - Parameter loginUser: 传入的已经含有token的用户信息

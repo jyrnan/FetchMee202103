@@ -13,10 +13,9 @@ import SafariServices
 import Combine
 import CoreData
 import BackgroundTasks
-import AuthenticationServices
 
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate, ASWebAuthenticationPresentationContextProviding {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
  
@@ -27,7 +26,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, ASWebAuthenticationPres
         
         let contentView = ContentView()
         store.context = context
-        store.provider = self
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
@@ -101,13 +99,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, ASWebAuthenticationPres
 }
 
 
-extension SceneDelegate {
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        guard let context = URLContexts.first else { return }
-        let callbackUrl = URL(string: "fetchmee://")!
-        Swifter.handleOpenURL(context.url, callbackURL: callbackUrl)
-    }
-}
+//extension SceneDelegate {
+//    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+//        guard let context = URLContexts.first else { return }
+//        let callbackUrl = URL(string: "fetchmee://")!
+//        Swifter.handleOpenURL(context.url, callbackURL: callbackUrl)
+//    }
+//}
 
 struct SceneDelegate_Previews: PreviewProvider {
     static var previews: some View {
@@ -169,10 +167,10 @@ extension SceneDelegate {
         
         //成功处理回调通知,因为是作为在Swifter的successHanler来调用，所以如下格式
 //        let completeHandler: () -> () = {
-//            
+//
 //            let successText = "BGAPPRefreshTask completed."
 //            self.saveOrUpdateLog(text: successText)
-//            
+//
 //            task.setTaskCompleted(success: true)
 //        }
         
@@ -239,8 +237,3 @@ extension SceneDelegate {
     
 }
 
-extension SceneDelegate  {
-    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        return window!
-    }
-}
