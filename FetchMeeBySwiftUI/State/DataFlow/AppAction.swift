@@ -24,7 +24,7 @@ enum AppAction {
     case showImageViewer(view: AnyView)
     case closeImageViewer
     
-    case login(presentingFrom: AuthViewController, loginUser: User?)
+    case login(loginUser: User?)
     case userRequest(user: User, isLoginUser: Bool?)
     case updateLoginAccount(loginUser: User?)
 //    case updateRequestedUser(requestedUser: UserInfo)

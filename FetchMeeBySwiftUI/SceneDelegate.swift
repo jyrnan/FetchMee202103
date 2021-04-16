@@ -13,9 +13,10 @@ import SafariServices
 import Combine
 import CoreData
 import BackgroundTasks
+import AuthenticationServices
 
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, ASWebAuthenticationPresentationContextProviding {
     
     var window: UIWindow?
  
@@ -26,6 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let contentView = ContentView()
         store.context = context
+        store.provider = self
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
@@ -235,4 +237,10 @@ extension SceneDelegate {
         
     }
     
+}
+
+extension SceneDelegate  {
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        return window!
+    }
 }

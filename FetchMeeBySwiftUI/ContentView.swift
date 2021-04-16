@@ -22,20 +22,10 @@ struct ContentView: View {
             HubView()
                 .accentColor(store.appState.setting.userSetting?.themeColor.color)
         } else {
-            ZStack{
-                
-            AuthViewFromVC().ignoresSafeArea()
-                .accentColor(store.appState.setting.userSetting?.themeColor.color)
-                Text("Not sign in now")
-                    .foregroundColor(.gray)
-                    .onTapGesture {
-                        store.dipatch(.updateLoginAccount(loginUser: User(name: "FetchMee", screenName: "FetcheMeeApp")))
-                        //新建非登录的本地用户
-                        UserCD.updateOrSaveToCoreData(from: nil)
-                    }
-                    .frame(width: 200, height: 400, alignment: .bottom)
-            }
             
+                AuthView().ignoresSafeArea()
+                .accentColor(store.appState.setting.userSetting?.themeColor.color)
+                
         }
     }
 }

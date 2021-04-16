@@ -11,6 +11,7 @@ import Combine
 import Swifter
 import CoreData
 import SwiftUI
+import AuthenticationServices
 
 //Redux下，
 //Store可以有多个State，
@@ -26,6 +27,8 @@ class Store: ObservableObject {
     var fetcher = FetcherSwifter()
   
     var context: NSManagedObjectContext!
+    
+    var provider:ASWebAuthenticationPresentationContextProviding?
     
     private var disposeBag = Set<AnyCancellable>()
     
@@ -90,8 +93,8 @@ class Store: ObservableObject {
             appState.setting.isShowImageViewer = false
             appCommand = ClearPresentedView()
         
-        case .login(let authView, let loginUser):
-            appCommand = LoginCommand(loginUser: loginUser, presentingFrom: authView)
+        case .login(let loginUser):
+            appCommand = LoginCommand(loginUser: loginUser)
             
         case .userRequest(let user, let isLoginUser):
             appState.timelineData.timelines[TimelineType.user(userID: user.id).rawValue] = AppState.TimelineData.Timeline(type:TimelineType.user(userID: user.id))

@@ -1,80 +1,61 @@
-////
-////  AuthView.swift
-////  FetchMeeBySwiftUI
-////
-////  Created by jyrnan on 2020/7/15.
-////  Copyright © 2020 jyrnan. All rights reserved.
-////
 //
-//import SwiftUI
-//import Swifter
-//import UIKit
-//import SafariServices
+//  AuthView.swift
+//  FetchMeeBySwiftUI
 //
-//struct AuthView: View {
-//    @EnvironmentObject var loginUser: User
-//    
-//    @State var isShowAuthView: Bool = false
-//    @State var isShowAlert: Bool = false
+//  Created by jyrnan on 2020/7/15.
+//  Copyright © 2020 jyrnan. All rights reserved.
 //
-//    let title = "\"FetchMee\" Wants to Use \"Twitter.com\" to Sign In"
-//    let message = "This allows the app and website to share information about you"
-//
-//    var body: some View {
-//
-//        AuthViewFromVC(loginUser: loginUser).ignoresSafeArea()
-//        
-//    }
-//}
-//
-////extension AuthView {
-////   
-////    func login() {
-////        let failureHandler: (Error) -> Void = { error in
-////            print(error.localizedDescription)
-////        }
-////        let url = URL(string: "fetchmee://success")!
-////        swifter.authorize(withCallback: url, presentingFrom:UIHostingController(rootView: self) ,  success: {token, _ in
-////            if let token = token {
-////                // 写入登陆后信息, writeInfo
-////                //把Token相关信息存储到文件中
-////                userDefault.set(token.key, forKey: "tokenKey")
-////                userDefault.set(token.secret, forKey: "tokenSecret")
-////                userDefault.set(token.userID, forKey: "userIDString")
-////                userDefault.set(token.screenName, forKey: "screenName")
-////                
-////                userDefault.set(true, forKey: "isLoggedIn")
-////                self.loginUser.isLoggedIn = true
-////                print(#line, "set isLoggedIn")
-////                
-////                self.readInfo() //登录后读取信息并设置新的swifter
-////            }
-////        }, failure: failureHandler)
-////    }
-////   
-////    
-////    func readInfo() {
-////        //读取保存的auth信息并生成登录后的Swifter
-////        let tokenKey = userDefault.object(forKey: "tokenKey") as! String
-////        let tokenSecret = userDefault.object(forKey: "tokenSecret") as! String
-////        swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
-////                          consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w",
-////                          oauthToken: tokenKey,
-////                          oauthTokenSecret: tokenSecret)
-////        
-////        self.loginUser.getUserInfo() //
-////    }
-////    
-////
-////}
-//
-//struct AuthView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AuthView()
-//    }
-//}
-//
-//class SafariDelegate: NSObject, SFSafariViewControllerDelegate {
-//    
-//    
-//}
+
+import SwiftUI
+import Swifter
+import AuthenticationServices
+
+
+struct AuthView: View {
+    @EnvironmentObject var store: Store
+    var body: some View {
+        VStack {
+            Image( "Logo")
+                .resizable()
+                .frame(width: 96, height: 96, alignment: .center)
+            
+            Text("FetchMee needs permission to access your account")
+                .foregroundColor(.gray)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 60)
+                .padding(.vertical, 30)
+            
+            Button(
+                action: {
+                    self.store.dipatch(.login(loginUser: nil))
+                },
+                label: {
+                    Text(" Sign in with Twitter ")
+                        .foregroundColor(.white)
+                        .padding(4)
+                        .background(Capsule())
+                })
+            
+            Button(
+                action: {
+                    store.dipatch(.updateLoginAccount(loginUser: User(name: "FetchMee", screenName: "FetcheMeeApp")))
+                    //新建非登录的本地用户
+                    UserCD.updateOrSaveToCoreData(from: nil)
+                },
+                label: {
+                    Text("Not sign in now")
+                        .foregroundColor(.gray)
+                        .padding()
+                })
+            
+        }
+    }
+}
+
+
+struct AuthView_Previews: PreviewProvider {
+    static var previews: some View {
+        AuthView()
+    }
+}
+

@@ -10,6 +10,7 @@ import Foundation
 import Combine
 import Swifter
 import CoreData
+import AuthenticationServices
 
 protocol AppCommand {
     func execute(in store: Store)
@@ -21,9 +22,9 @@ extension AppCommand {
 
 struct LoginCommand: AppCommand {
     let loginUser: User?
-    let presentingFrom: AuthViewController
     
     func execute(in store: Store) {
+        let provider: ASWebAuthenticationPresentationContextProviding = store.provider!
         
         /// 设置swifter的token信息，并获取loginUser的信息
         /// - Parameter loginUser: 传入的已经含有token的用户信息
@@ -39,7 +40,7 @@ struct LoginCommand: AppCommand {
                 store.dipatch(.alertOn(text: "Login failed", isWarning: true))
             }
             let url = URL(string: "fetchmee://success")!
-            store.fetcher.swifter.authorize(withProvider: presentingFrom,
+            store.fetcher.swifter.authorize(withProvider: provider,
                                             callbackURL: url,
                                             success: {token, response in
                                                 if let token = token {
