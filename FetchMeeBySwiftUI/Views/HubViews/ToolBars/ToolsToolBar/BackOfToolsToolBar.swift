@@ -13,7 +13,8 @@ import Combine
 struct BackOfToolsToolBar: View {
   
     var body: some View {
-        LogMessageSmallView().padding(4)
+//        LogMessageSmallView().padding(4)
+        EmptyView()
 
     }
 }

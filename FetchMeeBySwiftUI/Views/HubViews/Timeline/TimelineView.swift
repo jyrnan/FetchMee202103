@@ -24,6 +24,8 @@ struct TimelineView: View {
     var isProcessingDone: Binding<Bool>  {$store.appState.setting.isProcessingDone}
     @GestureState var dragAmount = CGSize.zero
     
+    @State var readCounter: Int = 0
+    
     var selectedBackgroudColor: some View  {
         Color.init("BackGround")
             .overlay(Color.accentColor.opacity(0.12))}
@@ -35,10 +37,8 @@ struct TimelineView: View {
                 
                 //Homeline部分章节
                 ZStack{
-                    RoundedCorners(color: Color.init("BackGround"), tl: 24, tr: 24, bl: 0, br: 0)
-                        .frame(height: 44)
-                        .foregroundColor(Color.init("BackGround"))
-                    
+                    RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 0, br: 0)
+                        
                     PullToRefreshView(action: refreshAll, isDone: self.isProcessingDone) {
                         Spacer()
                     }
@@ -52,7 +52,14 @@ struct TimelineView: View {
                         }
                     }
                 }
-                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                  .frame(
+                    minWidth: 0, maxWidth: .infinity,
+                    minHeight: 44,
+                    alignment: .leading
+                  )
+                  .listRowInsets(EdgeInsets())
+                .background(Color.init(.systemBackground))
+                
                 
                 ForEach(timeline.tweetIDStrings, id: \.self) {tweetIDString in
                     if tweetIDString != "toolsViewMark" {
@@ -67,7 +74,8 @@ struct TimelineView: View {
                             ///下面这个background可以遮蔽List的分割线
                             .background(Color.init("BackGround"))
                             .onAppear{
-                                checkNeededActions(tweetIDString: tweetIDString)
+                                readCounter += 1
+//                                checkNeededActions(tweetIDString: tweetIDString)
                             }
                             
                         if setting.uiStyle == .plain {
@@ -100,13 +108,25 @@ struct TimelineView: View {
                 .listRowBackground(Color.init("BackGround"))
 
                 RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
-                    .frame(height: 42)
-                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                      .frame(
+                        minWidth: 0, maxWidth: .infinity,
+                        minHeight: 44,
+                        alignment: .leading
+                      )
+                      .listRowInsets(EdgeInsets())
+                    .background(Color.init(.systemBackground))
+                    .onAppear{
+                        guard store.appState.setting.isProcessingDone == true else {return}
+                        store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
+                    }
+                    
             }
             .gesture(DragGesture()
                         .onChanged({ value in hideKeyboard()}))
             .navigationTitle(timeline.type.rawValue)
-            
+            .onDisappear{
+                store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: readCounter))
+            }
         }
     }
 }

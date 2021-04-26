@@ -8,8 +8,8 @@
 
 import SwiftUI
 
+//@available (iOS, deprecated: 13.0)
 struct AlertView: View {
-//    @EnvironmentObject var alerts: Alerts
     
     @EnvironmentObject var store: Store
     
@@ -68,6 +68,7 @@ struct AlertView: View {
 struct AlertView_Previews: PreviewProvider {
     static var store: Store = Store()
     static var previews: some View {
-        AlertView().environmentObject(store)
+//        AlertView().environmentObject(store)
+        Text("hello")
     }
 }

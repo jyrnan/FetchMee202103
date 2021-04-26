@@ -58,7 +58,7 @@ struct DetailViewRedux: View {
                             .padding(.vertical,16)
                             .frame(height: 100)
                             .listRowBackground(Color.init("BackGround"))
-                        
+                    
                     Composer(isProcessingDone: $store.appState.setting.isProcessingDone, tweetIDString: tweetIDString)
                         .frame(height: 42)
                             .listRowBackground(Color.accentColor.opacity(0.4))
