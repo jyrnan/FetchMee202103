@@ -39,7 +39,7 @@ struct AvatarView: View {
     
     var body: some View {
             ZStack {
-                NavigationLink(destination: UserView(user: requestUser),
+                NavigationLink(destination: UserView(user: requestUser).environmentObject(store),
                                isActive: $presentedUserInfo, label:{EmptyView()} ).disabled(true)
                 AvatarImageView(imageUrl: imageUrl )
                         .frame(width: width, height: height, alignment: .center)

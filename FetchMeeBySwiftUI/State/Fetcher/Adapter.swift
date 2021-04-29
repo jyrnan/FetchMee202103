@@ -23,7 +23,7 @@ struct Adapter {
         userCD.name = data["name"].string!
         userCD.screenName = data["screen_name"].string!
         
-        userCD.avatarUrlString = data["profile_image_url_https"].string!
+        userCD.avatarUrlString = data["profile_image_url_https"].string!.replacingOccurrences(of: "_normal", with: "")
         userCD.bannerUrlString = data["profile_banner_url"].string ?? ""
         
         userCD.bioText = data["description"].string

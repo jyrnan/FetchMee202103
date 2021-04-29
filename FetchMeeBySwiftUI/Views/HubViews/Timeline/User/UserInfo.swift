@@ -18,13 +18,14 @@ struct UserInfo: View {
     @State var isNickNameInputShow: Bool = false
     
     var body: some View {
+//        VStack{
         ZStack{
-            VStack{
+            VStack(spacing: 0){
                 KFImage(URL(string: user.bannerUrlString))
                     .placeholder{Image("bg").resizable()}
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(  width: width, height:150)
+                    .frame(width: width, height:150)
                     .cornerRadius(24)
                     .overlay(LinearGradient.init(gradient: Gradient(colors: [Color.init("BackGround"), Color.clear]), startPoint: .init(x: 0.5, y: 0.9), endPoint: .init(x: 0.5, y: 0.4)))
                 
@@ -148,14 +149,13 @@ struct UserInfo: View {
             }.padding(.bottom, 16)
         }
         .listRowBackground(Color.init("BackGround"))
-//        .onAppear{
-//            store.dipatch(.fetchTimeline(timelineType: .user(userID: user.id), mode: .top))
 //        }
     }
 }
 
 struct UserInfo_Previews: PreviewProvider {
     static var previews: some View {
-        UserInfo(user: User(), width: 300)
+        List{
+            UserInfo(user: User(), width: 300)}
     }
 }

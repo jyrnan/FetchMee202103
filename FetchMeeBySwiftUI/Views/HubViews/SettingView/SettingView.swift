@@ -21,20 +21,12 @@ struct SettingView: View {
     //显示确认退出alertView
     @State var isPresentedAlert: Bool = false
     
-    let footerMessage: String = "Switching on Auto Delete tweets will automatically delete them in the background. Due to api restrictions, approximately 80 tweets are deleted per hour. Please keep the application background refresh open. \nIf you need to keep your recent tweets, make sure the Keep Recent switch on. \nPress Delete Tweets Now will immediately delete up to 300 sauces at once. "
     
-    let manualDeleteWarningMessage: String = "Selecting Manual Delete will immediately delete up to 300 sauces at once. Due to api limits, the app will automatically calculate the maximum number of tweets that can be deleted and delete them. If you need to keep your recent tweets, make sure the Keep Recent switch is on."
     
     var body: some View {
         
         Form {
-//            KFImage(URL(string:(store.appState.setting.loginUser?.bannerUrlString)!))
-//                .placeholder{Image("bg").resizable()}
-//                .resizable()
-//                .aspectRatio(contentMode: .fill)
-//                .frame(height: 120)
-//                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-            
+
             Section(header: Text("Visual"),
                     footer: Text("You can swith this function off to get a simper UI and better performance")) {
 
@@ -51,8 +43,6 @@ struct SettingView: View {
                 })
 
 
-                Toggle("Iron Fans Rate", isOn: self.$setting.isIronFansShowed)
-                Toggle("Show Pictures", isOn: self.$setting.isMediaShowed)
                 Toggle("Auto Fetch More", isOn: self.$setting.isAutoFetchMoreTweet)
             }
 
@@ -61,20 +51,20 @@ struct SettingView: View {
                 NavigationLink(destination: UserMarkManageView(),
                                label: {Label(title: {Text("Favorite User")},
                                              icon:{Image(systemName: "star.circle.fill").foregroundColor(.accentColor)})})
-                NavigationLink(destination: LogMessageView(),
-                               label: {Label(title: {Text("Log Message")},
-                                             icon:{Image(systemName: "envelope.circle.fill").foregroundColor(.accentColor)})})
+                
                 NavigationLink(destination: CountView(),
                                label: {Label(title: {Text("Login User Infomation")},
                                              icon:{Image(systemName: "info.circle.fill")
                                                 .foregroundColor(.accentColor)
                                              })})
+                
                 NavigationLink(destination: TweetTagCDManageView(),
                                label: {Label(title: {Text("Tweet Tags")},
                                              icon:{Image(systemName: "number.circle.fill")
                                                 .foregroundColor(.accentColor)
                                              })})
 
+                
                 NavigationLink(destination: BookmarkedStatusView(),
                                label: {Label(title: {Text("Bookmarked Tweets")},
                                              icon:{Image(systemName: "bookmark.circle.fill")
@@ -110,8 +100,7 @@ struct SettingView: View {
         
         .onDisappear{store.dipatch(.changeSetting(setting: setting))}
         .navigationTitle("Setting")
-//        .navigationBarItems( trailing: AvatarImageView(imageUrl: store.appState.setting.loginUser?.avatarUrlString)
-//                                .frame(width: 36, height: 36, alignment: .center))
+
     }
 }
 
@@ -135,7 +124,6 @@ extension SettingView {
 
 
 struct SettingView_Previews: PreviewProvider {
-    //    static var user: User = User()
     static var previews: some View {
         NavigationView {
             SettingView(setting: UserSetting())

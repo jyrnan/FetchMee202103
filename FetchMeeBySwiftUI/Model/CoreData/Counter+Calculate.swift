@@ -69,9 +69,11 @@ extension Count {
         
     }
     
-    static func cleanCountData(success: () -> (), before days: Double, context: NSManagedObjectContext) {
-        let daysInterval: TimeInterval = -(60 * 60 * 28 * days)
+    static func cleanCountData(success: (() -> ())? = nil, before days: Double) {
+        let daysInterval: TimeInterval = -(60 * 60 * 24 * days)
         let daysBefore = Date().addingTimeInterval(daysInterval)
+        
+        let context = PersistenceContainer.shared.container.viewContext
         
         let timeIntervalPredicate: NSPredicate = NSPredicate(format: "%K <= %@", #keyPath(Count.createdAt), daysBefore as CVarArg)
         let fetchRequest: NSFetchRequest = Count.fetchRequest()
@@ -84,7 +86,8 @@ extension Count {
             
             try context.save()
             
-            success()
+            success?()
+            
         } catch let error as NSError {
             print("count not fetched \(error), \(error.userInfo)")
         }

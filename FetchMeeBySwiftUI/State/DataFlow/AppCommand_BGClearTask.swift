@@ -16,5 +16,6 @@ struct AppCommand_BGClearTask: AppCommand {
         
         UserCD.deleteNotFavoriteUser()
         TweetTagCD.deleteUnusedTag()
+        Count.cleanCountData(before: 28)
     }
 }

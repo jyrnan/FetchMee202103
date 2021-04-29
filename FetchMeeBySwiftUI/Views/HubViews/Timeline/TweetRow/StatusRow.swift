@@ -59,7 +59,7 @@ struct StatusRow: View {
     var detailIndicator: some View {
         ZStack{
             
-            NavigationLink(destination: DetailViewRedux(tweetIDString: tweetID), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
+            NavigationLink(destination: DetailViewRedux(tweetIDString: tweetID).environmentObject(store), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
             DetailIndicator(tweetIDString: tweetID)
                 .onTapGesture {
                     store.dipatch(.fetchSession(tweetIDString: tweetID))
