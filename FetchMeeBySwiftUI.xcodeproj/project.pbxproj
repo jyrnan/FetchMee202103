@@ -111,6 +111,7 @@
 		D2C4D40324D3D11100395660 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C4D40224D3D11100395660 /* AvatarView.swift */; };
 		D2C7248824E613A500804F18 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C7248724E613A400804F18 /* RoundedCorners.swift */; };
 		D2C8107925FF9AC9001C6546 /* QuotedStatusJsonRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C8107825FF9AC9001C6546 /* QuotedStatusJsonRow.swift */; };
+		D2C9B7CF263B802E00CDD73D /* AppState+TimelineData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C9B7CE263B802E00CDD73D /* AppState+TimelineData.swift */; };
 		D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D4878C257272D6005EE4A7 /* RetweetMarkView.swift */; };
 		D2D4878F25734B0A005EE4A7 /* PlayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D4878E25734B0A005EE4A7 /* PlayButtonView.swift */; };
 		D2D4879225734C60005EE4A7 /* PlayButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D4879125734C60005EE4A7 /* PlayButtonViewModel.swift */; };
@@ -251,6 +252,7 @@
 		D2C4D40224D3D11100395660 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		D2C7248724E613A400804F18 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
 		D2C8107825FF9AC9001C6546 /* QuotedStatusJsonRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotedStatusJsonRow.swift; sourceTree = "<group>"; };
+		D2C9B7CE263B802E00CDD73D /* AppState+TimelineData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppState+TimelineData.swift"; sourceTree = "<group>"; };
 		D2D4878C257272D6005EE4A7 /* RetweetMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetweetMarkView.swift; sourceTree = "<group>"; };
 		D2D4878E25734B0A005EE4A7 /* PlayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButtonView.swift; sourceTree = "<group>"; };
 		D2D4879125734C60005EE4A7 /* PlayButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButtonViewModel.swift; sourceTree = "<group>"; };
@@ -583,13 +585,9 @@
 			isa = PBXGroup;
 			children = (
 				D28F9E9425E4E0DB00B8EF40 /* Store.swift */,
-				D28F9E9625E4E0FD00B8EF40 /* AppState.swift */,
 				D28F9E9825E4E37600B8EF40 /* AppAction.swift */,
-				D28F9E9A25E4E39200B8EF40 /* AppCommand.swift */,
-				D20A35D425E68FFB0012CD82 /* AppCommand_Timeline.swift */,
-				D255E23F25EE1F440053CDE4 /* AppCommand_Tweet.swift */,
-				D22F0D442615EDA5007F931E /* AppCommand_HubStatusRequest.swift */,
-				D221FEE12626DA4B009F00FC /* AppCommand_BGClearTask.swift */,
+				D2C9B7CD263B800A00CDD73D /* AppState */,
+				D2C9B7CC263B7BEF00CDD73D /* AppCommand */,
 				D28F9E9C25E4E39F00B8EF40 /* AppError.swift */,
 			);
 			path = DataFlow;
@@ -671,6 +669,27 @@
 				D22EF6102613F52B00ABC8DF /* otherSubViews */,
 			);
 			path = SettingView;
+			sourceTree = "<group>";
+		};
+		D2C9B7CC263B7BEF00CDD73D /* AppCommand */ = {
+			isa = PBXGroup;
+			children = (
+				D28F9E9A25E4E39200B8EF40 /* AppCommand.swift */,
+				D20A35D425E68FFB0012CD82 /* AppCommand_Timeline.swift */,
+				D255E23F25EE1F440053CDE4 /* AppCommand_Tweet.swift */,
+				D22F0D442615EDA5007F931E /* AppCommand_HubStatusRequest.swift */,
+				D221FEE12626DA4B009F00FC /* AppCommand_BGClearTask.swift */,
+			);
+			path = AppCommand;
+			sourceTree = "<group>";
+		};
+		D2C9B7CD263B800A00CDD73D /* AppState */ = {
+			isa = PBXGroup;
+			children = (
+				D28F9E9625E4E0FD00B8EF40 /* AppState.swift */,
+				D2C9B7CE263B802E00CDD73D /* AppState+TimelineData.swift */,
+			);
+			path = AppState;
 			sourceTree = "<group>";
 		};
 		D2D4879025734C0D005EE4A7 /* PlayButton */ = {
@@ -900,6 +919,7 @@
 				D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */,
 				D286EC32255A2BD600C98195 /* UserCD+UpdateAndSave.swift in Sources */,
 				D27DCF3B24B98F9900520BE3 /* Status.swift in Sources */,
+				D2C9B7CF263B802E00CDD73D /* AppState+TimelineData.swift in Sources */,
 				D26824682601871C004CAB1A /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

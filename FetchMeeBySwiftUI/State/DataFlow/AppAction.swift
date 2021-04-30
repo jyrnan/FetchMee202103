@@ -27,7 +27,7 @@ enum AppAction {
     case login(loginUser: User?)
     case userRequest(user: User, isLoginUser: Bool?)
     case updateLoginAccount(loginUser: User?)
-//    case updateRequestedUser(requestedUser: UserInfo)
+    
     case fetchList(user: User)
     case updateList(lists: [String: String])
     

@@ -12,15 +12,13 @@ import CoreData
 
 class Repository  {
     
-    weak var store: Store?
     let adapter = Adapter()
-    
     
     var statuses: [String: Status] = [:]
     var users: [String: User] = [:]
     
     var bookmarkedStatusCD: [StatusCD] {
-        guard let viewContext = store?.context else {return []}
+        let viewContext = PersistenceContainer.shared.container.viewContext
         let statusSortDescriptors = [NSSortDescriptor(keyPath: \StatusCD.created_at, ascending: false)]
         let bookmarkedStatusPredicate = NSPredicate(format: "%K == %d", #keyPath(StatusCD.isBookmarked), true)
         
@@ -45,7 +43,10 @@ class Repository  {
     ///   - isLoginUser: 标记是否是登陆用户
     ///   - token: 登陆用户的token信息
     /// - Returns: User格式的用户
-    func addUser(data: JSON, isLoginUser: Bool? = nil, token: (String?, String?)? = nil, isFavoriteUser: Bool? = nil) -> User {
+    func addUser(data: JSON,
+                 isLoginUser: Bool? = nil,
+                 token: (String?, String?)? = nil,
+                 isFavoriteUser: Bool? = nil) -> User {
         guard let id = data["id_str"].string else {return User()}
         //TODO：更新最新的用户follow和推文数量信息
         //利用数据来更新userCD

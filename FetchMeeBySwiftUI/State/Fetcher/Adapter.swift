@@ -39,7 +39,7 @@ struct Adapter {
         userCD.tweets = Int32(data["statuses_count"].integer ?? 0)
     }
     
-   
+    
     
     func convertToStatus(from json: JSON) -> Status {
         var status = Status(id: json["id_str"].string!)
@@ -63,29 +63,29 @@ struct Adapter {
         
         status.retweeted_status_id_str = json["retweeted_status"]["id_str"].string
         status.quoted_status_id_str = json["quoted_status_id_str"].string //引用推文的ID
-
+        
         status.in_reply_to_user_id_str = json["in_reply_to_user_id_str"].string
         status.in_reply_to_status_id_str = json["in_reply_to_status_id_str"].string
         
         status.source = json["source"].string!
         
         return status
-  }
+    }
     
     func convertToDate(from created_at: String?) -> Date? {
         guard let timeString = created_at else {
             return nil
         }
-            let timeFormat = DateFormatter()
-            timeFormat.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
-            return timeFormat.date(from: timeString)
+        let timeFormat = DateFormatter()
+        timeFormat.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
+        return timeFormat.date(from: timeString)
     }
     
     func getImageUrls(from json: JSON) -> [String]? {
         guard let medias = json["extended_entities"]["media"].array  else {  return nil }
         
         return medias.map{$0["media_url_https"].string!
-    }
+        }
     }
     
 }

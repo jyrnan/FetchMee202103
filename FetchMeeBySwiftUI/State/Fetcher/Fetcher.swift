@@ -12,7 +12,7 @@ import Swifter
 import CoreData
 
 protocol Fetcher {
-     typealias Timeline = AppState.TimelineData.Timeline
+    typealias Timeline = AppState.TimelineData.Timeline
     typealias MentionUserData = [User.MentionUser]
     typealias TweetIDStrings = [String]
   }
@@ -60,18 +60,15 @@ struct FetcherSwifter: Fetcher {
             
             guard let newTweets = json.array else {return (timelineWillUpdate, mentionUserData)}
             //只有更新“较新”推文的时候，才有必要更新新推文数量
-            if updateMode == .top {
-                timelineWillUpdate.newTweetNumber += newTweets.count}
+            if updateMode == .top { timelineWillUpdate.newTweetNumber += newTweets.count}
             
-            timelineWillUpdate.updateTweetIDStrings(updateMode: updateMode, with: converJSON2TweetIDStrings(from: newTweets))
+            timelineWillUpdate.updateTweetIDStrings(updateMode: updateMode,
+                                                    with: converJSONToTweetIDStrings(from: newTweets))
             
             newTweets.forEach{
                 addDataToRepository($0)
                 saveTweetTagToCoreData(status: $0)
-
-                //检测如果是自己发送的原创推文，则保存到本地
-                if $0["user"]["id_str"].string == loginUserID, $0["in_reply_to_user_id_str"].string == nil {
-                   let _ = StatusCD.JSON_Save(from: $0) }
+                saveStatusToCoreDataIfPostbyUser($0)
                
                 guard timeline.type == .mention else {return}
                 UserCD.updateOrSaveToCoreData(from: $0["user"])
@@ -85,10 +82,10 @@ struct FetcherSwifter: Fetcher {
         func errorHandler(error: Error) -> AppError {
             return AppError.netwokingFailed(error)}
         
-        let publisher = makeSessionOperatePublisher(updateMode: updateMode, timeline: timeline)
+        let publisher = makeSessionOperatePublisher(updateMode: updateMode,
+                                                    timeline: timeline)
             .map(JSONHandler(json:))
             .mapError(errorHandler(error:))
-//            .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
         return publisher
     }
@@ -99,7 +96,7 @@ struct FetcherSwifter: Fetcher {
     /// 产生推文ID的序列
     /// - Parameter newTweets: 获取的推文数据
     /// - Returns: 提取的推文ID序列
-    func converJSON2TweetIDStrings(from newTweets: [JSON]) -> TweetIDStrings {
+    func converJSONToTweetIDStrings(from newTweets: [JSON]) -> TweetIDStrings {
         return newTweets.map{$0["id_str"].string!}
     }
     
@@ -150,7 +147,6 @@ struct FetcherSwifter: Fetcher {
     
     /// 保存推文中的tag到coredata
     /// - Parameter status: 推文JSON数据
-    
     func saveTweetTagToCoreData(status:JSON) {
         guard let tags = status["entities"]["hashtags"].array, !tags.isEmpty else {return }
         let _ = tags.forEach{tagJSON in
@@ -159,7 +155,14 @@ struct FetcherSwifter: Fetcher {
             }
         }
     }
-   
+    
+    /// 检测如果是自己发送的原创推文，则保存到本地
+    /// - Parameter status: 推文JSON数据
+    func saveStatusToCoreDataIfPostbyUser(_ status: JSON) {
+        if status["user"]["id_str"].string == loginUserID,
+           status["in_reply_to_user_id_str"].string == nil {
+            let _ = StatusCD.JSON_Save(from: status) }
+    }
 }
 
 extension FetcherSwifter {

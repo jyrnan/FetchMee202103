@@ -32,7 +32,7 @@ class Store: ObservableObject {
     
     private var disposeBag = Set<AnyCancellable>()
     
-    func addObserver() {
+    private func addObserver() {
         self.appState.setting.tweetInput.autoMapPublisher.sink{text in
             withAnimation{
                 self.dipatch(.sendAutoCompleteText(text: text))}
@@ -40,7 +40,6 @@ class Store: ObservableObject {
     }
     
     init() {
-        self.repository.store = self
         self.fetcher.store = self
         fetcher.setLogined()
         
