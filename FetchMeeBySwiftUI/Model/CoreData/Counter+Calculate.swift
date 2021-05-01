@@ -54,35 +54,69 @@ extension Count {
         
         let userPredictate = NSPredicate(format: "%K == %@", #keyPath(Count.countToUser.userIDString), userID)
         let countRequest:NSFetchRequest<Count> = Count.fetchRequest()
+        let countSortDescriptors = [NSSortDescriptor(keyPath: \Count.createdAt, ascending: true)]
         countRequest.predicate = userPredictate
+        countRequest.sortDescriptors = countSortDescriptors
         
         let counts = try? viewContext.fetch(countRequest)
         
-        let _ = (1...28).map{day in
-            let count = valueCalculate(counts, for: Double(day))
-            followers.append(count.0)
-            tweets.append(count.1)
+        func isValidDate(date:Date, day: Int) -> Bool {
+            let interval = Date().timeIntervalSince1970
+            let intervalOfOneDay: Double = 60 * 60 * 24
+            let intervalOfToday = Double(Int(interval) % Int(intervalOfOneDay))
+            
+            let daysNumber: Double = Double(day)
+            let beginInterval: Date = Date().addingTimeInterval(-(intervalOfToday + daysNumber * intervalOfOneDay ))
+            let endInterval: Date = beginInterval.addingTimeInterval(Double(intervalOfOneDay))
+            
+            return date >= beginInterval && date <= endInterval
         }
-    
+        
+        let _ = (0...28).forEach{day in
+            if let followerOfTheDay = counts?.filter({isValidDate(date: $0.createdAt!, day: day)}).last?.follower,
+               let followerOfTheDayBefore = counts?.filter({isValidDate(date: $0.createdAt!, day: day + 1)}).last?.follower {
+                let followerAdded = Int(followerOfTheDay - followerOfTheDayBefore)
+                followers.append(followerAdded > 0 ? followerAdded : 1)
+            } else  {
+                followers.append(1)
+            }
+            
+            if let tweetsOfTheDay = counts?.filter({isValidDate(date: $0.createdAt!, day: day)}).last?.tweets,
+               let tweetsOfTheDayBefore = counts?.filter({isValidDate(date: $0.createdAt!, day: day + 1)}).last?.tweets {
+                let tweetsAdded = Int(tweetsOfTheDay - tweetsOfTheDayBefore)
+                tweets.append(tweetsAdded > 0 ? tweetsAdded : 1)
+            } else {
+                tweets.append(1)
+            }
+            
+        }
         
         return (followers:followers, tweets: tweets)
         
     }
     
-    static func cleanCountData(success: (() -> ())? = nil, before days: Double) {
-        let daysInterval: TimeInterval = -(60 * 60 * 24 * days)
-        let daysBefore = Date().addingTimeInterval(daysInterval)
+    static func cleanCountData(success: (() -> ())? = nil, before days: Double = 0) {
+        
+        let interval = Date().timeIntervalSince1970
+        let intervalOfOneDay: Double = 60 * 60 * 24
+        let intervalOfToday = Double(Int(interval) % Int(intervalOfOneDay))
+        
+        let daysNumber: Double = days
+        let beginInterval: Date = Date().addingTimeInterval(-(intervalOfToday + daysNumber * intervalOfOneDay ))
+        let endInterval: Date = beginInterval.addingTimeInterval(Double(intervalOfOneDay))
         
         let context = PersistenceContainer.shared.container.viewContext
-        
-        let timeIntervalPredicate: NSPredicate = NSPredicate(format: "%K <= %@", #keyPath(Count.createdAt), daysBefore as CVarArg)
+
+        let oneDayIntervalPredicate: NSPredicate = NSPredicate(format: "(createdAt >= %@) && (createdAt <= %@)", beginInterval as CVarArg, endInterval as CVarArg)
+        let countSortDescriptors = [NSSortDescriptor(keyPath: \Count.createdAt, ascending: true)]
         let fetchRequest: NSFetchRequest = Count.fetchRequest()
-        fetchRequest.predicate = timeIntervalPredicate
+        fetchRequest.predicate = oneDayIntervalPredicate
+        fetchRequest.sortDescriptors = countSortDescriptors
         
         do {
             let counts = try context.fetch(fetchRequest)
             
-            counts.forEach{context.delete($0)}
+            counts.dropLast().forEach{context.delete($0)}
             
             try context.save()
             

@@ -149,9 +149,10 @@ struct FetcherSwifter: Fetcher {
     /// - Parameter status: 推文JSON数据
     func saveTweetTagToCoreData(status:JSON) {
         guard let tags = status["entities"]["hashtags"].array, !tags.isEmpty else {return }
+        let priority = status["user"]["id_str"].string == loginUserID ? 1 : 0
         let _ = tags.forEach{tagJSON in
             if let text = tagJSON["text"].string {
-                TweetTagCD.saveTag(text: text, priority: 0)
+                TweetTagCD.saveTag(text: text, priority: priority)
             }
         }
     }
