@@ -306,68 +306,44 @@ extension ComposerOfHubView {
      */
     func splitToTexts(string: String) -> [String] {
         
-        //根据是否含有中文设置单条推文的字数上限
-        let countLimit: Int = {
-            switch  isIncludeChineseIn(string: string) {
-            case true:
-                return 140
-            case false:
-                return 280
-            }
-        }()
         
-        //判断字符串中是否含有中文
-        func isIncludeChineseIn(string: String) -> Bool {
-            
-            for value in string {
-                
-                if ("\u{4E00}" <= value  && value <= "\u{9FA5}") {
-                    return true
-                }
-            }
-            
-            return false
-        }
         
-    
+        let TextCountMaxLimit: Int = 275
+        guard string.realCount > TextCountMaxLimit else {return [string]}
         
-        func splitStingToSubstrings(string: String) -> [Substring] {
-            
-            //按照主要标点符号的位置分开
-            let strings: [String] = string.map{
-                if "，。！：；？……\n ".contains($0) {//定义主要标点符号
-                    return String($0) + "※" //在主要标点符号位置后面增加分割符
-                } else {
-                    return String($0)
-                }
-            }
-            return strings.joined().split(separator: "※") //将字节组合起来，并在分割符处进行分割
-        }
-        
-        //以下内容将按语句分割好的句子按顺序组合起来，并保证组合后每条字数不超过134，
-        guard string.count > countLimit else {return [string]}
-        var result: [String] = [] //定义一个空的推文队列
+        let subStrings = splitStingToSubstrings(string: string)
+        var result: [String] = []
         var textCount: Int = 0
         var tempString: String = ""
-        let substrings = splitStingToSubstrings(string: string)
         
-        for sub in substrings {
-            if textCount +  sub.count < countLimit - 6 {
-                tempString += String(sub)
-                textCount += sub.count
+        for subString in subStrings {
+            if textCount +  String(subString).realCount < TextCountMaxLimit {
+                tempString += String(subString)
+                textCount += String(subString).realCount
             } else {
                 result.append(tempString)
-                textCount = sub.count
-                tempString = String(sub)
+                textCount = String(subString).realCount
+                tempString = String(subString)
             }
         }
-        if tempString != "" {
-            result.append(tempString) //把最后剩于部分添加到推文队列
-        }
-        for i in 0..<result.count {//在每天推文数据前增加序号
-            result[i] = "\(i + 1)/\(result.count) " + result[i]
-        }
-        return result
+        result.append(tempString) //把最后剩于部分添加到推文队列
+        return result.enumerated().map{"\($0.0 + 1)/\(result.count) " + $0.1}
+    }
+    
+    func splitStingToSubstrings(string: String) -> [Substring] {
+        let separatorMark: Character = "※"
+        let characterWillBeSeprated = "，。！：；？……\n., "
+        //按照主要标点符号的位置分开
+        return string.map{ characterWillBeSeprated.contains($0) ? "\($0)\(separatorMark)" : String($0)}
+        .joined()
+        .split(separator: separatorMark)
+    }
+}
+
+extension String {
+    //返回字串长度，其中如果非ascii字符则计数为2
+    var realCount: Int {
+        self.reduce(0){$0 + ($1.isASCII ? 1: 2)}
     }
 }
 
