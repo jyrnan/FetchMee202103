@@ -317,26 +317,27 @@ extension ComposerOfHubView {
         var tempString: String = ""
         
         for subString in subStrings {
-            if textCount +  String(subString).realCount < TextCountMaxLimit {
-                tempString += String(subString)
-                textCount += String(subString).realCount
+            if textCount +  subString.realCount < TextCountMaxLimit {
+                tempString += subString
+                textCount += subString.realCount
             } else {
                 result.append(tempString)
-                textCount = String(subString).realCount
-                tempString = String(subString)
+                textCount = subString.realCount
+                tempString = subString
             }
         }
         result.append(tempString) //把最后剩于部分添加到推文队列
-        return result.enumerated().map{"\($0.0 + 1)/\(result.count) " + $0.1}
+        return result.enumerated().map{"\($0.0 + 1)/\(result.count) " + $0.1} //给推文添加编号
     }
     
-    func splitStingToSubstrings(string: String) -> [Substring] {
+    func splitStingToSubstrings(string: String) -> [String] {
         let separatorMark: Character = "※"
-        let characterWillBeSeprated = "，。！：；？……\n., "
+        let characterSetFollowedBySeparatorMark = "，。！：；？……\n., "
         //按照主要标点符号的位置分开
-        return string.map{ characterWillBeSeprated.contains($0) ? "\($0)\(separatorMark)" : String($0)}
+        return string.map{ characterSetFollowedBySeparatorMark.contains($0) ? "\($0)\(separatorMark)" : String($0)}
         .joined()
         .split(separator: separatorMark)
+        .map(String.init)
     }
 }
 
