@@ -31,13 +31,13 @@ struct LoginCommand: AppCommand {
         func setSwifterAndRequestLoginUser(loginUser: User) {
             
             store.fetcher.setLogined()
-            store.dipatch(.userRequest(user: loginUser, isLoginUser: true))
+            store.dispatch(.userRequest(user: loginUser, isLoginUser: true))
         }
         
         ///传入的lgoinUser有可能是已经保存好的登陆信息
         if loginUser == nil {
             let failureHandler: (Error) -> Void = { error in
-                store.dipatch(.alertOn(text: "Login failed", isWarning: true))
+                store.dispatch(.alertOn(text: "Login failed", isWarning: true))
             }
             let url = URL(string: "fetchmee://success")!
             store.fetcher.swifter.authorize(withProvider: provider,
@@ -77,7 +77,7 @@ struct UserRequstCommand: AppCommand {
                 let token = (user.tokenKey, user.tokenSecret) //如果是loginUser，必然有token
                 let user = store.repository.addUser(data: json, isLoginUser: isLoginUser, token: token)
                 
-                store.dipatch(.updateLoginAccount(loginUser: user))
+                store.dispatch(.updateLoginAccount(loginUser: user))
                 
             } else {
                 let _ = store.repository.addUser(data: json)
@@ -86,7 +86,7 @@ struct UserRequstCommand: AppCommand {
         }
         //TODO：错误处理方式
         func failureHandler(_ error: Error) ->() {
-            store.dipatch(.alertOn(text: error.localizedDescription, isWarning: true))
+            store.dispatch(.alertOn(text: error.localizedDescription, isWarning: true))
         }
         
         ///获取用户基本信息，并生成Bio
@@ -114,7 +114,7 @@ struct FetchListCommand: AppCommand {
             
             ///比较新老lists名称数据，如果有不同并且市LoginUser则需要更新
             guard store.appState.setting.lists.keys.sorted() != newLists.keys.sorted() else {return}
-            store.dipatch(.updateList(lists: newLists))
+            store.dispatch(.updateList(lists: newLists))
         }
         
         store.fetcher.swifter.getSubscribedLists(for: UserTag.id(user.id), success:listHandler)

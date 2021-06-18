@@ -31,5 +31,6 @@ struct AvatarImageView: View {
 struct AvataImageView_Previews: PreviewProvider {
     static var previews: some View {
         AvatarImageView(imageUrl: "")
+            .frame(width: 64, height: 64, alignment: .center)
     }
 }

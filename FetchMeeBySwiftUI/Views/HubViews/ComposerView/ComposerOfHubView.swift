@@ -168,7 +168,7 @@ struct ComposerOfHubView: View {
             }
             if store.appState.setting.autoCompleteText != "noTag" {
                 HStack {
-                    AutoCompleteVIew(autoCompletText: store.appState.setting.autoCompleteText)
+                    AutoCompleteView(autoCompleteText: store.appState.setting.autoCompleteText)
                 }
             }
             //如果单独使用则靠顶部
@@ -245,7 +245,7 @@ extension ComposerOfHubView {
             if replyIDString == nil || count > 1 {
                 let _ = StatusCD.JSON_Save(from: json)
                 // 更新hub界面的status状态
-                store.dipatch(.hubStatusRequest)
+                store.dispatch(.hubStatusRequest)
             }
             
             
@@ -269,7 +269,7 @@ extension ComposerOfHubView {
                 //                self.alerts.stripAlert.alertText = "Tweet sent!"
                 //                self.alerts.stripAlert.isPresentedAlert = true
                 
-                store.dipatch(.alertOn(text: "Tweet sent!", isWarning: false))
+                store.dispatch(.alertOn(text: "Tweet sent!", isWarning: false))
                 
                 hideKeyboard()
                 return

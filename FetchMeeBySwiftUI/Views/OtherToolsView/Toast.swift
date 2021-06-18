@@ -40,11 +40,11 @@ struct Toast<Presenting, Presented>: View where Presenting: View, Presented: Vie
                 .background(Color.black.opacity(0.8))
 //                .transition(.slide)
                 .opacity(self.isShowing ? 1 : 0)
-                .animation(.linear)
+//                .animation(Animation.default, value: 1)
                 .onTapGesture {
-//                    withAnimation(Animation.linear){
-                        store.dipatch(.closeImageViewer)
-//                    }
+                    withAnimation(Animation.linear){
+                        store.dispatch(.closeImageViewer)
+                    }
                     
                     //通过设置延时后设置需要显示的View为nil，可以保证下次显示的时候是初始设置。（为什么会这样还有点迷惑）
                     //延时的目的是保证缩放的动画完成

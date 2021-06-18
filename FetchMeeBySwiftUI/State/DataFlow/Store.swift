@@ -17,7 +17,7 @@ import AuthenticationServices
 //Store可以有多个State，
 //Action用来改变State，
 //所有的View通过State来获取状态，
-//AppCommand或者midware用来获取异步数据，也可以触发Action，
+//AppCommand用来获取异步数据，也可以触发Action，
 //可以这么理解么？ #Swift
 
 class Store: ObservableObject {
@@ -27,7 +27,6 @@ class Store: ObservableObject {
     var fetcher = FetcherSwifter()
   
     var context: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext
-    
     var provider:ASWebAuthenticationPresentationContextProviding = AuthProvider()
     
     private var disposeBag = Set<AnyCancellable>()
@@ -35,7 +34,7 @@ class Store: ObservableObject {
     private func addObserver() {
         self.appState.setting.tweetInput.autoMapPublisher.sink{text in
             withAnimation{
-                self.dipatch(.sendAutoCompleteText(text: text))}
+                self.dispatch(.sendAutoCompleteText(text: text))}
         }.store(in: &disposeBag)
     }
     
@@ -46,7 +45,7 @@ class Store: ObservableObject {
         addObserver()
     }
     
-    func dipatch(_ action: AppAction) {
+    func dispatch(_ action: AppAction) {
         #if DEBUG
         print("[ACTION: \(action)")
         #endif
@@ -179,9 +178,9 @@ class Store: ObservableObject {
     }
 }
 
-extension Store {
-    func getUser(userID: String, compeletHandler: @escaping (JSON) -> Void) {
-        self.fetcher.swifter.showUser(UserTag.id(userID),
-                                  success: compeletHandler)
-    }
-}
+//extension Store {
+//    func getUser(userID: String, compeletHandler: @escaping (JSON) -> Void) {
+//        self.fetcher.swifter.showUser(UserTag.id(userID),
+//                                  success: compeletHandler)
+//    }
+//}

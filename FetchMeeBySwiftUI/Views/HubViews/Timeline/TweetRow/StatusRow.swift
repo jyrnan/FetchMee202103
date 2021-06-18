@@ -41,7 +41,7 @@ struct StatusRow: View {
     
     var avatar: some View {
         VStack(alignment: .leading){
-            AvatarView(userIDString: status.user?.id ?? "", width: 36, height: 36)
+            AvatarView(width: 36, height: 36, user: status.user)
             Spacer()
         }
         .frame(width:setting.uiStyle.avatarWidth )
@@ -62,7 +62,7 @@ struct StatusRow: View {
             NavigationLink(destination: DetailViewRedux(tweetIDString: tweetID).environmentObject(store), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
             DetailIndicator(tweetIDString: tweetID)
                 .onTapGesture {
-                    store.dipatch(.fetchSession(tweetIDString: tweetID))
+                    store.dispatch(.fetchSession(tweetIDString: tweetID))
                     isShowDetail = true }
             
         }.fixedSize()
@@ -120,8 +120,14 @@ struct StatusRow: View {
         .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id ? Color.accentColor.opacity(0.15) : Color.clear)
         .onTapGesture {
             withAnimation{
-                store.dipatch(.selectTweetRow(tweetIDString: tweetID))
+                store.dispatch(.selectTweetRow(tweetIDString: tweetID))
             }
         }
+    }
+}
+
+struct StatusRow_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }

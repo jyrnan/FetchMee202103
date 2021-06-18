@@ -29,7 +29,7 @@ struct UserView: View {
                 
                 UserTimeline(userIDString: user.id, width: proxy.size.width)
 
-            }
+            }.listStyle(.plain)
         }
         
         .navigationTitle(user.name)

@@ -25,15 +25,15 @@ struct FetchTimelineCommand: AppCommand {
         let token = SubscriptionToken()
         let mentionUserData = store.appState.timelineData.mentionUserData
         
-        store.fetcher.makeSessionUpdataPublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData)
+        store.fetcher.makeSessionUpdatePublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData)
             .sink(receiveCompletion: {complete in
                 if case .failure(let error) = complete {
-                    store.dipatch(.alertOn(text: error.localizedDescription, isWarning: true))
+                    store.dispatch(.alertOn(text: error.localizedDescription, isWarning: true))
                 }
                 token.unseal()
             },
             receiveValue: {
-                store.dipatch(.fetchTimelineDone(timeline: $0.0, mentionUserData: $0.1))
+                store.dispatch(.fetchTimelineDone(timeline: $0.0, mentionUserData: $0.1))
             })
             .seal(in: token)
     }
@@ -55,7 +55,7 @@ struct FetchSessionCommand: AppCommand {
             var counter: Int = 0
             
             func finalReloadView() {
-                store.dipatch(.fetchSessionDone(timeline: session))
+                store.dispatch(.fetchSessionDone(timeline: session))
             }
             
             func getStatus(id: String) {
@@ -114,12 +114,12 @@ struct FetchSessionCommand: AppCommand {
 }
 
 /// 延时选择推文的执行命令
-struct DelayedSeletcTweetRowCommand: AppCommand {
+struct DelayedSelectTweetRowCommand: AppCommand {
     let tweetIDString: String
     func execute(in store: Store) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             withAnimation{
-                store.dipatch(.selectTweetRow(tweetIDString: tweetIDString))
+                store.dispatch(.selectTweetRow(tweetIDString: tweetIDString))
             }
         }
     }

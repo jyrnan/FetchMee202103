@@ -40,7 +40,7 @@ struct AlertView: View {
                                 }
                             }
                             delay(delay: 3) {
-                                store.dipatch(.alertOff)
+                                store.dispatch(.alertOff)
                             }
                         }
                     

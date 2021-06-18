@@ -27,7 +27,8 @@ struct Composer: View {
     
     var body: some View {
         HStack(alignment: .center) {
-            TextField(placeHolderText, text: tweetTextBinding).font(.body)
+            TextField("reply", text: tweetTextBinding, prompt: Text(placeHolderText))
+                .font(.body)
             Spacer()
             ///显示详细发推视图或者菊花
             if isProcessingDone {
@@ -50,10 +51,10 @@ struct Composer: View {
                 isProcessingDone = false
                 store.fetcher.swifter.postTweet(status: tweetTextBinding.wrappedValue, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
                     tweetTextBinding.wrappedValue = ""
-                    store.dipatch(.alertOn(text: tweetIDString == nil ? "Tweet sent!" : "Reply sent", isWarning: false))
+                    store.dispatch(.alertOn(text: tweetIDString == nil ? "Tweet sent!" : "Reply sent", isWarning: false))
                     if tweetIDString != nil {
                         withAnimation{
-                        store.dipatch(.selectTweetRow(tweetIDString: tweetIDString!)) }
+                        store.dispatch(.selectTweetRow(tweetIDString: tweetIDString!)) }
                     }
                     isProcessingDone = true
                 })

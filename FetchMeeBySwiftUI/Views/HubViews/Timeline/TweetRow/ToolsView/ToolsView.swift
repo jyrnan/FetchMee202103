@@ -13,8 +13,6 @@ struct ToolsView: View {
     @EnvironmentObject var store: Store
     var tweetIDString: String
     
-    //    @ObservedObject var viewModel: ToolsViewModel
-    
     @State var isShowSafari: Bool = false
     @State var url: URL = URL(string: "https://www.twitter.com")!
     
@@ -41,14 +39,13 @@ struct ToolsView: View {
                     .onTapGesture {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         if isMyTweet {
-                            store.dipatch(.tweetOperation(operation: .delete(id: tweetIDString)))
+                            store.dispatch(.tweetOperation(operation: .delete(id: tweetIDString)))
                         } else {
-//                            isAlertShowed = true
-//                            let _ = Status_CD.JSON_Save(from: status!)
+
                             store.fetcher.swifter.getTweet(for: tweetIDString, success: {json in
                                 let _ = StatusCD.JSON_Save(from: json, isBookmarked: true)
-                                store.dipatch(.alertOn(text: "Bookmarked!", isWarning: false))
-                                store.dipatch(.hubStatusRequest)
+                                store.dispatch(.alertOn(text: "Bookmarked!", isWarning: false))
+                                store.dispatch(.hubStatusRequest)
                             })
                             
                         }
@@ -66,7 +63,7 @@ struct ToolsView: View {
                     .foregroundColor(retweeted == true ? Color.green : Color.gray)
                     .onTapGesture {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                        store.dipatch(.tweetOperation(operation: retweeted ? .unRetweet(id: tweetIDString) : .retweet(id: tweetIDString)))
+                        store.dispatch(.tweetOperation(operation: retweeted ? .unRetweet(id: tweetIDString) : .retweet(id: tweetIDString)))
                     }
                 
                 if retweetedCount != 0 {
@@ -80,7 +77,7 @@ struct ToolsView: View {
                     .foregroundColor(favorited ? Color.red : Color.gray)
                     .onTapGesture {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                        store.dipatch(.tweetOperation(operation: favorited ? .unfavorite(id: tweetIDString) : .favorite(id: tweetIDString)))
+                        store.dispatch(.tweetOperation(operation: favorited ? .unfavorite(id: tweetIDString) : .favorite(id: tweetIDString)))
                     }
                 
                 if favoritedCount != 0 {
@@ -130,5 +127,13 @@ struct BottomShadow: View {
     var body: some View {
         Rectangle().fill(LinearGradient(gradient: Gradient(colors: [Color.black, Color.clear]), startPoint:.bottom , endPoint: .top))
             .frame(height: 3).opacity(0.4)
+    }
+}
+
+struct ToolsView_Previews: PreviewProvider {
+    static let store = Store()
+    static var previews: some View {
+        ToolsView(tweetIDString: "0000")
+            .environmentObject(store)
     }
 }

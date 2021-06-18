@@ -27,26 +27,26 @@ struct AuthView: View {
             
             Button(
                 action: {
-                    self.store.dipatch(.login(loginUser: nil))
+                    self.store.dispatch(.login(loginUser: nil))
                 },
                 label: {
                     Text(" Sign in with Twitter ")
                         .foregroundColor(.white)
                         .padding(4)
-                        .background(Capsule())
+                        .background(Capsule().foregroundColor(.init("TwitterBlue")))
                 })
             
-            Button(
-                action: {
-                    store.dipatch(.updateLoginAccount(loginUser: User(name: "FetchMee", screenName: "FetcheMeeApp")))
-                    //新建非登录的本地用户
-                    UserCD.updateOrSaveToCoreData(from: nil)
-                },
-                label: {
-                    Text("Not sign in now")
-                        .foregroundColor(.gray)
-                        .padding()
-                })
+//            Button(
+//                action: {
+//                    store.dispatch(.updateLoginAccount(loginUser: User(name: "FetchMee", screenName: "FetchMeeApp")))
+//                    //新建非登录的本地用户
+//                    UserCD.updateOrSaveToCoreData(from: nil)
+//                },
+//                label: {
+//                    Text("Not sign in now")
+//                        .foregroundColor(.gray)
+//                        .padding()
+//                })
             
         }
     }

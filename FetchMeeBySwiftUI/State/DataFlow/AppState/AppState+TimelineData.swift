@@ -28,10 +28,7 @@ extension AppState {
         
         /// 选中的推文ID
         var selectedTweetID: String?
-        
-        /// 待查看的用户信息
-//        var requestedUser: User = User()
-        
+
         var mentionUserData: [User.MentionUser] = []
         ///首页hubView推文信息
         var hubStatus:HubStatus = (nil, nil, nil)
@@ -72,7 +69,7 @@ extension AppState.TimelineData {
             } else {
                 //如果不等于传入的tweetID，则先设置成nil，再通过一个延迟设置选择推文的命令来延迟设置成新的ID
                 self.selectedTweetID = nil
-                return DelayedSeletcTweetRowCommand(tweetIDString: tweetIDString)
+                return DelayedSelectTweetRowCommand(tweetIDString: tweetIDString)
             }
             
         } else {
@@ -136,7 +133,6 @@ extension AppState.TimelineData.Timeline {
             } else {
                 self.tweetIDStrings = self.tweetIDStrings + newIDStrings
             }
-            
         }
     }
 }

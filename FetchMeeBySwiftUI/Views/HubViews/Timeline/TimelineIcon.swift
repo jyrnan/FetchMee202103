@@ -67,13 +67,13 @@ struct TimelineIcon: View {
         .frame(width: 92, height: 92, alignment: .center)
         
         .onTapGesture {
-//            store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
+//            store.dispatch(.fetchTimeline(timelineType: timelineType, mode: .top))
             showTimeline = true
         }
         //长按清除新推文数量
         .onLongPressGesture {
             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-            store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: 200))}
+            store.dispatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: 200))}
     }
 }
 

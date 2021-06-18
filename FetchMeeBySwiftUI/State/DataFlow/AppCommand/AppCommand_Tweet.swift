@@ -29,21 +29,15 @@ struct TweetCommand: AppCommand {
     
     func execute(in store: Store) {
         let token = SubscriptionToken()
-        
-//        FetcherSwifter.swifter = store.swifter
-//        let fecher = FetcherSwifter(repository: store.repository)
-                
+ 
         store.fetcher.makeTweetOperatePublisher(operation: operation)
             .sink(receiveCompletion: {complete in
                     if case .failure(let error) = complete {
-                        store.dipatch(.alertOn(text: error.localizedDescription, isWarning: true))
+                        store.dispatch(.alertOn(text: error.localizedDescription, isWarning: true))
                     }
                     token.unseal()},
                   receiveValue: {
-                    
                     store.repository.addStatus(data: $0)
-                    print(#line,#file,$0)
-                    
                     if case let .delete(id) = operation {
                         //如果是删除推文的操作，则需要在完成服务器端操作后执行本地推文数据的删除
                         //需要同时删除推文ID和ToolsView
@@ -52,9 +46,8 @@ struct TweetCommand: AppCommand {
                         store.appState.timelineData.deleteFromTimelines(of: id)}
                     } else {
                         //其他的操作需要刷新界面来显示数据更新
-                        store.dipatch(.update)
+                        store.dispatch(.update)
                     }
-                    
                   })
             .seal(in: token)
     }

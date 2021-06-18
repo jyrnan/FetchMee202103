@@ -26,7 +26,7 @@ struct TimelineView: View {
     
     @State var readCounter: Int = 0
     
-    var selectedBackgroudColor: some View  {
+    var selectedBackgroundColor: some View  {
         Color.init("BackGround")
             .overlay(Color.accentColor.opacity(0.12))}
     
@@ -37,7 +37,7 @@ struct TimelineView: View {
                 
                 //Homeline部分章节
                 ZStack{
-                    RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 0, br: 0)
+                    RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
                         
                     PullToRefreshView(action: refreshAll, isDone: self.isProcessingDone) {
                         Spacer()
@@ -75,7 +75,6 @@ struct TimelineView: View {
                             .background(Color.init("BackGround"))
                             .onAppear{
                                 readCounter += 1
-//                                checkNeededActions(tweetIDString: tweetIDString)
                             }
                             
                         if setting.uiStyle == .plain {
@@ -98,7 +97,7 @@ struct TimelineView: View {
                         ActivityIndicator(isAnimating: isProcessingDone, style: .medium)
                     }
                     Button(isProcessingDone.wrappedValue ? "More Tweets..." : "Fetching...") {
-                        store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
+                        store.dispatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
                     }
                     .font(.caption)
                     .foregroundColor(.gray)
@@ -117,15 +116,15 @@ struct TimelineView: View {
                     .background(Color.init(.systemBackground))
                     .onAppear{
                         guard store.appState.setting.isProcessingDone == true else {return}
-                        store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
+                        store.dispatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
                     }
                     
-            }
+            }.listStyle(.plain)
             .gesture(DragGesture()
                         .onChanged({ value in hideKeyboard()}))
             .navigationTitle(timeline.type.rawValue)
             .onDisappear{
-                store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: readCounter))
+                store.dispatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: readCounter))
             }
         }
     }
@@ -135,7 +134,7 @@ extension TimelineView {
     
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
-        store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .top))
+        store.dispatch(.fetchTimeline(timelineType: timelineType, mode: .top))
     }
     
     func hideKeyboard() {
@@ -151,12 +150,12 @@ extension TimelineView {
         let indexOfUpdateNewTweetNumber = 10
         if timeline.tweetIDStrings[indexOfUpdateNewTweetNumber] == tweetIDString,
            timeline.newTweetNumber != 0 {
-            store.dipatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: 1000))
+            store.dispatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: 1000))
         }
         //如果推文是倒数第5条，则获取更早之前的推文
         let index = timeline.tweetIDStrings.count - 5
         if timeline.tweetIDStrings[index] == tweetIDString {
-            store.dipatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
+            store.dispatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
         }
     }
 }

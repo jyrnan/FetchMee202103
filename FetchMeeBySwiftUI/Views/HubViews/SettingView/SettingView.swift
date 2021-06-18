@@ -98,7 +98,7 @@ struct SettingView: View {
             }
         }
         
-        .onDisappear{store.dipatch(.changeSetting(setting: setting))}
+        .onDisappear{store.dispatch(.changeSetting(setting: setting))}
         .navigationTitle("Setting")
 
     }
@@ -111,7 +111,7 @@ extension SettingView {
         
         delay(delay: 1, closure: {
             withAnimation {
-                store.dipatch(.updateLoginAccount(loginUser: nil))
+                store.dispatch(.updateLoginAccount(loginUser: nil))
             }
         })
     }

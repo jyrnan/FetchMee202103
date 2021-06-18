@@ -14,6 +14,7 @@ import CoreData
 
 struct User: Identifiable, Codable {
     var id: String = "0000" //设置成默认ID是“0000”，所以在进行用户信息更新之前需要设置该ID的值
+    var idString: String {id}
     var name:String = "Name"
     var screenName: String = "ScreenName"
     var nickName: String?
@@ -147,6 +148,6 @@ extension User {
         let id: String
         let avatarUrlString: String
         var mentionsIDs: Set<String> = []
-        var count:Int {return self.mentionsIDs.count}
+        var count:Int {mentionsIDs.count}
     }
 }

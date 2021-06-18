@@ -22,22 +22,21 @@ struct MySecen: Scene {
     
     var body: some Scene {
         WindowGroup {
-            ContentView( )
+            ContentView(isLoggedIn: store.appState.setting.loginUser != nil )
                 .environment(\.managedObjectContext, PersistenceContainer.shared.container.viewContext)
                 .environmentObject(store)
         }
         .onChange(of: scenePhase, perform: {newScenePhase in
             if newScenePhase == .background {
-                store.dipatch(.backgroundClear)
-                }
+                store.dispatch(.backgroundClear)
+            }
             if newScenePhase == .active {
                 if let loginUser = store.appState.setting.loginUser,
                    loginUser.tokenKey != nil {
-                    store.dipatch(.userRequest(user: loginUser, isLoginUser: true))
-                    store.dipatch(.fetchTimeline(timelineType: .mention, mode: .top))
-//                    store.dipatch(.hubStatusRequest)
+                    store.dispatch(.userRequest(user: loginUser, isLoginUser: true))
+                    store.dispatch(.fetchTimeline(timelineType: .mention, mode: .top))
                 }
-                }
+            }
         })
     }
     

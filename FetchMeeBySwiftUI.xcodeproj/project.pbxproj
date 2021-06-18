@@ -103,7 +103,7 @@
 		D2B1478B2636927700A214A0 /* TestGit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B1478A2636927700A214A0 /* TestGit.swift */; };
 		D2B2560E24E38824009F982E /* videoJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2B2560D24E38824009F982E /* videoJson.txt */; };
 		D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B2560F24E39020009F982E /* VideoPlayView.swift */; };
-		D2BC206625F26A1E007882CA /* AutoCompleteVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BC206525F26A1E007882CA /* AutoCompleteVIew.swift */; };
+		D2BC206625F26A1E007882CA /* AutoCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BC206525F26A1E007882CA /* AutoCompleteView.swift */; };
 		D2BC206825F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BC206725F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift */; };
 		D2BC206B25F4AC6B007882CA /* TweetTagCDManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BC206A25F4AC6B007882CA /* TweetTagCDManageView.swift */; };
 		D2C12CD5254A6A6B00D74778 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C12CD4254A6A6B00D74778 /* User.swift */; };
@@ -209,8 +209,6 @@
 		D27744E4253B14DD0062B25C /* BackOfTweetsToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackOfTweetsToolBar.swift; sourceTree = "<group>"; };
 		D2794F32251F1DE200824E6D /* SaliencyDetection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaliencyDetection.swift; sourceTree = "<group>"; };
 		D27DCEB624B96D5F00520BE3 /* FetchMee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FetchMee.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D27DCEBF24B96D6100520BE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D27DCEC224B96D6100520BE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D27DCEC524B96D6100520BE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -244,7 +242,7 @@
 		D2B1478A2636927700A214A0 /* TestGit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestGit.swift; sourceTree = "<group>"; };
 		D2B2560D24E38824009F982E /* videoJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = videoJson.txt; sourceTree = "<group>"; };
 		D2B2560F24E39020009F982E /* VideoPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayView.swift; sourceTree = "<group>"; };
-		D2BC206525F26A1E007882CA /* AutoCompleteVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCompleteVIew.swift; sourceTree = "<group>"; };
+		D2BC206525F26A1E007882CA /* AutoCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoCompleteView.swift; sourceTree = "<group>"; };
 		D2BC206725F4A8F4007882CA /* TweetTagCD+UpdateAndSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TweetTagCD+UpdateAndSave.swift"; sourceTree = "<group>"; };
 		D2BC206A25F4AC6B007882CA /* TweetTagCDManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetTagCDManageView.swift; sourceTree = "<group>"; };
 		D2C12CD4254A6A6B00D74778 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -509,8 +507,6 @@
 			isa = PBXGroup;
 			children = (
 				D2F74F0126298A95005EA902 /* FetchMeeApp.swift */,
-				D27DCEB924B96D5F00520BE3 /* AppDelegate.swift */,
-				D27DCEBB24B96D5F00520BE3 /* SceneDelegate.swift */,
 				D2C45BAB24C6D31B007D67B6 /* ContentView.swift */,
 				D28F9E9225E4E0AA00B8EF40 /* State */,
 				D27DCF8A24B9A54500520BE3 /* Views */,
@@ -597,7 +593,7 @@
 			isa = PBXGroup;
 			children = (
 				4BDB05D825316D5C00CF71A1 /* ComposerOfHubView.swift */,
-				D2BC206525F26A1E007882CA /* AutoCompleteVIew.swift */,
+				D2BC206525F26A1E007882CA /* AutoCompleteView.swift */,
 				D286FFCF24BC29BF005DBC39 /* Composer.swift */,
 				D29738FF24D1182600917A97 /* PhotoPickerView.swift */,
 				D730997E24ED6A5F00B57837 /* DraftsView.swift */,
@@ -841,7 +837,7 @@
 				D28F9E9925E4E37600B8EF40 /* AppAction.swift in Sources */,
 				4B5E607625353A7200E7A5F1 /* AvatarImageView.swift in Sources */,
 				D28F9EA625E8764400B8EF40 /* TimelineView.swift in Sources */,
-				D2BC206625F26A1E007882CA /* AutoCompleteVIew.swift in Sources */,
+				D2BC206625F26A1E007882CA /* AutoCompleteView.swift in Sources */,
 				D2318AA92571E40900F55BDF /* FavoriteStarMarkView.swift in Sources */,
 				D2BC206B25F4AC6B007882CA /* TweetTagCDManageView.swift in Sources */,
 				D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */,
@@ -989,7 +985,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1044,7 +1040,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

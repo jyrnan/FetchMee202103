@@ -13,11 +13,10 @@ import Swifter
 struct MentionUserSortedView: View {
     @EnvironmentObject var store: Store
     
-    var mentionUserIDStringsSorted: [String] {
-        let mentionUserInfoSorted = store.appState.timelineData.mentionUserData
+    var mentionUserSorted: [User] {
+        store.appState.timelineData.mentionUserData
             .sorted{$0.count > $1.count}
-            .map{$0.id}
-        return mentionUserInfoSorted
+            .map{User(id:$0.id, avatarUrlString: $0.avatarUrlString)}
     }
     
     
@@ -25,8 +24,8 @@ struct MentionUserSortedView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ///选取最多10个用户显示
-                ForEach(mentionUserIDStringsSorted[0..<min(10, mentionUserIDStringsSorted.count)], id: \.self) {userIDString in
-                    AvatarView(userIDString: userIDString, width: 32, height: 32)
+                ForEach(mentionUserSorted.prefix(10), id: \.id) {user in
+                    AvatarView(width: 32, height: 32, user: user)
                 }
             }
         }
@@ -34,7 +33,9 @@ struct MentionUserSortedView: View {
 }
 
 struct MentionUserSortedView_Previews: PreviewProvider {
+    static let store = Store()
     static var previews: some View {
         MentionUserSortedView()
+            .environmentObject(store)
     }
 }

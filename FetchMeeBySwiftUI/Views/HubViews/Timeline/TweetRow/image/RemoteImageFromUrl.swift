@@ -28,7 +28,7 @@ class RemoteImageFromUrl: ObservableObject {
     func getImage() {
         
         switch self.imageType {
-        case .thrumb:
+        case .thumrb:
             let url = self.imageUrl + ":small"
             RemoteImageFromUrl.imageDownloaderWithClosure(imageUrl: url, sh: dectectFaceAndSetImageValue(_:))
         case .original:
@@ -95,7 +95,7 @@ class RemoteImageFromUrl: ObservableObject {
 
 extension RemoteImageFromUrl {
     enum ImageType {
-        case thrumb
+        case thumrb
         case original
     }
 }

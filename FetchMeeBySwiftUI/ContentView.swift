@@ -13,25 +13,28 @@ import CoreData
 struct ContentView: View {
     
     @EnvironmentObject var store: Store
-//    var loginUser: User? {store.appState.setting.loginUser}
     
-    var isLoggedIn:Bool {store.appState.setting.loginUser != nil}
-
+    var isLoggedIn:Bool
+//    {store.appState.setting.loginUser != nil}
+    
     var body: some View {
         if isLoggedIn {
-            HubView()
+            HubView(tweetText: $store.appState.setting.tweetInput.tweetText)
                 .accentColor(store.appState.setting.userSetting?.themeColor.color)
         } else {
             
-                AuthView().ignoresSafeArea()
+            AuthView()
+                .ignoresSafeArea()
                 .accentColor(store.appState.setting.userSetting?.themeColor.color)
-                
+            
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
+    static let store = Store()
     static var previews: some View {
-        ContentView().environmentObject(Store())
+        ContentView(isLoggedIn: false)
+            .environmentObject(store)
     }
 }

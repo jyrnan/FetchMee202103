@@ -45,7 +45,7 @@ struct QuotedStatusJsonRow: View {
             NavigationLink(destination: DetailViewRedux(tweetIDString: tweetID).environmentObject(store), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
             DetailIndicator(tweetIDString: tweetID)
                 .onTapGesture {
-                    store.dipatch(.fetchSession(tweetIDString: tweetID))
+                    store.dispatch(.fetchSession(tweetIDString: tweetID))
                     isShowDetail = true }
             
         }.fixedSize()

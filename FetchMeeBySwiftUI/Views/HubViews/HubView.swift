@@ -18,10 +18,9 @@ struct HubView: View {
     
     @EnvironmentObject var store: Store
   
-    var tweetText: Binding<String> {$store.appState.setting.tweetInput.tweetText}
+    var tweetText: Binding<String>
+//    {$store.appState.setting.tweetInput.tweetText}
     @State var isShowToast: Bool = true
-    
-    var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
     
     var body: some View {
         GeometryReader{proxy in
@@ -36,25 +35,16 @@ struct HubView: View {
                             .frame(minHeight: 180, idealHeight: 240, maxHeight: 240)
                         
                         Divider()
-                        if isLogined {
-                            TimelinesView()
-                        }
-                        ToolBarsView(width: proxy.size.width)
+                        TimelinesView()
+                        
+                        ToolBarsView(setting: store.appState.setting.userSetting ?? UserSetting(),
+                                     user: store.appState.setting.loginUser ?? User(),
+                                     width: proxy.size.width)
                             .padding([.leading, .trailing], 16)
                         
                         StatusView(width: proxy.size.width)
                             .padding([.leading, .trailing], 16)
-                        
-                        if !isLogined {
-                        Button(action: {
-                            withAnimation {
-                                store.dipatch(.updateLoginAccount(loginUser: nil))
-                            }
-                        }, label: {Text("Sign in with Twitter")
-                            .foregroundColor(.accentColor)})
-                        .padding()
-                        }
-                        
+
                         Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)
                             .padding()
                         
@@ -91,3 +81,10 @@ extension HubView {
 }
 
 
+
+struct HubView_Previews: PreviewProvider {
+    static var previews: some View {
+        HubView(tweetText: .constant(""))
+            .environmentObject(Store())
+    }
+}

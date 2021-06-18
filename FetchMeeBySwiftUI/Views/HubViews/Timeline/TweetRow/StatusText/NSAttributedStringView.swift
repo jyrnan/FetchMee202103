@@ -120,3 +120,13 @@ extension NSAttributedString {
     }
 }
 #endif
+
+struct NSAttributedStringView_Previews: PreviewProvider {
+    static let store = Store()
+    static var previews: some View {
+        let attString = NSMutableAttributedString(string: "hello world this is the wordhello world this is the wordhello world this is the word hello world this is the wordhello world this is the word")
+        
+        NSAttributedStringView(attributedText: attString , width: 100)
+            .environmentObject(store)
+    }
+}

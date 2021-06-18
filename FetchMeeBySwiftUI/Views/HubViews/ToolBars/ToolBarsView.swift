@@ -13,11 +13,13 @@ struct ToolBarsView: View {
     @EnvironmentObject var store: Store
     
     ///创建一个简单表示法
-    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
+    var setting: UserSetting
+//    {store.appState.setting.userSetting ?? UserSetting()}
     
-    var user: User {store.appState.setting.loginUser ?? User()}
+    var user: User
+//    {store.appState.setting.loginUser ?? User()}
     
-    var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
+//    var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: false)]) var drafts: FetchedResults<TweetDraft>
@@ -32,6 +34,8 @@ struct ToolBarsView: View {
     
     var width: CGFloat
     
+    
+    
     var body: some View {
         
         VStack {
@@ -39,10 +43,7 @@ struct ToolBarsView: View {
                 Text("Status").font(.caption).bold().foregroundColor(Color.gray)
                 Spacer()
             }
-            
-            if isLogined {
-                
-                ToolBarView(isFaceUp: toolBarIsFaceUp1,
+            ToolBarView(isFaceUp: toolBarIsFaceUp1,
                             type: .friends,
                             label1Value: user.followed,
                             label2Value: user.following,
@@ -84,10 +85,15 @@ struct ToolBarsView: View {
                             toolBarIsFaceUp2 = true
                         }
                     }
-            }
             
         }
         
     }
 }
 
+
+struct ToolBarsView_Previews: PreviewProvider {
+    static var previews: some View {
+        ToolBarsView(setting: UserSetting(), user: User(), width: 300)
+    }
+}

@@ -73,7 +73,7 @@ import Swifter
 //                                    NavigationLink(destination: DetailViewRedux(tweetIDString: viewModel.tweetIDString), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
 //                                    viewModel.detailIndicator
 //                                        .onTapGesture {
-//                                            store.dipatch(.fetchSession(tweetIDString: viewModel.tweetIDString))
+//                                            store.dispatch(.fetchSession(tweetIDString: viewModel.tweetIDString))
 //                                            isShowDetail = true }
 //                    
 //                                }.fixedSize()

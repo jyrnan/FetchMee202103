@@ -21,7 +21,7 @@ enum AppAction {
     
     case sendAutoCompleteText(text: String)
     
-    case showImageViewer(view: AnyView)
+    case showImageViewer(view: ImageViewer)
     case closeImageViewer
     
     case login(loginUser: User?)

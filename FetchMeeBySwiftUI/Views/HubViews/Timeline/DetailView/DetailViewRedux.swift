@@ -70,6 +70,7 @@ struct DetailViewRedux: View {
                     
                    
                 }
+                .listStyle(.plain)
                 .listRowBackground(Color.init("BackGround"))
                 .navigationTitle("Detail")
         }

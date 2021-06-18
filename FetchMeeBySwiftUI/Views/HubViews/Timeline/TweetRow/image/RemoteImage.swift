@@ -15,7 +15,7 @@ struct RemoteImage: View {
     
     init(imageUrl: String) {
         self.imageUrl = imageUrl
-        _fetcher = StateObject(wrappedValue: RemoteImageFromUrl(imageUrl: imageUrl, imageType: .thrumb))
+        _fetcher = StateObject(wrappedValue: RemoteImageFromUrl(imageUrl: imageUrl, imageType: .thumrb))
             }
 
     var body: some View {

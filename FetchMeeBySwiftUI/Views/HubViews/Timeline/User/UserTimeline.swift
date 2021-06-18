@@ -51,7 +51,7 @@ struct UserTimeline: View {
             HStack {
                 Spacer()
                 Button("More Tweets...") {
-                    store.dipatch(.fetchTimeline(timelineType: .user(userID: userIDString), mode: .bottom))
+                    store.dispatch(.fetchTimeline(timelineType: .user(userID: userIDString), mode: .bottom))
                 }
                 .font(.caption)
                 .foregroundColor(.gray)
@@ -65,7 +65,7 @@ struct UserTimeline: View {
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
         
         .onAppear{
-//            store.dipatch(.fetchTimeline(timelineType: .user(userID: userIDString), mode: .top))
+//            store.dispatch(.fetchTimeline(timelineType: .user(userID: userIDString), mode: .top))
         }
     }
 }
