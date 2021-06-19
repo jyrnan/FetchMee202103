@@ -13,14 +13,14 @@ import Swifter
 struct TimelineIcon: View {
     @EnvironmentObject var store: Store
     
-    var timelineType: TimelineType
+//    var timelineType: TimelineType
     var timeline: AppState.TimelineData.Timeline
-    {store.appState.timelineData.getTimeline(timelineType: timelineType)}
+//    {store.appState.timelineData.getTimeline(timelineType: timelineType)}
     @State var showTimeline: Bool = false
     
     var body: some View {
         ZStack{
-            NavigationLink(destination:TimelineView(timelineType: timelineType), isActive: $showTimeline, label:{EmptyView()} ).disabled(true)
+            NavigationLink(destination:TimelineView(timeline: timeline), isActive: $showTimeline, label:{EmptyView()} ).disabled(true)
             
             RoundedRectangle(cornerRadius: 18)
                 .frame(width: 92, height: 92, alignment: .center)
@@ -45,7 +45,7 @@ struct TimelineIcon: View {
                 
                 HStack {
                     Spacer()
-                    Text(timelineType.isList ? "List" : "")
+                    Text(timeline.type.isList ? "List" : "")
                         .font(.caption2)
                         .bold()
                         .foregroundColor(Color.init(.darkGray))
@@ -73,7 +73,13 @@ struct TimelineIcon: View {
         //长按清除新推文数量
         .onLongPressGesture {
             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-            store.dispatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: 200))}
+            store.dispatch(.updateNewTweetNumber(timelineType: timeline.type, numberOfReadTweet: 200))}
     }
 }
 
+
+struct TimelineIcon_Previews: PreviewProvider {
+    static var previews: some View {
+        TimelineIcon(timeline: AppState.TimelineData.Timeline())
+    }
+}

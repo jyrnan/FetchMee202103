@@ -26,7 +26,7 @@ struct DraftsViewCoreData: View {
         List {
             ForEach(drafts) { draft in
                
-                Status_Draft(draft: draft, width: proxy.size.width)
+                Text(draft.text ?? "")
                         .onTapGesture(count: 1, perform: {
                             currentTweetDraft = draft as TweetDraft
                             tweetText = draft.text ?? ""

@@ -11,15 +11,7 @@ import CoreData
 
 struct ToolBarsView: View {
     @EnvironmentObject var store: Store
-    
-    ///创建一个简单表示法
-    var setting: UserSetting
-//    {store.appState.setting.userSetting ?? UserSetting()}
-    
     var user: User
-//    {store.appState.setting.loginUser ?? User()}
-    
-//    var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: false)]) var drafts: FetchedResults<TweetDraft>
@@ -32,9 +24,7 @@ struct ToolBarsView: View {
     @State var toolBarIsFaceUp2: Bool = true
     @State var toolBarIsFaceUp3: Bool = true
     
-    var width: CGFloat
-    
-    
+    //    var width: CGFloat
     
     var body: some View {
         
@@ -44,11 +34,12 @@ struct ToolBarsView: View {
                 Spacer()
             }
             ToolBarView(isFaceUp: toolBarIsFaceUp1,
-                            type: .friends,
-                            label1Value: user.followed,
-                            label2Value: user.following,
-                            label3Value: user.followersAddedOnLastDay)
-                    .onTapGesture {
+                        type: .friends,
+                        label1Value: user.followed,
+                        label2Value: user.following,
+                        label3Value: user.followersAddedOnLastDay)
+                .onTapGesture {
+                    withAnimation{
                         if !toolBarIsFaceUp1 {
                             toolBarIsFaceUp1.toggle()
                         } else {
@@ -57,12 +48,14 @@ struct ToolBarsView: View {
                             toolBarIsFaceUp3 = true
                         }
                     }
-                
-                ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
-                            label1Value: user.tweets,
-                            label2Value: user.tweets,
-                            label3Value: user.tweetsPostedOnLastDay)
-                    .onTapGesture {
+                }
+            
+            ToolBarView(isFaceUp: toolBarIsFaceUp2,type: .tweets,
+                        label1Value: user.tweets,
+                        label2Value: user.tweets,
+                        label3Value: user.tweetsPostedOnLastDay)
+                .onTapGesture {
+                    withAnimation{
                         if !toolBarIsFaceUp2 {
                             toolBarIsFaceUp2.toggle()
                         } else {
@@ -71,12 +64,14 @@ struct ToolBarsView: View {
                             toolBarIsFaceUp3 = true
                         }
                     }
-                
-                ToolBarView(isFaceUp: toolBarIsFaceUp3, type: .tools,
-                            label1Value: drafts.count,
-                            label2Value: logs.count,
-                            label3Value: logs.count)
-                    .onTapGesture {
+                }
+            
+            ToolBarView(isFaceUp: toolBarIsFaceUp3, type: .tools,
+                        label1Value: drafts.count,
+                        label2Value: logs.count,
+                        label3Value: logs.count)
+                .onTapGesture {
+                    withAnimation{
                         if !toolBarIsFaceUp3 {
                             toolBarIsFaceUp3.toggle()
                         } else {
@@ -85,6 +80,7 @@ struct ToolBarsView: View {
                             toolBarIsFaceUp2 = true
                         }
                     }
+                }
             
         }
         
@@ -94,6 +90,6 @@ struct ToolBarsView: View {
 
 struct ToolBarsView_Previews: PreviewProvider {
     static var previews: some View {
-        ToolBarsView(setting: UserSetting(), user: User(), width: 300)
+        ToolBarsView( user: User())
     }
 }

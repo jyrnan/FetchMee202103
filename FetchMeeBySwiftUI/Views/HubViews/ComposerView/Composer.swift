@@ -34,7 +34,7 @@ struct Composer: View {
             if isProcessingDone {
                 ZStack{
                 NavigationLink(
-                    destination: ComposerOfHubView(tweetText: tweetTextBinding, replyIDString: self.tweetIDString, isUsedAlone: true ),
+                    destination: ComposerOfHubView(swifter: store.fetcher.swifter, tweetText: tweetTextBinding, replyIDString: self.tweetIDString, isUsedAlone: true ),
                     isActive: $isShowCMV
                 ){EmptyView().disabled(true)}.opacity(0.1).disabled(true)
                     Text("more").font(.body).foregroundColor(.primary).opacity(0.7)

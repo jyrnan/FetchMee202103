@@ -15,20 +15,21 @@ struct TimelineView: View {
     @EnvironmentObject var store: Store
     
     ///创建一个简单表示法
-    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
+//    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
     
-    var timelineType: TimelineType
-    var timeline: AppState.TimelineData.Timeline { store.appState.timelineData.getTimeline(timelineType: timelineType)}
+//    var timelineType: TimelineType
+    var timeline: AppState.TimelineData.Timeline
+//    { store.appState.timelineData.getTimeline(timelineType: timelineType)}
     
     @State var tweetText: String = ""
-    var isProcessingDone: Binding<Bool>  {$store.appState.setting.isProcessingDone}
+//    var isProcessingDone: Binding<Bool>  {$store.appState.setting.isProcessingDone}
     @GestureState var dragAmount = CGSize.zero
     
     @State var readCounter: Int = 0
     
-    var selectedBackgroundColor: some View  {
-        Color.init("BackGround")
-            .overlay(Color.accentColor.opacity(0.12))}
+//    var selectedBackgroundColor: some View  {
+//        Color.init("BackGround")
+//            .overlay(Color.accentColor.opacity(0.12))}
     
     
     var body: some View {
@@ -39,7 +40,7 @@ struct TimelineView: View {
                 ZStack{
                     RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
                         
-                    PullToRefreshView(action: refreshAll, isDone: self.isProcessingDone) {
+                    PullToRefreshView(action: refreshAll, isDone: $store.appState.setting.isProcessingDone) {
                         Spacer()
                     }
                     .frame(height: 36)
@@ -48,7 +49,7 @@ struct TimelineView: View {
                     HStack {
                         Spacer()
                         if !store.appState.setting.isProcessingDone {
-                            ActivityIndicator(isAnimating: isProcessingDone, style: .medium).frame(width: 12, height: 12, alignment: .center).padding(.trailing, 16)
+                            ActivityIndicator(isAnimating: $store.appState.setting.isProcessingDone, style: .medium).frame(width: 12, height: 12, alignment: .center).padding(.trailing, 16)
                         }
                     }
                 }
@@ -64,27 +65,28 @@ struct TimelineView: View {
                 ForEach(timeline.tweetIDStrings, id: \.self) {tweetIDString in
                     if tweetIDString != "toolsViewMark" {
                         VStack(spacing: 0){
-                        StatusRow(tweetID: tweetIDString, width: proxy.size.width - 2 * setting.uiStyle.insetH)
-                            .background(setting.uiStyle.backGround)
-                            .cornerRadius(setting.uiStyle.radius, antialiased: true)
-                            .overlay(RoundedRectangle(cornerRadius: setting.uiStyle.radius)
-                            .stroke(setting.uiStyle.backGround, lineWidth: 1))
-                            .padding(.horizontal, setting.uiStyle.insetH)
-                            .padding(.vertical, setting.uiStyle.insetV)
-                            ///下面这个background可以遮蔽List的分割线
+                        StatusRow(status: store.repository.getStatus(byID: tweetIDString),
+                                  width: proxy.size.width - 2 * 16)
+                                .background(store.appState.setting.userSetting?.uiStyle.backGround)
+                                .cornerRadius(16, antialiased: true)
+                                .overlay(RoundedRectangle(cornerRadius: 16)
+                                            .stroke(store.appState.setting.userSetting?.uiStyle.backGround ?? Color.black, lineWidth: 1))
+                                .padding(.horizontal, store.appState.setting.userSetting?.uiStyle.insetH)
+                                .padding(.vertical, store.appState.setting.userSetting?.uiStyle.insetV)
+//                            下面这个background可以遮蔽List的分割线
                             .background(Color.init("BackGround"))
                             .onAppear{
                                 readCounter += 1
                             }
-                            
-                        if setting.uiStyle == .plain {
+
+                        if store.appState.setting.userSetting?.uiStyle == .plain {
                             Divider().padding(0)
                         }
                         }
                     } else {
-                        ToolsView(tweetIDString: store.appState.timelineData.selectedTweetID ?? "")
-                            .padding(.horizontal, setting.uiStyle.insetH)
-                            .padding(.vertical,setting.uiStyle.insetV)
+                        ToolsView(tweetIDString: store.appState.timelineData.selectedTweetID ?? "", status: store.repository.getStatus(byID: store.appState.timelineData.selectedTweetID ?? "0000"))
+                            .padding(.horizontal, store.appState.setting.userSetting?.uiStyle.insetH)
+                            .padding(.vertical,store.appState.setting.userSetting?.uiStyle.insetV)
                             .background(Color.init("BackGround"))
                     }
                     
@@ -93,11 +95,11 @@ struct TimelineView: View {
                 
                 HStack {
                     Spacer()
-                    if !isProcessingDone.wrappedValue {
-                        ActivityIndicator(isAnimating: isProcessingDone, style: .medium)
+                    if !store.appState.setting.isProcessingDone {
+                        ActivityIndicator(isAnimating: $store.appState.setting.isProcessingDone, style: .medium)
                     }
-                    Button(isProcessingDone.wrappedValue ? "More Tweets..." : "Fetching...") {
-                        store.dispatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
+                    Button(store.appState.setting.isProcessingDone ? "More Tweets..." : "Fetching...") {
+                        store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .bottom))
                     }
                     .font(.caption)
                     .foregroundColor(.gray)
@@ -116,7 +118,7 @@ struct TimelineView: View {
                     .background(Color.init(.systemBackground))
                     .onAppear{
                         guard store.appState.setting.isProcessingDone == true else {return}
-                        store.dispatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
+                        store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .bottom))
                     }
                     
             }.listStyle(.plain)
@@ -124,7 +126,7 @@ struct TimelineView: View {
                         .onChanged({ value in hideKeyboard()}))
             .navigationTitle(timeline.type.rawValue)
             .onDisappear{
-                store.dispatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: readCounter))
+                store.dispatch(.updateNewTweetNumber(timelineType: timeline.type, numberOfReadTweet: readCounter))
             }
         }
     }
@@ -134,7 +136,7 @@ extension TimelineView {
     
     func refreshAll() {
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred() //产生震动提示
-        store.dispatch(.fetchTimeline(timelineType: timelineType, mode: .top))
+        store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .top))
     }
     
     func hideKeyboard() {
@@ -150,13 +152,20 @@ extension TimelineView {
         let indexOfUpdateNewTweetNumber = 10
         if timeline.tweetIDStrings[indexOfUpdateNewTweetNumber] == tweetIDString,
            timeline.newTweetNumber != 0 {
-            store.dispatch(.updateNewTweetNumber(timelineType: timelineType, numberOfReadTweet: 1000))
+            store.dispatch(.updateNewTweetNumber(timelineType: timeline.type, numberOfReadTweet: 1000))
         }
         //如果推文是倒数第5条，则获取更早之前的推文
         let index = timeline.tweetIDStrings.count - 5
         if timeline.tweetIDStrings[index] == tweetIDString {
-            store.dispatch(.fetchTimeline(timelineType: timelineType, mode: .bottom))
+            store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .bottom))
         }
     }
 }
 
+
+struct TimelineView_Previews: PreviewProvider {
+    static var previews: some View {
+        TimelineView(timeline: AppState.TimelineData.Timeline())
+            .environmentObject(Store())
+    }
+}

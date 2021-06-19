@@ -14,20 +14,20 @@ import Swifter
 struct QuotedStatusJsonRow: View {
     @EnvironmentObject var store: Store
     ///创建一个简单表示法
-    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
+//    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
     
-    var tweetID: String
+    var status: Status
     ///约束图片的显示宽度
     var width: CGFloat
     
-    var status: Status {store.repository.getStatus(byID: tweetID)}
+    
     
 //    var quotedStatusID: String? {status["quoted_status_id_str"].string }
     
     @State var isShowDetail: Bool = false
     
     var avatar: some View {
-        AvatarView(userIDString: status.user?.id ?? "", width: 18, height: 18)
+        AvatarView(user: status.user ?? User(), width: 18, height: 18)
     }
     
     var nameAndcreated: some View {
@@ -42,10 +42,13 @@ struct QuotedStatusJsonRow: View {
     var detailIndicator: some View {
         ZStack{
             
-            NavigationLink(destination: DetailViewRedux(tweetIDString: tweetID).environmentObject(store), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
-            DetailIndicator(tweetIDString: tweetID)
+            NavigationLink(destination: DetailViewRedux(tweetIDString: status.id)
+                            .environmentObject(store),
+                           isActive:$isShowDetail ,
+                           label:{EmptyView()} ).opacity(0.1).disabled(true)
+            DetailIndicator(status: status)
                 .onTapGesture {
-                    store.dispatch(.fetchSession(tweetIDString: tweetID))
+                    store.dispatch(.fetchSession(tweetIDString: status.id))
                     isShowDetail = true }
             
         }.fixedSize()
@@ -91,4 +94,12 @@ struct QuotedStatusJsonRow: View {
         return imageUrls
     }
     
+}
+
+struct QuotedStatusJsonRow_Previews: PreviewProvider {
+    static var previews: some View {
+        QuotedStatusJsonRow(status: Status(), width: 280)
+            .frame(width: 300, height: 200, alignment: .center)
+            .environmentObject(Store())
+    }
 }

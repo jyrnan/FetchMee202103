@@ -17,7 +17,7 @@ struct ComposerButtonView: View {
         HStack{
             Spacer()
             NavigationLink(
-                destination: ComposerOfHubView(tweetText: self.$tweetText, isUsedAlone: true )) {
+                destination: ComposerOfHubView(swifter: Store().fetcher.swifter, tweetText: self.$tweetText, isUsedAlone: true )) {
             Image(uiImage: UIImage(named: "Logo")!)
             .resizable()
             .aspectRatio(contentMode: .fill)

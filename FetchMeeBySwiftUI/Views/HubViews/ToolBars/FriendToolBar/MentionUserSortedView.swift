@@ -25,7 +25,7 @@ struct MentionUserSortedView: View {
             HStack {
                 ///选取最多10个用户显示
                 ForEach(mentionUserSorted.prefix(10), id: \.id) {user in
-                    AvatarView(width: 32, height: 32, user: user)
+                    AvatarView(user: user, width: 32, height: 32)
                 }
             }
         }

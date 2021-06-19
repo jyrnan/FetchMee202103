@@ -12,41 +12,36 @@ struct StatusView: View {
     
     @EnvironmentObject var store: Store
     
-    //    ///创建一个简单表示法
-    //    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
-    
-    //    var user: User {let user = store.appState.setting.loginUser ?? User()
-    //        return user
-    //    }
-    
-    //    var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
-    
     var width: CGFloat
     
     var body: some View {
         if store.appState.timelineData.hubStatus.myLatestStatus != nil {
-            
+
             NavigationLink(destination: BookmarkedStatusView(userID: store.appState.setting.loginUser?.id),
                            label: {
-                Status_CDRow(status: store.appState.timelineData.hubStatus.myLatestStatus!, width: width - 2 * 16)
-                
-                
+                StatusRow(status: store.appState.timelineData.hubStatus.myLatestStatus!.convertToStatus(), width: width - 2 * 16)
+                    .background(Color.init("BackGroundLight"))
+                    .cornerRadius(16)
+
+
             })
-            
+
         }
         if store.appState.timelineData.hubStatus.bookmarkedStatus != nil {
             NavigationLink(destination: BookmarkedStatusView(),
                            label: {
-                Status_CDRow(status: store.appState.timelineData.hubStatus.bookmarkedStatus!, width: width - 2 * 16)
+                StatusRow(status: store.appState.timelineData.hubStatus.bookmarkedStatus!.convertToStatus(), width: width - 2 * 16)
+                    .background(Color.init("BackGroundLight"))
+                    .cornerRadius(16)
             })
         }
-        
-        
-        if store.appState.setting.loginUser?.tokenKey != nil
-            && store.appState.timelineData.hubStatus.myLatestDraft != nil {
-            Status_Draft(draft: store.appState.timelineData.hubStatus.myLatestDraft, width: width - 2 * 16)
-        }
-        
+
+
+//        if store.appState.setting.loginUser?.tokenKey != nil
+//            && store.appState.timelineData.hubStatus.myLatestDraft != nil {
+//            Status_Draft(draft: store.appState.timelineData.hubStatus.myLatestDraft, width: width - 2 * 16)
+//        }
+//        Text("TODO")
     }
 }
 

@@ -18,11 +18,8 @@ struct StatusRow: View {
     }
     
     @EnvironmentObject var store: Store
-    ///创建一个简单表示法
-    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
-    
-    var tweetID: String
-    
+ 
+    var status: Status = Status()
     ///约束图片的显示宽度，
     ///目前传入的宽度是屏幕宽度减去两侧空余
     var width: CGFloat
@@ -31,24 +28,20 @@ struct StatusRow: View {
     
     //avatar区域的宽度
     var avatarColumWidth: CGFloat = 80
-    
-    var status: Status {store.repository.getStatus(byID: tweetID)}
-    
-    var quotedStatusID: String? {status.quoted_status_id_str }
-    var retweetStatusID: String? {status.retweeted_status_id_str}
+
     
     @State var isShowDetail: Bool = false
     
     var avatar: some View {
         VStack(alignment: .leading){
-            AvatarView(width: 36, height: 36, user: status.user)
+            AvatarView(user: status.user ?? User(), width: 36, height: 36)
             Spacer()
         }
-        .frame(width:setting.uiStyle.avatarWidth )
+        .frame(width:store.appState.setting.userSetting?.uiStyle.avatarWidth )
     }
     
     var nameAndcreated: some View {
-        HStack{ name; careated; Spacer(); detailIndicator }
+        HStack{ name; Spacer(); careated;  detailIndicator }
     }
     
     var name: some View {
@@ -59,10 +52,10 @@ struct StatusRow: View {
     var detailIndicator: some View {
         ZStack{
             
-            NavigationLink(destination: DetailViewRedux(tweetIDString: tweetID).environmentObject(store), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
-            DetailIndicator(tweetIDString: tweetID)
+            NavigationLink(destination: DetailViewRedux(tweetIDString: status.id).environmentObject(store), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
+            DetailIndicator(status: status)
                 .onTapGesture {
-                    store.dispatch(.fetchSession(tweetIDString: tweetID))
+                    store.dispatch(.fetchSession(tweetIDString: status.id))
                     isShowDetail = true }
             
         }.fixedSize()
@@ -75,8 +68,9 @@ struct StatusRow: View {
     var text: some View {
         return { () -> AnyView in
             switch rowType {
-            case .timeline: return AnyView(Text(status.text ).fixedSize(horizontal: false, vertical: true))
-            case .session: return  AnyView(NSAttributedStringView(attributedText: status.attributedText!, width: width - avatarColumWidth))
+//            case .timeline: return AnyView(Text(status.text ).fixedSize(horizontal: false, vertical: true))
+            case .session: return  AnyView(NSAttributedStringView(attributedText: status.attributedText, width: width - avatarColumWidth))
+            case .timeline: return  AnyView(NSAttributedStringView(attributedText: status.attributedText , width: width - avatarColumWidth))
             }
         }()
       }
@@ -87,15 +81,16 @@ struct StatusRow: View {
     
     var body: some View {
         VStack(alignment: .leading){
-            if retweetStatusID == nil {
+            if status.retweeted_status_id_str == nil {
                 HStack(alignment: .top) {
                 avatar
                 VStack(alignment: .leading){
                     nameAndcreated
                     text
                     
-                    if quotedStatusID != nil {
-                       QuotedStatusJsonRow(tweetID: quotedStatusID!, width: width - 76)
+                    if status.quoted_status_id_str != nil {
+                        QuotedStatusJsonRow(status: store.repository.getStatus(byID: status.quoted_status_id_str! ),
+                                            width: width - 76)
                     }
                 }
                 
@@ -112,15 +107,15 @@ struct StatusRow: View {
                     }
             }
             } else {
-                RetweetMarkView(userIDString: tweetID, userName: status.user?.name)
+                RetweetMarkView(userIDString: status.id, userName: status.user?.name)
                     .padding(.top, 8).padding(.bottom, -16)
-                StatusRow(tweetID: retweetStatusID!, width: width)
+                StatusRow(status: store.repository.getStatus(byID: status.retweeted_status_id_str!), width: width)
             }
         }
         .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id ? Color.accentColor.opacity(0.15) : Color.clear)
         .onTapGesture {
             withAnimation{
-                store.dispatch(.selectTweetRow(tweetIDString: tweetID))
+                store.dispatch(.selectTweetRow(tweetIDString: status.id))
             }
         }
     }
@@ -128,6 +123,17 @@ struct StatusRow: View {
 
 struct StatusRow_Previews: PreviewProvider {
     static var previews: some View {
-        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+        let status = Status(text: "人体对其所摄入的葡萄糖的处置调控能力称为「葡萄糖耐量」。正常人的糖调节机制完好，无论进食多少，血糖都能保持在一个比较稳定的范围内，即使一次性摄入大量的糖分", attributedText: JSON(dictionaryLiteral: ("text", "人体对其所摄入的葡萄糖的处置调控能力称为「葡萄糖耐量」。正常人的糖调节机制完好，无论进食多少，血糖都能保持在一个比较稳定的范围内，即使一次性摄入大量的糖分")).getAttributedText(),imageUrls: ["", "", "", ""])
+        GeometryReader {proxy in
+            VStack{
+            StatusRow(status: Status(), width: proxy.size.width)
+                .frame(width:proxy.size.width, height: 80, alignment: .center)
+                .environmentObject(Store())
+            StatusRow(status: status, width: proxy.size.width)
+                .frame(width:proxy.size.width, height: 80, alignment: .center)
+                .environmentObject(Store())
+                .offset(CGSize(width: 0, height: 200))
+            }
+        }
     }
 }

@@ -11,35 +11,36 @@ import Swifter
 
 struct DetailIndicator: View {
     @EnvironmentObject var store: Store
-    var tweetIDString: String
+//    var tweetIDString: String
     
-    var status: Status? {store.repository.statuses[tweetIDString]}
+    var status: Status
+//    {store.repository.statuses[tweetIDString]}
     
-    var retweeted: Bool { status?.retweeted ?? false }
-    var retweetedCount: Int {status?.retweet_count ?? 0 }
-    
-    var favorited: Bool { status?.favorited ?? false }
-    var favoritedCount: Int {status?.favorite_count ?? 0 }
-    
-    var isMentioned: Bool  {status?.isMentioned ?? false}
-    var isRead: Bool {status?.isRead ?? false}
+//    var retweeted: Bool { status?.retweeted ?? false }
+//    var retweetedCount: Int {status?.retweet_count ?? 0 }
+//
+//    var favorited: Bool { status?.favorited ?? false }
+//    var favoritedCount: Int {status?.favorite_count ?? 0 }
+//
+//    var isMentioned: Bool  {status?.isMentioned ?? false}
+//    var isRead: Bool {status?.isRead ?? false}
     var body: some View {
         HStack(spacing: 0){
             Spacer()
             Circle()
-                .fill(retweeted ? Color.green : Color.gray)
+                .fill(status.retweeted ? Color.green : Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
-                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
+                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 1)
             Circle()
                 .fill(
-                    favorited ? Color.red :
+                    status.favorited ? Color.red :
                         Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
-                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
+                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 1)
             Circle()
-                .fill( isRead ? Color.accentColor : Color.gray)
+                .fill( status.isRead ? Color.accentColor : Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
-                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 3)
+                .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 1)
 
             Spacer()
         }
@@ -57,6 +58,6 @@ struct DetailIndicator: View {
 
 struct DetailIndicator_Previews: PreviewProvider {
     static var previews: some View {
-        DetailIndicator(tweetIDString: "0000")
+        DetailIndicator(status: Status())
     }
 }

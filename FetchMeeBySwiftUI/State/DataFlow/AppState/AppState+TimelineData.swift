@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension AppState {
     struct TimelineData {
@@ -75,7 +76,7 @@ extension AppState.TimelineData {
         } else {
             //如果选中推文的值本来是空， 就直接赋值
             self.selectedTweetID = tweetIDString
-            setToolsViewMark(after: tweetIDString)
+                setToolsViewMark(after: tweetIDString)
             return nil
         }
     }
@@ -96,7 +97,7 @@ extension AppState.TimelineData {
             .forEach{
                 //查找推文并添加标记
                 let index = ($1.tweetIDStrings.firstIndex(of: tweetIDString))!
-                self.timelines[$0]?.tweetIDStrings.insert("toolsViewMark", at: index + 1)
+                    self.timelines[$0]?.tweetIDStrings.insert("toolsViewMark", at: index + 1)
             }
     }
     

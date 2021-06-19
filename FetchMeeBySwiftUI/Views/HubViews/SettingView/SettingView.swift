@@ -14,7 +14,7 @@ import Kingfisher
 struct SettingView: View {
     @EnvironmentObject var store: Store
     @Environment(\.presentationMode) var presentationMode
-    var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
+    //    var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
     
     //用来作为setting调整结果的零时存储
     @State var setting: UserSetting
@@ -26,28 +26,28 @@ struct SettingView: View {
     var body: some View {
         
         Form {
-
+            
             Section(header: Text("Visual"),
                     footer: Text("You can swith this function off to get a simper UI and better performance")) {
-
+                
                 Picker("Favorit Theme Color", selection: $setting.themeColor, content: {
                     ForEach(ThemeColor.allCases){themeColor in
                         Text(themeColor.rawValue.capitalized).foregroundColor(themeColor.color).tag(themeColor)
                     }
                 })
-
+                
                 Picker("Favorit UIStyle", selection: $setting.uiStyle, content: {
                     ForEach(UIStyle.allCases){style in
                         Text(style.rawValue.capitalized).tag(style)
                     }
                 })
-
-
+                
+                
                 Toggle("Auto Fetch More", isOn: self.$setting.isAutoFetchMoreTweet)
             }
-
+            
             Section(header:Text("Other")){
-
+                
                 NavigationLink(destination: UserMarkManageView(),
                                label: {Label(title: {Text("Favorite User")},
                                              icon:{Image(systemName: "star.circle.fill").foregroundColor(.accentColor)})})
@@ -55,35 +55,27 @@ struct SettingView: View {
                 NavigationLink(destination: CountView(),
                                label: {Label(title: {Text("Login User Infomation")},
                                              icon:{Image(systemName: "info.circle.fill")
-                                                .foregroundColor(.accentColor)
-                                             })})
+                                       .foregroundColor(.accentColor)
+                               })})
                 
                 NavigationLink(destination: TweetTagCDManageView(),
                                label: {Label(title: {Text("Tweet Tags")},
                                              icon:{Image(systemName: "number.circle.fill")
-                                                .foregroundColor(.accentColor)
-                                             })})
-
+                                       .foregroundColor(.accentColor)
+                               })})
+                
                 
                 NavigationLink(destination: BookmarkedStatusView(),
                                label: {Label(title: {Text("Bookmarked Tweets")},
                                              icon:{Image(systemName: "bookmark.circle.fill")
-                                                .foregroundColor(.accentColor)
-                                             })})
+                                       .foregroundColor(.accentColor)
+                               })})
             }
-
+            
             Section(header:Text("")){
                 HStack {
                     Spacer()
-                    Button(isLogined ? "Sign Out" : "Sign In"){
-                        if isLogined {
-                            self.isPresentedAlert = true
-
-                        } else {
-                            logOut()
-                        }
-
-                    }
+                    Button("Sign Out"){self.isPresentedAlert = true}
                     .font(.headline)
                     .foregroundColor(.white)
                     .alert(isPresented: self.$isPresentedAlert) {
@@ -100,7 +92,7 @@ struct SettingView: View {
         
         .onDisappear{store.dispatch(.changeSetting(setting: setting))}
         .navigationTitle("Setting")
-
+        
     }
 }
 

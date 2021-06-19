@@ -23,7 +23,7 @@ import CoreData
 struct ComposerOfHubView: View {
     
     @EnvironmentObject var store: Store
-    var swifter: Swifter {store.fetcher.swifter}
+    var swifter: Swifter
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var draftsByCoreData: FetchedResults<TweetDraft>
@@ -70,10 +70,9 @@ struct ComposerOfHubView: View {
                 
                 
                 TextEditor(text: self.$tweetText)
-                    //                CustomTextEditor(text: self.$tweetText, isFirstResponder: user.myInfo.setting.isFirsResponder)
                     .padding([.leading, .trailing, .bottom], 8)
             }
-            .frame(minHeight: 50, idealHeight: 180, maxHeight: isUsedAlone ? 240 : .infinity, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            .frame(minHeight: 50, idealHeight: 180, maxHeight: isUsedAlone ? 240 : .infinity, alignment: .center)
             
             .background(isUsedAlone ? Color.init("BackGround") : Color.init("BackGroundLight"))
             .cornerRadius(18)
@@ -191,7 +190,8 @@ struct ComposerOfHubView: View {
 
 struct ComposerOfHubView_Previews: PreviewProvider {
     static var previews: some View {
-        ComposerOfHubView(tweetText: .constant(""), replyIDString: nil)
+        ComposerOfHubView(swifter: Store().fetcher.swifter, tweetText: .constant(""), replyIDString: nil, isUsedAlone: true)
+            .environmentObject(Store())
     }
 }
 

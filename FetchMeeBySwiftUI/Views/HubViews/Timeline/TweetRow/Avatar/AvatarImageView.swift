@@ -14,11 +14,11 @@ import Kingfisher
 struct AvatarImageView: View {
     
     var imageUrl: String?
-    var placeHolder:Image = Image("LogoWhite").resizable()
-    
+    var placeHolder:Image = Image(systemName: "person.circle.fill").resizable()
     
     var body: some View {
         KFImage(URL(string: imageUrl ?? "")).placeholder{placeHolder}
+//        RemoteImage(imageUrl: imageUrl ?? "")
             .resizable()
             .aspectRatio(contentMode: .fill)
             .clipShape(Circle())

@@ -29,7 +29,7 @@ struct HubView: View {
                 ScrollView(.vertical, showsIndicators: false){
                     
                     VStack {
-                        ComposerOfHubView(tweetText: tweetText)
+                        ComposerOfHubView(swifter: store.fetcher.swifter, tweetText: tweetText)
                             .padding(.top, 16)
                             .padding([.leading, .trailing], 18)
                             .frame(minHeight: 180, idealHeight: 240, maxHeight: 240)
@@ -37,9 +37,7 @@ struct HubView: View {
                         Divider()
                         TimelinesView()
                         
-                        ToolBarsView(setting: store.appState.setting.userSetting ?? UserSetting(),
-                                     user: store.appState.setting.loginUser ?? User(),
-                                     width: proxy.size.width)
+                        ToolBarsView(user: store.appState.setting.loginUser ?? User())
                             .padding([.leading, .trailing], 16)
                         
                         StatusView(width: proxy.size.width)

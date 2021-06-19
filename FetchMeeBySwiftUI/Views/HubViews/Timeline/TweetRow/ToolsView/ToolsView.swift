@@ -18,7 +18,8 @@ struct ToolsView: View {
     
     @State var isAlertShowed: Bool = false
     
-    var status: Status? {store.repository.statuses[tweetIDString]}
+    var status: Status?
+//    {store.repository.statuses[tweetIDString]}
     
     var retweeted: Bool { status?.retweeted ?? false }
     var retweetedCount: Int {status?.retweet_count ?? 0 }
@@ -26,13 +27,16 @@ struct ToolsView: View {
     var favorited: Bool { status?.favorited ?? false }
     var favoritedCount: Int {status?.favorite_count ?? 0 }
     
-    var isMyTweet: Bool {status?.user?.id == store.appState.setting.loginUser?.id}
+    var isMyTweet: Bool = false
+//    {status?.user?.id == store.appState.setting.loginUser?.id}
+    //直接用计算属性会导致预览失效
+    //可以吧这个属性编程函数返回相应值，在需要的地方调用
     
     var body: some View {
         VStack {
             HStack{
                 
-                Image(systemName: isMyTweet ? "trash" : "bookmark")
+                Image(systemName: isTweetByMeself() ? "trash" : "bookmark")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 18, height: 18, alignment: .center)
@@ -135,5 +139,11 @@ struct ToolsView_Previews: PreviewProvider {
     static var previews: some View {
         ToolsView(tweetIDString: "0000")
             .environmentObject(store)
+    }
+}
+
+extension ToolsView {
+    func isTweetByMeself() -> Bool {
+        return status?.user?.id == store.appState.setting.loginUser?.id
     }
 }

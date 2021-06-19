@@ -29,8 +29,11 @@ struct BookmarkedStatusView: View {
     var body: some View {
         GeometryReader { proxy in
             List{
-                ForEach(filterStatus, id: \.self) {status in
-                    Status_CDRow(status: status, width: proxy.size.width - 32)
+                ForEach(statuses, id: \.id) {status in
+                    StatusRow(status: status.convertToStatus(), width: proxy.size.width - 32)
+                        
+                        .background(Color.init("BackGround"))
+                        .cornerRadius(16)
                         .padding(.vertical, 4)
                         .padding(.horizontal, 16)
                         

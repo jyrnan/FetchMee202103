@@ -73,5 +73,17 @@ extension StatusCD {
         guard let imageUrls = self.imageUrls else {return nil}
         return imageUrls.split(separator: " ").map{String($0)}
     }
+    
+    func convertToStatus() -> Status {
+        var status = Status()
+        
+        status.id = self.id_str ?? UUID().uuidString
+        status.text = self.text ?? ""
+        status.createdAt = self.created_at ?? Date()
+        status.imageUrls = getImageUrls()
+        status.user = self.user?.convertToUser()
+        status.attributedText = JSON(dictionaryLiteral: ("text", self.text)).getAttributedText()
+        return status
+    }
 
 }

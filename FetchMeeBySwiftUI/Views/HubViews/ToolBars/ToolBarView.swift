@@ -72,7 +72,7 @@ struct ToolBarView: View, Identifiable {
                 ZStack{
                     RoundedRectangle(cornerRadius: 16)
                         .foregroundColor(Color.init("BackGroundLight"))
-//                        .shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
+                    //                        .shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
                     
                     HStack {
                         Image(systemName: type.uiData.iconImageName)
@@ -81,7 +81,7 @@ struct ToolBarView: View, Identifiable {
                             .foregroundColor(type.uiData.themeColor)
                             .frame(width: 40, height: 40, alignment: .center)
                             .padding(16)
-                            
+                        
                         
                         VStack(alignment: .leading, spacing: 0) {
                             HStack{
@@ -102,22 +102,13 @@ struct ToolBarView: View, Identifiable {
                         
                         Spacer()
                         VStack(alignment: .trailing) {
-                            //暂时添加一个观察窗口
-//                            NavigationLink(destination: CountView()){
                             Text("\(label3Value ?? 0)").font(.title2).foregroundColor(type.uiData.themeColor)
-//                            }
                             Text(type.rawValue).font(.body).bold()
                                 .foregroundColor(Color.init(UIColor.darkGray))
                         }.padding()
-//                        .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-//                            print(#line)
-//                        })
                     }
                 }
                 .frame(height: 76)
-//                .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth:UIScreen.main.bounds.width - 36 , maxWidth: .infinity)
-//                .fixedSize(horizontal: true, vertical: false)
-                
             } else {
                 ZStack{
                     RoundedRectangle(cornerRadius: 16)
@@ -128,10 +119,10 @@ struct ToolBarView: View, Identifiable {
                         switch type {
                         case .friends:
                             return AnyView(BackOfFriendToolBar())
-                                
+                            
                         case .tweets:
                             return AnyView( BackOfTweetsToolBar())
-                        
+                            
                         case .tools:
                             return AnyView( BackOfToolsToolBar() )
                         }
@@ -142,30 +133,11 @@ struct ToolBarView: View, Identifiable {
             }
         }
         .rotation3DEffect(!self.isFaceUp ? Angle(degrees: 180): Angle(degrees: 0), axis: (x: CGFloat(10), y: CGFloat(0), z: CGFloat(0)))
-        .animation(.default) // implicitly applying animation
-        
     }
 }
 
-
-//struct ToolBarView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ZStack{
-//        RoundedRectangle(cornerRadius: 16)
-//            .foregroundColor(Color.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
-//            BackOfToolsToolBar().environmentObject(User())
-//        }.frame(height: 76).padding([.leading, .trailing], 16)
-//        
-//        ZStack{
-//        RoundedRectangle(cornerRadius: 16)
-//            .foregroundColor(Color.blue).shadow(color: Color.black.opacity(0.2),radius: 3, x: 0, y: 3)
-//            BackOfToolsToolBar().environmentObject(User())
-//        }.frame(height: 76).padding([.leading, .trailing], 16)
-//    }
-//}
-
-//MARK:- ToolBar背面
-
-
-
-
+struct ToolBarView_Previews: PreviewProvider {
+    static var previews: some View {
+        ToolBarView(type: .friends)
+    }
+}
