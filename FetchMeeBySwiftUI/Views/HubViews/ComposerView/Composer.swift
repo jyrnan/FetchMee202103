@@ -15,55 +15,82 @@ struct Composer: View {
     
     @Environment(\.managedObjectContext) var viewContext
     
-    var tweetTextBinding: Binding<String> {$store.appState.setting.tweetInput.tweetText}
+    var tweetTextBinding: Binding<String>
     
     @State var isShowCMV: Bool = false  //是否显示详细新推文视图
     
     @Binding var isProcessingDone: Bool
     
-    var tweetIDString: String?
-    
-    var placeHolderText:String {tweetIDString == nil ? "Tweet something here..." : "Replying here..."}
+    var status: Status?
     
     var body: some View {
         HStack(alignment: .center) {
-            TextField("reply", text: tweetTextBinding, prompt: Text(placeHolderText))
+            TextField("reply",
+                      text: tweetTextBinding,
+                      prompt: Text("Replying here..."))
                 .font(.body)
+            
             Spacer()
             ///显示详细发推视图或者菊花
             if isProcessingDone {
                 ZStack{
-                NavigationLink(
-                    destination: ComposerOfHubView(swifter: store.fetcher.swifter, tweetText: tweetTextBinding, replyIDString: self.tweetIDString, isUsedAlone: true ),
-                    isActive: $isShowCMV
-                ){EmptyView().disabled(true)}.opacity(0.1).disabled(true)
-                    Text("more").font(.body).foregroundColor(.primary).opacity(0.7)
-                .onTapGesture {self.isShowCMV = true }
+//                    NavigationLink(
+//                        destination: ComposerOfHubView(swifter: store.fetcher.swifter,
+//                                                       tweetText: tweetTextBinding,
+//                                                       replyIDString: status?.id,
+//                                                       isUsedAlone: true ),
+//                        isActive: $isShowCMV,
+//                        label: {EmptyView().disabled(true)}
+//                    )
+//                        .opacity(0.1)
+//                        .disabled(true)
+                    
+                    Text("more")
+                        .font(.body)
+                        .foregroundColor(.primary)
+                        .opacity(0.7)
+                        .onTapGesture {self.isShowCMV = true }
                 }
                 .fixedSize() //可以减少空间的占用量，否则会占据一半的有用空间
+                .sheet(isPresented: $isShowCMV){ComposerOfHubView(swifter: store.fetcher.swifter,
+                                                                  tweetText: tweetTextBinding,
+                                                                  replyIDString: status?.id,
+                                                                  isUsedAlone: true,
+                status: status)
+                .accentColor(store.appState.setting.userSetting?.themeColor.color)
+                }
             } else {
-                                    ActivityIndicator(isAnimating: $isProcessingDone, style: .medium)
+                ActivityIndicator(isAnimating: $isProcessingDone, style: .medium)
             }
             
             Divider()
             
             Button(action: {
                 isProcessingDone = false
-                store.fetcher.swifter.postTweet(status: tweetTextBinding.wrappedValue, inReplyToStatusID: tweetIDString, autoPopulateReplyMetadata: true, success: {_ in
+                store.fetcher.swifter.postTweet(status: tweetTextBinding.wrappedValue,
+                                                inReplyToStatusID: status?.id,
+                                                autoPopulateReplyMetadata: true,
+                                                success: {_ in
                     tweetTextBinding.wrappedValue = ""
-                    store.dispatch(.alertOn(text: tweetIDString == nil ? "Tweet sent!" : "Reply sent", isWarning: false))
-                    if tweetIDString != nil {
+                    
+                    store.dispatch(.alertOn(text: "Reply sent", isWarning: false))
+                    if let idString = status?.id {
                         withAnimation{
-                        store.dispatch(.selectTweetRow(tweetIDString: tweetIDString!)) }
+                            store.dispatch(.selectTweetRow(tweetIDString: idString)) }
                     }
                     isProcessingDone = true
                 })
                 self.hideKeyboard()
             },
-            label: {
-                Image(systemName: "plus.message.fill").resizable().aspectRatio(contentMode: .fill).frame(width: 20, height: 20, alignment: .center)
+                   label: {
+                Image(systemName: "plus.message.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 20, height: 20, alignment: .center)
                     .foregroundColor(tweetTextBinding.wrappedValue == "" ? Color.primary.opacity(0.3) : Color.primary.opacity(0.8) )
-            }).disabled(tweetTextBinding.wrappedValue == "").buttonStyle(PlainButtonStyle())
+            })
+                .disabled(tweetTextBinding.wrappedValue == "")
+                .buttonStyle(PlainButtonStyle())
             
         }
     }
@@ -77,6 +104,7 @@ extension Composer {
 
 struct Composer_Previews: PreviewProvider {
     static var previews: some View {
-        Composer(isProcessingDone: .constant(false))
+        Composer(tweetTextBinding: .constant(""), isProcessingDone: .constant(true))
+            .environmentObject(Store())
     }
 }

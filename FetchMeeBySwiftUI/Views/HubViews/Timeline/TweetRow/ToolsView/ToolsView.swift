@@ -11,21 +11,19 @@ import Swifter
 
 struct ToolsView: View {
     @EnvironmentObject var store: Store
-    var tweetIDString: String
     
     @State var isShowSafari: Bool = false
     @State var url: URL = URL(string: "https://www.twitter.com")!
     
     @State var isAlertShowed: Bool = false
     
-    var status: Status?
-//    {store.repository.statuses[tweetIDString]}
+    var status: Status
     
-    var retweeted: Bool { status?.retweeted ?? false }
-    var retweetedCount: Int {status?.retweet_count ?? 0 }
+    var retweeted: Bool { status.retweeted }
+    var retweetedCount: Int {status.retweet_count }
     
-    var favorited: Bool { status?.favorited ?? false }
-    var favoritedCount: Int {status?.favorite_count ?? 0 }
+    var favorited: Bool { status.favorited }
+    var favoritedCount: Int {status.favorite_count }
     
     var isMyTweet: Bool = false
 //    {status?.user?.id == store.appState.setting.loginUser?.id}
@@ -43,10 +41,10 @@ struct ToolsView: View {
                     .onTapGesture {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                         if isMyTweet {
-                            store.dispatch(.tweetOperation(operation: .delete(id: tweetIDString)))
+                            store.dispatch(.tweetOperation(operation: .delete(id: status.id)))
                         } else {
 
-                            store.fetcher.swifter.getTweet(for: tweetIDString, success: {json in
+                            store.fetcher.swifter.getTweet(for: status.id, success: {json in
                                 let _ = StatusCD.JSON_Save(from: json, isBookmarked: true)
                                 store.dispatch(.alertOn(text: "Bookmarked!", isWarning: false))
                                 store.dispatch(.hubStatusRequest)
@@ -67,7 +65,7 @@ struct ToolsView: View {
                     .foregroundColor(retweeted == true ? Color.green : Color.gray)
                     .onTapGesture {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                        store.dispatch(.tweetOperation(operation: retweeted ? .unRetweet(id: tweetIDString) : .retweet(id: tweetIDString)))
+                        store.dispatch(.tweetOperation(operation: retweeted ? .unRetweet(id: status.id) : .retweet(id: status.id)))
                     }
                 
                 if retweetedCount != 0 {
@@ -81,7 +79,7 @@ struct ToolsView: View {
                     .foregroundColor(favorited ? Color.red : Color.gray)
                     .onTapGesture {
                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                        store.dispatch(.tweetOperation(operation: favorited ? .unfavorite(id: tweetIDString) : .favorite(id: tweetIDString)))
+                        store.dispatch(.tweetOperation(operation: favorited ? .unfavorite(id: status.id) : .favorite(id: status.id)))
                     }
                 
                 if favoritedCount != 0 {
@@ -93,10 +91,10 @@ struct ToolsView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 18, height: 18, alignment: .center)
                     .onTapGesture {
-                        if let screenName = status?.user?.screenName {
-                            self.url = URL(string: "https://twitter.com/\(screenName)/status/\(tweetIDString)")!
+                        if let screenName = status.user?.screenName
+                           {
+                            self.url = URL(string: "https://twitter.com/\(screenName)/status/\(status.id)")!
                         }
-                        print(#line, self.url)
                         self.isShowSafari = true
                     }
                     .sheet(isPresented: self.$isShowSafari, content: {
@@ -105,7 +103,9 @@ struct ToolsView: View {
                 
             }.foregroundColor(.gray).padding(.horizontal, 16).padding(.top, 4)
             
-            Composer(isProcessingDone: $store.appState.setting.isProcessingDone, tweetIDString: self.tweetIDString)
+            Composer(tweetTextBinding: $store.appState.setting.tweetInput.tweetText,
+                     isProcessingDone: $store.appState.setting.isProcessingDone,
+                     status: status)
                 .padding(.top, 4)
                 .padding(.bottom, 4)
                 .padding(.horizontal, 16)
@@ -115,35 +115,21 @@ struct ToolsView: View {
             
         }
         .font(.body)
-        
     }
 }
 
 
-struct TopShadow: View {
-    var body: some View {
-        Rectangle().fill(LinearGradient(gradient: Gradient(colors: [Color.black, Color.clear]), startPoint: .top, endPoint: .bottom))
-            .frame(height: 5).opacity(0.4)
-    }
-}
 
-struct BottomShadow: View {
-    var body: some View {
-        Rectangle().fill(LinearGradient(gradient: Gradient(colors: [Color.black, Color.clear]), startPoint:.bottom , endPoint: .top))
-            .frame(height: 3).opacity(0.4)
+extension ToolsView {
+    func isTweetByMeself() -> Bool {
+        return status.user?.id == store.appState.setting.loginUser?.id
     }
 }
 
 struct ToolsView_Previews: PreviewProvider {
     static let store = Store()
     static var previews: some View {
-        ToolsView(tweetIDString: "0000")
+        ToolsView(status: Status())
             .environmentObject(store)
-    }
-}
-
-extension ToolsView {
-    func isTweetByMeself() -> Bool {
-        return status?.user?.id == store.appState.setting.loginUser?.id
     }
 }

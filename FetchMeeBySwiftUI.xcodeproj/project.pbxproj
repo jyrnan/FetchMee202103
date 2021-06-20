@@ -570,8 +570,8 @@
 			isa = PBXGroup;
 			children = (
 				4BDB05D825316D5C00CF71A1 /* ComposerOfHubView.swift */,
-				D2BC206525F26A1E007882CA /* AutoCompleteView.swift */,
 				D286FFCF24BC29BF005DBC39 /* Composer.swift */,
+				D2BC206525F26A1E007882CA /* AutoCompleteView.swift */,
 				D29738FF24D1182600917A97 /* PhotoPickerView.swift */,
 				D730997E24ED6A5F00B57837 /* DraftsView.swift */,
 				D282BCA42589902400877B26 /* ComposerButtonView.swift */,

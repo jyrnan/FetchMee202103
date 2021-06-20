@@ -52,7 +52,12 @@ struct StatusRow: View {
     var detailIndicator: some View {
         ZStack{
             
-            NavigationLink(destination: DetailViewRedux(tweetIDString: status.id).environmentObject(store), isActive:$isShowDetail , label:{EmptyView()} ).opacity(0.1).disabled(true)
+            NavigationLink(destination: DetailViewRedux(status: status).environmentObject(store),
+                           isActive:$isShowDetail ,
+                           label:{EmptyView()} )
+                .opacity(0.1)
+                .disabled(true)
+            
             DetailIndicator(status: status)
                 .onTapGesture {
                     store.dispatch(.fetchSession(tweetIDString: status.id))

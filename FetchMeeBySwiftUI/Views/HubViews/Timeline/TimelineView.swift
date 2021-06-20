@@ -13,25 +13,14 @@ import UIKit
 
 struct TimelineView: View {
     @EnvironmentObject var store: Store
-    
-    ///创建一个简单表示法
-//    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
-    
-//    var timelineType: TimelineType
+
     var timeline: AppState.TimelineData.Timeline
-//    { store.appState.timelineData.getTimeline(timelineType: timelineType)}
     
     @State var tweetText: String = ""
-//    var isProcessingDone: Binding<Bool>  {$store.appState.setting.isProcessingDone}
     @GestureState var dragAmount = CGSize.zero
     
     @State var readCounter: Int = 0
-    
-//    var selectedBackgroundColor: some View  {
-//        Color.init("BackGround")
-//            .overlay(Color.accentColor.opacity(0.12))}
-    
-    
+ 
     var body: some View {
         GeometryReader {proxy in
             List{
@@ -78,18 +67,17 @@ struct TimelineView: View {
                             .onAppear{
                                 readCounter += 1
                             }
-
                         if store.appState.setting.userSetting?.uiStyle == .plain {
                             Divider().padding(0)
                         }
                         }
                     } else {
-                        ToolsView(tweetIDString: store.appState.timelineData.selectedTweetID ?? "", status: store.repository.getStatus(byID: store.appState.timelineData.selectedTweetID ?? "0000"))
+                        ToolsView(status: store.repository.getStatus(byID: store.appState.timelineData.selectedTweetID ?? "0000"))
                             .padding(.horizontal, store.appState.setting.userSetting?.uiStyle.insetH)
                             .padding(.vertical,store.appState.setting.userSetting?.uiStyle.insetV)
                             .background(Color.init("BackGround"))
                     }
-                    
+                        
                 }
                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
                 

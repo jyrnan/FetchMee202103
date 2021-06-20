@@ -14,7 +14,7 @@ import Swifter
 struct QuotedStatusJsonRow: View {
     @EnvironmentObject var store: Store
     ///创建一个简单表示法
-//    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
+    //    var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
     
     var status: Status
     ///约束图片的显示宽度
@@ -22,7 +22,7 @@ struct QuotedStatusJsonRow: View {
     
     
     
-//    var quotedStatusID: String? {status["quoted_status_id_str"].string }
+    //    var quotedStatusID: String? {status["quoted_status_id_str"].string }
     
     @State var isShowDetail: Bool = false
     
@@ -42,15 +42,16 @@ struct QuotedStatusJsonRow: View {
     var detailIndicator: some View {
         ZStack{
             
-            NavigationLink(destination: DetailViewRedux(tweetIDString: status.id)
+            NavigationLink(destination: DetailViewRedux(status: status)
                             .environmentObject(store),
                            isActive:$isShowDetail ,
                            label:{EmptyView()} ).opacity(0.1).disabled(true)
+            
             DetailIndicator(status: status)
                 .onTapGesture {
                     store.dispatch(.fetchSession(tweetIDString: status.id))
-                    isShowDetail = true }
-            
+                    isShowDetail = true
+                }
         }.fixedSize()
     }
     
@@ -67,23 +68,23 @@ struct QuotedStatusJsonRow: View {
     var body: some View {
         
         VStack(alignment: .leading, spacing: 0){
-               
-                VStack(alignment: .leading){
-                    nameAndcreated
-                    text.font(.callout)
-                }
-                .padding(4)
+            
+            VStack(alignment: .leading){
+                nameAndcreated
+                text.font(.callout)
+            }
+            .padding(4)
             if let imageUrls = status.imageUrls {
                 Images(imageUrlStrings: imageUrls)
                     .frame(width: width, height: width * 9 / 21 )
                     .clipped()
             }
         }
-                .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                                            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                                        .stroke(Color.gray.opacity(0.2), lineWidth: 1))
-            
-            
+        .mask(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .stroke(Color.gray.opacity(0.2), lineWidth: 1))
+        
+        
         
         
     }

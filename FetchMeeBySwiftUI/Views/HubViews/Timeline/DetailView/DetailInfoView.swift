@@ -11,23 +11,16 @@ import Swifter
 
 struct DetailInfoView: View {
     let status: Status
-    
-    var created_at:String {updateTime(createdTime: status.createdAt)}
-    var source: String {String((status.source.split(separator: ">").last?.dropLast(3)) ?? "unknow")}
-    
-    var retweet_count: String {String(status.retweet_count )}
-    var favorite_count: String {String(status.favorite_count )}
-    
-    
-    
+
     var body: some View {
         GeometryReader {proxy in
            
             VStack{
                
                 HStack{
-                    Text(created_at)
-                    Text(source).foregroundColor(.accentColor)
+                    Text(updateTime(createdTime: status.createdAt))
+                    Text(String((status.source.split(separator: ">").last?.dropLast(3)) ?? "unknow"))
+                        .foregroundColor(.accentColor)
                     Spacer()
                 }
                 
@@ -35,18 +28,17 @@ struct DetailInfoView: View {
                 
                 HStack{
                     HStack{
-                        Text("Retweeted : ") + Text(retweet_count)
+                        Text("Retweeted : \(status.retweet_count)")
                         Spacer()
                     }.frame(width: proxy.size.width / 2)
                     
-                    Divider().padding(0)
+                    Divider().padding(0).frame(maxHeight: 12)
                    
                     HStack{
-                        Text("Favorited : ") + Text(favorite_count)
+                        Text("Favorited : \(status.favorite_count)")
                         Spacer()
                     }
                 }
-//               Spacer()
             }
             .padding(.top, 16)
             .font(.callout)
@@ -64,7 +56,6 @@ struct DetailInfoView: View {
             df.timeStyle = .short
             
             let result = df.string(from: createdTime!)  + " · "
-          
         return result
     }
     

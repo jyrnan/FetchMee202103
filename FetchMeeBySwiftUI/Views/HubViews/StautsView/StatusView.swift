@@ -36,12 +36,6 @@ struct StatusView: View {
             })
         }
 
-
-//        if store.appState.setting.loginUser?.tokenKey != nil
-//            && store.appState.timelineData.hubStatus.myLatestDraft != nil {
-//            Status_Draft(draft: store.appState.timelineData.hubStatus.myLatestDraft, width: width - 2 * 16)
-//        }
-//        Text("TODO")
     }
 }
 

@@ -24,6 +24,7 @@ struct ComposerOfHubView: View {
     
     @EnvironmentObject var store: Store
     var swifter: Swifter
+    @Environment(\.presentationMode) var presentationMode
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \TweetDraft.createdAt, ascending: true)]) var draftsByCoreData: FetchedResults<TweetDraft>
@@ -50,6 +51,10 @@ struct ComposerOfHubView: View {
     @State var isShowAutoCompleteText: Bool = false
     @State var autoCompleteText: String = ""
     
+    @FocusState private var focusState: Bool
+    
+    var status: Status?
+    
     var body: some View {
         VStack{
             
@@ -71,13 +76,15 @@ struct ComposerOfHubView: View {
                 
                 TextEditor(text: self.$tweetText)
                     .padding([.leading, .trailing, .bottom], 8)
+                    .focused($focusState)
             }
             .frame(minHeight: 50, idealHeight: 180, maxHeight: isUsedAlone ? 240 : .infinity, alignment: .center)
             
-            .background(isUsedAlone ? Color.init("BackGround") : Color.init("BackGroundLight"))
+            .background(isUsedAlone ? Color.init("BackGroundLight") : Color.init("BackGroundLight"))
             .cornerRadius(18)
             .onAppear() {
                 UITextView.appearance().backgroundColor = .clear
+                focusState = true
             }
             // 让TextEditor的背景是透明色
             
@@ -170,28 +177,31 @@ struct ComposerOfHubView: View {
                     AutoCompleteView(autoCompleteText: store.appState.setting.autoCompleteText)
                 }
             }
+            if status != nil {
+               Divider()
+                GeometryReader { proxy in
+                    
+                    StatusRow(status: status!, width: proxy.size.width)
+                        .background(Color.init("BackGroundLight"))
+                        .cornerRadius(16)
+                        
+                }.frame(height: 160)
+               
+            }
+            
             //如果单独使用则靠顶部
             if isUsedAlone {
                 Spacer()
             }
         }.padding(isUsedAlone ? 16 : 0)
-//        .onReceive(store.appState.setting.tweetInput.autoMapPublisher, perform: {text in
-//            print(#line, #file, "sent a text \(text)")
-//            if $0 != "noTag" {
-//                autoCompleteText = $0
-//                withAnimation{
-//                    isShowAutoCompleteText = true}
-//            } else {
-//                withAnimation{
-//                    isShowAutoCompleteText = false}}
-//        })
     }
 }
 
 struct ComposerOfHubView_Previews: PreviewProvider {
     static var previews: some View {
-        ComposerOfHubView(swifter: Store().fetcher.swifter, tweetText: .constant(""), replyIDString: nil, isUsedAlone: true)
+        ComposerOfHubView(swifter: Store().fetcher.swifter, tweetText: .constant(""), replyIDString: nil, isUsedAlone: true, status: Status())
             .environmentObject(Store())
+            .accentColor(.red)
     }
 }
 
@@ -266,12 +276,10 @@ extension ComposerOfHubView {
                 deleteDraft(draft: currentTweetDraft)
                 currentTweetDraft = nil
                 
-                //                self.alerts.stripAlert.alertText = "Tweet sent!"
-                //                self.alerts.stripAlert.isPresentedAlert = true
-                
                 store.dispatch(.alertOn(text: "Tweet sent!", isWarning: false))
                 
                 hideKeyboard()
+                presentationMode.wrappedValue.dismiss()
                 return
                 
             }
