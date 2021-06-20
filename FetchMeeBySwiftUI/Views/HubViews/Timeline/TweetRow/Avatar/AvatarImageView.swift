@@ -15,6 +15,7 @@ struct AvatarImageView: View {
     
     var imageUrl: String?
     var placeHolder:Image = Image(systemName: "person.circle.fill").resizable()
+    var isFavoriteUser: Bool = false
     
     var body: some View {
         KFImage(URL(string: imageUrl ?? "")).placeholder{placeHolder}
@@ -22,15 +23,14 @@ struct AvatarImageView: View {
             .resizable()
             .aspectRatio(contentMode: .fill)
             .clipShape(Circle())
-            .overlay(Circle()
-             .stroke(Color.gray.opacity(0.3), lineWidth: 1))
+            .overlay(Circle().stroke(isFavoriteUser ? Color.accentColor : Color.gray.opacity(0.3), lineWidth: isFavoriteUser ? 2 : 1))
             .contentShape(Circle())
     }
 }
 
 struct AvataImageView_Previews: PreviewProvider {
     static var previews: some View {
-        AvatarImageView(imageUrl: "")
+        AvatarImageView(imageUrl: "", isFavoriteUser: true)
             .frame(width: 64, height: 64, alignment: .center)
     }
 }

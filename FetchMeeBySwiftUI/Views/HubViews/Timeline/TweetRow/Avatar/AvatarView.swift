@@ -28,7 +28,7 @@ struct AvatarView: View {
                             NavigationLink(destination: UserView(user: user),
                                            isActive: $presentedUserInfo,
                                            label:{EmptyView()} ).disabled(true)
-            AvatarImageView(imageUrl: user.avatarUrlString)
+            AvatarImageView(imageUrl: user.avatarUrlString, isFavoriteUser: user.isFollowed)
                 .frame(width: width, height: height, alignment: .center)
                 .onTapGesture(count: 2){
                     UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
@@ -52,10 +52,8 @@ struct AvatarView: View {
 }
 
 struct AvatarView_Previews: PreviewProvider {
-//    static let store = Store()
     static var previews: some View {
-        AvatarView(user: User())
-//            .environmentObject(store)
+        AvatarView(user: User(isFavoriteUser: true))
     }
 }
 

@@ -13,14 +13,14 @@ import UIKit
 
 struct TimelineView: View {
     @EnvironmentObject var store: Store
-
+    
     var timeline: AppState.TimelineData.Timeline
     
     @State var tweetText: String = ""
     @GestureState var dragAmount = CGSize.zero
     
     @State var readCounter: Int = 0
- 
+    
     var body: some View {
         GeometryReader {proxy in
             List{
@@ -28,7 +28,7 @@ struct TimelineView: View {
                 //Homeline部分章节
                 ZStack{
                     RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
-                        
+                    
                     PullToRefreshView(action: refreshAll, isDone: $store.appState.setting.isProcessingDone) {
                         Spacer()
                     }
@@ -42,34 +42,31 @@ struct TimelineView: View {
                         }
                     }
                 }
-                  .frame(
-                    minWidth: 0, maxWidth: .infinity,
-                    minHeight: 44,
-                    alignment: .leading
-                  )
-                  .listRowInsets(EdgeInsets())
+                .frame(minWidth: 0, maxWidth: .infinity,minHeight: 44,alignment: .leading)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
                 .background(Color.init(.systemBackground))
                 
                 
                 ForEach(timeline.tweetIDStrings, id: \.self) {tweetIDString in
                     if tweetIDString != "toolsViewMark" {
                         VStack(spacing: 0){
-                        StatusRow(status: store.repository.getStatus(byID: tweetIDString),
-                                  width: proxy.size.width - 2 * 16)
+                            StatusRow(status: store.repository.getStatus(byID: tweetIDString),
+                                      width: proxy.size.width - 2 * 16)
                                 .background(store.appState.setting.userSetting?.uiStyle.backGround)
                                 .cornerRadius(16, antialiased: true)
                                 .overlay(RoundedRectangle(cornerRadius: 16)
                                             .stroke(store.appState.setting.userSetting?.uiStyle.backGround ?? Color.black, lineWidth: 1))
                                 .padding(.horizontal, store.appState.setting.userSetting?.uiStyle.insetH)
                                 .padding(.vertical, store.appState.setting.userSetting?.uiStyle.insetV)
-//                            下面这个background可以遮蔽List的分割线
-                            .background(Color.init("BackGround"))
-                            .onAppear{
-                                readCounter += 1
+                            //                            下面这个background可以遮蔽List的分割线
+                                .background(Color.init("BackGround"))
+                                .onAppear{
+                                    readCounter += 1
+                                }
+                            if store.appState.setting.userSetting?.uiStyle == .plain {
+                                Divider().padding(0)
                             }
-                        if store.appState.setting.userSetting?.uiStyle == .plain {
-                            Divider().padding(0)
-                        }
                         }
                     } else {
                         ToolsView(status: store.repository.getStatus(byID: store.appState.timelineData.selectedTweetID ?? "0000"))
@@ -77,9 +74,10 @@ struct TimelineView: View {
                             .padding(.vertical,store.appState.setting.userSetting?.uiStyle.insetV)
                             .background(Color.init("BackGround"))
                     }
-                        
+                    
                 }
                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
+                .listRowSeparator(.hidden)
                 
                 HStack {
                     Spacer()
@@ -95,27 +93,28 @@ struct TimelineView: View {
                     Spacer()
                 }
                 .listRowBackground(Color.init("BackGround"))
-
+                
                 RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
-                      .frame(
+                    .frame(
                         minWidth: 0, maxWidth: .infinity,
                         minHeight: 44,
                         alignment: .leading
-                      )
-                      .listRowInsets(EdgeInsets())
-                    .background(Color.init(.systemBackground))
+                    )
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                //                    .background(Color.init(.systemBackground))
                     .onAppear{
                         guard store.appState.setting.isProcessingDone == true else {return}
                         store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .bottom))
                     }
-                    
+                
             }.listStyle(.plain)
-            .gesture(DragGesture()
-                        .onChanged({ value in hideKeyboard()}))
-            .navigationTitle(timeline.type.rawValue)
-            .onDisappear{
-                store.dispatch(.updateNewTweetNumber(timelineType: timeline.type, numberOfReadTweet: readCounter))
-            }
+                .gesture(DragGesture()
+                            .onChanged({ value in hideKeyboard()}))
+                .navigationTitle(timeline.type.rawValue)
+                .onDisappear{
+                    store.dispatch(.updateNewTweetNumber(timelineType: timeline.type, numberOfReadTweet: readCounter))
+                }
         }
     }
 }
@@ -130,7 +129,7 @@ extension TimelineView {
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
-   
+    
     /// 判断该推文出现的时候需要采取的操作
     /// 可能包括刷新最新推文数量和获取新的推文
     /// - Parameter tweetIDString: 执行此操作的推文ID

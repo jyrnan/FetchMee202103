@@ -15,8 +15,8 @@ struct FavoriteStarMarkView: View {
             Image(systemName: user.isLoginUser ? "star.circle.fill" : "bookmark.circle.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: geometry.size.width * 0.3 , height: geometry.size.height * 0.3, alignment: .center)
-                .foregroundColor(user.isLoginUser ? .accentColor : .gray)
+                .frame(width: geometry.size.width * 0.4 , height: geometry.size.height * 0.4, alignment: .center)
+                .foregroundColor(user.isLoginUser ? .accentColor : .accentColor)
                 .background(Circle().foregroundColor(.white).scaleEffect(0.9))
                 .offset(x: geometry.size.width * 0.7, y: geometry.size.height * 0.7)
         }
