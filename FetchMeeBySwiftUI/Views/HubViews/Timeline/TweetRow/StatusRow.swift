@@ -118,11 +118,11 @@ struct StatusRow: View {
             }
         }
         .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id ? Color.accentColor.opacity(0.15) : Color.clear)
-        .onTapGesture {
-            withAnimation{
-                store.dispatch(.selectTweetRow(tweetIDString: status.id))
-            }
-        }
+//        .onTapGesture {
+//            withAnimation{
+//                store.dispatch(.selectTweetRow(tweetIDString: status.id))
+//            }
+//        }
     }
 }
 

@@ -20,6 +20,8 @@ struct TimelineView: View {
     @GestureState var dragAmount = CGSize.zero
     
     @State var readCounter: Int = 0
+    @State var isShowCMV: Bool = false
+    @State var statusToReply: Status = Status()
     
     var body: some View {
         GeometryReader {proxy in
@@ -29,55 +31,79 @@ struct TimelineView: View {
                 ZStack{
                     RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
                     
-                    PullToRefreshView(action: refreshAll, isDone: $store.appState.setting.isProcessingDone) {
-                        Spacer()
-                    }
-                    .frame(height: 36)
-                    .padding(.horizontal, 16)
-                    
                     HStack {
                         Spacer()
-                        if !store.appState.setting.isProcessingDone {
-                            ActivityIndicator(isAnimating: $store.appState.setting.isProcessingDone, style: .medium).frame(width: 12, height: 12, alignment: .center).padding(.trailing, 16)
-                        }
+                        ActivityIndicator(isAnimating: $store.appState.setting.isProcessingDone, style: .medium)
+                            .frame(width: 12, height: 12, alignment: .center)
+                            .padding(.trailing, 16)
+                            .opacity(store.appState.setting.isProcessingDone ? 0 : 1 )
                     }
                 }
-                .frame(minWidth: 0, maxWidth: .infinity,minHeight: 44,alignment: .leading)
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
                 .background(Color.init(.systemBackground))
                 
                 
-                ForEach(timeline.tweetIDStrings, id: \.self) {tweetIDString in
-                    if tweetIDString != "toolsViewMark" {
-                        VStack(spacing: 0){
-                            StatusRow(status: store.repository.getStatus(byID: tweetIDString),
-                                      width: proxy.size.width - 2 * 16)
-                                .background(store.appState.setting.userSetting?.uiStyle.backGround)
-                                .cornerRadius(16, antialiased: true)
-                                .overlay(RoundedRectangle(cornerRadius: 16)
-                                            .stroke(store.appState.setting.userSetting?.uiStyle.backGround ?? Color.black, lineWidth: 1))
-                                .padding(.horizontal, store.appState.setting.userSetting?.uiStyle.insetH)
-                                .padding(.vertical, store.appState.setting.userSetting?.uiStyle.insetV)
-                            //                            下面这个background可以遮蔽List的分割线
-                                .background(Color.init("BackGround"))
-                                .onAppear{
-                                    readCounter += 1
-                                }
-                            if store.appState.setting.userSetting?.uiStyle == .plain {
-                                Divider().padding(0)
+                ForEach(timeline.tweetIDStrings.map{store.repository.getStatus(byID: $0)}, id: \.id) {status in
+                    
+                    StatusRow(status: status,
+                              width: proxy.size.width - 2 * (store.appState.setting.userSetting?.uiStyle.insetH ?? 0))
+                        .background(store.appState.setting.userSetting?.uiStyle.backGround)
+                        .cornerRadius(store.appState.setting.userSetting?.uiStyle.radius ?? 0,
+                                      antialiased: true)
+                        .overlay(RoundedRectangle(cornerRadius: 16)
+                                    .stroke(store.appState.setting.userSetting?.uiStyle.backGround ?? Color.black, lineWidth: 1))
+                        .padding(.horizontal, store.appState.setting.userSetting?.uiStyle.insetH)
+                        .padding(.vertical, store.appState.setting.userSetting?.uiStyle.insetV)
+                        .background(Color.init("BackGround"))
+                        .onAppear{
+                            readCounter += 1
+                        }
+                        .swipeActions {
+                            Button{
+                                statusToReply = status
+                                isShowCMV = true
+                            } label: {
+                                Label("Reply", systemImage: "arrowshape.turn.up.left")
+                            }.tint(.blue)
+                            Button{print("Delete")} label: {
+                                Label("Del", systemImage: "house")
                             }
                         }
-                    } else {
-                        ToolsView(status: store.repository.getStatus(byID: store.appState.timelineData.selectedTweetID ?? "0000"))
-                            .padding(.horizontal, store.appState.setting.userSetting?.uiStyle.insetH)
-                            .padding(.vertical,store.appState.setting.userSetting?.uiStyle.insetV)
-                            .background(Color.init("BackGround"))
-                    }
-                    
+                        .swipeActions(edge: .leading) {
+                            Button {
+                                UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                                store.dispatch(.tweetOperation(operation: status.favorited ? .unfavorite(id: status.id) : .favorite(id: status.id)))
+                            } label: {
+                                Label("\(status.favorite_count)", systemImage: "heart")
+                            }
+                            .tint(.red)
+                            
+                            Button {
+                                UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                                store.dispatch(.tweetOperation(operation: status.retweeted ? .unRetweet(id: status.id) : .retweet(id: status.id)))
+                            } label: {
+                                if status.retweeted {
+                                    Label("\(status.retweet_count)", systemImage: "repeat.1")
+                                } else {
+                                    Label("\(status.retweet_count)", systemImage: "repeat")
+                                }
+                            }
+                            .tint(.green)
+                        }
+                        
                 }
                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
                 .listRowSeparator(.hidden)
+                .sheet(isPresented: $isShowCMV){ComposerOfHubView(swifter: store.fetcher.swifter,
+                                                                   tweetText: $store.appState.setting.tweetInput.tweetText,
+                                                                   replyIDString: statusToReply.id,
+                                                                   isUsedAlone: true,
+                                                                   status: statusToReply)
+                 .accentColor(store.appState.setting.userSetting?.themeColor.color)
+                 }
+                
+                
                 
                 HStack {
                     Spacer()
@@ -95,11 +121,6 @@ struct TimelineView: View {
                 .listRowBackground(Color.init("BackGround"))
                 
                 RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
-                    .frame(
-                        minWidth: 0, maxWidth: .infinity,
-                        minHeight: 44,
-                        alignment: .leading
-                    )
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
                 //                    .background(Color.init(.systemBackground))
@@ -108,13 +129,15 @@ struct TimelineView: View {
                         store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .bottom))
                     }
                 
-            }.listStyle(.plain)
-                .gesture(DragGesture()
-                            .onChanged({ value in hideKeyboard()}))
-                .navigationTitle(timeline.type.rawValue)
-                .onDisappear{
-                    store.dispatch(.updateNewTweetNumber(timelineType: timeline.type, numberOfReadTweet: readCounter))
-                }
+            }
+            .listStyle(.plain)
+            .navigationTitle(timeline.type.rawValue)
+            .onDisappear{
+                store.dispatch(.updateNewTweetNumber(timelineType: timeline.type, numberOfReadTweet: readCounter))
+            }
+            .refreshable {
+                refreshAll()
+            }
         }
     }
 }
