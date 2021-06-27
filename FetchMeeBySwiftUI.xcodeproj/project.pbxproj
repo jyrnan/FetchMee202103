@@ -29,6 +29,8 @@
 		D21C3304255A827C001CBBCD /* Counter+Calculate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C3303255A827C001CBBCD /* Counter+Calculate.swift */; };
 		D21C3306255A8356001CBBCD /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C3305255A8356001CBBCD /* FoundationExtensions.swift */; };
 		D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F4C4E24DE73C6004B2C20 /* SettingView.swift */; };
+		D220963426883AC8008AAAB3 /* StatusTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D220963326883AC8008AAAB3 /* StatusTextView.swift */; };
+		D220963626883BAB008AAAB3 /* JSON+AttributeString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D220963526883BAB008AAAB3 /* JSON+AttributeString.swift */; };
 		D221FEE22626DA4B009F00FC /* AppCommand_BGClearTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D221FEE12626DA4B009F00FC /* AppCommand_BGClearTask.swift */; };
 		D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */; };
 		D228E06125FCF5A10063E0EB /* BookmarkedStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */; };
@@ -159,6 +161,8 @@
 		D21C3303255A827C001CBBCD /* Counter+Calculate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Counter+Calculate.swift"; sourceTree = "<group>"; };
 		D21C3305255A8356001CBBCD /* FoundationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
 		D21F4C4E24DE73C6004B2C20 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		D220963326883AC8008AAAB3 /* StatusTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTextView.swift; sourceTree = "<group>"; };
+		D220963526883BAB008AAAB3 /* JSON+AttributeString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+AttributeString.swift"; sourceTree = "<group>"; };
 		D221FEE12626DA4B009F00FC /* AppCommand_BGClearTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommand_BGClearTask.swift; sourceTree = "<group>"; };
 		D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swifter+DeleteTweets.swift"; sourceTree = "<group>"; };
 		D228E06025FCF5A10063E0EB /* BookmarkedStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedStatusView.swift; sourceTree = "<group>"; };
@@ -417,6 +421,8 @@
 			children = (
 				D2419C702579E43900A9CF98 /* NSAttributedStringView.swift */,
 				D2419C722579F39700A9CF98 /* JSON+getAttributedText.swift */,
+				D220963326883AC8008AAAB3 /* StatusTextView.swift */,
+				D220963526883BAB008AAAB3 /* JSON+AttributeString.swift */,
 			);
 			path = StatusText;
 			sourceTree = "<group>";
@@ -844,6 +850,7 @@
 				D257D7E9258B30E700DB7F05 /* UIImage+changeColor.swift in Sources */,
 				D730997F24ED6A5F00B57837 /* DraftsView.swift in Sources */,
 				D2A972F225FCC97D005F06A5 /* StatusCD+JSON_Save.swift in Sources */,
+				D220963626883BAB008AAAB3 /* JSON+AttributeString.swift in Sources */,
 				D2D4878F25734B0A005EE4A7 /* PlayButtonView.swift in Sources */,
 				D255E24025EE1F440053CDE4 /* AppCommand_Tweet.swift in Sources */,
 				D266729125F9ACCC0044DBBA /* Fetcher.swift in Sources */,
@@ -887,6 +894,7 @@
 				D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */,
 				D286EC32255A2BD600C98195 /* UserCD+UpdateAndSave.swift in Sources */,
 				D27DCF3B24B98F9900520BE3 /* Status.swift in Sources */,
+				D220963426883AC8008AAAB3 /* StatusTextView.swift in Sources */,
 				D2C9B7CF263B802E00CDD73D /* AppState+TimelineData.swift in Sources */,
 				D26824682601871C004CAB1A /* Repository.swift in Sources */,
 			);

@@ -43,6 +43,7 @@ struct ImageThumb: View {
                             withAnimation{
                             store.dispatch(.showImageViewer(view: imageViewer))
                         }
+                            
                     }
                         self.isImageDownloaded = true}}
                 ActivityIndicator(isAnimating: self.$isImageDownloaded, style: .medium)

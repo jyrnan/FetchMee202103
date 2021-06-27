@@ -48,6 +48,7 @@ struct Adapter {
         
         status.text = json["text"].string ?? ""
         status.attributedText = json.getAttributedText()
+        status.attributedString = json.getAttributedString()
         status.createdAt = convertToDate(from: json["created_at"].string) ?? Date()
         
         status.imageUrls = getImageUrls(from: json) //图片的url

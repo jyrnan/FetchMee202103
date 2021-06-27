@@ -82,7 +82,11 @@ extension StatusCD {
         status.createdAt = self.created_at ?? Date()
         status.imageUrls = getImageUrls()
         status.user = self.user?.convertToUser()
-        status.attributedText = JSON(dictionaryLiteral: ("text", self.text)).getAttributedText()
+        status.attributedText = JSON(dictionaryLiteral: ("text", status.text)).getAttributedText()
+        
+        var attrString = AttributedString(status.text)
+        attrString.foregroundColor = .primary
+        status.attributedString = attrString
         return status
     }
 

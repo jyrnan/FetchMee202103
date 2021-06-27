@@ -114,13 +114,13 @@ class Store: ObservableObject {
             appCommand = AppCommand_HubStatusRequest() //?
             
         case .changeSetting(let setting):
-            
             appState.setting.userSetting = setting
             
         case .fetchTimeline(let timelineType, let updateMode):
             appState.setting.isProcessingDone = false
             let timeline: AppState.TimelineData.Timeline = appState.timelineData.getTimeline(timelineType: timelineType)
             appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
+        
         case .fetchTimelineDone(let timeline, let mentionUserData):
             appState.setting.isProcessingDone = true
             appState.timelineData.timelines[timeline.type.rawValue] = timeline

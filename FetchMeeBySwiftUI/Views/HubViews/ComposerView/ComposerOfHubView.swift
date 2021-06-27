@@ -51,13 +51,19 @@ struct ComposerOfHubView: View {
     @State var isShowAutoCompleteText: Bool = false
     @State var autoCompleteText: String = ""
     
-    @FocusState private var focusState: Bool
+    @FocusState var focusState: Bool
     
     var status: Status?
     
     var body: some View {
         VStack{
-            
+            if isUsedAlone {
+            Rectangle()
+                .cornerRadius(3)
+                .frame(width: 80, height: 6, alignment: .center)
+                .foregroundColor(.secondary)
+                .padding(0)
+            }
             VStack {
                 
                 HStack {
@@ -84,7 +90,6 @@ struct ComposerOfHubView: View {
             .cornerRadius(18)
             .onAppear() {
                 UITextView.appearance().backgroundColor = .clear
-                focusState = true
             }
             // 让TextEditor的背景是透明色
             

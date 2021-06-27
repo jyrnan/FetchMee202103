@@ -14,6 +14,7 @@ struct DetailViewRedux: View {
     @EnvironmentObject var store: Store
     var status: Status
     
+    
     var body: some View {
         GeometryReader{proxy in
             List {
@@ -23,10 +24,12 @@ struct DetailViewRedux: View {
                     .foregroundColor(Color.init("BackGround"))
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                 
-                ForEach(store.appState.timelineData.getTimeline(timelineType: .session).tweetIDStrings, id: \.self) {tweetIDString in
-                    if tweetIDString != "toolsViewMark" {
-                        VStack(spacing: 0){
-                            StatusRow(status: store.repository.getStatus(byID: tweetIDString),
+                ForEach([status],
+//                    store.appState.timelineData.getTimeline(timelineType: .session).status,
+                    id: \.id) {status in
+                    
+                        
+                            StatusRow(status: status,
                                       width: proxy.size.width - 2 * 16)
                                 .background(store.appState.setting.userSetting?.uiStyle.backGround)
                                 .cornerRadius(16, antialiased: true)
@@ -39,8 +42,6 @@ struct DetailViewRedux: View {
                             if store.appState.setting.userSetting?.uiStyle == .plain {
                                 Divider().padding(0)
                             }
-                        }
-                    }
                 }
                 .listRowBackground(Color.init("BackGround"))
                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -64,6 +65,10 @@ struct DetailViewRedux: View {
             .listStyle(.plain)
             .listRowBackground(Color.init("BackGround"))
             .navigationTitle("Detail")
+            .onDisappear(perform: {print("Disappear of DeltialView \(status.id)")})
+            .refreshable(action: {
+//                store.dispatch(.fetchSession(tweetIDString: status.id))
+            })
         }
     }
 }

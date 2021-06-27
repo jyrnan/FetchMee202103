@@ -17,6 +17,7 @@ struct Status: Identifiable {
 
     var text: String = "this is status text sample"
     var attributedText: NSMutableAttributedString = NSMutableAttributedString(string: "this is status text sample")
+    var attributedString: AttributedString = AttributedString("Hello world")
     var createdAt: Date = Date()
     
     var imageUrls: [String]? //图片的url

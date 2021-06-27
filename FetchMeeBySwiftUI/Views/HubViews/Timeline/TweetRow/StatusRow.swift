@@ -19,7 +19,7 @@ struct StatusRow: View {
     
     @EnvironmentObject var store: Store
  
-    var status: Status = Status()
+    var status: Status
     ///约束图片的显示宽度，
     ///目前传入的宽度是屏幕宽度减去两侧空余
     var width: CGFloat
@@ -31,6 +31,12 @@ struct StatusRow: View {
 
     
     @State var isShowDetail: Bool = false
+    
+    init(status: Status, width: CGFloat) {
+        self.status = status
+        self.width = width
+        print("init of statusRow with id: \(status.id), name: \(status.user?.screenName)")
+    }
     
     var avatar: some View {
         VStack(alignment: .leading){
@@ -60,8 +66,9 @@ struct StatusRow: View {
             
             DetailIndicator(status: status)
                 .onTapGesture {
-                    store.dispatch(.fetchSession(tweetIDString: status.id))
-                    isShowDetail = true }
+                    isShowDetail = true
+//                    store.dispatch(.fetchSession(tweetIDString: status.id))
+                     }
             
         }.fixedSize()
     }
@@ -71,14 +78,16 @@ struct StatusRow: View {
     }
     
     var text: some View {
-        return { () -> AnyView in
-            switch rowType {
-//            case .timeline: return AnyView(Text(status.text ).fixedSize(horizontal: false, vertical: true))
-            case .session: return  AnyView(NSAttributedStringView(attributedText: status.attributedText, width: width - avatarColumWidth))
-            case .timeline: return  AnyView(NSAttributedStringView(attributedText: status.attributedText , width: width - avatarColumWidth))
-            }
-        }()
-      }
+//        return { () -> AnyView in
+//            switch rowType {
+//            case .timeline: return AnyView(Text(status.attributedString).fixedSize(horizontal: false, vertical: true))
+//            case .session: return  AnyView(NSAttributedStringView(attributedText: status.attributedText, width: width - avatarColumWidth))
+////            case .timeline: return  AnyView(NSAttributedStringView(attributedText: status.attributedText , width: width - avatarColumWidth))
+//            }
+//        }()
+        Text(status.attributedString).multilineTextAlignment(.leading)
+            .fixedSize(horizontal: false, vertical: true)
+    }
     
     var retweeted: some View {
         Text("")
@@ -128,7 +137,7 @@ struct StatusRow: View {
 
 struct StatusRow_Previews: PreviewProvider {
     static var previews: some View {
-        let status = Status(text: "人体对其所摄入的葡萄糖的处置调控能力称为「葡萄糖耐量」。正常人的糖调节机制完好，无论进食多少，血糖都能保持在一个比较稳定的范围内，即使一次性摄入大量的糖分", attributedText: JSON(dictionaryLiteral: ("text", "人体对其所摄入的葡萄糖的处置调控能力称为「葡萄糖耐量」。正常人的糖调节机制完好，无论进食多少，血糖都能保持在一个比较稳定的范围内，即使一次性摄入大量的糖分")).getAttributedText(),imageUrls: ["", "", "", ""])
+        let status = Status(text: "人体对其所摄入的葡萄糖的处置调控能力称为「葡萄糖耐量」。正常人的糖调节机制完好，无论进食多少，血糖都能保持在一个比较稳定的范围内，即使一次性摄入大量的糖分", attributedString: JSON(dictionaryLiteral: ("text", "@人体 @对其所摄入 的葡萄糖的处置调控能力称为「葡萄糖耐量」。正常人的糖调节机制完好，无论进食多少，血糖都能保持在一个比较稳定的范围内，即使一次性摄入大量的糖分")).getAttributedString(),imageUrls: ["", "", "", ""])
         GeometryReader {proxy in
             VStack{
             StatusRow(status: Status(), width: proxy.size.width)
@@ -138,6 +147,7 @@ struct StatusRow_Previews: PreviewProvider {
                 .frame(width:proxy.size.width, height: 80, alignment: .center)
                 .environmentObject(Store())
                 .offset(CGSize(width: 0, height: 200))
+                .accentColor(.blue)
             }
         }
     }

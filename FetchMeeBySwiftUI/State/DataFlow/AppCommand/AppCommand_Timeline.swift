@@ -55,6 +55,8 @@ struct FetchSessionCommand: AppCommand {
             var counter: Int = 0
             
             func finalReloadView() {
+                
+//                session.status = session.tweetIDStrings.map{store.repository.getStatus(byID: $0)}
                 store.dispatch(.fetchSessionDone(timeline: session))
             }
             

@@ -90,7 +90,10 @@ struct SettingView: View {
             }
         }
         
-        .onDisappear{store.dispatch(.changeSetting(setting: setting))}
+        .onDisappear{
+//            store.dispatch(.changeSetting(setting: setting))
+            print("onDisppear")
+        }
         .navigationTitle("Setting")
         
     }
@@ -99,7 +102,7 @@ struct SettingView: View {
 extension SettingView {
     
     func logOut() {
-        presentationMode.wrappedValue.dismiss()
+//        presentationMode.wrappedValue.dismiss()
         
         delay(delay: 1, closure: {
             withAnimation {

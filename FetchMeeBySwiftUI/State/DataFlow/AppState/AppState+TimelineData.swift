@@ -21,7 +21,9 @@ extension AppState {
         }
         
         /// 所有timeline的数据
-        var timelines: [String: Timeline] = [:]
+        var timelines: [String: Timeline] = ["Home": Timeline(type: .home),
+                                             "Mention": Timeline(type: .mention),
+                                             "Favorite": Timeline(type: .favorite)]
         
         ///persistant最新回复推文的id
         @FileStorage(directory: .documentDirectory, fileName: "latestMentionID.json")

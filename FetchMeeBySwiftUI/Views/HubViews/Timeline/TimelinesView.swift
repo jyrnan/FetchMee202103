@@ -12,9 +12,7 @@ import Swifter
 struct TimelinesView: View {
     
     @EnvironmentObject var store: Store
-    
-//    var lists: [String: String] {store.appState.setting.lists}
-    
+   
     var body: some View {
         VStack {
             HStack {
@@ -24,10 +22,11 @@ struct TimelinesView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
+//                    TimelineIcon(timeline: store.appState.timelineData.timelines["Home"]!)
                     TimelineIcon(timeline: store.appState.timelineData.getTimeline(timelineType: .home))
                     TimelineIcon(timeline: store.appState.timelineData.getTimeline(timelineType: .mention))
                     TimelineIcon(timeline: store.appState.timelineData.getTimeline(timelineType: .favorite))
-                
+
                     ForEach(store.appState.setting.lists.keys.sorted(), id: \.self) {id in
                         TimelineIcon( timeline: store.appState.timelineData.getTimeline(timelineType: .list(id:id, listName: store.appState.setting.lists[id]! )))
                     }

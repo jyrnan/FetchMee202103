@@ -21,7 +21,13 @@ struct TimelineView: View {
     
     @State var readCounter: Int = 0
     @State var isShowCMV: Bool = false
-    @State var statusToReply: Status = Status()
+    @State var statusToReply: Status?
+    @State var statusIDOfDetail: String?
+    
+    init(timeline: AppState.TimelineData.Timeline) {
+        self.timeline = timeline
+        print("init of timeline \(timeline.type.rawValue)")
+    }
     
     var body: some View {
         GeometryReader {proxy in
@@ -29,6 +35,7 @@ struct TimelineView: View {
                 
                 //Homeline部分章节
                 ZStack{
+                    
                     RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
                     
                     HStack {
@@ -45,6 +52,10 @@ struct TimelineView: View {
                 
                 
                 ForEach(timeline.tweetIDStrings.map{store.repository.getStatus(byID: $0)}, id: \.id) {status in
+                    ZStack{
+                    NavigationLink(destination: DetailViewRedux(status: status), tag: status.id, selection: $statusIDOfDetail, label: {EmptyView()})
+                        .opacity(0.1)
+                        .disabled(true)
                     
                     StatusRow(status: status,
                               width: proxy.size.width - 2 * (store.appState.setting.userSetting?.uiStyle.insetH ?? 0))
@@ -59,49 +70,69 @@ struct TimelineView: View {
                         .onAppear{
                             readCounter += 1
                         }
-                        .swipeActions {
-                            Button{
-                                statusToReply = status
-                                isShowCMV = true
-                            } label: {
-                                Label("Reply", systemImage: "arrowshape.turn.up.left")
-                            }.tint(.blue)
-                            Button{print("Delete")} label: {
-                                Label("Del", systemImage: "house")
-                            }
-                        }
-                        .swipeActions(edge: .leading) {
-                            Button {
-                                UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                                store.dispatch(.tweetOperation(operation: status.favorited ? .unfavorite(id: status.id) : .favorite(id: status.id)))
-                            } label: {
-                                Label("\(status.favorite_count)", systemImage: "heart")
-                            }
-                            .tint(.red)
-                            
-                            Button {
-                                UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                                store.dispatch(.tweetOperation(operation: status.retweeted ? .unRetweet(id: status.id) : .retweet(id: status.id)))
-                            } label: {
-                                if status.retweeted {
-                                    Label("\(status.retweet_count)", systemImage: "repeat.1")
-                                } else {
-                                    Label("\(status.retweet_count)", systemImage: "repeat")
-                                }
-                            }
-                            .tint(.green)
-                        }
                         
+                        .sheet(item: $statusToReply){
+                            status in
+                            ComposerOfHubView(swifter: store.fetcher.swifter,
+                                                                           tweetText: $store.appState.setting.tweetInput.tweetText,
+                                                                           replyIDString: status.id,
+                                                                           isUsedAlone: true,
+                                                                           status: status)
+                         .accentColor(store.appState.setting.userSetting?.themeColor.color)
+                         }
+                        .onTapGesture( perform: {statusIDOfDetail = status.id})
+                    }
+                    .swipeActions {
+                        Button{
+                            statusToReply = status
+//                                isShowCMV = true
+                        } label: {
+                            Label("Reply", systemImage: "arrowshape.turn.up.left")
+                        }.tint(.blue)
+                        
+                        Button{
+                            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                            if isTweetByMeself(status) {
+                                store.dispatch(.tweetOperation(operation: .delete(id: status.id)))
+                            } else {
+
+                                store.fetcher.swifter.getTweet(for: status.id, success: {json in
+                                    let _ = StatusCD.JSON_Save(from: json, isBookmarked: true)
+                                    store.dispatch(.alertOn(text: "Bookmarked!", isWarning: false))
+                                    store.dispatch(.hubStatusRequest)
+                                })
+                            }
+
+                        } label: {
+                            Label(isTweetByMeself(status) ? "Del" : "Save",
+                                  systemImage: isTweetByMeself(status) ? "trash" : "bookmark")
+                        }
+                    }
+                    .swipeActions(edge: .leading) {
+                        Button {
+                            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                            store.dispatch(.tweetOperation(operation: status.favorited ? .unfavorite(id: status.id) : .favorite(id: status.id)))
+                        } label: {
+                            Label("\(status.favorite_count)", systemImage: "heart")
+                        }
+                        .tint(.red)
+                        
+                        Button {
+                            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                            store.dispatch(.tweetOperation(operation: status.retweeted ? .unRetweet(id: status.id) : .retweet(id: status.id)))
+                        } label: {
+                            if status.retweeted {
+                                Label("\(status.retweet_count)", systemImage: "repeat.1")
+                            } else {
+                                Label("\(status.retweet_count)", systemImage: "repeat")
+                            }
+                        }
+                        .tint(.green)
+                    }
                 }
                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
                 .listRowSeparator(.hidden)
-                .sheet(isPresented: $isShowCMV){ComposerOfHubView(swifter: store.fetcher.swifter,
-                                                                   tweetText: $store.appState.setting.tweetInput.tweetText,
-                                                                   replyIDString: statusToReply.id,
-                                                                   isUsedAlone: true,
-                                                                   status: statusToReply)
-                 .accentColor(store.appState.setting.userSetting?.themeColor.color)
-                 }
+               
                 
                 
                 
@@ -127,13 +158,16 @@ struct TimelineView: View {
                     .onAppear{
                         guard store.appState.setting.isProcessingDone == true else {return}
                         store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .bottom))
+                        store.dispatch(.updateNewTweetNumber(timelineType: timeline.type, numberOfReadTweet: readCounter))
                     }
                 
             }
             .listStyle(.plain)
             .navigationTitle(timeline.type.rawValue)
             .onDisappear{
-                store.dispatch(.updateNewTweetNumber(timelineType: timeline.type, numberOfReadTweet: readCounter))
+                print("onDisappear of timelineView \(timeline.type.rawValue)")
+                
+                
             }
             .refreshable {
                 refreshAll()
@@ -169,6 +203,10 @@ extension TimelineView {
         if timeline.tweetIDStrings[index] == tweetIDString {
             store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .bottom))
         }
+    }
+    
+    func isTweetByMeself(_ status: Status) -> Bool {
+        return status.user?.id == store.appState.setting.loginUser?.id
     }
 }
 

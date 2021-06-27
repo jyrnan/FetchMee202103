@@ -14,9 +14,12 @@ import SwiftUI
 struct AppState {
     var setting = Setting()
     var timelineData = TimelineData()
+    
+    var isPresented: Bool = false
 }
 
 extension AppState {
+    
     
     struct Setting {
         var alert = Alert()

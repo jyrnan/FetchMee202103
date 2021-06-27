@@ -63,7 +63,9 @@ struct HubView: View {
             .overlay(AlertView()) //所有条状通知在NavigationBar上出现
             .toast(isShowing: $store.appState.setting.isShowImageViewer, presented: store.appState.setting.presentedView)
         }
-        
+        .onDisappear{
+            print("onDisppear of hubView")
+        }
   }
   
 }

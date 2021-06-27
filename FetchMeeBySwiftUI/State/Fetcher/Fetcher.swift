@@ -65,6 +65,7 @@ struct FetcherSwifter: Fetcher {
             timelineWillUpdate.updateTweetIDStrings(updateMode: updateMode,
                                                     with: convertJSONToTweetIDStrings(from: newTweets))
             
+            
             newTweets.forEach{
                 addDataToRepository($0)
                 saveTweetTagToCoreData(status: $0)
@@ -74,6 +75,8 @@ struct FetcherSwifter: Fetcher {
                 UserCD.updateOrSaveToCoreData(from: $0["user"])
                 storeMentionUserData(mention: $0, to: &mentionUserData)
             }
+            
+//            timelineWillUpdate.status = timelineWillUpdate.tweetIDStrings.compactMap{store?.repository.getStatus(byID: $0)}
             
             return (timelineWillUpdate, mentionUserData)
             
