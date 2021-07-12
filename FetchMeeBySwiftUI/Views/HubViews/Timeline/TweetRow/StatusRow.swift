@@ -32,15 +32,9 @@ struct StatusRow: View {
     
     @State var isShowDetail: Bool = false
     
-    init(status: Status, width: CGFloat) {
-        self.status = status
-        self.width = width
-//        print("init of statusRow with id: \(status.id), name: \(status.user?.screenName)")
-    }
-    
     var avatar: some View {
         VStack(alignment: .leading){
-            AvatarView(user: status.user!, width: 36, height: 36)
+            AvatarView(user: store.repository.getUser(byID: status.user?.idString ?? "0000"), width: 36, height: 36)
             Spacer()
         }
         .frame(width:store.appState.setting.userSetting?.uiStyle.avatarWidth )
@@ -65,11 +59,7 @@ struct StatusRow: View {
                 .disabled(true)
             
             DetailIndicator(status: status)
-                .onTapGesture {
-//                    isShowDetail = true
-//                    store.dispatch(.fetchSession(tweetIDString: status.id))
-                     }
-            
+          
         }.fixedSize()
     }
     
@@ -120,17 +110,12 @@ struct StatusRow: View {
             }
         }
         .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id ? Color.accentColor.opacity(0.15) : Color.clear)
-//        .onTapGesture {
-//            withAnimation{
-//                store.dispatch(.selectTweetRow(tweetIDString: status.id))
-//            }
-//        }
     }
 }
 
 struct StatusRow_Previews: PreviewProvider {
     static var previews: some View {
-        let status = Status(text: "人体对其所摄入的葡萄糖的处置调控能力称为「葡萄糖耐量」。正常人的糖调节机制完好，无论进食多少，血糖都能保持在一个比较稳定的范围内，即使一次性摄入大量的糖分", attributedString: JSON(dictionaryLiteral: ("text", "@人体 @对其所摄入 的葡萄糖的处置调控能力称为「葡萄糖耐量」。正常人的糖调节机制完好，无论进食多少，血糖都能保持在一个比较稳定的范围内，即使一次性摄入大量的糖分")).getAttributedString(),imageUrls: ["", "", "", ""])
+        let status = Status(user: User(), text: "人体对其所摄入的葡萄糖的处置调控能力称为「葡萄糖耐量」。正常人的糖调节机制完好，无论进食多少，血糖都能保持在一个比较稳定的范围内，即使一次性摄入大量的糖分", attributedString: JSON(dictionaryLiteral: ("text", "@人体 @对其所摄入 的葡萄糖的处置调控能力称为「葡萄糖耐量」。正常人的糖调节机制完好，无论进食多少，血糖都能保持在一个比较稳定的范围内，即使一次性摄入大量的糖分")).getAttributedString(),imageUrls: ["", "", "", ""])
         GeometryReader {proxy in
             VStack{
             StatusRow(status: Status(), width: proxy.size.width)

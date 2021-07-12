@@ -45,8 +45,8 @@ struct User: Identifiable, Codable {
     
     var isLoginUser = false
     var isLocalUser = false
-    var isFavoriteUser = false
-    var isBookmarkedUser = false
+    var isFavoriteUser = false 
+    var isBookmarkedUser = false //是否是收藏推文的作者
 }
 
 enum ThemeColor: String, CaseIterable, Identifiable, Codable {

@@ -15,15 +15,13 @@ import Swifter
 
 struct UserView: View {
     @EnvironmentObject var store: Store
- 
-//    var userIDString: String //传入需查看的用户信息的ID
-    
+     
     var user: User
     var body: some View {
         
         GeometryReader{proxy in
             
-            List {
+            ScrollView {
                 
                 UserInfo(user: user, width: proxy.size.width)
                 

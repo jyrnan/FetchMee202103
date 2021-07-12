@@ -25,10 +25,10 @@ struct AvatarView: View {
     
     var body: some View {
         ZStack {
-                            NavigationLink(destination: UserView(user: user),
-                                           isActive: $presentedUserInfo,
-                                           label:{EmptyView()} ).disabled(true)
-            AvatarImageView(imageUrl: user.avatarUrlString, isFavoriteUser: user.isFollowed)
+//                            NavigationLink(destination: UserView(user: user),
+//                                           isActive: $presentedUserInfo,
+//                                           label:{EmptyView()} ).disabled(true)
+            AvatarImageView(imageUrl: user.avatarUrlString, hasNickname: user.nickName != nil)
             
                 .frame(width: width, height: height, alignment: .center)
                 .onTapGesture(count: 2){
@@ -49,6 +49,10 @@ struct AvatarView: View {
             }
         }
         .frame(width: width, height: height, alignment: .center)
+        .sheet(isPresented: $presentedUserInfo, onDismiss: {}) {
+            UserView(user: user)
+                    .accentColor(store.appState.setting.userSetting?.themeColor.color)
+        }
     }
 }
 

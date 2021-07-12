@@ -22,7 +22,7 @@ struct UserTimeline: View {
     var setting: UserSetting {store.appState.setting.userSetting ?? UserSetting()}
     
     var body: some View {
-        
+        LazyVStack{
             ForEach(userTimeline.tweetIDStrings, id: \.self) {
                 tweetIDString in
                 if tweetIDString != "toolsViewMark" {
@@ -47,7 +47,7 @@ struct UserTimeline: View {
             .listRowBackground(Color.init("BackGround"))
             .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
             //下方载入更多按钮
-            
+        }
             HStack {
                 Spacer()
                 Button("More Tweets...") {

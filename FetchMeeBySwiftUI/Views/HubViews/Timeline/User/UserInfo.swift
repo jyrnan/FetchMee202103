@@ -17,36 +17,41 @@ struct UserInfo: View {
     @State var nickNameText: String = ""
     @State var isNickNameInputShow: Bool = false
     
-    var body: some View {
-//        VStack{
-        ZStack{
-            VStack(spacing: 0){
-                KFImage(URL(string: user.bannerUrlString))
-                    .placeholder{Image("bg").resizable()}
+    var banner: some View {
+        VStack(spacing: 0){
+            AsyncImage(url: URL(string: user.bannerUrlString)) {image in
+                image
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: width, height:150)
-                    .cornerRadius(24)
-                    .overlay(LinearGradient.init(gradient: Gradient(colors: [Color.init("BackGround"), Color.clear]), startPoint: .init(x: 0.5, y: 0.9), endPoint: .init(x: 0.5, y: 0.4)))
-                
-                Rectangle().frame(height: 65).foregroundColor(Color.init("BackGround"))
-            }
-            ///个人信息大头像
-            KFImage(URL(string: user.avatarUrlString))
-                .placeholder{Image("LogoWhite").resizable()}
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 80, height: 80)
-                .background(Color.white)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(Color.gray.opacity(0.6), lineWidth: 3))
-                .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                    print(#line, #file, user.bannerUrlString)
-                })
-                .offset(x: 0, y: 65)
+                    .scaledToFill()
+            } placeholder: {Image("bg").resizable()}
+                .frame(width: width, height:150)
+                .overlay(LinearGradient.init(gradient: Gradient(colors: [Color.init("BackGround"), Color.clear]), startPoint: .init(x: 0.5, y: 0.9), endPoint: .init(x: 0.5, y: 0.4)))
+            
+            Rectangle().frame(height: 65).foregroundColor(Color.init("BackGround"))
         }
-        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-        .listRowBackground(Color.init("BackGround"))
+    }
+    
+    var avatar: some View {
+        AsyncImage(url: URL(string: user.avatarUrlString)) {image in
+            image
+                .resizable()
+                .scaledToFill()
+        } placeholder: {Image("LogoWhite").resizable()}
+            .frame(width: 80, height: 80)
+            .background(Color.white)
+            .clipShape(Circle())
+            .overlay(Circle().stroke((user.nickName != nil ? Color.accentColor : Color.gray).opacity(0.6), lineWidth: 3))
+            .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+                print(#line, #file, user.bannerUrlString)
+            })
+            .offset(x: 0, y: 65)
+    }
+    
+    var body: some View {
+        ZStack{
+            banner
+            avatar
+        }
         
         
         //用户信息View
@@ -75,12 +80,13 @@ struct UserInfo: View {
                                     UserCD.updateOrSaveToCoreData(id: user.id,
                                                               updateNickName: nickNameText)
                                     .convertToUser()
-                                
+                                store.dispatch(.update)
                                 withAnimation{isNickNameInputShow = false}
                             }){
-                                Image(systemName: "arrow.forward.circle").foregroundColor(.accentColor).font(.body)
+                                Image(systemName: "arrow.forward.circle")
+                                    .foregroundColor(.accentColor)
+                                    .font(.body)
                             }
-                            
                         }
                     } else {
                         Button(action: {
@@ -89,7 +95,6 @@ struct UserInfo: View {
                             Image(systemName: "highlighter").foregroundColor(.gray).font(.body)
                         }
                     }
-                    
                     Spacer()
                 }
                 Text(user.screenName )
@@ -123,14 +128,13 @@ struct UserInfo: View {
                         })
                 }
                 
-                //                    NavigationLink(destination: ImageGrabView(userIDString: userIDString, userScreenName: userScreenName, timeline: userTimeline)){
+
                 Image(systemName: "arrow.forward.circle").font(.title2)
                     .foregroundColor(.accentColor)
             }.padding()
             
             ///用户Bio信息
-            //                    NSAttributedStringView(attributedText: user.getAttributedText(alignment: .center) , width: 300).padding([.top], 16)
-            Text(user.bioText )
+            Text(user.bioText ).padding(.horizontal, 16)
             
             ///用户位置信息
             HStack() {
@@ -149,7 +153,6 @@ struct UserInfo: View {
             }.padding(.bottom, 16)
         }
         .listRowBackground(Color.init("BackGround"))
-//        }
     }
 }
 
