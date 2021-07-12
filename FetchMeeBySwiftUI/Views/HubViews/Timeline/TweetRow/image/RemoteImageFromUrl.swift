@@ -16,17 +16,13 @@ class RemoteImageFromUrl: ObservableObject {
     let imageUrl: String
     var imageType: ImageType
     
-    
-    
    //MARK:-Fucntions
-    
     init(imageUrl: String, imageType: ImageType = .original) {
         self.imageUrl = imageUrl
         self.imageType = imageType
     }
     
     func getImage() {
-        
         switch self.imageType {
         case .thumrb:
             let url = self.imageUrl + ":small"

@@ -74,10 +74,7 @@ struct Composer: View {
                     tweetTextBinding.wrappedValue = ""
                     
                     store.dispatch(.alertOn(text: "Reply sent", isWarning: false))
-                    if let idString = status?.id {
-                        withAnimation{
-                            store.dispatch(.selectTweetRow(tweetIDString: idString)) }
-                    }
+                   
                     isProcessingDone = true
                 })
                 self.hideKeyboard()

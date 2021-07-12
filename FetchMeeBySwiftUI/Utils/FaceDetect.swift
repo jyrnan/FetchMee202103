@@ -23,7 +23,7 @@ extension UIImage {
             
             try? handler.perform([request])
             
-            guard let observations = request.results as? [VNFaceObservation] else {return completion(nil)}
+            guard let observations = request.results else {return completion(nil)}
             
             completion(observations)
             

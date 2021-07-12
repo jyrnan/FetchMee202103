@@ -35,12 +35,12 @@ struct StatusRow: View {
     init(status: Status, width: CGFloat) {
         self.status = status
         self.width = width
-        print("init of statusRow with id: \(status.id), name: \(status.user?.screenName)")
+//        print("init of statusRow with id: \(status.id), name: \(status.user?.screenName)")
     }
     
     var avatar: some View {
         VStack(alignment: .leading){
-            AvatarView(user: status.user ?? User(), width: 36, height: 36)
+            AvatarView(user: status.user!, width: 36, height: 36)
             Spacer()
         }
         .frame(width:store.appState.setting.userSetting?.uiStyle.avatarWidth )
@@ -66,7 +66,7 @@ struct StatusRow: View {
             
             DetailIndicator(status: status)
                 .onTapGesture {
-                    isShowDetail = true
+//                    isShowDetail = true
 //                    store.dispatch(.fetchSession(tweetIDString: status.id))
                      }
             
@@ -78,13 +78,6 @@ struct StatusRow: View {
     }
     
     var text: some View {
-//        return { () -> AnyView in
-//            switch rowType {
-//            case .timeline: return AnyView(Text(status.attributedString).fixedSize(horizontal: false, vertical: true))
-//            case .session: return  AnyView(NSAttributedStringView(attributedText: status.attributedText, width: width - avatarColumWidth))
-////            case .timeline: return  AnyView(NSAttributedStringView(attributedText: status.attributedText , width: width - avatarColumWidth))
-//            }
-//        }()
         Text(status.attributedString).multilineTextAlignment(.leading)
             .fixedSize(horizontal: false, vertical: true)
     }

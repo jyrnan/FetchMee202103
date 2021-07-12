@@ -29,6 +29,7 @@ struct AvatarView: View {
                                            isActive: $presentedUserInfo,
                                            label:{EmptyView()} ).disabled(true)
             AvatarImageView(imageUrl: user.avatarUrlString, isFavoriteUser: user.isFollowed)
+            
                 .frame(width: width, height: height, alignment: .center)
                 .onTapGesture(count: 2){
                     UIImpactFeedbackGenerator(style: .heavy).impactOccurred()

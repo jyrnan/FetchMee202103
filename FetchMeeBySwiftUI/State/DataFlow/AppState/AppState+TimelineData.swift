@@ -28,9 +28,6 @@ extension AppState {
         ///persistant最新回复推文的id
         @FileStorage(directory: .documentDirectory, fileName: "latestMentionID.json")
         var latestMentionID: String?
-        
-        /// 选中的推文ID
-        var selectedTweetID: String?
 
         var mentionUserData: [User.MentionUser] = []
         ///首页hubView推文信息
@@ -55,33 +52,14 @@ extension AppState.TimelineData {
         print(#line, #function, tweetIDStrings)
     }
     
-    /// 根据传入的推文ID设置相应的数据操作来标记被选择推文
-    /// 这里需要注意的是由于同一个推文可能出现在不同的timeline
-    /// 因此需要针对所有的timeline来添加或清除toolsViewMark
-    /// - Parameter tweetIDString: 要选择推文的ID
-    /// - Returns: 根据选择推文的不同情况来输出一个可能需要的后续处理的命令。
-    mutating func setSelectedRowIndex(tweetIDString: String) -> AppCommand? {
-        if self.selectedTweetID != nil {
-            //如果选中推文的值本来就有有数值， 那首先清空timeline里面的toolViewMark标记
-            deleteFromTimelines(of: "toolsViewMark")
-            
-            if self.selectedTweetID == tweetIDString {
-                //如果等于传入的tweetID，则直接设置成空
-                self.selectedTweetID = nil
-                return nil
-            } else {
-                //如果不等于传入的tweetID，则先设置成nil，再通过一个延迟设置选择推文的命令来延迟设置成新的ID
-                self.selectedTweetID = nil
-                return DelayedSelectTweetRowCommand(tweetIDString: tweetIDString)
-            }
-            
-        } else {
-            //如果选中推文的值本来是空， 就直接赋值
-            self.selectedTweetID = tweetIDString
-                setToolsViewMark(after: tweetIDString)
-            return nil
-        }
+    mutating func initialSessionData(with status: Status) {
+        guard timelines[TimelineType.session.rawValue] != nil else {return}
+        timelines[TimelineType.session.rawValue]?.tweetIDStrings.removeAll()
+        timelines[TimelineType.session.rawValue]?.tweetIDStrings.append(status.id)
+        timelines[TimelineType.session.rawValue]?.status.removeAll()
+        timelines[TimelineType.session.rawValue]?.status.append(status)
     }
+   
     
     /// 针对所有的timeline清除某推文id
     mutating func deleteFromTimelines(of id: String) {
@@ -91,17 +69,6 @@ extension AppState.TimelineData {
                 let index = $1.tweetIDStrings.firstIndex(of:  id)!
                 self.timelines[$0]?.tweetIDStrings.remove(at: index) }}
     
-    /// 在所有timeline的该ID后面添加toolsViewMark
-    /// - Parameter tweetIDString: 选中的推文ID
-    mutating func setToolsViewMark(after tweetIDString: String) {
-        self.timelines
-            .filter{$1.tweetIDStrings.contains(tweetIDString)}
-            .forEach{
-                //查找推文并添加标记
-                let index = ($1.tweetIDStrings.firstIndex(of: tweetIDString))!
-                    self.timelines[$0]?.tweetIDStrings.insert("toolsViewMark", at: index + 1)
-            }
-    }
     
     /// 更新相应timeline的新推文数
     /// - Parameters:

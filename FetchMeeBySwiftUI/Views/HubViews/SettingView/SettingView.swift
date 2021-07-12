@@ -14,7 +14,6 @@ import Kingfisher
 struct SettingView: View {
     @EnvironmentObject var store: Store
     @Environment(\.presentationMode) var presentationMode
-    //    var isLogined: Bool {store.appState.setting.loginUser?.tokenKey != nil}
     
     //用来作为setting调整结果的零时存储
     @State var setting: UserSetting
@@ -25,7 +24,7 @@ struct SettingView: View {
     
     var body: some View {
         
-        Form {
+        List {
             
             Section(header: Text("Visual"),
                     footer: Text("You can swith this function off to get a simper UI and better performance")) {
@@ -35,13 +34,14 @@ struct SettingView: View {
                         Text(themeColor.rawValue.capitalized).foregroundColor(themeColor.color).tag(themeColor)
                     }
                 })
+                    
                 
                 Picker("Favorit UIStyle", selection: $setting.uiStyle, content: {
                     ForEach(UIStyle.allCases){style in
                         Text(style.rawValue.capitalized).tag(style)
                     }
                 })
-                
+                    .pickerStyle(.segmented)
                 
                 Toggle("Auto Fetch More", isOn: self.$setting.isAutoFetchMoreTweet)
             }
@@ -89,9 +89,8 @@ struct SettingView: View {
                 }
             }
         }
-        
         .onDisappear{
-//            store.dispatch(.changeSetting(setting: setting))
+            store.dispatch(.changeSetting(setting: setting))
             print("onDisppear")
         }
         .navigationTitle("Setting")

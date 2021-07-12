@@ -13,14 +13,9 @@ import Swifter
 struct TimelineIcon: View {
     @EnvironmentObject var store: Store
     
-//    var timelineType: TimelineType
     var timeline: AppState.TimelineData.Timeline
-//    {store.appState.timelineData.getTimeline(timelineType: timelineType)}
     @State var showTimeline: Bool = false
-    init(timeline: AppState.TimelineData.Timeline) {
-        self.timeline = timeline
-        print("init of timelineIcon of \(timeline.type.rawValue)")
-    }
+   
     var body: some View {
         ZStack{
             NavigationLink(destination:TimelineView(timeline: timeline), isActive: $showTimeline, label:{EmptyView()} ).disabled(true)

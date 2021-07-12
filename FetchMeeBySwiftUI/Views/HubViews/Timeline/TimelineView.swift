@@ -22,7 +22,7 @@ struct TimelineView: View {
     @State var readCounter: Int = 0
     @State var isShowCMV: Bool = false
     @State var statusToReply: Status?
-    @State var statusIDOfDetail: String?
+    @State var statusIDOfDetail: Status?
     
     init(timeline: AppState.TimelineData.Timeline) {
         self.timeline = timeline
@@ -53,39 +53,32 @@ struct TimelineView: View {
                 
                 ForEach(timeline.tweetIDStrings.map{store.repository.getStatus(byID: $0)}, id: \.id) {status in
                     ZStack{
-                    NavigationLink(destination: DetailViewRedux(status: status), tag: status.id, selection: $statusIDOfDetail, label: {EmptyView()})
-                        .opacity(0.1)
-                        .disabled(true)
-                    
-                    StatusRow(status: status,
-                              width: proxy.size.width - 2 * (store.appState.setting.userSetting?.uiStyle.insetH ?? 0))
-                        .background(store.appState.setting.userSetting?.uiStyle.backGround)
-                        .cornerRadius(store.appState.setting.userSetting?.uiStyle.radius ?? 0,
-                                      antialiased: true)
-                        .overlay(RoundedRectangle(cornerRadius: 16)
-                                    .stroke(store.appState.setting.userSetting?.uiStyle.backGround ?? Color.black, lineWidth: 1))
-                        .padding(.horizontal, store.appState.setting.userSetting?.uiStyle.insetH)
-                        .padding(.vertical, store.appState.setting.userSetting?.uiStyle.insetV)
-                        .background(Color.init("BackGround"))
-                        .onAppear{
-                            readCounter += 1
-                        }
+                        StatusRow(status: status,
+                                  width: proxy.size.width - (2 * (store.appState.setting.userSetting?.uiStyle.insetH ?? 0)))
+                            .background(store.appState.setting.userSetting?.uiStyle.backGround)
+                            .cornerRadius(store.appState.setting.userSetting?.uiStyle.radius ?? 0,
+                                          antialiased: true)
+                            .overlay(RoundedRectangle(cornerRadius: 16)
+                                        .stroke(store.appState.setting.userSetting?.uiStyle.backGround ?? Color.black, lineWidth: 1))
+                            .padding(.horizontal, store.appState.setting.userSetting?.uiStyle.insetH)
+                            .padding(.vertical, store.appState.setting.userSetting?.uiStyle.insetV)
+                            .background(Color.init("BackGround"))
+                            .onAppear{
+                                readCounter += 1
+                            }
                         
-                        .sheet(item: $statusToReply){
-                            status in
-                            ComposerOfHubView(swifter: store.fetcher.swifter,
-                                                                           tweetText: $store.appState.setting.tweetInput.tweetText,
-                                                                           replyIDString: status.id,
-                                                                           isUsedAlone: true,
-                                                                           status: status)
-                         .accentColor(store.appState.setting.userSetting?.themeColor.color)
-                         }
-                        .onTapGesture( perform: {statusIDOfDetail = status.id})
+                            
+                            .onTapGesture{
+                                store.dispatch(.initialSessionData(status: status))
+                                statusIDOfDetail = status
+                                store.dispatch(.fetchSession(tweetIDString: status.id))
+                            }
+                            
                     }
                     .swipeActions {
                         Button{
                             statusToReply = status
-//                                isShowCMV = true
+                            //                                isShowCMV = true
                         } label: {
                             Label("Reply", systemImage: "arrowshape.turn.up.left")
                         }.tint(.blue)
@@ -95,14 +88,14 @@ struct TimelineView: View {
                             if isTweetByMeself(status) {
                                 store.dispatch(.tweetOperation(operation: .delete(id: status.id)))
                             } else {
-
+                                
                                 store.fetcher.swifter.getTweet(for: status.id, success: {json in
                                     let _ = StatusCD.JSON_Save(from: json, isBookmarked: true)
                                     store.dispatch(.alertOn(text: "Bookmarked!", isWarning: false))
                                     store.dispatch(.hubStatusRequest)
                                 })
                             }
-
+                            
                         } label: {
                             Label(isTweetByMeself(status) ? "Del" : "Save",
                                   systemImage: isTweetByMeself(status) ? "trash" : "bookmark")
@@ -131,10 +124,7 @@ struct TimelineView: View {
                     }
                 }
                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
-                .listRowSeparator(.hidden)
-               
-                
-                
+                .listRowSeparator(store.appState.setting.userSetting?.uiStyle == .card ? .hidden : .visible)
                 
                 HStack {
                     Spacer()
@@ -154,11 +144,9 @@ struct TimelineView: View {
                 RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
                     .listRowInsets(EdgeInsets())
                     .listRowSeparator(.hidden)
-                //                    .background(Color.init(.systemBackground))
                     .onAppear{
                         guard store.appState.setting.isProcessingDone == true else {return}
                         store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .bottom))
-                        store.dispatch(.updateNewTweetNumber(timelineType: timeline.type, numberOfReadTweet: readCounter))
                     }
                 
             }
@@ -166,11 +154,26 @@ struct TimelineView: View {
             .navigationTitle(timeline.type.rawValue)
             .onDisappear{
                 print("onDisappear of timelineView \(timeline.type.rawValue)")
-                
+                store.dispatch(.updateNewTweetNumber(timelineType: timeline.type, numberOfReadTweet: readCounter))
                 
             }
             .refreshable {
                 refreshAll()
+            }
+            .sheet(item: $statusToReply){ //sheet必须在最外层，这样不会产生dogesheet
+                status in
+                ComposerOfHubView(swifter: store.fetcher.swifter,
+                                  tweetText: $store.appState.setting.tweetInput.tweetText,
+                                  replyIDString: status.id,
+                                  isUsedAlone: true,
+                                  status: status)
+                    .accentColor(store.appState.setting.userSetting?.themeColor.color)
+            }
+            .sheet(item: $statusIDOfDetail, onDismiss: {
+//                store.dispatch(.initialSessionData)
+            }){ status in
+                DetailViewSheet(status: status)
+                    .accentColor(store.appState.setting.userSetting?.themeColor.color)
             }
         }
     }

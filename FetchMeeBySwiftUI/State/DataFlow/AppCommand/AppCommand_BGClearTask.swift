@@ -11,7 +11,6 @@ import Foundation
 struct AppCommand_BGClearTask: AppCommand {
     func execute(in store: Store) {
         
-        store.dispatch(.deselectTweetRow)
         store.dispatch(.clearTimelineData)
         
         UserCD.deleteNotFavoriteUser()

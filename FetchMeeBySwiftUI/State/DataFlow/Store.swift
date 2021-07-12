@@ -144,12 +144,8 @@ class Store: ObservableObject {
         case .clearTimelineData:
             appState.timelineData.clearTimelineData()
             
-        case .selectTweetRow(let tweetIDString):
-            appCommand = appState.timelineData.setSelectedRowIndex(tweetIDString: tweetIDString)
-
-        case .deselectTweetRow:
-            appState.timelineData.selectedTweetID = nil
-            appState.timelineData.deleteFromTimelines(of: "toolsViewMark")
+        case .initialSessionData(let status):
+            appState.timelineData.initialSessionData(with: status)
             
         case .updateNewTweetNumber(let timelineType, let numberOfReadTweet):
             appState.timelineData.updateNewTweetNumber(timelineType: timelineType,

@@ -48,6 +48,7 @@ struct FetchSessionCommand: AppCommand {
     func execute(in store: Store) {
         var session = AppState.TimelineData.Timeline(type: .session)
         
+        
         func getReplyDetail(for idString: String ) {
             let failureHandler: (Error) -> Void = { error in
                 print(#line, error.localizedDescription)}
@@ -56,7 +57,7 @@ struct FetchSessionCommand: AppCommand {
             
             func finalReloadView() {
                 
-//                session.status = session.tweetIDStrings.map{store.repository.getStatus(byID: $0)}
+                session.status = session.tweetIDStrings.map{store.repository.getStatus(byID: $0)}
                 store.dispatch(.fetchSessionDone(timeline: session))
             }
             
@@ -108,24 +109,13 @@ struct FetchSessionCommand: AppCommand {
             getStatus(id: initialTweetIDString)
             
         }
-        
+//        store.dispatch(.clearSessionData)
         getReplyDetail(for: initialTweetIDString)
         
     }
     
 }
 
-/// 延时选择推文的执行命令
-struct DelayedSelectTweetRowCommand: AppCommand {
-    let tweetIDString: String
-    func execute(in store: Store) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            withAnimation{
-                store.dispatch(.selectTweetRow(tweetIDString: tweetIDString))
-            }
-        }
-    }
-}
 
 /// 设置要通过Toast来在最前面展示的View
 struct ClearPresentedView: AppCommand {

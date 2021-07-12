@@ -41,9 +41,7 @@ enum AppAction {
     case fetchSessionDone(timeline: AppState.TimelineData.Timeline )
     
     case clearTimelineData
-    
-    case selectTweetRow(tweetIDString: String)
-    case deselectTweetRow
+    case initialSessionData(status: Status)
     
     case updateNewTweetNumber(timelineType: TimelineType, numberOfReadTweet: Int)
     
