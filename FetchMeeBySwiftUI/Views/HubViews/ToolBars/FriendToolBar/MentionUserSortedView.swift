@@ -16,7 +16,7 @@ struct MentionUserSortedView: View {
     var mentionUserSorted: [User] {
         store.appState.timelineData.mentionUserData
             .sorted{$0.count > $1.count}
-            .map{User(id:$0.id, avatarUrlString: $0.avatarUrlString)}
+            .map{store.repository.getUser(byID: $0.id)}
     }
     
     

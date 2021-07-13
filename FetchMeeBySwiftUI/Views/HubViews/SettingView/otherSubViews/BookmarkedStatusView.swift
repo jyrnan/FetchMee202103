@@ -9,7 +9,6 @@
 
 import SwiftUI
 import CoreData
-import Kingfisher
 import Combine
 
 struct BookmarkedStatusView: View {

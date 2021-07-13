@@ -7,22 +7,17 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 
 
 struct AvatarImageView: View {
     
-    var imageUrl: String?
+    var imageUrl: String
     var placeHolder:Image = Image(systemName: "person.circle.fill").resizable()
     var hasNickname: Bool = false
     
     var body: some View {
-//        KFImage(URL(string: imageUrl ?? "")).placeholder{placeHolder}
-////        RemoteImage(imageUrl: imageUrl ?? "")
-//            .resizable()
-//            .aspectRatio(contentMode: .fill)
-        AsyncImage(url: URL(string:imageUrl!)){phase in
+        AsyncImage(url: URL(string: imageUrl)){phase in
             switch phase {
             case .empty:
                 Image(systemName: "person.circle.fill").resizable().scaledToFill()

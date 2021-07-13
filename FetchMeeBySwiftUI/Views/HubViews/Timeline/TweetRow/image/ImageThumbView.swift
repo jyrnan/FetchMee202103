@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct ImageThumb: View {
     //MARK:-Properties

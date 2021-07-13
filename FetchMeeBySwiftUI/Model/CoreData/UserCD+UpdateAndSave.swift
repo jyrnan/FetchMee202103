@@ -143,16 +143,16 @@ extension UserCD {
     func convertToUser() -> User {
         var user = User()
         
-        user.id = self.userIDString!
-        user.name = self.name!
-        user.screenName = self.screenName!
+        user.id = self.userIDString ?? "0000"
+        user.name = self.name ?? "Name"
+        user.screenName = self.screenName ?? "ScreenName"
         user.nickName = self.nickName
-        user.createdAt = self.createdAt!
+        user.createdAt = self.createdAt ?? Date.now
         
         user.tokenKey = self.tokenKey
         user.tokenSecret = self.tokenSecret
         
-        user.avatarUrlString = self.avatarUrlString!
+        user.avatarUrlString = self.avatarUrlString ?? ""
         user.bannerUrlString = self.bannerUrlString ?? ""
         
         user.bioText = self.bioText ?? ""

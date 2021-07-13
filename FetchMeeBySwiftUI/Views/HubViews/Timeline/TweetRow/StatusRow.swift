@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 import CoreData
 import Swifter
 
@@ -45,8 +44,8 @@ struct StatusRow: View {
     }
     
     var name: some View {
-        UserNameView(userName: status.user?.name ?? "Name",
-                     screenName: status.user?.screenName ?? "screenName")
+        UserNameView(userName: status.user?.name ?? "Unknow",
+                     screenName: status.user?.screenName ?? "UnNamed")
     }
     
     var detailIndicator: some View {

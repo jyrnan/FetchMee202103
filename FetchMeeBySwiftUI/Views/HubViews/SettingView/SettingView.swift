@@ -9,7 +9,6 @@
 import SwiftUI
 import Combine
 import CoreData
-import Kingfisher
 
 struct SettingView: View {
     @EnvironmentObject var store: Store
@@ -25,7 +24,6 @@ struct SettingView: View {
     var body: some View {
         
         List {
-            
             Section(header: Text("Visual"),
                     footer: Text("You can swith this function off to get a simper UI and better performance")) {
                 
@@ -34,7 +32,7 @@ struct SettingView: View {
                         Text(themeColor.rawValue.capitalized).foregroundColor(themeColor.color).tag(themeColor)
                     }
                 })
-                    
+                    .pickerStyle(.segmented)
                 
                 Picker("Favorit UIStyle", selection: $setting.uiStyle, content: {
                     ForEach(UIStyle.allCases){style in

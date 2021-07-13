@@ -103,5 +103,6 @@ struct Composer_Previews: PreviewProvider {
     static var previews: some View {
         Composer(tweetTextBinding: .constant(""), isProcessingDone: .constant(true))
             .environmentObject(Store())
+            .frame(width: nil, height: 60, alignment: .center)
     }
 }

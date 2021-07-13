@@ -15,9 +15,9 @@ struct Status: Identifiable {
     var id: String = UUID().uuidString
     var user: User?
 
-    var text: String = "this is status text sample"
-    var attributedText: NSMutableAttributedString = NSMutableAttributedString(string: "this is status text sample")
-    var attributedString: AttributedString = AttributedString("Hello world")
+    var text: String = "The status text unavaliable"
+    var attributedText: NSMutableAttributedString = NSMutableAttributedString(string: "The status text unavaliable")
+    var attributedString: AttributedString = AttributedString("The status text unavaliable")
     var createdAt: Date = Date()
     
     var imageUrls: [String]? //图片的url

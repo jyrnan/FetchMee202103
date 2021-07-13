@@ -39,11 +39,16 @@ struct TimelineView: View {
                     RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
                     
                     HStack {
-                        Spacer()
+//                        Spacer()
                         ActivityIndicator(isAnimating: $store.appState.setting.isProcessingDone, style: .medium)
                             .frame(width: 12, height: 12, alignment: .center)
                             .padding(.trailing, 16)
                             .opacity(store.appState.setting.isProcessingDone ? 0 : 1 )
+                        Text("Fetching...")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .opacity(store.appState.setting.isProcessingDone ? 0 : 1.0)
+                            
                     }
                 }
                 .listRowInsets(EdgeInsets())
@@ -215,8 +220,14 @@ extension TimelineView {
 
 
 struct TimelineView_Previews: PreviewProvider {
+    static var timeline : AppState.TimelineData.Timeline {
+        var timeline = AppState.TimelineData.Timeline()
+        let tweetIDStrings = (1...5).map{_ in UUID().uuidString}
+        timeline.tweetIDStrings = tweetIDStrings
+        return timeline
+    }
     static var previews: some View {
-        TimelineView(timeline: AppState.TimelineData.Timeline())
+        TimelineView(timeline: timeline)
             .environmentObject(Store())
     }
 }

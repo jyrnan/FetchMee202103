@@ -39,7 +39,6 @@
 		D22EF6172614738800ABC8DF /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22EF6162614738800ABC8DF /* RemoteImage.swift */; };
 		D22F0D432615CFFA007F931E /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22F0D422615CFFA007F931E /* StatusView.swift */; };
 		D22F0D452615EDA5007F931E /* AppCommand_HubStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22F0D442615EDA5007F931E /* AppCommand_HubStatusRequest.swift */; };
-		D22F0D5F26198FC0007F931E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D22F0D5E26198FC0007F931E /* Kingfisher */; };
 		D22F0D612619A10F007F931E /* UserTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22F0D602619A10F007F931E /* UserTimeline.swift */; };
 		D2309F222547E09A00549E27 /* CustomTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2309F212547E09A00549E27 /* CustomTextEditor.swift */; };
 		D2309F29254922B000549E27 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2309F28254922B000549E27 /* Toast.swift */; };
@@ -269,7 +268,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D22F0D5F26198FC0007F931E /* Kingfisher in Frameworks */,
 				D2FE6E15250DE11400314966 /* Swifter in Frameworks */,
 				D290507C252C0C170065EA83 /* CloudKit.framework in Frameworks */,
 			);
@@ -729,7 +727,6 @@
 			name = FetchMee;
 			packageProductDependencies = (
 				D2FE6E14250DE11400314966 /* Swifter */,
-				D22F0D5E26198FC0007F931E /* Kingfisher */,
 			);
 			productName = FetchMeeBySwiftUI;
 			productReference = D27DCEB624B96D5F00520BE3 /* FetchMee.app */;
@@ -761,7 +758,6 @@
 			mainGroup = D27DCEAD24B96D5F00520BE3;
 			packageReferences = (
 				D2FE6E13250DE11400314966 /* XCRemoteSwiftPackageReference "Swifter" */,
-				D22F0D5D26198FC0007F931E /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = D27DCEB724B96D5F00520BE3 /* Products */;
 			projectDirPath = "";
@@ -1041,11 +1037,12 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 71;
+				CURRENT_PROJECT_VERSION = 72;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = FetchMeeBySwiftUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1067,11 +1064,12 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 71;
+				CURRENT_PROJECT_VERSION = 72;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = FetchMeeBySwiftUI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1110,14 +1108,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		D22F0D5D26198FC0007F931E /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.2.1;
-			};
-		};
 		D2FE6E13250DE11400314966 /* XCRemoteSwiftPackageReference "Swifter" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mattdonnelly/Swifter.git";
@@ -1129,11 +1119,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D22F0D5E26198FC0007F931E /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D22F0D5D26198FC0007F931E /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
 		D2FE6E14250DE11400314966 /* Swifter */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D2FE6E13250DE11400314966 /* XCRemoteSwiftPackageReference "Swifter" */;

@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct UserInfo: View {
     @EnvironmentObject var store: Store

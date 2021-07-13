@@ -9,7 +9,6 @@
 import SwiftUI
 import CoreData
 import Swifter
-import Kingfisher
 
 struct AvatarView: View {
     @EnvironmentObject var store: Store
@@ -25,9 +24,6 @@ struct AvatarView: View {
     
     var body: some View {
         ZStack {
-//                            NavigationLink(destination: UserView(user: user),
-//                                           isActive: $presentedUserInfo,
-//                                           label:{EmptyView()} ).disabled(true)
             AvatarImageView(imageUrl: user.avatarUrlString, hasNickname: user.nickName != nil)
             
                 .frame(width: width, height: height, alignment: .center)
