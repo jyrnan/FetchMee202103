@@ -15,6 +15,7 @@ struct UserNameView: View {
         HStack{
         Text(userName)
             .font(.headline)
+            .foregroundColor(.primary)
             .lineLimit(1)
         Text("@" + screenName)
             .font(.subheadline)

@@ -42,6 +42,7 @@ struct AppCommand_HubStatusRequest: AppCommand {
             hubStatus.myLatestDraft = myDrafts.first
         }
         
+        
         store.dispatch(.updateHubStatus(hubStatus: hubStatus))
 }
 }

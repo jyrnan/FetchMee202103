@@ -24,19 +24,17 @@ struct TimelineView: View {
     @State var statusToReply: Status?
     @State var statusIDOfDetail: Status?
     
-//MARK: - View定义
+    //MARK: - View定义
     
     var timelineTop: some View {
         ZStack{
             RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
             HStack {
-                ActivityIndicator(isAnimating: $store.appState.setting.isProcessingDone, style: .medium)
-                    .opacity(store.appState.setting.isProcessingDone ? 0 : 1 )
+                ProgressView()
                 Text("Fetching...")
                     .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-            .opacity(store.appState.setting.isProcessingDone ? 0 : 1.0)
+            }.foregroundColor(.secondary)
+                .opacity(store.appState.setting.isProcessingDone ? 0 : 1.0)
         }
         .listRowInsets(EdgeInsets())
         .listRowSeparator(.hidden)
@@ -50,19 +48,16 @@ struct TimelineView: View {
                     guard store.appState.setting.userSetting?.isAutoFetchMoreTweet == true else {return}
                     store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .bottom))
                 }
-            HStack {
-                Spacer()
-                if !store.appState.setting.isProcessingDone {
-                    ActivityIndicator(isAnimating: $store.appState.setting.isProcessingDone, style: .medium)
-                }
-                Button(store.appState.setting.isProcessingDone ? "More Tweets..." : "Fetching...") {
-                    store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .bottom))
-                }
-                .font(.caption)
-                .foregroundColor(.gray)
-                .frame(height: 24)
-                Spacer()
-            }
+            Button(action: {store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .bottom))},
+                   label: {
+                    HStack{
+                        Spacer()
+                        ProgressView().opacity(store.appState.setting.isProcessingDone ? 0 : 1.0)
+                        Text(store.appState.setting.isProcessingDone ? "More Tweets..." : "Fetching...")
+                        Spacer()
+                    }
+                    .font(.caption).foregroundColor(.secondary)
+            })
         }
         .listRowInsets(EdgeInsets())
         .listRowSeparator(.hidden)
@@ -201,8 +196,8 @@ extension TimelineView {
     
     /// 如果是MentionTimeline，并且没有更新的mention，则从底部开始刷新，也就是显示最近的旧推文
     fileprivate func fetchMoreIfNoNewMention() {
-            guard timeline.tweetIDStrings.isEmpty, timeline.type == .mention else {return}
-            store.dispatch(.fetchTimeline(timelineType: .mention, mode: .bottom))
+        guard timeline.tweetIDStrings.isEmpty, timeline.type == .mention else {return}
+        store.dispatch(.fetchTimeline(timelineType: .mention, mode: .bottom))
     }
     
     func fetchTimelineFromTop() {

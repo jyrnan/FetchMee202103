@@ -41,9 +41,9 @@ struct AutoCompleteView: View {
                 ForEach(namesOrTags, id: \.self) {nameOrTag in
                     Text(nameOrTag).foregroundColor(.white)
                     .font(.caption)
-                    .padding(6)
+                    .padding(2)
                     .background(Color.accentColor)
-                    .cornerRadius(16)
+                    .cornerRadius(8)
                     .onTapGesture {
                         store.dispatch(.autoComplete(text: nameOrTag))
                         guard nameOrTag.starts(with: "#") else {return}

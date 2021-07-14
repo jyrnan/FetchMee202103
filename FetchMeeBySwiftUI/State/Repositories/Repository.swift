@@ -30,6 +30,19 @@ class Repository  {
         return bookmarkedStatuses
     }
     
+    var bookMarkedUserCD: [UserCD] {
+        let viewContext = PersistenceContainer.shared.container.viewContext
+        let UserSortDescriptors = [NSSortDescriptor(keyPath: \UserCD.createdAt, ascending: false)]
+        let bookmarkedUserPredicate = NSPredicate(format: "%K == %d", #keyPath(UserCD.isBookmarkedUser), true)
+        
+        let bookmarkedUserRequest:NSFetchRequest<UserCD> = NSFetchRequest(entityName: "UserCD")
+        bookmarkedUserRequest.sortDescriptors = UserSortDescriptors
+        bookmarkedUserRequest.predicate = bookmarkedUserPredicate
+        
+        guard let bookmarkedUseres = try? viewContext.fetch(bookmarkedUserRequest) else {return []}
+        return bookmarkedUseres
+    }
+    
     
     func addStatus(data: JSON) {
         if let id = data["id_str"].string {
@@ -72,6 +85,13 @@ class Repository  {
         if let user = self.users[id] {
             return user
         }
+        
+        if let userCD = bookMarkedUserCD.filter({$0.userIDString == id}).first {
+            let user = userCD.convertToUser()
+            users[id] = user
+            return user
+        }
+        
         return User()
     }
 }

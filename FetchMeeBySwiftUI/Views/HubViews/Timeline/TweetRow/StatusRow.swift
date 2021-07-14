@@ -104,7 +104,7 @@ struct StatusRow: View {
                     }
             }
             } else {
-                RetweetMarkView(userIDString: status.id, userName: status.user?.name)
+                RetweetMarkView(userIDString: status.id, userName: status.user?.name).frame(width: width - 30)
                     .padding(.top, 8).padding(.bottom, -16)
                 StatusRow(status: store.repository.getStatus(byID: status.retweeted_status_id_str!), width: width)
             }
