@@ -11,15 +11,18 @@ import SwiftUI
 struct RemoteImage: View {
     
     var imageUrl: String
-    @StateObject var fetcher: RemoteImageFromUrl
+    var imageType: RemoteImageFetcher.ImageType
+    @StateObject var fetcher: RemoteImageFetcher
     
-    init(imageUrl: String) {
+    init(imageUrl: String, imageType: RemoteImageFetcher.ImageType = .thumrb) {
         self.imageUrl = imageUrl
-        _fetcher = StateObject(wrappedValue: RemoteImageFromUrl(imageUrl: imageUrl, imageType: .thumrb))
+        self.imageType = imageType
+        _fetcher = StateObject(wrappedValue: RemoteImageFetcher(imageUrl: imageUrl, imageType: imageType))
             }
 
     var body: some View {
-        Image(uiImage: fetcher.image).resizable()
+        Image(uiImage: fetcher.image)
+            .resizable()
             .onAppear{fetcher.getImage()}
             
     }

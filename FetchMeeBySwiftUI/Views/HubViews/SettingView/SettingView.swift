@@ -14,10 +14,12 @@ struct SettingView: View {
     @EnvironmentObject var store: Store
     @Environment(\.presentationMode) var presentationMode
     
-    //用来作为setting调整结果的零时存储
+    //用来作为setting调整结果的临时存储
     @State var setting: UserSetting
+    
     //显示确认退出alertView
     @State var isPresentedAlert: Bool = false
+    @State private var isShowSaveButton: Bool = false
     
     
     
@@ -87,11 +89,15 @@ struct SettingView: View {
                 }
             }
         }
-        .onDisappear{
-            store.dispatch(.changeSetting(setting: setting))
-            print("onDisppear")
-        }
         .navigationTitle("Setting")
+        .navigationBarItems(trailing: Button("Save") {
+                    store.dispatch(.changeSetting(setting: setting))
+                }
+                .disabled(!isShowSaveButton)
+        )
+        .onChange(of: setting, perform: {_ in
+            isShowSaveButton = true
+        })
         
     }
 }

@@ -29,6 +29,8 @@ struct AvatarImageView: View {
                 EmptyView()
             }
         }
+//        RemoteImage(imageUrl: imageUrl)
+//            .aspectRatio(contentMode: .fill)
             .clipShape(Circle())
             .overlay(Circle().stroke(hasNickname ? Color.accentColor : Color.gray.opacity(0.3), lineWidth: hasNickname ? 2 : 1))
             .contentShape(Circle())

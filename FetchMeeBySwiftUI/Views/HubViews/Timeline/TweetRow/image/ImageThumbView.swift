@@ -22,10 +22,6 @@ struct ImageThumb: View {
     
     var body: some View {
         ZStack(alignment: .center) {
-//            KFImage(URL(string:imageUrl + ":small")!)
-//            .placeholder{Image("defaultImage").resizable()}
-//                .resizable()
-            
 
                 RemoteImage(imageUrl: imageUrl)
                 .aspectRatio(contentMode: .fill)
@@ -35,7 +31,7 @@ struct ImageThumb: View {
                 .onTapGesture {
                     ///点击下载原图并调用imageViewer
                     isImageDownloaded = false
-                    RemoteImageFromUrl.imageDownloaderWithClosure(imageUrl: imageUrl + ":large") {image in
+                    RemoteImageFetcher.imageDownloaderWithClosure(imageUrl: imageUrl + ":large") {image in
                         ///下载完成后调用imageViewer
                         DispatchQueue.main.async {
                             let imageViewer = ImageViewer(image: image)

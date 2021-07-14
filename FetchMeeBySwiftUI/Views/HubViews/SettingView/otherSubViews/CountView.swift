@@ -62,7 +62,7 @@ struct CountView: View {
         }
         .navigationBarTitle("Logs", displayMode: .inline)
         .navigationBarTitleDisplayMode(.inline)
-    }
+            .listStyle(.plain)    }
     }
 }
 

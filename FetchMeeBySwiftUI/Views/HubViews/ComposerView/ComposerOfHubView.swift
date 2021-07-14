@@ -71,11 +71,7 @@ struct ComposerOfHubView: View {
                         .foregroundColor(self.tweetText == "" ? .accentColor : .clear)
                         .padding(.leading)
                     Spacer()
-                    if self.isTweetSentDone {
                         Text("\(tweetText.count)/140").font(.caption).foregroundColor(.gray).padding(.trailing, 16)
-                    } else {
-                        ActivityIndicator(isAnimating: self.$isTweetSentDone, style: .medium).padding(.trailing).frame(width: 12, height: 12, alignment: .center)
-                    }
                 }
                 .padding(.top, 8)
                 
@@ -111,7 +107,6 @@ struct ComposerOfHubView: View {
                                 }
                         }
                     }
-                    
                 }
                 Spacer()
                 //增加图片按钮
@@ -127,7 +122,6 @@ struct ComposerOfHubView: View {
                             .font(.body)
                             .foregroundColor(.accentColor)
                             .padding(8)
-                        //                            .padding([.leading, .trailing], 8)
                     })
                     .sheet(isPresented: self.$isShowPhotoPicker, onDismiss: {
                         if self.imageDatas.count == 4 { //选择图片视图消失后检查是否已经有四张选择，如果是则设置增加图片按钮不显示
@@ -148,7 +142,7 @@ struct ComposerOfHubView: View {
                             .font(.body)
                             .foregroundColor(.accentColor)
                             .padding(8)
-                    })
+                }).disabled(draftsByCoreData.isEmpty)
                 
                 //存储草稿按钮
                 Button(action: {
@@ -163,19 +157,31 @@ struct ComposerOfHubView: View {
                 }).disabled(tweetText == "")
                 
                 //发送按钮
+//                Button(action: {
+//                    self.isTweetSentDone = false
+//                    self.postMedia()
+//                }, label: {
+//                    Text("Send")
+//                        .font(.callout).bold()
+//                        .foregroundColor(.white)
+//                        .padding(4)
+//                        .padding([.leading, .trailing], 8)
+//                        .background(Capsule().foregroundColor(.accentColor))
+//                        .padding(.trailing, 8)
+//                })
+//                .disabled(self.tweetText == "" && imageDatas.isEmpty)
+                
                 Button(action: {
                     self.isTweetSentDone = false
                     self.postMedia()
-                }, label: {
+                }) {
                     Text("Send")
-                        .font(.callout).bold()
-                        .foregroundColor(.white)
-                        .padding(4)
-                        .padding([.leading, .trailing], 8)
-                        .background(Capsule().foregroundColor(.accentColor))
+                        .opacity(isTweetSentDone ? 1.0 : 0)
+                        .overlay(ProgressView().opacity(isTweetSentDone ? 0 : 1.0))
                         .padding(.trailing, 8)
-                })
-                .disabled(self.tweetText == "" && imageDatas.isEmpty) 
+                }
+                .tint(.accentColor)
+                .disabled(self.tweetText == "" && imageDatas.isEmpty)
             }
             if store.appState.setting.autoCompleteText != "noTag" {
                 HStack {

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class RemoteImageFromUrl: ObservableObject {
+class RemoteImageFetcher: ObservableObject {
     
     //MARK:-Properties
     @Published var image = UIImage(named: "defaultImage")!
@@ -26,10 +26,10 @@ class RemoteImageFromUrl: ObservableObject {
         switch self.imageType {
         case .thumrb:
             let url = self.imageUrl + ":small"
-            RemoteImageFromUrl.imageDownloaderWithClosure(imageUrl: url, sh: dectectFaceAndSetImageValue(_:))
+            RemoteImageFetcher.imageDownloaderWithClosure(imageUrl: url, sh: dectectFaceAndSetImageValue(_:))
         case .original:
             let url = self.imageUrl
-            RemoteImageFromUrl.imageDownloaderWithClosure(imageUrl: url, sh: setImage(_:))
+            RemoteImageFetcher.imageDownloaderWithClosure(imageUrl: url, sh: setImage(_:))
         } 
     }
      
@@ -89,7 +89,7 @@ class RemoteImageFromUrl: ObservableObject {
     }
 }
 
-extension RemoteImageFromUrl {
+extension RemoteImageFetcher {
     enum ImageType {
         case thumrb
         case original

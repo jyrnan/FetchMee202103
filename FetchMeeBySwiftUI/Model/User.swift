@@ -128,7 +128,7 @@ enum UIStyle: String, CaseIterable, Identifiable, Codable {
 }
 
 
-struct UserSetting: Codable {
+struct UserSetting: Codable, Equatable {
     
     var themeColor: ThemeColor = ThemeColor.blue //缺省值是蓝色
     var uiStyle: UIStyle = .card //卡片式样

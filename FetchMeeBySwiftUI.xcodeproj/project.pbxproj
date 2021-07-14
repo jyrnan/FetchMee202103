@@ -95,7 +95,7 @@
 		D2A4D27F2552902F00668650 /* UIImage+alhpa.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */; };
 		D2A972F225FCC97D005F06A5 /* StatusCD+JSON_Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A972F125FCC97D005F06A5 /* StatusCD+JSON_Save.swift */; };
 		D2ABAD1B256F9345009FDD94 /* ImageThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */; };
-		D2ABAD1D256F938E009FDD94 /* RemoteImageFromUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1C256F938E009FDD94 /* RemoteImageFromUrl.swift */; };
+		D2ABAD1D256F938E009FDD94 /* RemoteImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ABAD1C256F938E009FDD94 /* RemoteImageFetcher.swift */; };
 		D2B1478B2636927700A214A0 /* TestGit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B1478A2636927700A214A0 /* TestGit.swift */; };
 		D2B2560E24E38824009F982E /* videoJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2B2560D24E38824009F982E /* videoJson.txt */; };
 		D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B2560F24E39020009F982E /* VideoPlayView.swift */; };
@@ -230,7 +230,7 @@
 		D2A4D27E2552902F00668650 /* UIImage+alhpa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+alhpa.swift"; sourceTree = "<group>"; };
 		D2A972F125FCC97D005F06A5 /* StatusCD+JSON_Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StatusCD+JSON_Save.swift"; sourceTree = "<group>"; };
 		D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThumbView.swift; sourceTree = "<group>"; };
-		D2ABAD1C256F938E009FDD94 /* RemoteImageFromUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageFromUrl.swift; sourceTree = "<group>"; };
+		D2ABAD1C256F938E009FDD94 /* RemoteImageFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageFetcher.swift; sourceTree = "<group>"; };
 		D2AE506625564A2800437337 /* LogMessageSmallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogMessageSmallView.swift; sourceTree = "<group>"; };
 		D2B1478A2636927700A214A0 /* TestGit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestGit.swift; sourceTree = "<group>"; };
 		D2B2560D24E38824009F982E /* videoJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = videoJson.txt; sourceTree = "<group>"; };
@@ -602,7 +602,7 @@
 			children = (
 				D7AC536B24BAD91A00BCD71F /* Images.swift */,
 				D2ABAD1A256F9345009FDD94 /* ImageThumbView.swift */,
-				D2ABAD1C256F938E009FDD94 /* RemoteImageFromUrl.swift */,
+				D2ABAD1C256F938E009FDD94 /* RemoteImageFetcher.swift */,
 				D22EF6162614738800ABC8DF /* RemoteImage.swift */,
 				D7AC536F24BB4AB200BCD71F /* ImageViewer.swift */,
 			);
@@ -809,7 +809,7 @@
 				D27744E3253B149B0062B25C /* BackOfFriendToolBar.swift in Sources */,
 				D27744E5253B14DD0062B25C /* BackOfTweetsToolBar.swift in Sources */,
 				D2ABAD1B256F9345009FDD94 /* ImageThumbView.swift in Sources */,
-				D2ABAD1D256F938E009FDD94 /* RemoteImageFromUrl.swift in Sources */,
+				D2ABAD1D256F938E009FDD94 /* RemoteImageFetcher.swift in Sources */,
 				D2F74E54262918A5005EA902 /* AuthView.swift in Sources */,
 				D21C3304255A827C001CBBCD /* Counter+Calculate.swift in Sources */,
 				D270E87624BFCDBA00BBD3FE /* CreatedTimeView.swift in Sources */,
