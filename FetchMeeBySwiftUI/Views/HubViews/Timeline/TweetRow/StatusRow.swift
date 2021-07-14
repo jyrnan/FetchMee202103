@@ -33,7 +33,8 @@ struct StatusRow: View {
     
     var avatar: some View {
         VStack(alignment: .leading){
-            AvatarView(user: store.repository.getUser(byID: status.user?.idString ?? "0000"), width: 36, height: 36)
+            AvatarView(user: store.repository.getUser(byID: status.user?.idString ?? "0000"),
+                       width: 36, height: 36)
             Spacer()
         }
         .frame(width:store.appState.setting.userSetting?.uiStyle.avatarWidth )
@@ -108,24 +109,25 @@ struct StatusRow: View {
                 StatusRow(status: store.repository.getStatus(byID: status.retweeted_status_id_str!), width: width)
             }
         }
-        .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id ? Color.accentColor.opacity(0.15) : Color.clear)
+//        .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id ? Color.accentColor.opacity(0.15) : Color.clear)
     }
 }
 
 struct StatusRow_Previews: PreviewProvider {
     static var previews: some View {
-        let status = Status(user: User(), text: "人体对其所摄入的葡萄糖的处置调控能力称为「葡萄糖耐量」。正常人的糖调节机制完好，无论进食多少，血糖都能保持在一个比较稳定的范围内，即使一次性摄入大量的糖分", attributedString: JSON(dictionaryLiteral: ("text", "@人体 @对其所摄入 的葡萄糖的处置调控能力称为「葡萄糖耐量」。正常人的糖调节机制完好，无论进食多少，血糖都能保持在一个比较稳定的范围内，即使一次性摄入大量的糖分")).getAttributedString(),imageUrls: ["", "", "", ""])
+        
         GeometryReader {proxy in
             VStack{
             StatusRow(status: Status(), width: proxy.size.width)
                 .frame(width:proxy.size.width, height: 80, alignment: .center)
                 .environmentObject(Store())
-            StatusRow(status: status, width: proxy.size.width)
+                StatusRow(status: Status.sample, width: proxy.size.width)
                 .frame(width:proxy.size.width, height: 80, alignment: .center)
                 .environmentObject(Store())
                 .offset(CGSize(width: 0, height: 200))
                 .accentColor(.blue)
             }
         }
+        .environmentObject(Store.sample)
     }
 }

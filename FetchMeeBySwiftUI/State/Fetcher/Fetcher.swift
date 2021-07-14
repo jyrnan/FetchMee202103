@@ -75,9 +75,7 @@ struct FetcherSwifter: Fetcher {
                 UserCD.updateOrSaveToCoreData(from: $0["user"])
                 storeMentionUserData(mention: $0, to: &mentionUserData)
             }
-            
-//            timelineWillUpdate.status = timelineWillUpdate.tweetIDStrings.compactMap{store?.repository.getStatus(byID: $0)}
-            
+                    
             return (timelineWillUpdate, mentionUserData)
             
         }
@@ -89,7 +87,6 @@ struct FetcherSwifter: Fetcher {
             .map(JSONHandler(json:))
             .mapError(errorHandler(error:))
             .eraseToAnyPublisher()
-        //        return publisher
     }
     
     //MARK:- 单条推文数据处理部分

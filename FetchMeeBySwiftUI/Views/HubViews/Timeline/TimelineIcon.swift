@@ -15,6 +15,7 @@ struct TimelineIcon: View {
     
     var timeline: AppState.TimelineData.Timeline
     @State var showTimeline: Bool = false
+//    var timelineDataBinding: Binding<AppState.TimelineData>  {$store.appState.timelineData}
    
     var body: some View {
         ZStack{
@@ -65,7 +66,9 @@ struct TimelineIcon: View {
         .frame(width: 92, height: 92, alignment: .center)
         
         .onTapGesture {
-//            store.dispatch(.fetchTimeline(timelineType: timelineType, mode: .top))
+            if timeline.tweetIDStrings.isEmpty {
+                store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .top))
+            }
             showTimeline = true
         }
         //长按清除新推文数量
@@ -77,7 +80,9 @@ struct TimelineIcon: View {
 
 
 struct TimelineIcon_Previews: PreviewProvider {
+    static var store = Store.sample
     static var previews: some View {
-        TimelineIcon(timeline: AppState.TimelineData.Timeline())
+        TimelineIcon(timeline: store.appState.timelineData.timelines["Mention"]!)
+            .environmentObject(store)
     }
 }

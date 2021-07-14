@@ -12,9 +12,7 @@ import Swifter
 struct TimelinesView: View {
     
     @EnvironmentObject var store: Store
-    
-//    var timelines: [String : AppState.TimelineData.Timeline] = [:]
-   
+       
     var body: some View {
         VStack {
             HStack {
@@ -46,6 +44,6 @@ struct TimelinesView: View {
 
 struct TimelinesView_Previews: PreviewProvider {
     static var previews: some View {
-        TimelinesView().environmentObject(Store())
+        TimelinesView().environmentObject(Store.sample)
     }
 }

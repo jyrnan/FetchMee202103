@@ -29,7 +29,6 @@
 		D21C3304255A827C001CBBCD /* Counter+Calculate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C3303255A827C001CBBCD /* Counter+Calculate.swift */; };
 		D21C3306255A8356001CBBCD /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C3305255A8356001CBBCD /* FoundationExtensions.swift */; };
 		D21F4C4F24DE73C6004B2C20 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F4C4E24DE73C6004B2C20 /* SettingView.swift */; };
-		D220963426883AC8008AAAB3 /* StatusTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D220963326883AC8008AAAB3 /* StatusTextView.swift */; };
 		D220963626883BAB008AAAB3 /* JSON+AttributeString.swift in Sources */ = {isa = PBXBuildFile; fileRef = D220963526883BAB008AAAB3 /* JSON+AttributeString.swift */; };
 		D221FEE22626DA4B009F00FC /* AppCommand_BGClearTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D221FEE12626DA4B009F00FC /* AppCommand_BGClearTask.swift */; };
 		D2224F9124BE7FE400AE2110 /* Swifter+DeleteTweets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */; };
@@ -55,8 +54,6 @@
 		D2419C1C2577603C00A9CF98 /* Retweet.txt in Resources */ = {isa = PBXBuildFile; fileRef = D2419C132577603C00A9CF98 /* Retweet.txt */; };
 		D2419C1D2577603C00A9CF98 /* followers in Resources */ = {isa = PBXBuildFile; fileRef = D2419C142577603C00A9CF98 /* followers */; };
 		D2419C242577746700A9CF98 /* TimelineType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C232577746700A9CF98 /* TimelineType.swift */; };
-		D2419C712579E43900A9CF98 /* NSAttributedStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C702579E43900A9CF98 /* NSAttributedStringView.swift */; };
-		D2419C732579F39700A9CF98 /* JSON+getAttributedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2419C722579F39700A9CF98 /* JSON+getAttributedText.swift */; };
 		D252547E24D8003B00D8B508 /* RetweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547D24D8003B00D8B508 /* RetweetJson.txt */; };
 		D252548024D804AB00D8B508 /* WebLinkAndImageJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252547F24D804AB00D8B508 /* WebLinkAndImageJson.txt */; };
 		D252548224D807F500D8B508 /* QuoteTweetJson.txt in Resources */ = {isa = PBXBuildFile; fileRef = D252548124D807F500D8B508 /* QuoteTweetJson.txt */; };
@@ -82,6 +79,7 @@
 		D282BCA52589902400877B26 /* ComposerButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D282BCA42589902400877B26 /* ComposerButtonView.swift */; };
 		D286EC32255A2BD600C98195 /* UserCD+UpdateAndSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286EC31255A2BD500C98195 /* UserCD+UpdateAndSave.swift */; };
 		D286FFD024BC29BF005DBC39 /* Composer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D286FFCF24BC29BF005DBC39 /* Composer.swift */; };
+		D28CB197269E78FF00F1B436 /* Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28CB196269E740600F1B436 /* Sample.swift */; };
 		D28F9E9525E4E0DB00B8EF40 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9E9425E4E0DB00B8EF40 /* Store.swift */; };
 		D28F9E9725E4E0FD00B8EF40 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9E9625E4E0FD00B8EF40 /* AppState.swift */; };
 		D28F9E9925E4E37600B8EF40 /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28F9E9825E4E37600B8EF40 /* AppAction.swift */; };
@@ -114,6 +112,7 @@
 		D2D4878F25734B0A005EE4A7 /* PlayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D4878E25734B0A005EE4A7 /* PlayButtonView.swift */; };
 		D2D4879225734C60005EE4A7 /* PlayButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2D4879125734C60005EE4A7 /* PlayButtonViewModel.swift */; };
 		D2DDFCBF2532D65100AE7E39 /* ToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */; };
+		D2DFB2D6269D5BFF002409EE /* FakeStatusRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DFB2D5269D5BFF002409EE /* FakeStatusRow.swift */; };
 		D2EFF67B2573E2A600E016C1 /* UserNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EFF67A2573E2A600E016C1 /* UserNameView.swift */; };
 		D2F74E54262918A5005EA902 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F74E53262918A5005EA902 /* AuthView.swift */; };
 		D2F74F0026296FC7005EA902 /* AuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F74EFF26296FC7005EA902 /* AuthProvider.swift */; };
@@ -161,7 +160,6 @@
 		D21C3303255A827C001CBBCD /* Counter+Calculate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Counter+Calculate.swift"; sourceTree = "<group>"; };
 		D21C3305255A8356001CBBCD /* FoundationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
 		D21F4C4E24DE73C6004B2C20 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
-		D220963326883AC8008AAAB3 /* StatusTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTextView.swift; sourceTree = "<group>"; };
 		D220963526883BAB008AAAB3 /* JSON+AttributeString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+AttributeString.swift"; sourceTree = "<group>"; };
 		D221FEE12626DA4B009F00FC /* AppCommand_BGClearTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommand_BGClearTask.swift; sourceTree = "<group>"; };
 		D2224F9024BE7FE400AE2110 /* Swifter+DeleteTweets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swifter+DeleteTweets.swift"; sourceTree = "<group>"; };
@@ -187,8 +185,6 @@
 		D2419C132577603C00A9CF98 /* Retweet.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Retweet.txt; sourceTree = "<group>"; };
 		D2419C142577603C00A9CF98 /* followers */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = followers; sourceTree = "<group>"; };
 		D2419C232577746700A9CF98 /* TimelineType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineType.swift; sourceTree = "<group>"; };
-		D2419C702579E43900A9CF98 /* NSAttributedStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringView.swift; sourceTree = "<group>"; };
-		D2419C722579F39700A9CF98 /* JSON+getAttributedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSON+getAttributedText.swift"; sourceTree = "<group>"; };
 		D252547D24D8003B00D8B508 /* RetweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = RetweetJson.txt; sourceTree = "<group>"; };
 		D252547F24D804AB00D8B508 /* WebLinkAndImageJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = WebLinkAndImageJson.txt; sourceTree = "<group>"; };
 		D252548124D807F500D8B508 /* QuoteTweetJson.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuoteTweetJson.txt; sourceTree = "<group>"; };
@@ -216,6 +212,7 @@
 		D282BCA42589902400877B26 /* ComposerButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerButtonView.swift; sourceTree = "<group>"; };
 		D286EC31255A2BD500C98195 /* UserCD+UpdateAndSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserCD+UpdateAndSave.swift"; sourceTree = "<group>"; };
 		D286FFCF24BC29BF005DBC39 /* Composer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Composer.swift; sourceTree = "<group>"; };
+		D28CB196269E740600F1B436 /* Sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sample.swift; sourceTree = "<group>"; };
 		D28F9E9425E4E0DB00B8EF40 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		D28F9E9625E4E0FD00B8EF40 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		D28F9E9825E4E37600B8EF40 /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
@@ -252,6 +249,7 @@
 		D2D4879125734C60005EE4A7 /* PlayButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayButtonViewModel.swift; sourceTree = "<group>"; };
 		D2D6744125C5028200348BB7 /* OverlaySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlaySheet.swift; sourceTree = "<group>"; };
 		D2DDFCBE2532D65100AE7E39 /* ToolBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarView.swift; sourceTree = "<group>"; };
+		D2DFB2D5269D5BFF002409EE /* FakeStatusRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeStatusRow.swift; sourceTree = "<group>"; };
 		D2EFF67A2573E2A600E016C1 /* UserNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameView.swift; sourceTree = "<group>"; };
 		D2F74E53262918A5005EA902 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		D2F74EFF26296FC7005EA902 /* AuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthProvider.swift; sourceTree = "<group>"; };
@@ -292,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				D25D9AE325FF0EEE0038A6B1 /* StatusRow.swift */,
+				D2DFB2D5269D5BFF002409EE /* FakeStatusRow.swift */,
 				D2C8107825FF9AC9001C6546 /* QuotedStatusJsonRow.swift */,
 				D2D48793257386A0005EE4A7 /* RetweetMark */,
 				D2ABAD1E2570A7C4009FDD94 /* Avatar */,
@@ -346,6 +345,7 @@
 				D20A35D025E5418E0012CD82 /* Helpers.swift */,
 				D707B6EC24C4040F0023F243 /* KeyboardHide.swift */,
 				D290E6E524CD1ED100662FAF /* KeyBoard Notification.swift */,
+				D28CB196269E740600F1B436 /* Sample.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -419,9 +419,6 @@
 		D2419C6F2579E3D600A9CF98 /* StatusText */ = {
 			isa = PBXGroup;
 			children = (
-				D2419C702579E43900A9CF98 /* NSAttributedStringView.swift */,
-				D2419C722579F39700A9CF98 /* JSON+getAttributedText.swift */,
-				D220963326883AC8008AAAB3 /* StatusTextView.swift */,
 				D220963526883BAB008AAAB3 /* JSON+AttributeString.swift */,
 			);
 			path = StatusText;
@@ -801,6 +798,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D28CB197269E78FF00F1B436 /* Sample.swift in Sources */,
 				D205246C24C18AC30046F1AB /* AlertView.swift in Sources */,
 				D2309F29254922B000549E27 /* Toast.swift in Sources */,
 				D2B2561024E39020009F982E /* VideoPlayView.swift in Sources */,
@@ -810,7 +808,6 @@
 				D2C45BAC24C6D31B007D67B6 /* ContentView.swift in Sources */,
 				D27744E3253B149B0062B25C /* BackOfFriendToolBar.swift in Sources */,
 				D27744E5253B14DD0062B25C /* BackOfTweetsToolBar.swift in Sources */,
-				D2419C732579F39700A9CF98 /* JSON+getAttributedText.swift in Sources */,
 				D2ABAD1B256F9345009FDD94 /* ImageThumbView.swift in Sources */,
 				D2ABAD1D256F938E009FDD94 /* RemoteImageFromUrl.swift in Sources */,
 				D2F74E54262918A5005EA902 /* AuthView.swift in Sources */,
@@ -819,6 +816,7 @@
 				D28F9E9925E4E37600B8EF40 /* AppAction.swift in Sources */,
 				4B5E607625353A7200E7A5F1 /* AvatarImageView.swift in Sources */,
 				D28F9EA625E8764400B8EF40 /* TimelineView.swift in Sources */,
+				D2DFB2D6269D5BFF002409EE /* FakeStatusRow.swift in Sources */,
 				D2BC206625F26A1E007882CA /* AutoCompleteView.swift in Sources */,
 				D2318AA92571E40900F55BDF /* FavoriteStarMarkView.swift in Sources */,
 				D2BC206B25F4AC6B007882CA /* TweetTagCDManageView.swift in Sources */,
@@ -886,7 +884,6 @@
 				D28F9E9725E4E0FD00B8EF40 /* AppState.swift in Sources */,
 				D2D4878D257272D6005EE4A7 /* RetweetMarkView.swift in Sources */,
 				D28F9EA825E9E5D100B8EF40 /* DetailViewRedux.swift in Sources */,
-				D2419C712579E43900A9CF98 /* NSAttributedStringView.swift in Sources */,
 				D20A35D925EA6BC00012CD82 /* TimelinesView.swift in Sources */,
 				D233E61C26899FF500780E30 /* DetailViewSheet.swift in Sources */,
 				D20A35D325E68F870012CD82 /* FileStorage.swift in Sources */,
@@ -894,7 +891,6 @@
 				D2632D65251EEFF50023C417 /* FaceDetect.swift in Sources */,
 				D286EC32255A2BD600C98195 /* UserCD+UpdateAndSave.swift in Sources */,
 				D27DCF3B24B98F9900520BE3 /* Status.swift in Sources */,
-				D220963426883AC8008AAAB3 /* StatusTextView.swift in Sources */,
 				D2C9B7CF263B802E00CDD73D /* AppState+TimelineData.swift in Sources */,
 				D26824682601871C004CAB1A /* Repository.swift in Sources */,
 			);
@@ -1037,7 +1033,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 72;
+				CURRENT_PROJECT_VERSION = 73;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;
@@ -1064,7 +1060,7 @@
 				CODE_SIGN_ENTITLEMENTS = FetchMee.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 72;
+				CURRENT_PROJECT_VERSION = 73;
 				DEVELOPMENT_ASSET_PATHS = "\"FetchMeeBySwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = FAL6NRZRQP;
 				ENABLE_PREVIEWS = YES;

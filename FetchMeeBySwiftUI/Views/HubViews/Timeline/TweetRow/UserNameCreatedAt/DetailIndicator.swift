@@ -11,19 +11,9 @@ import Swifter
 
 struct DetailIndicator: View {
     @EnvironmentObject var store: Store
-//    var tweetIDString: String
     
     var status: Status
-//    {store.repository.statuses[tweetIDString]}
-    
-//    var retweeted: Bool { status?.retweeted ?? false }
-//    var retweetedCount: Int {status?.retweet_count ?? 0 }
-//
-//    var favorited: Bool { status?.favorited ?? false }
-//    var favoritedCount: Int {status?.favorite_count ?? 0 }
-//
-//    var isMentioned: Bool  {status?.isMentioned ?? false}
-//    var isRead: Bool {status?.isRead ?? false}
+
     var body: some View {
         HStack(spacing: 0){
             Spacer()
@@ -38,7 +28,7 @@ struct DetailIndicator: View {
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 1)
             Circle()
-                .fill( status.isRead ? Color.accentColor : Color.gray)
+                .fill(isReplyToMe() ? Color.accentColor : Color.gray)
                 .frame(width: 5, height: 5, alignment: .center)
                 .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, 1)
 
@@ -50,14 +40,15 @@ struct DetailIndicator: View {
         .contentShape(Rectangle())
     }
     
-    func delay(delay: Double, closure: @escaping () -> ()) {
-        let when = DispatchTime.now() + delay
-        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
+    private func isReplyToMe() -> Bool {
+        return status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id
     }
+   
 }
 
 struct DetailIndicator_Previews: PreviewProvider {
     static var previews: some View {
-        DetailIndicator(status: Status())
+        DetailIndicator(status: Status.sample)
+            .environmentObject(Store.sample)
     }
 }

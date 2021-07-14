@@ -28,7 +28,7 @@ struct BookmarkedStatusView: View {
     var body: some View {
         GeometryReader { proxy in
             List{
-                ForEach(statuses, id: \.id) {status in
+                ForEach(filterStatus, id: \.id) {status in
                     StatusRow(status: status.convertToStatus(), width: proxy.size.width - 32)
                         
                         .background(Color.init("BackGround"))

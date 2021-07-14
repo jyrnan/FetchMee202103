@@ -47,7 +47,6 @@ struct Adapter {
         status.user = UserCD.updateOrSaveToCoreData(from: json["user"], dataHandler: updateUserCD(_:with:)).convertToUser()
         
         status.text = json["text"].string ?? ""
-        status.attributedText = json.getAttributedText()
         status.attributedString = json.getAttributedString()
         status.createdAt = convertToDate(from: json["created_at"].string) ?? Date()
         

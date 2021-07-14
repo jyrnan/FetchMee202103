@@ -13,10 +13,9 @@ import Combine
 
 struct Status: Identifiable {
     var id: String = UUID().uuidString
-    var user: User?
+    var user: User? = User()
 
     var text: String = "The status text unavaliable"
-    var attributedText: NSMutableAttributedString = NSMutableAttributedString(string: "The status text unavaliable")
     var attributedString: AttributedString = AttributedString("The status text unavaliable")
     var createdAt: Date = Date()
     

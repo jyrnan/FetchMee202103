@@ -30,7 +30,7 @@ enum TimelineType: Equatable {
         case .mention: return "Mention"
         case .favorite: return "Favorite"
         case .list( _, let name): return name
-        case .session: return "session"
+        case .session: return "Session"
         case .user(let userID): return userID
         case .message: return "Message"
         }

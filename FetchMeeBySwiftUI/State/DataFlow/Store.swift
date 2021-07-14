@@ -174,9 +174,3 @@ class Store: ObservableObject {
     }
 }
 
-//extension Store {
-//    func getUser(userID: String, compeletHandler: @escaping (JSON) -> Void) {
-//        self.fetcher.swifter.showUser(UserTag.id(userID),
-//                                  success: compeletHandler)
-//    }
-//}

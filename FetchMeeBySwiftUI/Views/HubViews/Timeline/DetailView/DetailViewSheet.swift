@@ -13,10 +13,6 @@ import Swifter
 struct DetailViewSheet: View {
     @EnvironmentObject var store: Store
     var status: Status
-    init(status: Status) {
-        self.status = status
-        print( "Init of DeatailViewSheet")
-    }
     
     var body: some View {
         GeometryReader{proxy in
@@ -27,25 +23,14 @@ struct DetailViewSheet: View {
                     .foregroundColor(.secondary)
                     .padding()
                 
-                
-                ForEach(
-                    store.appState.timelineData.getTimeline(timelineType: .session).status,
-                    id: \.id) {status in
-                    
-                        
-                            StatusRow(status: status,
-                                      width: proxy.size.width - 2 * 16)
-                                .background(store.appState.setting.userSetting?.uiStyle.backGround)
-                                .cornerRadius(16, antialiased: true)
-                                .overlay(RoundedRectangle(cornerRadius: 16)
-                                            .stroke(store.appState.setting.userSetting?.uiStyle.backGround ?? Color.black, lineWidth: 1))
-                                .padding(.horizontal, store.appState.setting.userSetting?.uiStyle.insetH)
-                                .padding(.vertical, store.appState.setting.userSetting?.uiStyle.insetV)
-                            
-                                .background(Color.init("BackGround")) //这个background可以遮蔽List的分割线
-                            if store.appState.setting.userSetting?.uiStyle == .plain {
-                                Divider().padding(0)
-                            }
+                VStack(spacing: 0){
+                    ForEach(
+                        store.appState.timelineData.getTimeline(timelineType: .session).status,
+                        id: \.id) {status in
+                        StatusRow(status: status, width: proxy.size.width)
+                            .padding(.vertical, 0)
+                        Divider().padding(0)
+                    }
                 }
                 
                 DetailInfoView(status: status )
@@ -58,11 +43,7 @@ struct DetailViewSheet: View {
                     .padding(.horizontal,16)
                     .frame(height: 42)
                     .background(Color.accentColor.opacity(0.4))
-                
-                RoundedCorners(color: Color.init("BackGround"), tl: 0, tr: 0, bl: 24, br: 24)
-                    .frame(height: 64)
-                    .foregroundColor(Color.init("BackGround"))
-                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+              
             }
         }
     }
@@ -70,7 +51,7 @@ struct DetailViewSheet: View {
 
 struct DetailViewSheet_Previews: PreviewProvider {
     static var previews: some View {
-        DetailViewSheet(status: Status())
-            .environmentObject(Store())
+        DetailViewSheet(status: Status.sample)
+            .environmentObject(Store.sample)
     }
 }
