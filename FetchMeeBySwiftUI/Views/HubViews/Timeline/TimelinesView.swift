@@ -42,8 +42,11 @@ struct TimelinesView: View {
     }
 }
 
+#if Debug
+
 struct TimelinesView_Previews: PreviewProvider {
     static var previews: some View {
         TimelinesView().environmentObject(Store.sample)
     }
 }
+#endif

@@ -78,6 +78,7 @@ extension HubView {
 }
 
 
+#if Debug
 
 struct HubView_Previews: PreviewProvider {
     static var previews: some View {
@@ -85,3 +86,4 @@ struct HubView_Previews: PreviewProvider {
             .environmentObject(Store.sample)
     }
 }
+#endif

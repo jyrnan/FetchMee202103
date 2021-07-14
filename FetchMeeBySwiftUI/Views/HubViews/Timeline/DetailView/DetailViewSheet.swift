@@ -48,6 +48,7 @@ struct DetailViewSheet: View {
         }
     }
 }
+#if Debug
 
 struct DetailViewSheet_Previews: PreviewProvider {
     static var previews: some View {
@@ -55,3 +56,4 @@ struct DetailViewSheet_Previews: PreviewProvider {
             .environmentObject(Store.sample)
     }
 }
+#endif

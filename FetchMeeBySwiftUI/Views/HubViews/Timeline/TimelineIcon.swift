@@ -78,7 +78,7 @@ struct TimelineIcon: View {
     }
 }
 
-
+#if Debug
 struct TimelineIcon_Previews: PreviewProvider {
     static var store = Store.sample
     static var previews: some View {
@@ -86,3 +86,4 @@ struct TimelineIcon_Previews: PreviewProvider {
             .environmentObject(store)
     }
 }
+#endif

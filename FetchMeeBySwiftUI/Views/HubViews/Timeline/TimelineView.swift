@@ -220,10 +220,11 @@ extension TimelineView {
     }
 }
 
-
+#if DEBUG
 struct TimelineView_Previews: PreviewProvider {
     static var previews: some View {
         TimelineView(timeline: Store.sample.appState.timelineData.getTimeline(timelineType: .home))
             .environmentObject(Store.sample)
     }
 }
+#endif

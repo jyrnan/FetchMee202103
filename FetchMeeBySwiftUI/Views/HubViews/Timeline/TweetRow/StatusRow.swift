@@ -112,6 +112,7 @@ struct StatusRow: View {
 //        .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id ? Color.accentColor.opacity(0.15) : Color.clear)
     }
 }
+#if Debug
 
 struct StatusRow_Previews: PreviewProvider {
     static var previews: some View {
@@ -131,3 +132,4 @@ struct StatusRow_Previews: PreviewProvider {
         .environmentObject(Store.sample)
     }
 }
+#endif
