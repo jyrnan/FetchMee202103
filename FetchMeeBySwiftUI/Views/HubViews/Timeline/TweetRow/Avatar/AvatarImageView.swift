@@ -20,7 +20,8 @@ struct AvatarImageView: View {
         AsyncImage(url: URL(string: imageUrl)){phase in
             switch phase {
             case .empty:
-                Image(systemName: "person.circle.fill").resizable().scaledToFill()
+                Image(systemName: "person.circle.fill")
+                    .resizable().scaledToFill().foregroundColor(.secondary)
             case .success(let image) :
                 image.resizable().scaledToFill()
             case .failure: // if failed, one more time again😳

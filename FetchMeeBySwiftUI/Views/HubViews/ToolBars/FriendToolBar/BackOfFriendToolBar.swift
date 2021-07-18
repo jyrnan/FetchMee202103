@@ -17,7 +17,7 @@ struct BackOfFriendToolBar: View {
             HStack {
                 Spacer()
                 Text("Those who mentioned you mostly")
-                    .foregroundColor(.gray).font(.caption2)
+                    .foregroundColor(.secondary).font(.caption2)
             }
         }.padding([.leading, .trailing])
     }
@@ -26,6 +26,6 @@ struct BackOfFriendToolBar: View {
 struct BackOfFriendToolBar_Previews: PreviewProvider {
     static var previews: some View {
         BackOfFriendToolBar()
-            .environmentObject(Store())
+            .environmentObject(Store.sample)
     }
 }

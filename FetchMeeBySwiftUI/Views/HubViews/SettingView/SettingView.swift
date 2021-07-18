@@ -12,7 +12,7 @@ import CoreData
 
 struct SettingView: View {
     @EnvironmentObject var store: Store
-    @Environment(\.presentationMode) var presentationMode
+//    @Environment(\.presentationMode) var presentationMode
     
     //用来作为setting调整结果的临时存储
     @State var setting: UserSetting
@@ -23,26 +23,37 @@ struct SettingView: View {
     
     
     
+    //MARK: - View Properties
+    
+    fileprivate var themeColorPicker: some View {
+        return Picker("Favorit Theme Color", selection: $setting.themeColor, content: {
+            ForEach(ThemeColor.allCases){themeColor in
+                Text(themeColor.rawValue.capitalized)
+                    .foregroundColor(themeColor.color)
+                    .tag(themeColor)
+            }
+        })
+            .pickerStyle(.segmented)
+    }
+    
+    fileprivate var rowStylePicker: some View {
+        return Picker("Favorit UIStyle", selection: $setting.uiStyle, content: {
+            ForEach(UIStyle.allCases){style in
+                Text(style.rawValue.capitalized)
+                    .tag(style)
+            }
+        })
+            .pickerStyle(.segmented)
+    }
+    
     var body: some View {
         
         List {
             Section(header: Text("Visual"),
-                    footer: Text("You can swith this function off to get a simper UI and better performance")) {
+                    footer: Text("You can switch this function off to get a simper UI and better performance")) {
                 
-                Picker("Favorit Theme Color", selection: $setting.themeColor, content: {
-                    ForEach(ThemeColor.allCases){themeColor in
-                        Text(themeColor.rawValue.capitalized).foregroundColor(themeColor.color).tag(themeColor)
-                    }
-                })
-                    .pickerStyle(.segmented)
-                
-                Picker("Favorit UIStyle", selection: $setting.uiStyle, content: {
-                    ForEach(UIStyle.allCases){style in
-                        Text(style.rawValue.capitalized).tag(style)
-                    }
-                })
-                    .pickerStyle(.segmented)
-                
+                themeColorPicker
+                rowStylePicker
                 Toggle("Auto Fetch More", isOn: self.$setting.isAutoFetchMoreTweet)
             }
             
@@ -50,7 +61,9 @@ struct SettingView: View {
                 
                 NavigationLink(destination: UserMarkManageView(),
                                label: {Label(title: {Text("Favorite User")},
-                                             icon:{Image(systemName: "star.circle.fill").foregroundColor(.accentColor)})})
+                                             icon:{Image(systemName: "star.circle.fill")
+                                   .foregroundColor(.accentColor)
+                               })})
                 
                 NavigationLink(destination: CountView(),
                                label: {Label(title: {Text("Login User Infomation")},
@@ -81,10 +94,12 @@ struct SettingView: View {
                     .alert(isPresented: self.$isPresentedAlert) {
                         Alert(title: Text("Sign Out?"), message: nil, primaryButton: .default(Text("Sign Out"), action: {self.logOut()}), secondaryButton: .cancel())}
                     Spacer()
-                }.listRowBackground(Color.accentColor)
+                }
+                .listRowBackground(Color.accentColor)
+                
                 HStack {
                     Spacer()
-                    Text("FetchMee Developed by @jyrnan").font(.caption).foregroundColor(.gray)
+                    Text("FetchMee Developed by @jyrnan").font(.caption).foregroundColor(.secondary)
                     Spacer()
                 }
             }
@@ -105,8 +120,6 @@ struct SettingView: View {
 extension SettingView {
     
     func logOut() {
-//        presentationMode.wrappedValue.dismiss()
-        
         delay(delay: 1, closure: {
             withAnimation {
                 store.dispatch(.updateLoginAccount(loginUser: nil))

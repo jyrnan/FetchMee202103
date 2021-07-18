@@ -26,14 +26,12 @@ struct LogMessageView: View {
     
     var body: some View {
         List {
-//            LazyVStack(alignment: .leading){
             ForEach(logs) { log in
                 Text("<" + timeFormat.string(from: log.createdAt!) + "> " + (log.text ?? "pay")).font(.callout)
             }
             .onDelete(perform: { indexSet in
                         deleteLog(offsets: indexSet)
             })
-//            }
         }
         .navigationBarTitle("LogMessage")
         .navigationBarTitleDisplayMode(.inline)

@@ -11,7 +11,6 @@ import AVKit
 import PhotosUI
 
 struct PlayButtonView: View {
-//    var viewModel: PlayButtonViewModel
     var mediaUrlString: String
     var contextMenuButtons: [ButtonInfo] = []
     init(url: String) {
@@ -39,10 +38,7 @@ struct PlayButtonView: View {
                
             }/*@END_MENU_TOKEN@*/)
             .onTapGesture(count: 1, perform: {
-
-//                    if let _ = viewModel.mediaUrlString {
                         self.playVideo = true
-//                    }
             })
             .fullScreenCover(isPresented: self.$playVideo,  content: {
                 VideoPlayView(url: mediaUrlString) //用官方的播放器了

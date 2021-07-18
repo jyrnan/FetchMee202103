@@ -32,19 +32,9 @@ struct Composer: View {
             
             Spacer()
             ///显示详细发推视图或者菊花
-            if isProcessingDone {
+            
                 ZStack{
-//                    NavigationLink(
-//                        destination: ComposerOfHubView(swifter: store.fetcher.swifter,
-//                                                       tweetText: tweetTextBinding,
-//                                                       replyIDString: status?.id,
-//                                                       isUsedAlone: true ),
-//                        isActive: $isShowCMV,
-//                        label: {EmptyView().disabled(true)}
-//                    )
-//                        .opacity(0.1)
-//                        .disabled(true)
-                    
+
                     Text("more")
                         .font(.body)
                         .foregroundColor(.primary)
@@ -59,9 +49,7 @@ struct Composer: View {
                 status: status)
                 .accentColor(store.appState.setting.userSetting?.themeColor.color)
                 }
-            } else {
-                ActivityIndicator(isAnimating: $isProcessingDone, style: .medium)
-            }
+           
             
             Divider()
             
@@ -72,9 +60,7 @@ struct Composer: View {
                                                 autoPopulateReplyMetadata: true,
                                                 success: {_ in
                     tweetTextBinding.wrappedValue = ""
-                    
                     store.dispatch(.alertOn(text: "Reply sent", isWarning: false))
-                   
                     isProcessingDone = true
                 })
                 self.hideKeyboard()
@@ -84,7 +70,8 @@ struct Composer: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 20, height: 20, alignment: .center)
-                    .foregroundColor(tweetTextBinding.wrappedValue == "" ? Color.primary.opacity(0.3) : Color.primary.opacity(0.8) )
+                    .opacity(isProcessingDone ? 1 : 0)
+                    .overlay(ProgressView().opacity(isProcessingDone ? 0 : 1))
             })
                 .disabled(tweetTextBinding.wrappedValue == "")
                 .buttonStyle(PlainButtonStyle())

@@ -18,11 +18,10 @@ struct TimelinesView: View {
             HStack {
                 Text("Timeline").font(.caption).bold().foregroundColor(Color.gray)
                 Spacer()
-            }.padding(.leading,16)
+            }.padding(.horizontal, 16)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-//                    TimelineIcon(timeline: timelines["Home"]!)
                     TimelineIcon(timeline: store.appState.timelineData.getTimeline(timelineType: .home))
                     TimelineIcon(timeline: store.appState.timelineData.getTimeline(timelineType: .mention))
                     TimelineIcon(timeline: store.appState.timelineData.getTimeline(timelineType: .favorite))
@@ -35,18 +34,17 @@ struct TimelinesView: View {
                     }
                     
                 }
-                .padding(.bottom, 8).padding(.leading, 16)
+                .padding(.horizontal, 16)
+                .padding(.bottom, 8)
             }
             .padding(0)
         }
     }
 }
 
-#if Debug
-
 struct TimelinesView_Previews: PreviewProvider {
     static var previews: some View {
         TimelinesView().environmentObject(Store.sample)
     }
 }
-#endif
+

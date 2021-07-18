@@ -21,13 +21,13 @@ struct ImageThumb: View {
     //MARK:-Functions
     
     var body: some View {
-        ZStack(alignment: .center) {
 
                 RemoteImage(imageUrl: imageUrl)
                 .aspectRatio(contentMode: .fill)
                 .frame(width: width, height: height, alignment: .center) //直接按照传入的大小进行图片调整。
                 .clipped()
                 .contentShape(Rectangle()) //可以定义触控的内容区域，并在此基础上进行触控，也就是触控的区域。完美解决bug
+                .overlay(ProgressView().opacity(isImageDownloaded ? 0 : 1))
                 .onTapGesture {
                     ///点击下载原图并调用imageViewer
                     isImageDownloaded = false
@@ -41,8 +41,6 @@ struct ImageThumb: View {
                             
                     }
                         self.isImageDownloaded = true}}
-                ActivityIndicator(isAnimating: self.$isImageDownloaded, style: .medium)
-        }
     }
 }
 

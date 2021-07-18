@@ -31,6 +31,7 @@ struct TimelineView: View {
             RoundedCorners(color: Color.init("BackGround"), tl: 18, tr: 18, bl: 0, br: 0)
             HStack {
                 ProgressView()
+                    .padding(.trailing, 8)
                 Text("Fetching...")
                     .font(.caption)
             }.foregroundColor(.secondary)
@@ -52,7 +53,9 @@ struct TimelineView: View {
                    label: {
                     HStack{
                         Spacer()
-                        ProgressView().opacity(store.appState.setting.isProcessingDone ? 0 : 1.0)
+                        ProgressView()
+                            .padding(.trailing, 8)
+                            .opacity(store.appState.setting.isProcessingDone ? 0 : 1.0)
                         Text(store.appState.setting.isProcessingDone ? "More Tweets..." : "Fetching...")
                         Spacer()
                     }
@@ -95,11 +98,9 @@ struct TimelineView: View {
                     statusIDOfDetail = status
                     store.dispatch(.fetchSession(tweetIDString: status.id))
                 }
-            
                 .swipeActions {
                     Button{
                         statusToReply = status
-                        //                                isShowCMV = true
                     } label: {
                         Label("Reply", systemImage: "arrowshape.turn.up.left")
                     }.tint(.blue)
@@ -143,6 +144,7 @@ struct TimelineView: View {
                     }
                     .tint(.green)
                 }
+                
         }
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
         .listRowSeparator(store.appState.setting.userSetting?.uiStyle == .card ? .hidden : .visible)
@@ -187,6 +189,8 @@ struct TimelineView: View {
         }
     }
 }
+
+//MARK: - func
 
 extension TimelineView {
     

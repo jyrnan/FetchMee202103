@@ -15,7 +15,7 @@ struct AuthView: View {
     @EnvironmentObject var store: Store
     var body: some View {
         VStack {
-            Image( "Logo")
+            Image("Logo")
                 .resizable()
                 .frame(width: 96, height: 96, alignment: .center)
             
@@ -31,23 +31,9 @@ struct AuthView: View {
                 },
                 label: {
                     Text(" Sign in with Twitter ")
-                        .foregroundColor(.white)
-                        .padding(4)
-                        .background(Capsule().foregroundColor(.init("TwitterBlue")))
                 })
-            
-//            Button(
-//                action: {
-//                    store.dispatch(.updateLoginAccount(loginUser: User(name: "FetchMee", screenName: "FetchMeeApp")))
-//                    //新建非登录的本地用户
-//                    UserCD.updateOrSaveToCoreData(from: nil)
-//                },
-//                label: {
-//                    Text("Not sign in now")
-//                        .foregroundColor(.gray)
-//                        .padding()
-//                })
-            
+                .buttonStyle(.bordered)
+                .tint(.init("TwitterBlue"))
         }
     }
 }

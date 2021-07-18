@@ -39,6 +39,4 @@ struct MySecen: Scene {
             }
         })
     }
-    
-    
 }

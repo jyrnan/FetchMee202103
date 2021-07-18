@@ -16,10 +16,8 @@ import UIKit
 struct HubView: View {
     
     @EnvironmentObject var store: Store
-  
-    var tweetText: Binding<String>
-//    {$store.appState.setting.tweetInput.tweetText}
     @State var isShowToast: Bool = true
+    var tweetText: Binding<String>
     
     var body: some View {
         GeometryReader{proxy in
@@ -29,23 +27,21 @@ struct HubView: View {
                     
                     VStack {
                         ComposerOfHubView(swifter: store.fetcher.swifter, tweetText: tweetText)
-                            .padding(.top, 16)
-                            .padding([.leading, .trailing], 18)
+                            .padding(.horizontal, 16).padding(.top, 16)
                             .frame(minHeight: 180, idealHeight: 240, maxHeight: 240)
                         
                         Divider()
-                        TimelinesView()
+                        
+                        TimelinesView().padding(0)
                         
                         ToolBarsView(user: store.appState.setting.loginUser ?? User())
-                            .padding([.leading, .trailing], 16)
-                        
+                            .padding(.horizontal, 16)
                         StatusView(width: proxy.size.width)
-                            .padding([.leading, .trailing], 16)
-
-                        Text("Developed by @jyrnan").font(.caption2).foregroundColor(Color.gray)
-                            .padding()
+                            .padding(.horizontal, 16)
+                        AuthorView
                         
                     }
+                    
                     .background(Color.init("BackGround")).cornerRadius(24)
                     
                 }
@@ -62,9 +58,14 @@ struct HubView: View {
             .overlay(AlertView()) //所有条状通知在NavigationBar上出现
             .toast(isShowing: $store.appState.setting.isShowImageViewer, presented: store.appState.setting.presentedView)
         }
-        
   }
-  
+    
+    private var AuthorView: some View {
+        Text("Developed by @jyrnan")
+            .font(.caption2)
+            .foregroundColor(Color.secondary)
+            .padding()
+    }
 }
 
 
@@ -78,12 +79,9 @@ extension HubView {
 }
 
 
-#if Debug
-
 struct HubView_Previews: PreviewProvider {
     static var previews: some View {
         HubView(tweetText: .constant(""))
             .environmentObject(Store.sample)
     }
 }
-#endif

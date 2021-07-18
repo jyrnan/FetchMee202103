@@ -33,9 +33,8 @@ struct MentionUserSortedView: View {
 }
 
 struct MentionUserSortedView_Previews: PreviewProvider {
-    static let store = Store()
     static var previews: some View {
         MentionUserSortedView()
-            .environmentObject(store)
+            .environmentObject(Store.sample)
     }
 }

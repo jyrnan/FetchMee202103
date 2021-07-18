@@ -24,22 +24,6 @@ struct VideoPlayView: View {
                                     presentationMode.wrappedValue.dismiss()
                                 }
                                                 })
-            VStack{
-                HStack{
-                    Image(systemName: "xmark.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width:24, height: 24)
-                        .foregroundColor(.gray).opacity(0.4)
-                        .padding()
-                        .contentShape(Circle())
-                        .onTapGesture {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    Spacer()
-                }
-                Spacer()
-            }
         }
     }
 }

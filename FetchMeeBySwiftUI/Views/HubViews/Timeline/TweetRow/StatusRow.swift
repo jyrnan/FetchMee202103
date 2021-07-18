@@ -51,15 +51,7 @@ struct StatusRow: View {
     
     var detailIndicator: some View {
         ZStack{
-            
-            NavigationLink(destination: DetailViewRedux(status: status).environmentObject(store),
-                           isActive:$isShowDetail ,
-                           label:{EmptyView()} )
-                .opacity(0.1)
-                .disabled(true)
-            
             DetailIndicator(status: status)
-          
         }.fixedSize()
     }
     
@@ -96,7 +88,7 @@ struct StatusRow: View {
                 if let imageUrls = status.imageUrls {
                     ZStack{
                 Images(imageUrlStrings: imageUrls)
-                    .frame(width: width, height:width * 9 / 21 )
+                            .frame(width: width, height:width * 9 / 21)
                     .clipped()
                         if status.mediaType == "video" || status.mediaType == "animated_gif" {
                             PlayButtonView(url: status.mediaUrlString!)
@@ -109,10 +101,14 @@ struct StatusRow: View {
                 StatusRow(status: store.repository.getStatus(byID: status.retweeted_status_id_str!), width: width)
             }
         }
-//        .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id ? Color.accentColor.opacity(0.15) : Color.clear)
+        .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id ? Color.accentColor.opacity(0.15) : Color.clear)
+        .contextMenu(menuItems: {
+            StatusContextMenu(store: store, status: status)
+        })
     }
+    
 }
-#if Debug
+
 
 struct StatusRow_Previews: PreviewProvider {
     static var previews: some View {
@@ -132,4 +128,4 @@ struct StatusRow_Previews: PreviewProvider {
         .environmentObject(Store.sample)
     }
 }
-#endif
+

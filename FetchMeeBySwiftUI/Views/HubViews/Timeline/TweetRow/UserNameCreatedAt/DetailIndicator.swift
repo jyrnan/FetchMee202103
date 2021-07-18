@@ -45,7 +45,7 @@ struct DetailIndicator: View {
     }
    
 }
-#if Debug
+
 
 struct DetailIndicator_Previews: PreviewProvider {
     static var previews: some View {
@@ -53,4 +53,4 @@ struct DetailIndicator_Previews: PreviewProvider {
             .environmentObject(Store.sample)
     }
 }
-#endif
+
