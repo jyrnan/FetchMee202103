@@ -75,7 +75,7 @@ struct UserInfo: View {
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                             
                             Button(action: {
-                                store.repository.users[user.id] =
+                                store.appState.timelineData.users[user.id] =
                                     UserCD.updateOrSaveToCoreData(id: user.id,
                                                               updateNickName: nickNameText)
                                     .convertToUser()

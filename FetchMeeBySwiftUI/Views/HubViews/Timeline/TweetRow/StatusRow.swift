@@ -33,7 +33,7 @@ struct StatusRow: View {
     
     var avatar: some View {
         VStack(alignment: .leading){
-            AvatarView(user: store.repository.getUser(byID: status.user?.idString ?? "0000"),
+            AvatarView(user: store.appState.timelineData.users[status.user?.idString ?? "0000"] ?? User(),
                        width: 36, height: 36)
             Spacer()
         }
@@ -46,7 +46,7 @@ struct StatusRow: View {
     
     var name: some View {
         UserNameView(userName: status.user?.name ?? "Unknow",
-                     screenName: status.user?.screenName ?? "UnNamed")
+                     screenName: status.user?.screenName ?? "Unkown")
     }
     
     var detailIndicator: some View {
@@ -78,7 +78,7 @@ struct StatusRow: View {
                     text
                     
                     if status.quoted_status_id_str != nil {
-                        QuotedStatusJsonRow(status: store.repository.getStatus(byID: status.quoted_status_id_str! ),
+                        QuotedStatusJsonRow(status: store.appState.timelineData.getStatus(byID: status.quoted_status_id_str! ),
                                             width: width - 76)
                     }
                 }
@@ -98,7 +98,7 @@ struct StatusRow: View {
             } else {
                 RetweetMarkView(userIDString: status.id, userName: status.user?.name).frame(width: width - 30)
                     .padding(.top, 8).padding(.bottom, -16)
-                StatusRow(status: store.repository.getStatus(byID: status.retweeted_status_id_str!), width: width)
+                StatusRow(status: store.appState.timelineData.statuses[status.retweeted_status_id_str!] ??  Status(), width: width)
             }
         }
         .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id ? Color.accentColor.opacity(0.15) : Color.clear)

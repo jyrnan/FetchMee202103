@@ -15,8 +15,8 @@ import CoreData
 struct User: Identifiable, Codable {
     var id: String = "0000" //设置成默认ID是“0000”，所以在进行用户信息更新之前需要设置该ID的值
     var idString: String {id}
-    var name:String = "Name"
-    var screenName: String = "ScreenName"
+    var name:String = "Unknow"
+    var screenName: String = "Unknow"
     var nickName: String?
     var description: String = ""
     var createdAt: Date = Date()

@@ -37,7 +37,8 @@ struct TweetCommand: AppCommand {
                     }
                     token.unseal()},
                   receiveValue: {
-                    store.repository.addStatus(data: $0)
+                    let status = store.repository.addStatus(data: $0)
+                store.appState.timelineData.updateStatus(with: status)
                     if case let .delete(id) = operation {
                         //如果是删除推文的操作，则需要在完成服务器端操作后执行本地推文数据的删除
                         //需要同时删除推文ID和ToolsView

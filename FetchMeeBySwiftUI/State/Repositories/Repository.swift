@@ -44,10 +44,13 @@ class Repository  {
     }
     
     
-    func addStatus(data: JSON) {
+    func addStatus(data: JSON) -> Status {
         if let id = data["id_str"].string {
-            statuses[id] = adapter.convertToStatus(from: data)
+            let status = adapter.convertToStatus(from: data)
+            statuses[id] = status
+            return status
         }
+        return Status()
     }
     
     /// 将获取的用户数据保存到CoreData中，并在保存完成后，转换成user格式

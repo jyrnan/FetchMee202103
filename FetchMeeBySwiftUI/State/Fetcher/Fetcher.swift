@@ -26,6 +26,8 @@ struct FetcherSwifter: Fetcher {
     var count: Int = 90
     var loginUserID: String? {store?.appState.setting.loginUser?.id}
     
+    var adapter = Adapter()
+    
     /// 用来设置登录后服务提供者新的状态
     mutating func setLogined() {
         if let tokenKey = store?.appState.setting.loginUser?.tokenKey,
@@ -65,7 +67,6 @@ struct FetcherSwifter: Fetcher {
             timelineWillUpdate.updateTweetIDStrings(updateMode: updateMode,
                                                     with: convertJSONToTweetIDStrings(from: newTweets))
             
-            
             newTweets.forEach{
                 addDataToRepository($0)
                 saveTweetTagToCoreData(status: $0)
@@ -75,6 +76,9 @@ struct FetcherSwifter: Fetcher {
                 UserCD.updateOrSaveToCoreData(from: $0["user"])
                 storeMentionUserData(mention: $0, to: &mentionUserData)
             }
+            
+            //生成status
+//            timelineWillUpdate.status =  timelineWillUpdate.tweetIDStrings.map{store?.repository.getStatus(byID: $0) ?? Status() }
                     
             return (timelineWillUpdate, mentionUserData)
             
@@ -102,13 +106,16 @@ struct FetcherSwifter: Fetcher {
     
     ///把推文数据添加到Repository里面，
     func addDataToRepository(_ data: JSON) {
-        store?.repository.addStatus(data: data)
+//        let status = store?.repository.addStatus(data: data)
+        
+        let _ = addStatus(data: data)
+        
         
         //如果推文是回复login用户的，则需要把该推文用户设置成isFavoriteUser
         if data["in_reply_to_user_id_str"].string == loginUserID {
-            let _ = store?.repository.addUser(data: data["user"], isFavoriteUser: true)
+            let _ = addUser(data: data["user"], isFavoriteUser: true)
         } else {
-            let _ = store?.repository.addUser(data: data["user"])}
+            let _ = addUser(data: data["user"])}
         
         if data["quoted_status_id_str"].string != nil{
             addDataToRepository(data["quoted_status"])
@@ -122,6 +129,39 @@ struct FetcherSwifter: Fetcher {
                 addDataToRepository(retweeted_status["quoted_status"])
             }
         }
+    }
+    
+    func addStatus(data: JSON) -> Status {
+        if let id = data["id_str"].string {
+            let status = adapter.convertToStatus(from: data)
+            store?.appState.timelineData.statuses[id] = status
+            return status
+        }
+        return Status()
+    }
+    
+    /// 将获取的用户数据保存到CoreData中，并在保存完成后，转换成user格式
+    /// - Parameters:
+    ///   - data: 传入的用户数据
+    ///   - isLoginUser: 标记是否是登陆用户
+    ///   - token: 登陆用户的token信息
+    /// - Returns: User格式的用户
+    func addUser(data: JSON,
+                 isLoginUser: Bool? = nil,
+                 token: (String?, String?)? = nil,
+                 isFavoriteUser: Bool? = nil) -> User {
+        guard let id = data["id_str"].string else {return User()}
+        //TODO：更新最新的用户follow和推文数量信息
+        //利用数据来更新userCD
+        let userCD = UserCD.updateOrSaveToCoreData(from: data,
+                                                   dataHandler: adapter.updateUserCD(_:with:),
+                                                   isLoginUser: isLoginUser,
+                                                   token: token,
+                                                   isFavoriteUser: isFavoriteUser)
+        let user = userCD.convertToUser()
+        store?.appState.timelineData.users[id] = user
+        return user
+        
     }
     
     

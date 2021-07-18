@@ -81,7 +81,8 @@ struct TimelineView: View {
     }
     
     @ViewBuilder func timelineBody(proxy: GeometryProxy) -> some View {
-        ForEach(timeline.tweetIDStrings.map{store.repository.getStatus(byID: $0)}, id: \.id) {status in
+//        timeline.tweetIDStrings.map{store.repository.getStatus(byID: $0)}
+        ForEach(timeline.tweetIDStrings.compactMap{store.appState.timelineData.statuses[$0]}, id: \.id) {status in
             StatusRow(status: status,
                       width: proxy.size.width - (2 * (store.appState.setting.userSetting?.uiStyle.insetH ?? 0)))
                 .background(store.appState.setting.userSetting?.uiStyle.backGround)

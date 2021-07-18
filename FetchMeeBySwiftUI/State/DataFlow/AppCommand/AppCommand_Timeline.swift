@@ -40,7 +40,7 @@ struct FetchTimelineCommand: AppCommand {
 }
 
 
-//MARK:- FetchSessionCommand
+//MARK: - FetchSessionCommand
 
 struct FetchSessionCommand: AppCommand {
     var initialTweetIDString: String
@@ -57,14 +57,14 @@ struct FetchSessionCommand: AppCommand {
             
             func finalReloadView() {
                 
-                session.status = session.tweetIDStrings.map{store.repository.getStatus(byID: $0)}
+                session.status = session.tweetIDStrings.compactMap{store.appState.timelineData.statuses[$0]}
                 store.dispatch(.fetchSessionDone(timeline: session))
             }
             
             func getStatus(id: String) {
                 
                 //如果status能直接从repository获取，则直接获取
-                if let status = store.repository.statuses[id] {
+                if let status = store.appState.timelineData.statuses[id] {
                 
                     //直接获取status后，查看是否需要进一步获取后续status
                     if let nextID = status.in_reply_to_status_id_str {
@@ -87,8 +87,8 @@ struct FetchSessionCommand: AppCommand {
             func sh(json: JSON) -> () {
                 let status:JSON = json
                 
-                store.repository.addStatus(data: status)
-                let _ = store.repository.addUser(data: status["user"])
+                let _ = store.fetcher.addStatus(data: status)
+                let _ = store.fetcher.addUser(data: status["user"])
                 
                 
                 if let nextID = status["in_reply_to_status_id_str"].string, counter < 8 {

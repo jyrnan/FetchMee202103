@@ -27,7 +27,7 @@ struct UserTimeline: View {
                 tweetIDString in
                 if tweetIDString != "toolsViewMark" {
                     VStack(spacing: 0){
-                        StatusRow(status: store.repository.getStatus(byID: tweetIDString), width: width - 2 * setting.uiStyle.insetH)
+                        StatusRow(status: store.appState.timelineData.statuses[tweetIDString] ?? Status(), width: width - 2 * setting.uiStyle.insetH)
                             .background(setting.uiStyle.backGround)
                             .cornerRadius(setting.uiStyle.radius, antialiased: true)
                             .overlay(RoundedRectangle(cornerRadius: setting.uiStyle.radius)
