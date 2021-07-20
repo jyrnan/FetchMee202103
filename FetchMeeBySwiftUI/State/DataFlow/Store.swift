@@ -120,9 +120,12 @@ class Store: ObservableObject {
         case .fetchTimeline(let timelineType, let updateMode):
             appState.setting.isProcessingDone = false
             let timeline: AppState.TimelineData.Timeline = appState.timelineData.getTimeline(timelineType: timelineType)
-            appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode)
+            let mentionUserData = appState.timelineData.mentionUserData
+            let statuses = appState.timelineData.statuses
+            let users = appState.timelineData.users
+            appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode, mentionUserData: mentionUserData, statuses: statuses, users: users)
         
-        case .fetchTimelineDone(let timeline, let mentionUserData):
+        case .fetchTimelineDone(let timeline, let mentionUserData, let statuses, let users):
             appState.setting.isProcessingDone = true
             appState.timelineData.timelines[timeline.type.rawValue] = timeline
             //需要更新最新的Mention推文ID备用
@@ -130,6 +133,8 @@ class Store: ObservableObject {
                 appState.timelineData.latestMentionID = timeline.tweetIDStrings.first
             }
             appState.timelineData.mentionUserData = mentionUserData
+            appState.timelineData.statuses = statuses
+            appState.timelineData.users = users
             
             
         case .fetchSession(let tweetIDString):

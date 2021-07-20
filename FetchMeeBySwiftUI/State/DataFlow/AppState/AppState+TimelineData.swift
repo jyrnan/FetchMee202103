@@ -65,7 +65,7 @@ extension AppState.TimelineData {
     
     /// 用来清理timeline的数据，保持轻量化
     mutating func clearTimelineData() {
-        let keepTweetCount = 30
+        let keepTweetCount = 150
         
         self.timelines
             .filter{$0.value.tweetIDStrings.count > keepTweetCount}

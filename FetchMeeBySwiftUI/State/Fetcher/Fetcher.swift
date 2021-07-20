@@ -15,6 +15,8 @@ protocol Fetcher {
     typealias Timeline = AppState.TimelineData.Timeline
     typealias MentionUserData = [User.MentionUser]
     typealias TweetIDStrings = [String]
+    typealias Statuses = [String: Status]
+    typealias Users = [String: User]
 }
 
 /// 基于Swifter的API中间件
@@ -50,17 +52,21 @@ struct FetcherSwifter: Fetcher {
     /// - Returns: 一个包含更新timeline， 交互用户排序信息和推文标签数据的Publisher
     func makeSessionUpdatePublisher(updateMode: FetchTimelineCommand.UpdateMode,
                                     timeline: Timeline,
-                                    mentionUserData: MentionUserData) -> AnyPublisher<(Timeline, MentionUserData), AppError> {
+                                    mentionUserData: MentionUserData,
+                                    statuses: Statuses,
+                                    users: Users) -> AnyPublisher<(Timeline, MentionUserData, Statuses, Users), AppError> {
         
         /// 将JSON格式的数据转换成Timeline数据
         /// 并且提取回复用户数据和Tag数据保存
         /// - Parameter json: JSON格式数据
         /// - Returns: 返回Timeline和Mention用户数据打包作为Publisher的数据
-        func JSONHandler(json: JSON) -> (Timeline,MentionUserData)  {
+        func JSONHandler(json: JSON) -> (Timeline,MentionUserData, Statuses, Users)  {
             var timelineWillUpdate = timeline
             var mentionUserData: [User.MentionUser] = mentionUserData
+            var statuses = statuses
+            var users = users
             
-            guard let newTweets = json.array else {return (timelineWillUpdate, mentionUserData)}
+            guard let newTweets = json.array else {return (timelineWillUpdate, mentionUserData, statuses, users)}
             //只有更新“较新”推文的时候，才有必要更新新推文数量
             if updateMode == .top { timelineWillUpdate.newTweetNumber += newTweets.count}
             
@@ -68,7 +74,7 @@ struct FetcherSwifter: Fetcher {
                                                     with: convertJSONToTweetIDStrings(from: newTweets))
             
             newTweets.forEach{
-                addDataToRepository($0)
+                addDataToRepository($0, to: &statuses, and: &users)
                 saveTweetTagToCoreData(status: $0)
                 saveStatusToCoreDataIfPostbyUser($0)
                 
@@ -77,7 +83,7 @@ struct FetcherSwifter: Fetcher {
                 storeMentionUserData(mention: $0, to: &mentionUserData)
             }
                 
-            return (timelineWillUpdate, mentionUserData)
+            return (timelineWillUpdate, mentionUserData, statuses, users)
             
         }
         
@@ -102,36 +108,35 @@ struct FetcherSwifter: Fetcher {
     
     
     ///把推文数据添加到Repository里面，
-    func addDataToRepository(_ data: JSON) {
-//        let status = store?.repository.addStatus(data: data)
+    func addDataToRepository(_ data: JSON, to statuses: inout Statuses, and users: inout Users ) {
         
-        let _ = addStatus(data: data)
+        let _ = addStatus(data: data, to: &statuses)
         
         
         //如果推文是回复login用户的，则需要把该推文用户设置成isFavoriteUser
         if data["in_reply_to_user_id_str"].string == loginUserID {
-            let _ = addUser(data: data["user"], isFavoriteUser: true)
+            let _ = addUser(data: data["user"], isFavoriteUser: true, to: &users)
         } else {
-            let _ = addUser(data: data["user"])}
+            let _ = addUser(data: data["user"], to: &users)}
         
         if data["quoted_status_id_str"].string != nil{
-            addDataToRepository(data["quoted_status"])
+            addDataToRepository(data["quoted_status"], to: &statuses, and: &users)
         }
         
         if data["retweeted_status"]["id_str"].string != nil {
             let retweeted_status = data["retweeted_status"]
-            addDataToRepository(retweeted_status)
+            addDataToRepository(retweeted_status, to: &statuses, and: &users)
             ///如果retweet推文内含有引用推文，则把该推文也保存
             if retweeted_status["quoted_status_id_str"].string != nil {
-                addDataToRepository(retweeted_status["quoted_status"])
+                addDataToRepository(retweeted_status["quoted_status"], to: &statuses, and: &users)
             }
         }
     }
     
-    func addStatus(data: JSON) -> Status {
+    func addStatus(data: JSON, to statuses: inout Statuses) -> Status {
         if let id = data["id_str"].string {
             let status = adapter.convertToStatus(from: data)
-            store?.appState.timelineData.statuses[id] = status
+            statuses[id] = status
             return status
         }
         return Status()
@@ -146,7 +151,8 @@ struct FetcherSwifter: Fetcher {
     func addUser(data: JSON,
                  isLoginUser: Bool? = nil,
                  token: (String?, String?)? = nil,
-                 isFavoriteUser: Bool? = nil) -> User {
+                 isFavoriteUser: Bool? = nil,
+                 to users: inout Users) -> User {
         guard let id = data["id_str"].string else {return User()}
         //TODO：更新最新的用户follow和推文数量信息
         //利用数据来更新userCD
@@ -156,7 +162,7 @@ struct FetcherSwifter: Fetcher {
                                                    token: token,
                                                    isFavoriteUser: isFavoriteUser)
         let user = userCD.convertToUser()
-        store?.appState.timelineData.users[id] = user
+        users[id] = user
         return user
         
     }

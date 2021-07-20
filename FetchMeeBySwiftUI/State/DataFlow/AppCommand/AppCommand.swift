@@ -75,12 +75,12 @@ struct UserRequstCommand: AppCommand {
             if isLoginUser == true {
                 //保存用户数据到repository,并返回生成的user
                 let token = (user.tokenKey, user.tokenSecret) //如果是loginUser，必然有token
-                let user = store.fetcher.addUser(data: json, isLoginUser: isLoginUser, token: token)
+                let user = store.fetcher.addUser(data: json, isLoginUser: isLoginUser, token: token, to: &store.appState.timelineData.users)
                 
                 store.dispatch(.updateLoginAccount(loginUser: user))
                 
             } else {
-                let _ = store.fetcher.addUser(data: json)
+                let _ = store.fetcher.addUser(data: json, to: &store.appState.timelineData.users)
                 
             }
         }

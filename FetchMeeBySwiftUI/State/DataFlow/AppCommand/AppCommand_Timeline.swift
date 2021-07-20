@@ -20,12 +20,15 @@ struct FetchTimelineCommand: AppCommand {
     var timeline: AppState.TimelineData.Timeline
     var timelineType: TimelineType
     var updateMode: UpdateMode
+    var mentionUserData: [User.MentionUser]
+    var statuses: [String: Status]
+    var users: [String: User]
     
     func execute(in store: Store) {
         let token = SubscriptionToken()
-        let mentionUserData = store.appState.timelineData.mentionUserData
+//        let mentionUserData = store.appState.timelineData.mentionUserData
         
-        store.fetcher.makeSessionUpdatePublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData)
+        store.fetcher.makeSessionUpdatePublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData, statuses: statuses, users: users)
             .sink(receiveCompletion: {complete in
                 if case .failure(let error) = complete {
                     store.dispatch(.alertOn(text: error.localizedDescription, isWarning: true))
@@ -33,7 +36,7 @@ struct FetchTimelineCommand: AppCommand {
                 token.unseal()
             },
             receiveValue: {
-                store.dispatch(.fetchTimelineDone(timeline: $0.0, mentionUserData: $0.1))
+                store.dispatch(.fetchTimelineDone(timeline: $0.0, mentionUserData: $0.1, statuses: $0.2, users: $0.3))
             })
             .seal(in: token)
     }
@@ -87,8 +90,9 @@ struct FetchSessionCommand: AppCommand {
             func sh(json: JSON) -> () {
                 let status:JSON = json
                 
-                let _ = store.fetcher.addStatus(data: status)
-                let _ = store.fetcher.addUser(data: status["user"])
+                //TODO: - 直接访问store，需要改进
+                let _ = store.fetcher.addStatus(data: status, to: &store.appState.timelineData.statuses)
+                let _ = store.fetcher.addUser(data: status["user"], to: &store.appState.timelineData.users)
                 
                 
                 if let nextID = status["in_reply_to_status_id_str"].string, counter < 8 {
