@@ -39,7 +39,7 @@ struct FetcherSwifter: Fetcher {
         }
     }
     
-    
+    //TODO: 需要调整将数据存储到repository的频率
     /// 在推文基本操作的Publisher基础上，生成一个基于刷新模式的Publisher，
     /// - 提示： 这个Pulisher可以作为业务模块的调用
     /// - Parameters:
@@ -76,10 +76,7 @@ struct FetcherSwifter: Fetcher {
                 UserCD.updateOrSaveToCoreData(from: $0["user"])
                 storeMentionUserData(mention: $0, to: &mentionUserData)
             }
-            
-            //生成status
-//            timelineWillUpdate.status =  timelineWillUpdate.tweetIDStrings.map{store?.repository.getStatus(byID: $0) ?? Status() }
-                    
+                
             return (timelineWillUpdate, mentionUserData)
             
         }

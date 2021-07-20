@@ -11,11 +11,10 @@ import Foundation
 struct AppCommand_BGClearTask: AppCommand {
     func execute(in store: Store) {
         
-        store.dispatch(.clearTimelineData)
+//        store.dispatch(.clearTimelineData)
         
         UserCD.deleteNotFavoriteUser()
         TweetTagCD.deleteUnusedTag()
-//        (0...28).reversed().forEach{Count.cleanCountData(before: Double($0))}
         Count.cleanCountData()
     }
 }

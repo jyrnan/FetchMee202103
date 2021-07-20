@@ -29,27 +29,27 @@ struct TweetCommand: AppCommand {
     
     func execute(in store: Store) {
         let token = SubscriptionToken()
- 
+        var timelineData = store.appState.timelineData
+        
         store.fetcher.makeTweetOperatePublisher(operation: operation)
             .sink(receiveCompletion: {complete in
-                    if case .failure(let error) = complete {
-                        store.dispatch(.alertOn(text: error.localizedDescription, isWarning: true))
-                    }
-                    token.unseal()},
+                if case .failure(let error) = complete {
+                    store.dispatch(.alertOn(text: error.localizedDescription, isWarning: true))
+                }
+                token.unseal()},
                   receiveValue: {
-                    let status = store.repository.addStatus(data: $0)
-                store.appState.timelineData.updateStatus(with: status)
-                    if case let .delete(id) = operation {
-                        //如果是删除推文的操作，则需要在完成服务器端操作后执行本地推文数据的删除
-                        //需要同时删除推文ID和ToolsView
-                        withAnimation{
-                        store.appState.timelineData.deleteFromTimelines(of: "toolsViewMark")
-                        store.appState.timelineData.deleteFromTimelines(of: id)}
-                    } else {
-                        //其他的操作需要刷新界面来显示数据更新
-                        store.dispatch(.update)
-                    }
-                  })
+                let status = Adapter().convertToStatus(from: $0)
+                timelineData.updateStatus(with: status)
+                
+                if case let .delete(id) = operation {
+                    //如果是删除推文的操作，则需要在完成服务器端操作后执行本地推文数据的删除
+                    //需要同时删除推文ID和ToolsView
+                    timelineData.deleteFromTimelines(of: id)
+                }
+                withAnimation{
+                    store.dispatch(.tweetOperationDone(timelineData: timelineData))
+                }
+            })
             .seal(in: token)
     }
 }

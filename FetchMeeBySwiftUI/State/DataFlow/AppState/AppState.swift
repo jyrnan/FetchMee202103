@@ -24,8 +24,8 @@ extension AppState {
     struct Setting {
         var alert = Alert()
         var isProcessingDone: Bool = true
-        var isShowImageViewer: Bool = false //是否浮动显示图片
-        var presentedView: ImageViewer? //通过AnyView就可以实现任意View的传递了？！
+//        var isShowImageViewer: Bool = false //是否浮动显示图片
+//        var presentedView: ImageViewer? //通过AnyView就可以实现任意View的传递了？！
         
         ///User及login部分
         @FileStorage(directory: .documentDirectory, fileName: "user.json")

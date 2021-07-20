@@ -37,31 +37,6 @@ extension AppState {
         ///首页hubView推文信息
         var hubStatus:HubStatus = (nil, nil, nil)
         
-        var bookmarkedStatusCD: [StatusCD] {
-            let viewContext = PersistenceContainer.shared.container.viewContext
-            let statusSortDescriptors = [NSSortDescriptor(keyPath: \StatusCD.created_at, ascending: false)]
-            let bookmarkedStatusPredicate = NSPredicate(format: "%K == %d", #keyPath(StatusCD.isBookmarked), true)
-            
-            let bookmarkedStatusRequest:NSFetchRequest<StatusCD> = NSFetchRequest(entityName: "StatusCD")
-            bookmarkedStatusRequest.sortDescriptors = statusSortDescriptors
-            bookmarkedStatusRequest.predicate = bookmarkedStatusPredicate
-            
-            guard let bookmarkedStatuses = try? viewContext.fetch(bookmarkedStatusRequest) else {return []}
-            return bookmarkedStatuses
-        }
-        
-        var bookMarkedUserCD: [UserCD] {
-            let viewContext = PersistenceContainer.shared.container.viewContext
-            let UserSortDescriptors = [NSSortDescriptor(keyPath: \UserCD.createdAt, ascending: false)]
-            let bookmarkedUserPredicate = NSPredicate(format: "%K == %d", #keyPath(UserCD.isBookmarkedUser), true)
-            
-            let bookmarkedUserRequest:NSFetchRequest<UserCD> = NSFetchRequest(entityName: "UserCD")
-            bookmarkedUserRequest.sortDescriptors = UserSortDescriptors
-            bookmarkedUserRequest.predicate = bookmarkedUserPredicate
-            
-            guard let bookmarkedUseres = try? viewContext.fetch(bookmarkedUserRequest) else {return []}
-            return bookmarkedUseres
-        }
     }
 }
 
@@ -74,16 +49,16 @@ extension AppState.TimelineData {
         return Status()
     }
     
-    mutating func getUser(byID id: String) -> User {
+    func getUser(byID id: String) -> User {
         if let user = self.users[id] {
             return user
         }
         
-        if let userCD = bookMarkedUserCD.filter({$0.userIDString == id}).first {
-            let user = userCD.convertToUser()
-            users[id] = user
-            return user
-        }
+//        if let userCD = bookMarkedUserCD.filter({$0.userIDString == id}).first {
+//            let user = userCD.convertToUser()
+//            users[id] = user
+//            return user
+//        }
         
         return User()
     }

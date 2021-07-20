@@ -29,7 +29,7 @@ struct AvatarView: View {
                 .frame(width: width, height: height, alignment: .center)
                 .onTapGesture(count: 2){
                     UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                    store.repository.users[user.idString]?.isFavoriteUser.toggle()
+                    store.appState.timelineData.users[user.idString]?.isFavoriteUser.toggle()
                     store.dispatch(.update)
                     store.dispatch(.hubStatusRequest)
                 }

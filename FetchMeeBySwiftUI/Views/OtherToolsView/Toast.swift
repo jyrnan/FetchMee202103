@@ -43,7 +43,7 @@ struct Toast<Presenting, Presented>: View where Presenting: View, Presented: Vie
 //                .animation(Animation.default, value: 1)
                 .onTapGesture {
                     withAnimation(Animation.linear){
-                        store.dispatch(.closeImageViewer)
+//                        store.dispatch(.closeImageViewer)
                     }
                     
                     //通过设置延时后设置需要显示的View为nil，可以保证下次显示的时候是初始设置。（为什么会这样还有点迷惑）

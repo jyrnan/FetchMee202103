@@ -23,7 +23,7 @@ import AuthenticationServices
 class Store: ObservableObject {
     @Published var appState = AppState()
     
-    var repository = Repository()
+//    var repository = Repository()
     var fetcher = FetcherSwifter()
   
     var context: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext
@@ -43,6 +43,7 @@ class Store: ObservableObject {
         fetcher.setLogined()
         
         addObserver()
+        dispatch(.addUserCDToStore)
     }
     
     func dispatch(_ action: AppAction) {
@@ -84,12 +85,12 @@ class Store: ObservableObject {
         case .sendAutoCompleteText(let text):
             appState.setting.autoCompleteText = text
             
-        case .showImageViewer(let view):
-            appState.setting.presentedView = view
-            appState.setting.isShowImageViewer = true
-        case .closeImageViewer:
-            appState.setting.isShowImageViewer = false
-            appCommand = ClearPresentedView()
+//        case .showImageViewer(let view):
+//            appState.setting.presentedView = view
+//            appState.setting.isShowImageViewer = true
+//        case .closeImageViewer:
+//            appState.setting.isShowImageViewer = false
+//            appCommand = ClearPresentedView()
         
         case .login(let loginUser):
             appCommand = LoginCommand(loginUser: loginUser)
@@ -153,6 +154,9 @@ class Store: ObservableObject {
             
         case .tweetOperation(let operatrion):
             appCommand = TweetCommand(operation: operatrion)
+            
+        case .tweetOperationDone(let timelineData):
+            appState.timelineData = timelineData
          
         case .autoComplete(let text):
             var tweetText = state.setting.tweetInput.tweetText
@@ -165,6 +169,12 @@ class Store: ObservableObject {
             
         case .updateHubStatus(let hubStatus):
             appState.timelineData.hubStatus = hubStatus
+            
+        case .addUserCDToStore:
+            appCommand = AppCommand_addUserCDToStore()
+            
+        case .updateUsers(let users):
+            appState.timelineData.users = users
             
         case .backgroundClear:
             appCommand = AppCommand_BGClearTask()

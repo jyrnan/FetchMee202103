@@ -29,6 +29,7 @@ struct MySecen: Scene {
         .onChange(of: scenePhase, perform: {newScenePhase in
             if newScenePhase == .background {
                 store.dispatch(.backgroundClear)
+//                store.dispatch(.addUserCDToStore)
             }
             if newScenePhase == .active {
                 if let loginUser = store.appState.setting.loginUser,

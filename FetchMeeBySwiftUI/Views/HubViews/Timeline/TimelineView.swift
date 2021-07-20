@@ -13,6 +13,7 @@ import UIKit
 
 struct TimelineView: View {
     @EnvironmentObject var store: Store
+    @Environment(\.presentationMode) var presentationMode
     
     var timeline: AppState.TimelineData.Timeline
     
@@ -23,6 +24,11 @@ struct TimelineView: View {
     @State var isShowCMV: Bool = false
     @State var statusToReply: Status?
     @State var statusIDOfDetail: Status?
+    
+    init(timeline: AppState.TimelineData.Timeline) {
+        self.timeline = timeline
+        print(#line, "init of timeline \(timeline.type.rawValue)")
+    }
     
     //MARK: - View定义
     
@@ -51,15 +57,15 @@ struct TimelineView: View {
                 }
             Button(action: {store.dispatch(.fetchTimeline(timelineType: timeline.type, mode: .bottom))},
                    label: {
-                    HStack{
-                        Spacer()
-                        ProgressView()
-                            .padding(.trailing, 8)
-                            .opacity(store.appState.setting.isProcessingDone ? 0 : 1.0)
-                        Text(store.appState.setting.isProcessingDone ? "More Tweets..." : "Fetching...")
-                        Spacer()
-                    }
-                    .font(.caption).foregroundColor(.secondary)
+                HStack{
+                    Spacer()
+                    ProgressView()
+                        .padding(.trailing, 8)
+                        .opacity(store.appState.setting.isProcessingDone ? 0 : 1.0)
+                    Text(store.appState.setting.isProcessingDone ? "More Tweets..." : "Fetching...")
+                    Spacer()
+                }
+                .font(.caption).foregroundColor(.secondary)
             })
         }
         .listRowInsets(EdgeInsets())
@@ -81,8 +87,10 @@ struct TimelineView: View {
     }
     
     @ViewBuilder func timelineBody(proxy: GeometryProxy) -> some View {
-//        timeline.tweetIDStrings.map{store.repository.getStatus(byID: $0)}
         ForEach(timeline.tweetIDStrings.compactMap{store.appState.timelineData.statuses[$0]}, id: \.id) {status in
+            
+            //            NavigationLink(tag: status.id, selection: $statusIDOfDetail, destination: {DetailViewRedux(status: status)}, label: {EmptyView()})
+            
             StatusRow(status: status,
                       width: proxy.size.width - (2 * (store.appState.setting.userSetting?.uiStyle.insetH ?? 0)))
                 .background(store.appState.setting.userSetting?.uiStyle.backGround)
@@ -138,14 +146,14 @@ struct TimelineView: View {
                         store.dispatch(.tweetOperation(operation: status.retweeted ? .unRetweet(id: status.id) : .retweet(id: status.id)))
                     } label: {
                         if status.retweeted {
-                            Label("\(status.retweet_count)", systemImage: "repeat.1")
+                            Label("\(status.retweet_count)", systemImage: "arrow.2.squarepath")
                         } else {
-                            Label("\(status.retweet_count)", systemImage: "repeat")
+                            Label("\(status.retweet_count)", systemImage: "arrow.2.squarepath")
                         }
                     }
                     .tint(.green)
                 }
-                
+            
         }
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0))
         .listRowSeparator(store.appState.setting.userSetting?.uiStyle == .card ? .hidden : .visible)
@@ -186,6 +194,16 @@ struct TimelineView: View {
             .sheet(item: $statusIDOfDetail){ status in
                 DetailViewSheet(status: status)
                     .accentColor(store.appState.setting.userSetting?.themeColor.color)
+//                    .fullScreenCover(isPresented: $store.appState.setting.isShowImageViewer){ store.appState.setting.presentedView
+//                    .overlay(
+//                        VStack {
+//                            Spacer()
+//                            Button(action: {store.appState.setting.isShowImageViewer.toggle()},
+//                                   label: {Text("Close")})
+//                        }.frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
+//                    )
+//                        
+//                    }
             }
         }
     }
@@ -220,11 +238,10 @@ extension TimelineView {
     }
 }
 
-#if DEBUG
 struct TimelineView_Previews: PreviewProvider {
     static var previews: some View {
         TimelineView(timeline: Store.sample.appState.timelineData.getTimeline(timelineType: .home))
             .environmentObject(Store.sample)
     }
 }
-#endif
+

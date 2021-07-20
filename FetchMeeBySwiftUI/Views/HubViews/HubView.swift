@@ -56,7 +56,6 @@ struct HubView: View {
                                             .frame(width: 36, height: 36, alignment: .center)})
             }
             .overlay(AlertView()) //所有条状通知在NavigationBar上出现
-            .toast(isShowing: $store.appState.setting.isShowImageViewer, presented: store.appState.setting.presentedView)
         }
   }
     

@@ -20,7 +20,7 @@ struct FakeStatusRow: View {
     
     var avatar: some View {
         VStack(alignment: .leading){
-            AvatarView(user: store.repository.getUser(byID: "0000"), width: 36, height: 36)
+            AvatarView(user: store.appState.timelineData.getUser(byID: "0000"), width: 36, height: 36)
                 .opacity(0.3)
             Spacer()
         }

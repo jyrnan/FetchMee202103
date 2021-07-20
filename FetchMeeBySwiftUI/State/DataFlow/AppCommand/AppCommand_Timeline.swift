@@ -118,10 +118,10 @@ struct FetchSessionCommand: AppCommand {
 
 
 /// 设置要通过Toast来在最前面展示的View
-struct ClearPresentedView: AppCommand {
-    func execute(in store: Store) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            store.appState.setting.presentedView = nil
-        }
-    }
-}
+//struct ClearPresentedView: AppCommand {
+//    func execute(in store: Store) {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+//            store.appState.setting.presentedView = nil
+//        }
+//    }
+//}

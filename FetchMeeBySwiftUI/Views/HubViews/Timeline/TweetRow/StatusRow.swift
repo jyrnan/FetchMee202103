@@ -51,7 +51,7 @@ struct StatusRow: View {
     
     var detailIndicator: some View {
         ZStack{
-            DetailIndicator(status: status)
+                DetailIndicator(status: status)
         }.fixedSize()
     }
     
@@ -105,8 +105,8 @@ struct StatusRow: View {
         .contextMenu(menuItems: {
             StatusContextMenu(store: store, status: status)
         })
+        
     }
-    
 }
 
 

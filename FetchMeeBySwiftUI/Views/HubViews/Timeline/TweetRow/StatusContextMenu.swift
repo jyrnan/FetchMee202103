@@ -42,7 +42,7 @@ struct StatusContextMenu: View {
         let button = ButtonInfo(role: nil,
                                 action: retweetTweet,
                                 labelText: status.retweeted ? "UnRetweet" : "Retweet",
-                                labelImage: status.retweeted ? "repeat" : "repeat.1")
+                                labelImage: "arrow.2.squarepath")
         contextMenuButtons.append(button)
         
         if status.mediaUrlString != nil  {

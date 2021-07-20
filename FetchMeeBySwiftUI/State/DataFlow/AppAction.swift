@@ -21,8 +21,8 @@ enum AppAction {
     
     case sendAutoCompleteText(text: String)
     
-    case showImageViewer(view: ImageViewer)
-    case closeImageViewer
+//    case showImageViewer(view: ImageViewer)
+//    case closeImageViewer
     
     case login(loginUser: User?)
     case userRequest(user: User, isLoginUser: Bool?)
@@ -46,11 +46,15 @@ enum AppAction {
     case updateNewTweetNumber(timelineType: TimelineType, numberOfReadTweet: Int)
     
     case tweetOperation(operation: TweetCommand.TweetOperation)
+    case tweetOperationDone(timelineData: AppState.TimelineData)
     
     case autoComplete(text: String)
     
     case hubStatusRequest
     case updateHubStatus(hubStatus: AppState.TimelineData.HubStatus)
+    
+    case addUserCDToStore
+    case updateUsers(users: [String: User])
     
     case backgroundClear
 }

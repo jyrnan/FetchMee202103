@@ -29,7 +29,7 @@ struct UserView: View {
             }.listStyle(.plain)
         }
         
-        .navigationTitle(user.name)
+//        .navigationTitle(user.name)
     }
 }
 
