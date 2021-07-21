@@ -23,7 +23,6 @@ import AuthenticationServices
 class Store: ObservableObject {
     @Published var appState = AppState()
     
-//    var repository = Repository()
     var fetcher = FetcherSwifter()
   
     var context: NSManagedObjectContext = PersistenceContainer.shared.container.viewContext
@@ -105,7 +104,7 @@ class Store: ObservableObject {
             appState.setting.lists.forEach{(id, name) in
                 appState.timelineData.timelines[name] = AppState.TimelineData.Timeline(type:.list(id: id, listName: name))
             }
-            appCommand = AppCommand_HubStatusRequest() //?
+            appCommand = HubStatusRequestCommand() //?
             
         case .changeSetting(let setting):
             appState.setting.userSetting = setting
@@ -114,7 +113,9 @@ class Store: ObservableObject {
             appState.setting.isProcessingDone = false
             let timeline: AppState.TimelineData.Timeline = appState.timelineData.getTimeline(timelineType: timelineType)
             let mentionUserData = appState.timelineData.mentionUserData
-            appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode, mentionUserData: mentionUserData)
+            let statuses = appState.timelineData.statuses
+            let users = appState.timelineData.users
+            appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode, mentionUserData: mentionUserData, statuses: statuses, users: users)
         
         case .fetchTimelineDone(let timeline, let mentionUserData, let statuses, let users):
             appState.setting.isProcessingDone = true
@@ -124,8 +125,10 @@ class Store: ObservableObject {
                 appState.timelineData.latestMentionID = timeline.tweetIDStrings.first
             }
             appState.timelineData.mentionUserData = mentionUserData
-            statuses.forEach{appState.timelineData.statuses[$0.key] = $0.value}
-            users.forEach{appState.timelineData.users[$0.key] = $0.value}
+            appState.timelineData.statuses = statuses
+            appState.timelineData.users = users
+//            statuses.forEach{appState.timelineData.statuses[$0.key] = $0.value}
+//            users.forEach{appState.timelineData.users[$0.key] = $0.value}
             
         case .fetchSession(let tweetIDString):
             appState.setting.isProcessingDone = false
@@ -160,19 +163,19 @@ class Store: ObservableObject {
             
             
         case .hubStatusRequest:
-            appCommand = AppCommand_HubStatusRequest()
+            appCommand = HubStatusRequestCommand()
             
         case .updateHubStatus(let hubStatus):
             appState.timelineData.hubStatus = hubStatus
             
         case .addUserCDToStore:
-            appCommand = AppCommand_addUserCDToStore()
+            appCommand = AddUserCDToStoreCommand()
             
         case .updateUsers(let users):
             appState.timelineData.users = users
             
         case .backgroundClear:
-            appCommand = AppCommand_BGClearTask()
+            appCommand = BGClearTask()
 
         }
         return (appState, appCommand)

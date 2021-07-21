@@ -25,7 +25,7 @@ struct FetcherSwifter: Fetcher {
     
     var swifter = Swifter(consumerKey: "wa43gWPPaNLYiZCdvZLXlA",
                           consumerSecret: "BvKyqaWgze9BP3adOSTtsX6PnBOG5ubOwJmGpwh8w")
-    var count: Int = 90
+    var willGetNewTweetsCount: Int  {store?.appState.setting.userSetting?.isAutoFetchMoreTweet == true ? 30 : 90}
     var loginUserID: String? {store?.appState.setting.loginUser?.id}
     
     var adapter = Adapter()
@@ -41,7 +41,6 @@ struct FetcherSwifter: Fetcher {
         }
     }
     
-    //TODO: 需要调整将数据存储到repository的频率
     /// 在推文基本操作的Publisher基础上，生成一个基于刷新模式的Publisher，
     /// - 提示： 这个Pulisher可以作为业务模块的调用
     /// - Parameters:
@@ -66,6 +65,10 @@ struct FetcherSwifter: Fetcher {
             var statuses = statuses
             var users = users
             
+            var tempStatuses: Statuses = [:]
+            var tempUsers: Users = [:]
+            
+            
             guard let newTweets = json.array else {return (timelineWillUpdate, mentionUserData, statuses, users)}
             //只有更新“较新”推文的时候，才有必要更新新推文数量
             if updateMode == .top { timelineWillUpdate.newTweetNumber += newTweets.count}
@@ -74,7 +77,7 @@ struct FetcherSwifter: Fetcher {
                                                     with: convertJSONToTweetIDStrings(from: newTweets))
             
             newTweets.forEach{
-                addDataToRepository($0, to: &statuses, and: &users)
+                addDataToRepository($0, to: &tempStatuses, and: &tempUsers)
                 saveTweetTagToCoreData(status: $0)
                 saveStatusToCoreDataIfPostbyUser($0)
                 
@@ -82,13 +85,17 @@ struct FetcherSwifter: Fetcher {
                 UserCD.updateOrSaveToCoreData(from: $0["user"])
                 storeMentionUserData(mention: $0, to: &mentionUserData)
             }
+            
+            tempStatuses.forEach{statuses[$0.key] = $0.value}
+            tempUsers.forEach{users[$0.key] = $0.value}
                 
             return (timelineWillUpdate, mentionUserData, statuses, users)
             
         }
         
         func errorHandler(error: Error) -> AppError {
-            return AppError.networkingFailed(error)}
+            return AppError.networkingFailed(error)
+        }
         
         return makeSessionOperatePublisher(updateMode: updateMode, timeline: timeline)
             .map(JSONHandler(json:))
@@ -225,7 +232,7 @@ extension FetcherSwifter {
         switch timeline.type {
         case .home:
             return Future<JSON, Error> {promise in
-                swifter.getHomeTimeline(count: count,
+                swifter.getHomeTimeline(count: willGetNewTweetsCount,
                                         sinceID: sinceIDString,
                                         maxID: maxIDString,
                                         success:{promise(.success($0))
@@ -234,7 +241,7 @@ extension FetcherSwifter {
                                         })}
         case .mention:
             return Future<JSON, Error> {promise in
-                swifter.getMentionsTimelineTweets(count: count,
+                swifter.getMentionsTimelineTweets(count: willGetNewTweetsCount,
                                                   sinceID: sinceIDString,
                                                   maxID: maxIDString,
                                                   success:{promise(.success($0))
@@ -244,7 +251,7 @@ extension FetcherSwifter {
             
         case .favorite:
             return Future<JSON, Error> {promise in
-                swifter.getRecentlyFavoritedTweets(count: count,
+                swifter.getRecentlyFavoritedTweets(count: willGetNewTweetsCount,
                                                    sinceID: sinceIDString,
                                                    maxID: maxIDString,
                                                    success:{promise(.success($0))
@@ -256,7 +263,7 @@ extension FetcherSwifter {
             let userTag = UserTag.id(userID)
             return Future<JSON, Error> {promise in
                 swifter.getTimeline(for: userTag,
-                                    count: count,
+                                    count: willGetNewTweetsCount,
                                     sinceID: sinceIDString,
                                     maxID: maxIDString,
                                     success:{promise(.success($0))
@@ -270,7 +277,7 @@ extension FetcherSwifter {
                 swifter.listTweets(for: listTag,
                                    sinceID: sinceIDString,
                                    maxID: maxIDString,
-                                   count: count,
+                                   count: willGetNewTweetsCount,
                                    success:{promise(.success($0))
                                    },
                                    failure:{promise(.failure($0))

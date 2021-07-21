@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import SwiftUI
 
-struct AppCommand_HubStatusRequest: AppCommand {
+struct HubStatusRequestCommand: AppCommand {
     
     func execute(in store: Store) {
         var hubStatus: AppState.TimelineData.HubStatus = (nil, nil, nil)

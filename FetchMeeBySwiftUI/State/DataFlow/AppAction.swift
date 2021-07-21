@@ -20,10 +20,7 @@ enum AppAction {
     case setProcessingDone
     
     case sendAutoCompleteText(text: String)
-    
-//    case showImageViewer(view: ImageViewer)
-//    case closeImageViewer
-    
+
     case login(loginUser: User?)
     case userRequest(user: User, isLoginUser: Bool?)
     case updateLoginAccount(loginUser: User?)

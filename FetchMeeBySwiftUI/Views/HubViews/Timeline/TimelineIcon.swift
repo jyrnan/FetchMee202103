@@ -15,7 +15,6 @@ struct TimelineIcon: View {
     
     var timeline: AppState.TimelineData.Timeline
     @State var showTimeline: Bool = false
-//    var timelineDataBinding: Binding<AppState.TimelineData>  {$store.appState.timelineData}
    
     var body: some View {
         ZStack{

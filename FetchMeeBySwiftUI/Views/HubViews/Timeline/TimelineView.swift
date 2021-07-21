@@ -88,9 +88,7 @@ struct TimelineView: View {
     
     @ViewBuilder func timelineBody(proxy: GeometryProxy) -> some View {
         ForEach(timeline.tweetIDStrings.compactMap{store.appState.timelineData.statuses[$0]}, id: \.id) {status in
-            
-            //            NavigationLink(tag: status.id, selection: $statusIDOfDetail, destination: {DetailViewRedux(status: status)}, label: {EmptyView()})
-            
+           
             StatusRow(status: status,
                       width: proxy.size.width - (2 * (store.appState.setting.userSetting?.uiStyle.insetH ?? 0)))
                 .background(store.appState.setting.userSetting?.uiStyle.backGround)
@@ -194,16 +192,6 @@ struct TimelineView: View {
             .sheet(item: $statusIDOfDetail){ status in
                 DetailViewSheet(status: status)
                     .accentColor(store.appState.setting.userSetting?.themeColor.color)
-//                    .fullScreenCover(isPresented: $store.appState.setting.isShowImageViewer){ store.appState.setting.presentedView
-//                    .overlay(
-//                        VStack {
-//                            Spacer()
-//                            Button(action: {store.appState.setting.isShowImageViewer.toggle()},
-//                                   label: {Text("Close")})
-//                        }.frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
-//                    )
-//                        
-//                    }
             }
         }
     }

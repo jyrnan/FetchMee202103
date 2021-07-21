@@ -12,7 +12,7 @@ import CoreData
 
 struct SettingView: View {
     @EnvironmentObject var store: Store
-//    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) var presentationMode
     
     //用来作为setting调整结果的临时存储
     @State var setting: UserSetting
@@ -107,6 +107,7 @@ struct SettingView: View {
         .navigationTitle("Setting")
         .navigationBarItems(trailing: Button("Save") {
                     store.dispatch(.changeSetting(setting: setting))
+            presentationMode.wrappedValue.dismiss()
                 }
                 .disabled(!isShowSaveButton)
         )

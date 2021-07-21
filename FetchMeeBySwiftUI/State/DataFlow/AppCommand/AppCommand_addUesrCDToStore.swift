@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-struct AppCommand_addUserCDToStore: AppCommand {
+struct AddUserCDToStoreCommand: AppCommand {
     
     func execute(in store: Store) {
         var users: [String: User] = store.appState.timelineData.users

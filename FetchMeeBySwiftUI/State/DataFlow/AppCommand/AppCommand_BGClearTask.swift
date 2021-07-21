@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct AppCommand_BGClearTask: AppCommand {
+struct BGClearTask: AppCommand {
     func execute(in store: Store) {
         
         store.dispatch(.clearTimelineData)
