@@ -16,11 +16,11 @@ struct AppCommand_addUserCDToStore: AppCommand {
         
         let viewContext = PersistenceContainer.shared.container.viewContext
         let UserSortDescriptors = [NSSortDescriptor(keyPath: \UserCD.createdAt, ascending: false)]
-//        let bookmarkedUserPredicate = NSPredicate(format: "%K == %d", #keyPath(UserCD.isBookmarkedUser), true)
+        let bookmarkedUserPredicate = NSPredicate(format: "%K == %d", #keyPath(UserCD.isBookmarkedUser), true)
         
         let bookmarkedUserRequest:NSFetchRequest<UserCD> = NSFetchRequest(entityName: "UserCD")
         bookmarkedUserRequest.sortDescriptors = UserSortDescriptors
-//        bookmarkedUserRequest.predicate = bookmarkedUserPredicate
+        bookmarkedUserRequest.predicate = bookmarkedUserPredicate
         
         guard let bookmarkedUseres = try? viewContext.fetch(bookmarkedUserRequest) else {return}
         

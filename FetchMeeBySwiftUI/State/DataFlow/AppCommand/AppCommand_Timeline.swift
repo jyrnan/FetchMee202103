@@ -21,12 +21,11 @@ struct FetchTimelineCommand: AppCommand {
     var timelineType: TimelineType
     var updateMode: UpdateMode
     var mentionUserData: [User.MentionUser]
-    var statuses: [String: Status]
-    var users: [String: User]
+    var statuses: [String: Status] = [:]
+    var users: [String: User] = [:]
     
     func execute(in store: Store) {
         let token = SubscriptionToken()
-//        let mentionUserData = store.appState.timelineData.mentionUserData
         
         store.fetcher.makeSessionUpdatePublisher(updateMode: updateMode, timeline: timeline, mentionUserData: mentionUserData, statuses: statuses, users: users)
             .sink(receiveCompletion: {complete in
@@ -119,13 +118,3 @@ struct FetchSessionCommand: AppCommand {
     }
     
 }
-
-
-/// 设置要通过Toast来在最前面展示的View
-//struct ClearPresentedView: AppCommand {
-//    func execute(in store: Store) {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-//            store.appState.setting.presentedView = nil
-//        }
-//    }
-//}

@@ -85,13 +85,6 @@ class Store: ObservableObject {
         case .sendAutoCompleteText(let text):
             appState.setting.autoCompleteText = text
             
-//        case .showImageViewer(let view):
-//            appState.setting.presentedView = view
-//            appState.setting.isShowImageViewer = true
-//        case .closeImageViewer:
-//            appState.setting.isShowImageViewer = false
-//            appCommand = ClearPresentedView()
-        
         case .login(let loginUser):
             appCommand = LoginCommand(loginUser: loginUser)
             
@@ -121,9 +114,7 @@ class Store: ObservableObject {
             appState.setting.isProcessingDone = false
             let timeline: AppState.TimelineData.Timeline = appState.timelineData.getTimeline(timelineType: timelineType)
             let mentionUserData = appState.timelineData.mentionUserData
-            let statuses = appState.timelineData.statuses
-            let users = appState.timelineData.users
-            appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode, mentionUserData: mentionUserData, statuses: statuses, users: users)
+            appCommand = FetchTimelineCommand(timeline: timeline, timelineType: timelineType, updateMode: updateMode, mentionUserData: mentionUserData)
         
         case .fetchTimelineDone(let timeline, let mentionUserData, let statuses, let users):
             appState.setting.isProcessingDone = true
@@ -133,9 +124,8 @@ class Store: ObservableObject {
                 appState.timelineData.latestMentionID = timeline.tweetIDStrings.first
             }
             appState.timelineData.mentionUserData = mentionUserData
-            appState.timelineData.statuses = statuses
-            appState.timelineData.users = users
-            
+            statuses.forEach{appState.timelineData.statuses[$0.key] = $0.value}
+            users.forEach{appState.timelineData.users[$0.key] = $0.value}
             
         case .fetchSession(let tweetIDString):
             appState.setting.isProcessingDone = false

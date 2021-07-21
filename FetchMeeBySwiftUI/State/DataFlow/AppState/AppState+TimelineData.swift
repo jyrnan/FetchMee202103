@@ -53,23 +53,27 @@ extension AppState.TimelineData {
         if let user = self.users[id] {
             return user
         }
-        
-//        if let userCD = bookMarkedUserCD.filter({$0.userIDString == id}).first {
-//            let user = userCD.convertToUser()
-//            users[id] = user
-//            return user
-//        }
-        
+ 
         return User()
     }
     
     /// 用来清理timeline的数据，保持轻量化
     mutating func clearTimelineData() {
+        var removedIDStrings: Set<String> = []
         let keepTweetCount = 150
         
         self.timelines
             .filter{$0.value.tweetIDStrings.count > keepTweetCount}
-            .forEach{self.timelines[$0]?.tweetIDStrings.removeLast($1.tweetIDStrings.count - keepTweetCount)}
+            .forEach{
+                self.timelines[$0]?.tweetIDStrings.removeLast($1.tweetIDStrings.count - keepTweetCount)
+                if let willRemvoed = self.timelines[$0]?.tweetIDStrings[keepTweetCount...] {
+                    removedIDStrings = removedIDStrings.union(Set(Array(willRemvoed)))
+                }
+            }
+        
+        removedIDStrings.forEach{
+            self.statuses[$0] = nil
+        }
         
         //获取所有的tweetID集合用于后续判断
         //TODO: 需要增加保留推文中的引用，retweet推文的ID
