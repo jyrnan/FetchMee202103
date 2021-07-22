@@ -59,12 +59,13 @@ extension AppState.TimelineData {
     /// 用来清理timeline的数据，保持轻量化
     mutating func clearTimelineData() {
         var removedIDStrings: Set<String> = []
-        let keepTweetCount = 150
+        let keepTweetCount = 100
         
         self.timelines
             .filter{$0.value.tweetIDStrings.count > keepTweetCount}
             .forEach{
-                if let willRemvoed = self.timelines[$0]?.tweetIDStrings[keepTweetCount...] {
+                let startIndex = (self.timelines[$0]?.tweetIDStrings.count)! - keepTweetCount
+                if let willRemvoed = self.timelines[$0]?.tweetIDStrings[startIndex...] {
                     removedIDStrings = removedIDStrings.union(Set(Array(willRemvoed)))
                 }
                 self.timelines[$0]?.tweetIDStrings.removeLast($1.tweetIDStrings.count - keepTweetCount)

@@ -86,8 +86,8 @@ struct FetcherSwifter: Fetcher {
                 storeMentionUserData(mention: $0, to: &mentionUserData)
             }
             
-            tempStatuses.forEach{statuses[$0.key] = $0.value}
-            tempUsers.forEach{users[$0.key] = $0.value}
+                        statuses.merge(tempStatuses) {_, new in new}
+                        users.merge(tempUsers) {_, new in new}
                 
             return (timelineWillUpdate, mentionUserData, statuses, users)
             
@@ -110,7 +110,7 @@ struct FetcherSwifter: Fetcher {
     /// - Parameter newTweets: 获取的推文数据
     /// - Returns: 提取的推文ID序列
     func convertJSONToTweetIDStrings(from newTweets: [JSON]) -> TweetIDStrings {
-        return newTweets.map{$0["id_str"].string!}
+        return newTweets.map{$0["id_str"].string ?? "0000"}
     }
     
     

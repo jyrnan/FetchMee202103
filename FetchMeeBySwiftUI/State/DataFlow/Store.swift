@@ -127,24 +127,26 @@ class Store: ObservableObject {
             appState.timelineData.mentionUserData = mentionUserData
             appState.timelineData.statuses = statuses
             appState.timelineData.users = users
-//            statuses.forEach{appState.timelineData.statuses[$0.key] = $0.value}
-//            users.forEach{appState.timelineData.users[$0.key] = $0.value}
-            
-        case .fetchSession(let tweetIDString):
-            appState.setting.isProcessingDone = false
-            ///先清空原有的缓存，再加入最初推文
-            appState.timelineData.timelines[TimelineType.session.rawValue]?.tweetIDStrings.removeAll()
 
-            appCommand = FetchSessionCommand(initialTweetIDString: tweetIDString)
-        case .fetchSessionDone(let timeline):
+//        case .fetchSession(let tweetIDString):
+//            appState.setting.isProcessingDone = false
+//            ///先清空原有的缓存，再加入最初推文
+//            appState.timelineData.timelines[TimelineType.session.rawValue]?.tweetIDStrings.removeAll()
+//            appCommand = FetchSessionCommand(initialTweetIDString: tweetIDString)
+            
+        case .fetchSessionDone(let timeline, let statuses, let users):
             appState.setting.isProcessingDone = true
             appState.timelineData.timelines[TimelineType.session.rawValue] = timeline
+            appState.timelineData.statuses.merge(statuses) {_, new in new}
+            appState.timelineData.users.merge(users) {_, new in new}
             
         case .clearTimelineData:
             appState.timelineData.clearTimelineData()
             
-        case .initialSessionData(let status):
+        case .initialAndFetchSessionData(let status):
+            appState.setting.isProcessingDone = false
             appState.timelineData.initialSessionData(with: status)
+            appCommand = FetchSessionCommand(initialTweetIDString: status.id)
             
         case .updateNewTweetNumber(let timelineType, let numberOfReadTweet):
             appState.timelineData.updateNewTweetNumber(timelineType: timelineType,

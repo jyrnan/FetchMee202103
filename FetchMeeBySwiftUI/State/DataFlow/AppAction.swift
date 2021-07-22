@@ -34,11 +34,10 @@ enum AppAction {
     case fetchTimeline(timelineType: TimelineType, mode:FetchTimelineCommand.UpdateMode)
     case fetchTimelineDone(timeline: AppState.TimelineData.Timeline, mentionUserData: [User.MentionUser], statuses: [String: Status], users: [String: User])
     
-    case fetchSession(tweetIDString: String)
-    case fetchSessionDone(timeline: AppState.TimelineData.Timeline )
-    
+    case initialAndFetchSessionData(status: Status)
+    case fetchSessionDone(timeline: AppState.TimelineData.Timeline, statuses: [String: Status], users: [String: User] )
+        
     case clearTimelineData
-    case initialSessionData(status: Status)
     
     case updateNewTweetNumber(timelineType: TimelineType, numberOfReadTweet: Int)
     

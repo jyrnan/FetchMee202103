@@ -48,7 +48,7 @@ struct QuotedStatusJsonRow: View {
             
             DetailIndicator(status: status)
                 .onTapGesture {
-                    store.dispatch(.fetchSession(tweetIDString: status.id))
+                    store.dispatch(.initialAndFetchSessionData(status: status))
                     isShowDetail = true
                 }
         }.fixedSize()

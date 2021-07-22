@@ -24,9 +24,7 @@ struct DetailViewSheet: View {
                     .padding()
                 
                 VStack(spacing: 0){
-                    ForEach(
-                        store.appState.timelineData.getTimeline(timelineType: .session).status,
-                        id: \.id) {status in
+                    ForEach(store.appState.timelineData.timelines["Session"]?.tweetIDStrings.compactMap{store.appState.timelineData.statuses[$0]} ?? [status], id: \.id) {status in
                         StatusRow(status: status, width: proxy.size.width)
                             .padding(.vertical, 0)
                         Divider().padding(0)

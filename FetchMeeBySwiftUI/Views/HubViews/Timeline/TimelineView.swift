@@ -101,9 +101,9 @@ struct TimelineView: View {
                     readCounter += 1
                 }
                 .onTapGesture{
-                    store.dispatch(.initialSessionData(status: status))
+                    store.dispatch(.initialAndFetchSessionData(status: status))
                     statusIDOfDetail = status
-                    store.dispatch(.fetchSession(tweetIDString: status.id))
+//                    store.dispatch(.fetchSession(tweetIDString: status.id))
                 }
                 .swipeActions {
                     Button{
