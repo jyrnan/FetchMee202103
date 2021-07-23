@@ -90,7 +90,8 @@ struct TimelineView: View {
         ForEach(timeline.tweetIDStrings.compactMap{store.appState.timelineData.statuses[$0]}, id: \.id) {status in
            
             StatusRow(status: status,
-                      width: proxy.size.width - (2 * (store.appState.setting.userSetting?.uiStyle.insetH ?? 0)))
+                      width: proxy.size.width - (2 * (store.appState.setting.userSetting?.uiStyle.insetH ?? 0)),
+                      rowType: timeline.type)
                 .background(store.appState.setting.userSetting?.uiStyle.backGround)
                 .cornerRadius(store.appState.setting.userSetting?.uiStyle.radius ?? 0,
                               antialiased: true)

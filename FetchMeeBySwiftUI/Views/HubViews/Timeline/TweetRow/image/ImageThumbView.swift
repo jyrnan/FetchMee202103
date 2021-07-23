@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ImageThumb: View {
-    //MARK:-Properties
+    //MARK: -Properties
     @EnvironmentObject var store: Store
     
     @State var presentedImageViewer: Bool = false

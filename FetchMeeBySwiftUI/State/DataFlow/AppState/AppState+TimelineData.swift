@@ -64,8 +64,7 @@ extension AppState.TimelineData {
         self.timelines
             .filter{$0.value.tweetIDStrings.count > keepTweetCount}
             .forEach{
-                let startIndex = (self.timelines[$0]?.tweetIDStrings.count)! - keepTweetCount
-                if let willRemvoed = self.timelines[$0]?.tweetIDStrings[startIndex...] {
+                if let willRemvoed = self.timelines[$0]?.tweetIDStrings[keepTweetCount...] {
                     removedIDStrings = removedIDStrings.union(Set(Array(willRemvoed)))
                 }
                 self.timelines[$0]?.tweetIDStrings.removeLast($1.tweetIDStrings.count - keepTweetCount)

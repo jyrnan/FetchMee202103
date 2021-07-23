@@ -11,22 +11,21 @@ import CoreData
 import Swifter
 
 struct StatusRow: View {
-    enum RowType {
-        case timeline
-        case session
-    }
     
     @EnvironmentObject var store: Store
     
     var status: Status
+    
     ///约束图片的显示宽度，
     ///目前传入的宽度是屏幕宽度减去两侧空余
     var width: CGFloat
     
-    var rowType: RowType = .timeline
+    ///用来标明推文属于哪个Timeline
+    var rowType: TimelineType = .home
     
     //avatar区域的宽度
     var avatarColumWidth: CGFloat = 80
+    var avatarSize: CGFloat = 36
     
     
     @State var isShowDetail: Bool = false
@@ -34,7 +33,7 @@ struct StatusRow: View {
     var avatar: some View {
         VStack(alignment: .leading){
             AvatarView(user: store.appState.timelineData.users[status.user?.idString ?? "0000"] ?? User(),
-                       width: 36, height: 36)
+                       width: avatarSize, height: avatarSize)
             Spacer()
         }
         .frame(width:store.appState.setting.userSetting?.uiStyle.avatarWidth )
@@ -85,27 +84,9 @@ struct StatusRow: View {
                     
                 }
                 .background(
-                    GeometryReader {proxy in
-                    VStack{
-                        ForEach(1..<Int(proxy.size.height / 18)) {index in
-                        Circle()
-                            .frame(width: 4, height: 4)
-                            .foregroundColor(.secondary)
-                            .opacity(0.4)
-                            
-                    }
-                    Spacer()
-                    }
-                        .padding(.top, 60)
-                }
-                            
-                                
-                            //                        .padding(.bottom, 8)
-                                .padding(.leading, avatarColumWidth / 2 - 8)
-                                .frame(width: width, alignment: .leading)
+                    ConnectingLine(offsetFromLeading: avatarSize / 2, offsetFromTop: avatarSize, opacity: rowType == .session ? 0.4 : 0)
                 )
                 .padding()
-                
                 
                 if let imageUrls = status.imageUrls {
                     ZStack{
@@ -123,25 +104,7 @@ struct StatusRow: View {
                 StatusRow(status: store.appState.timelineData.statuses[status.retweeted_status_id_str!] ??  Status(), width: width)
             }
         }
-//        .background(
-//            GeometryReader {proxy in
-//            VStack{
-//                ForEach(1..<Int(proxy.size.height / 20)) {index in
-//                Rectangle()
-//                    .frame(width: 4, height: 4).foregroundColor(.secondary).opacity(0.4)
-//
-//            }
-//            Spacer()
-//            }
-//                .padding(.top, 60)
-//        }
-//
-//
-//                    //                        .padding(.bottom, 8)
-//                        .padding(.leading, avatarColumWidth / 2 - 8)
-//                        .frame(width: width, alignment: .leading)
-//        )
-        .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id ? Color.accentColor.opacity(0.15) : Color.clear)
+        .background(status.in_reply_to_user_id_str == store.appState.setting.loginUser?.id && rowType == .home ?  Color.accentColor.opacity(0.15) : Color.clear)
         .contextMenu(menuItems: {
             StatusContextMenu(store: store, status: status)
         })
